@@ -2,10 +2,20 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14E11f" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="DSOCampaign" representedClassName="DSOCampaign" syncable="YES">
         <attribute name="callToAction" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="campaignID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="campaignID" optional="YES" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="coverImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="factProblem" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="factSolution" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="reportbackNoun" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="reportbackVerb" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="DSOReportback" syncable="YES">
+        <attribute name="imageCaption" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="participationReason" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="quantityLabel" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="reportID" optional="YES" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="DSOUser" representedClassName="DSOUser" syncable="YES">
@@ -15,17 +25,18 @@
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mobileNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="userID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="zipcode" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
+        <element name="DSOCampaign" positionX="-63" positionY="90" width="128" height="165"/>
         <element name="DSOUser" positionX="-63" positionY="-18" width="128" height="255"/>
-        <element name="DSOCampaign" positionX="-63" positionY="90" width="128" height="135"/>
+        <element name="DSOReportback" positionX="-63" positionY="99" width="128" height="135"/>
     </elements>
 </model>

@@ -31,8 +31,9 @@ typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
 
 + (void)campaignsForInterestGroup:(DSOCampaignInterestGroup)interestGroup completionBlock:(DSOCampaignListBlock)completionBlock;
 
++ (void)campaignWithID:(NSInteger)campaignID inContext:(NSManagedObjectContext *)context completion:(DSOCampaignBlock)completionBlock;
+
 + (void)staffPickCampaigns:(DSOCampaignListBlock)completionBlock;
-+ (void)campaignWithID:(NSInteger)campaignID completion:(DSOCampaignBlock)completionBlock;
 + (void)reportbacksInInboxForCampaignID:(NSInteger)campaignID maxNumber:(NSInteger)maxNumber completionBlock:(DSOCampaignInboxReportBackBlock)completionBlock;
 
 - (void)myActivity:(DSOCampaignActivityBlock)completionBlock;
@@ -47,5 +48,8 @@ typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
 @property (strong, nonatomic) NSString *coverImage;
 @property (strong, nonatomic) NSString *reportbackNoun;
 @property (strong, nonatomic) NSString *reportbackVerb;
+
+@property (strong, nonatomic, readonly) NSString *factProblem;
+@property (strong, nonatomic, readonly) NSString *factSolution;
 
 @end

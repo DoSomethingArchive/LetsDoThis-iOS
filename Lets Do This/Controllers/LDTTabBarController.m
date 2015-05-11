@@ -9,6 +9,7 @@
 #import "LDTTabBarController.h"
 #import "LDTLoginRegNavigationController.h"
 #import "DSOSession.h"
+#import "DSOCampaign.h"
 
 @interface LDTTabBarController ()
 @property (nonatomic, strong) NSArray *configuredViewControllers;
@@ -49,6 +50,21 @@
     else {
         [[DSOSession currentSession].user campaignActions:^(NSArray *campaignActions, NSError *error) {
             
+        }];
+
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            [DSOCampaign campaignWithID:15 inContext:localContext completion:nil];
+            [DSOCampaign campaignWithID:48 inContext:localContext completion:nil];
+            [DSOCampaign campaignWithID:50 inContext:localContext completion:nil];
+            [DSOCampaign campaignWithID:362 inContext:localContext completion:nil];
+            [DSOCampaign campaignWithID:955 inContext:localContext completion:nil];
+            [DSOCampaign campaignWithID:1261 inContext:localContext completion:nil];
+            [DSOCampaign campaignWithID:1334 inContext:localContext completion:nil];
+            [DSOCampaign campaignWithID:1273 inContext:localContext completion:nil];
+            [DSOCampaign campaignWithID:1293 inContext:localContext completion:nil];
+            [DSOCampaign campaignWithID:1427 inContext:localContext completion:nil];
+            [DSOCampaign campaignWithID:1429 inContext:localContext completion:nil];
+            [DSOCampaign campaignWithID:1467 inContext:localContext completion:nil];
         }];
     }
 }

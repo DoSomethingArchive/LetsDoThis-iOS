@@ -35,6 +35,8 @@ static NSString *_APIKey;
 
 @implementation DSOSession
 
+@synthesize legacyServerSession = _legacyServerSession;
+
 + (void)setupWithAPIKey:(NSString *)APIKey environment:(DSOSessionEnvironment)environment {
     NSAssert(_setupCalled == NO, @"The DSO Session has already been setup");
 
@@ -213,6 +215,24 @@ static NSString *_APIKey;
             failureBlock(error);
         }
     }];
+}
+
+- (AFHTTPSessionManager *)legacyServerSession {
+    if(_legacyServerSession) {
+        return _legacyServerSession;
+    }
+
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/api/v1/", DSOPROTOCOL, DSOSERVER]];
+    _legacyServerSession = [[AFHTTPSessionManager alloc] initWithBaseURL:url];
+
+    _legacyServerSession.responseSerializer = [AFJSONResponseSerializer serializer];
+    _legacyServerSession.requestSerializer = [AFJSONRequestSerializer serializer];
+
+#warning Hack for right now
+    [self.requestSerializer setValue:@"_v4Z22ulyOCAlW_lHPQCMUELmmlknwkeMhyr-gBHGbE" forHTTPHeaderField:@"X-CSRF-Token"];
+    [self.requestSerializer setValue:@"SESS3322dbdab54e5cf49bd3ce199dedbd16=-jWYcepWhlOAIOxsVoQ9c8KOH3rOu4d_YHaDkzaXjUg" forHTTPHeaderField:@"Cookie"];
+
+    return _legacyServerSession;
 }
 
 @end

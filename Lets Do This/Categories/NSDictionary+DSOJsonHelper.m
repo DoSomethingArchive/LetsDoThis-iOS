@@ -67,3 +67,35 @@
 }
 
 @end
+
+@implementation NSNull (DSOJsonHelper)
+
+- (id)valueForJSONKey:(NSString *)key {
+    return nil;
+}
+
+- (NSString *)valueForKeyAsString:(NSString *)key {
+    return nil;
+}
+
+- (NSString *)valueForKeyAsString:(NSString *)key nullValue:(NSString *)nullValue {
+    return nil;
+}
+
+- (NSInteger)valueForKeyAsInt:(NSString *)key nullValue:(NSInteger)nullValue {
+    return 0;
+}
+
+- (double)valueForKeyAsDouble:(NSString *)key nullValue:(double)nullValue {
+    return 0;
+}
+
+- (BOOL)valueForKeyAsBool:(NSString *)key nullValue:(BOOL)nullValue {
+    return NO;
+}
+
+- (NSDate *)valueForKeyAsDate:(NSString *)key nullValue:(NSDate *)nullValue {
+    return nil;
+}
+
+@end

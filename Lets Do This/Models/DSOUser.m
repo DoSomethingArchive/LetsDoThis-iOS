@@ -54,52 +54,49 @@
     return user;
 }
 
-+ (void)userWithID:(NSString *)userID completionBlock:(DSOUserBlock)completionBlock {
-    if(completionBlock == nil) {
-        return;
-    }
-
++ (void)userWithID:(NSString *)userID inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock {
     NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
     [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [[DSOUser alloc] init];
-        [user syncWithDictionary:responseObject];
+        DSOUser *user = [DSOUser syncWithDictionary:responseObject inContext:context];
 
-        completionBlock(user, nil);
+        if(completionBlock) {
+            completionBlock(user, nil);
+        }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        completionBlock(nil, error);
+        if(completionBlock) {
+            completionBlock(nil, error);
+        }
     }];
 }
 
 
-+ (void)userWithMobileNumber:(NSString *)mobileNumber completionBlock:(DSOUserBlock)completionBlock {
-    if(completionBlock == nil) {
-        return;
-    }
-
++ (void)userWithMobileNumber:(NSString *)mobileNumber inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock {
     NSString *url = [NSString stringWithFormat:@"users/mobile/%@", mobileNumber];
     [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [[DSOUser alloc] init];
-        [user syncWithDictionary:responseObject];
+        DSOUser *user = [DSOUser syncWithDictionary:responseObject inContext:context];
 
-        completionBlock(user, nil);
+        if(completionBlock) {
+            completionBlock(user, nil);
+        }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        completionBlock(nil, error);
+        if(completionBlock) {
+            completionBlock(nil, error);
+        }
     }];
 }
 
-+ (void)userWithEmail:(NSString *)email completionBlock:(DSOUserBlock)completionBlock {
-    if(completionBlock == nil) {
-        return;
-    }
-
++ (void)userWithEmail:(NSString *)email inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock {
     NSString *url = [NSString stringWithFormat:@"users/email/%@", email];
     [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [[DSOUser alloc] init];
-        [user syncWithDictionary:responseObject];
+        DSOUser *user = [DSOUser syncWithDictionary:responseObject inContext:context];
 
-        completionBlock(user, nil);
+        if(completionBlock) {
+            completionBlock(user, nil);
+        }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        completionBlock(nil, error);
+        if(completionBlock) {
+            completionBlock(nil, error);
+        }
     }];
 }
 

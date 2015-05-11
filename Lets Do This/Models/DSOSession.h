@@ -59,4 +59,6 @@ typedef NS_ENUM(NSInteger, DSOSessionEnvironment) {
 
 - (void)logout:(DSOSessionLogoutBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock;
 
+@property (nonatomic, strong, readonly) AFHTTPSessionManager *legacyServerSession;
+
 @end

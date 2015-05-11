@@ -18,9 +18,9 @@ typedef void (^DSOUserCampaignActionsBlock) (NSArray *campaignActions, NSError *
 
 + (DSOUser *)syncWithDictionary:(NSDictionary *)values inContext:(NSManagedObjectContext *)context;
 
-+ (void)userWithID:(NSString *)userID completionBlock:(DSOUserBlock)completionBlock;
-+ (void)userWithMobileNumber:(NSString *)mobileNumber completionBlock:(DSOUserBlock)completionBlock;
-+ (void)userWithEmail:(NSString *)email completionBlock:(DSOUserBlock)completionBlock;
++ (void)userWithID:(NSString *)userID inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock;
++ (void)userWithMobileNumber:(NSString *)mobileNumber inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock;
++ (void)userWithEmail:(NSString *)email inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock;
 
 - (void)saveChanges:(DSOUserSaveBlock)completionBlock;
 
