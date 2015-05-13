@@ -73,8 +73,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
                                  DSOSession *session = [DSOSession currentSession];
-                                 // @todo: Redirect to login/reg screen.
-                                 [session logout:nil failure:nil];
+                                 [session logout:^() {
+                                     [self showLogin];
+                                 }failure:nil];
                              }];
         UIAlertAction *cancel = [UIAlertAction
                                  actionWithTitle:@"Cancel"
@@ -91,4 +92,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
         [self presentViewController:view animated:YES completion:nil];
 }
 
+- (void)showLogin {
+    [self performSegueWithIdentifier:@"SettingsToLoginRegistration" sender:self];
+}
 @end

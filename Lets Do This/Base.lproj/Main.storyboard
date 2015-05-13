@@ -476,10 +476,16 @@
                             <outlet property="delegate" destination="QeS-RT-P7N" id="LRH-s0-Rz6"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="phz-II-jhy" kind="presentation" identifier="SettingsToLoginRegistration" id="gLD-e3-FI2"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="egQ-Jh-ZP6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2260" y="166"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="gLD-e3-FI2"/>
+    </inferredMetricsTieBreakers>
 </document>
