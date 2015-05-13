@@ -7,6 +7,7 @@
 //
 
 #import "LDTSettingsViewController.h"
+#import "DSOSession.h"
 
 @implementation LDTSettingsViewController
 
@@ -71,6 +72,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
                              handler:^(UIAlertAction * action)
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
+                                 DSOSession *session = [DSOSession currentSession];
+                                 // @todo: Redirect to login/reg screen.
+                                 [session logout:nil failure:nil];
                              }];
         UIAlertAction *cancel = [UIAlertAction
                                  actionWithTitle:@"Cancel"

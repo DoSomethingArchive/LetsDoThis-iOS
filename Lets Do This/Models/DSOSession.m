@@ -203,6 +203,11 @@ static NSString *_APIKey;
 }
 
 - (void)logout:(DSOSessionLogoutBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
+
+    // Temp (or permanent) fix for https://github.com/DoSomething/LetsDoThis-iOS/issues/1#issuecomment-101480029 ?
+    self.responseSerializer = [AFJSONResponseSerializer
+                               serializerWithReadingOptions:NSJSONReadingAllowFragments];
+
     [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         [SSKeychain deletePasswordForService:@"org.dosomething.slothkit" account:@"Session"];
         [SSKeychain deletePasswordForService:@"api.dosomething.org" account:[DSOSession lastLoginEmail]];
