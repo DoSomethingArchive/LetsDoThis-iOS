@@ -256,7 +256,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wQp-H4-vpA" id="U7Z-69-wzw">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R2C-Jb-5hm">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R2C-Jb-5hm">
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
@@ -292,19 +292,55 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mng-8J-7ka" id="YN7-5d-8J4">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bBS-OQ-cRY">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tsu-PY-Xgn">
+                                                    <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerY" secondItem="Tsu-PY-Xgn" secondAttribute="centerY" id="6p4-S7-eY1"/>
+                                                <constraint firstItem="Tsu-PY-Xgn" firstAttribute="trailing" secondItem="YN7-5d-8J4" secondAttribute="trailingMargin" id="B1c-kc-AQs"/>
+                                                <constraint firstItem="Tsu-PY-Xgn" firstAttribute="leading" secondItem="YN7-5d-8J4" secondAttribute="leadingMargin" id="g3X-h9-ZJf"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="AkB-Kc-gME">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AkB-Kc-gME" id="dw0-3A-Wa4">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YNn-Oy-gdl">
+                                                    <rect key="frame" x="8" y="6" width="584" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="YNn-Oy-gdl" firstAttribute="leading" secondItem="dw0-3A-Wa4" secondAttribute="leadingMargin" id="PDr-KD-cuY"/>
+                                                <constraint firstAttribute="centerY" secondItem="YNn-Oy-gdl" secondAttribute="centerY" constant="1" id="ay4-mR-1lc"/>
+                                                <constraint firstItem="YNn-Oy-gdl" firstAttribute="trailing" secondItem="dw0-3A-Wa4" secondAttribute="trailingMargin" id="gU1-Ph-gwP"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="1xH-4U-cpM">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1xH-4U-cpM" id="hXx-VV-dvb">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ls0-gA-CLE">
                                                     <rect key="frame" x="272" y="7" width="57" height="30"/>
                                                     <state key="normal" title="Register">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="registerAction:" destination="Cbv-1I-CTk" eventType="touchUpInside" id="WqR-SY-Jw2"/>
+                                                        <action selector="registerAction:" destination="Cbv-1I-CTk" eventType="touchUpInside" id="Trr-2O-nx8"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="centerY" secondItem="bBS-OQ-cRY" secondAttribute="centerY" constant="-0.5" id="atl-Sc-qQk"/>
-                                                <constraint firstAttribute="centerX" secondItem="bBS-OQ-cRY" secondAttribute="centerX" id="yfj-5O-tZl"/>
+                                                <constraint firstAttribute="centerY" secondItem="ls0-gA-CLE" secondAttribute="centerY" constant="-0.5" id="O3h-9X-36m"/>
+                                                <constraint firstAttribute="centerX" secondItem="ls0-gA-CLE" secondAttribute="centerX" id="z5j-Aw-zQo"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -319,6 +355,8 @@
                     <navigationItem key="navigationItem" title="Register" id="LUb-fj-4wD"/>
                     <connections>
                         <outlet property="emailField" destination="R2C-Jb-5hm" id="OYs-0X-ors"/>
+                        <outlet property="firstNameField" destination="Tsu-PY-Xgn" id="CkY-Qa-BpL"/>
+                        <outlet property="lastNameField" destination="YNn-Oy-gdl" id="MZc-fL-qfo"/>
                         <outlet property="passwordField" destination="xHj-aZ-85f" id="lW0-U6-59H"/>
                     </connections>
                 </tableViewController>

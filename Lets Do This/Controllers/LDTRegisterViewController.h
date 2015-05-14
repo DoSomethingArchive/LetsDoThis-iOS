@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong) IBOutlet UITextField *emailField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UITextField *firstNameField;
+@property (weak, nonatomic) IBOutlet UITextField *lastNameField;
 
 - (IBAction)registerAction:(id)sender;
 
