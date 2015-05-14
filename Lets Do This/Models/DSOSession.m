@@ -214,6 +214,7 @@ static NSString *_APIKey;
 
         if (successBlock) {
             successBlock();
+            _currentSession = nil;
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         if (failureBlock) {
