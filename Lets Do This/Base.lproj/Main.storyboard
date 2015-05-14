@@ -477,7 +477,7 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <segue destination="phz-II-jhy" kind="presentation" identifier="SettingsToLoginRegistration" id="gLD-e3-FI2"/>
+                        <segue destination="49e-Tb-3d3" kind="presentation" identifier="SettingsToTabBar" id="hPw-La-XKl"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="egQ-Jh-ZP6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -485,7 +485,4 @@
             <point key="canvasLocation" x="2260" y="166"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="gLD-e3-FI2"/>
-    </inferredMetricsTieBreakers>
 </document>

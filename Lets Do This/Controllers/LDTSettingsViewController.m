@@ -93,6 +93,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void)showLogin {
-    [self performSegueWithIdentifier:@"SettingsToLoginRegistration" sender:self];
+    [self performSegueWithIdentifier:@"SettingsToTabBar" sender:self];
 }
 @end
