@@ -30,7 +30,7 @@
 
 - (void)commonInit {
     self.campaignCellHeight = 125;
-    self.selectedCampaignCellHeight = 300;
+    self.selectedCampaignCellHeight = 350;
 }
 
 - (void)prepareLayout {

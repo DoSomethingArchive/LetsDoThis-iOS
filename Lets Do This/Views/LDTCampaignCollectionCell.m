@@ -13,6 +13,7 @@
 @property (nonatomic, strong) IBOutlet UIImageView *backgroundImageView;
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
 @property (nonatomic, strong) IBOutlet UILabel *callToActionLabel;
+@property (nonatomic, strong) IBOutlet UILabel *factProblemLabel;
 @end
 
 @implementation LDTCampaignCollectionCell
@@ -20,8 +21,12 @@
 - (void)setCampaign:(DSOCampaign *)campaign {
     _campaign = campaign;
 
+    self.backgroundImageView.clipsToBounds = YES;
+
     self.titleLabel.text = campaign.title.uppercaseString;
     self.callToActionLabel.text = campaign.callToAction;
+    self.factProblemLabel.text = campaign.factProblem;
+    
     [self.backgroundImageView sd_setImageWithURL:campaign.coverImageURL];
 }
 
