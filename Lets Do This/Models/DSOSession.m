@@ -54,7 +54,7 @@ static NSString *_APIKey;
 }
 
 
-+ (void)registerWithEmail:(NSString *)email password:(NSString *)password success:(DSOSessionLoginBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
++ (void)registerWithDictionary:(NSDictionary *)dictionary success:(DSOSessionLoginBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
     NSAssert(_setupCalled == YES, @"The DSO Session has not been setup");
 
     _currentSession = nil;
@@ -63,10 +63,10 @@ static NSString *_APIKey;
     [session.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
     [session.requestSerializer setValue:_APIKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
 
-    NSDictionary *params = @{@"email": email,
-                             @"password": password};
+    NSString *email = dictionary[@"email"];
+    NSString *password = dictionary[@"password"];
 
-    [session POST:@"users" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+    [session POST:@"users" parameters:dictionary success:^(NSURLSessionDataTask *task, NSDictionary *response) {
         [SSKeychain setPassword:password forService:@"api.dosomething.org" account:email];
 
         [DSOSession startWithEmail:email password:password success:successBlock failure:failureBlock];
@@ -203,12 +203,18 @@ static NSString *_APIKey;
 }
 
 - (void)logout:(DSOSessionLogoutBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
+
+    // Temp (or permanent) fix for https://github.com/DoSomething/LetsDoThis-iOS/issues/1#issuecomment-101480029 ?
+    self.responseSerializer = [AFJSONResponseSerializer
+                               serializerWithReadingOptions:NSJSONReadingAllowFragments];
+
     [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         [SSKeychain deletePasswordForService:@"org.dosomething.slothkit" account:@"Session"];
         [SSKeychain deletePasswordForService:@"api.dosomething.org" account:[DSOSession lastLoginEmail]];
 
         if (successBlock) {
             successBlock();
+            _currentSession = nil;
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         if (failureBlock) {
