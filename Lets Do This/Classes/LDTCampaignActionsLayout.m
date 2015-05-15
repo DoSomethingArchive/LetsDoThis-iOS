@@ -8,58 +8,70 @@
 
 #import "LDTCampaignActionsLayout.h"
 
-static NSString * const LDTCampaignActionsLayoutCampaignCell = @"CampaignCell";
-
 @interface LDTCampaignActionsLayout ()
-@property (nonatomic, strong) NSDictionary *layoutInfo;
+@property (nonatomic, strong) NSArray *campaignLayoutInfo;
 @end
 
 @implementation LDTCampaignActionsLayout
 
-- (void)prepareLayout {
-    NSMutableDictionary *newLayoutInfo = [NSMutableDictionary dictionary];
-    NSMutableDictionary *cellLayoutInfo = [NSMutableDictionary dictionary];
-
-    NSInteger sectionCount = [self.collectionView numberOfSections];
-    NSIndexPath *indexPath;;
-
-    for(NSInteger section = 0; section < sectionCount; section++) {
-        NSInteger itemCount = [self.collectionView numberOfItemsInSection:section];
-
-        for(NSInteger item = 0; item < itemCount; item++) {
-            indexPath = [NSIndexPath indexPathForItem:item inSection:section];
-
-            UICollectionViewLayoutAttributes *itemAttributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-            itemAttributes.frame = [self frameForItemAtIndexPath:indexPath];
-
-            cellLayoutInfo[indexPath] = itemAttributes;
-        }
+- (instancetype)init {
+    self = [super init];
+    if(self) {
+        [self commonInit];
     }
 
-    newLayoutInfo[LDTCampaignActionsLayoutCampaignCell] = cellLayoutInfo;
+    return self;
+}
 
-    self.layoutInfo = newLayoutInfo;
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self commonInit];
+}
+
+- (void)commonInit {
+    self.campaignCellHeight = 125;
+    self.selectedCampaignCellHeight = 300;
+}
+
+- (void)prepareLayout {
+    NSMutableArray *campaignLayoutInfo = [NSMutableArray arrayWithCapacity:20];
+
+    NSIndexPath *indexPath;
+    NSInteger itemCount = [self.collectionView numberOfItemsInSection:0];
+    NSIndexPath *selectedIndexPath = self.collectionView.indexPathsForSelectedItems.firstObject;
+
+    CGFloat yOrigin = 0;
+    for(NSInteger item = 0; item < itemCount; item++) {
+        indexPath = [NSIndexPath indexPathForItem:item inSection:0];
+        CGFloat height = [indexPath isEqual:selectedIndexPath] ? self.selectedCampaignCellHeight : self.campaignCellHeight;
+
+        UICollectionViewLayoutAttributes *itemAttributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+        itemAttributes.frame = CGRectMake(0, yOrigin, self.collectionView.bounds.size.width, height);
+        campaignLayoutInfo[indexPath.row] = itemAttributes;
+
+        yOrigin += height;
+    }
+
+    self.campaignLayoutInfo = campaignLayoutInfo;
 }
 
 - (CGSize)collectionViewContentSize {
-    NSInteger numberOfCampaigns = [self.collectionView numberOfItemsInSection:0];
-    return CGSizeMake(self.collectionView.bounds.size.width, numberOfCampaigns * 125);
+    UICollectionViewLayoutAttributes *lastItemAttributes = self.campaignLayoutInfo.lastObject;
+    return CGSizeMake(self.collectionView.bounds.size.width, CGRectGetMaxY(lastItemAttributes.frame));
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return self.layoutInfo[LDTCampaignActionsLayoutCampaignCell][indexPath];
+    return self.campaignLayoutInfo[indexPath.row];
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
-    NSMutableArray *allAttributes = [NSMutableArray arrayWithCapacity:self.layoutInfo.count];
+    NSMutableArray *allAttributes = [NSMutableArray arrayWithCapacity:self.campaignLayoutInfo.count];
 
-    [self.layoutInfo enumerateKeysAndObjectsUsingBlock:^(NSString *elementIdentifier, NSDictionary *elementsInfo, BOOL *stop) {
-        [elementsInfo enumerateKeysAndObjectsUsingBlock:^(NSIndexPath *indexPath, UICollectionViewLayoutAttributes *attributes, BOOL *innerStop) {
-            if(CGRectIntersectsRect(rect, attributes.frame)) {
-                [allAttributes addObject:attributes];
-            }
-        }];
-    }];
+    for(UICollectionViewLayoutAttributes *attributes in self.campaignLayoutInfo) {
+        if(CGRectIntersectsRect(rect, attributes.frame)) {
+            [allAttributes addObject:attributes];
+        }
+    }
 
     return allAttributes;
 }
@@ -70,10 +82,6 @@ static NSString * const LDTCampaignActionsLayoutCampaignCell = @"CampaignCell";
         return YES;
     }
     return NO;
-}
-
-- (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGRectMake(0, indexPath.row * 125, self.collectionView.bounds.size.width, 125);
 }
 
 @end

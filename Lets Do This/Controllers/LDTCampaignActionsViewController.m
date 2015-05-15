@@ -35,4 +35,8 @@
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
 @end

@@ -445,12 +445,15 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PnR-kd-DHk">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
                                         </imageView>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6jV-h2-cXy">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6jV-h2-cXy" userLabel="Cover view">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.35000000000000003" colorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.25" colorSpace="calibratedWhite"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwY-Co-SbG">
                                             <rect key="frame" x="15" y="26" width="571" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="rVr-8T-Sed"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -490,7 +493,9 @@
                                 <size key="customSize" width="600" height="100"/>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="lMs-gL-C50"/>
                                         <exclude reference="p7h-CO-aub"/>
+                                        <exclude reference="s60-iz-Pdr"/>
                                     </mask>
                                 </variation>
                                 <connections>

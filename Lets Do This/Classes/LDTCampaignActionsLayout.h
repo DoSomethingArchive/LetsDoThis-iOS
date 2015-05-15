@@ -10,4 +10,6 @@
 
 @interface LDTCampaignActionsLayout : UICollectionViewLayout
 
+@property (nonatomic) CGFloat campaignCellHeight;
+@property (nonatomic) CGFloat selectedCampaignCellHeight;
 @end
