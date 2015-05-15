@@ -173,4 +173,8 @@
     self.factSolution = [values[@"fact_problem"] valueForKeyAsString:@"fact" nullValue:self.factSolution];
 }
 
+- (NSURL *)coverImageURL {
+    return [NSURL URLWithString:self.coverImage];
+}
+
 @end

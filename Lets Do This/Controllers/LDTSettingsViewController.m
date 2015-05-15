@@ -83,7 +83,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
                                  handler:^(UIAlertAction * action)
                                  {
                                      [view dismissViewControllerAnimated:YES completion:nil];
-
                                  }];
         
         
@@ -93,6 +92,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void)showLogin {
-    [self performSegueWithIdentifier:@"SettingsToTabBar" sender:self];
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self performSegueWithIdentifier:@"SettingsToTabBar" sender:self];
 }
 @end

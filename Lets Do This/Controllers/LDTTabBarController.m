@@ -52,20 +52,35 @@
             
         }];
 
-        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-            [DSOCampaign campaignWithID:15 inContext:localContext completion:nil];
-            [DSOCampaign campaignWithID:48 inContext:localContext completion:nil];
-            [DSOCampaign campaignWithID:50 inContext:localContext completion:nil];
-            [DSOCampaign campaignWithID:362 inContext:localContext completion:nil];
-            [DSOCampaign campaignWithID:955 inContext:localContext completion:nil];
-            [DSOCampaign campaignWithID:1261 inContext:localContext completion:nil];
-            [DSOCampaign campaignWithID:1334 inContext:localContext completion:nil];
-            [DSOCampaign campaignWithID:1273 inContext:localContext completion:nil];
-            [DSOCampaign campaignWithID:1293 inContext:localContext completion:nil];
-            [DSOCampaign campaignWithID:1427 inContext:localContext completion:nil];
-            [DSOCampaign campaignWithID:1429 inContext:localContext completion:nil];
-            [DSOCampaign campaignWithID:1467 inContext:localContext completion:nil];
-        }];
+        if([DSOCampaign MR_findAll].count == 0) {
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                [DSOCampaign campaignWithID:15 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                    [DSOCampaign campaignWithID:48 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                        [DSOCampaign campaignWithID:50 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                            [DSOCampaign campaignWithID:362 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                                [DSOCampaign campaignWithID:955 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                                    [DSOCampaign campaignWithID:1261 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                                        [DSOCampaign campaignWithID:1334 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                                            [DSOCampaign campaignWithID:1273 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                                                [DSOCampaign campaignWithID:1293 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                                                    [DSOCampaign campaignWithID:1427 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                                                        [DSOCampaign campaignWithID:1429 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                                                            [DSOCampaign campaignWithID:1467 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                                                                [localContext MR_saveToPersistentStoreAndWait];
+                                                            }];
+                                                        }];
+                                                    }];
+                                                }];
+                                            }];
+                                        }];
+                                    }];
+                                }];
+                            }];
+                        }];
+                    }];
+                }];
+            }];
+        }
     }
 }
 

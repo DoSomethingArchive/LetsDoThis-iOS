@@ -1,5 +1,5 @@
 //
-//  LDTCampaignListViewController.h
+//  LDTCampaignActionsViewController.h
 //  Lets Do This
 //
 //  Created by Ryan Grimm on 4/2/15.

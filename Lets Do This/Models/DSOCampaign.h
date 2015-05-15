@@ -52,4 +52,6 @@ typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
 @property (strong, nonatomic, readonly) NSString *factProblem;
 @property (strong, nonatomic, readonly) NSString *factSolution;
 
+@property (nonatomic, strong, readonly) NSURL *coverImageURL;
+
 @end

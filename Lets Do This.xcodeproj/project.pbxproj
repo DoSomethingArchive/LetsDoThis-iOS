@@ -35,6 +35,8 @@
 		C2B1523E1ACE0BFC0028C336 /* LDTAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B1523D1ACE0BFC0028C336 /* LDTAboutViewController.m */; };
 		C2B152411ACE0C0D0028C336 /* LDTPrivacyPolicyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B152401ACE0C0D0028C336 /* LDTPrivacyPolicyViewController.m */; };
 		C2B152441ACE0C400028C336 /* LDTEditAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B152431ACE0C400028C336 /* LDTEditAccountViewController.m */; };
+		C2C112D31B066A710070993C /* LDTCampaignActionsLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C112D21B066A710070993C /* LDTCampaignActionsLayout.m */; };
+		C2C112D71B0670120070993C /* LDTCampaignCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C112D61B0670120070993C /* LDTCampaignCollectionCell.m */; };
 		C2F35F061AD825DF00D12FE5 /* LDTCampaignDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F35F051AD825DF00D12FE5 /* LDTCampaignDetailViewController.m */; };
 		C2F35F091AD8261E00D12FE5 /* LDTReportbackDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F35F081AD8261E00D12FE5 /* LDTReportbackDetailViewController.m */; };
 		C2F35F0D1AD8274200D12FE5 /* LDTLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F35F0C1AD8274200D12FE5 /* LDTLoginViewController.m */; };
@@ -111,6 +113,10 @@
 		C2B152401ACE0C0D0028C336 /* LDTPrivacyPolicyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTPrivacyPolicyViewController.m; sourceTree = "<group>"; };
 		C2B152421ACE0C400028C336 /* LDTEditAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTEditAccountViewController.h; sourceTree = "<group>"; };
 		C2B152431ACE0C400028C336 /* LDTEditAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTEditAccountViewController.m; sourceTree = "<group>"; };
+		C2C112D11B066A710070993C /* LDTCampaignActionsLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTCampaignActionsLayout.h; sourceTree = "<group>"; };
+		C2C112D21B066A710070993C /* LDTCampaignActionsLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTCampaignActionsLayout.m; sourceTree = "<group>"; };
+		C2C112D51B0670120070993C /* LDTCampaignCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTCampaignCollectionCell.h; sourceTree = "<group>"; };
+		C2C112D61B0670120070993C /* LDTCampaignCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTCampaignCollectionCell.m; sourceTree = "<group>"; };
 		C2F35F041AD825DF00D12FE5 /* LDTCampaignDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTCampaignDetailViewController.h; sourceTree = "<group>"; };
 		C2F35F051AD825DF00D12FE5 /* LDTCampaignDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTCampaignDetailViewController.m; sourceTree = "<group>"; };
 		C2F35F071AD8261E00D12FE5 /* LDTReportbackDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTReportbackDetailViewController.h; sourceTree = "<group>"; };
@@ -238,6 +244,8 @@
 				C2B152181ACE05510028C336 /* AppDelegate.m */,
 				C20BA2901AF3FDBE00E9886F /* LDTImportQueue.h */,
 				C20BA2911AF3FDBE00E9886F /* LDTImportQueue.m */,
+				C2C112D11B066A710070993C /* LDTCampaignActionsLayout.h */,
+				C2C112D21B066A710070993C /* LDTCampaignActionsLayout.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -293,6 +301,7 @@
 		C2B1521F1ACE05510028C336 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C2C112D41B066FE80070993C /* Cells */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -310,6 +319,15 @@
 				C2B152431ACE0C400028C336 /* LDTEditAccountViewController.m */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		C2C112D41B066FE80070993C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				C2C112D51B0670120070993C /* LDTCampaignCollectionCell.h */,
+				C2C112D61B0670120070993C /* LDTCampaignCollectionCell.m */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		C2F35F0A1AD8272C00D12FE5 /* Login/Registration */ = {
@@ -485,11 +503,13 @@
 				C2B1522E1ACE07EB0028C336 /* LDTNotificationsViewController.m in Sources */,
 				C2F35F061AD825DF00D12FE5 /* LDTCampaignDetailViewController.m in Sources */,
 				C20BA2851AF3DBE400E9886F /* DSOReportback.m in Sources */,
+				C2C112D71B0670120070993C /* LDTCampaignCollectionCell.m in Sources */,
 				C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */,
 				C2B152341ACE0A080028C336 /* LDTTabBarController.m in Sources */,
 				C2F35F171AD828BD00D12FE5 /* LTDPhotoCaptureViewController.m in Sources */,
 				C2B152381ACE0BB50028C336 /* LDTSettingsViewController.m in Sources */,
 				C20BA28D1AF3DCAB00E9886F /* NSDate+DSO.m in Sources */,
+				C2C112D31B066A710070993C /* LDTCampaignActionsLayout.m in Sources */,
 				C28D340D1AE5F99C0091D781 /* LDTLoginRegNavigationController.m in Sources */,
 				C20126751AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld in Sources */,
 				C2F35F141AD8288A00D12FE5 /* LDTPhotoAcquisitionController.m in Sources */,
