@@ -59,6 +59,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
 - (void)showLogin {
     [self dismissViewControllerAnimated:YES completion:nil];
-//    [self performSegueWithIdentifier:@"SettingsToTabBar" sender:self];
 }
+
 @end

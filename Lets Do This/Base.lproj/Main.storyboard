@@ -656,9 +656,6 @@
                             <outlet property="delegate" destination="QeS-RT-P7N" id="LRH-s0-Rz6"/>
                         </connections>
                     </tableView>
-                    <connections>
-                        <segue destination="49e-Tb-3d3" kind="presentation" identifier="SettingsToTabBar" id="hPw-La-XKl"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="egQ-Jh-ZP6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
