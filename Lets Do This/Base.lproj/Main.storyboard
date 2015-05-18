@@ -572,7 +572,7 @@
                     <navigationItem key="navigationItem" title="Profile" id="0TF-lY-6fb">
                         <barButtonItem key="rightBarButtonItem" title="Settings" id="L4I-YX-4Um">
                             <connections>
-                                <segue destination="QeS-RT-P7N" kind="presentation" id="E5K-rt-sOh"/>
+                                <segue destination="sBT-sF-Qr6" kind="presentation" id="E5K-rt-sOh"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -656,8 +656,27 @@
                             <outlet property="delegate" destination="QeS-RT-P7N" id="LRH-s0-Rz6"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="xH3-1h-PoA"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="egQ-Jh-ZP6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3072" y="166"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="iEm-xE-jW6">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sBT-sF-Qr6" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="OjN-KS-H2l">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="QeS-RT-P7N" kind="relationship" relationship="rootViewController" id="Nt9-SZ-E82"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nMV-l5-ys7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2260" y="166"/>
         </scene>
