@@ -15,12 +15,7 @@
 
 - (IBAction)registerAction:(id)sender {
     if(self.emailField.text.length && self.passwordField.text.length) {
-        NSDictionary *dictionary =  @{@"email": self.emailField.text,
-                                      @"password": self.passwordField.text,
-                                      @"first_name": self.firstNameField.text,
-                                      @"last_name":self.lastNameField.text
-                                      };
-        [DSOSession registerWithDictionary:dictionary success:^(DSOSession *session) {
+        [DSOSession registerWithEmail:self.emailField.text password:self.passwordField.text success:^(DSOSession *session) {
             LDTLoginRegNavigationController *loginRegViewController = (LDTLoginRegNavigationController *)self.navigationController;
             if(loginRegViewController.loginBlock) {
                 loginRegViewController.loginBlock();
