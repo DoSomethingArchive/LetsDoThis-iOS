@@ -54,7 +54,7 @@ static NSString *_APIKey;
 }
 
 
-+ (void)registerWithDictionary:(NSDictionary *)dictionary success:(DSOSessionLoginBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
++ (void)registerWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName success:(DSOSessionLoginBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
     NSAssert(_setupCalled == YES, @"The DSO Session has not been setup");
 
     _currentSession = nil;
@@ -63,10 +63,12 @@ static NSString *_APIKey;
     [session.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
     [session.requestSerializer setValue:_APIKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
 
-    NSString *email = dictionary[@"email"];
-    NSString *password = dictionary[@"password"];
+    NSDictionary *params = @{@"email": email,
+                             @"password": password,
+                             @"first_name": firstName,
+                             @"last_name": lastName};
 
-    [session POST:@"users" parameters:dictionary success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+    [session POST:@"users" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
         [SSKeychain setPassword:password forService:@"api.dosomething.org" account:email];
 
         [DSOSession startWithEmail:email password:password success:successBlock failure:failureBlock];
