@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		421774269F5DF5997622C2F9 /* libPods-Lets Do This.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */; };
+		B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20881A01B0B9B0F00E697B2 /* keys.plist */; };
 		C20126751AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C20126731AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld */; };
 		C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2781AF3DBE400E9886F /* DSOCampaign.m */; };
 		C20BA2841AF3DBE400E9886F /* DSOCampaignActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA27A1AF3DBE400E9886F /* DSOCampaignActivity.m */; };
@@ -59,6 +60,7 @@
 
 /* Begin PBXFileReference section */
 		481832CD7E534871B0CC8938 /* Pods-Lets Do This.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.debug.xcconfig"; sourceTree = "<group>"; };
+		B20881A01B0B9B0F00E697B2 /* keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = keys.plist; sourceTree = "<group>"; };
 		B92B81EBB03D9FF4D34E3FD9 /* Pods-Lets Do This.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.release.xcconfig"; sourceTree = "<group>"; };
 		C20126741AF27FF700CB33B3 /* LetsDoThis.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LetsDoThis.xcdatamodel; sourceTree = "<group>"; };
 		C20BA2771AF3DBE400E9886F /* DSOCampaign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCampaign.h; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				C2B151ED1ACE04C30028C336 /* Info.plist */,
 				C2B151EE1ACE04C30028C336 /* main.m */,
 				C20BA28F1AF3DE0D00E9886F /* LetsDoThis.pch */,
+				B20881A01B0B9B0F00E697B2 /* keys.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
 				C2B151FB1ACE04C30028C336 /* Main.storyboard in Resources */,
 				C2B152001ACE04C30028C336 /* LaunchScreen.xib in Resources */,
 				C2B151FD1ACE04C30028C336 /* Images.xcassets in Resources */,

@@ -19,7 +19,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"LetsDoThis"];
 
-    [DSOSession setupWithAPIKey:@"kAfWAfVTma9s5QqYIQcZOVcxZgBKfuT3x5rqtBgb" environment:DSOSessionEnvironmentProduction];
+    NSDictionary *keysDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+
+    [DSOSession setupWithAPIKey:keysDictionary[@"northstarApiKey"] environment:DSOSessionEnvironmentProduction];
 
     return YES;
 }
