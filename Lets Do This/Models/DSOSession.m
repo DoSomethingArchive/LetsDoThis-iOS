@@ -108,10 +108,10 @@ static NSString *_APIKey;
         [SSKeychain setPassword:password forService:@"api.dosomething.org" account:email];
 
         NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-        session.user = [DSOUser syncWithDictionary:response inContext:context];
+        session.user = [DSOUser syncWithDictionary:response[@"data"] inContext:context];
         [context MR_saveToPersistentStoreAndWait];
 
-        [session saveTokens:response];
+        [session saveTokens:response[@"data"]];
 
         _currentSession = session;
         if (successBlock) {
@@ -142,11 +142,11 @@ static NSString *_APIKey;
     [session.requestSerializer setValue:_APIKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
 
     NSString *url = [NSString stringWithFormat:@"users/email/%@", [DSOSession lastLoginEmail]];
-    [session GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSArray *response) {
-        NSDictionary *userInfo = response.firstObject;
+    [session GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+        NSArray *userInfo = response[@"data"];
 
         NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-        session.user = [DSOUser syncWithDictionary:userInfo inContext:context];
+        session.user = [DSOUser syncWithDictionary:userInfo.firstObject inContext:context];
         [context MR_saveToPersistentStoreAndWait];
 
         _currentSession = session;
@@ -205,10 +205,6 @@ static NSString *_APIKey;
 }
 
 - (void)logout:(DSOSessionLogoutBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
-
-    // Temp (or permanent) fix for https://github.com/DoSomething/LetsDoThis-iOS/issues/1#issuecomment-101480029 ?
-    self.responseSerializer = [AFJSONResponseSerializer
-                               serializerWithReadingOptions:NSJSONReadingAllowFragments];
 
     [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         [SSKeychain deletePasswordForService:@"org.dosomething.slothkit" account:@"Session"];
