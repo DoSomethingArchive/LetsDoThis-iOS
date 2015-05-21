@@ -137,7 +137,9 @@
     NSDictionary *params = @{
          @"first_name": self.firstName,
          @"last_name": self.lastName,
-         @"email": self.email,
+         @"email": self.email
+         /*
+         // Commenting now to avoid nil errors.
          @"mobile": self.mobileNumber,
          @"addr_street1": self.addressLine1,
          @"addr_street2": self.addressLine2,
@@ -146,6 +148,7 @@
          @"addr_zip": self.zipcode,
          @"country": self.country,
          @"birthdate": [self.birthday ISOString]
+          */
     };
 
     [[DSOSession currentSession] PUT:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {

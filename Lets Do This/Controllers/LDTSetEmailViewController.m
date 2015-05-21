@@ -11,6 +11,7 @@
 #import "DSOUser.h"
 
 @interface LDTSetEmailViewController ()
+@property (strong, nonatomic) DSOUser *user;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *saveButton;
 @end
@@ -19,19 +20,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    DSOUser *user = [DSOSession currentSession].user;
-    self.emailField.text = user.email;
+    self.user = [DSOSession currentSession].user;
+    self.emailField.text = self.user.email;
 }
 
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if (sender == self.saveButton) {
+        self.user.email = self.emailField.text;
+        [self.user saveChanges:^(NSError *error) {
+            NSLog(@"ok");
+        }];
+    }
 }
-*/
+
 
 @end

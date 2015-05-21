@@ -722,7 +722,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="1Ya-Iv-1n3">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="OHd-ps-7jC"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="OHd-ps-7jC">
+                            <connections>
+                                <segue destination="UtJ-bR-pdJ" kind="unwind" unwindAction="unwindToList:" id="1NT-76-jVj"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="emailField" destination="eUG-JH-yOo" id="fjl-Fj-e3N"/>
@@ -730,6 +734,7 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j38-Ni-HqS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="UtJ-bR-pdJ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4736" y="172"/>
         </scene>
