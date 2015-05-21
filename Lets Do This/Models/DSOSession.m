@@ -68,7 +68,7 @@ static NSString *_APIKey;
                              @"first_name": firstName,
                              @"last_name": lastName};
 
-    [session POST:@"users" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+    [session POST:@"users?create_drupal_user=1" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
         [SSKeychain setPassword:password forService:@"api.dosomething.org" account:email];
 
         [DSOSession startWithEmail:email password:password success:successBlock failure:failureBlock];
