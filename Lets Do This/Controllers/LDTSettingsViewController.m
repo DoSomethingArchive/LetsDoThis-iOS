@@ -9,6 +9,10 @@
 #import "LDTSettingsViewController.h"
 #import "DSOSession.h"
 
+@interface LDTSettingsViewController ()
+- (IBAction)unwindToList:(UIStoryboardSegue *)segue;
+@end
+
 @implementation LDTSettingsViewController
 
 
@@ -59,6 +63,10 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
 - (void)showLogin {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)unwindToList:(UIStoryboardSegue *)segue {
+
 }
 
 @end
