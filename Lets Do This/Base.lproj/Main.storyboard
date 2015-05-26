@@ -328,19 +328,37 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1xH-4U-cpM" id="hXx-VV-dvb">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ls0-gA-CLE">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gzf-HA-Oay">
+                                                    <rect key="frame" x="8" y="8" width="584" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Gzf-HA-Oay" firstAttribute="leading" secondItem="hXx-VV-dvb" secondAttribute="leadingMargin" id="IfI-xb-arn"/>
+                                                <constraint firstItem="Gzf-HA-Oay" firstAttribute="trailing" secondItem="hXx-VV-dvb" secondAttribute="trailingMargin" id="PHP-wq-c8e"/>
+                                                <constraint firstAttribute="centerX" secondItem="Gzf-HA-Oay" secondAttribute="centerX" id="Xge-04-sbS"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="U6b-RU-Vdl">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U6b-RU-Vdl" id="tJj-HK-f2f">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cfC-ko-oFV">
                                                     <rect key="frame" x="272" y="7" width="57" height="30"/>
                                                     <state key="normal" title="Register">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="registerAction:" destination="Cbv-1I-CTk" eventType="touchUpInside" id="Trr-2O-nx8"/>
+                                                        <action selector="registerAction:" destination="Cbv-1I-CTk" eventType="touchUpInside" id="d9v-9Z-DNL"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="centerY" secondItem="ls0-gA-CLE" secondAttribute="centerY" constant="-0.5" id="O3h-9X-36m"/>
-                                                <constraint firstAttribute="centerX" secondItem="ls0-gA-CLE" secondAttribute="centerX" id="z5j-Aw-zQo"/>
+                                                <constraint firstAttribute="centerX" secondItem="cfC-ko-oFV" secondAttribute="centerX" id="Cic-ij-86H"/>
+                                                <constraint firstAttribute="centerY" secondItem="cfC-ko-oFV" secondAttribute="centerY" constant="-0.5" id="PDc-gF-BWr"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -354,6 +372,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Register" id="LUb-fj-4wD"/>
                     <connections>
+                        <outlet property="birthdayField" destination="Gzf-HA-Oay" id="zj9-pH-2ug"/>
                         <outlet property="emailField" destination="R2C-Jb-5hm" id="OYs-0X-ors"/>
                         <outlet property="firstNameField" destination="Tsu-PY-Xgn" id="CkY-Qa-BpL"/>
                         <outlet property="lastNameField" destination="YNn-Oy-gdl" id="MZc-fL-qfo"/>
@@ -482,7 +501,7 @@
                                                         <constraint firstAttribute="height" constant="50" id="JUR-A9-g5J"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -600,7 +619,7 @@
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Change Photo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gtR-T0-b1c">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -614,7 +633,7 @@
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Change Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0Ly-b2-Ker">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -628,7 +647,7 @@
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Change Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nIr-xx-DJn">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -642,7 +661,7 @@
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Log Out" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AlR-Uo-IZW">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
