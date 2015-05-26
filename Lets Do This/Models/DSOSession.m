@@ -154,6 +154,7 @@ static NSString *_APIKey;
             successBlock(session);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [session deleteCachedSession];
         if (failure) {
             failure(error);
         }
@@ -162,6 +163,10 @@ static NSString *_APIKey;
 
 + (DSOSession *)currentSession {
     return _currentSession;
+}
+
+- (void)deleteCachedSession {
+    [SSKeychain deletePasswordForService:@"org.dosomething.slothkit" account:@"Session"];
 }
 
 - (instancetype)init {
