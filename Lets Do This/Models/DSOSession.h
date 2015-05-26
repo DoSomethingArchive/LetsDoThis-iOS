@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger, DSOSessionEnvironment) {
 /*
  * Starts a session by having the user register for an account.
  */
-+ (void)registerWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName success:(DSOSessionLoginBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock;
++ (void)registerWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName birthdate:(NSString *)dateStr success:(DSOSessionLoginBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock;
 
 + (BOOL)hasCachedSession;
 + (NSString *)lastLoginEmail;
