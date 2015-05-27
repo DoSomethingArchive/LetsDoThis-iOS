@@ -11,7 +11,6 @@
 
 @implementation LDTSettingsViewController
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Settings";
@@ -58,6 +57,10 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void)showLogin {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)backTapped:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
