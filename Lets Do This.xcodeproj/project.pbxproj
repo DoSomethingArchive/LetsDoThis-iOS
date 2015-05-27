@@ -660,7 +660,7 @@
 			baseConfigurationReference = 481832CD7E534871B0CC8938 /* Pods-Lets Do This.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: org.dosomething.LetsDoThis";
 				GCC_PREFIX_HEADER = "Lets Do This/LetsDoThis.pch";
 				INFOPLIST_FILE = "Lets Do This/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -673,7 +673,7 @@
 			baseConfigurationReference = B92B81EBB03D9FF4D34E3FD9 /* Pods-Lets Do This.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: org.dosomething.LetsDoThis";
 				GCC_PREFIX_HEADER = "Lets Do This/LetsDoThis.pch";
 				INFOPLIST_FILE = "Lets Do This/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
