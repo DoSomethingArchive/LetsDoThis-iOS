@@ -675,7 +675,13 @@
                             <outlet property="delegate" destination="QeS-RT-P7N" id="LRH-s0-Rz6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="xH3-1h-PoA"/>
+                    <navigationItem key="navigationItem" id="xH3-1h-PoA">
+                        <barButtonItem key="leftBarButtonItem" title="&lt;" id="R8O-9e-23r">
+                            <connections>
+                                <action selector="backTapped:" destination="QeS-RT-P7N" id="tOx-fb-fKG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="egQ-Jh-ZP6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
