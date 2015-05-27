@@ -8,4 +8,5 @@ target 'Lets Do This' do
 	pod 'SDWebImage', '~> 3.7.2'
 	pod 'SSKeychain', '~> 1.2'
 	pod 'MagicalRecord'
+    pod 'Parse', '~> 1.7'
 end
