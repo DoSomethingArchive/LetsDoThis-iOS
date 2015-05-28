@@ -641,7 +641,7 @@
             </objects>
             <point key="canvasLocation" x="1356" y="338"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--Settings-->
         <scene sceneID="Wbr-u3-DYX">
             <objects>
                 <tableViewController id="QeS-RT-P7N" customClass="LDTSettingsViewController" sceneMemberID="viewController">
@@ -666,18 +666,25 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="AlR-Uo-IZW" style="IBUITableViewCellStyleDefault" id="Jb9-1p-S8s">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="k4Q-Ut-f2K">
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jb9-1p-S8s" id="wvX-z2-ccW">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k4Q-Ut-f2K" id="ddf-xH-ESO">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Log Out" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AlR-Uo-IZW">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Oa-3G-TsX">
+                                                    <rect key="frame" x="272" y="7" width="56" height="30"/>
+                                                    <state key="normal" title="Log Out">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="logoutTapped:" destination="QeS-RT-P7N" eventType="touchUpInside" id="NYB-Gn-Rj0"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerY" secondItem="5Oa-3G-TsX" secondAttribute="centerY" id="ZpN-NC-WPV"/>
+                                                <constraint firstAttribute="centerX" secondItem="5Oa-3G-TsX" secondAttribute="centerX" id="a6i-1e-vhU"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -688,7 +695,7 @@
                             <outlet property="delegate" destination="QeS-RT-P7N" id="LRH-s0-Rz6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="xH3-1h-PoA">
+                    <navigationItem key="navigationItem" title="Settings" id="xH3-1h-PoA">
                         <barButtonItem key="leftBarButtonItem" title="&lt;" id="R8O-9e-23r">
                             <connections>
                                 <action selector="backTapped:" destination="QeS-RT-P7N" id="tOx-fb-fKG"/>
