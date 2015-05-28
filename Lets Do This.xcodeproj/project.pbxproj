@@ -670,7 +670,7 @@
 				INFOPLIST_FILE = "Lets Do This/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "1c91197a-38bc-48a4-b37e-ae02f7e864e4";
 			};
 			name = Debug;
 		};
@@ -685,7 +685,7 @@
 				INFOPLIST_FILE = "Lets Do This/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "1c91197a-38bc-48a4-b37e-ae02f7e864e4";
 			};
 			name = Release;
 		};
