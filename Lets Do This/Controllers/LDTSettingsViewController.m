@@ -49,7 +49,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)backTapped:(id)sender {
+- (IBAction)doneTapped:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

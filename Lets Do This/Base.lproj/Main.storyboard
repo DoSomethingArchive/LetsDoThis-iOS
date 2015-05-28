@@ -716,9 +716,9 @@ activities and group up with friends.</string>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="xH3-1h-PoA">
-                        <barButtonItem key="leftBarButtonItem" title="&lt;" id="R8O-9e-23r">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Gi8-gz-FwG">
                             <connections>
-                                <action selector="backTapped:" destination="QeS-RT-P7N" id="tOx-fb-fKG"/>
+                                <action selector="doneTapped:" destination="QeS-RT-P7N" id="6Qx-Ia-AQY"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
