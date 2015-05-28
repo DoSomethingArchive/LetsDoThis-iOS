@@ -154,8 +154,8 @@
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="centerY" secondItem="NmZ-sf-LPO" secondAttribute="centerY" id="7mM-12-vBX"/>
-                                                <constraint firstAttribute="centerX" secondItem="NmZ-sf-LPO" secondAttribute="centerX" id="mNP-PD-WU8"/>
+                                                <constraint firstItem="NmZ-sf-LPO" firstAttribute="top" secondItem="D5O-7J-EeP" secondAttribute="top" id="5G8-ih-dCV"/>
+                                                <constraint firstItem="NmZ-sf-LPO" firstAttribute="centerX" secondItem="D5O-7J-EeP" secondAttribute="centerX" id="or1-fb-YjQ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
