@@ -154,8 +154,8 @@
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="centerY" secondItem="NmZ-sf-LPO" secondAttribute="centerY" id="7mM-12-vBX"/>
-                                                <constraint firstAttribute="centerX" secondItem="NmZ-sf-LPO" secondAttribute="centerX" id="mNP-PD-WU8"/>
+                                                <constraint firstItem="NmZ-sf-LPO" firstAttribute="top" secondItem="D5O-7J-EeP" secondAttribute="top" id="5G8-ih-dCV"/>
+                                                <constraint firstItem="NmZ-sf-LPO" firstAttribute="centerX" secondItem="D5O-7J-EeP" secondAttribute="centerX" id="or1-fb-YjQ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -242,14 +242,14 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="x8J-Tk-aRl">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="100" id="x8J-Tk-aRl">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x8J-Tk-aRl" id="e3x-Qg-FtR">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HVU-nd-UAS">
-                                                    <rect key="frame" x="272" y="7" width="57" height="30"/>
-                                                    <state key="normal" title="Register">
+                                                    <rect key="frame" x="188" y="35" width="225" height="30"/>
+                                                    <state key="normal" title="Don't have an account? Register">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
@@ -716,9 +716,9 @@ activities and group up with friends.</string>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="xH3-1h-PoA">
-                        <barButtonItem key="leftBarButtonItem" title="&lt;" id="R8O-9e-23r">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Gi8-gz-FwG">
                             <connections>
-                                <action selector="backTapped:" destination="QeS-RT-P7N" id="tOx-fb-fKG"/>
+                                <action selector="doneTapped:" destination="QeS-RT-P7N" id="6Qx-Ia-AQY"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
