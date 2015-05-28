@@ -14,6 +14,17 @@
 
 @implementation LDTLoginViewController
 
+-  (void)viewDidLoad {
+    [super viewDidLoad];
+    self.emailField.delegate = self;
+    self.passwordField.delegate = self;
+}
+
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+
 - (IBAction)loginAction:(id)sender {
     if(self.emailField.text.length && self.passwordField.text.length) {
         [DSOSession startWithEmail:self.emailField.text password:self.passwordField.text success:^(DSOSession *session) {

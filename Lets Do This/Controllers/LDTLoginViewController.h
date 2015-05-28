@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LDTLoginViewController : UITableViewController
+@interface LDTLoginViewController : UITableViewController <UITextFieldDelegate>
 
 @property (nonatomic, strong) IBOutlet UITextField *emailField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordField;
