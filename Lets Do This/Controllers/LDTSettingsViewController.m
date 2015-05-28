@@ -11,19 +11,8 @@
 
 @implementation LDTSettingsViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.title = @"Settings";
-}
-
-- (void)tableView:(UITableView *)tableView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch(indexPath.row) {
-        case 3:
-            [self confirmLogout];
-        default:
-            break;
-    }
+- (IBAction)logoutTapped:(id)sender {
+    [self confirmLogout];
 }
 
 - (void) confirmLogout {
