@@ -19,7 +19,7 @@
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch(indexPath.row) {
-        case 3:
+        case 1:
             [self confirmLogout];
         default:
             break;
