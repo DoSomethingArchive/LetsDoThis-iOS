@@ -716,11 +716,8 @@ activities and group up with friends.</string>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v0g-NP-By1" id="WoO-io-RRo">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MwV-gZ-2wI">
+                                                <switch opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MwV-gZ-2wI">
                                                     <rect key="frame" x="535" y="6" width="51" height="31"/>
-                                                    <connections>
-                                                        <action selector="notificationsChanged:" destination="QeS-RT-P7N" eventType="valueChanged" id="NmP-Bd-qIh"/>
-                                                    </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Receive Notifications" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d3p-Nz-bFg">
                                                     <rect key="frame" x="16" y="11" width="162" height="21"/>
@@ -759,7 +756,7 @@ activities and group up with friends.</string>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="notificationsSwitch" destination="MwV-gZ-2wI" id="qeG-CS-k05"/>
+                        <outlet property="notificationsSwitch" destination="MwV-gZ-2wI" id="fMI-yI-ruA"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="egQ-Jh-ZP6" userLabel="First Responder" sceneMemberID="firstResponder"/>
