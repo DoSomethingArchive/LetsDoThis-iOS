@@ -10,6 +10,7 @@
 #import "DSOTaxonomyTerm.h"
 #import "AFNetworkActivityLogger.h"
 #import <SSKeychain/SSKeychain.h>
+#import <Parse/Parse.h>
 
 @interface DSOSession ()
 @property (nonatomic, strong) NSString *serviceName;
@@ -225,6 +226,15 @@ static NSString *_APIKey;
             failureBlock(error);
         }
     }];
+}
+
++ (void)setDeviceToken:(NSData *)deviceToken  {
+    // Store the deviceToken in the current installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    currentInstallation.channels = @[ @"global" ];
+    [currentInstallation saveInBackground];
+    NSLog(@"currentInstallation %@", currentInstallation);
 }
 
 - (AFHTTPSessionManager *)legacyServerSession {

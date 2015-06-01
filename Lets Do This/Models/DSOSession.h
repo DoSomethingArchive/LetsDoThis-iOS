@@ -59,6 +59,8 @@ typedef NS_ENUM(NSInteger, DSOSessionEnvironment) {
 
 - (void)logout:(DSOSessionLogoutBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock;
 
++ (void)setDeviceToken:(NSData *)deviceToken;
+
 @property (nonatomic, strong, readonly) AFHTTPSessionManager *legacyServerSession;
 
 @end
