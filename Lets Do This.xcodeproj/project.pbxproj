@@ -664,13 +664,13 @@
 			baseConfigurationReference = 481832CD7E534871B0CC8938 /* Pods-Lets Do This.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Do Something/, Inc (S4HV7AJFFK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PREFIX_HEADER = "Lets Do This/LetsDoThis.pch";
 				INFOPLIST_FILE = "Lets Do This/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1c91197a-38bc-48a4-b37e-ae02f7e864e4";
+				PROVISIONING_PROFILE = "e560335c-8a1f-4c84-97a0-a58c7b387eb4";
 			};
 			name = Debug;
 		};
@@ -679,13 +679,13 @@
 			baseConfigurationReference = B92B81EBB03D9FF4D34E3FD9 /* Pods-Lets Do This.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Do Something/, Inc (S4HV7AJFFK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PREFIX_HEADER = "Lets Do This/LetsDoThis.pch";
 				INFOPLIST_FILE = "Lets Do This/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1c91197a-38bc-48a4-b37e-ae02f7e864e4";
+				PROVISIONING_PROFILE = "e560335c-8a1f-4c84-97a0-a58c7b387eb4";
 			};
 			name = Release;
 		};
