@@ -692,7 +692,7 @@ activities and group up with friends.</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Oa-3G-TsX">
-                                                    <rect key="frame" x="272" y="7" width="56" height="30"/>
+                                                    <rect key="frame" x="16" y="7" width="56" height="30"/>
                                                     <state key="normal" title="Log Out">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -703,8 +703,41 @@ activities and group up with friends.</string>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="centerY" secondItem="5Oa-3G-TsX" secondAttribute="centerY" id="ZpN-NC-WPV"/>
-                                                <constraint firstAttribute="centerX" secondItem="5Oa-3G-TsX" secondAttribute="centerX" id="a6i-1e-vhU"/>
+                                                <constraint firstItem="5Oa-3G-TsX" firstAttribute="leading" secondItem="ddf-xH-ESO" secondAttribute="leadingMargin" constant="8" id="hBQ-mn-RD5"/>
                                             </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Notifications" id="4g3-py-Iyt">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="v0g-NP-By1">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v0g-NP-By1" id="WoO-io-RRo">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MwV-gZ-2wI">
+                                                    <rect key="frame" x="535" y="6" width="51" height="31"/>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Receive Notifications" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d3p-Nz-bFg">
+                                                    <rect key="frame" x="16" y="11" width="162" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="MwV-gZ-2wI" secondAttribute="trailing" constant="8" id="813-yb-95R"/>
+                                                <constraint firstAttribute="centerY" secondItem="d3p-Nz-bFg" secondAttribute="centerY" id="Lm6-bz-eOJ"/>
+                                                <constraint firstItem="d3p-Nz-bFg" firstAttribute="leading" secondItem="WoO-io-RRo" secondAttribute="leadingMargin" constant="8" id="Mek-ci-PdQ"/>
+                                                <constraint firstAttribute="centerY" secondItem="MwV-gZ-2wI" secondAttribute="centerY" id="hWv-ch-78v"/>
+                                                <constraint firstAttribute="centerX" secondItem="MwV-gZ-2wI" secondAttribute="centerX" constant="-267.5" id="r0u-u1-x8T"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="r0u-u1-x8T"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -722,6 +755,9 @@ activities and group up with friends.</string>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="notificationsSwitch" destination="MwV-gZ-2wI" id="fMI-yI-ruA"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="egQ-Jh-ZP6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
