@@ -33,6 +33,7 @@ typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
 
 + (void)campaignWithID:(NSInteger)campaignID inContext:(NSManagedObjectContext *)context completion:(DSOCampaignBlock)completionBlock;
 
++ (void)allCampaigns:(DSOCampaignListBlock)completionBlock;
 + (void)staffPickCampaigns:(DSOCampaignListBlock)completionBlock;
 + (void)reportbacksInInboxForCampaignID:(NSInteger)campaignID maxNumber:(NSInteger)maxNumber completionBlock:(DSOCampaignInboxReportBackBlock)completionBlock;
 
