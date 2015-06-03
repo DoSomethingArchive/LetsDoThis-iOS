@@ -29,10 +29,11 @@
 @dynamic factSolution;
 
 + (DSOCampaign *)syncWithDictionary:(NSDictionary *)values inContext:(NSManagedObjectContext *)context {
+    // @todo: What is the _id for?
     NSString *campaignID = [values valueForKeyAsString:@"_id"];
 #warning hack
     if(campaignID == nil) {
-        campaignID = [values valueForKeyAsString:@"nid"];
+        campaignID = [values valueForKeyAsString:@"id"];
     }
     if(campaignID == nil) {
         return nil;
@@ -53,9 +54,9 @@
 }
 
 + (void)campaignWithID:(NSInteger)campaignID inContext:(NSManagedObjectContext *)context completion:(DSOCampaignBlock)completionBlock {
-    NSString *url = [NSString stringWithFormat:@"content/%ld.json", (long)campaignID];
+    NSString *url = [NSString stringWithFormat:@"campaigns/%ld.json", (long)campaignID];
     [[DSOSession currentSession].legacyServerSession GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *response) {
-        DSOCampaign *campaign = [DSOCampaign syncWithDictionary:response inContext:context];
+        DSOCampaign *campaign = [DSOCampaign syncWithDictionary:response[@"data"] inContext:context];
 
         if(completionBlock) {
             completionBlock(campaign, nil);
@@ -64,6 +65,34 @@
         if(completionBlock) {
             completionBlock(nil, error);
         }
+    }];
+}
+
++ (void)allCampaigns:(DSOCampaignListBlock)completionBlock {
+    if (completionBlock == nil) {
+        return;
+    }
+    NSString *url = @"campaigns.json?mobile_app=true";
+    AFHTTPSessionManager *legacySession = [[DSOSession currentSession] legacyServerSession];
+
+    [legacySession GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+        NSArray *campaignsResponse = response[@"data"];
+        NSMutableArray *campaigns = [NSMutableArray arrayWithCapacity:campaignsResponse.count];
+        for(NSDictionary *campaignData in campaignsResponse) {
+
+            // @todo: Code below breaks because Campaign is a subclass of NSManagedObject.
+//            DSOCampaign *campaign = [[DSOCampaign alloc] init];
+//            [campaign syncWithDictionary:campaignData];
+
+            // Would expect to add a DSOCampaign object here, but we need a context to save it to.
+            // Instead just add the campaignData dictionary for now.
+            [campaigns addObject:campaignData];
+        }
+
+        completionBlock([campaigns copy], nil);
+
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionBlock(nil, error);
     }];
 }
 
@@ -159,18 +188,23 @@
 
 
 - (void)syncWithDictionary:(NSDictionary *)values {
-    self.campaignID = [values valueForKeyAsInt:@"nid" nullValue:self.campaignID];
+    self.campaignID = [values valueForKeyAsInt:@"id" nullValue:self.campaignID];
 
     self.title = [values valueForKeyAsString:@"title" nullValue:self.title];
-    self.callToAction = [values valueForKeyAsString:@"call_to_action" nullValue:self.callToAction];
+    self.callToAction = [values valueForKeyAsString:@"tagline" nullValue:self.callToAction];
 
-    self.coverImage = [values[@"image_cover"] valueForKeyAsString:@"src" nullValue:self.coverImage];
+    self.coverImage = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsString:@"uri" nullValue:self.coverImage];
 
+    // Noun/verb properties not available thru API yet
+    /*
     self.reportbackNoun = [values valueForKeyAsString:@"reportback_verb" nullValue:self.reportbackNoun];
     self.reportbackVerb = [values valueForKeyAsString:@"reportback_verb" nullValue:self.reportbackVerb];
+     */
+    self.reportbackNoun = @"nouns";
+    self.reportbackVerb = @"verbed";
 
-    self.factProblem = [values[@"fact_problem"] valueForKeyAsString:@"fact" nullValue:self.factProblem];
-    self.factSolution = [values[@"fact_problem"] valueForKeyAsString:@"fact" nullValue:self.factSolution];
+    self.factProblem = [values[@"facts"] valueForKeyAsString:@"problem" nullValue:self.factProblem];
+    self.factSolution = [values[@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:self.factSolution];
 }
 
 - (NSURL *)coverImageURL {

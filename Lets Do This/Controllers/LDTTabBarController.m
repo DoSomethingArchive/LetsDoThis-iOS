@@ -51,7 +51,26 @@
         [[DSOSession currentSession].user campaignActions:^(NSArray *campaignActions, NSError *error) {
             
         }];
+        [DSOCampaign allCampaigns:^(NSArray *campaigns, NSError *error) {
+            NSLog(@"campaigns count: %li", [campaigns count]);
+            // For now, always refresh:
+            // If nothing stored:
+            // if ([DSOCampaign MR_findAll].count == 0) {
+                // Save some campaigns:
+                [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                    // Loop through campaigns found:
+                    for (NSDictionary *campaign in campaigns) {
+                        NSInteger campaignID = [campaign[@"id"] integerValue];
+                        [DSOCampaign campaignWithID:campaignID inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
+                            [localContext MR_saveToPersistentStoreAndWait];
+                        }];
+                    }
 
+                }];
+            //}
+        }];
+
+        /*
         if([DSOCampaign MR_findAll].count == 0) {
             [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                 [DSOCampaign campaignWithID:15 inContext:localContext completion:^(DSOCampaign *campaign, NSError *error) {
@@ -81,6 +100,7 @@
                 }];
             }];
         }
+        */
     }
 }
 
