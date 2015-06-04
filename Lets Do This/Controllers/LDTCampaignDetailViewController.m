@@ -10,4 +10,10 @@
 
 @implementation LDTCampaignDetailViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    if (self.campaign.title != nil) {
+        self.title = self.campaign.title;
+    }
+}
 @end

@@ -10,6 +10,7 @@
 #import "LDTCampaignActionsLayout.h"
 #import "LDTCampaignCollectionCell.h"
 #import "DSOCampaign.h"
+#import "LDTCampaignDetailViewController.h"
 
 @interface LDTCampaignActionsViewController ()
 @property (nonatomic, strong) NSArray *campaigns;
@@ -37,6 +38,18 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
+# pragma navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    // This feels pretty gross, but hey, it works.
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero
+                                           toView:self.collectionView];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:buttonPosition];
+    UINavigationController *destNavVC = segue.destinationViewController;
+    LDTCampaignDetailViewController *destVC = (LDTCampaignDetailViewController *)destNavVC.topViewController;
+    [destVC setCampaign:self.campaigns[indexPath.row]];
 }
 
 @end

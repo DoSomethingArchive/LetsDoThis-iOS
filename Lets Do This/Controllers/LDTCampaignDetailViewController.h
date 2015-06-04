@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DSOCampaign.h"
 
 @interface LDTCampaignDetailViewController : UITableViewController
-
+@property (nonatomic, strong) DSOCampaign *campaign;
 @end
