@@ -8,8 +8,8 @@
 
 #import "LDTLoginViewController.h"
 #import "LDTLoginRegNavigationController.h"
-
 #import "DSOSession.h"
+#import <TSMessages/TSMessage.h>
 
 
 @implementation LDTLoginViewController
@@ -18,6 +18,7 @@
     [super viewDidLoad];
     self.emailField.delegate = self;
     self.passwordField.delegate = self;
+    [TSMessage setDefaultViewController:self.navigationController];
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
@@ -34,6 +35,9 @@
             }
         } failure:^(NSError *error) {
             [self.passwordField becomeFirstResponder];
+            [TSMessage showNotificationWithTitle:@"Epic fail"
+                                        subtitle:error.localizedDescription
+                                            type:TSMessageNotificationTypeError];
         }];
     }
 }
