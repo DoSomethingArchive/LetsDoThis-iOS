@@ -168,7 +168,7 @@
 
     NSString *url = [NSString stringWithFormat:@"users/_id/%@/campaigns", self.userID];
     [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        campaignActionsBlock(nil, nil);
+        campaignActionsBlock(responseObject[@"data"], nil);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         campaignActionsBlock(nil, error);
     }];
