@@ -11,6 +11,7 @@
 #import "LDTCampaignCollectionCell.h"
 #import "DSOCampaign.h"
 #import "LDTCampaignDetailViewController.h"
+#import "TSMessage.h"
 
 @interface LDTCampaignActionsViewController ()
 @property (nonatomic, strong) NSArray *campaigns;
@@ -47,9 +48,19 @@
     CGPoint buttonPosition = [sender convertPoint:CGPointZero
                                            toView:self.collectionView];
     NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:buttonPosition];
+
     UINavigationController *destNavVC = segue.destinationViewController;
     LDTCampaignDetailViewController *destVC = (LDTCampaignDetailViewController *)destNavVC.topViewController;
-    [destVC setCampaign:self.campaigns[indexPath.row]];
+    DSOCampaign *campaign = self.campaigns[indexPath.row];
+    [destVC setCampaign:campaign];
+    [campaign signupFromSource:@"ios" completion:^(NSError *error) {
+        // Message is underneath when set to destNavVC,
+        // so setting to destVC for now (too much space though).
+        [TSMessage setDefaultViewController:destVC];
+        [TSMessage showNotificationWithTitle:@"Epic fail"
+                                    subtitle:error.localizedDescription
+                                        type:TSMessageNotificationTypeError];
+    }];
 }
 
 @end

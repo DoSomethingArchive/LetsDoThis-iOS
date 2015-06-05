@@ -140,7 +140,7 @@
 
 #warning should source be passed in or can we extract it from the application id/name?
 - (void)signupFromSource:(NSString *)source completion:(DSOCampaignSignupBlock)completionBlock {
-    NSString *url = [NSString stringWithFormat:@"campaigns/%ld/signup.json", (long)self.campaignID];
+    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)self.campaignID];
     NSDictionary *params = @{@"source": source};
     [[DSOSession currentSession] POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         if(completionBlock) {

@@ -49,7 +49,7 @@
     }
     else {
         [[DSOSession currentSession].user campaignActions:^(NSArray *campaignActions, NSError *error) {
-            
+            NSLog(@"campaignActions %@", campaignActions);
         }];
         [DSOCampaign allCampaigns:^(NSArray *campaigns, NSError *error) {
             NSLog(@"campaigns count: %li", [campaigns count]);
