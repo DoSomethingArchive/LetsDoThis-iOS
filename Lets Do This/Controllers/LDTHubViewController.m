@@ -19,7 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.user = [DSOSession currentSession].user;
-    NSLog(@"%@", self.user);
+    NSLog(@"campaignsDoing %@", self.user.campaignsDoing);
+    NSLog(@"campaignsCompleted %@", self.user.campaignsCompleted);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

@@ -8,6 +8,7 @@
 
 #import "DSOUser.h"
 #import "DSOSession.h"
+#import "DSOCampaign.h"
 #import "NSDictionary+DSOJsonHelper.h"
 #import "NSDate+DSO.h"
 #import "NSDictionary+DSOJsonHelper.h"
@@ -37,6 +38,8 @@
 @dynamic zipcode;
 
 @synthesize isAdmin = _isAdmin;
+@synthesize campaignsDoing = _campaignsDoing;
+@synthesize campaignsCompleted = _campaignsCompleted;
 
 + (DSOUser *)syncWithDictionary:(NSDictionary *)values inContext:(NSManagedObjectContext *)context {
     NSString *userID = [values valueForKeyAsString:@"_id"];
@@ -106,7 +109,6 @@
     self.email = [values valueForKeyAsString:@"email" nullValue:self.email];
     self.mobileNumber = [values valueForKeyAsString:@"mobile" nullValue:self.mobileNumber];
 
-
     self.firstName = [values valueForKeyAsString:@"first_name" nullValue:self.firstName];
     self.lastName = [values valueForKeyAsString:@"last_name" nullValue:self.lastName];
 
@@ -128,6 +130,13 @@
             self.isAdmin = YES;
         }
     }
+    // @todo: how often should this run?
+    // Clear activity.
+    self.campaignsDoing = [[NSMutableDictionary alloc] init];
+    self.campaignsCompleted = [[NSMutableDictionary alloc] init];
+    [self campaignActions:^(NSArray *campaignActions, NSError *error) {
+
+    }];
 }
 
 - (void)saveChanges:(DSOUserSaveBlock)completionBlock {
@@ -168,6 +177,17 @@
 
     NSString *url = [NSString stringWithFormat:@"users/_id/%@/campaigns", self.userID];
     [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+
+        for (NSMutableDictionary* campaignActivityData in responseObject[@"data"]) {
+            // If a reportback ID exists, this campaign has been completed.
+            if ([campaignActivityData objectForKey:@"reportback_id"]) {
+                self.campaignsCompleted[campaignActivityData[@"drupal_id"]] = campaignActivityData;
+            }
+            else {
+                self.campaignsDoing[campaignActivityData[@"drupal_id"]] = campaignActivityData;
+            }
+        }
+
         campaignActionsBlock(responseObject[@"data"], nil);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         campaignActionsBlock(nil, error);
