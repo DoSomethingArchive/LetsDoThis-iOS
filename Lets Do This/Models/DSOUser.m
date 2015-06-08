@@ -130,13 +130,12 @@
             self.isAdmin = YES;
         }
     }
+
     // @todo: how often should this run?
     // Clear activity.
     self.campaignsDoing = [[NSMutableDictionary alloc] init];
     self.campaignsCompleted = [[NSMutableDictionary alloc] init];
-    [self campaignActions:^(NSArray *campaignActions, NSError *error) {
-
-    }];
+    [self syncCampaignActivityWithArray:values[@"campaigns"]];
 }
 
 - (void)saveChanges:(DSOUserSaveBlock)completionBlock {
@@ -170,6 +169,23 @@
     }];
 }
 
+- (void)syncCampaignActivityWithArray:(NSArray *)activityData {
+    for (NSMutableDictionary* campaignActivityData in activityData) {
+        NSString *IDstring = campaignActivityData[@"drupal_id"];
+        DSOCampaign *campaign = [DSOCampaign MR_findFirstByAttribute:@"campaignID"
+                                                           withValue:IDstring];
+
+        // Store campaigns indexed by ID for easy status lookup by CampaignID.
+        if ([campaignActivityData objectForKey:@"reportback_id"]) {
+            self.campaignsCompleted[IDstring] = campaign;
+        }
+        else {
+            self.campaignsDoing[IDstring] = campaign;
+        }
+    }
+}
+
+// Do we need this function anymore?  Aren't campaigns always returned on the user object?
 - (void)campaignActions:(DSOUserCampaignActionsBlock)campaignActionsBlock {
     if(campaignActionsBlock == nil) {
         return;
@@ -177,21 +193,7 @@
 
     NSString *url = [NSString stringWithFormat:@"users/_id/%@/campaigns", self.userID];
     [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-
-        for (NSMutableDictionary* campaignActivityData in responseObject[@"data"]) {
-            NSString *IDstring = campaignActivityData[@"drupal_id"];
-            DSOCampaign *campaign = [DSOCampaign MR_findFirstByAttribute:@"campaignID"
-                                                            withValue:IDstring];
-
-            // Store campaigns indexed by ID for easy status lookup by CampaignID.
-            if ([campaignActivityData objectForKey:@"reportback_id"]) {
-                self.campaignsCompleted[IDstring] = campaign;
-            }
-            else {
-                self.campaignsDoing[IDstring] = campaign;
-            }
-        }
-
+        [self syncCampaignActivityWithArray:responseObject[@"data"]];
         campaignActionsBlock(responseObject[@"data"], nil);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         campaignActionsBlock(nil, error);
