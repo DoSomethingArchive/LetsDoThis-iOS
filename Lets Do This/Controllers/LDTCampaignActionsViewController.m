@@ -28,15 +28,10 @@
 
     self.campaigns = [DSOCampaign MR_findAllSortedBy:@"title" ascending:YES];
     self.user = [DSOSession currentSession].user;
-    NSLog(@"viewDidLoad self.user %@", self.user);
-     [self.collectionView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    // Testing if redeclaring here makes a difference.
-    self.user = [DSOSession currentSession].user;
-    NSLog(@"viewDidAppear self.user %@", self.user);
     [self.collectionView reloadData];
 }
 
