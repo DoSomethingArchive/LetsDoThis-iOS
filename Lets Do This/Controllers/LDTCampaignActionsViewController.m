@@ -12,10 +12,13 @@
 #import "DSOCampaign.h"
 #import "LDTCampaignDetailViewController.h"
 #import "TSMessage.h"
+#import "DSOSession.h"
+#import "DSOUser.h"
 
 @interface LDTCampaignActionsViewController ()
 @property (nonatomic, strong) NSArray *campaigns;
 @property (nonatomic, weak) IBOutlet LDTCampaignActionsLayout *layout;
+@property (nonatomic, strong) DSOUser *user;
 @end
 
 @implementation LDTCampaignActionsViewController
@@ -24,6 +27,16 @@
     [super viewDidLoad];
 
     self.campaigns = [DSOCampaign MR_findAllSortedBy:@"title" ascending:YES];
+    self.user = [DSOSession currentSession].user;
+    NSLog(@"viewDidLoad self.user %@", self.user);
+     [self.collectionView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // Testing if redeclaring here makes a difference.
+    self.user = [DSOSession currentSession].user;
+    NSLog(@"viewDidAppear self.user %@", self.user);
     [self.collectionView reloadData];
 }
 
@@ -32,8 +45,22 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+
     LDTCampaignCollectionCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
     cell.campaign = self.campaigns[indexPath.row];
+
+    NSString *IDstring = [NSString stringWithFormat:@"%li", cell.campaign.campaignID];
+    NSLog(@"IDString %@", IDstring);
+    NSString *actionTitle = @"Stop being bored";
+    NSLog(@"campaignsDoing %@", self.user.campaignsDoing);
+    if ([self.user.campaignsDoing objectForKey:IDstring]) {
+        actionTitle = @"Prove it";
+    }
+    else if ([self.user.campaignsCompleted objectForKey:IDstring]) {
+        actionTitle = @"Proved it";
+    }
+    [cell.actionButton setTitle:actionTitle forState:UIControlStateNormal];
+
     return cell;
 }
 

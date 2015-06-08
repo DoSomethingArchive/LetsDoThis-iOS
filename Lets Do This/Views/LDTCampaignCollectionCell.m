@@ -13,7 +13,6 @@
 @property (nonatomic, strong) IBOutlet UIImageView *backgroundImageView;
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
 @property (nonatomic, strong) IBOutlet UILabel *callToActionLabel;
-@property (weak, nonatomic) IBOutlet UIButton *actionButton;
 @property (nonatomic, strong) IBOutlet UILabel *factProblemLabel;
 @end
 
