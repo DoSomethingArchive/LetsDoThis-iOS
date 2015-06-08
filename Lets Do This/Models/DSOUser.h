@@ -50,5 +50,8 @@ typedef void (^DSOUserCampaignActionsBlock) (NSArray *campaignActions, NSError *
 @property (nonatomic, strong) NSString *zipcode;
 
 @property (nonatomic, readonly) BOOL canEdit;
+@property (nonatomic, strong) NSMutableDictionary *campaignsDoing;
+@property (nonatomic, strong) NSMutableDictionary *campaignsCompleted;
+
 
 @end
