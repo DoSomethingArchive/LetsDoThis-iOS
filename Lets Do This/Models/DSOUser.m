@@ -179,12 +179,16 @@
     [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
 
         for (NSMutableDictionary* campaignActivityData in responseObject[@"data"]) {
-            // If a reportback ID exists, this campaign has been completed.
+            NSString *IDstring = campaignActivityData[@"drupal_id"];
+            DSOCampaign *campaign = [DSOCampaign MR_findFirstByAttribute:@"campaignID"
+                                                            withValue:IDstring];
+
+            // Store campaigns indexed by ID for easy status lookup by CampaignID.
             if ([campaignActivityData objectForKey:@"reportback_id"]) {
-                self.campaignsCompleted[campaignActivityData[@"drupal_id"]] = campaignActivityData;
+                self.campaignsCompleted[IDstring] = campaign;
             }
             else {
-                self.campaignsDoing[campaignActivityData[@"drupal_id"]] = campaignActivityData;
+                self.campaignsDoing[IDstring] = campaign;
             }
         }
 
