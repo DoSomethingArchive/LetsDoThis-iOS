@@ -25,13 +25,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     self.campaigns = [DSOCampaign MR_findAllSortedBy:@"title" ascending:YES];
-    self.user = [DSOSession currentSession].user;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    self.user = [DSOSession currentSession].user;
     [self.collectionView reloadData];
 }
 
