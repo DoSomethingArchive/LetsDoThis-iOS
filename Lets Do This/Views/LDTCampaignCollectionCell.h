@@ -12,5 +12,6 @@
 @interface LDTCampaignCollectionCell : UICollectionViewCell
 
 @property (nonatomic, strong) DSOCampaign *campaign;
+@property (weak, nonatomic) IBOutlet UIButton *actionButton;
 
 @end
