@@ -174,7 +174,9 @@
         NSString *IDstring = campaignActivityData[@"drupal_id"];
         DSOCampaign *campaign = [DSOCampaign MR_findFirstByAttribute:@"campaignID"
                                                            withValue:IDstring];
-
+        if (campaign == nil) {
+            continue;
+        }
         // Store campaigns indexed by ID for easy status lookup by CampaignID.
         if ([campaignActivityData objectForKey:@"reportback_id"]) {
             self.campaignsCompleted[IDstring] = campaign;
