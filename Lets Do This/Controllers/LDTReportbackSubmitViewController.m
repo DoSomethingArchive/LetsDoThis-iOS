@@ -9,6 +9,7 @@
 #import "LDTReportbackSubmitViewController.h"
 
 @interface LDTReportbackSubmitViewController ()
+@property (strong, nonatomic) UIImagePickerController *picker;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *getImageButton;
 - (IBAction)getImageTapped:(id)sender;
@@ -20,6 +21,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Prove it";
+    self.picker = [[UIImagePickerController alloc] init];
+    self.picker.delegate = self;
+    self.picker.allowsEditing = YES;
 }
 
 - (IBAction)getImageTapped:(id)sender {
@@ -29,21 +33,35 @@
 - (void) getImageMenu {
     UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Prove it"
                                                                   message:@"Pics or it didn't happen!"                                                               preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *camera;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        camera = [UIAlertAction
+                  actionWithTitle:@"Take Photo"
+                  style:UIAlertActionStyleDefault
+                  handler:^(UIAlertAction * action)
+                  {
+                      self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                      [self presentViewController:self.picker animated:YES completion:NULL];
+                  }];
+    }
+    else {
+        camera = [UIAlertAction
+                  actionWithTitle:@"(Camera Unavailable)"
+                  style:UIAlertActionStyleDefault
+                  handler:^(UIAlertAction * action)
+                  {
+                      [view dismissViewControllerAnimated:YES completion:nil];
+                  }];
+    }
 
-    UIAlertAction *camera = [UIAlertAction
-                              actionWithTitle:@"Take Photo"
-                              style:UIAlertActionStyleDefault
-                              handler:^(UIAlertAction * action)
-                              {
-                                  [view dismissViewControllerAnimated:YES completion:nil];
-                              }];
 
     UIAlertAction *library = [UIAlertAction
                              actionWithTitle:@"Choose From Library"
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
-                                 [view dismissViewControllerAnimated:YES completion:nil];
+                                 self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                                 [self presentViewController:self.picker animated:YES completion:NULL];
                              }];
     UIAlertAction *cancel = [UIAlertAction
                              actionWithTitle:@"Cancel"
