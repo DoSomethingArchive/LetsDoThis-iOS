@@ -7,8 +7,11 @@
 //
 
 #import "LDTReportbackSubmitViewController.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface LDTReportbackSubmitViewController ()
+@property (strong, nonatomic) NSString *selectedFilename;
+@property (strong, nonatomic) NSString *selectedFilestring;
 @property (strong, nonatomic) UIImagePickerController *picker;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *getImageButton;
@@ -74,5 +77,40 @@
     [view addAction:library];
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];
+}
+#pragma mark - Image Picker Controller delegate methods
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+    self.imageView.image = chosenImage;
+    self.selectedFilestring = [UIImagePNGRepresentation(chosenImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        // Use JPG to preserve the JPG extension (what camera saves file as).
+        self.selectedFilename = @"temp.JPG";
+        [picker dismissViewControllerAnimated:YES completion:NULL];
+        return;
+    }
+
+
+    // Get filename of selected file to preserve its file extension.
+    NSURL *refURL = [info valueForKey:UIImagePickerControllerReferenceURL];
+    ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *imageAsset)
+    {
+        ALAssetRepresentation *imageRep = [imageAsset defaultRepresentation];
+        self.selectedFilename = [imageRep filename];
+    };
+    // Get the asset library and fetch the asset based on the ref url (pass in block above).
+    ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+    [assetslibrary assetForURL:refURL resultBlock:resultblock failureBlock:nil];
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+
+    // @todo: self.selectedFilename is null.. not sure whats going on here.
+    NSLog(@"self.selectedFilename %@", self.selectedFilename);
+
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 @end
