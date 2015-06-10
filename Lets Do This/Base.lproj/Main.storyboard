@@ -707,11 +707,36 @@ activities and group up with friends.</string>
                             <outlet property="delegate" destination="Sgi-Fp-xHk" id="CP4-cz-5gr"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="qsv-Et-cUH"/>
+                    <navigationItem key="navigationItem" id="qsv-Et-cUH">
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="WBe-KD-MGJ">
+                            <connections>
+                                <segue destination="PqD-ac-ADC" kind="show" id="bqK-Dq-GJI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cwc-6q-Ooe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3072" y="-648"/>
+        </scene>
+        <!--Photo Capture View Controller-->
+        <scene sceneID="gR6-1I-UU7">
+            <objects>
+                <viewController id="LY8-KF-GV5" customClass="LTDPhotoCaptureViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sgj-BF-pov"/>
+                        <viewControllerLayoutGuide type="bottom" id="Gyq-NV-kdg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2Au-5M-9Mg">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="t5O-Tw-qRC"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bTH-xr-RmP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4893" y="-648"/>
         </scene>
         <!--Settings-->
         <scene sceneID="Wbr-u3-DYX">
@@ -850,6 +875,24 @@ activities and group up with friends.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ihh-tZ-C4J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2260" y="-648"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Mti-dm-BRW">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PqD-ac-ADC" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="coH-iA-IK4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="LY8-KF-GV5" kind="relationship" relationship="rootViewController" id="vkU-OG-c3U"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TXN-Sf-QzO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4081" y="-648"/>
         </scene>
     </scenes>
     <resources>
