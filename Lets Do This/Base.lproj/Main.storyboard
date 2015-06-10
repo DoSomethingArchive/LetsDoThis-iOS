@@ -710,7 +710,7 @@ activities and group up with friends.</string>
                     <navigationItem key="navigationItem" id="qsv-Et-cUH">
                         <barButtonItem key="rightBarButtonItem" systemItem="camera" id="WBe-KD-MGJ">
                             <connections>
-                                <segue destination="PqD-ac-ADC" kind="show" id="bqK-Dq-GJI"/>
+                                <segue destination="2dc-IZ-WCD" kind="show" id="zb8-2H-WVy"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -719,24 +719,100 @@ activities and group up with friends.</string>
             </objects>
             <point key="canvasLocation" x="3072" y="-648"/>
         </scene>
-        <!--Photo Capture View Controller-->
-        <scene sceneID="gR6-1I-UU7">
+        <!--Reportback Submit View Controller-->
+        <scene sceneID="PwR-aY-00Y">
             <objects>
-                <viewController id="LY8-KF-GV5" customClass="LTDPhotoCaptureViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="sgj-BF-pov"/>
-                        <viewControllerLayoutGuide type="bottom" id="Gyq-NV-kdg"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2Au-5M-9Mg">
+                <tableViewController id="5Po-B3-Jvj" customClass="LDTReportbackSubmitViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="utk-yU-Fdk">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="t5O-Tw-qRC"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bTH-xr-RmP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <sections>
+                            <tableViewSection id="QhE-0i-bwT">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="300" id="7YO-kD-3pD">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7YO-kD-3pD" id="s3F-TM-cUn">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WLL-XZ-dBI">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="299"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U12-Kl-XBd">
+                                                    <rect key="frame" x="280" y="135" width="41" height="30"/>
+                                                    <state key="normal" title="Photo">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="getImageTapped:" destination="5Po-B3-Jvj" eventType="touchUpInside" id="yh8-rT-jEx"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerX" secondItem="U12-Kl-XBd" secondAttribute="centerX" id="1Sf-DR-xtn"/>
+                                                <constraint firstAttribute="centerY" secondItem="U12-Kl-XBd" secondAttribute="centerY" id="Rdu-Gx-iu2"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="gn1-xr-xZz">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gn1-xr-xZz" id="B8c-cQ-elr">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Number of nouns verbed" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EMw-Ld-DSi">
+                                                    <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerX" secondItem="EMw-Ld-DSi" secondAttribute="centerX" id="ii8-oN-Ddv"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="EMw-Ld-DSi" secondAttribute="trailing" id="prd-fz-qjJ"/>
+                                                <constraint firstAttribute="centerY" secondItem="EMw-Ld-DSi" secondAttribute="centerY" id="s6o-8F-8rk"/>
+                                                <constraint firstItem="EMw-Ld-DSi" firstAttribute="leading" secondItem="B8c-cQ-elr" secondAttribute="leadingMargin" id="wPm-Y3-tgZ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Xah-uI-ytX">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xah-uI-ytX" id="MtJ-NR-Y2g">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Caption your photo" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="N9W-HS-6TY">
+                                                    <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerX" secondItem="N9W-HS-6TY" secondAttribute="centerX" id="HqM-Zd-fFp"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="N9W-HS-6TY" secondAttribute="trailing" id="fyG-ZQ-44H"/>
+                                                <constraint firstItem="N9W-HS-6TY" firstAttribute="leading" secondItem="MtJ-NR-Y2g" secondAttribute="leadingMargin" id="nzp-fz-qEx"/>
+                                                <constraint firstAttribute="centerY" secondItem="N9W-HS-6TY" secondAttribute="centerY" id="od0-ob-alw"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="5Po-B3-Jvj" id="6bo-yZ-BT4"/>
+                            <outlet property="delegate" destination="5Po-B3-Jvj" id="OQg-oN-ium"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="khg-TK-UgK">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="2GH-uH-ffU"/>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="getImageButton" destination="U12-Kl-XBd" id="qbs-Ps-UM4"/>
+                        <outlet property="imageView" destination="WLL-XZ-dBI" id="bhn-5a-gR0"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J87-4j-SGd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4893" y="-648"/>
+            <point key="canvasLocation" x="4890" y="-648"/>
         </scene>
         <!--Settings-->
         <scene sceneID="Wbr-u3-DYX">
@@ -877,22 +953,22 @@ activities and group up with friends.</string>
             <point key="canvasLocation" x="2260" y="-648"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="Mti-dm-BRW">
+        <scene sceneID="dFA-YY-Pdd">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PqD-ac-ADC" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2dc-IZ-WCD" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="coH-iA-IK4">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DKA-9O-Y9v">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="LY8-KF-GV5" kind="relationship" relationship="rootViewController" id="vkU-OG-c3U"/>
+                        <segue destination="5Po-B3-Jvj" kind="relationship" relationship="rootViewController" id="zGv-XC-Uge"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TXN-Sf-QzO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0f3-k3-feJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4081" y="-648"/>
+            <point key="canvasLocation" x="4078" y="-648"/>
         </scene>
     </scenes>
     <resources>
