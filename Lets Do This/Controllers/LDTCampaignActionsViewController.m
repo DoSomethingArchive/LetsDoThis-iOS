@@ -74,13 +74,29 @@
     LDTCampaignDetailViewController *destVC = (LDTCampaignDetailViewController *)destNavVC.topViewController;
     DSOCampaign *campaign = self.campaigns[indexPath.row];
     [destVC setCampaign:campaign];
+    NSString *IDstring = [NSString stringWithFormat:@"%li", campaign.campaignID];
+
+    // If doing or completed, exit function.
+    if ([self.user.campaignsDoing objectForKey:IDstring] || [self.user.campaignsCompleted objectForKey:IDstring]) {
+        return;
+    }
+
     [campaign signupFromSource:@"ios" completion:^(NSError *error) {
         // Message is underneath when set to destNavVC,
         // so setting to destVC for now (too much space though).
         [TSMessage setDefaultViewController:destVC];
-        [TSMessage showNotificationWithTitle:@"Epic fail"
-                                    subtitle:error.localizedDescription
-                                        type:TSMessageNotificationTypeError];
+        // Hack until we figure out block syntax.
+        if (error.localizedDescription == nil) {
+            [TSMessage showNotificationWithTitle:@"You're signed up!"
+                                        subtitle:@"Take a photo and rock this shit!"
+                                            type:TSMessageNotificationTypeSuccess];
+        }
+        else {
+            [TSMessage showNotificationWithTitle:@"Epic fail"
+                                        subtitle:error.localizedDescription
+                                            type:TSMessageNotificationTypeError];
+        }
+
     }];
 }
 
