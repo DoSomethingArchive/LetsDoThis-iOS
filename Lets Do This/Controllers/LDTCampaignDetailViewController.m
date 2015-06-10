@@ -16,4 +16,62 @@
         self.title = self.campaign.title;
     }
 }
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *header = nil;
+    switch (section) {
+        case 1:
+            header = @"Fuck that noise";
+            break;
+        case 2:
+            header = @"People doing it";
+            break;
+    }
+    return header;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 1) {
+        return 2;
+    }
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        return 104;
+    }
+    return 22;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *text;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"campaignDetailCell" forIndexPath:indexPath];
+
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            text = self.campaign.callToAction;
+            cell.textLabel.numberOfLines = 3;
+            cell.textLabel.textAlignment =  NSTextAlignmentCenter;
+        }
+    }
+    else if (indexPath.section == 1) {
+        text = @"Allo, mate";
+        if (indexPath.row == 0) {
+            text = self.campaign.factSolution;
+        }
+    }
+    else if (indexPath.section == 2) {
+        text = @"Reportback pic";
+    }
+    cell.textLabel.text = text;
+    return cell;
+}
+
+
 @end

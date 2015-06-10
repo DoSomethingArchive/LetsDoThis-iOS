@@ -10,4 +10,10 @@
 
 @implementation LTDPhotoCaptureViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title = @"Prove it";
+}
+
+
 @end
