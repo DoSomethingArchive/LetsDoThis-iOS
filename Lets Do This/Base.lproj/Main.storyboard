@@ -738,7 +738,20 @@ activities and group up with friends.</string>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WLL-XZ-dBI">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="299"/>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U12-Kl-XBd">
+                                                    <rect key="frame" x="280" y="135" width="41" height="30"/>
+                                                    <state key="normal" title="Photo">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="getImageTapped:" destination="5Po-B3-Jvj" eventType="touchUpInside" id="yh8-rT-jEx"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerX" secondItem="U12-Kl-XBd" secondAttribute="centerX" id="1Sf-DR-xtn"/>
+                                                <constraint firstAttribute="centerY" secondItem="U12-Kl-XBd" secondAttribute="centerY" id="Rdu-Gx-iu2"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="gn1-xr-xZz">
@@ -787,9 +800,15 @@ activities and group up with friends.</string>
                             <outlet property="delegate" destination="5Po-B3-Jvj" id="OQg-oN-ium"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="khg-TK-UgK">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="2GH-uH-ffU"/>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="getImageButton" destination="U12-Kl-XBd" id="qbs-Ps-UM4"/>
+                        <outlet property="imageView" destination="WLL-XZ-dBI" id="bhn-5a-gR0"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J87-4j-SGd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

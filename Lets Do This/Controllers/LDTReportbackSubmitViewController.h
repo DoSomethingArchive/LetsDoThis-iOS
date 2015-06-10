@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LDTReportbackSubmitViewController : UITableViewController
+@interface LDTReportbackSubmitViewController : UITableViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @end
