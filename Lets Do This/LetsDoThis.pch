@@ -15,6 +15,6 @@
 #import <CoreData/CoreData.h>
 #import "DSOSession.h"
 #import "LDTImportQueue.h"
-#import <MagicalRecord/CoreData+MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 #endif
