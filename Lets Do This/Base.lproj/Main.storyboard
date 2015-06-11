@@ -714,6 +714,9 @@ activities and group up with friends.</string>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="proveButton" destination="WBe-KD-MGJ" id="nsC-jt-bTt"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cwc-6q-Ooe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

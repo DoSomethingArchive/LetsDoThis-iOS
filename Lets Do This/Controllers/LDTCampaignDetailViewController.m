@@ -7,6 +7,12 @@
 //
 
 #import "LDTCampaignDetailViewController.h"
+#import "LDTReportbackSubmitViewController.h"
+
+@interface LDTCampaignDetailViewController()
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *proveButton;
+
+@end
 
 @implementation LDTCampaignDetailViewController
 
@@ -73,5 +79,15 @@
     return cell;
 }
 
+# pragma navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    UINavigationController *destNavVC = segue.destinationViewController;
+    if (sender != self.proveButton) {
+        return;
+    }
+    LDTReportbackSubmitViewController *destVC = (LDTReportbackSubmitViewController *)destNavVC.topViewController;
+    [destVC setCampaign:self.campaign];
+}
 
 @end
