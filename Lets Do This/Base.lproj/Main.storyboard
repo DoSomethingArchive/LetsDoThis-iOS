@@ -820,7 +820,11 @@ activities and group up with friends.</string>
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="khg-TK-UgK">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="2GH-uH-ffU"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="2GH-uH-ffU">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="5Po-B3-Jvj" id="3mG-fu-rPh"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>

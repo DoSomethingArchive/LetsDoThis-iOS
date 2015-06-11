@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *saveButton;
 @property (weak, nonatomic) IBOutlet UIButton *getImageButton;
 - (IBAction)getImageTapped:(id)sender;
+- (IBAction)saveButtonTapped:(id)sender;
 
 @end
 
@@ -33,6 +34,10 @@
 
 - (IBAction)getImageTapped:(id)sender {
     [self getImageMenu];
+}
+
+- (IBAction)saveButtonTapped:(id)sender {
+     [self.tabBarController setSelectedIndex:1];
 }
 
 - (void) getImageMenu {
