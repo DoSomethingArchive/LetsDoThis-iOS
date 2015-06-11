@@ -821,8 +821,11 @@ activities and group up with friends.</string>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="captionTextField" destination="N9W-HS-6TY" id="eyg-8P-kZm"/>
                         <outlet property="getImageButton" destination="U12-Kl-XBd" id="qbs-Ps-UM4"/>
                         <outlet property="imageView" destination="WLL-XZ-dBI" id="bhn-5a-gR0"/>
+                        <outlet property="quantityTextField" destination="EMw-Ld-DSi" id="2p3-9R-hiI"/>
+                        <outlet property="saveButton" destination="2GH-uH-ffU" id="N6P-et-kI3"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J87-4j-SGd" userLabel="First Responder" sceneMemberID="firstResponder"/>
