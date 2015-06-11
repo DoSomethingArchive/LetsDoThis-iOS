@@ -714,6 +714,9 @@ activities and group up with friends.</string>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="proveButton" destination="WBe-KD-MGJ" id="nsC-jt-bTt"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cwc-6q-Ooe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -735,11 +738,11 @@ activities and group up with friends.</string>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7YO-kD-3pD" id="s3F-TM-cUn">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WLL-XZ-dBI">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="299"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WLL-XZ-dBI">
+                                                    <rect key="frame" x="8" y="8" width="584" height="283"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U12-Kl-XBd">
-                                                    <rect key="frame" x="280" y="135" width="41" height="30"/>
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U12-Kl-XBd">
+                                                    <rect key="frame" x="8" y="8" width="600" height="288"/>
                                                     <state key="normal" title="Photo">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -750,8 +753,23 @@ activities and group up with friends.</string>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="centerX" secondItem="U12-Kl-XBd" secondAttribute="centerX" id="1Sf-DR-xtn"/>
+                                                <constraint firstItem="WLL-XZ-dBI" firstAttribute="leading" secondItem="s3F-TM-cUn" secondAttribute="leadingMargin" id="3hB-7z-LON"/>
+                                                <constraint firstItem="U12-Kl-XBd" firstAttribute="top" secondItem="WLL-XZ-dBI" secondAttribute="top" id="94e-BB-Hfm"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="WLL-XZ-dBI" secondAttribute="trailing" id="BNo-EV-aXU"/>
                                                 <constraint firstAttribute="centerY" secondItem="U12-Kl-XBd" secondAttribute="centerY" id="Rdu-Gx-iu2"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="U12-Kl-XBd" secondAttribute="trailing" constant="-23" id="dva-yE-wMc"/>
+                                                <constraint firstItem="WLL-XZ-dBI" firstAttribute="top" secondItem="s3F-TM-cUn" secondAttribute="topMargin" id="qek-rx-xWQ"/>
+                                                <constraint firstItem="U12-Kl-XBd" firstAttribute="leading" secondItem="WLL-XZ-dBI" secondAttribute="leading" id="tst-wZ-TOJ"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="WLL-XZ-dBI" secondAttribute="bottom" id="vuy-Yk-yEN"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="U12-Kl-XBd" secondAttribute="bottom" constant="-5" id="ygg-Vr-YHQ"/>
+                                                <constraint firstItem="U12-Kl-XBd" firstAttribute="leading" secondItem="s3F-TM-cUn" secondAttribute="leadingMargin" constant="-7" id="znW-Dj-ppc"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="1Sf-DR-xtn"/>
+                                                    <exclude reference="Rdu-Gx-iu2"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="gn1-xr-xZz">
@@ -802,12 +820,19 @@ activities and group up with friends.</string>
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="khg-TK-UgK">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="2GH-uH-ffU"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="2GH-uH-ffU">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="5Po-B3-Jvj" id="3mG-fu-rPh"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="captionTextField" destination="N9W-HS-6TY" id="eyg-8P-kZm"/>
                         <outlet property="getImageButton" destination="U12-Kl-XBd" id="qbs-Ps-UM4"/>
                         <outlet property="imageView" destination="WLL-XZ-dBI" id="bhn-5a-gR0"/>
+                        <outlet property="quantityTextField" destination="EMw-Ld-DSi" id="2p3-9R-hiI"/>
+                        <outlet property="saveButton" destination="2GH-uH-ffU" id="N6P-et-kI3"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J87-4j-SGd" userLabel="First Responder" sceneMemberID="firstResponder"/>

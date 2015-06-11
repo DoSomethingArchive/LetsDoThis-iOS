@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DSOCampaign.h"
 
 @interface LDTReportbackSubmitViewController : UITableViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
-
+@property (strong, nonatomic) DSOCampaign *campaign;
 @end
