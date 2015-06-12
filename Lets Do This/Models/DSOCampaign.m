@@ -104,7 +104,7 @@
     NSString *url = @"campaigns.json?parameters[is_staff_pick]=1";
     [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSArray *response) {
         NSMutableArray *campaigns = [NSMutableArray arrayWithCapacity:response.count];
-        for(NSDictionary *campaignData in response) {
+        for (NSDictionary *campaignData in response) {
             DSOCampaign *campaign = [[DSOCampaign alloc] init];
             [campaign syncWithDictionary:campaignData];
             [campaigns addObject:campaign];
@@ -188,6 +188,22 @@
     }];
 }
 
+- (void)reportbackItemsWithStatus:(NSString *)status :(DSOCampaignListBlock)completionBlock;{
+    NSString *url = [NSString stringWithFormat:@"reportback-items.json?campaigns=%li&status=%@", self.campaignID, status];
+    AFHTTPSessionManager *legacySession = [[DSOSession currentSession] legacyServerSession];
+
+    [legacySession GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+        NSArray *reportbackItemsResponse = response[@"data"];
+        NSMutableArray *reportbackItems = [NSMutableArray arrayWithCapacity:reportbackItemsResponse.count];
+        for(NSDictionary *reportbackItemData in response[@"data"]) {
+
+            [reportbackItems addObject:reportbackItemData];
+        }
+        completionBlock([reportbackItems copy], nil);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"error %@", error.localizedDescription);
+    }];
+}
 
 - (void)syncWithDictionary:(NSDictionary *)values {
     self.campaignID = [values valueForKeyAsInt:@"id" nullValue:self.campaignID];

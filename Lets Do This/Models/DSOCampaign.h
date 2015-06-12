@@ -42,6 +42,8 @@ typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
 - (void)reportbackValues:(NSDictionary *)values completionHandler:(DSOCampaignReportBackBlock)completionBlock;
 - (void)reportbacksInInbox:(NSInteger)maxNumber completionHandler:(DSOCampaignInboxReportBackBlock)completionBlock;
 
+// Define this here for now.
+- (void)reportbackItemsWithStatus:(NSString *)status :(DSOCampaignListBlock)completionBlock;
 
 @property (nonatomic) NSInteger campaignID;
 @property (strong, nonatomic) NSString *title;
