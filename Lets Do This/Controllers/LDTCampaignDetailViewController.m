@@ -10,8 +10,8 @@
 #import "LDTReportbackSubmitViewController.h"
 
 @interface LDTCampaignDetailViewController()
+@property (strong, nonatomic) NSArray *reportbackItems;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *proveButton;
-
 @end
 
 @implementation LDTCampaignDetailViewController
@@ -21,6 +21,9 @@
     if (self.campaign.title != nil) {
         self.title = self.campaign.title;
     }
+    [self.campaign reportbackItemsWithStatus:@"promoted" :^(NSArray *reportbackItems, NSError *error) {
+        NSLog(@"reportbackItems %@", reportbackItems);
+    }];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
