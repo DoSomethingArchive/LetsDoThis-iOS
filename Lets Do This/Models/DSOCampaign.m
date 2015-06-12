@@ -155,13 +155,15 @@
 
 #warning should take in a new DSOReportback object
 - (void)reportbackValues:(NSDictionary *)values completionHandler:(DSOCampaignReportBackBlock)completionHandler {
-    NSString *url = [NSString stringWithFormat:@"campaigns/%ld/reportback.json", (long)self.campaignID];
+    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/reportback", (long)self.campaignID];
     [[DSOSession currentSession] POST:url parameters:values success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"success %@", responseObject);
         if(completionHandler) {
             completionHandler(responseObject, nil);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         if(completionHandler) {
+            NSLog(@"error %@", error);
             completionHandler(nil, error);
         }
     }];
