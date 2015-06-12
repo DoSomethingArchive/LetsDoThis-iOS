@@ -8,6 +8,8 @@
 
 #import "LDTCampaignDetailViewController.h"
 #import "LDTReportbackSubmitViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
 
 @interface LDTCampaignDetailViewController()
 @property (strong, nonatomic) NSArray *reportbackItems;
@@ -82,6 +84,12 @@
     else if (indexPath.section == 2) {
         NSDictionary *reportbackItem = self.reportbackItems[indexPath.row];
         text = reportbackItem[@"caption"];
+        NSURL *imageUrl = [NSURL URLWithString:[reportbackItem valueForKeyPath:@"media.uri"]];
+        NSLog(@"imageUrl %@", imageUrl);
+
+        [cell.imageView sd_setImageWithURL:imageUrl];
+        // Bizarre hack to get the reportback image to display.
+        cell.imageView.image = [UIImage imageNamed:@"ds-logo"];
     }
     cell.textLabel.text = text;
     return cell;
