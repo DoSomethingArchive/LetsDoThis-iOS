@@ -37,7 +37,19 @@
 }
 
 - (IBAction)saveButtonTapped:(id)sender {
-     [self.tabBarController setSelectedIndex:1];
+    [self submitReportback];
+    [self.tabBarController setSelectedIndex:1];
+}
+
+- (void) submitReportback {
+    NSDictionary *values = @{@"quantity" : self.quantityTextField.text,
+                             @"why_participated" : self.captionTextField.text,
+                             @"caption" : self.captionTextField.text,
+                             @"file": self.selectedFilestring};
+    NSLog(@"values %@", values)
+    ;    [self.campaign reportbackValues:values completionHandler:^(NSDictionary *response, NSError *error) {
+        NSLog(@"response %@", response);
+    }];
 }
 
 - (void) getImageMenu {
