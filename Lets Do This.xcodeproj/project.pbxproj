@@ -388,6 +388,7 @@
 				C2B151E61ACE04C30028C336 /* Frameworks */,
 				C2B151E71ACE04C30028C336 /* Resources */,
 				57A97D3FE5F4843F35259D92 /* Copy Pods Resources */,
+				EA5104091B28E78300CE79DD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -506,6 +507,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		EA5104091B28E78300CE79DD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=/usr/local/bin:$PATH\ncd /Users/tongxiang/dosomething/LetsDoThis-iOS/parse\n\nparse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

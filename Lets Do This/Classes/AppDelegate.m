@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DSOSession.h"
 #import <Parse/Parse.h>
+#import <ParseCrashReporting/ParseCrashReporting.h>
 
 @interface AppDelegate ()
 
@@ -23,6 +24,8 @@
     NSDictionary *keysDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
 
     [DSOSession setupWithAPIKey:keysDictionary[@"northstarApiKey"] environment:DSOSessionEnvironmentProduction];
+    
+    [ParseCrashReporting enable];
 
     [Parse setApplicationId:keysDictionary[@"parseApplicationId"] clientKey:keysDictionary[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
@@ -32,6 +35,10 @@
                                                                              categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [NSException raise:NSGenericException format:@"Everything is ok. This is just a test crash."];
+    });
 
     return YES;
 }
