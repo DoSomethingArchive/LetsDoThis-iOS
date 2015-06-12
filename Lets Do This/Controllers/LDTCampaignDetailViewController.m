@@ -22,7 +22,8 @@
         self.title = self.campaign.title;
     }
     [self.campaign reportbackItemsWithStatus:@"promoted" :^(NSArray *reportbackItems, NSError *error) {
-        NSLog(@"reportbackItems %@", reportbackItems);
+        self.reportbackItems = reportbackItems;
+        [self.tableView reloadData];
     }];
 }
 
@@ -46,6 +47,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 1) {
         return 2;
+    }
+    else if (section == 2) {
+        return [self.reportbackItems count];
     }
     return 1;
 }
@@ -76,7 +80,8 @@
         }
     }
     else if (indexPath.section == 2) {
-        text = @"Reportback pic";
+        NSDictionary *reportbackItem = self.reportbackItems[indexPath.row];
+        text = reportbackItem[@"caption"];
     }
     cell.textLabel.text = text;
     return cell;
