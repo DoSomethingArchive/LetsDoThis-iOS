@@ -22,7 +22,12 @@
 
     NSDictionary *keysDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
 
-    [DSOSession setupWithAPIKey:keysDictionary[@"northstarApiKey"] environment:DSOSessionEnvironmentProduction];
+    NSString *apiKey = @"northstarLiveKey";
+    if (DEBUG) {
+        apiKey = @"northstarTestKey";
+    }
+    // @todo: Use environment param correctly (GH #93)
+    [DSOSession setupWithAPIKey:keysDictionary[apiKey] environment:DSOSessionEnvironmentProduction];
 
     [Parse setApplicationId:keysDictionary[@"parseApplicationId"] clientKey:keysDictionary[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
