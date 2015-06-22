@@ -10,4 +10,5 @@ target 'Lets Do This' do
     pod 'SDWebImage', '~> 3.7.2'
     pod 'SSKeychain', '~> 1.2'
     pod 'TSMessages', '~> 0.9'
+    pod 'ParseCrashReporting', '~> 1.7'
 end

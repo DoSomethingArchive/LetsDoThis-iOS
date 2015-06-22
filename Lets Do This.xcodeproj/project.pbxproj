@@ -388,6 +388,7 @@
 				C2B151E61ACE04C30028C336 /* Frameworks */,
 				C2B151E71ACE04C30028C336 /* Resources */,
 				57A97D3FE5F4843F35259D92 /* Copy Pods Resources */,
+				EAD8A0231B2B377A00AE646B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -506,6 +507,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		EAD8A0231B2B377A00AE646B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Parse Crash Reporting\"\nexport PATH=/usr/local/bin:$PATH\nCLOUD_CODE_DIR=${PROJECT_DIR}/parse\n\nif [ -d ${CLOUD_CODE_DIR} ]; then\ncd ${CLOUD_CODE_DIR}\nparse symbols MyApp --path=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\necho \"Finished uploading symbol\"\nelse\necho \"Unable to upload symbols\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DSOSession.h"
 #import <Parse/Parse.h>
+#import <ParseCrashReporting/ParseCrashReporting.h>
 
 @interface AppDelegate ()
 
@@ -23,6 +24,8 @@
     NSDictionary *keysDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
 
     [DSOSession setupWithAPIKey:keysDictionary[@"northstarApiKey"] environment:DSOSessionEnvironmentProduction];
+    
+    [ParseCrashReporting enable];
 
     [Parse setApplicationId:keysDictionary[@"parseApplicationId"] clientKey:keysDictionary[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
