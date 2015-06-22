@@ -19,9 +19,11 @@
 #ifdef DEBUG
 #define DSOPROTOCOL @"http"
 #define DSOSERVER @"staging.beta.dosomething.org"
+#define LDTSERVER @"northstar-qa.dosomething.org"
 #else
 #define DSOPROTOCOL @"https"
 #define DSOSERVER @"www.dosomething.org"
+#define LDTSERVER @"northstar.dosomething.org"
 #endif
 
 
@@ -172,7 +174,7 @@ static NSString *_APIKey;
 }
 
 - (instancetype)init {
-    NSURL *baseURL = [NSURL URLWithString:@"https://api.dosomething.org/v1/"];
+    NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/v1/", DSOPROTOCOL, LDTSERVER]];
     self = [super initWithBaseURL:baseURL];
 
     if (self != nil) {
