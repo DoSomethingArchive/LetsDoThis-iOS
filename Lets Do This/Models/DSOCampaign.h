@@ -17,7 +17,6 @@ typedef void (^DSOCampaignBlock)(DSOCampaign *campaign, NSError *error);
 typedef void (^DSOCampaignActivityBlock)(DSOCampaignActivity *activity, NSError *error);
 typedef void (^DSOCampaignSignupBlock)(NSError *error);
 typedef void (^DSOCampaignReportBackBlock)(NSDictionary *response, NSError *error);
-typedef void (^DSOCampaignInboxReportBackBlock)(NSError *error);
 
 typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
     DSOCampaignInterestGroup1,
@@ -34,15 +33,11 @@ typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
 + (void)campaignWithID:(NSInteger)campaignID inContext:(NSManagedObjectContext *)context completion:(DSOCampaignBlock)completionBlock;
 
 + (void)allCampaigns:(DSOCampaignListBlock)completionBlock;
-+ (void)staffPickCampaigns:(DSOCampaignListBlock)completionBlock;
-+ (void)reportbacksInInboxForCampaignID:(NSInteger)campaignID maxNumber:(NSInteger)maxNumber completionBlock:(DSOCampaignInboxReportBackBlock)completionBlock;
 
-- (void)myActivity:(DSOCampaignActivityBlock)completionBlock;
 - (void)signupFromSource:(NSString *)source completion:(DSOCampaignSignupBlock)completionBlock;
-- (void)reportbackValues:(NSDictionary *)values completionHandler:(DSOCampaignReportBackBlock)completionBlock;
-- (void)reportbacksInInbox:(NSInteger)maxNumber completionHandler:(DSOCampaignInboxReportBackBlock)completionBlock;
 
-// Define this here for now.
+- (void)reportbackValues:(NSDictionary *)values completionHandler:(DSOCampaignReportBackBlock)completionBlock;
+
 - (void)reportbackItemsWithStatus:(NSString *)status :(DSOCampaignListBlock)completionBlock;
 
 @property (nonatomic) NSInteger campaignID;

@@ -96,48 +96,6 @@
     }];
 }
 
-+ (void)staffPickCampaigns:(DSOCampaignListBlock)completionBlock {
-    if (completionBlock == nil) {
-        return;
-    }
-
-    NSString *url = @"campaigns.json?parameters[is_staff_pick]=1";
-    [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSArray *response) {
-        NSMutableArray *campaigns = [NSMutableArray arrayWithCapacity:response.count];
-        for (NSDictionary *campaignData in response) {
-            DSOCampaign *campaign = [[DSOCampaign alloc] init];
-            [campaign syncWithDictionary:campaignData];
-            [campaigns addObject:campaign];
-        }
-
-        completionBlock([campaigns copy], nil);
-
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        completionBlock(nil, error);
-    }];
-}
-
-+ (void)reportbacksInInboxForCampaignID:(NSInteger)campaignID maxNumber:(NSInteger)maxNumber completionBlock:(DSOCampaignInboxReportBackBlock)completionBlock {
-    DSOCampaign *campaign = [[DSOCampaign alloc] init];
-    campaign.campaignID = campaignID;
-    [campaign reportbacksInInbox:maxNumber completionHandler:completionBlock];
-}
-
-
-- (void)myActivity:(DSOCampaignActivityBlock)completionBlock {
-    if(completionBlock == nil) {
-        return;
-    }
-
-    NSString *url = [NSString stringWithFormat:@"users/current/activity.json?nid=%ld", (long)self.campaignID];
-    [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *response) {
-        DSOCampaignActivity *activity = [[DSOCampaignActivity alloc] initWithDictionary:response];
-        completionBlock(activity, nil);
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        completionBlock(nil, error);
-    }];
-}
-
 #warning should source be passed in or can we extract it from the application id/name?
 - (void)signupFromSource:(NSString *)source completion:(DSOCampaignSignupBlock)completionBlock {
     NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)self.campaignID];
@@ -166,25 +124,6 @@
             NSLog(@"error %@", error);
             completionHandler(nil, error);
         }
-    }];
-}
-
-- (void)reportbacksInInbox:(NSInteger)maxNumber completionHandler:(DSOCampaignInboxReportBackBlock)completionBlock {
-    NSString *url = [NSString stringWithFormat:@"terms/%li/inbox.json?count=%li", self.campaignID, (long)maxNumber];
-    [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSArray *response) {
-        [[LDTImportQueue sharedQueue] addOperationWithBlock:^{
-            [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
-                NSMutableArray *reports = [NSMutableArray arrayWithCapacity:maxNumber];
-                for (NSDictionary *item in response) {
-                    DSOReportback *report = [DSOReportback syncWithDictionary:item inContext:localContext];
-                    [reports addObject:report];
-                }
-            }];
-
-            completionBlock(nil);
-        }];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        completionBlock(error);
     }];
 }
 
