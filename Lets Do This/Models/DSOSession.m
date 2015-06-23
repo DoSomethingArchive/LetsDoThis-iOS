@@ -73,7 +73,7 @@ static NSString *_APIKey;
                              @"birthdate": dateStr};
 
     [session POST:@"users?create_drupal_user=1" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
-        [SSKeychain setPassword:password forService:@"api.dosomething.org" account:email];
+        [SSKeychain setPassword:password forService:LDTSERVER account:email];
 
         [DSOSession startWithEmail:email password:password success:successBlock failure:failureBlock];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -85,12 +85,12 @@ static NSString *_APIKey;
 }
 
 + (BOOL)hasCachedSession {
-    NSString *sessionToken = [SSKeychain passwordForService:@"org.dosomething.slothkit" account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
     return sessionToken.length > 0 && _APIKey.length > 0 && _environment != DSOSessionEnvironmentNone;
 }
 
 + (NSString *)lastLoginEmail {
-    NSArray *accounts = [SSKeychain accountsForService:@"api.dosomething.org"];
+    NSArray *accounts = [SSKeychain accountsForService:LDTSERVER];
     NSDictionary *firstAccount = accounts.firstObject;
 
     return firstAccount[@"acct"];
@@ -109,7 +109,7 @@ static NSString *_APIKey;
                              @"password": password};
 
     [session POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
-        [SSKeychain setPassword:password forService:@"api.dosomething.org" account:email];
+        [SSKeychain setPassword:password forService:LDTSERVER account:email];
 
         NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
         session.user = [DSOUser syncWithDictionary:response[@"data"] inContext:context];
@@ -140,7 +140,7 @@ static NSString *_APIKey;
     
     DSOSession *session = [[DSOSession alloc] init];
 
-    NSString *sessionToken = [SSKeychain passwordForService:@"org.dosomething.slothkit" account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
     [session.requestSerializer setValue:sessionToken forHTTPHeaderField:@"Session"];
     [session.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
     [session.requestSerializer setValue:_APIKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
@@ -170,7 +170,7 @@ static NSString *_APIKey;
 }
 
 - (void)deleteCachedSession {
-    [SSKeychain deletePasswordForService:@"org.dosomething.slothkit" account:@"Session"];
+    [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
 }
 
 - (instancetype)init {
@@ -190,7 +190,7 @@ static NSString *_APIKey;
 
 - (void)saveTokens:(NSDictionary *)response {
     NSString *sessionToken = response[@"session_token"];
-    [SSKeychain setPassword:sessionToken forService:@"org.dosomething.slothkit" account:@"Session"];
+    [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
     [self.requestSerializer setValue:sessionToken forHTTPHeaderField:@"Session"];
 }
 
@@ -216,8 +216,8 @@ static NSString *_APIKey;
 - (void)logout:(DSOSessionLogoutBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
 
     [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        [SSKeychain deletePasswordForService:@"org.dosomething.slothkit" account:@"Session"];
-        [SSKeychain deletePasswordForService:@"api.dosomething.org" account:[DSOSession lastLoginEmail]];
+        [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
+        [SSKeychain deletePasswordForService:LDTSERVER account:[DSOSession lastLoginEmail]];
 
         if (successBlock) {
             successBlock();
