@@ -27,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Prove it";
+    self.quantityTextField.placeholder = [NSString stringWithFormat:@"Number of %@ %@", self.campaign.reportbackNoun, self.campaign.reportbackVerb];
     self.picker = [[UIImagePickerController alloc] init];
     self.picker.delegate = self;
     self.picker.allowsEditing = YES;
