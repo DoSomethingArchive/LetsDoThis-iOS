@@ -8,8 +8,8 @@
 
 #import "LDTRegisterViewController.h"
 #import "LDTLoginRegNavigationController.h"
-
 #import "DSOSession.h"
+#import <TSMessages/TSMessage.h>
 
 @interface LDTRegisterViewController()
 @property (nonatomic, strong) IBOutlet UITextField *emailField;
@@ -54,7 +54,13 @@
                 loginRegViewController.loginBlock();
             }
         } failure:^(NSError *error) {
-            [self.passwordField becomeFirstResponder];
+            NSString *subtitle = error.localizedDescription;
+            if (error.code == -1009) {
+                subtitle = @"You appear to be offline.";
+            }
+            [TSMessage showNotificationWithTitle:@"Epic fail"
+                                        subtitle:subtitle
+                                            type:TSMessageNotificationTypeError];
         }];
     }
 }
