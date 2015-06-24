@@ -152,13 +152,8 @@
 
     self.coverImage = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsString:@"uri" nullValue:self.coverImage];
 
-    // Noun/verb properties not available thru API yet
-    /*
-    self.reportbackNoun = [values valueForKeyAsString:@"reportback_verb" nullValue:self.reportbackNoun];
-    self.reportbackVerb = [values valueForKeyAsString:@"reportback_verb" nullValue:self.reportbackVerb];
-     */
-    self.reportbackNoun = @"nouns";
-    self.reportbackVerb = @"verbed";
+    self.reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
+    self.reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
 
     self.factProblem = [values[@"facts"] valueForKeyAsString:@"problem" nullValue:self.factProblem];
     self.factSolution = [values[@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:self.factSolution];
