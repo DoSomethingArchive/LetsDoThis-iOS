@@ -35,8 +35,12 @@
             }
         } failure:^(NSError *error) {
             [self.passwordField becomeFirstResponder];
+            NSString *subtitle = error.localizedDescription;
+            if (error.code == -1009) {
+                subtitle = @"You appear to be offline.";
+            }
             [TSMessage showNotificationWithTitle:@"Epic fail"
-                                        subtitle:error.localizedDescription
+                                        subtitle:subtitle
                                             type:TSMessageNotificationTypeError];
         }];
     }
