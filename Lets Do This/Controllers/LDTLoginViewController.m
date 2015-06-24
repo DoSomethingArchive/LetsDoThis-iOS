@@ -9,7 +9,7 @@
 #import "LDTLoginViewController.h"
 #import "LDTLoginRegNavigationController.h"
 #import "DSOSession.h"
-#import <TSMessages/TSMessage.h>
+#import "LDTMessage.h"
 
 
 @implementation LDTLoginViewController
@@ -35,9 +35,7 @@
             }
         } failure:^(NSError *error) {
             [self.passwordField becomeFirstResponder];
-            [TSMessage showNotificationWithTitle:@"Epic fail"
-                                        subtitle:error.localizedDescription
-                                            type:TSMessageNotificationTypeError];
+            [LDTMessage errorMessage:error];
         }];
     }
 }

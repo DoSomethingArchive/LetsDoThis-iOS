@@ -8,8 +8,8 @@
 
 #import "LDTRegisterViewController.h"
 #import "LDTLoginRegNavigationController.h"
-
 #import "DSOSession.h"
+#import "LDTMessage.h"
 
 @interface LDTRegisterViewController()
 @property (nonatomic, strong) IBOutlet UITextField *emailField;
@@ -54,7 +54,7 @@
                 loginRegViewController.loginBlock();
             }
         } failure:^(NSError *error) {
-            [self.passwordField becomeFirstResponder];
+            [LDTMessage errorMessage:error];
         }];
     }
 }
