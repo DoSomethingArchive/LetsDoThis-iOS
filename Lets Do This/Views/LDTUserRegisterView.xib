@@ -10,34 +10,61 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LDTUserRegisterView">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="ai2-30-6wp">
-                    <rect key="frame" x="0.0" y="181" width="600" height="432"/>
-                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                </tableView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tell us about yourself!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k7n-4A-oAg">
-                    <rect key="frame" x="217" y="80" width="167" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VUe-LX-756">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Fv-AZ-sBQ" customClass="LDTUserRegisterFieldsView">
+                            <rect key="frame" x="200" y="200" width="200" height="200"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="200" id="5lw-kd-zco"/>
+                                <constraint firstAttribute="height" constant="200" id="Kch-He-Naz"/>
+                                <constraint firstAttribute="width" constant="200" id="dak-iE-PsX"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="dak-iE-PsX"/>
+                                </mask>
+                            </variation>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g9O-Bd-0HV">
+                            <rect key="frame" x="277" y="448" width="46" height="30"/>
+                            <state key="normal" title="Button">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="centerY" secondItem="0Fv-AZ-sBQ" secondAttribute="centerY" id="H0J-qN-f6c"/>
+                        <constraint firstItem="g9O-Bd-0HV" firstAttribute="top" secondItem="0Fv-AZ-sBQ" secondAttribute="bottom" constant="48" id="HuY-ID-hrK"/>
+                        <constraint firstAttribute="centerX" secondItem="g9O-Bd-0HV" secondAttribute="centerX" id="Iym-Tp-0c3"/>
+                        <constraint firstAttribute="centerX" secondItem="0Fv-AZ-sBQ" secondAttribute="centerX" id="dHk-ub-dtt"/>
+                        <constraint firstItem="0Fv-AZ-sBQ" firstAttribute="leading" secondItem="VUe-LX-756" secondAttribute="leading" constant="200" id="nBJ-4e-y5e"/>
+                        <constraint firstAttribute="trailing" secondItem="0Fv-AZ-sBQ" secondAttribute="trailing" constant="200" id="w2q-Fa-7Ju"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="nBJ-4e-y5e"/>
+                            <exclude reference="w2q-Fa-7Ju"/>
+                        </mask>
+                    </variation>
+                </scrollView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="k7n-4A-oAg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="12z-2z-RCc"/>
-                <constraint firstAttribute="centerX" secondItem="k7n-4A-oAg" secondAttribute="centerX" id="HLB-Po-v86"/>
+                <constraint firstAttribute="bottom" secondItem="VUe-LX-756" secondAttribute="bottom" id="2Eg-GL-iDz"/>
+                <constraint firstItem="VUe-LX-756" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="FAW-fM-tBl"/>
+                <constraint firstItem="VUe-LX-756" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IG1-mp-OMT"/>
+                <constraint firstAttribute="trailing" secondItem="VUe-LX-756" secondAttribute="trailing" id="wCQ-GY-q6O"/>
             </constraints>
+            <connections>
+                <outlet property="registerFieldsView" destination="0Fv-AZ-sBQ" id="BV4-3L-mtS"/>
+            </connections>
+            <point key="canvasLocation" x="402" y="485"/>
         </view>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Ob0-K7-zru">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-            <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ob0-K7-zru" id="LEy-mE-fPY">
-                <autoresizingMask key="autoresizingMask"/>
-            </tableViewCellContentView>
-            <point key="canvasLocation" x="886" y="89"/>
-        </tableViewCell>
     </objects>
 </document>
