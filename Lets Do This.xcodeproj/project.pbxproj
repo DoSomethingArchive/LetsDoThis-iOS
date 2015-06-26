@@ -13,6 +13,7 @@
 		B25C1C9C1B17648200607FF1 /* ds-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B25C1C9B1B17648200607FF1 /* ds-logo.png */; };
 		B26A68801B2894CA006141C0 /* LDTReportbackSubmitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B26A687F1B2894CA006141C0 /* LDTReportbackSubmitViewController.m */; };
 		B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */; };
+		B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */; };
 		C20126751AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C20126731AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld */; };
 		C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2781AF3DBE400E9886F /* DSOCampaign.m */; };
 		C20BA2841AF3DBE400E9886F /* DSOCampaignActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA27A1AF3DBE400E9886F /* DSOCampaignActivity.m */; };
@@ -71,6 +72,8 @@
 		B26A687E1B2894CA006141C0 /* LDTReportbackSubmitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTReportbackSubmitViewController.h; sourceTree = "<group>"; };
 		B26A687F1B2894CA006141C0 /* LDTReportbackSubmitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTReportbackSubmitViewController.m; sourceTree = "<group>"; };
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDTUserConnectView.xib; sourceTree = "<group>"; };
+		B2A1365C1B3CA4B100D20273 /* LDTUserConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTUserConnectViewController.h; sourceTree = "<group>"; };
+		B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTUserConnectViewController.m; sourceTree = "<group>"; };
 		B92B81EBB03D9FF4D34E3FD9 /* Pods-Lets Do This.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.release.xcconfig"; sourceTree = "<group>"; };
 		C20126741AF27FF700CB33B3 /* LetsDoThis.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LetsDoThis.xcdatamodel; sourceTree = "<group>"; };
 		C20BA2771AF3DBE400E9886F /* DSOCampaign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCampaign.h; sourceTree = "<group>"; };
@@ -358,6 +361,8 @@
 				C2F35F1C1AD8294400D12FE5 /* LDTRegisterViewController.m */,
 				C28D340B1AE5F99C0091D781 /* LDTLoginRegNavigationController.h */,
 				C28D340C1AE5F99C0091D781 /* LDTLoginRegNavigationController.m */,
+				B2A1365C1B3CA4B100D20273 /* LDTUserConnectViewController.h */,
+				B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */,
 			);
 			name = Login/Registration;
 			sourceTree = "<group>";
@@ -528,6 +533,7 @@
 				C20BA2851AF3DBE400E9886F /* DSOReportback.m in Sources */,
 				C2C112D71B0670120070993C /* LDTCampaignCollectionCell.m in Sources */,
 				C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */,
+				B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */,
 				C2B152341ACE0A080028C336 /* LDTTabBarController.m in Sources */,
 				C2F35F171AD828BD00D12FE5 /* LTDPhotoCaptureViewController.m in Sources */,
 				C2B152381ACE0BB50028C336 /* LDTSettingsViewController.m in Sources */,

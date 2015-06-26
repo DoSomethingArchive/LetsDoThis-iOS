@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DSOSession.h"
 #import <Parse/Parse.h>
+#import "LDTUserConnectViewController.h"
 
 @interface AppDelegate ()
 
@@ -38,6 +39,11 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
+    LDTUserConnectViewController *rootVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = rootVC;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
