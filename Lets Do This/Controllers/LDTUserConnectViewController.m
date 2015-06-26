@@ -10,9 +10,13 @@
 
 
 @interface LDTUserConnectViewController ()
+- (IBAction)registerTapped:(id)sender;
 
 @end
 
 @implementation LDTUserConnectViewController
 
+- (IBAction)registerTapped:(id)sender {
+    NSLog(@"tappy tappy");
+}
 @end
