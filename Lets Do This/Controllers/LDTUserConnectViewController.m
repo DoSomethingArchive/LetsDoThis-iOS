@@ -7,6 +7,7 @@
 //
 
 #import "LDTUserConnectViewController.h"
+#import "LDTUserRegisterViewController.h"
 
 
 @interface LDTUserConnectViewController ()
@@ -17,6 +18,7 @@
 @implementation LDTUserConnectViewController
 
 - (IBAction)registerTapped:(id)sender {
-    NSLog(@"tappy tappy");
+    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithNibName:@"LDTUserRegisterView" bundle:nil];
+    [self.navigationController pushViewController:destVC animated:YES];
 }
 @end
