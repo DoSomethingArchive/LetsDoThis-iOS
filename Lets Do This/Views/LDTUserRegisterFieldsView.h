@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "InterfaceBuilderView.h"
 
-@interface LDTUserRegisterFieldsView : UIView
+@interface LDTUserRegisterFieldsView : InterfaceBuilderView
 
 @end

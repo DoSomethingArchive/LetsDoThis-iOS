@@ -18,7 +18,7 @@
 @implementation LDTUserConnectViewController
 
 - (IBAction)registerTapped:(id)sender {
-    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithNibName:@"LDTUserRegisterView" bundle:nil];
+    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithNibName:@"LDTUserRegisterViewController" bundle:nil];
     [self.navigationController pushViewController:destVC animated:YES];
 }
 @end

@@ -11,7 +11,7 @@
 
 @interface LDTUserRegisterViewController ()
 
-@property (strong, nonatomic) IBOutlet LDTUserRegisterFieldsView *userRegisterFieldsView;
+@property (weak, nonatomic) IBOutlet LDTUserRegisterFieldsView *userRegisterFieldsView;
 
 @end
 

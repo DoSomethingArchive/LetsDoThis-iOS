@@ -7,7 +7,9 @@
 //
 
 #import "LDTUserRegisterFieldsView.h"
+
 @interface LDTUserRegisterFieldsView()
+
 @property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
 @property (weak, nonatomic) IBOutlet UIView *view;
 
@@ -16,21 +18,7 @@
 @implementation LDTUserRegisterFieldsView
 
 -(void)awakeFromNib {
-	
-}
-
--(instancetype)initWithCoder:(NSCoder *)aDecoder {
-	
-	self = [super initWithCoder:aDecoder];
-	
-	if (self) {
-		self.view = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject];
-		[self addSubview:self.view];
-		
-		return self;
-	}
-	
-	return nil;
+	// Can do initialization here
 }
 
 @end
