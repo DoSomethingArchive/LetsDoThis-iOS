@@ -22,7 +22,6 @@
 @protocol LDTUserRegisterFieldsViewDelegate <NSObject>
 
 @required
--(void)processSuccessful:(BOOL)success;
 -(void)userEnteredText:(NSString *)textEntered forTextfield:(UITextField *)textField;
 
 @end
