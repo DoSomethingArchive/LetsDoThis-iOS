@@ -12,6 +12,7 @@
 @interface LDTUserRegisterViewController ()
 
 @property (weak, nonatomic) IBOutlet LDTUserRegisterFieldsView *userRegisterFieldsView;
+- (IBAction)buttonTapped:(id)sender;
 
 @end
 
@@ -34,4 +35,7 @@
 	
 }
 
+- (IBAction)buttonTapped:(id)sender {
+    NSLog(@"firstName %@", [self.userRegisterFieldsView getValues]);
+}
 @end

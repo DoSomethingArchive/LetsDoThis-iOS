@@ -10,5 +10,5 @@
 #import "InterfaceBuilderView.h"
 
 @interface LDTUserRegisterFieldsView : InterfaceBuilderView
-
+- (NSDictionary *)getValues;
 @end

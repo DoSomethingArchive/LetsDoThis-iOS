@@ -1,37 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserRegisterFieldsView">
             <connections>
+                <outlet property="birthdayTextField" destination="u6C-dX-yR7" id="FDZ-VV-meA"/>
+                <outlet property="emailTextField" destination="ePg-Z6-beG" id="dbm-Md-3Dz"/>
                 <outlet property="firstNameTextField" destination="do0-Hu-pzM" id="RWA-pF-HX3"/>
+                <outlet property="lastNameTextField" destination="cr3-vB-gUU" id="MTA-xq-9by"/>
+                <outlet property="mobileTextField" destination="u6C-dX-yR7" id="5n8-lH-mP7"/>
+                <outlet property="passwordTextField" destination="ObX-B7-xle" id="GNN-mL-9vg"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="260" height="218"/>
+            <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PG0-tC-hhK">
-                    <rect key="frame" x="34" y="19" width="42" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="do0-Hu-pzM">
-                    <rect key="frame" x="46" y="77" width="92" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="do0-Hu-pzM">
+                    <rect key="frame" x="8" y="8" width="191" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cr3-vB-gUU">
+                    <rect key="frame" x="207" y="8" width="185" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ePg-Z6-beG">
+                    <rect key="frame" x="8" y="46" width="384" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number (Optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LrU-Lh-iVa">
+                    <rect key="frame" x="8" y="84" width="384" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ObX-B7-xle">
+                    <rect key="frame" x="8" y="122" width="250" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u6C-dX-yR7">
+                    <rect key="frame" x="266" y="122" width="126" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
             </subviews>
             <color key="backgroundColor" red="0.60449358659999997" green="0.97849439540000005" blue="0.036080546909999997" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="centerY" secondItem="do0-Hu-pzM" secondAttribute="centerY" constant="17" id="4G0-qe-ciD"/>
-                <constraint firstItem="PG0-tC-hhK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="19" id="7I5-65-Ug4"/>
-                <constraint firstItem="PG0-tC-hhK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="34" id="XDf-hp-Irf"/>
-                <constraint firstAttribute="centerX" secondItem="do0-Hu-pzM" secondAttribute="centerX" constant="38" id="b7K-0h-3Nm"/>
+                <constraint firstItem="ePg-Z6-beG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="0Xa-V5-RCj"/>
+                <constraint firstItem="cr3-vB-gUU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="1PZ-cF-nHa"/>
+                <constraint firstItem="LrU-Lh-iVa" firstAttribute="top" secondItem="ePg-Z6-beG" secondAttribute="bottom" constant="8" id="5AH-WO-KZ8"/>
+                <constraint firstAttribute="trailing" secondItem="u6C-dX-yR7" secondAttribute="trailing" constant="8" id="6In-Wb-amJ"/>
+                <constraint firstItem="LrU-Lh-iVa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="71b-ey-02K"/>
+                <constraint firstAttribute="trailing" secondItem="ePg-Z6-beG" secondAttribute="trailing" constant="8" id="B5o-8Q-CH8"/>
+                <constraint firstItem="do0-Hu-pzM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="F96-zg-QA8"/>
+                <constraint firstItem="ObX-B7-xle" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="QnP-hP-fUe"/>
+                <constraint firstItem="u6C-dX-yR7" firstAttribute="leading" secondItem="ObX-B7-xle" secondAttribute="trailing" constant="8" id="aBA-HJ-Yai"/>
+                <constraint firstItem="ePg-Z6-beG" firstAttribute="top" secondItem="do0-Hu-pzM" secondAttribute="bottom" constant="8" id="fIk-gy-rSx"/>
+                <constraint firstItem="cr3-vB-gUU" firstAttribute="leading" secondItem="do0-Hu-pzM" secondAttribute="trailing" constant="8" id="mto-sV-pdf"/>
+                <constraint firstAttribute="trailing" secondItem="cr3-vB-gUU" secondAttribute="trailing" constant="8" id="nsv-SS-tme"/>
+                <constraint firstItem="do0-Hu-pzM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="rqr-Jj-6ol"/>
+                <constraint firstAttribute="trailing" secondItem="LrU-Lh-iVa" secondAttribute="trailing" constant="8" id="sSu-X7-L6C"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
