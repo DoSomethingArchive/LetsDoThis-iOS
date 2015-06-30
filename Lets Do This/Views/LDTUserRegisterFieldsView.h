@@ -9,17 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "InterfaceBuilderView.h"
 
-@protocol LDTUserRegisterFieldsViewDelegate <NSObject>
-@required
-- (void) processSuccessful: (BOOL)success;
-@end
+@protocol LDTUserRegisterFieldsViewDelegate;
 
-@interface LDTUserRegisterFieldsView : InterfaceBuilderView {
-    id <LDTUserRegisterFieldsViewDelegate> delegate;
-}
+@interface LDTUserRegisterFieldsView : InterfaceBuilderView <UITextFieldDelegate>
 
 - (NSDictionary *)getValues;
 
-@property (retain) id delegate;
+@property (weak) id <LDTUserRegisterFieldsViewDelegate> delegate;
+
+@end
+
+@protocol LDTUserRegisterFieldsViewDelegate <NSObject>
+
+@required
+-(void)processSuccessful:(BOOL)success;
+-(void)userEnteredText:(NSString *)textEntered forTextfield:(UITextField *)textField;
 
 @end

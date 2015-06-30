@@ -40,15 +40,23 @@
              };
 }
 
-- (void)processComplete
-{
-    [[self delegate] processSuccessful:YES];
-}
 
 -(void)startSomeProcess
 {
-    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self
-                                   selector:@selector(processComplete) userInfo:nil repeats:YES];
+	[NSTimer scheduledTimerWithTimeInterval:5.0 target:self
+								   selector:@selector(processComplete) userInfo:nil repeats:YES];
+}
+
+- (void)processSuccessful:(BOOL)success {
+    [self.delegate processSuccessful:YES];
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	[self.delegate userEnteredText:string forTextfield:textField];
+	
+	return YES;
 }
 
 @end

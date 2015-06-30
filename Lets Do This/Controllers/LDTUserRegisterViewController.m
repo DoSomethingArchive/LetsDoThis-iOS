@@ -12,6 +12,7 @@
 @interface LDTUserRegisterViewController ()
 
 @property (weak, nonatomic) IBOutlet LDTUserRegisterFieldsView *userRegisterFieldsView;
+
 - (IBAction)buttonTapped:(id)sender;
 
 @end
@@ -22,7 +23,7 @@
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	
 	if (self) {
-        [self.userRegisterFieldsView setDelegate:self];
+
 	}
 	
 	return self;
@@ -31,14 +32,23 @@
 
 -(void)viewDidLoad {
 	[super viewDidLoad];
+	
+	self.userRegisterFieldsView.delegate = self;
 }
 
 - (IBAction)buttonTapped:(id)sender {
-    NSLog(@"firstName %@", [self.userRegisterFieldsView getValues]);
-    [self.userRegisterFieldsView processSuccessful:YES];
+//    NSLog(@"firstName %@", [self.userRegisterFieldsView getValues]);
+//    [self.userRegisterFieldsView processSuccessful:YES];
 }
+
+#pragma mark - LDTUserRegisterFieldsViewDelegate
 
 - (void)processSuccessful:(BOOL)success {
     NSLog(@"Process completed");
 }
+
+-(void)userEnteredText:(NSString *)textEntered forTextfield:(UITextField *)textField {
+	NSLog(@"User entered: %@", textEntered);
+}
+
 @end

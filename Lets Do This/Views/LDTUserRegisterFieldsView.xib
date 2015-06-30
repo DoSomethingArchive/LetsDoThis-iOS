@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserRegisterFieldsView">
@@ -23,11 +23,17 @@
                     <rect key="frame" x="8" y="8" width="191" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="xO6-BN-RI3"/>
+                    </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cr3-vB-gUU">
                     <rect key="frame" x="207" y="8" width="185" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="5wj-LO-rRK"/>
+                    </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ePg-Z6-beG">
                     <rect key="frame" x="8" y="46" width="384" height="30"/>
@@ -58,6 +64,7 @@
                 <constraint firstAttribute="trailing" secondItem="u6C-dX-yR7" secondAttribute="trailing" constant="8" id="6In-Wb-amJ"/>
                 <constraint firstItem="LrU-Lh-iVa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="71b-ey-02K"/>
                 <constraint firstAttribute="trailing" secondItem="ePg-Z6-beG" secondAttribute="trailing" constant="8" id="B5o-8Q-CH8"/>
+                <constraint firstItem="do0-Hu-pzM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Bu2-jg-zRj"/>
                 <constraint firstItem="do0-Hu-pzM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="F96-zg-QA8"/>
                 <constraint firstItem="ObX-B7-xle" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="QnP-hP-fUe"/>
                 <constraint firstItem="u6C-dX-yR7" firstAttribute="leading" secondItem="ObX-B7-xle" secondAttribute="trailing" constant="8" id="aBA-HJ-Yai"/>
