@@ -7,7 +7,7 @@
 //
 
 #import "LDTUserRegisterViewController.h"
-#import "LDTUserRegisterFieldsView.h"
+
 
 @interface LDTUserRegisterViewController ()
 
@@ -22,7 +22,7 @@
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	
 	if (self) {
-
+        [self.userRegisterFieldsView setDelegate:self];
 	}
 	
 	return self;
@@ -31,11 +31,14 @@
 
 -(void)viewDidLoad {
 	[super viewDidLoad];
-	
-	
 }
 
 - (IBAction)buttonTapped:(id)sender {
     NSLog(@"firstName %@", [self.userRegisterFieldsView getValues]);
+    [self.userRegisterFieldsView processSuccessful:YES];
+}
+
+- (void)processSuccessful:(BOOL)success {
+    NSLog(@"Process completed");
 }
 @end

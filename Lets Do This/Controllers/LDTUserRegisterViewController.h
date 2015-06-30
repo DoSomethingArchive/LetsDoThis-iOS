@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LDTUserRegisterFieldsView.h"
 
-@interface LDTUserRegisterViewController : UIViewController
+@interface LDTUserRegisterViewController : UIViewController <LDTUserRegisterFieldsViewDelegate>
 
 @end

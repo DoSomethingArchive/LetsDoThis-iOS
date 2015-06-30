@@ -23,6 +23,8 @@
 
 @implementation LDTUserRegisterFieldsView
 
+@synthesize delegate;
+
 -(void)awakeFromNib {
 	// Can do initialization here
 }
@@ -37,4 +39,16 @@
              @"birthdate": self.birthdayTextField.text
              };
 }
+
+- (void)processComplete
+{
+    [[self delegate] processSuccessful:YES];
+}
+
+-(void)startSomeProcess
+{
+    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self
+                                   selector:@selector(processComplete) userInfo:nil repeats:YES];
+}
+
 @end

@@ -9,6 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "InterfaceBuilderView.h"
 
-@interface LDTUserRegisterFieldsView : InterfaceBuilderView
+@protocol LDTUserRegisterFieldsViewDelegate <NSObject>
+@required
+- (void) processSuccessful: (BOOL)success;
+@end
+
+@interface LDTUserRegisterFieldsView : InterfaceBuilderView {
+    id <LDTUserRegisterFieldsViewDelegate> delegate;
+}
+
 - (NSDictionary *)getValues;
+
+@property (retain) id delegate;
+
 @end
