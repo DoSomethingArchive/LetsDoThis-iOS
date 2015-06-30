@@ -23,8 +23,6 @@
 
 @implementation LDTUserRegisterFieldsView
 
-@synthesize delegate;
-
 -(void)awakeFromNib {
 	// Can do initialization here
 }
