@@ -83,7 +83,7 @@
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserConnectView.xib; path = Login/LDTUserConnectView.xib; sourceTree = "<group>"; };
 		B2A1365C1B3CA4B100D20273 /* LDTUserConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTUserConnectViewController.h; sourceTree = "<group>"; };
 		B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTUserConnectViewController.m; sourceTree = "<group>"; };
-		B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserRegisterViewController.xib; path = ../Views/LDTUserRegisterViewController.xib; sourceTree = "<group>"; };
+		B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserRegisterViewController.xib; path = Login/LDTUserRegisterViewController.xib; sourceTree = "<group>"; };
 		B2A136611B3D9BC600D20273 /* LDTUserRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTUserRegisterViewController.h; sourceTree = "<group>"; };
 		B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTUserRegisterViewController.m; sourceTree = "<group>"; };
 		B2A1366A1B3DC87300D20273 /* LDTUserRegisterFieldsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserRegisterFieldsView.xib; path = Login/LDTUserRegisterFieldsView.xib; sourceTree = "<group>"; };
@@ -204,6 +204,7 @@
 				B2A1366A1B3DC87300D20273 /* LDTUserRegisterFieldsView.xib */,
 				B2A1366C1B3DCB2400D20273 /* LDTUserRegisterFieldsView.h */,
 				B2A1366D1B3DCB2400D20273 /* LDTUserRegisterFieldsView.m */,
+				B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterViewController.xib */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -409,7 +410,6 @@
 				B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */,
 				B2A136611B3D9BC600D20273 /* LDTUserRegisterViewController.h */,
 				B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */,
-				B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterViewController.xib */,
 			);
 			name = Login/Registration;
 			sourceTree = "<group>";
