@@ -27,6 +27,11 @@
     [self.headerLabel setFont:[LDTTheme font]];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationItem.title = @"";
+}
+
 - (IBAction)registerTapped:(id)sender {
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithNibName:@"LDTUserRegisterViewController" bundle:nil];
     [self.navigationController pushViewController:destVC animated:YES];
