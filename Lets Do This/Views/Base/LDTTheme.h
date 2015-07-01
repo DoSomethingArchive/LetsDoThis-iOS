@@ -10,4 +10,5 @@
 
 @interface LDTTheme : NSObject
 +(UIColor *)clickyBlue;
++(UIFont *)font;
 @end

@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserConnectViewController">
             <connections>
+                <outlet property="registerButton" destination="oOz-tm-U29" id="AyS-F0-d8D"/>
                 <outlet property="view" destination="iN0-l3-epB" id="QAj-I2-Dm5"/>
             </connections>
         </placeholder>
@@ -14,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oOz-tm-U29">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oOz-tm-U29" customClass="LDTButton">
                     <rect key="frame" x="272" y="285" width="57" height="30"/>
                     <state key="normal" title="Register">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>

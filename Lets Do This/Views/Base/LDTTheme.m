@@ -16,4 +16,7 @@
                             blue:238.0f/255.0f
                            alpha:1.0f];
 }
++(UIFont *)font {
+    return [UIFont fontWithName:@"Avenir" size:18];
+}
 @end

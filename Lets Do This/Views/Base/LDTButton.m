@@ -7,6 +7,7 @@
 //
 
 #import "LDTButton.h"
+#import "LDTTheme.h"
 
 @implementation LDTButton
 
@@ -17,5 +18,17 @@
     // Drawing code
 }
 */
+- (id)initWithCoder:(NSCoder*)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
 
+        [[self titleLabel] setFont:[LDTTheme font]];
+        self.layer.cornerRadius = 10;
+        NSLog(@"Position %@", NSStringFromCGPoint(self.layer.position));
+    }
+    return self;
+}
+- (UIEdgeInsets)alignmentRectInsets {
+    return UIEdgeInsetsMake(20, 120, 20, 120);
+}
 @end
