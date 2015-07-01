@@ -21,8 +21,8 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lQg-IH-mxS">
                     <rect key="frame" x="0.0" y="0.0" width="0.0" height="536"/>
                     <subviews>
-                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yCh-M4-hsb" customClass="LDTBaseUserLoginHeaderView">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yCh-M4-hsb" customClass="LDTBaseUserLoginHeaderView">
+                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="100"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="100" id="1dJ-Jk-1vY"/>
