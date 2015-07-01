@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserRegisterViewController">
             <connections>
+                <outlet property="submitButton" destination="WQo-g9-7HX" id="9el-lS-N3O"/>
                 <outlet property="userRegisterFieldsView" destination="Wxm-Cm-3ea" id="j6U-ly-aVo"/>
                 <outlet property="view" destination="iN0-l3-epB" id="aoZ-wU-9Ic"/>
             </connections>
@@ -22,8 +23,8 @@
                             <rect key="frame" x="40" y="40" width="356" height="512"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WQo-g9-7HX">
-                            <rect key="frame" x="194" y="100" width="46" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WQo-g9-7HX" customClass="LDTButton">
+                            <rect key="frame" x="194" y="462" width="46" height="30"/>
                             <state key="normal" title="Button">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -34,16 +35,16 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstAttribute="centerX" secondItem="WQo-g9-7HX" secondAttribute="centerX" id="5Hn-3j-Xn7"/>
                         <constraint firstAttribute="centerY" secondItem="Wxm-Cm-3ea" secondAttribute="centerY" id="7xt-rw-4nW"/>
                         <constraint firstAttribute="height" constant="592" id="ErS-gt-2G7"/>
                         <constraint firstAttribute="bottom" secondItem="Wxm-Cm-3ea" secondAttribute="bottom" constant="40" id="PNe-zH-gbB"/>
                         <constraint firstItem="Wxm-Cm-3ea" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="40" id="T3V-2o-LVk"/>
-                        <constraint firstAttribute="centerX" secondItem="WQo-g9-7HX" secondAttribute="centerX" id="ZDi-30-Odv"/>
-                        <constraint firstItem="WQo-g9-7HX" firstAttribute="top" secondItem="lQg-IH-mxS" secondAttribute="top" constant="100" id="aTa-g4-c8Z"/>
                         <constraint firstAttribute="width" constant="435" id="gbw-yv-ROr"/>
                         <constraint firstAttribute="centerX" secondItem="Wxm-Cm-3ea" secondAttribute="centerX" id="k4o-Jh-Xdw"/>
                         <constraint firstAttribute="trailing" secondItem="Wxm-Cm-3ea" secondAttribute="trailing" constant="40" id="sea-Eg-qcs"/>
                         <constraint firstItem="Wxm-Cm-3ea" firstAttribute="top" secondItem="lQg-IH-mxS" secondAttribute="top" constant="40" id="xa5-s0-bWl"/>
+                        <constraint firstAttribute="bottom" secondItem="WQo-g9-7HX" secondAttribute="bottom" constant="100" id="xjf-T4-Hqb"/>
                     </constraints>
                 </scrollView>
             </subviews>

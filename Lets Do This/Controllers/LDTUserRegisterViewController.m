@@ -7,11 +7,13 @@
 //
 
 #import "LDTUserRegisterViewController.h"
-
+#import "LDTTheme.h"
+#import "LDTButton.h"
 
 @interface LDTUserRegisterViewController ()
 
 @property (weak, nonatomic) IBOutlet LDTUserRegisterFieldsView *userRegisterFieldsView;
+@property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 
 - (IBAction)buttonTapped:(id)sender;
 
@@ -32,8 +34,10 @@
 
 -(void)viewDidLoad {
 	[super viewDidLoad];
-	
 	self.userRegisterFieldsView.delegate = self;
+    self.submitButton.backgroundColor = [LDTTheme clickyBlue];
+    [self.submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.submitButton setTitle:@"Create account" forState:UIControlStateNormal];
 }
 
 - (IBAction)buttonTapped:(id)sender {
