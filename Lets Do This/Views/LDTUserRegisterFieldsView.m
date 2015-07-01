@@ -7,6 +7,7 @@
 //
 
 #import "LDTUserRegisterFieldsView.h"
+#import "LDTTheme.h"
 
 @interface LDTUserRegisterFieldsView()
 
@@ -24,7 +25,13 @@
 @implementation LDTUserRegisterFieldsView
 
 -(void)awakeFromNib {
-	// Can do initialization here
+    UIFont *font = [LDTTheme font];
+    self.firstNameTextField.font = font;
+    self.lastNameTextField.font = font;
+    self.emailTextField.font = font;
+    self.mobileTextField.font = font;
+    self.passwordTextField.font = font;
+    self.birthdayTextField.font = font;
 }
 
 - (NSDictionary *)getValues {

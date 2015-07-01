@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserConnectViewController">
             <connections>
+                <outlet property="headerLabel" destination="Yds-sE-O3r" id="Aaz-6u-cjb"/>
                 <outlet property="registerButton" destination="oOz-tm-U29" id="AyS-F0-d8D"/>
                 <outlet property="view" destination="iN0-l3-epB" id="QAj-I2-Dm5"/>
             </connections>

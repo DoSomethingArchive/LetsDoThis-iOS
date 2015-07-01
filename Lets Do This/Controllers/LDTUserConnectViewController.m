@@ -14,6 +14,7 @@
 @interface LDTUserConnectViewController ()
 - (IBAction)registerTapped:(id)sender;
 @property (weak, nonatomic) IBOutlet LDTButton *registerButton;
+@property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 
 @end
 
@@ -23,6 +24,7 @@
     [super viewDidLoad];
     [self.registerButton setBackgroundColor:[LDTTheme clickyBlue]];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.headerLabel setFont:[LDTTheme font]];
 }
 
 - (IBAction)registerTapped:(id)sender {
