@@ -7,6 +7,7 @@
 //
 
 #import "LDTUserRegisterViewController.h"
+#import "LDTBaseUserLoginHeaderView.h"
 #import "LDTTheme.h"
 #import "LDTButton.h"
 
@@ -14,6 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet LDTUserRegisterFieldsView *userRegisterFieldsView;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
+@property (weak, nonatomic) IBOutlet LDTBaseUserLoginHeaderView *headerView;
 
 - (IBAction)buttonTapped:(id)sender;
 
@@ -38,6 +40,7 @@
     self.submitButton.backgroundColor = [LDTTheme clickyBlue];
     [self.submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.submitButton setTitle:@"Create account" forState:UIControlStateNormal];
+    self.headerView.headerLabel.text = @"Tell us about yourself!";
 }
 
 - (IBAction)buttonTapped:(id)sender {

@@ -11,6 +11,8 @@
 		569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */; };
 		B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20881A01B0B9B0F00E697B2 /* keys.plist */; };
 		B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B20D06D01B3A58F40053D3B6 /* LDTMessage.m */; };
+		B2505BD01B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2505BCF1B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.m */; };
+		B2505BD21B44629C00F43DD9 /* LDTBaseUserLoginHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2505BD11B44629C00F43DD9 /* LDTBaseUserLoginHeaderView.xib */; };
 		B25C1C9C1B17648200607FF1 /* ds-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B25C1C9B1B17648200607FF1 /* ds-logo.png */; };
 		B26A68801B2894CA006141C0 /* LDTReportbackSubmitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B26A687F1B2894CA006141C0 /* LDTReportbackSubmitViewController.m */; };
 		B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */; };
@@ -77,6 +79,9 @@
 		B20881A01B0B9B0F00E697B2 /* keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = keys.plist; sourceTree = "<group>"; };
 		B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTMessage.h; sourceTree = "<group>"; };
 		B20D06D01B3A58F40053D3B6 /* LDTMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTMessage.m; sourceTree = "<group>"; };
+		B2505BCE1B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTBaseUserLoginHeaderView.h; path = Login/LDTBaseUserLoginHeaderView.h; sourceTree = "<group>"; };
+		B2505BCF1B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseUserLoginHeaderView.m; path = Login/LDTBaseUserLoginHeaderView.m; sourceTree = "<group>"; };
+		B2505BD11B44629C00F43DD9 /* LDTBaseUserLoginHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTBaseUserLoginHeaderView.xib; path = Base/LDTBaseUserLoginHeaderView.xib; sourceTree = "<group>"; };
 		B25C1C9B1B17648200607FF1 /* ds-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ds-logo.png"; sourceTree = "<group>"; };
 		B26A687E1B2894CA006141C0 /* LDTReportbackSubmitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTReportbackSubmitViewController.h; sourceTree = "<group>"; };
 		B26A687F1B2894CA006141C0 /* LDTReportbackSubmitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTReportbackSubmitViewController.m; sourceTree = "<group>"; };
@@ -205,6 +210,9 @@
 				B2A1366C1B3DCB2400D20273 /* LDTUserRegisterFieldsView.h */,
 				B2A1366D1B3DCB2400D20273 /* LDTUserRegisterFieldsView.m */,
 				B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterViewController.xib */,
+				B2505BD11B44629C00F43DD9 /* LDTBaseUserLoginHeaderView.xib */,
+				B2505BCE1B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.h */,
+				B2505BCF1B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -519,6 +527,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2505BD21B44629C00F43DD9 /* LDTBaseUserLoginHeaderView.xib in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
 				B2A1366B1B3DC87300D20273 /* LDTUserRegisterFieldsView.xib in Resources */,
 				B2A136601B3D1AEF00D20273 /* LDTUserRegisterViewController.xib in Resources */,
@@ -605,6 +614,7 @@
 				C2F35F091AD8261E00D12FE5 /* LDTReportbackDetailViewController.m in Sources */,
 				C2B1523B1ACE0BE90028C336 /* LDTBrowserViewController.m in Sources */,
 				C2F35F1A1AD828DA00D12FE5 /* LTDPhotoSelectionViewController.m in Sources */,
+				B2505BD01B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.m in Sources */,
 				C2B152411ACE0C0D0028C336 /* LDTPrivacyPolicyViewController.m in Sources */,
 				C20BA2871AF3DBE400E9886F /* DSOTaxonomyTerm.m in Sources */,
 				B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */,
