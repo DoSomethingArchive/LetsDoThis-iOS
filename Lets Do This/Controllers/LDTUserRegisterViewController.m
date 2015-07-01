@@ -8,6 +8,7 @@
 
 #import "LDTUserRegisterViewController.h"
 #import "LDTBaseUserLoginHeaderView.h"
+#import "LDTUserSignupCodeView.h"
 #import "LDTTheme.h"
 #import "LDTButton.h"
 
@@ -17,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet LDTBaseUserLoginHeaderView *headerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
 
 - (IBAction)buttonTapped:(id)sender;
 
@@ -43,6 +45,8 @@
     [self.submitButton setTitle:@"Create account" forState:UIControlStateNormal];
     self.headerView.headerLabel.text = @"Tell us about yourself!";
     self.headerView.imageView.image = [UIImage imageNamed:@"ds-logo"];
+    self.signupCodeView.headerLabel.font = [LDTTheme font];
+    self.signupCodeView.headerLabel.text = @"If you received a code from a friend, put it here to join their group right away (Optional).";
 }
 
 - (IBAction)buttonTapped:(id)sender {

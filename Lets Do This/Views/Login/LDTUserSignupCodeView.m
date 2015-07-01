@@ -7,6 +7,8 @@
 //
 
 #import "LDTUserSignupCodeView.h"
+#import "LDTTheme.h"
+
 @interface LDTUserSignupCodeView()
 @property (weak, nonatomic) IBOutlet UITextField *firstTextField;
 @property (weak, nonatomic) IBOutlet UITextField *secondTextField;
@@ -16,12 +18,14 @@
 
 @implementation LDTUserSignupCodeView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+-(void)awakeFromNib {
+    UIFont *font = [LDTTheme font];
+    self.firstTextField.font = font;
+    self.firstTextField.placeholder = @"Enter";
+    self.secondTextField.font = font;
+    self.secondTextField.placeholder = @"Code";
+    self.thirdTextField.font = font;
+    self.thirdTextField.placeholder = @"Here";
 }
-*/
 
 @end

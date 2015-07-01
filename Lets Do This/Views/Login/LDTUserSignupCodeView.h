@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "InterfaceBuilderView.h"
 
-@interface LDTUserSignupCodeView : UIView
+@interface LDTUserSignupCodeView : InterfaceBuilderView
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 
 @end
