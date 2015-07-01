@@ -42,6 +42,7 @@
     [self.submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.submitButton setTitle:@"Create account" forState:UIControlStateNormal];
     self.headerView.headerLabel.text = @"Tell us about yourself!";
+    self.headerView.imageView.image = [UIImage imageNamed:@"ds-logo"];
 }
 
 - (IBAction)buttonTapped:(id)sender {
