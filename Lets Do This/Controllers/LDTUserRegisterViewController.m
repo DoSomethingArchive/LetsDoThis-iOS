@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet LDTUserRegisterFieldsView *userRegisterFieldsView;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet LDTBaseUserLoginHeaderView *headerView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 - (IBAction)buttonTapped:(id)sender;
 
