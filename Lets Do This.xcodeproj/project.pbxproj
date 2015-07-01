@@ -14,6 +14,8 @@
 		B2505BD01B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2505BCF1B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.m */; };
 		B2505BD21B44629C00F43DD9 /* LDTBaseUserLoginHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2505BD11B44629C00F43DD9 /* LDTBaseUserLoginHeaderView.xib */; };
 		B25C1C9C1B17648200607FF1 /* ds-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B25C1C9B1B17648200607FF1 /* ds-logo.png */; };
+		B260387B1B449491002FE362 /* LDTUserSignupCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */; };
+		B260387D1B4494A8002FE362 /* LDTUserSignupCodeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */; };
 		B26A68801B2894CA006141C0 /* LDTReportbackSubmitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B26A687F1B2894CA006141C0 /* LDTReportbackSubmitViewController.m */; };
 		B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */; };
 		B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */; };
@@ -83,6 +85,9 @@
 		B2505BCF1B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseUserLoginHeaderView.m; path = Login/LDTBaseUserLoginHeaderView.m; sourceTree = "<group>"; };
 		B2505BD11B44629C00F43DD9 /* LDTBaseUserLoginHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTBaseUserLoginHeaderView.xib; path = Base/LDTBaseUserLoginHeaderView.xib; sourceTree = "<group>"; };
 		B25C1C9B1B17648200607FF1 /* ds-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ds-logo.png"; sourceTree = "<group>"; };
+		B26038791B449491002FE362 /* LDTUserSignupCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserSignupCodeView.h; path = Login/LDTUserSignupCodeView.h; sourceTree = "<group>"; };
+		B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserSignupCodeView.m; path = Login/LDTUserSignupCodeView.m; sourceTree = "<group>"; };
+		B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDTUserSignupCodeView.xib; sourceTree = "<group>"; };
 		B26A687E1B2894CA006141C0 /* LDTReportbackSubmitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTReportbackSubmitViewController.h; sourceTree = "<group>"; };
 		B26A687F1B2894CA006141C0 /* LDTReportbackSubmitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTReportbackSubmitViewController.m; sourceTree = "<group>"; };
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserConnectView.xib; path = Login/LDTUserConnectView.xib; sourceTree = "<group>"; };
@@ -213,6 +218,9 @@
 				B2505BD11B44629C00F43DD9 /* LDTBaseUserLoginHeaderView.xib */,
 				B2505BCE1B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.h */,
 				B2505BCF1B44627E00F43DD9 /* LDTBaseUserLoginHeaderView.m */,
+				B26038791B449491002FE362 /* LDTUserSignupCodeView.h */,
+				B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */,
+				B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -536,6 +544,7 @@
 				B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */,
 				C2B152001ACE04C30028C336 /* LaunchScreen.xib in Resources */,
 				C2B151FD1ACE04C30028C336 /* Images.xcassets in Resources */,
+				B260387D1B4494A8002FE362 /* LDTUserSignupCodeView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,6 +596,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2B1522E1ACE07EB0028C336 /* LDTNotificationsViewController.m in Sources */,
+				B260387B1B449491002FE362 /* LDTUserSignupCodeView.m in Sources */,
 				C2F35F061AD825DF00D12FE5 /* LDTCampaignDetailViewController.m in Sources */,
 				C20BA2851AF3DBE400E9886F /* DSOReportback.m in Sources */,
 				C2C112D71B0670120070993C /* LDTCampaignCollectionCell.m in Sources */,
