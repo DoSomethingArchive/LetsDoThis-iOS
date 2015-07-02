@@ -28,4 +28,11 @@
     self.thirdTextField.placeholder = @"Here";
 }
 
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSLog(@"String %@", string);
+    return YES;
+}
+
 @end
