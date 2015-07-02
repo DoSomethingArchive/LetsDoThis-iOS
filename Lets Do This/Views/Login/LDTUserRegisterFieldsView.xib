@@ -19,16 +19,16 @@
             <rect key="frame" x="0.0" y="0.0" width="400" height="162"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="do0-Hu-pzM">
-                    <rect key="frame" x="8" y="8" width="190" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="do0-Hu-pzM">
+                    <rect key="frame" x="8" y="8" width="188" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="xO6-BN-RI3"/>
                     </connections>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cr3-vB-gUU">
-                    <rect key="frame" x="206" y="8" width="186" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cr3-vB-gUU">
+                    <rect key="frame" x="204" y="8" width="188" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
@@ -51,16 +51,16 @@
                         <outlet property="delegate" destination="-1" id="08K-TQ-0bf"/>
                     </connections>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ObX-B7-xle">
-                    <rect key="frame" x="8" y="122" width="254" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ObX-B7-xle">
+                    <rect key="frame" x="8" y="122" width="295" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="1VS-RG-XEQ"/>
                     </connections>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u6C-dX-yR7">
-                    <rect key="frame" x="276" y="122" width="116" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u6C-dX-yR7">
+                    <rect key="frame" x="317" y="122" width="75" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
@@ -75,6 +75,7 @@
                 <constraint firstItem="LrU-Lh-iVa" firstAttribute="top" secondItem="ePg-Z6-beG" secondAttribute="bottom" constant="8" id="5AH-WO-KZ8"/>
                 <constraint firstAttribute="trailing" secondItem="u6C-dX-yR7" secondAttribute="trailing" constant="8" id="6In-Wb-amJ"/>
                 <constraint firstItem="LrU-Lh-iVa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="71b-ey-02K"/>
+                <constraint firstItem="do0-Hu-pzM" firstAttribute="width" secondItem="cr3-vB-gUU" secondAttribute="width" id="B2w-OZ-NJa"/>
                 <constraint firstAttribute="trailing" secondItem="ePg-Z6-beG" secondAttribute="trailing" constant="8" id="B5o-8Q-CH8"/>
                 <constraint firstItem="do0-Hu-pzM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Bu2-jg-zRj"/>
                 <constraint firstItem="do0-Hu-pzM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="F96-zg-QA8"/>
