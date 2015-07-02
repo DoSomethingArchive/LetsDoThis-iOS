@@ -32,6 +32,26 @@
     self.mobileTextField.font = font;
     self.passwordTextField.font = font;
     self.birthdayTextField.font = font;
+    // Create datePicker for birthdayTextField.
+    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    [datePicker addTarget:self action:@selector(updateBirthdayField:)
+         forControlEvents:UIControlEventValueChanged];
+    datePicker.maximumDate = [NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDate *currentDate = [NSDate date];
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    [comps setYear:-80];
+    NSDate *minDate = [calendar dateByAddingComponents:comps toDate:currentDate options:0];
+    datePicker.minimumDate = minDate;
+    [self.birthdayTextField setInputView:datePicker];
+}
+
+-(void)updateBirthdayField:(UIDatePicker *)sender
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"MM/dd/YYYY"];
+    self.birthdayTextField.text = [df stringFromDate:sender.date];
 }
 
 - (NSDictionary *)getValues {
