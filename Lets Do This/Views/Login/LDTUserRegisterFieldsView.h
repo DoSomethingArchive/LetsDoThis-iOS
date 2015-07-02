@@ -15,6 +15,7 @@
 
 - (NSDictionary *)getValues;
 
+@property (strong, nonatomic) UITextField *activeField;
 @property (weak) id <LDTUserRegisterFieldsViewDelegate> delegate;
 
 @end
