@@ -51,7 +51,6 @@
                     </connections>
                 </textField>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="BDT-73-whB" firstAttribute="leading" secondItem="mWi-Dy-6Nv" secondAttribute="trailing" constant="8" id="3zT-8r-K1O"/>
                 <constraint firstItem="opd-fX-mfv" firstAttribute="width" secondItem="BDT-73-whB" secondAttribute="width" id="7mI-UJ-11O"/>

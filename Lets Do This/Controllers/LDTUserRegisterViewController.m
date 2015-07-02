@@ -44,10 +44,16 @@
     [self.submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.submitButton setTitle:@"Create account" forState:UIControlStateNormal];
     self.headerView.headerLabel.text = @"Tell us about yourself!";
-    self.headerView.imageView.image = [UIImage imageNamed:@"ds-logo"];
+    self.headerView.imageView.image = [UIImage imageNamed:@"plus-icon"];
+    self.headerView.headerLabel.textColor = [UIColor whiteColor];
     self.signupCodeView.headerLabel.font = [LDTTheme font];
     self.signupCodeView.headerLabel.text = @"If you received a code from a friend, enter it here (optional)";
+    self.signupCodeView.headerLabel.textColor = [UIColor whiteColor];
     self.signupCodeView.headerLabel.textAlignment = NSTextAlignmentCenter;
+    UIImage *backgroundImage = [UIImage imageNamed:@"bg-lightning"];
+    UIImageView *backgroundImageView=[[UIImageView alloc]initWithFrame:self.view.frame];
+    backgroundImageView.image=backgroundImage;
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
 }
 
 - (IBAction)buttonTapped:(id)sender {
