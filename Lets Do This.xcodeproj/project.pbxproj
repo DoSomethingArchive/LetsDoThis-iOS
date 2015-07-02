@@ -90,8 +90,8 @@
 		B26038791B449491002FE362 /* LDTUserSignupCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserSignupCodeView.h; path = Login/LDTUserSignupCodeView.h; sourceTree = "<group>"; };
 		B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserSignupCodeView.m; path = Login/LDTUserSignupCodeView.m; sourceTree = "<group>"; };
 		B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDTUserSignupCodeView.xib; sourceTree = "<group>"; };
-		B26038801B44F8A4002FE362 /* plus-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus-icon.png"; sourceTree = "<group>"; };
-		B26038821B44F8FC002FE362 /* bg-lightning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-lightning.png"; sourceTree = "<group>"; };
+		B26038801B44F8A4002FE362 /* plus-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-icon.png"; path = "Resources/Images/plus-icon.png"; sourceTree = "<group>"; };
+		B26038821B44F8FC002FE362 /* bg-lightning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-lightning.png"; path = "Resources/Images/bg-lightning.png"; sourceTree = "<group>"; };
 		B26A687E1B2894CA006141C0 /* LDTReportbackSubmitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTReportbackSubmitViewController.h; sourceTree = "<group>"; };
 		B26A687F1B2894CA006141C0 /* LDTReportbackSubmitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTReportbackSubmitViewController.m; sourceTree = "<group>"; };
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserConnectView.xib; path = Login/LDTUserConnectView.xib; sourceTree = "<group>"; };
