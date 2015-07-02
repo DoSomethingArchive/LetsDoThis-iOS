@@ -46,7 +46,8 @@
     self.headerView.headerLabel.text = @"Tell us about yourself!";
     self.headerView.imageView.image = [UIImage imageNamed:@"ds-logo"];
     self.signupCodeView.headerLabel.font = [LDTTheme font];
-    self.signupCodeView.headerLabel.text = @"If you received a code from a friend, put it here to join their group right away (Optional).";
+    self.signupCodeView.headerLabel.text = @"If you received a code from a friend, enter it here (optional)";
+    self.signupCodeView.headerLabel.textAlignment = NSTextAlignmentCenter;
 }
 
 - (IBAction)buttonTapped:(id)sender {

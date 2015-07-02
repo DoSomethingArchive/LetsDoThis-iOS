@@ -36,13 +36,6 @@
                                 <constraint firstAttribute="height" constant="120" id="Xdo-dg-c4b"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-2j-AkF" customClass="LDTUserSignupCodeView">
-                            <rect key="frame" x="0.0" y="370" width="600" height="100"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="100" id="wo2-Y9-uW5"/>
-                            </constraints>
-                        </view>
                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WQo-g9-7HX" customClass="LDTButton">
                             <rect key="frame" x="277" y="498" width="46" height="30"/>
                             <state key="normal" title="Button">
@@ -52,11 +45,18 @@
                                 <action selector="buttonTapped:" destination="-1" eventType="touchUpInside" id="Rkf-eV-y5h"/>
                             </connections>
                         </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-2j-AkF" customClass="LDTUserSignupCodeView">
+                            <rect key="frame" x="0.0" y="370" width="600" height="100"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="100" id="wo2-Y9-uW5"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="ZSq-2j-AkF" secondAttribute="trailing" id="0XV-NY-u9h"/>
-                        <constraint firstItem="WQo-g9-7HX" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="100" id="2VW-TY-BhH"/>
+                        <constraint firstItem="WQo-g9-7HX" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="150" id="2VW-TY-BhH"/>
                         <constraint firstItem="ZSq-2j-AkF" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" id="AhF-Z3-Pck"/>
                         <constraint firstAttribute="bottom" secondItem="WQo-g9-7HX" secondAttribute="bottom" constant="8" id="BV1-CK-ZAZ"/>
                         <constraint firstAttribute="centerX" secondItem="WQo-g9-7HX" secondAttribute="centerX" id="GF7-J2-5Nj"/>
@@ -68,7 +68,7 @@
                         <constraint firstItem="yCh-M4-hsb" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" id="ilL-aO-ghx"/>
                         <constraint firstItem="yCh-M4-hsb" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" id="kfH-G8-LFc"/>
                         <constraint firstItem="Wxm-Cm-3ea" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" id="l11-27-gBx"/>
-                        <constraint firstAttribute="trailing" secondItem="WQo-g9-7HX" secondAttribute="trailing" constant="100" id="mvp-Mz-xG7"/>
+                        <constraint firstAttribute="trailing" secondItem="WQo-g9-7HX" secondAttribute="trailing" constant="150" id="mvp-Mz-xG7"/>
                         <constraint firstItem="Wxm-Cm-3ea" firstAttribute="width" secondItem="lQg-IH-mxS" secondAttribute="width" id="o7s-eW-uXB"/>
                         <constraint firstItem="Wxm-Cm-3ea" firstAttribute="top" secondItem="yCh-M4-hsb" secondAttribute="bottom" constant="10" id="tNI-Ug-LBX"/>
                         <constraint firstAttribute="trailing" secondItem="Wxm-Cm-3ea" secondAttribute="trailing" id="vvx-df-KKS"/>
