@@ -73,8 +73,10 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	[self.delegate userEnteredText:string forTextfield:textField];
-	
-	return YES;
+    self.activeField = textField;
+    return YES;
 }
+
+
 
 @end
