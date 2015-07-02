@@ -20,7 +20,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="do0-Hu-pzM">
-                    <rect key="frame" x="8" y="8" width="191" height="30"/>
+                    <rect key="frame" x="8" y="8" width="190" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
@@ -28,7 +28,7 @@
                     </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cr3-vB-gUU">
-                    <rect key="frame" x="207" y="8" width="185" height="30"/>
+                    <rect key="frame" x="206" y="8" width="186" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
@@ -52,7 +52,7 @@
                     </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ObX-B7-xle">
-                    <rect key="frame" x="8" y="122" width="250" height="30"/>
+                    <rect key="frame" x="8" y="122" width="254" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                     <connections>
@@ -60,7 +60,7 @@
                     </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u6C-dX-yR7">
-                    <rect key="frame" x="266" y="122" width="126" height="30"/>
+                    <rect key="frame" x="276" y="122" width="116" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
@@ -69,6 +69,7 @@
                 </textField>
             </subviews>
             <constraints>
+                <constraint firstItem="u6C-dX-yR7" firstAttribute="top" secondItem="LrU-Lh-iVa" secondAttribute="bottom" constant="8" id="0Wz-cP-1B9"/>
                 <constraint firstItem="ePg-Z6-beG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="0Xa-V5-RCj"/>
                 <constraint firstItem="cr3-vB-gUU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="1PZ-cF-nHa"/>
                 <constraint firstItem="LrU-Lh-iVa" firstAttribute="top" secondItem="ePg-Z6-beG" secondAttribute="bottom" constant="8" id="5AH-WO-KZ8"/>
@@ -77,8 +78,9 @@
                 <constraint firstAttribute="trailing" secondItem="ePg-Z6-beG" secondAttribute="trailing" constant="8" id="B5o-8Q-CH8"/>
                 <constraint firstItem="do0-Hu-pzM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Bu2-jg-zRj"/>
                 <constraint firstItem="do0-Hu-pzM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="F96-zg-QA8"/>
+                <constraint firstItem="ObX-B7-xle" firstAttribute="top" secondItem="LrU-Lh-iVa" secondAttribute="bottom" constant="8" id="G0T-po-Zoc"/>
                 <constraint firstItem="ObX-B7-xle" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="QnP-hP-fUe"/>
-                <constraint firstItem="u6C-dX-yR7" firstAttribute="leading" secondItem="ObX-B7-xle" secondAttribute="trailing" constant="8" id="aBA-HJ-Yai"/>
+                <constraint firstItem="u6C-dX-yR7" firstAttribute="leading" secondItem="ObX-B7-xle" secondAttribute="trailing" constant="14" id="aBA-HJ-Yai"/>
                 <constraint firstItem="ePg-Z6-beG" firstAttribute="top" secondItem="do0-Hu-pzM" secondAttribute="bottom" constant="8" id="fIk-gy-rSx"/>
                 <constraint firstItem="cr3-vB-gUU" firstAttribute="leading" secondItem="do0-Hu-pzM" secondAttribute="trailing" constant="8" id="mto-sV-pdf"/>
                 <constraint firstAttribute="trailing" secondItem="cr3-vB-gUU" secondAttribute="trailing" constant="8" id="nsv-SS-tme"/>

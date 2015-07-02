@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "InterfaceBuilderView.h"
 
-@interface LDTUserSignupCodeView : InterfaceBuilderView
+@interface LDTUserSignupCodeView : InterfaceBuilderView <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 
 @end
