@@ -27,9 +27,13 @@
 -(void)awakeFromNib {
     UIFont *font = [LDTTheme font];
     self.firstNameTextField.font = font;
+    [self.firstNameTextField setKeyboardType:UIKeyboardTypeNamePhonePad];
     self.lastNameTextField.font = font;
+    [self.lastNameTextField setKeyboardType:UIKeyboardTypeNamePhonePad];
     self.emailTextField.font = font;
+    [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     self.mobileTextField.font = font;
+    [self.mobileTextField setKeyboardType:UIKeyboardTypeNumberPad];
     self.passwordTextField.font = font;
     self.birthdayTextField.font = font;
     // Create datePicker for birthdayTextField.
