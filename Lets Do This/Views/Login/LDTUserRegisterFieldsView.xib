@@ -10,7 +10,7 @@
                 <outlet property="emailTextField" destination="ePg-Z6-beG" id="dbm-Md-3Dz"/>
                 <outlet property="firstNameTextField" destination="do0-Hu-pzM" id="RWA-pF-HX3"/>
                 <outlet property="lastNameTextField" destination="cr3-vB-gUU" id="MTA-xq-9by"/>
-                <outlet property="mobileTextField" destination="u6C-dX-yR7" id="5n8-lH-mP7"/>
+                <outlet property="mobileTextField" destination="LrU-Lh-iVa" id="tWp-DP-lYd"/>
                 <outlet property="passwordTextField" destination="ObX-B7-xle" id="GNN-mL-9vg"/>
             </connections>
         </placeholder>
