@@ -17,6 +17,7 @@
                            alpha:1.0f];
 }
 +(UIFont *)font {
-    return [UIFont fontWithName:@"Avenir" size:18];
+    //@todo: Params to return BrandonGrotesque-Bold, also specify size
+    return [UIFont fontWithName:@"BrandonGrotesque-Medium" size:18];
 }
 @end

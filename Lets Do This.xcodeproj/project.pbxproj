@@ -19,6 +19,8 @@
 		B26038811B44F8A4002FE362 /* plus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B26038801B44F8A4002FE362 /* plus-icon.png */; };
 		B26038831B44F8FC002FE362 /* bg-lightning.png in Resources */ = {isa = PBXBuildFile; fileRef = B26038821B44F8FC002FE362 /* bg-lightning.png */; };
 		B26A68801B2894CA006141C0 /* LDTReportbackSubmitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B26A687F1B2894CA006141C0 /* LDTReportbackSubmitViewController.m */; };
+		B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */; };
+		B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */; };
 		B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */; };
 		B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */; };
 		B2A136601B3D1AEF00D20273 /* LDTUserRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterViewController.xib */; };
@@ -94,6 +96,8 @@
 		B26038821B44F8FC002FE362 /* bg-lightning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-lightning.png"; path = "Resources/Images/bg-lightning.png"; sourceTree = "<group>"; };
 		B26A687E1B2894CA006141C0 /* LDTReportbackSubmitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTReportbackSubmitViewController.h; sourceTree = "<group>"; };
 		B26A687F1B2894CA006141C0 /* LDTReportbackSubmitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTReportbackSubmitViewController.m; sourceTree = "<group>"; };
+		B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_med.otf; sourceTree = "<group>"; };
+		B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_bld.otf; sourceTree = "<group>"; };
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserConnectView.xib; path = Login/LDTUserConnectView.xib; sourceTree = "<group>"; };
 		B2A1365C1B3CA4B100D20273 /* LDTUserConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTUserConnectViewController.h; sourceTree = "<group>"; };
 		B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTUserConnectViewController.m; sourceTree = "<group>"; };
@@ -232,6 +236,7 @@
 		B260387E1B44F84D002FE362 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B273A7651B459B5400CBD4E1 /* Fonts */,
 				B260387F1B44F891002FE362 /* Images */,
 			);
 			name = Resources;
@@ -244,6 +249,15 @@
 				B26038801B44F8A4002FE362 /* plus-icon.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		B273A7651B459B5400CBD4E1 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */,
+				B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		B2E652DC1B43807000EF9D69 /* Base */ = {
@@ -282,6 +296,7 @@
 		C2B151EB1ACE04C30028C336 /* Lets Do This */ = {
 			isa = PBXGroup;
 			children = (
+				C2B152151ACE05510028C336 /* Categories */,
 				C2B152161ACE05510028C336 /* Classes */,
 				C2B152191ACE05510028C336 /* Controllers */,
 				C2B1521E1ACE05510028C336 /* Models */,
@@ -332,8 +347,7 @@
 				C20BA28B1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.h */,
 				C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */,
 			);
-			name = Categories;
-			path = ../Categories;
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		C2B152161ACE05510028C336 /* Classes */ = {
@@ -404,7 +418,6 @@
 		C2B1521F1ACE05510028C336 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C2B152151ACE05510028C336 /* Categories */,
 				B2E652DC1B43807000EF9D69 /* Base */,
 				C2C112D41B066FE80070993C /* Cells */,
 				B239391A1B44495400E5BCC8 /* Login */,
@@ -563,9 +576,11 @@
 				B26038811B44F8A4002FE362 /* plus-icon.png in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
 				B2A1366B1B3DC87300D20273 /* LDTUserRegisterFieldsView.xib in Resources */,
+				B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */,
 				B2A136601B3D1AEF00D20273 /* LDTUserRegisterViewController.xib in Resources */,
 				B25C1C9C1B17648200607FF1 /* ds-logo.png in Resources */,
 				C2B151FB1ACE04C30028C336 /* Main.storyboard in Resources */,
+				B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */,
 				B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */,
 				C2B152001ACE04C30028C336 /* LaunchScreen.xib in Resources */,
 				C2B151FD1ACE04C30028C336 /* Images.xcassets in Resources */,
