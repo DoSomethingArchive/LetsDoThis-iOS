@@ -57,6 +57,8 @@
     NSMutableDictionary *tempUser = [[NSMutableDictionary alloc] init];
     tempUser[@"first_name"] = @"John";
     tempUser[@"last_name"] = @"Connor";
+    tempUser[@"email"] = @"john.connor@dosomething.org";
+    tempUser[@"birthdate"] = @"07/11/1995";
 
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:tempUser];
     [self.navigationController pushViewController:destVC animated:YES];
