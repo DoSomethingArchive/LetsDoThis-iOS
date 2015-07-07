@@ -49,12 +49,16 @@
 }
 
 - (IBAction)registerTapped:(id)sender {
-    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithNibName:@"LDTUserRegisterViewController" bundle:nil];
+    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:nil];
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
 - (IBAction)facebookButtonTouchUpInside:(id)sender {
-    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithNibName:@"LDTUserRegisterViewController" bundle:nil];
+    NSMutableDictionary *tempUser = [[NSMutableDictionary alloc] init];
+    tempUser[@"first_name"] = @"John";
+    tempUser[@"last_name"] = @"Connor";
+
+    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:tempUser];
     [self.navigationController pushViewController:destVC animated:YES];
 }
 @end
