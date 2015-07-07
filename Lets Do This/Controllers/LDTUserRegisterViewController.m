@@ -34,21 +34,10 @@
 
 @implementation LDTUserRegisterViewController
 
-//-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-//	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//	
-//	if (self) {
-//
-//	}
-//	
-//	return self;
-//	
-//}
-
 -(void)viewDidLoad {
 	[super viewDidLoad];
 
-    [self.submitButton setTitle:@"Create account" forState:UIControlStateNormal];
+    [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
     self.headerPrimaryLabel.text = @"Tell us about yourself!";
     self.signupCodeView.headerLabel.text = @"If you received a code from a friend, enter it here (optional)";
 
@@ -64,7 +53,7 @@
     backgroundImageView.image=backgroundImage;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
 
-    self.submitButton.backgroundColor = [LDTTheme clickyBlue];
+    self.submitButton.backgroundColor = [LDTTheme disabledGray];
     [self.submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
     UIFont *font = [LDTTheme font];
