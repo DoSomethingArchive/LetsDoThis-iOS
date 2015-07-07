@@ -22,7 +22,7 @@
     self = [super initWithCoder:coder];
     if (self) {
 
-        [[self titleLabel] setFont:[LDTTheme font]];
+        [[self titleLabel] setFont:[LDTTheme fontBold]];
         self.layer.cornerRadius = 10;
         NSLog(@"Position %@", NSStringFromCGPoint(self.layer.position));
     }

@@ -14,6 +14,9 @@
 @interface LDTUserConnectViewController ()
 - (IBAction)registerTapped:(id)sender;
 @property (weak, nonatomic) IBOutlet LDTButton *registerButton;
+@property (weak, nonatomic) IBOutlet LDTButton *facebookButton;
+- (IBAction)facebookButtonTouchUpInside:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 
 @end
@@ -22,10 +25,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.headerLabel.text = @"Let's make this official. Create an account\nto find actions you can do with friends.";
+
     [self.registerButton setTitle:[@"Register" uppercaseString] forState:UIControlStateNormal];
-    [self.registerButton.titleLabel setFont:[LDTTheme fontBold]];
     [self.registerButton setBackgroundColor:[LDTTheme clickyBlue]];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
+    [self.facebookButton setBackgroundColor:[LDTTheme facebookBlue]];
+    [self.facebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.facebookButton setTitle:@"Log in with Facebook" forState:UIControlStateNormal];
+
     [self.headerLabel setFont:[LDTTheme font]];
     [self.headerLabel setTextColor:[UIColor whiteColor]];
     UIImage *backgroundImage = [UIImage imageNamed:@"bg-lightning"];
@@ -40,6 +49,11 @@
 }
 
 - (IBAction)registerTapped:(id)sender {
+    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithNibName:@"LDTUserRegisterViewController" bundle:nil];
+    [self.navigationController pushViewController:destVC animated:YES];
+}
+
+- (IBAction)facebookButtonTouchUpInside:(id)sender {
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithNibName:@"LDTUserRegisterViewController" bundle:nil];
     [self.navigationController pushViewController:destVC animated:YES];
 }

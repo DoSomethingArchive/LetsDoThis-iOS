@@ -81,7 +81,6 @@
     backgroundImageView.image=backgroundImage;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
 
-    self.submitButton.titleLabel.font = [LDTTheme fontBold];
     self.submitButton.backgroundColor = [LDTTheme disabledGray];
     [self.submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
