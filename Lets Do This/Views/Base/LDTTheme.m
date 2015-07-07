@@ -16,6 +16,13 @@
                             blue:238.0f/255.0f
                            alpha:1.0f];
 }
+
++(UIColor *)disabledGray {
+    return [UIColor colorWithRed:178.0f/255.0f
+                           green:178.0f/255.0f
+                            blue:178.0f/255.0f
+                           alpha:1.0f];
+}
 +(UIFont *)font {
     //@todo: Params to return BrandonGrotesque-Bold, also specify size
     return [UIFont fontWithName:@"BrandonGrotesque-Medium" size:18];
