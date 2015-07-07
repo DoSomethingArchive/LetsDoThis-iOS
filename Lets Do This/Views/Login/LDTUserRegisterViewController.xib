@@ -28,19 +28,10 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lQg-IH-mxS">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WQo-g9-7HX" customClass="LDTButton">
-                            <rect key="frame" x="160" y="-34" width="280" height="30"/>
-                            <state key="normal" title="Button">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="buttonTapped:" destination="-1" eventType="touchUpInside" id="Rkf-eV-y5h"/>
-                            </connections>
-                        </button>
-                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-2j-AkF" customClass="LDTUserSignupCodeView">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-2j-AkF" customClass="LDTUserSignupCodeView">
+                            <rect key="frame" x="0.0" y="400" width="600" height="60"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="100" id="wo2-Y9-uW5"/>
+                                <constraint firstAttribute="height" constant="60" id="wo2-Y9-uW5"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bhL-AU-dqT">
@@ -112,22 +103,30 @@
                                 <constraint firstAttribute="width" constant="140" id="pzn-S8-LOs"/>
                             </constraints>
                         </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WQo-g9-7HX" customClass="LDTButton">
+                            <rect key="frame" x="277" y="560" width="46" height="30"/>
+                            <state key="normal" title="Button">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonTapped:" destination="-1" eventType="touchUpInside" id="Rkf-eV-y5h"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="ZSq-2j-AkF" secondAttribute="trailing" id="0XV-NY-u9h"/>
-                        <constraint firstItem="WQo-g9-7HX" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="160" id="2VW-TY-BhH"/>
                         <constraint firstItem="ZSq-2j-AkF" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" id="AhF-Z3-Pck"/>
                         <constraint firstItem="bhL-AU-dqT" firstAttribute="top" secondItem="Nkh-6g-VOu" secondAttribute="bottom" constant="31" id="BR9-Gc-kcK"/>
-                        <constraint firstAttribute="bottom" secondItem="WQo-g9-7HX" secondAttribute="bottom" constant="4" id="BV1-CK-ZAZ"/>
-                        <constraint firstAttribute="centerX" secondItem="WQo-g9-7HX" secondAttribute="centerX" id="GF7-J2-5Nj"/>
+                        <constraint firstItem="ZSq-2j-AkF" firstAttribute="top" secondItem="bhL-AU-dqT" secondAttribute="bottom" constant="2" id="GM8-9q-1cX"/>
                         <constraint firstAttribute="trailing" secondItem="XhN-FG-gBt" secondAttribute="trailing" constant="8" id="GSS-1g-ZF1"/>
                         <constraint firstItem="bhL-AU-dqT" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="8" id="H4G-Hx-0eN"/>
                         <constraint firstItem="Nkh-6g-VOu" firstAttribute="top" secondItem="XhN-FG-gBt" secondAttribute="bottom" constant="18" id="JkS-q4-BBw"/>
                         <constraint firstAttribute="width" secondItem="ZSq-2j-AkF" secondAttribute="width" id="a8p-7C-jp7"/>
+                        <constraint firstAttribute="centerX" secondItem="WQo-g9-7HX" secondAttribute="centerX" id="eyR-E2-Gb5"/>
                         <constraint firstAttribute="trailing" secondItem="bhL-AU-dqT" secondAttribute="trailing" constant="8" id="giQ-BH-W6B"/>
+                        <constraint firstItem="WQo-g9-7HX" firstAttribute="top" secondItem="ZSq-2j-AkF" secondAttribute="bottom" constant="100" id="iTN-pf-gTN"/>
                         <constraint firstAttribute="centerX" secondItem="bhL-AU-dqT" secondAttribute="centerX" id="jyC-lk-9p2"/>
-                        <constraint firstAttribute="trailing" secondItem="WQo-g9-7HX" secondAttribute="trailing" constant="160" id="mvp-Mz-xG7"/>
                         <constraint firstItem="XhN-FG-gBt" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="8" id="oSO-nM-92Y"/>
                         <constraint firstItem="XhN-FG-gBt" firstAttribute="top" secondItem="lQg-IH-mxS" secondAttribute="top" constant="8" id="rqr-bL-ixx"/>
                         <constraint firstAttribute="centerX" secondItem="Nkh-6g-VOu" secondAttribute="centerX" id="vzw-I9-IM8"/>
