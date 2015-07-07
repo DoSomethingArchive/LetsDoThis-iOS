@@ -29,8 +29,6 @@
 @property (strong, nonatomic) NSArray *requiredTextFields;
 @property (strong, nonatomic) UITextField *activeField;
 
-- (IBAction)didEditFirstName:(id)sender;
-- (IBAction)didEditLastName:(id)sender;
 - (IBAction)buttonTapped:(id)sender;
 - (IBAction)firstNameTouchUpInside:(id)sender;
 - (IBAction)lastNameEditingDidEnd:(id)sender;
@@ -158,19 +156,10 @@
     self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
-- (IBAction)didEditFirstName:(id)sender {
-    [self updateCreateAccountButton];
-}
-
-- (IBAction)didEditLastName:(id)sender {
-    [self updateCreateAccountButton];
-}
-
 - (IBAction)buttonTapped:(id)sender {
 //    NSLog(@"firstName %@", [self.userRegisterFieldsView getValues]);
 //    [self.userRegisterFieldsView processSuccessful:YES];
 }
-
 
 - (IBAction)lastNameEditingDidEnd:(id)sender {
     [self updateCreateAccountButton];
