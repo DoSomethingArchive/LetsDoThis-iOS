@@ -254,14 +254,4 @@
              };
 }
 
-#pragma mark - LDTUserRegisterFieldsViewDelegate
-
-- (void)processSuccessful:(BOOL)success {
-    NSLog(@"Process completed");
-}
-
--(void)userEnteredText:(NSString *)textEntered forTextfield:(UITextField *)textField {
-	NSLog(@"User entered: %@", textEntered);
-}
-
 @end
