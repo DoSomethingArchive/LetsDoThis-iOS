@@ -26,9 +26,19 @@
 @property (weak, nonatomic) IBOutlet UILabel *headerPrimaryLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
+@property (strong, nonatomic) NSArray *requiredTextFields;
 @property (strong, nonatomic) UITextField *activeField;
 
+- (IBAction)didEditFirstName:(id)sender;
+- (IBAction)didEditLastName:(id)sender;
 - (IBAction)buttonTapped:(id)sender;
+- (IBAction)firstNameTouchUpInside:(id)sender;
+- (IBAction)lastNameEditingDidEnd:(id)sender;
+- (IBAction)firstNameEditingDidEnd:(id)sender;
+- (IBAction)emailEditingDidEnd:(id)sender;
+- (IBAction)mobileEditingDidEnd:(id)sender;
+- (IBAction)passwordEditingDidEnd:(id)sender;
+- (IBAction)birthdayEditingDidEnd:(id)sender;
 
 @end
 
@@ -40,6 +50,13 @@
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
     self.headerPrimaryLabel.text = @"Tell us about yourself!";
     self.signupCodeView.headerLabel.text = @"If you received a code from a friend, enter it here (optional)";
+
+    self.submitButton.enabled = NO;
+    self.requiredTextFields = @[self.firstNameTextField,
+                                self.lastNameTextField,
+                                self.emailTextField,
+                                self.passwordTextField,
+                                self.birthdayTextField];
 
     [self registerForKeyboardNotifications];
     [self theme];
@@ -141,9 +158,62 @@
     self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
+- (IBAction)didEditFirstName:(id)sender {
+    [self updateCreateAccountButton];
+}
+
+- (IBAction)didEditLastName:(id)sender {
+    [self updateCreateAccountButton];
+}
+
 - (IBAction)buttonTapped:(id)sender {
 //    NSLog(@"firstName %@", [self.userRegisterFieldsView getValues]);
 //    [self.userRegisterFieldsView processSuccessful:YES];
+}
+
+
+- (IBAction)lastNameEditingDidEnd:(id)sender {
+    [self updateCreateAccountButton];
+}
+
+- (IBAction)firstNameEditingDidEnd:(id)sender {
+    [self updateCreateAccountButton];
+}
+
+- (IBAction)emailEditingDidEnd:(id)sender {
+    [self updateCreateAccountButton];
+}
+
+- (IBAction)mobileEditingDidEnd:(id)sender {
+    // @todo: Validation
+}
+
+- (IBAction)passwordEditingDidEnd:(id)sender {
+    [self updateCreateAccountButton];
+}
+
+- (IBAction)birthdayEditingDidEnd:(id)sender {
+    [self updateCreateAccountButton];
+}
+
+
+-(void)updateCreateAccountButton {
+    BOOL enabled = NO;
+    UIColor *bgColor = [LDTTheme disabledGray];
+    for (UITextField *aTextField in self.requiredTextFields) {
+        if (aTextField.text.length > 0) {
+            enabled = YES;
+            bgColor = [LDTTheme clickyBlue];
+        }
+        else {
+            enabled = NO;
+            bgColor = [LDTTheme disabledGray];
+            break;
+        }
+    }
+#warning Create theme function for disabling/enabling UIButtons
+    self.submitButton.enabled = enabled;
+    self.submitButton.backgroundColor = bgColor;
 }
 
 - (NSDictionary *)getValues {

@@ -41,31 +41,49 @@
                                     <rect key="frame" x="8" y="8" width="280" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="firstNameEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="nbT-qO-hqj"/>
+                                    </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oXN-8R-m8z">
                                     <rect key="frame" x="296" y="8" width="280" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="lastNameEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="zvy-40-VOw"/>
+                                    </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mfy-Oc-Vpw">
                                     <rect key="frame" x="8" y="46" width="568" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="emailEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="HEW-0X-uDa"/>
+                                    </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number (Optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CZ0-O0-iWG">
                                     <rect key="frame" x="8" y="84" width="568" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="mobileEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="RSk-J1-pW5"/>
+                                    </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dxA-aT-bK7">
                                     <rect key="frame" x="8" y="122" width="479" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    <connections>
+                                        <action selector="passwordEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="Gf2-ib-CdJ"/>
+                                    </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q98-Fd-6zP">
                                     <rect key="frame" x="501" y="122" width="75" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="birthdayEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="8wI-YT-Yj7"/>
+                                    </connections>
                                 </textField>
                             </subviews>
                             <constraints>
