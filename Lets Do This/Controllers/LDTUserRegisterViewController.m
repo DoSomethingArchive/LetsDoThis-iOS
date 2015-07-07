@@ -31,6 +31,9 @@
 @property (strong, nonatomic) NSArray *textFieldsRequired;
 @property (strong, nonatomic) UITextField *activeField;
 
+#warning @todo: Use DSOUser instead
+@property (strong, nonatomic) NSMutableDictionary *user;
+
 - (IBAction)buttonTapped:(id)sender;
 - (IBAction)lastNameEditingDidEnd:(id)sender;
 - (IBAction)firstNameEditingDidEnd:(id)sender;
@@ -43,14 +46,34 @@
 
 @implementation LDTUserRegisterViewController
 
+-(instancetype)initWithUser:(NSMutableDictionary *)user {
+    self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
+
+    if (self) {
+        self.user = user;
+    }
+    
+    return self;
+}
+
 -(void)viewDidLoad {
 	[super viewDidLoad];
 
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
-    self.headerPrimaryLabel.text = @"Tell us about yourself!";
+
     self.signupCodeView.headerLabel.text = @"If you received a code from a friend, enter it here (optional)";
 
-    self.submitButton.enabled = NO;
+    if (self.user) {
+        self.submitButton.enabled = YES;
+        self.headerPrimaryLabel.text = @"Confirm your Facebook details.";
+        self.firstNameTextField.text = self.user[@"first_name"];
+        self.lastNameTextField.text = self.user[@"last_name"];
+    }
+    else {
+        self.submitButton.enabled = NO;
+        self.headerPrimaryLabel.text = @"Tell us about yourself!";
+    }
+
 
     self.textFields = @[self.firstNameTextField,
                         self.lastNameTextField,

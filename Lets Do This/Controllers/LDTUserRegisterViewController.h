@@ -10,4 +10,6 @@
 
 @interface LDTUserRegisterViewController : UIViewController <UITextFieldDelegate>
 
+-(instancetype)initWithUser:(NSMutableDictionary *)user;
+
 @end
