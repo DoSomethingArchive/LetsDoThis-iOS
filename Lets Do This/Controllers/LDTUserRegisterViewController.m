@@ -26,7 +26,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *headerPrimaryLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
-@property (strong, nonatomic) NSArray *requiredTextFields;
+@property (strong, nonatomic) NSArray *textFields;
+@property (strong, nonatomic) NSArray *textFieldsRequired;
 @property (strong, nonatomic) UITextField *activeField;
 
 - (IBAction)buttonTapped:(id)sender;
@@ -50,7 +51,19 @@
     self.signupCodeView.headerLabel.text = @"If you received a code from a friend, enter it here (optional)";
 
     self.submitButton.enabled = NO;
-    self.requiredTextFields = @[self.firstNameTextField,
+
+    self.textFields = @[self.firstNameTextField,
+                        self.lastNameTextField,
+                        self.emailTextField,
+                        self.mobileTextField,
+                        self.passwordTextField,
+                        self.birthdayTextField
+                        ];
+    for (UITextField *aTextField in self.textFields) {
+        aTextField.delegate = self;
+    }
+
+    self.textFieldsRequired = @[self.firstNameTextField,
                                 self.lastNameTextField,
                                 self.emailTextField,
                                 self.passwordTextField,
@@ -72,16 +85,17 @@
     [self.submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
     UIFont *font = [LDTTheme font];
-    self.firstNameTextField.font = font;
+    for (UITextField *aTextField in self.textFields) {
+        aTextField.font = font;
+    }
+
     [self.firstNameTextField setKeyboardType:UIKeyboardTypeNamePhonePad];
-    self.lastNameTextField.font = font;
     [self.lastNameTextField setKeyboardType:UIKeyboardTypeNamePhonePad];
-    self.emailTextField.font = font;
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
-    self.mobileTextField.font = font;
-    [self.mobileTextField setKeyboardType:UIKeyboardTypeNumberPad];
-    self.passwordTextField.font = font;
-    self.birthdayTextField.font = font;
+
+    // Comment out for now until we figure out how to dismiss.
+    //[self.mobileTextField setKeyboardType:UIKeyboardTypeNumberPad];
+
     self.headerPrimaryLabel.font = font;
     self.headerPrimaryLabel.textAlignment = NSTextAlignmentCenter;
     self.headerPrimaryLabel.textColor = [UIColor whiteColor];
@@ -124,6 +138,11 @@
                                              selector:@selector(keyboardWillBeHidden:)
                                                  name:UIKeyboardWillHideNotification object:nil];
     
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -189,7 +208,7 @@
 -(void)updateCreateAccountButton {
     BOOL enabled = NO;
     UIColor *bgColor = [LDTTheme disabledGray];
-    for (UITextField *aTextField in self.requiredTextFields) {
+    for (UITextField *aTextField in self.textFieldsRequired) {
         if (aTextField.text.length > 0) {
             enabled = YES;
             bgColor = [LDTTheme clickyBlue];
