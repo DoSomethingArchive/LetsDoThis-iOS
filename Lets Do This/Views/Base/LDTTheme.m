@@ -23,8 +23,11 @@
                             blue:178.0f/255.0f
                            alpha:1.0f];
 }
+// @todo: Second set of functions specifying size? Potentially typedef of size values?
 +(UIFont *)font {
-    //@todo: Params to return BrandonGrotesque-Bold, also specify size
     return [UIFont fontWithName:@"BrandonGrotesque-Medium" size:18];
+}
++(UIFont *)fontBold {
+    return [UIFont fontWithName:@"BrandonGrotesque-Bold" size:18];
 }
 @end
