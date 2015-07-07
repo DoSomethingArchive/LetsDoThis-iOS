@@ -64,13 +64,13 @@
     self.signupCodeView.headerLabel.text = @"If you received a code from a friend, enter it here (optional)";
 
     if (self.user) {
-        self.submitButton.enabled = YES;
+        [self.submitButton enable];
         self.headerPrimaryLabel.text = @"Confirm your Facebook details.";
         self.firstNameTextField.text = self.user[@"first_name"];
         self.lastNameTextField.text = self.user[@"last_name"];
     }
     else {
-        self.submitButton.enabled = NO;
+        [self.submitButton disable];
         self.headerPrimaryLabel.text = @"Tell us about yourself!";
     }
 
@@ -103,9 +103,6 @@
     UIImageView *backgroundImageView=[[UIImageView alloc]initWithFrame:self.view.frame];
     backgroundImageView.image=backgroundImage;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
-
-    self.submitButton.backgroundColor = [LDTTheme disabledGray];
-    [self.submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
     UIFont *font = [LDTTheme font];
     for (UITextField *aTextField in self.textFields) {
@@ -202,6 +199,9 @@
     if ([self validateForm]) {
         [LDTMessage showNotificationWithTitle:@"Great job" type:TSMessageNotificationTypeSuccess];
     }
+    else {
+        [self.submitButton disable];
+    }
 }
 
 - (IBAction)lastNameEditingDidEnd:(id)sender {
@@ -235,17 +235,18 @@
     for (UITextField *aTextField in self.textFieldsRequired) {
         if (aTextField.text.length > 0) {
             enabled = YES;
-            bgColor = [LDTTheme clickyBlue];
         }
         else {
             enabled = NO;
-            bgColor = [LDTTheme disabledGray];
             break;
         }
     }
-#warning Create theme function for disabling/enabling UIButtons
-    self.submitButton.enabled = enabled;
-    self.submitButton.backgroundColor = bgColor;
+    if (enabled) {
+        [self.submitButton enable];
+    }
+    else {
+        [self.submitButton disable];
+    }
 }
 
 - (BOOL)validateForm {
