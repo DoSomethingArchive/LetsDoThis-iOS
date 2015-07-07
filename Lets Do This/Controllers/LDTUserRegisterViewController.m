@@ -60,17 +60,18 @@
 	[super viewDidLoad];
 
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
+    [self.submitButton disable];
 
     self.signupCodeView.headerLabel.text = @"If you received a code from a friend, enter it here (optional)";
 
     if (self.user) {
-        [self.submitButton enable];
         self.headerPrimaryLabel.text = @"Confirm your Facebook details.";
         self.firstNameTextField.text = self.user[@"first_name"];
         self.lastNameTextField.text = self.user[@"last_name"];
+        self.emailTextField.text = self.user[@"email"];
+        self.birthdayTextField.text = self.user[@"birthdate"];
     }
     else {
-        [self.submitButton disable];
         self.headerPrimaryLabel.text = @"Tell us about yourself!";
     }
 
