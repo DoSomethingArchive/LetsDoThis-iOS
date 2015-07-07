@@ -22,6 +22,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.registerButton setTitle:[@"Register" uppercaseString] forState:UIControlStateNormal];
+    [self.registerButton.titleLabel setFont:[LDTTheme fontBold]];
     [self.registerButton setBackgroundColor:[LDTTheme clickyBlue]];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.headerLabel setFont:[LDTTheme font]];

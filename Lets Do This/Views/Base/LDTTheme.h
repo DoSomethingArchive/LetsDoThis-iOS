@@ -12,4 +12,5 @@
 +(UIColor *)clickyBlue;
 +(UIColor *)disabledGray;
 +(UIFont *)font;
++(UIFont *)fontBold;
 @end
