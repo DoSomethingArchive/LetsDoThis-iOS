@@ -10,6 +10,7 @@
 #import "LDTUserSignupCodeView.h"
 #import "LDTTheme.h"
 #import "LDTButton.h"
+#import "LDTMessage.h"
 
 @interface LDTUserRegisterViewController ()
 
@@ -31,7 +32,6 @@
 @property (strong, nonatomic) UITextField *activeField;
 
 - (IBAction)buttonTapped:(id)sender;
-- (IBAction)firstNameTouchUpInside:(id)sender;
 - (IBAction)lastNameEditingDidEnd:(id)sender;
 - (IBAction)firstNameEditingDidEnd:(id)sender;
 - (IBAction)emailEditingDidEnd:(id)sender;
@@ -177,8 +177,9 @@
 }
 
 - (IBAction)buttonTapped:(id)sender {
-//    NSLog(@"firstName %@", [self.userRegisterFieldsView getValues]);
-//    [self.userRegisterFieldsView processSuccessful:YES];
+    if ([self validateForm]) {
+        [LDTMessage showNotificationWithTitle:@"Great job" type:TSMessageNotificationTypeSuccess];
+    }
 }
 
 - (IBAction)lastNameEditingDidEnd:(id)sender {
@@ -223,6 +224,24 @@
 #warning Create theme function for disabling/enabling UIButtons
     self.submitButton.enabled = enabled;
     self.submitButton.backgroundColor = bgColor;
+}
+
+- (BOOL)validateForm {
+    BOOL isValid = YES;
+    if (![self validateEmail:self.emailTextField.text]) {
+        [LDTMessage showNotificationWithTitle:@"Invalid email" type:TSMessageNotificationTypeError];
+        isValid = NO;
+    }
+    return isValid;
+}
+
+- (BOOL)validateEmail:(NSString *)candidate {
+    if (candidate.length < 6) {
+        return NO;
+    }
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:candidate];
 }
 
 - (NSDictionary *)getValues {
