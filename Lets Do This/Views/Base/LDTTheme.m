@@ -23,6 +23,14 @@
                             blue:178.0f/255.0f
                            alpha:1.0f];
 }
+
++(UIColor *)facebookBlue {
+    return [UIColor colorWithRed:65.0f/255.0f
+                           green:94.0f/255.0f
+                            blue:169.0f/255.0f
+                           alpha:1.0f];
+}
+
 // @todo: Second set of functions specifying size? Potentially typedef of size values?
 +(UIFont *)font {
     return [UIFont fontWithName:@"BrandonGrotesque-Medium" size:18];

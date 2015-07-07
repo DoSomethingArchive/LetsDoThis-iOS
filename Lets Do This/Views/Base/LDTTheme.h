@@ -9,8 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface LDTTheme : NSObject
+
 +(UIColor *)clickyBlue;
 +(UIColor *)disabledGray;
++(UIColor *)facebookBlue;
+
 +(UIFont *)font;
 +(UIFont *)fontBold;
+
 @end
