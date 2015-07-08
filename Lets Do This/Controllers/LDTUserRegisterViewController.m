@@ -29,7 +29,6 @@
 
 @property (strong, nonatomic) NSArray *textFields;
 @property (strong, nonatomic) NSArray *textFieldsRequired;
-@property (strong, nonatomic) UITextField *activeField;
 
 @property (nonatomic, strong) UIToolbar *keyboardToolbar;
 @property (nonatomic, readwrite) BOOL keyboardVisible;
@@ -111,7 +110,6 @@
                                 self.passwordTextField,
                                 self.birthdayTextField];
 
-//    [self registerForKeyboardNotifications];
     [self theme];
     [self initDatePicker];
 }
@@ -165,59 +163,17 @@
     [self.birthdayTextField setInputView:datePicker];
 }
 
-- (void)updateBirthdayField:(UIDatePicker *)sender
-{
+- (void)updateBirthdayField:(UIDatePicker *)sender{
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"MM/dd/YYYY"];
     self.birthdayTextField.text = [df stringFromDate:sender.date];
 }
 
 
-- (void)registerForKeyboardNotifications
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardDidShowNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
-    
-}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
-}
-
-//- (void)textFieldDidBeginEditing:(UITextField *)textField {
-//    self.activeField = textField;
-//}
-
-// Called when the UIKeyboardDidShowNotification is sent.
-// @see https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/KeyboardManagement/KeyboardManagement.html#//apple_ref/doc/uid/TP40009542-CH5-SW7
-
-- (void)keyboardWasShown:(NSNotification*)aNotification
-{
-    NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
-    self.scrollView.contentInset = contentInsets;
-    self.scrollView.scrollIndicatorInsets = contentInsets;
-    CGRect aRect = self.view.frame;
-    aRect.size.height -= kbSize.height;
-    if (!CGRectContainsPoint(aRect, self.activeField.frame.origin) ) {
-        [self.scrollView scrollRectToVisible:self.activeField.frame animated:YES];
-    }
-}
-
-// Called when the UIKeyboardWillHideNotification is sent
-- (void)keyboardWillBeHidden:(NSNotification*)aNotification
-{
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    self.scrollView.contentInset = contentInsets;
-    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
 - (IBAction)buttonTapped:(id)sender {
