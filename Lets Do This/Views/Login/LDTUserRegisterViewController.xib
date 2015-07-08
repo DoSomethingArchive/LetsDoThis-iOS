@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -25,17 +25,17 @@
             <rect key="frame" x="0.0" y="64" width="600" height="536"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lQg-IH-mxS">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lQg-IH-mxS">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-2j-AkF" customClass="LDTUserSignupCodeView">
-                            <rect key="frame" x="0.0" y="400" width="600" height="60"/>
+                            <rect key="frame" x="0.0" y="367" width="600" height="80"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="60" id="wo2-Y9-uW5"/>
+                                <constraint firstAttribute="height" constant="80" id="wo2-Y9-uW5"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bhL-AU-dqT">
-                            <rect key="frame" x="8" y="218" width="584" height="180"/>
+                            <rect key="frame" x="8" y="185" width="584" height="180"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QjS-W9-vkE">
                                     <rect key="frame" x="8" y="8" width="280" height="30"/>
@@ -115,14 +115,14 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nkh-6g-VOu">
-                            <rect key="frame" x="230" y="47" width="140" height="140"/>
+                            <rect key="frame" x="230" y="37" width="140" height="140"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="140" id="nta-qi-c8g"/>
                                 <constraint firstAttribute="width" constant="140" id="pzn-S8-LOs"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WQo-g9-7HX" customClass="LDTButton">
-                            <rect key="frame" x="277" y="560" width="46" height="30"/>
+                            <rect key="frame" x="277" y="507" width="46" height="30"/>
                             <state key="normal" title="Button">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -135,15 +135,16 @@
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="ZSq-2j-AkF" secondAttribute="trailing" id="0XV-NY-u9h"/>
                         <constraint firstItem="ZSq-2j-AkF" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" id="AhF-Z3-Pck"/>
-                        <constraint firstItem="bhL-AU-dqT" firstAttribute="top" secondItem="Nkh-6g-VOu" secondAttribute="bottom" constant="31" id="BR9-Gc-kcK"/>
+                        <constraint firstItem="bhL-AU-dqT" firstAttribute="top" secondItem="Nkh-6g-VOu" secondAttribute="bottom" constant="8" id="BR9-Gc-kcK"/>
+                        <constraint firstAttribute="bottom" secondItem="WQo-g9-7HX" secondAttribute="bottom" constant="19" id="D4W-gj-d9D"/>
                         <constraint firstItem="ZSq-2j-AkF" firstAttribute="top" secondItem="bhL-AU-dqT" secondAttribute="bottom" constant="2" id="GM8-9q-1cX"/>
                         <constraint firstAttribute="trailing" secondItem="XhN-FG-gBt" secondAttribute="trailing" constant="8" id="GSS-1g-ZF1"/>
                         <constraint firstItem="bhL-AU-dqT" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="8" id="H4G-Hx-0eN"/>
-                        <constraint firstItem="Nkh-6g-VOu" firstAttribute="top" secondItem="XhN-FG-gBt" secondAttribute="bottom" constant="18" id="JkS-q4-BBw"/>
+                        <constraint firstItem="Nkh-6g-VOu" firstAttribute="top" secondItem="XhN-FG-gBt" secondAttribute="bottom" constant="8" id="JkS-q4-BBw"/>
                         <constraint firstAttribute="width" secondItem="ZSq-2j-AkF" secondAttribute="width" id="a8p-7C-jp7"/>
                         <constraint firstAttribute="centerX" secondItem="WQo-g9-7HX" secondAttribute="centerX" id="eyR-E2-Gb5"/>
                         <constraint firstAttribute="trailing" secondItem="bhL-AU-dqT" secondAttribute="trailing" constant="8" id="giQ-BH-W6B"/>
-                        <constraint firstItem="WQo-g9-7HX" firstAttribute="top" secondItem="ZSq-2j-AkF" secondAttribute="bottom" constant="100" id="iTN-pf-gTN"/>
+                        <constraint firstItem="WQo-g9-7HX" firstAttribute="top" secondItem="ZSq-2j-AkF" secondAttribute="bottom" constant="60" id="iTN-pf-gTN"/>
                         <constraint firstAttribute="centerX" secondItem="bhL-AU-dqT" secondAttribute="centerX" id="jyC-lk-9p2"/>
                         <constraint firstItem="XhN-FG-gBt" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="8" id="oSO-nM-92Y"/>
                         <constraint firstItem="XhN-FG-gBt" firstAttribute="top" secondItem="lQg-IH-mxS" secondAttribute="top" constant="8" id="rqr-bL-ixx"/>
