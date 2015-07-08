@@ -256,7 +256,6 @@
 
 -(void)updateCreateAccountButton {
     BOOL enabled = NO;
-    UIColor *bgColor = [LDTTheme disabledGray];
     for (UITextField *aTextField in self.textFieldsRequired) {
         if (aTextField.text.length > 0) {
             enabled = YES;
