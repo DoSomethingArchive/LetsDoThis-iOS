@@ -136,9 +136,7 @@
     [self.firstNameTextField setKeyboardType:UIKeyboardTypeNamePhonePad];
     [self.lastNameTextField setKeyboardType:UIKeyboardTypeNamePhonePad];
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
-
-    // Comment out for now until we figure out how to dismiss.
-    //[self.mobileTextField setKeyboardType:UIKeyboardTypeNumberPad];
+    [self.mobileTextField setKeyboardType:UIKeyboardTypeNumberPad];
 
     self.headerPrimaryLabel.font = font;
     self.headerPrimaryLabel.textAlignment = NSTextAlignmentCenter;
@@ -303,7 +301,7 @@
 }
 
 -(void)keyboardPrevButtonPressed {
-#warning Implement this method
+    [self prevTextView];
 }
 
 -(void)keyboardNextButtonPressed {
@@ -407,6 +405,23 @@
         nextTextView = [textViews objectAtIndex:idx+1];
     } else {
         nextTextView = [textViews firstObject];
+    }
+    [nextTextView becomeFirstResponder];
+
+    return nextTextView;
+}
+
+-(UIView *)prevTextView {
+    NSArray *textViews = [NSArray arrayWithArray:self.textFields];
+    NSPredicate *responderPredicate = [NSPredicate predicateWithFormat:@"isFirstResponder == YES"];
+    UIView *currentTextView = [[textViews filteredArrayUsingPredicate:responderPredicate] firstObject];
+
+    NSInteger idx = [textViews indexOfObject:currentTextView];
+    UIView *nextTextView;
+    if (idx > 0) {
+        nextTextView = [textViews objectAtIndex:idx-1];
+    } else {
+        nextTextView = [textViews lastObject];
     }
     [nextTextView becomeFirstResponder];
 
