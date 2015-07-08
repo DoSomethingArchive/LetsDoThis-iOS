@@ -10,9 +10,6 @@
 #import "LDTTheme.h"
 
 @interface LDTUserSignupCodeView()
-@property (weak, nonatomic) IBOutlet UITextField *firstTextField;
-@property (weak, nonatomic) IBOutlet UITextField *secondTextField;
-@property (weak, nonatomic) IBOutlet UITextField *thirdTextField;
 
 @end
 

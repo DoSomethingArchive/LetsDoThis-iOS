@@ -96,7 +96,10 @@
                         self.emailTextField,
                         self.mobileTextField,
                         self.passwordTextField,
-                        self.birthdayTextField
+                        self.birthdayTextField,
+                        self.signupCodeView.firstTextField,
+                        self.signupCodeView.secondTextField,
+                        self.signupCodeView.thirdTextField
                         ];
     for (UITextField *aTextField in self.textFields) {
         aTextField.delegate = self;
