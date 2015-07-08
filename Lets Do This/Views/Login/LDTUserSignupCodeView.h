@@ -11,5 +11,8 @@
 
 @interface LDTUserSignupCodeView : InterfaceBuilderView <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
+@property (weak, nonatomic) IBOutlet UITextField *firstTextField;
+@property (weak, nonatomic) IBOutlet UITextField *secondTextField;
+@property (weak, nonatomic) IBOutlet UITextField *thirdTextField;
 
 @end
