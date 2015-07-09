@@ -76,9 +76,9 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ye2-yH-4dS" customClass="LDTUserSignupCodeView">
-                            <rect key="frame" x="120" y="338" width="360" height="100"/>
+                            <rect key="frame" x="140" y="338" width="320" height="100"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="360" id="l4f-GU-yop"/>
+                                <constraint firstAttribute="width" constant="320" id="l4f-GU-yop"/>
                                 <constraint firstAttribute="height" constant="100" id="ypl-dZ-DRH"/>
                             </constraints>
                         </view>

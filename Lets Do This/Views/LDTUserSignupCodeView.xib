@@ -18,7 +18,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yqs-w6-G6Q">
-                    <rect key="frame" x="20" y="0.0" width="560" height="60"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="l0u-7f-RH6"/>
                     </constraints>
@@ -27,7 +27,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="opd-fX-mfv">
-                    <rect key="frame" x="403" y="68" width="189" height="30"/>
+                    <rect key="frame" x="405" y="68" width="195" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
@@ -35,7 +35,7 @@
                     </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mWi-Dy-6Nv">
-                    <rect key="frame" x="8" y="68" width="189" height="30"/>
+                    <rect key="frame" x="0.0" y="68" width="195" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
@@ -43,7 +43,7 @@
                     </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BDT-73-whB">
-                    <rect key="frame" x="205" y="68" width="190" height="30"/>
+                    <rect key="frame" x="203" y="68" width="194" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
@@ -55,13 +55,13 @@
                 <constraint firstItem="BDT-73-whB" firstAttribute="leading" secondItem="mWi-Dy-6Nv" secondAttribute="trailing" constant="8" id="3zT-8r-K1O"/>
                 <constraint firstItem="opd-fX-mfv" firstAttribute="width" secondItem="BDT-73-whB" secondAttribute="width" id="7mI-UJ-11O"/>
                 <constraint firstItem="opd-fX-mfv" firstAttribute="width" secondItem="mWi-Dy-6Nv" secondAttribute="width" id="AMd-Pw-t31"/>
-                <constraint firstItem="Yqs-w6-G6Q" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="LYi-WV-YxN"/>
+                <constraint firstItem="Yqs-w6-G6Q" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="LYi-WV-YxN"/>
                 <constraint firstItem="BDT-73-whB" firstAttribute="top" secondItem="Yqs-w6-G6Q" secondAttribute="bottom" constant="8" id="OQa-0E-h6d"/>
-                <constraint firstAttribute="trailing" secondItem="Yqs-w6-G6Q" secondAttribute="trailing" constant="20" id="arQ-AG-31c"/>
+                <constraint firstAttribute="trailing" secondItem="Yqs-w6-G6Q" secondAttribute="trailing" id="arQ-AG-31c"/>
                 <constraint firstItem="opd-fX-mfv" firstAttribute="leading" secondItem="BDT-73-whB" secondAttribute="trailing" constant="8" id="cJ9-Ec-BkB"/>
-                <constraint firstAttribute="trailing" secondItem="opd-fX-mfv" secondAttribute="trailing" constant="8" id="gUi-7C-txa"/>
+                <constraint firstAttribute="trailing" secondItem="opd-fX-mfv" secondAttribute="trailing" id="gUi-7C-txa"/>
                 <constraint firstItem="opd-fX-mfv" firstAttribute="top" secondItem="Yqs-w6-G6Q" secondAttribute="bottom" constant="8" id="i4u-U0-9H5"/>
-                <constraint firstItem="mWi-Dy-6Nv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="i7V-u3-brv"/>
+                <constraint firstItem="mWi-Dy-6Nv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="i7V-u3-brv"/>
                 <constraint firstItem="Yqs-w6-G6Q" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="uCa-ez-ZkY"/>
                 <constraint firstItem="mWi-Dy-6Nv" firstAttribute="top" secondItem="Yqs-w6-G6Q" secondAttribute="bottom" constant="8" id="yQS-vm-gZG"/>
             </constraints>
