@@ -10,26 +10,28 @@
 #import "LDTTheme.h"
 
 @interface LDTUserSignupCodeView()
-
+@property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 @end
 
 @implementation LDTUserSignupCodeView
 
+#pragma mark - NSNibAwaking
+
 -(void)awakeFromNib {
-    UIFont *font = [LDTTheme font];
-    self.firstTextField.font = font;
+    self.headerLabel.text = @"Invited to this app by a friend? Enter that invite code here! (Optional.)";
     self.firstTextField.placeholder = @"Enter";
-    self.secondTextField.font = font;
     self.secondTextField.placeholder = @"Code";
-    self.thirdTextField.font = font;
     self.thirdTextField.placeholder = @"Here";
+    [self theme];
 }
 
-#pragma mark - UITextFieldDelegate
+#pragma mark = LDTUserSignupCodeView
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSLog(@"String %@", string);
-    return YES;
+-(void) theme {
+    UIFont *font = [LDTTheme font];
+    self.headerLabel.font = font;
+    self.headerLabel.textColor = [UIColor whiteColor];
 }
+
 
 @end

@@ -14,6 +14,13 @@
 
 @interface LDTUserLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
+@property (weak, nonatomic) IBOutlet LDTButton *submitButton;
+- (IBAction)submitButtonTouchUpInside:(id)sender;
+@property (weak, nonatomic) IBOutlet LDTButton *passwordButton;
+- (IBAction)passwordButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -32,7 +39,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.headerLabel.text = @"Sign in with your DoSomething.org account.";
+    self.emailTextField.placeholder = @"Email";
+    self.passwordTextField.placeholder = @"Password";
+
+    self.textFields = @[self.emailTextField,
+                        self.passwordTextField,
+                        self.signupCodeView.firstTextField,
+                        self.signupCodeView.secondTextField,
+                        self.signupCodeView.thirdTextField
+                        ];
+    for (UITextField *aTextField in self.textFields) {
+        aTextField.delegate = self;
+    }
+
+    [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
+    [self.submitButton disable];
+    [self.passwordButton setTitle:[@"Forgot password?" uppercaseString] forState:UIControlStateNormal];
+
     [self theme];
 }
 
@@ -40,6 +65,24 @@
 
 - (void) theme {
     [LDTTheme setLightningBackground:self.view];
+
+    UIFont *font = [LDTTheme font];
+    self.headerLabel.font = font;
+    self.headerLabel.textAlignment = NSTextAlignmentCenter;
+    self.headerLabel.textColor = [UIColor whiteColor];
+    for (UITextField *aTextField in self.textFields) {
+        aTextField.font = font;
+    }
+
+    [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
+    self.passwordTextField.secureTextEntry = YES;
+
+    self.passwordButton.backgroundColor = [UIColor whiteColor];
+    [self.passwordButton setTitleColor:[LDTTheme clickyBlue] forState:UIControlStateNormal];
 }
 
+- (IBAction)submitButtonTouchUpInside:(id)sender {
+}
+- (IBAction)passwordButtonTouchUpInside:(id)sender {
+}
 @end

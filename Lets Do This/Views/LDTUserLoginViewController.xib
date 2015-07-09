@@ -6,8 +6,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserLoginViewController">
             <connections>
+                <outlet property="emailTextField" destination="84m-fh-8Zr" id="HE4-E4-7Hw"/>
                 <outlet property="headerLabel" destination="50F-0i-WQW" id="Jis-ck-LY3"/>
+                <outlet property="passwordButton" destination="v0D-uH-55q" id="4br-2X-IuZ"/>
+                <outlet property="passwordTextField" destination="g81-9z-70h" id="h06-cB-p4B"/>
                 <outlet property="scrollView" destination="pRb-YO-KnF" id="Lcw-5g-4zo"/>
+                <outlet property="signupCodeView" destination="ye2-yH-4dS" id="0Le-vd-Nph"/>
+                <outlet property="submitButton" destination="Eja-ai-TkH" id="5jH-a1-1Ga"/>
                 <outlet property="view" destination="iN0-l3-epB" id="Wyp-pI-Z39"/>
             </connections>
         </placeholder>
@@ -16,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pRb-YO-KnF">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pRb-YO-KnF">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4pK-DW-rH5">
@@ -36,7 +41,6 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="centerX" secondItem="50F-0i-WQW" secondAttribute="centerX" id="10H-BF-JSM"/>
                                 <constraint firstAttribute="height" constant="200" id="998-aR-JZS"/>
@@ -46,18 +50,71 @@
                                 <constraint firstItem="50F-0i-WQW" firstAttribute="top" secondItem="cTZ-YE-jBE" secondAttribute="bottom" constant="22" id="iKB-Bo-wtV"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
-                            <rect key="frame" x="277" y="-60" width="46" height="30"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HQA-Wg-qj6">
+                            <rect key="frame" x="140" y="216" width="320" height="100"/>
+                            <subviews>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="84m-fh-8Zr">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g81-9z-70h">
+                                    <rect key="frame" x="0.0" y="46" width="320" height="30"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="84m-fh-8Zr" secondAttribute="trailing" id="79Q-l4-oSY"/>
+                                <constraint firstItem="84m-fh-8Zr" firstAttribute="leading" secondItem="HQA-Wg-qj6" secondAttribute="leading" id="Cw8-0Q-YG3"/>
+                                <constraint firstItem="g81-9z-70h" firstAttribute="leading" secondItem="HQA-Wg-qj6" secondAttribute="leading" id="Eel-M4-OF8"/>
+                                <constraint firstItem="84m-fh-8Zr" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="top" id="RtC-tF-YfV"/>
+                                <constraint firstItem="g81-9z-70h" firstAttribute="top" secondItem="84m-fh-8Zr" secondAttribute="bottom" constant="16" id="cJJ-TM-W0k"/>
+                                <constraint firstAttribute="width" constant="320" id="oAt-t0-7y9"/>
+                                <constraint firstAttribute="height" constant="100" id="rjh-Aw-i0D"/>
+                                <constraint firstAttribute="trailing" secondItem="g81-9z-70h" secondAttribute="trailing" id="wsN-qj-XE7"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ye2-yH-4dS" customClass="LDTUserSignupCodeView">
+                            <rect key="frame" x="120" y="338" width="360" height="100"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="360" id="l4f-GU-yop"/>
+                                <constraint firstAttribute="height" constant="100" id="ypl-dZ-DRH"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
+                            <rect key="frame" x="277" y="478" width="46" height="30"/>
                             <state key="normal" title="Button">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="submitButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="9Mj-0s-X7R"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0D-uH-55q" customClass="LDTButton">
+                            <rect key="frame" x="277" y="588" width="46" height="30"/>
+                            <state key="normal" title="Button">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="passwordButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="E5g-Zt-a36"/>
+                            </connections>
                         </button>
                     </subviews>
                     <constraints>
+                        <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="16" id="6Dk-ft-HVd"/>
+                        <constraint firstAttribute="trailing" secondItem="HQA-Wg-qj6" secondAttribute="trailing" id="EhN-Q8-P45"/>
+                        <constraint firstAttribute="centerX" secondItem="ye2-yH-4dS" secondAttribute="centerX" id="Fr9-bW-DVn"/>
+                        <constraint firstAttribute="centerX" secondItem="Eja-ai-TkH" secondAttribute="centerX" id="Kaj-VC-eXI"/>
                         <constraint firstAttribute="centerX" secondItem="4pK-DW-rH5" secondAttribute="centerX" id="Q0O-KM-Ti0"/>
-                        <constraint firstAttribute="centerX" secondItem="Eja-ai-TkH" secondAttribute="centerX" id="bP5-zE-AeU"/>
-                        <constraint firstAttribute="bottom" secondItem="Eja-ai-TkH" secondAttribute="bottom" constant="30" id="dTb-WR-sUW"/>
+                        <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="16" id="UBr-sW-BIg"/>
+                        <constraint firstItem="ye2-yH-4dS" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="bottom" constant="22" id="bNZ-eb-7q1"/>
+                        <constraint firstAttribute="centerX" secondItem="HQA-Wg-qj6" secondAttribute="centerX" id="ebU-eS-Qs2"/>
+                        <constraint firstItem="v0D-uH-55q" firstAttribute="top" secondItem="Eja-ai-TkH" secondAttribute="bottom" constant="80" id="fTD-0y-lbf"/>
                         <constraint firstItem="4pK-DW-rH5" firstAttribute="top" secondItem="pRb-YO-KnF" secondAttribute="top" id="hmm-TD-14n"/>
+                        <constraint firstItem="Eja-ai-TkH" firstAttribute="top" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="40" id="tw0-S8-W1K"/>
+                        <constraint firstAttribute="bottom" secondItem="HQA-Wg-qj6" secondAttribute="bottom" id="wi3-PD-TEB"/>
+                        <constraint firstAttribute="centerX" secondItem="v0D-uH-55q" secondAttribute="centerX" id="yVD-7u-xFg"/>
                     </constraints>
                 </scrollView>
             </subviews>
@@ -68,6 +125,7 @@
                 <constraint firstItem="pRb-YO-KnF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="adJ-u6-qdp"/>
                 <constraint firstAttribute="bottom" secondItem="pRb-YO-KnF" secondAttribute="bottom" id="ef7-O0-BZP"/>
             </constraints>
+            <point key="canvasLocation" x="279" y="309"/>
         </view>
     </objects>
     <resources>

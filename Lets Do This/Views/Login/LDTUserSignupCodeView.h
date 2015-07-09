@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "InterfaceBuilderView.h"
 
-@interface LDTUserSignupCodeView : InterfaceBuilderView <UITextFieldDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *headerLabel;
+@interface LDTUserSignupCodeView : InterfaceBuilderView
+
 @property (weak, nonatomic) IBOutlet UITextField *firstTextField;
 @property (weak, nonatomic) IBOutlet UITextField *secondTextField;
 @property (weak, nonatomic) IBOutlet UITextField *thirdTextField;
