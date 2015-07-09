@@ -9,7 +9,7 @@
                 <outlet property="birthdayTextField" destination="q98-Fd-6zP" id="bUY-Pz-GzG"/>
                 <outlet property="emailTextField" destination="Mfy-Oc-Vpw" id="cWW-G0-B5W"/>
                 <outlet property="firstNameTextField" destination="QjS-W9-vkE" id="25v-Lz-psE"/>
-                <outlet property="headerPrimaryLabel" destination="XhN-FG-gBt" id="24g-zT-cvB"/>
+                <outlet property="headerLabel" destination="XhN-FG-gBt" id="BX9-bN-4l8"/>
                 <outlet property="imageView" destination="Nkh-6g-VOu" id="3et-Le-1bv"/>
                 <outlet property="lastNameTextField" destination="oXN-8R-m8z" id="6Tc-gp-K0P"/>
                 <outlet property="mobileTextField" destination="CZ0-O0-iWG" id="UV7-sg-a3P"/>
