@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LDTBaseUserLoginViewController : UIViewController
+@interface LDTBaseUserLoginViewController : UIViewController<UITextFieldDelegate>
+
+@property (strong, nonatomic) NSArray *textFields;
+@property (strong, nonatomic) NSArray *textFieldsRequired;
 
 @end
