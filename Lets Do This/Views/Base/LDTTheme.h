@@ -17,4 +17,6 @@
 +(UIFont *)font;
 +(UIFont *)fontBold;
 
++(void)setLightningBackground:(UIView *)view;
+
 @end

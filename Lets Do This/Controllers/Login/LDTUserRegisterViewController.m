@@ -102,11 +102,8 @@
 #pragma mark - LDTUserRegisterViewController
 
 - (void)theme {
+    [LDTTheme setLightningBackground:self.view];
     self.imageView.image = [UIImage imageNamed:@"plus-icon"];
-    UIImage *backgroundImage = [UIImage imageNamed:@"bg-lightning"];
-    UIImageView *backgroundImageView=[[UIImageView alloc]initWithFrame:self.view.frame];
-    backgroundImageView.image=backgroundImage;
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
 
     UIFont *font = [LDTTheme font];
     for (UITextField *aTextField in self.textFields) {

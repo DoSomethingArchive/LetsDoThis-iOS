@@ -33,8 +33,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.headerLabel.text = @"Sign in with your DoSomething.org account.";
+    [self theme];
 }
 
+#pragma mark - LDTUserLoginViewController
 
+- (void) theme {
+    [LDTTheme setLightningBackground:self.view];
+}
 
 @end

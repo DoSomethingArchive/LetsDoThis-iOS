@@ -48,13 +48,9 @@
 #pragma mark - LDTUserConnectViewController
 
 - (void)theme {
+    [LDTTheme setLightningBackground:self.view];
     [self.headerLabel setFont:[LDTTheme font]];
     [self.headerLabel setTextColor:[UIColor whiteColor]];
-
-    UIImage *backgroundImage = [UIImage imageNamed:@"bg-lightning"];
-    UIImageView *backgroundImageView = [[UIImageView alloc]initWithFrame:self.view.frame];
-    backgroundImageView.image = backgroundImage;
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
 
     [self.registerButton setBackgroundColor:[LDTTheme clickyBlue]];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
