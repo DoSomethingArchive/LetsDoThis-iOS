@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *mobileTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UITextField *birthdayTextField;
-@property (weak, nonatomic) IBOutlet UILabel *headerPrimaryLabel;
+@property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 #warning @todo: Use DSOUser instead
@@ -64,14 +64,14 @@
     self.signupCodeView.headerLabel.text = @"If you received a code from a friend, enter it here (optional)";
 
     if (self.user) {
-        self.headerPrimaryLabel.text = @"Confirm your Facebook details.";
+        self.headerLabel.text = @"Confirm your Facebook details.";
         self.firstNameTextField.text = self.user[@"first_name"];
         self.lastNameTextField.text = self.user[@"last_name"];
         self.emailTextField.text = self.user[@"email"];
         self.birthdayTextField.text = self.user[@"birthdate"];
     }
     else {
-        self.headerPrimaryLabel.text = @"Tell us about yourself!";
+        self.headerLabel.text = @"Tell us about yourself!";
     }
 
 
@@ -118,9 +118,9 @@
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     [self.mobileTextField setKeyboardType:UIKeyboardTypeNumberPad];
 
-    self.headerPrimaryLabel.font = font;
-    self.headerPrimaryLabel.textAlignment = NSTextAlignmentCenter;
-    self.headerPrimaryLabel.textColor = [UIColor whiteColor];
+    self.headerLabel.font = font;
+    self.headerLabel.textAlignment = NSTextAlignmentCenter;
+    self.headerLabel.textColor = [UIColor whiteColor];
     self.signupCodeView.headerLabel.font = [LDTTheme font];
     self.signupCodeView.headerLabel.textColor = [UIColor whiteColor];
     self.signupCodeView.headerLabel.textAlignment = NSTextAlignmentCenter;
