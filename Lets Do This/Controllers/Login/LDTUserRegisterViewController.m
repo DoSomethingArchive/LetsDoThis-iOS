@@ -61,8 +61,6 @@
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton disable];
 
-    self.signupCodeView.headerLabel.text = @"If you received a code from a friend, enter it here (optional)";
-
     if (self.user) {
         self.headerLabel.text = @"Confirm your Facebook details.";
         self.firstNameTextField.text = self.user[@"first_name"];
@@ -118,9 +116,6 @@
     self.headerLabel.font = font;
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
     self.headerLabel.textColor = [UIColor whiteColor];
-    self.signupCodeView.headerLabel.font = [LDTTheme font];
-    self.signupCodeView.headerLabel.textColor = [UIColor whiteColor];
-    self.signupCodeView.headerLabel.textAlignment = NSTextAlignmentCenter;
 }
 
 - (void)initDatePicker {
