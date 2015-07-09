@@ -38,4 +38,9 @@
 +(UIFont *)fontBold {
     return [UIFont fontWithName:@"BrandonGrotesque-Bold" size:18];
 }
+
++(void)setLightningBackground:(UIView *)view {
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
+}
+
 @end
