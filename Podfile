@@ -9,5 +9,5 @@ target 'Lets Do This' do
     pod 'Parse', '~> 1.7'
     pod 'SDWebImage', '~> 3.7.2'
     pod 'SSKeychain', '~> 1.2'
-    pod 'TSMessages', '~> 0.9'
+    pod 'TSMessages', :git => 'https://github.com/mRs-/TSMessages.git', :commit => 'f76924c34475d5d9bda23da45540e6cdb57a98bd'
 end
