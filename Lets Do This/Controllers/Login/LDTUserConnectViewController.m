@@ -8,44 +8,56 @@
 
 #import "LDTUserConnectViewController.h"
 #import "LDTUserRegisterViewController.h"
+#import "LDTUserLoginViewController.h"
 #import "LDTTheme.h"
 #import "LDTButton.h"
 
 @interface LDTUserConnectViewController ()
-- (IBAction)registerTapped:(id)sender;
-@property (weak, nonatomic) IBOutlet LDTButton *registerButton;
-@property (weak, nonatomic) IBOutlet LDTButton *facebookButton;
-- (IBAction)facebookButtonTouchUpInside:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
+@property (weak, nonatomic) IBOutlet LDTButton *registerButton;
+@property (weak, nonatomic) IBOutlet LDTButton *facebookButton;
+@property (weak, nonatomic) IBOutlet LDTButton *loginButton;
+
+- (IBAction)registerTapped:(id)sender;
+- (IBAction)facebookButtonTouchUpInside:(id)sender;
+- (IBAction)loginButtonTouchUpInside:(id)sender;
 
 @end
 
 @implementation LDTUserConnectViewController
 
+#pragma mark - UIVIewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.headerLabel.text = @"Let's make this official. Create an account\nto find actions you can do with friends.";
-
     [self.registerButton setTitle:[@"Register" uppercaseString] forState:UIControlStateNormal];
-    [self.registerButton setBackgroundColor:[LDTTheme clickyBlue]];
-    [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-
-    [self.facebookButton setBackgroundColor:[LDTTheme facebookBlue]];
-    [self.facebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.facebookButton setTitle:@"Log in with Facebook" forState:UIControlStateNormal];
+    [self.loginButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
 
-    [self.headerLabel setFont:[LDTTheme font]];
-    [self.headerLabel setTextColor:[UIColor whiteColor]];
-    UIImage *backgroundImage = [UIImage imageNamed:@"bg-lightning"];
-    UIImageView *backgroundImageView=[[UIImageView alloc]initWithFrame:self.view.frame];
-    backgroundImageView.image=backgroundImage;
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
+    [self theme];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     self.navigationItem.title = @"";
+}
+
+#pragma mark - LDTUserConnectViewController
+
+- (void)theme {
+    [LDTTheme setLightningBackground:self.view];
+    [self.headerLabel setFont:[LDTTheme font]];
+    [self.headerLabel setTextColor:[UIColor whiteColor]];
+
+    [self.registerButton setBackgroundColor:[LDTTheme clickyBlue]];
+    [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.facebookButton setBackgroundColor:[LDTTheme facebookBlue]];
+    [self.facebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.loginButton setBackgroundColor:[UIColor whiteColor]];
+    [self.loginButton setTitleColor:[LDTTheme clickyBlue] forState:UIControlStateNormal];
 }
 
 - (IBAction)registerTapped:(id)sender {
@@ -63,4 +75,10 @@
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:tempUser];
     [self.navigationController pushViewController:destVC animated:YES];
 }
+
+- (IBAction)loginButtonTouchUpInside:(id)sender {
+    LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginViewController" bundle:nil];
+    [self.navigationController pushViewController:destVC animated:YES];
+}
+
 @end
