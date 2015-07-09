@@ -11,6 +11,7 @@
 		569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */; };
 		B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20881A01B0B9B0F00E697B2 /* keys.plist */; };
 		B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B20D06D01B3A58F40053D3B6 /* LDTMessage.m */; };
+		B212C2621B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */; };
 		B25C1C9C1B17648200607FF1 /* ds-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B25C1C9B1B17648200607FF1 /* ds-logo.png */; };
 		B260387B1B449491002FE362 /* LDTUserSignupCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */; };
 		B260387D1B4494A8002FE362 /* LDTUserSignupCodeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */; };
@@ -81,6 +82,8 @@
 		B20881A01B0B9B0F00E697B2 /* keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = keys.plist; sourceTree = "<group>"; };
 		B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTMessage.h; sourceTree = "<group>"; };
 		B20D06D01B3A58F40053D3B6 /* LDTMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTMessage.m; sourceTree = "<group>"; };
+		B212C2601B4ED6F300376BB1 /* LDTBaseUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTBaseUserLoginViewController.h; path = Login/LDTBaseUserLoginViewController.h; sourceTree = "<group>"; };
+		B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseUserLoginViewController.m; path = Login/LDTBaseUserLoginViewController.m; sourceTree = "<group>"; };
 		B25C1C9B1B17648200607FF1 /* ds-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ds-logo.png"; sourceTree = "<group>"; };
 		B26038791B449491002FE362 /* LDTUserSignupCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserSignupCodeView.h; path = Login/LDTUserSignupCodeView.h; sourceTree = "<group>"; };
 		B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserSignupCodeView.m; path = Login/LDTUserSignupCodeView.m; sourceTree = "<group>"; };
@@ -446,6 +449,8 @@
 				B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */,
 				B2A136611B3D9BC600D20273 /* LDTUserRegisterViewController.h */,
 				B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */,
+				B212C2601B4ED6F300376BB1 /* LDTBaseUserLoginViewController.h */,
+				B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */,
 			);
 			name = Login/Registration;
 			sourceTree = "<group>";
@@ -627,6 +632,7 @@
 				C2B152341ACE0A080028C336 /* LDTTabBarController.m in Sources */,
 				B2A136631B3D9BC600D20273 /* LDTUserRegisterViewController.m in Sources */,
 				C2F35F171AD828BD00D12FE5 /* LTDPhotoCaptureViewController.m in Sources */,
+				B212C2621B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m in Sources */,
 				C2B152381ACE0BB50028C336 /* LDTSettingsViewController.m in Sources */,
 				B26A68801B2894CA006141C0 /* LDTReportbackSubmitViewController.m in Sources */,
 				C20BA28D1AF3DCAB00E9886F /* NSDate+DSO.m in Sources */,
