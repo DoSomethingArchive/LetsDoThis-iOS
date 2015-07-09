@@ -92,7 +92,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0D-uH-55q" customClass="LDTButton">
-                            <rect key="frame" x="277" y="588" width="46" height="30"/>
+                            <rect key="frame" x="277" y="568" width="46" height="30"/>
                             <state key="normal" title="Button">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -110,7 +110,7 @@
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="16" id="UBr-sW-BIg"/>
                         <constraint firstItem="ye2-yH-4dS" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="bottom" constant="22" id="bNZ-eb-7q1"/>
                         <constraint firstAttribute="centerX" secondItem="HQA-Wg-qj6" secondAttribute="centerX" id="ebU-eS-Qs2"/>
-                        <constraint firstItem="v0D-uH-55q" firstAttribute="top" secondItem="Eja-ai-TkH" secondAttribute="bottom" constant="80" id="fTD-0y-lbf"/>
+                        <constraint firstItem="v0D-uH-55q" firstAttribute="top" secondItem="Eja-ai-TkH" secondAttribute="bottom" constant="60" id="fTD-0y-lbf"/>
                         <constraint firstItem="4pK-DW-rH5" firstAttribute="top" secondItem="pRb-YO-KnF" secondAttribute="top" id="hmm-TD-14n"/>
                         <constraint firstItem="Eja-ai-TkH" firstAttribute="top" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="40" id="tw0-S8-W1K"/>
                         <constraint firstAttribute="bottom" secondItem="HQA-Wg-qj6" secondAttribute="bottom" id="wi3-PD-TEB"/>
