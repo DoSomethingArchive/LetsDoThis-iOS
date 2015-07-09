@@ -18,9 +18,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
-- (IBAction)submitButtonTouchUpInside:(id)sender;
 @property (weak, nonatomic) IBOutlet LDTButton *passwordButton;
+
+- (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)passwordButtonTouchUpInside:(id)sender;
+- (IBAction)emailEditingDidEnd:(id)sender;
+- (IBAction)passwordEditingDidEnd:(id)sender;
+
 
 @end
 
@@ -53,6 +57,8 @@
     for (UITextField *aTextField in self.textFields) {
         aTextField.delegate = self;
     }
+    self.textFieldsRequired = @[self.emailTextField,
+                                self.passwordTextField];
 
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton disable];
@@ -81,8 +87,36 @@
     [self.passwordButton setTitleColor:[LDTTheme clickyBlue] forState:UIControlStateNormal];
 }
 
+-(void)updateSubmitButton {
+    BOOL enabled = NO;
+    for (UITextField *aTextField in self.textFieldsRequired) {
+        if (aTextField.text.length > 0) {
+            enabled = YES;
+        }
+        else {
+            enabled = NO;
+            break;
+        }
+    }
+    if (enabled) {
+        [self.submitButton enable];
+    }
+    else {
+        [self.submitButton disable];
+    }
+}
+
 - (IBAction)submitButtonTouchUpInside:(id)sender {
+
 }
 - (IBAction)passwordButtonTouchUpInside:(id)sender {
+}
+
+- (IBAction)emailEditingDidEnd:(id)sender {
+    [self updateSubmitButton];
+}
+
+- (IBAction)passwordEditingDidEnd:(id)sender {
+    [self updateSubmitButton];
 }
 @end

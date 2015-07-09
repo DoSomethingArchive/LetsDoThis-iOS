@@ -57,11 +57,17 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="emailEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="Geq-eG-sRW"/>
+                                    </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g81-9z-70h">
                                     <rect key="frame" x="0.0" y="46" width="320" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="passwordEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="lB0-ic-euL"/>
+                                    </connections>
                                 </textField>
                             </subviews>
                             <constraints>
