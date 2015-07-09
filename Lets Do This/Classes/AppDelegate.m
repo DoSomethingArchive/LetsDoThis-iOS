@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DSOSession.h"
 #import <Parse/Parse.h>
+#import "LDTUserConnectViewController.h"
 
 @interface AppDelegate ()
 
@@ -38,6 +39,16 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
+    LDTUserConnectViewController *rootVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+    UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:rootVC];
+    [navVC.navigationBar setBackgroundImage:[UIImage new]
+forBarMetrics:UIBarMetricsDefault];
+    navVC.navigationBar.shadowImage = [UIImage new];
+    navVC.navigationBar.translucent = YES;
+    navVC.view.backgroundColor = [UIColor clearColor];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = navVC;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
