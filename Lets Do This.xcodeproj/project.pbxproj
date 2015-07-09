@@ -95,11 +95,11 @@
 		B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_med.otf; path = Resources/Fonts/Brandon_med.otf; sourceTree = "<group>"; };
 		B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_bld.otf; path = Resources/Fonts/Brandon_bld.otf; sourceTree = "<group>"; };
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserConnectView.xib; path = Login/LDTUserConnectView.xib; sourceTree = "<group>"; };
-		B2A1365C1B3CA4B100D20273 /* LDTUserConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTUserConnectViewController.h; sourceTree = "<group>"; };
-		B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTUserConnectViewController.m; sourceTree = "<group>"; };
+		B2A1365C1B3CA4B100D20273 /* LDTUserConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserConnectViewController.h; path = Login/LDTUserConnectViewController.h; sourceTree = "<group>"; };
+		B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserConnectViewController.m; path = Login/LDTUserConnectViewController.m; sourceTree = "<group>"; };
 		B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserRegisterViewController.xib; path = Login/LDTUserRegisterViewController.xib; sourceTree = "<group>"; };
-		B2A136611B3D9BC600D20273 /* LDTUserRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTUserRegisterViewController.h; sourceTree = "<group>"; };
-		B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTUserRegisterViewController.m; sourceTree = "<group>"; };
+		B2A136611B3D9BC600D20273 /* LDTUserRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserRegisterViewController.h; path = Login/LDTUserRegisterViewController.h; sourceTree = "<group>"; };
+		B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserRegisterViewController.m; path = Login/LDTUserRegisterViewController.m; sourceTree = "<group>"; };
 		B2E652DD1B4380AD00EF9D69 /* LDTTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTTheme.h; path = Base/LDTTheme.h; sourceTree = "<group>"; };
 		B2E652DE1B4380AD00EF9D69 /* LDTTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTTheme.m; path = Base/LDTTheme.m; sourceTree = "<group>"; };
 		B2E652E01B43822600EF9D69 /* LDTButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTButton.h; path = Base/LDTButton.h; sourceTree = "<group>"; };
@@ -356,7 +356,7 @@
 			isa = PBXGroup;
 			children = (
 				C2F35F111AD8283C00D12FE5 /* Photo Acquisition */,
-				C2F35F0A1AD8272C00D12FE5 /* Login/Registration */,
+				C2F35F0A1AD8272C00D12FE5 /* Login */,
 				C2B152351ACE0B9D0028C336 /* Settings */,
 				C2B152231ACE07560028C336 /* LDTCampaignActionsViewController.h */,
 				C2B152241ACE07560028C336 /* LDTCampaignActionsViewController.m */,
@@ -436,7 +436,7 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
-		C2F35F0A1AD8272C00D12FE5 /* Login/Registration */ = {
+		C2F35F0A1AD8272C00D12FE5 /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				C2F35F0B1AD8274200D12FE5 /* LDTLoginViewController.h */,
@@ -452,7 +452,7 @@
 				B212C2601B4ED6F300376BB1 /* LDTBaseUserLoginViewController.h */,
 				B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */,
 			);
-			name = Login/Registration;
+			name = Login;
 			sourceTree = "<group>";
 		};
 		C2F35F111AD8283C00D12FE5 /* Photo Acquisition */ = {
