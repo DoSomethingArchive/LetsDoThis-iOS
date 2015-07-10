@@ -10,6 +10,7 @@
 #import "DSOSession.h"
 #import <Parse/Parse.h>
 #import "LDTUserConnectViewController.h"
+#import "LDTUserProfileViewController.h"
 
 @interface AppDelegate ()
 
@@ -40,6 +41,10 @@
     [application registerForRemoteNotifications];
 
     LDTUserConnectViewController *rootVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+
+// @todo: If User session is saved and token valid, display Profile:
+//    LDTUserProfileViewController *rootVC = [[LDTUserProfileViewController alloc] initWithNibName:@"LDTUserProfileView" bundle:nil];
+
     UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:rootVC];
     [navVC.navigationBar setBackgroundImage:[UIImage new]
 forBarMetrics:UIBarMetricsDefault];
