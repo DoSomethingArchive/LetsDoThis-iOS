@@ -21,11 +21,19 @@
                         <constraint firstAttribute="height" constant="200" id="OLr-6L-3zV"/>
                     </constraints>
                 </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Uo-Mq-ve4">
+                    <rect key="frame" x="254" y="449" width="93" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="FG5-a8-Sny" secondAttribute="centerY" id="6H7-S1-omN"/>
+                <constraint firstItem="3Uo-Mq-ve4" firstAttribute="top" secondItem="FG5-a8-Sny" secondAttribute="bottom" constant="49" id="L0Q-E5-HKt"/>
                 <constraint firstAttribute="centerX" secondItem="FG5-a8-Sny" secondAttribute="centerX" id="NxT-ON-U8i"/>
+                <constraint firstAttribute="centerX" secondItem="3Uo-Mq-ve4" secondAttribute="centerX" id="Wto-ga-EF7"/>
             </constraints>
         </view>
     </objects>

@@ -62,17 +62,15 @@
             [DSOSession startWithCachedSession:^(DSOSession *session) {
                 self.isConnected = YES;
                 NSLog(@"isConnected!!");
-                LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithNibName:@"LDTUserProfileView" bundle:nil];
+                LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOSession currentSession].user];
                 [navVC pushViewController:profileVC animated:YES];
             } failure:^(NSError *error) {
-
+                NSLog(@"startWithCachedSession error: %@", error.localizedDescription);
             }];
-            NSLog(@"does have cached session");
         }
     }
     else {
         self.isConnected = YES;
-        NSLog(@"Yes Session");
     }
 
 

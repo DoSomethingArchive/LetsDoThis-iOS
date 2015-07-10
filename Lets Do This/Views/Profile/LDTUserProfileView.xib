@@ -6,6 +6,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserProfileViewController">
             <connections>
+                <outlet property="headerView" destination="PsE-uh-AxY" id="oKI-hs-1o3"/>
+                <outlet property="logoutButton" destination="I08-SS-WZ3" id="Yb9-70-x9Y"/>
+                <outlet property="nameLabel" destination="O39-w4-qp5" id="rUF-79-a3D"/>
                 <outlet property="view" destination="iN0-l3-epB" id="try-AF-3Wj"/>
             </connections>
         </placeholder>
@@ -14,17 +17,40 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O39-w4-qp5">
-                    <rect key="frame" x="256" y="56" width="89" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I08-SS-WZ3" customClass="LDTButton">
+                    <rect key="frame" x="276" y="285" width="49" height="30"/>
+                    <state key="normal" title="Logout">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="logoutButtonEditingDidEnd:" destination="-1" eventType="touchUpInside" id="tuI-Mn-wpu"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PsE-uh-AxY">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="179"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O39-w4-qp5">
+                            <rect key="frame" x="277" y="79" width="46" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="centerY" secondItem="O39-w4-qp5" secondAttribute="centerY" id="Pid-FF-0if"/>
+                        <constraint firstAttribute="height" constant="179" id="Rl4-hn-OzU"/>
+                        <constraint firstAttribute="centerX" secondItem="O39-w4-qp5" secondAttribute="centerX" id="g8t-MI-eOH"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="O39-w4-qp5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="56" id="Hga-cg-Yb4"/>
-                <constraint firstAttribute="centerX" secondItem="O39-w4-qp5" secondAttribute="centerX" id="Hyr-xp-WvW"/>
+                <constraint firstItem="PsE-uh-AxY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Kf1-yS-9eC"/>
+                <constraint firstItem="PsE-uh-AxY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Lem-og-Gm8"/>
+                <constraint firstAttribute="centerX" secondItem="I08-SS-WZ3" secondAttribute="centerX" id="ZMd-Bc-Afe"/>
+                <constraint firstAttribute="centerY" secondItem="I08-SS-WZ3" secondAttribute="centerY" id="qWC-2K-dEG"/>
+                <constraint firstAttribute="trailing" secondItem="PsE-uh-AxY" secondAttribute="trailing" id="xIa-zO-Cf6"/>
             </constraints>
         </view>
     </objects>
