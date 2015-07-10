@@ -15,7 +15,6 @@
 typedef void (^DSOSessionLoginBlock) (DSOSession *session);
 typedef void (^DSOSessionFailureBlock) (NSError *error);
 typedef void (^DSOSessionLogoutBlock) ();
-typedef void (^DSOSessionTaxonomyTermsBlock) (NSArray *terms, NSError *error);
 
 typedef NS_ENUM(NSInteger, DSOSessionEnvironment) {
     DSOSessionEnvironmentNone,
@@ -32,7 +31,14 @@ typedef NS_ENUM(NSInteger, DSOSessionEnvironment) {
 /*
  * Starts a session by having the user register for an account.
  */
-+ (void)registerWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName birthdate:(NSString *)dateStr success:(DSOSessionLoginBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock;
++ (void)registerWithEmail:(NSString *)email
+                 password:(NSString *)password
+                firstName:(NSString *)firstName
+                 lastName:(NSString *)lastName
+                   mobile:(NSString *)mobile
+                birthdate:(NSString *)dateStr
+                  success:(DSOSessionLoginBlock)successBlock
+                  failure:(DSOSessionFailureBlock)failureBlock;
 
 + (BOOL)hasCachedSession;
 + (NSString *)lastLoginEmail;
@@ -54,8 +60,6 @@ typedef NS_ENUM(NSInteger, DSOSessionEnvironment) {
 + (DSOSession *)currentSession;
 
 @property (nonatomic, strong, readonly) DSOUser *user;
-
-- (void)taxonomyTerms:(DSOSessionTaxonomyTermsBlock)completionBlock;
 
 - (void)logout:(DSOSessionLogoutBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock;
 
