@@ -237,11 +237,11 @@
 }
 
 - (BOOL)validateName:(NSString *)candidate {
-    // @todo: Invalid if contains numbers or weird punctuation.
     if (candidate.length < 2) {
         return NO;
     }
-    return YES;
+    // Returns NO if candidate contains any numbers.
+    return ([candidate rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == NSNotFound);
 }
 
 - (BOOL)validateMobile:(NSString *)candidate {
