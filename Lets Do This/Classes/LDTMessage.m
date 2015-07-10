@@ -10,7 +10,12 @@
 
 @implementation LDTMessage
 
-+ (void) errorMessage:(NSError *)error {
++(void)displayErrorWithTitle:(NSString *)title {
+    [TSMessage showNotificationWithTitle:title
+                                    type:TSMessageNotificationTypeError];
+}
+
++(void)errorMessage:(NSError *)error {
     NSString *subtitle = error.localizedDescription;
     if (error.code == -1009) {
         subtitle = @"You appear to be offline.";

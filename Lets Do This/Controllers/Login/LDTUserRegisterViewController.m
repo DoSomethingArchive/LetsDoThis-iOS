@@ -178,7 +178,8 @@
 }
 
 - (IBAction)mobileEditingDidEnd:(id)sender {
-    // @todo: Validation
+    // Don't need to do anything for now, as mobile is optional.
+    // Potentially could format data to look better.
 }
 
 - (IBAction)passwordEditingDidEnd:(id)sender {
@@ -210,12 +211,52 @@
 }
 
 - (BOOL)validateForm {
-    BOOL isValid = YES;
-    if (![self validateEmail:self.emailTextField.text]) {
-        [LDTMessage showNotificationWithTitle:@"Invalid email" type:TSMessageNotificationTypeError];
-        isValid = NO;
+    NSMutableArray *errorMessages = [[NSMutableArray alloc] init];;
+
+    if (![self validateName:self.firstNameTextField.text]) {
+        [errorMessages addObject:@"We need your first name."];
     }
-    return isValid;
+    if (![self validateName:self.lastNameTextField.text]) {
+        [errorMessages addObject:@"We need your last name."];
+    }
+    if (![self validateEmail:self.emailTextField.text]) {
+        [errorMessages addObject:@"We need a valid email."];
+    }
+    if (![self validateMobile:self.mobileTextField.text]) {
+        [errorMessages addObject:@"Enter a valid telephone number."];
+    }
+    if (![self validatePassword:self.passwordTextField.text]) {
+        [errorMessages addObject:@"Password must be 6+ characters."];
+    }
+    if ([errorMessages count] > 0) {
+        NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
+        [LDTMessage displayErrorWithTitle:errorMessage];
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)validateName:(NSString *)candidate {
+    // @todo: Invalid if contains numbers or weird punctuation.
+    if (candidate.length < 2) {
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)validateMobile:(NSString *)candidate {
+    // @todo: Accept international numbers.
+    if (candidate && candidate.length != 10) {
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)validatePassword:(NSString *)candidate {
+    if (candidate.length < 6) {
+        return NO;
+    }
+    return YES;
 }
 
 - (BOOL)validateEmail:(NSString *)candidate {
@@ -227,15 +268,5 @@
     return [emailTest evaluateWithObject:candidate];
 }
 
-- (NSDictionary *)getValues {
-    return @{
-             @"first_name": self.firstNameTextField.text,
-             @"last_name": self.lastNameTextField.text,
-             @"email": self.emailTextField.text,
-             @"mobile": self.mobileTextField.text,
-             @"password": self.passwordTextField.text,
-             @"birthdate": self.birthdayTextField.text
-             };
-}
 
 @end
