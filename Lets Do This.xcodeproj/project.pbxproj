@@ -24,6 +24,8 @@
 		B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */; };
 		B27AF0E41B4F48BC00164926 /* LDTUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27AF0E31B4F48BC00164926 /* LDTUserProfileViewController.m */; };
 		B27AF0E71B4F493D00164926 /* LDTUserProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27AF0E61B4F493D00164926 /* LDTUserProfileView.xib */; };
+		B27AF0EB1B4F64B200164926 /* LDTLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27AF0EA1B4F64B200164926 /* LDTLoadingViewController.m */; };
+		B27AF0ED1B4F64D200164926 /* LDTLoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27AF0EC1B4F64D200164926 /* LDTLoadingView.xib */; };
 		B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */; };
 		B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */; };
 		B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterView.xib */; };
@@ -94,6 +96,9 @@
 		B27AF0E21B4F48BC00164926 /* LDTUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserProfileViewController.h; path = Profile/LDTUserProfileViewController.h; sourceTree = "<group>"; };
 		B27AF0E31B4F48BC00164926 /* LDTUserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserProfileViewController.m; path = Profile/LDTUserProfileViewController.m; sourceTree = "<group>"; };
 		B27AF0E61B4F493D00164926 /* LDTUserProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserProfileView.xib; path = Profile/LDTUserProfileView.xib; sourceTree = "<group>"; };
+		B27AF0E91B4F64B200164926 /* LDTLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTLoadingViewController.h; path = Base/LDTLoadingViewController.h; sourceTree = "<group>"; };
+		B27AF0EA1B4F64B200164926 /* LDTLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTLoadingViewController.m; path = Base/LDTLoadingViewController.m; sourceTree = "<group>"; };
+		B27AF0EC1B4F64D200164926 /* LDTLoadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTLoadingView.xib; path = Base/LDTLoadingView.xib; sourceTree = "<group>"; };
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserConnectView.xib; path = Login/LDTUserConnectView.xib; sourceTree = "<group>"; };
 		B2A1365C1B3CA4B100D20273 /* LDTUserConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserConnectViewController.h; path = Login/LDTUserConnectViewController.h; sourceTree = "<group>"; };
 		B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserConnectViewController.m; path = Login/LDTUserConnectViewController.m; sourceTree = "<group>"; };
@@ -245,6 +250,15 @@
 			name = Profile;
 			sourceTree = "<group>";
 		};
+		B27AF0E81B4F647A00164926 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				B27AF0E91B4F64B200164926 /* LDTLoadingViewController.h */,
+				B27AF0EA1B4F64B200164926 /* LDTLoadingViewController.m */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
 		B2E652DC1B43807000EF9D69 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +268,7 @@
 				B2E652DE1B4380AD00EF9D69 /* LDTTheme.m */,
 				B2E652E01B43822600EF9D69 /* LDTButton.h */,
 				B2E652E11B43822600EF9D69 /* LDTButton.m */,
+				B27AF0EC1B4F64D200164926 /* LDTLoadingView.xib */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -353,6 +368,7 @@
 		C2B152191ACE05510028C336 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				B27AF0E81B4F647A00164926 /* Base */,
 				C2F35F0A1AD8272C00D12FE5 /* Login */,
 				B27AF0E11B4F487C00164926 /* Profile */,
 				C2B152351ACE0B9D0028C336 /* Settings */,
@@ -534,6 +550,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B27AF0ED1B4F64D200164926 /* LDTLoadingView.xib in Resources */,
 				B26038831B44F8FC002FE362 /* bg-lightning.png in Resources */,
 				B26038811B44F8A4002FE362 /* plus-icon.png in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
@@ -615,6 +632,7 @@
 				C2C112D31B066A710070993C /* LDTCampaignActionsLayout.m in Sources */,
 				C28D340D1AE5F99C0091D781 /* LDTLoginRegNavigationController.m in Sources */,
 				C20126751AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld in Sources */,
+				B27AF0EB1B4F64B200164926 /* LDTLoadingViewController.m in Sources */,
 				C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */,
 				C2F35F0D1AD8274200D12FE5 /* LDTLoginViewController.m in Sources */,
 				C20BA2921AF3FDBE00E9886F /* LDTImportQueue.m in Sources */,
