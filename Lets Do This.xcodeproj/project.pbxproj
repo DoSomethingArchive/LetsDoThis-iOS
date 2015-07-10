@@ -255,6 +255,24 @@
 			name = "Refactor / Remove";
 			sourceTree = "<group>";
 		};
+		B26FD5FA1B50131C00B3F075 /* Refactor / Remove */ = {
+			isa = PBXGroup;
+			children = (
+				C20BA2771AF3DBE400E9886F /* DSOCampaign.h */,
+				C20BA2781AF3DBE400E9886F /* DSOCampaign.m */,
+				C20BA2791AF3DBE400E9886F /* DSOCampaignActivity.h */,
+				C20BA27A1AF3DBE400E9886F /* DSOCampaignActivity.m */,
+				C20BA27B1AF3DBE400E9886F /* DSOReportback.h */,
+				C20BA27C1AF3DBE400E9886F /* DSOReportback.m */,
+				C20BA27D1AF3DBE400E9886F /* DSOSession.h */,
+				C20BA27E1AF3DBE400E9886F /* DSOSession.m */,
+				C20BA27F1AF3DBE400E9886F /* DSOTaxonomyTerm.h */,
+				C20BA2801AF3DBE400E9886F /* DSOTaxonomyTerm.m */,
+				C20126731AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld */,
+			);
+			name = "Refactor / Remove";
+			sourceTree = "<group>";
+		};
 		B273A7651B459B5400CBD4E1 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -395,10 +413,10 @@
 		C2B152191ACE05510028C336 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B26FD5F91B50122000B3F075 /* Refactor / Remove */,
 				B27AF0E81B4F647A00164926 /* Base */,
 				C2F35F0A1AD8272C00D12FE5 /* Login */,
 				B27AF0E11B4F487C00164926 /* Profile */,
+				B26FD5F91B50122000B3F075 /* Refactor / Remove */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -406,19 +424,9 @@
 		C2B1521E1ACE05510028C336 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C20BA2771AF3DBE400E9886F /* DSOCampaign.h */,
-				C20BA2781AF3DBE400E9886F /* DSOCampaign.m */,
-				C20BA2791AF3DBE400E9886F /* DSOCampaignActivity.h */,
-				C20BA27A1AF3DBE400E9886F /* DSOCampaignActivity.m */,
-				C20BA27B1AF3DBE400E9886F /* DSOReportback.h */,
-				C20BA27C1AF3DBE400E9886F /* DSOReportback.m */,
-				C20BA27D1AF3DBE400E9886F /* DSOSession.h */,
-				C20BA27E1AF3DBE400E9886F /* DSOSession.m */,
-				C20BA27F1AF3DBE400E9886F /* DSOTaxonomyTerm.h */,
-				C20BA2801AF3DBE400E9886F /* DSOTaxonomyTerm.m */,
 				C20BA2811AF3DBE400E9886F /* DSOUser.h */,
 				C20BA2821AF3DBE400E9886F /* DSOUser.m */,
-				C20126731AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld */,
+				B26FD5FA1B50131C00B3F075 /* Refactor / Remove */,
 			);
 			path = Models;
 			sourceTree = "<group>";
