@@ -67,13 +67,15 @@
 }
 
 - (IBAction)facebookButtonTouchUpInside:(id)sender {
-    NSMutableDictionary *tempUser = [[NSMutableDictionary alloc] init];
-    tempUser[@"first_name"] = @"John";
-    tempUser[@"last_name"] = @"Connor";
-    tempUser[@"email"] = @"john.connor@dosomething.org";
-    tempUser[@"birthdate"] = @"07/11/1995";
+    // @todo: Actually connect to Facebook here.
+    NSMutableDictionary *fbUser = [[NSMutableDictionary alloc] init];
+    fbUser[@"first_name"] = @"John";
+    fbUser[@"last_name"] = @"Connor";
+    fbUser[@"email"] = @"john.connor@dosomething.org";
+    fbUser[@"birthdate"] = @"07/11/1995";
+    fbUser[@"photo"] = [UIImage imageNamed:@"john-connor.jpg"];
 
-    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:tempUser];
+    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:fbUser];
     [self.navigationController pushViewController:destVC animated:YES];
 }
 

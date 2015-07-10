@@ -66,8 +66,14 @@
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton disable];
 
+    // If we have a User, it's from Facebook.
+
     if (self.user) {
-        self.headerLabel.text = @"Confirm your Facebook details.";
+        self.headerLabel.numberOfLines = 0;
+        self.headerLabel.text = @"Confirm your Facebook details and set your password.";
+        UIImage *image = self.user[@"photo"];
+        [self setAvatar:image];
+        [LDTTheme addCircleFrame:self.imageView];
         self.firstNameTextField.text = self.user[@"first_name"];
         self.lastNameTextField.text = self.user[@"last_name"];
         self.emailTextField.text = self.user[@"email"];
@@ -75,6 +81,8 @@
     }
     else {
         self.headerLabel.text = @"Tell us about yourself!";
+        self.imageView.image = [UIImage imageNamed:@"plus-icon"];
+
     }
 
 
@@ -111,7 +119,6 @@
 
 - (void)theme {
     [LDTTheme setLightningBackground:self.view];
-    self.imageView.image = [UIImage imageNamed:@"plus-icon"];
 
     UIFont *font = [LDTTheme font];
     for (UITextField *aTextField in self.textFields) {
@@ -322,12 +329,17 @@
     [self presentViewController:view animated:YES completion:nil];
 }
 
+- (void)setAvatar:(UIImage *)image {
+    self.imageView.image = image;
+    NSLog(@"image %@", image);
+    [LDTTheme addCircleFrame:self.imageView];
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    self.imageView.image = chosenImage;
-    [LDTTheme addCircleFrame:self.imageView];
+    [self setAvatar:chosenImage];
     self.avatarFilestring = [UIImagePNGRepresentation(chosenImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
