@@ -13,10 +13,12 @@
 #import "LDTMessage.h"
 #import "LDTUserProfileViewController.h"
 
-@interface LDTUserRegisterViewController ()
+@interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
 
 #warning @todo: Use DSOUser instead
 @property (strong, nonatomic) NSMutableDictionary *user;
+@property (strong, nonatomic) UIImagePickerController *picker;
 
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
@@ -97,6 +99,11 @@
 
     [self theme];
     [self initDatePicker];
+
+    self.picker = [[UIImagePickerController alloc] init];
+    self.picker.delegate = self;
+    self.picker.allowsEditing = YES;
+    // @todo: Set mediatypes as images only (not video).
 }
 
 #pragma mark - LDTUserRegisterViewController
@@ -271,6 +278,58 @@
 
 
 - (IBAction)avatarButtonTouchUpInside:(id)sender {
-    NSLog(@"Tappy tappy");
+    [self getImageMenu];
+}
+
+- (void) getImageMenu {
+    UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Set your photo" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+
+    UIAlertAction *camera;
+    // Is camera is available?
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        camera = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+
+            self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:self.picker animated:YES completion:NULL];
+
+        }];
+    }
+    else {
+        camera = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+
+            [view dismissViewControllerAnimated:YES completion:nil];
+
+        }];
+    }
+
+
+    UIAlertAction *library = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+
+        self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.picker animated:YES completion:NULL];
+
+    }];
+
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        [view dismissViewControllerAnimated:YES completion:nil];
+    }];
+
+    [view addAction:camera];
+    [view addAction:library];
+    [view addAction:cancel];
+    [self presentViewController:view animated:YES completion:nil];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+    self.imageView.image = chosenImage;
+    //    self.selectedFilestring = [UIImagePNGRepresentation(chosenImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 @end
