@@ -41,7 +41,7 @@
     [super viewDidLoad];
 
     self.navigationItem.hidesBackButton = YES;
-    self.nameLabel.text = [self.user fullName];
+    self.nameLabel.text = [self.user displayName];
     [self theme];
 }
 

@@ -25,6 +25,7 @@
 
     if(self) {
         self.firstName = dict[@"first_name"];
+        self.lastName = dict[@"last_name"];
         self.email = dict[@"email"];
     }
     return self;
@@ -87,9 +88,10 @@
 }
 
 
-- (NSString *)fullName {
+- (NSString *)displayName {
     if(self.firstName.length > 0 && self.lastName.length > 0) {
-        return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
+        // Return First Name Last Initial.
+        return [NSString stringWithFormat:@"%@ %@.", self.firstName, [self.lastName substringToIndex:1]];
     }
     else if(self.firstName.length > 0) {
         return self.firstName;

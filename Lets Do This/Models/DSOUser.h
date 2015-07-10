@@ -22,6 +22,8 @@ typedef void (^DSOUserCampaignActionsBlock) (NSArray *campaignActions, NSError *
 
 -(void)campaignActions:(DSOUserCampaignActionsBlock)campaignActionsBlock;
 
+-(NSString *)displayName;
+
 @property (nonatomic, strong) NSString *userID;
 
 @property (nonatomic, strong, readonly) NSString *fullName;
