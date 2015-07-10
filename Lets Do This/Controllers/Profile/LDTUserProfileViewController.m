@@ -9,13 +9,15 @@
 #import "LDTUserProfileViewController.h"
 #import "LDTButton.h"
 #import "LDTTheme.h"
+#import "LDTUserConnectViewController.h"
 
 @interface LDTUserProfileViewController ()
+
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
 @property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
-- (IBAction)logoutButtonEditingDidEnd:(id)sender;
+- (IBAction)logoutButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -38,6 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.navigationItem.hidesBackButton = YES;
     self.nameLabel.text = [self.user fullName];
     [self theme];
 }
@@ -57,6 +60,12 @@
     [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
 }
 
-- (IBAction)logoutButtonEditingDidEnd:(id)sender {
+
+- (IBAction)logoutButtonTouchUpInside:(id)sender {
+    DSOSession *session = [DSOSession currentSession];
+    [session logout:^() {
+        LDTUserConnectViewController *destVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+        [self.navigationController pushViewController:destVC animated:YES];
+    }failure:nil];
 }
 @end
