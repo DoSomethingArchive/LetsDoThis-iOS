@@ -11,6 +11,7 @@
 #import "LDTTheme.h"
 #import "LDTButton.h"
 #import "LDTMessage.h"
+#import "LDTUserProfileViewController.h"
 
 @interface LDTUserRegisterViewController ()
 
@@ -142,7 +143,17 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
-        [LDTMessage showNotificationWithTitle:@"Great job" type:TSMessageNotificationTypeSuccess];
+
+        [DSOSession registerWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text lastName:self.lastNameTextField.text birthdate:self.birthdayTextField.text success:^(DSOSession *session) {
+
+            LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:session.user];
+            [self.navigationController pushViewController:destVC animated:YES];
+
+        } failure:^(NSError *error) {
+            [self.passwordTextField becomeFirstResponder];
+            [LDTMessage errorMessage:error];
+        }];
+
     }
     else {
         [self.submitButton disable];
