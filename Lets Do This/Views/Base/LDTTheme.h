@@ -18,6 +18,7 @@
 +(UIFont *)fontBold;
 +(UIFont *)fontBoldWithSize:(CGFloat)fontSize;
 
++(void)addCircleFrame:(UIImageView *)imageView;
 +(void)setLightningBackground:(UIView *)view;
 
 @end
