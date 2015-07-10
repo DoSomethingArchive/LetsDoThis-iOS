@@ -15,7 +15,6 @@
 typedef void (^DSOSessionLoginBlock) (DSOSession *session);
 typedef void (^DSOSessionFailureBlock) (NSError *error);
 typedef void (^DSOSessionLogoutBlock) ();
-typedef void (^DSOSessionTaxonomyTermsBlock) (NSArray *terms, NSError *error);
 
 typedef NS_ENUM(NSInteger, DSOSessionEnvironment) {
     DSOSessionEnvironmentNone,
@@ -54,8 +53,6 @@ typedef NS_ENUM(NSInteger, DSOSessionEnvironment) {
 + (DSOSession *)currentSession;
 
 @property (nonatomic, strong, readonly) DSOUser *user;
-
-- (void)taxonomyTerms:(DSOSessionTaxonomyTermsBlock)completionBlock;
 
 - (void)logout:(DSOSessionLogoutBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock;
 
