@@ -10,9 +10,10 @@
 #import "DSOSession.h"
 #import <Parse/Parse.h>
 #import "LDTUserConnectViewController.h"
+#import "LDTUserProfileViewController.h"
 
 @interface AppDelegate ()
-
+@property (nonatomic, assign) BOOL isConnected;
 @end
 
 @implementation AppDelegate
@@ -39,16 +40,45 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
-    LDTUserConnectViewController *rootVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+    UIViewController *rootVC;
+    rootVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
     UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:rootVC];
     [navVC.navigationBar setBackgroundImage:[UIImage new]
-forBarMetrics:UIBarMetricsDefault];
+                              forBarMetrics:UIBarMetricsDefault];
     navVC.navigationBar.shadowImage = [UIImage new];
     navVC.navigationBar.translucent = YES;
     navVC.view.backgroundColor = [UIColor clearColor];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = navVC;
-    [self.window makeKeyAndVisible];
+
+    self.isConnected = NO;
+    if([DSOSession currentSession] == nil) {
+        NSLog(@"currentSession does not exist");
+        if([DSOSession hasCachedSession] == NO) {
+            NSLog(@"does not have cached session");
+        }
+        else {
+            rootVC = [[LDTUserProfileViewController alloc] initWithNibName:@"LDTUserProfileView" bundle:nil];
+            [self.window makeKeyAndVisible];
+            [DSOSession startWithCachedSession:^(DSOSession *session) {
+                self.isConnected = YES;
+                LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOSession currentSession].user];
+                [navVC pushViewController:profileVC animated:YES];
+            } failure:^(NSError *error) {
+                NSLog(@"startWithCachedSession error: %@", error.localizedDescription);
+            }];
+        }
+    }
+    else {
+        LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOSession currentSession].user];
+        [navVC pushViewController:profileVC animated:YES];
+    }
+
+    // If we're connected, we've already made this call:
+    if (!self.isConnected) {
+        [self.window makeKeyAndVisible];
+    }
+
     return YES;
 }
 

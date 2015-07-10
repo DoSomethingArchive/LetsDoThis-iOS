@@ -14,22 +14,17 @@ typedef void (^DSOUserBlock) (DSOUser *user, NSError *error);
 typedef void (^DSOUserSaveBlock) (NSError *error);
 typedef void (^DSOUserCampaignActionsBlock) (NSArray *campaignActions, NSError *error);
 
-@interface DSOUser : NSManagedObject
+@interface DSOUser : NSObject
 
-+ (DSOUser *)syncWithDictionary:(NSDictionary *)values inContext:(NSManagedObjectContext *)context;
+-(id)initWithDict:(NSDictionary*)dict;
 
-+ (void)userWithID:(NSString *)userID inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock;
-+ (void)userWithMobileNumber:(NSString *)mobileNumber inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock;
-+ (void)userWithEmail:(NSString *)email inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock;
+-(void)syncWithDictionary:(NSDictionary *)values;
 
-- (void)saveChanges:(DSOUserSaveBlock)completionBlock;
+-(void)campaignActions:(DSOUserCampaignActionsBlock)campaignActionsBlock;
 
-- (void)campaignActions:(DSOUserCampaignActionsBlock)campaignActionsBlock;
-
-- (BOOL)isEqualToUser:(DSOUser *)otherUser;
+-(NSString *)displayName;
 
 @property (nonatomic, strong) NSString *userID;
-@property (nonatomic, readonly) BOOL isAdmin;
 
 @property (nonatomic, strong, readonly) NSString *fullName;
 @property (nonatomic, strong) NSString *firstName;
@@ -49,7 +44,6 @@ typedef void (^DSOUserCampaignActionsBlock) (NSArray *campaignActions, NSError *
 @property (nonatomic, strong) NSString *state;
 @property (nonatomic, strong) NSString *zipcode;
 
-@property (nonatomic, readonly) BOOL canEdit;
 @property (nonatomic, strong) NSMutableDictionary *campaignsDoing;
 @property (nonatomic, strong) NSMutableDictionary *campaignsCompleted;
 

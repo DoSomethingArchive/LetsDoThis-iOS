@@ -11,6 +11,8 @@
 #import "LDTTheme.h"
 #import "LDTButton.h"
 #import "LDTMessage.h"
+#import "DSOSession.h"
+#import "LDTUserProfileViewController.h"
 
 @interface LDTUserLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
@@ -60,7 +62,7 @@
     self.textFieldsRequired = @[self.emailTextField,
                                 self.passwordTextField];
 
-    [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
+    [self.submitButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton disable];
     [self.passwordButton setTitle:[@"Forgot password?" uppercaseString] forState:UIControlStateNormal];
 
@@ -107,8 +109,17 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
+    [DSOSession startWithEmail:self.emailTextField.text password:self.passwordTextField.text success:^(DSOSession *session) {
 
+        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:session.user];
+        [self.navigationController pushViewController:destVC animated:YES];
+
+    } failure:^(NSError *error) {
+        [self.passwordTextField becomeFirstResponder];
+        [LDTMessage errorMessage:error];
+    }];
 }
+
 - (IBAction)passwordButtonTouchUpInside:(id)sender {
     // @todo: DRY this via DSOSession?
 #ifdef DEBUG
