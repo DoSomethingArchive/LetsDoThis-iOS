@@ -228,6 +228,7 @@
     if (![self validatePassword:self.passwordTextField.text]) {
         [errorMessages addObject:@"Password must be 6+ characters."];
     }
+
     if ([errorMessages count] > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
         [LDTMessage displayErrorWithTitle:errorMessage];
@@ -245,11 +246,12 @@
 }
 
 - (BOOL)validateMobile:(NSString *)candidate {
-    // @todo: Accept international numbers.
-    if (candidate && candidate.length != 10) {
-        return NO;
+    if ([candidate isEqualToString:@""]) {
+        return YES;
     }
-    return YES;
+    // Input keypad is numeric, so we only need to check string length.
+    // @todo: Accept international numbers.
+    return candidate.length == 10;
 }
 
 - (BOOL)validatePassword:(NSString *)candidate {
