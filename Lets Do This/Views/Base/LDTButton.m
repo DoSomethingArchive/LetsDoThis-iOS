@@ -17,10 +17,11 @@
 
         [[self titleLabel] setFont:[LDTTheme fontBold]];
         self.layer.cornerRadius = 10;
-        NSLog(@"Position %@", NSStringFromCGPoint(self.layer.position));
+
     }
     return self;
 }
+
 - (UIEdgeInsets)alignmentRectInsets {
     return UIEdgeInsetsMake(20, 120, 20, 120);
 }
