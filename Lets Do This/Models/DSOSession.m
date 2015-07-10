@@ -188,25 +188,6 @@ static NSString *_APIKey;
     [self.requestSerializer setValue:sessionToken forHTTPHeaderField:@"Session"];
 }
 
-- (void)taxonomyTerms:(DSOSessionTaxonomyTermsBlock)completionBlock {
-    if (completionBlock == nil) {
-        return;
-    }
-
-    NSString *url = @"terms.json";
-    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSArray *response) {
-        NSMutableArray *terms = [NSMutableArray arrayWithCapacity:response.count];
-        for(NSDictionary *rawTerm in response) {
-            DSOTaxonomyTerm *term = [[DSOTaxonomyTerm alloc] initWithDictionary:rawTerm];
-            [terms addObject:term];
-        }
-
-        completionBlock(terms, nil);
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        completionBlock(nil, error);
-    }];
-}
-
 - (void)logout:(DSOSessionLogoutBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
 
     [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
