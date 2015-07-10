@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, DSOSessionEnvironment) {
                  lastName:(NSString *)lastName
                    mobile:(NSString *)mobile
                 birthdate:(NSString *)dateStr
-                    photo:(NSString *)fileStr
+//                    photo:(NSString *)fileStr
                   success:(DSOSessionLoginBlock)successBlock
                   failure:(DSOSessionFailureBlock)failureBlock;
 

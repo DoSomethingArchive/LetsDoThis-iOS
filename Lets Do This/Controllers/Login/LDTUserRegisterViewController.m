@@ -159,7 +159,7 @@
                              lastName:self.lastNameTextField.text
                                mobile:self.mobileTextField.text
                             birthdate:self.birthdayTextField.text
-                                photo:self.avatarFilestring
+//                                photo:self.avatarFilestring
                               success:^(DSOSession *session) {
                                   // Get User Profile VC
                                   LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:session.user];
