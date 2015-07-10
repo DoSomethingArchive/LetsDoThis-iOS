@@ -48,7 +48,7 @@
 
 - (IBAction)registerAction:(id)sender {
     if(self.emailField.text.length && self.passwordField.text.length) {
-        [DSOSession registerWithEmail:self.emailField.text password:self.passwordField.text firstName:self.firstNameField.text lastName:self.lastNameField.text birthdate:self.birthdayField.text success:^(DSOSession *session) {
+        [DSOSession registerWithEmail:self.emailField.text password:self.passwordField.text firstName:self.firstNameField.text lastName:self.lastNameField.text mobile:nil birthdate:self.birthdayField.text success:^(DSOSession *session) {
             LDTLoginRegNavigationController *loginRegViewController = (LDTLoginRegNavigationController *)self.navigationController;
             if(loginRegViewController.loginBlock) {
                 loginRegViewController.loginBlock();
