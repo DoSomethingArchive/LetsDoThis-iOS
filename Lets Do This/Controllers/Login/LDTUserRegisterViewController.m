@@ -44,7 +44,7 @@
 #pragma mark - NSObject
 
 -(instancetype)initWithUser:(NSMutableDictionary *)user {
-    self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
+    self = [super initWithNibName:@"LDTUserRegisterView" bundle:nil];
 
     if (self) {
         self.user = user;

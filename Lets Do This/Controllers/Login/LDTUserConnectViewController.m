@@ -77,7 +77,7 @@
 }
 
 - (IBAction)loginButtonTouchUpInside:(id)sender {
-    LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginViewController" bundle:nil];
+    LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginView" bundle:nil];
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
