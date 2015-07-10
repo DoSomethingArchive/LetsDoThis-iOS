@@ -63,6 +63,7 @@ static NSString *_APIKey;
                  lastName:(NSString *)lastName
                    mobile:(NSString *)mobile
                 birthdate:(NSString *)dateStr
+                    photo:(NSString *)fileStr
                   success:(DSOSessionLoginBlock)successBlock
                   failure:(DSOSessionFailureBlock)failureBlock {
     NSAssert(_setupCalled == YES, @"The DSO Session has not been setup");
@@ -78,7 +79,8 @@ static NSString *_APIKey;
                              @"first_name": firstName,
                              @"last_name": lastName,
                              @"mobile":mobile,
-                             @"birthdate": dateStr};
+                             @"birthdate": dateStr,
+                             @"photo":fileStr};
 
     [session POST:@"users?create_drupal_user=1" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
 

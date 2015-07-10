@@ -18,6 +18,7 @@
 
 #warning @todo: Use DSOUser instead
 @property (strong, nonatomic) NSMutableDictionary *user;
+@property (strong, nonatomic) NSString *avatarFilestring;
 @property (strong, nonatomic) UIImagePickerController *picker;
 
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
@@ -158,6 +159,7 @@
                              lastName:self.lastNameTextField.text
                                mobile:self.mobileTextField.text
                             birthdate:self.birthdayTextField.text
+                                photo:self.avatarFilestring
                               success:^(DSOSession *session) {
                                   // Get User Profile VC
                                   LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:session.user];
@@ -326,8 +328,7 @@
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     self.imageView.image = chosenImage;
     [LDTTheme addCircleFrame:self.imageView];
-
-    //    self.selectedFilestring = [UIImagePNGRepresentation(chosenImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    self.avatarFilestring = [UIImagePNGRepresentation(chosenImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
