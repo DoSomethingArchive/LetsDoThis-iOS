@@ -48,7 +48,7 @@
     [LDTTheme setLightningBackground:self.headerView];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
-    [self.nameLabel setFont:[LDTTheme fontBold]];
+    [self.nameLabel setFont:[LDTTheme fontBoldWithSize:40]];
     [self.nameLabel setTextColor:[UIColor whiteColor]];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
 
