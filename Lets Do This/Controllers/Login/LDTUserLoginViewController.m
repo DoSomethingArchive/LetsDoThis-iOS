@@ -111,7 +111,7 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     [DSOSession startWithEmail:self.emailTextField.text password:self.passwordTextField.text success:^(DSOSession *session) {
 
-        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithNibName:@"LDTUserProfileView" bundle:nil];
+        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:session.user];
         [self.navigationController pushViewController:destVC animated:YES];
 
     } failure:^(NSError *error) {
