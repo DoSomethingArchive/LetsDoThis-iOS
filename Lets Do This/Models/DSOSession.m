@@ -109,12 +109,10 @@ static NSString *_APIKey;
                              @"password": password};
 
     [session POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+
         [SSKeychain setPassword:password forService:LDTSERVER account:email];
-
-        NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-        session.user = [DSOUser syncWithDictionary:response[@"data"]];
-        [context MR_saveToPersistentStoreAndWait];
-
+        NSLog(@"response %@", response);
+        session.user = [[DSOUser alloc] initWithDict:response[@"data"]];
         [session saveTokens:response[@"data"]];
 
         _currentSession = session;
@@ -147,9 +145,7 @@ static NSString *_APIKey;
 
     NSString *url = [NSString stringWithFormat:@"users/email/%@", [DSOSession lastLoginEmail]];
     [session GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *response) {
-        NSArray *userInfo = response[@"data"];
-
-        session.user = [DSOUser syncWithDictionary:userInfo.firstObject];
+        session.user = [[DSOUser alloc] initWithDict:response[@"data"]];
 
         _currentSession = session;
         if (successBlock) {
@@ -176,8 +172,8 @@ static NSString *_APIKey;
     self = [super initWithBaseURL:baseURL];
 
     if (self != nil) {
-//        [[AFNetworkActivityLogger sharedLogger] startLogging];
-//        [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
+        [[AFNetworkActivityLogger sharedLogger] startLogging];
+        [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
 
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];

@@ -20,18 +20,14 @@
 
 @implementation DSOUser
 
-+ (void)userWithID:(NSString *)userID inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock {
-    NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
-    [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [DSOUser syncWithDictionary:responseObject];
-        if(completionBlock) {
-            completionBlock(user, nil);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if(completionBlock) {
-            completionBlock(nil, error);
-        }
-    }];
+-(id)initWithDict:(NSDictionary*)dict {
+    self = [super init];
+
+    if(self) {
+        self.firstName = dict[@"first_name"];
+        self.email = dict[@"email"];
+    }
+    return self;
 }
 
 - (void)syncWithDictionary:(NSDictionary *)values {

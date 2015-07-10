@@ -40,10 +40,30 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
-    LDTUserConnectViewController *rootVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+    UIViewController *rootVC;
+    BOOL connected = NO;
+    if([DSOSession currentSession] == nil) {
+        NSLog(@"currentSession does not exist");
+        if([DSOSession hasCachedSession] == NO) {
+            NSLog(@"does not have cached session");
+        }
+        else {
+            NSLog(@"does have cached session");
+            connected = YES;
+        }
+    }
+    else {
+        connected = YES;
+        NSLog(@"Yes Session");
+    }
 
-// @todo: If User session is saved and token valid, display Profile:
-//    LDTUserProfileViewController *rootVC = [[LDTUserProfileViewController alloc] initWithNibName:@"LDTUserProfileView" bundle:nil];
+
+    if (connected) {
+        rootVC = [[LDTUserProfileViewController alloc] initWithNibName:@"LDTUserProfileView" bundle:nil];
+    }
+    else {
+        rootVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+    }
 
     UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:rootVC];
     [navVC.navigationBar setBackgroundImage:[UIImage new]
