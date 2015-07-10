@@ -15,21 +15,22 @@
 
 @interface LDTUserRegisterViewController ()
 
+#warning @todo: Use DSOUser instead
+@property (strong, nonatomic) NSMutableDictionary *user;
+
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
-
+@property (weak, nonatomic) IBOutlet UIButton *avatarButton;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 @property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *lastNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *mobileTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UITextField *birthdayTextField;
-@property (weak, nonatomic) IBOutlet UILabel *headerLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
-#warning @todo: Use DSOUser instead
-@property (strong, nonatomic) NSMutableDictionary *user;
-
+- (IBAction)avatarButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)lastNameEditingDidEnd:(id)sender;
 - (IBAction)firstNameEditingDidEnd:(id)sender;
@@ -269,4 +270,7 @@
 }
 
 
+- (IBAction)avatarButtonTouchUpInside:(id)sender {
+    NSLog(@"Tappy tappy");
+}
 @end
