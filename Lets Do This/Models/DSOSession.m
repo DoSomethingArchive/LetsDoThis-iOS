@@ -112,7 +112,7 @@ static NSString *_APIKey;
         [SSKeychain setPassword:password forService:LDTSERVER account:email];
 
         NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-        session.user = [DSOUser syncWithDictionary:response[@"data"] inContext:context];
+        session.user = [DSOUser syncWithDictionary:response[@"data"]];
         [context MR_saveToPersistentStoreAndWait];
 
         [session saveTokens:response[@"data"]];
@@ -149,9 +149,7 @@ static NSString *_APIKey;
     [session GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *response) {
         NSArray *userInfo = response[@"data"];
 
-        NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-        session.user = [DSOUser syncWithDictionary:userInfo.firstObject inContext:context];
-        [context MR_saveToPersistentStoreAndWait];
+        session.user = [DSOUser syncWithDictionary:userInfo.firstObject];
 
         _currentSession = session;
         if (successBlock) {
