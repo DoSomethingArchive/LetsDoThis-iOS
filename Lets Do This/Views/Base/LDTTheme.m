@@ -49,6 +49,13 @@
     return @"BrandonGrotesque-Medium";
 }
 
+// Expects a square imageView.
++(void)addCircleFrame:(UIImageView *)imageView {
+    imageView.layer.cornerRadius = imageView.frame.size.height /2;
+    imageView.layer.masksToBounds = YES;
+    imageView.layer.borderWidth = 0;
+}
+
 +(void)setLightningBackground:(UIView *)view {
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
 }
