@@ -34,19 +34,10 @@
 - (void)syncWithDictionary:(NSDictionary *)values {
     self.userID = [values valueForKeyAsString:@"_id" nullValue:self.userID];
     self.email = [values valueForKeyAsString:@"email" nullValue:self.email];
-    self.mobileNumber = [values valueForKeyAsString:@"mobile" nullValue:self.mobileNumber];
+    self.mobile = [values valueForKeyAsString:@"mobile" nullValue:self.mobile];
     self.firstName = [values valueForKeyAsString:@"first_name" nullValue:self.firstName];
     self.lastName = [values valueForKeyAsString:@"last_name" nullValue:self.lastName];
-    self.country = [values valueForKeyAsString:@"country" nullValue:self.country];
-    self.addressLine1 = [values valueForKeyAsString:@"addr_street1" nullValue:self.addressLine1];
-    self.addressLine2 = [values valueForKeyAsString:@"addr_street2" nullValue:self.addressLine2];
-    self.city = [values valueForKeyAsString:@"addr_city" nullValue:self.city];
-    self.state = [values valueForKeyAsString:@"addr_state" nullValue:self.state];
-    self.zipcode = [values valueForKeyAsString:@"addr_zip" nullValue:self.zipcode];
-    self.birthday = [values valueForKeyAsDate:@"birthdate" nullValue:self.birthday];
-    self.createdAt = [values valueForKeyAsDate:@"created_at" nullValue:self.createdAt];
-    self.updatedAt = [values valueForKeyAsDate:@"updated_at" nullValue:self.updatedAt];
-
+    self.birthdate = [values valueForKeyAsDate:@"birthdate" nullValue:self.birthdate];
     // @todo: how often should this run?
     // Clear activity.
     self.campaignsDoing = [[NSMutableDictionary alloc] init];

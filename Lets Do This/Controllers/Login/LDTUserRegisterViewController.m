@@ -11,6 +11,7 @@
 #import "LDTTheme.h"
 #import "LDTButton.h"
 #import "LDTMessage.h"
+#import "LDTUserProfileViewController.h"
 
 @interface LDTUserRegisterViewController ()
 
@@ -29,7 +30,7 @@
 #warning @todo: Use DSOUser instead
 @property (strong, nonatomic) NSMutableDictionary *user;
 
-- (IBAction)buttonTapped:(id)sender;
+- (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)lastNameEditingDidEnd:(id)sender;
 - (IBAction)firstNameEditingDidEnd:(id)sender;
 - (IBAction)emailEditingDidEnd:(id)sender;
@@ -140,9 +141,24 @@
     self.birthdayTextField.text = [df stringFromDate:sender.date];
 }
 
-- (IBAction)buttonTapped:(id)sender {
+- (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
-        [LDTMessage showNotificationWithTitle:@"Great job" type:TSMessageNotificationTypeSuccess];
+
+        [DSOSession registerWithEmail:self.emailTextField.text
+                             password:self.passwordTextField.text
+                            firstName:self.firstNameTextField.text
+                             lastName:self.lastNameTextField.text
+                               mobile:self.mobileTextField.text
+                            birthdate:self.birthdayTextField.text
+                              success:^(DSOSession *session) {
+                                  // Get User Profile VC
+                                  LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:session.user];
+                                  [self.navigationController pushViewController:destVC animated:YES];
+
+                              }
+                              failure:^(NSError *error) {
+                                  [LDTMessage errorMessage:error];
+                              }];
     }
     else {
         [self.submitButton disable];

@@ -128,7 +128,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="buttonTapped:" destination="-1" eventType="touchUpInside" id="Rkf-eV-y5h"/>
+                                <action selector="submitButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="fSU-lp-hwo"/>
                             </connections>
                         </button>
                     </subviews>
