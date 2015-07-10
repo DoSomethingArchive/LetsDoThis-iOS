@@ -111,7 +111,6 @@ static NSString *_APIKey;
     [session POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
 
         [SSKeychain setPassword:password forService:LDTSERVER account:email];
-        NSLog(@"response %@", response);
         session.user = [[DSOUser alloc] initWithDict:response[@"data"]];
         [session saveTokens:response[@"data"]];
 
@@ -173,8 +172,8 @@ static NSString *_APIKey;
     self = [super initWithBaseURL:baseURL];
 
     if (self != nil) {
-        [[AFNetworkActivityLogger sharedLogger] startLogging];
-        [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
+//        [[AFNetworkActivityLogger sharedLogger] startLogging];
+//        [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
 
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];
