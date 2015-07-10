@@ -144,16 +144,21 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
 
-        [DSOSession registerWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text lastName:self.lastNameTextField.text birthdate:self.birthdayTextField.text success:^(DSOSession *session) {
+        [DSOSession registerWithEmail:self.emailTextField.text
+                             password:self.passwordTextField.text
+                            firstName:self.firstNameTextField.text
+                             lastName:self.lastNameTextField.text
+                               mobile:self.mobileTextField.text
+                            birthdate:self.birthdayTextField.text
+                              success:^(DSOSession *session) {
+                                  // Get User Profile VC
+                                  LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:session.user];
+                                  [self.navigationController pushViewController:destVC animated:YES];
 
-            LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:session.user];
-            [self.navigationController pushViewController:destVC animated:YES];
-
-        } failure:^(NSError *error) {
-            [self.passwordTextField becomeFirstResponder];
-            [LDTMessage errorMessage:error];
-        }];
-
+                              }
+                              failure:^(NSError *error) {
+                                  [LDTMessage errorMessage:error];
+                              }];
     }
     else {
         [self.submitButton disable];

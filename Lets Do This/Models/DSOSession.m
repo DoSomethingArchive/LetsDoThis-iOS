@@ -57,7 +57,14 @@ static NSString *_APIKey;
 }
 
 
-+ (void)registerWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName birthdate:(NSString *)dateStr success:(DSOSessionLoginBlock)successBlock  failure:(DSOSessionFailureBlock)failureBlock {
++ (void)registerWithEmail:(NSString *)email
+                 password:(NSString *)password
+                firstName:(NSString *)firstName
+                 lastName:(NSString *)lastName
+                   mobile:(NSString *)mobile
+                birthdate:(NSString *)dateStr
+                  success:(DSOSessionLoginBlock)successBlock
+                  failure:(DSOSessionFailureBlock)failureBlock {
     NSAssert(_setupCalled == YES, @"The DSO Session has not been setup");
 
     _currentSession = nil;
@@ -70,12 +77,15 @@ static NSString *_APIKey;
                              @"password": password,
                              @"first_name": firstName,
                              @"last_name": lastName,
+                             @"mobile":mobile,
                              @"birthdate": dateStr};
 
     [session POST:@"users?create_drupal_user=1" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+
         [SSKeychain setPassword:password forService:LDTSERVER account:email];
 
         [DSOSession startWithEmail:email password:password success:successBlock failure:failureBlock];
+
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         if (failureBlock) {
             failureBlock(error);
