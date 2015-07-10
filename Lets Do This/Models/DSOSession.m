@@ -109,12 +109,9 @@ static NSString *_APIKey;
                              @"password": password};
 
     [session POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+
         [SSKeychain setPassword:password forService:LDTSERVER account:email];
-
-        NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-        session.user = [DSOUser syncWithDictionary:response[@"data"] inContext:context];
-        [context MR_saveToPersistentStoreAndWait];
-
+        session.user = [[DSOUser alloc] initWithDict:response[@"data"]];
         [session saveTokens:response[@"data"]];
 
         _currentSession = session;
@@ -148,10 +145,7 @@ static NSString *_APIKey;
     NSString *url = [NSString stringWithFormat:@"users/email/%@", [DSOSession lastLoginEmail]];
     [session GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *response) {
         NSArray *userInfo = response[@"data"];
-
-        NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-        session.user = [DSOUser syncWithDictionary:userInfo.firstObject inContext:context];
-        [context MR_saveToPersistentStoreAndWait];
+        session.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
 
         _currentSession = session;
         if (successBlock) {
@@ -218,6 +212,7 @@ static NSString *_APIKey;
     [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
         [SSKeychain deletePasswordForService:LDTSERVER account:[DSOSession lastLoginEmail]];
+        self.user = nil;
 
         if (successBlock) {
             successBlock();

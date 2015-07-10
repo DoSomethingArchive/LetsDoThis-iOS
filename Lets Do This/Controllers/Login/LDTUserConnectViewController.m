@@ -32,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.navigationItem.hidesBackButton = YES;
     self.headerLabel.text = @"Let's make this official. Create an account\nto find actions you can do with friends.";
     [self.registerButton setTitle:[@"Register" uppercaseString] forState:UIControlStateNormal];
     [self.facebookButton setTitle:@"Log in with Facebook" forState:UIControlStateNormal];
@@ -77,7 +78,7 @@
 }
 
 - (IBAction)loginButtonTouchUpInside:(id)sender {
-    LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginViewController" bundle:nil];
+    LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginView" bundle:nil];
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
