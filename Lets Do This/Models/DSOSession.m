@@ -145,7 +145,8 @@ static NSString *_APIKey;
 
     NSString *url = [NSString stringWithFormat:@"users/email/%@", [DSOSession lastLoginEmail]];
     [session GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *response) {
-        session.user = [[DSOUser alloc] initWithDict:response[@"data"]];
+        NSArray *userInfo = response[@"data"];
+        session.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
 
         _currentSession = session;
         if (successBlock) {

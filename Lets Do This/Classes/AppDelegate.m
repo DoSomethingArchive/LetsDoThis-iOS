@@ -13,7 +13,7 @@
 #import "LDTUserProfileViewController.h"
 
 @interface AppDelegate ()
-
+@property (nonatomic, assign) BOOL isConnected;
 @end
 
 @implementation AppDelegate
@@ -41,24 +41,29 @@
     [application registerForRemoteNotifications];
 
     UIViewController *rootVC;
-    BOOL connected = NO;
+    self.isConnected = NO;
     if([DSOSession currentSession] == nil) {
         NSLog(@"currentSession does not exist");
         if([DSOSession hasCachedSession] == NO) {
             NSLog(@"does not have cached session");
         }
         else {
+            [DSOSession startWithCachedSession:^(DSOSession *session) {
+                self.isConnected = YES;
+                NSLog(@"isConnected!");
+            } failure:^(NSError *error) {
+
+            }];
             NSLog(@"does have cached session");
-            connected = YES;
         }
     }
     else {
-        connected = YES;
+        self.isConnected = YES;
         NSLog(@"Yes Session");
     }
 
 
-    if (connected) {
+    if (self.isConnected) {
         rootVC = [[LDTUserProfileViewController alloc] initWithNibName:@"LDTUserProfileView" bundle:nil];
     }
     else {
