@@ -29,7 +29,7 @@
 #warning @todo: Use DSOUser instead
 @property (strong, nonatomic) NSMutableDictionary *user;
 
-- (IBAction)buttonTapped:(id)sender;
+- (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)lastNameEditingDidEnd:(id)sender;
 - (IBAction)firstNameEditingDidEnd:(id)sender;
 - (IBAction)emailEditingDidEnd:(id)sender;
@@ -140,7 +140,7 @@
     self.birthdayTextField.text = [df stringFromDate:sender.date];
 }
 
-- (IBAction)buttonTapped:(id)sender {
+- (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
         [LDTMessage showNotificationWithTitle:@"Great job" type:TSMessageNotificationTypeSuccess];
     }
