@@ -41,6 +41,7 @@
     [application registerForRemoteNotifications];
 
     UIViewController *rootVC;
+    rootVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
     UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:rootVC];
     [navVC.navigationBar setBackgroundImage:[UIImage new]
                               forBarMetrics:UIBarMetricsDefault];
@@ -61,7 +62,6 @@
             [self.window makeKeyAndVisible];
             [DSOSession startWithCachedSession:^(DSOSession *session) {
                 self.isConnected = YES;
-                NSLog(@"isConnected!!");
                 LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOSession currentSession].user];
                 [navVC pushViewController:profileVC animated:YES];
             } failure:^(NSError *error) {
@@ -70,15 +70,8 @@
         }
     }
     else {
-        self.isConnected = YES;
-    }
-
-
-    if (self.isConnected) {
-        rootVC = [[LDTUserProfileViewController alloc] initWithNibName:@"LDTUserProfileView" bundle:nil];
-    }
-    else {
-        rootVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+        LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOSession currentSession].user];
+        [navVC pushViewController:profileVC animated:YES];
     }
 
     // If we're connected, we've already made this call:

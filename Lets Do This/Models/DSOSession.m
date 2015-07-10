@@ -213,6 +213,7 @@ static NSString *_APIKey;
     [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
         [SSKeychain deletePasswordForService:LDTSERVER account:[DSOSession lastLoginEmail]];
+        self.user = nil;
 
         if (successBlock) {
             successBlock();
