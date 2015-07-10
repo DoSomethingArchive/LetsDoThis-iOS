@@ -41,6 +41,15 @@
     [application registerForRemoteNotifications];
 
     UIViewController *rootVC;
+    UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:rootVC];
+    [navVC.navigationBar setBackgroundImage:[UIImage new]
+                              forBarMetrics:UIBarMetricsDefault];
+    navVC.navigationBar.shadowImage = [UIImage new];
+    navVC.navigationBar.translucent = YES;
+    navVC.view.backgroundColor = [UIColor clearColor];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = navVC;
+
     self.isConnected = NO;
     if([DSOSession currentSession] == nil) {
         NSLog(@"currentSession does not exist");
@@ -48,9 +57,13 @@
             NSLog(@"does not have cached session");
         }
         else {
+            rootVC = [[LDTUserProfileViewController alloc] initWithNibName:@"LDTUserProfileView" bundle:nil];
+            [self.window makeKeyAndVisible];
             [DSOSession startWithCachedSession:^(DSOSession *session) {
                 self.isConnected = YES;
-                NSLog(@"isConnected!");
+                NSLog(@"isConnected!!");
+                LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithNibName:@"LDTUserProfileView" bundle:nil];
+                [navVC pushViewController:profileVC animated:YES];
             } failure:^(NSError *error) {
 
             }];
@@ -70,15 +83,11 @@
         rootVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
     }
 
-    UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:rootVC];
-    [navVC.navigationBar setBackgroundImage:[UIImage new]
-forBarMetrics:UIBarMetricsDefault];
-    navVC.navigationBar.shadowImage = [UIImage new];
-    navVC.navigationBar.translucent = YES;
-    navVC.view.backgroundColor = [UIColor clearColor];
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = navVC;
-    [self.window makeKeyAndVisible];
+    // If we're connected, we've already made this call:
+    if (!self.isConnected) {
+        [self.window makeKeyAndVisible];
+    }
+
     return YES;
 }
 
