@@ -16,11 +16,11 @@ typedef void (^DSOUserCampaignActionsBlock) (NSArray *campaignActions, NSError *
 
 @interface DSOUser : NSObject
 
-+ (DSOUser *)syncWithDictionary:(NSDictionary *)values;
+-(id)initWithDict:(NSDictionary*)dict;
 
-+ (void)userWithID:(NSString *)userID inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock;
+-(void)syncWithDictionary:(NSDictionary *)values;
 
-- (void)campaignActions:(DSOUserCampaignActionsBlock)campaignActionsBlock;
+-(void)campaignActions:(DSOUserCampaignActionsBlock)campaignActionsBlock;
 
 @property (nonatomic, strong) NSString *userID;
 
