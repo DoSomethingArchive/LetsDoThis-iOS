@@ -249,9 +249,7 @@
     if ([candidate isEqualToString:@""]) {
         return YES;
     }
-    // Input keypad is numeric, so we only need to check string length.
-    // @todo: Accept international numbers.
-    return candidate.length == 10;
+    return (candidate.length >= 7 && candidate.length < 16);
 }
 
 - (BOOL)validatePassword:(NSString *)candidate {
