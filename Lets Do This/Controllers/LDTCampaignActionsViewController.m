@@ -25,7 +25,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.campaigns = [DSOCampaign MR_findAllSortedBy:@"title" ascending:YES];
+    // @todo: Get all campaigns in DSOSession campaigns array
+//    self.campaigns = [DSOCampaign MR_findAllSortedBy:@"title" ascending:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DSOCampaignActivity : NSManagedObject
+@interface DSOCampaignActivity : NSObject
 
 #warning Will need to remove
 - (instancetype)initWithDictionary:(NSDictionary *)values;
