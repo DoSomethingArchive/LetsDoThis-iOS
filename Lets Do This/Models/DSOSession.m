@@ -101,7 +101,11 @@ static NSString *_APIKey;
     return firstAccount[@"acct"];
 }
 
-+ (void)startWithEmail:(NSString *)email password:(NSString *)password success:(DSOSessionLoginBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
++ (void)startWithEmail:(NSString *)email
+              password:(NSString *)password
+               success:(DSOSessionLoginBlock)successBlock
+               failure:(DSOSessionFailureBlock)failureBlock {
+
     NSAssert(_setupCalled == YES, @"The DSO Session has not been setup");
 
     _currentSession = nil;
@@ -130,7 +134,9 @@ static NSString *_APIKey;
     }];
 }
 
-+ (void)startWithCachedSession:(DSOSessionLoginBlock)successBlock failure:(DSOSessionFailureBlock)failure {
++ (void)startWithCachedSession:(DSOSessionLoginBlock)successBlock
+                       failure:(DSOSessionFailureBlock)failure {
+
     NSAssert(_setupCalled == YES, @"The DSO Session has not been setup");
 
     if ([DSOSession hasCachedSession] == NO) {
@@ -193,7 +199,8 @@ static NSString *_APIKey;
     [self.requestSerializer setValue:sessionToken forHTTPHeaderField:@"Session"];
 }
 
-- (void)logout:(DSOSessionLogoutBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
+- (void)logout:(DSOSessionLogoutBlock)successBlock
+       failure:(DSOSessionFailureBlock)failureBlock {
 
     [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
