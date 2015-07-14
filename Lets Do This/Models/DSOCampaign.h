@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
 
 - (void)signupFromSource:(NSString *)source completion:(DSOCampaignSignupBlock)completionBlock;
 
-- (void)reportbackValues:(NSDictionary *)values completionHandler:(DSOCampaignReportBackBlock)completionBlock;
+- (void)postReportbackWithValues:(NSDictionary *)values completionHandler:(DSOCampaignReportBackBlock)completionBlock;
 
 - (void)reportbackItemsWithStatus:(NSString *)status :(DSOCampaignListBlock)completionBlock;
 

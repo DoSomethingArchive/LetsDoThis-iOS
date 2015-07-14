@@ -48,7 +48,7 @@
                              @"caption" : self.captionTextField.text,
                              @"file": self.selectedFilestring};
     NSLog(@"values %@", values)
-    ;    [self.campaign reportbackValues:values completionHandler:^(NSDictionary *response, NSError *error) {
+    ;    [self.campaign postReportbackWithValues:values completionHandler:^(NSDictionary *response, NSError *error) {
         NSLog(@"response %@", response);
     }];
 }

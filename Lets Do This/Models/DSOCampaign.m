@@ -101,7 +101,7 @@
 }
 
 #warning should take in a new DSOReportback object
-- (void)reportbackValues:(NSDictionary *)values completionHandler:(DSOCampaignReportBackBlock)completionHandler {
+- (void)postReportbackWithValues:(NSDictionary *)values completionHandler:(DSOCampaignReportBackBlock)completionHandler {
     NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/reportback", (long)self.campaignID];
     [[DSOSession currentSession] POST:url parameters:values success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"success %@", responseObject);
