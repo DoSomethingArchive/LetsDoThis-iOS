@@ -29,7 +29,6 @@
 
 static BOOL _setupCalled;
 static DSOSession *_currentSession;
-static DSOSessionEnvironment _environment;
 static NSString *_APIKey;
 
 @interface DSOSession ()
@@ -40,16 +39,11 @@ static NSString *_APIKey;
 
 @synthesize legacyServerSession = _legacyServerSession;
 
-+ (void)setupWithAPIKey:(NSString *)APIKey environment:(DSOSessionEnvironment)environment {
++ (void)setupWithAPIKey:(NSString *)APIKey {
     NSAssert(_setupCalled == NO, @"The DSO Session has already been setup");
 
     _APIKey = APIKey;
-    _environment = environment;
     _setupCalled = YES;
-}
-
-- (DSOSessionEnvironment)environment {
-    return _environment;
 }
 
 - (NSString *)APIKey {
@@ -98,17 +92,20 @@ static NSString *_APIKey;
 
 + (BOOL)hasCachedSession {
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
-    return sessionToken.length > 0 && _APIKey.length > 0 && _environment != DSOSessionEnvironmentNone;
+    return sessionToken.length > 0 && _APIKey.length > 0;
 }
 
 + (NSString *)lastLoginEmail {
     NSArray *accounts = [SSKeychain accountsForService:LDTSERVER];
     NSDictionary *firstAccount = accounts.firstObject;
-
     return firstAccount[@"acct"];
 }
 
-+ (void)startWithEmail:(NSString *)email password:(NSString *)password success:(DSOSessionLoginBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
++ (void)startWithEmail:(NSString *)email
+              password:(NSString *)password
+               success:(DSOSessionLoginBlock)successBlock
+               failure:(DSOSessionFailureBlock)failureBlock {
+
     NSAssert(_setupCalled == YES, @"The DSO Session has not been setup");
 
     _currentSession = nil;
@@ -137,7 +134,9 @@ static NSString *_APIKey;
     }];
 }
 
-+ (void)startWithCachedSession:(DSOSessionLoginBlock)successBlock failure:(DSOSessionFailureBlock)failure {
++ (void)startWithCachedSession:(DSOSessionLoginBlock)successBlock
+                       failure:(DSOSessionFailureBlock)failure {
+
     NSAssert(_setupCalled == YES, @"The DSO Session has not been setup");
 
     if ([DSOSession hasCachedSession] == NO) {
@@ -200,7 +199,8 @@ static NSString *_APIKey;
     [self.requestSerializer setValue:sessionToken forHTTPHeaderField:@"Session"];
 }
 
-- (void)logout:(DSOSessionLogoutBlock)successBlock failure:(DSOSessionFailureBlock)failureBlock {
+- (void)logout:(DSOSessionLogoutBlock)successBlock
+       failure:(DSOSessionFailureBlock)failureBlock {
 
     [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
