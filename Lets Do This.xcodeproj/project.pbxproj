@@ -33,16 +33,13 @@
 		B2A136631B3D9BC600D20273 /* LDTUserRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */; };
 		B2E652DF1B4380AD00EF9D69 /* LDTTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E652DE1B4380AD00EF9D69 /* LDTTheme.m */; };
 		B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E652E11B43822600EF9D69 /* LDTButton.m */; };
-		C20126751AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C20126731AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld */; };
 		C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2781AF3DBE400E9886F /* DSOCampaign.m */; };
 		C20BA2841AF3DBE400E9886F /* DSOCampaignActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA27A1AF3DBE400E9886F /* DSOCampaignActivity.m */; };
 		C20BA2851AF3DBE400E9886F /* DSOReportback.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA27C1AF3DBE400E9886F /* DSOReportback.m */; };
 		C20BA2861AF3DBE400E9886F /* DSOSession.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA27E1AF3DBE400E9886F /* DSOSession.m */; };
-		C20BA2871AF3DBE400E9886F /* DSOTaxonomyTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2801AF3DBE400E9886F /* DSOTaxonomyTerm.m */; };
 		C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2821AF3DBE400E9886F /* DSOUser.m */; };
 		C20BA28D1AF3DCAB00E9886F /* NSDate+DSO.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA28A1AF3DCAB00E9886F /* NSDate+DSO.m */; };
 		C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */; };
-		C20BA2921AF3FDBE00E9886F /* LDTImportQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2911AF3FDBE00E9886F /* LDTImportQueue.m */; };
 		C2B151EF1ACE04C30028C336 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B151EE1ACE04C30028C336 /* main.m */; };
 		C2B151FD1ACE04C30028C336 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2B151FC1ACE04C30028C336 /* Images.xcassets */; };
 		C2B152001ACE04C30028C336 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B151FE1ACE04C30028C336 /* LaunchScreen.xib */; };
@@ -107,7 +104,6 @@
 		B2E652E01B43822600EF9D69 /* LDTButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTButton.h; path = Base/LDTButton.h; sourceTree = "<group>"; };
 		B2E652E11B43822600EF9D69 /* LDTButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTButton.m; path = Base/LDTButton.m; sourceTree = "<group>"; };
 		B92B81EBB03D9FF4D34E3FD9 /* Pods-Lets Do This.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.release.xcconfig"; sourceTree = "<group>"; };
-		C20126741AF27FF700CB33B3 /* LetsDoThis.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LetsDoThis.xcdatamodel; sourceTree = "<group>"; };
 		C20BA2771AF3DBE400E9886F /* DSOCampaign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCampaign.h; sourceTree = "<group>"; };
 		C20BA2781AF3DBE400E9886F /* DSOCampaign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCampaign.m; sourceTree = "<group>"; };
 		C20BA2791AF3DBE400E9886F /* DSOCampaignActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCampaignActivity.h; sourceTree = "<group>"; };
@@ -116,8 +112,6 @@
 		C20BA27C1AF3DBE400E9886F /* DSOReportback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOReportback.m; sourceTree = "<group>"; };
 		C20BA27D1AF3DBE400E9886F /* DSOSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOSession.h; sourceTree = "<group>"; };
 		C20BA27E1AF3DBE400E9886F /* DSOSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOSession.m; sourceTree = "<group>"; };
-		C20BA27F1AF3DBE400E9886F /* DSOTaxonomyTerm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOTaxonomyTerm.h; sourceTree = "<group>"; };
-		C20BA2801AF3DBE400E9886F /* DSOTaxonomyTerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOTaxonomyTerm.m; sourceTree = "<group>"; };
 		C20BA2811AF3DBE400E9886F /* DSOUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOUser.h; sourceTree = "<group>"; };
 		C20BA2821AF3DBE400E9886F /* DSOUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOUser.m; sourceTree = "<group>"; };
 		C20BA2891AF3DCAB00E9886F /* NSDate+DSO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DSO.h"; sourceTree = "<group>"; };
@@ -125,8 +119,6 @@
 		C20BA28B1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+DSOJsonHelper.h"; sourceTree = "<group>"; };
 		C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DSOJsonHelper.m"; sourceTree = "<group>"; };
 		C20BA28F1AF3DE0D00E9886F /* LetsDoThis.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LetsDoThis.pch; sourceTree = "<group>"; };
-		C20BA2901AF3FDBE00E9886F /* LDTImportQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTImportQueue.h; path = ../Classes/LDTImportQueue.h; sourceTree = "<group>"; };
-		C20BA2911AF3FDBE00E9886F /* LDTImportQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTImportQueue.m; path = ../Classes/LDTImportQueue.m; sourceTree = "<group>"; };
 		C2B151E91ACE04C30028C336 /* Lets Do This.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lets Do This.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B151ED1ACE04C30028C336 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2B151EE1ACE04C30028C336 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -218,8 +210,6 @@
 			children = (
 				C2B152361ACE0BB50028C336 /* LDTSettingsViewController.h */,
 				C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */,
-				C20BA2901AF3FDBE00E9886F /* LDTImportQueue.h */,
-				C20BA2911AF3FDBE00E9886F /* LDTImportQueue.m */,
 				C2C112D11B066A710070993C /* LDTCampaignActionsLayout.h */,
 				C2C112D21B066A710070993C /* LDTCampaignActionsLayout.m */,
 				C2B152231ACE07560028C336 /* LDTCampaignActionsViewController.h */,
@@ -245,9 +235,6 @@
 				C20BA27A1AF3DBE400E9886F /* DSOCampaignActivity.m */,
 				C20BA27B1AF3DBE400E9886F /* DSOReportback.h */,
 				C20BA27C1AF3DBE400E9886F /* DSOReportback.m */,
-				C20BA27F1AF3DBE400E9886F /* DSOTaxonomyTerm.h */,
-				C20BA2801AF3DBE400E9886F /* DSOTaxonomyTerm.m */,
-				C20126731AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld */,
 			);
 			name = "Refactor / Remove";
 			sourceTree = "<group>";
@@ -617,12 +604,9 @@
 				B26A68801B2894CA006141C0 /* LDTReportbackSubmitViewController.m in Sources */,
 				C20BA28D1AF3DCAB00E9886F /* NSDate+DSO.m in Sources */,
 				C2C112D31B066A710070993C /* LDTCampaignActionsLayout.m in Sources */,
-				C20126751AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld in Sources */,
 				B27AF0EB1B4F64B200164926 /* LDTLoadingViewController.m in Sources */,
 				C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */,
-				C20BA2921AF3FDBE00E9886F /* LDTImportQueue.m in Sources */,
 				C2F35F091AD8261E00D12FE5 /* LDTReportbackDetailViewController.m in Sources */,
-				C20BA2871AF3DBE400E9886F /* DSOTaxonomyTerm.m in Sources */,
 				B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */,
 				C2B152281ACE078A0028C336 /* LDTHubViewController.m in Sources */,
 				C20BA2841AF3DBE400E9886F /* DSOCampaignActivity.m in Sources */,
@@ -838,19 +822,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		C20126731AF27FF700CB33B3 /* LetsDoThis.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				C20126741AF27FF700CB33B3 /* LetsDoThis.xcdatamodel */,
-			);
-			currentVersion = C20126741AF27FF700CB33B3 /* LetsDoThis.xcdatamodel */;
-			path = LetsDoThis.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = C2B151E11ACE04C30028C336 /* Project object */;
 }
