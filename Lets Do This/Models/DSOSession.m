@@ -5,9 +5,6 @@
 //  Created by Ryan Grimm on 3/24/15.
 //
 //
-
-#import "DSOSession.h"
-#import "DSOTaxonomyTerm.h"
 #import "AFNetworkActivityLogger.h"
 #import <SSKeychain/SSKeychain.h>
 #import <Parse/Parse.h>

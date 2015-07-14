@@ -39,11 +39,7 @@
         return nil;
     }
 
-    DSOCampaign *campaign = [DSOCampaign MR_findFirstByAttribute:@"campaignID" withValue:campaignID inContext:context];
-    if(campaign == nil) {
-        campaign = [DSOCampaign MR_createInContext:context];
-    }
-
+    DSOCampaign *campaign = [[DSOCampaign alloc] init];
     [campaign syncWithDictionary:values];
 
     return campaign;
@@ -79,13 +75,6 @@
         NSArray *campaignsResponse = response[@"data"];
         NSMutableArray *campaigns = [NSMutableArray arrayWithCapacity:campaignsResponse.count];
         for(NSDictionary *campaignData in campaignsResponse) {
-
-            // @todo: Code below breaks because Campaign is a subclass of NSManagedObject.
-//            DSOCampaign *campaign = [[DSOCampaign alloc] init];
-//            [campaign syncWithDictionary:campaignData];
-
-            // Would expect to add a DSOCampaign object here, but we need a context to save it to.
-            // Instead just add the campaignData dictionary for now.
             [campaigns addObject:campaignData];
         }
 

@@ -24,7 +24,7 @@ typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
     DSOCampaignInterestGroup3,
 };
 
-@interface DSOCampaign : NSManagedObject
+@interface DSOCampaign : NSObject
 
 + (DSOCampaign *)syncWithDictionary:(NSDictionary *)values inContext:(NSManagedObjectContext *)context;
 

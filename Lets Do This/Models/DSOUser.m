@@ -48,8 +48,13 @@
 - (void)syncCampaignActivityWithArray:(NSArray *)activityData {
     for (NSMutableDictionary* campaignActivityData in activityData) {
         NSString *IDstring = campaignActivityData[@"drupal_id"];
-        DSOCampaign *campaign = [DSOCampaign MR_findFirstByAttribute:@"campaignID"
-                                                           withValue:IDstring];
+
+
+        // @todo: Get campaign by ID from DSOSession array instead of CoreData. This is placeholder.
+        DSOCampaign *campaign = [[DSOCampaign alloc] init];
+
+//        DSOCampaign *campaign = [DSOCampaign MR_findFirstByAttribute:@"campaignID" withValue:IDstring];
+
         if (campaign == nil) {
             continue;
         }
