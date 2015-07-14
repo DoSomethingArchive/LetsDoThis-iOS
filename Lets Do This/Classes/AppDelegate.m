@@ -67,10 +67,12 @@
             }];
         }
     }
-    else {
-        LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOSession currentSession].user];
-        [navVC pushViewController:profileVC animated:YES];
-    }
+
+    // This never seems to get called.
+//    else {
+//        LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOSession currentSession].user];
+//        [navVC pushViewController:profileVC animated:YES];
+//    }
 
     // If we're connected, we've already made this call:
     if (!self.isConnected) {
