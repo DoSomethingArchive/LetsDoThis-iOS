@@ -16,21 +16,13 @@ typedef void (^DSOSessionLoginBlock) (DSOSession *session);
 typedef void (^DSOSessionFailureBlock) (NSError *error);
 typedef void (^DSOSessionLogoutBlock) ();
 
-typedef NS_ENUM(NSInteger, DSOSessionEnvironment) {
-    DSOSessionEnvironmentNone,
-    DSOSessionEnvironmentDevelopment,
-    DSOSessionEnvironmentProduction
-};
-
 @interface DSOSession : AFHTTPSessionManager
 
 @property (nonatomic, strong, readonly) AFHTTPSessionManager *legacyServerSession;
-@property (nonatomic, readonly) DSOSessionEnvironment environment;
 @property (nonatomic, strong, readonly) DSOUser *user;
 @property (nonatomic, strong, readonly) NSString *APIKey;
 
-+ (void)setupWithAPIKey:(NSString *)APIKey
-            environment:(DSOSessionEnvironment)environment;
++ (void)setupWithAPIKey:(NSString *)APIKey;
 
 + (DSOSession *)currentSession;
 

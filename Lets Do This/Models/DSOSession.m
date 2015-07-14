@@ -29,7 +29,6 @@
 
 static BOOL _setupCalled;
 static DSOSession *_currentSession;
-static DSOSessionEnvironment _environment;
 static NSString *_APIKey;
 
 @interface DSOSession ()
@@ -40,16 +39,11 @@ static NSString *_APIKey;
 
 @synthesize legacyServerSession = _legacyServerSession;
 
-+ (void)setupWithAPIKey:(NSString *)APIKey environment:(DSOSessionEnvironment)environment {
++ (void)setupWithAPIKey:(NSString *)APIKey {
     NSAssert(_setupCalled == NO, @"The DSO Session has already been setup");
 
     _APIKey = APIKey;
-    _environment = environment;
     _setupCalled = YES;
-}
-
-- (DSOSessionEnvironment)environment {
-    return _environment;
 }
 
 - (NSString *)APIKey {
@@ -98,13 +92,12 @@ static NSString *_APIKey;
 
 + (BOOL)hasCachedSession {
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
-    return sessionToken.length > 0 && _APIKey.length > 0 && _environment != DSOSessionEnvironmentNone;
+    return sessionToken.length > 0 && _APIKey.length > 0;
 }
 
 + (NSString *)lastLoginEmail {
     NSArray *accounts = [SSKeychain accountsForService:LDTSERVER];
     NSDictionary *firstAccount = accounts.firstObject;
-
     return firstAccount[@"acct"];
 }
 
