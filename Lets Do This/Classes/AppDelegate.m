@@ -28,8 +28,7 @@
     if (DEBUG) {
         apiKey = @"northstarTestKey";
     }
-    // @todo: Use environment param correctly (GH #93)
-    [DSOSession setupWithAPIKey:keysDictionary[apiKey] environment:DSOSessionEnvironmentProduction];
+    [DSOSession setupWithAPIKey:keysDictionary[apiKey]];
 
     [Parse setApplicationId:keysDictionary[@"parseApplicationId"] clientKey:keysDictionary[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
