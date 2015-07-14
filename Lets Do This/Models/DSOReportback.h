@@ -10,7 +10,7 @@
 
 typedef void (^DSOReportbackChangeStatusBlock)(NSError *error);
 
-@interface DSOReportback : NSManagedObject
+@interface DSOReportback : NSObject
 
 + (DSOReportback *)syncWithDictionary:(NSDictionary *)values inContext:(NSManagedObjectContext *)context;
 

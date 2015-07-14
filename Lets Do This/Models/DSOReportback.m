@@ -36,11 +36,11 @@
         return nil;
     }
 
-    DSOReportback *report = [DSOReportback MR_findFirstByAttribute:@"reportID" withValue:reportID inContext:context];
-    if(report == nil) {
-        report = [DSOReportback MR_createInContext:context];
-    }
-
+//    DSOReportback *report = [DSOReportback MR_findFirstByAttribute:@"reportID" withValue:reportID inContext:context];
+//    if(report == nil) {
+//        report = [DSOReportback MR_createInContext:context];
+//    }
+    DSOReportback *report = [[DSOReportback alloc] init];
     [report syncWithDictionary:values];
 
     return report;
