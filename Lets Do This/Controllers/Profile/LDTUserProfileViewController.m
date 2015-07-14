@@ -65,6 +65,8 @@
     DSOSession *session = [DSOSession currentSession];
     [session logout:^() {
         LDTUserConnectViewController *destVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+
+        // @todo: This no longer works since different NavigationControllers for Anonymous/Authenticated.
         [self.navigationController pushViewController:destVC animated:YES];
     }failure:nil];
 }
