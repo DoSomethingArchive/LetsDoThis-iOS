@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserProfileViewController">
             <connections>
+                <outlet property="avatarImageView" destination="ZTn-ki-kwg" id="Xsu-YT-3Bs"/>
                 <outlet property="headerView" destination="PsE-uh-AxY" id="oKI-hs-1o3"/>
                 <outlet property="logoutButton" destination="I08-SS-WZ3" id="Yb9-70-x9Y"/>
                 <outlet property="nameLabel" destination="O39-w4-qp5" id="rUF-79-a3D"/>
@@ -30,17 +31,26 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="179"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O39-w4-qp5">
-                            <rect key="frame" x="277" y="79" width="46" height="21"/>
+                            <rect key="frame" x="277" y="8" width="46" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZTn-ki-kwg">
+                            <rect key="frame" x="240" y="37" width="120" height="120"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="120" id="m7Q-I7-WIq"/>
+                                <constraint firstAttribute="width" constant="120" id="nwk-rj-PI3"/>
+                            </constraints>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="centerY" secondItem="O39-w4-qp5" secondAttribute="centerY" id="Pid-FF-0if"/>
+                        <constraint firstItem="ZTn-ki-kwg" firstAttribute="top" secondItem="O39-w4-qp5" secondAttribute="bottom" constant="8" id="3eQ-n6-Gmi"/>
+                        <constraint firstItem="O39-w4-qp5" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="top" constant="8" id="ROv-vI-Zfm"/>
                         <constraint firstAttribute="height" constant="179" id="Rl4-hn-OzU"/>
                         <constraint firstAttribute="centerX" secondItem="O39-w4-qp5" secondAttribute="centerX" id="g8t-MI-eOH"/>
+                        <constraint firstAttribute="centerX" secondItem="ZTn-ki-kwg" secondAttribute="centerX" id="mle-3L-bog"/>
                     </constraints>
                 </view>
             </subviews>
