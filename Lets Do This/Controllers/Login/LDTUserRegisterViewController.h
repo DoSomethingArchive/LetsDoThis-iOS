@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "LDTBaseUserLoginViewController.h"
+#import "DSOUser.h"
 
 @interface LDTUserRegisterViewController : LDTBaseUserLoginViewController <UITextFieldDelegate>
 
--(instancetype)initWithUser:(NSMutableDictionary *)user;
+-(instancetype)initWithUser:(DSOUser *)user;
 
 @end

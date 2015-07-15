@@ -15,9 +15,7 @@
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
-
-#warning @todo: Use DSOUser instead
-@property (strong, nonatomic) NSMutableDictionary *user;
+@property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *avatarFilestring;
 @property (strong, nonatomic) UIImagePickerController *picker;
 
@@ -48,7 +46,7 @@
 
 #pragma mark - NSObject
 
--(instancetype)initWithUser:(NSMutableDictionary *)user {
+-(instancetype)initWithUser:(DSOUser *)user {
     self = [super initWithNibName:@"LDTUserRegisterView" bundle:nil];
 
     if (self) {
@@ -71,13 +69,13 @@
     if (self.user) {
         self.headerLabel.numberOfLines = 0;
         self.headerLabel.text = @"Confirm your Facebook details and set your password.";
-        UIImage *image = self.user[@"photo"];
+        UIImage *image = self.user.photo;
         [self setAvatar:image];
         [LDTTheme addCircleFrame:self.imageView];
-        self.firstNameTextField.text = self.user[@"first_name"];
-        self.lastNameTextField.text = self.user[@"last_name"];
-        self.emailTextField.text = self.user[@"email"];
-        self.birthdayTextField.text = self.user[@"birthdate"];
+        self.firstNameTextField.text = self.user.firstName;
+        self.lastNameTextField.text = self.user.lastName;
+        self.emailTextField.text = self.user.email;
+//        self.birthdayTextField.text = self.user[@"birthdate"];
     }
     else {
         self.headerLabel.text = @"Tell us about yourself!";
