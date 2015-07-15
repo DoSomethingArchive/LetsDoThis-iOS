@@ -69,7 +69,7 @@
 - (void)displayAuthenticated {
     LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOSession currentSession].user];
     // Navigation controller should already be initialized by the displayLoading method.
-    [self.navigationController presentViewController:profileVC animated:YES completion:nil];
+    [self.navigationController pushViewController:profileVC animated:YES];
 }
 
 - (void)displayLoading {
