@@ -72,10 +72,16 @@
     fbUser[@"first_name"] = @"John";
     fbUser[@"last_name"] = @"Connor";
     fbUser[@"email"] = @"john.connor@dosomething.org";
-    fbUser[@"birthdate"] = @"07/11/1995";
     fbUser[@"photo"] = [UIImage imageNamed:@"john-connor.jpg"];
 
-    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:fbUser];
+    NSDateFormatter *mmddccyy = [[NSDateFormatter alloc] init];
+    mmddccyy.timeStyle = NSDateFormatterNoStyle;
+    mmddccyy.dateFormat = @"MM/dd/yyyy";
+    NSDate *birthdate = [mmddccyy dateFromString:@"12/11/1995"];
+    fbUser[@"birthdate"] = birthdate;
+
+    DSOUser *user = [[DSOUser alloc] initWithDict:fbUser];
+    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:user];
     [self.navigationController pushViewController:destVC animated:YES];
 }
 

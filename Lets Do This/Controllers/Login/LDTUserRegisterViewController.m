@@ -15,11 +15,10 @@
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
-
-#warning @todo: Use DSOUser instead
-@property (strong, nonatomic) NSMutableDictionary *user;
+@property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *avatarFilestring;
-@property (strong, nonatomic) UIImagePickerController *picker;
+@property (strong, nonatomic) UIDatePicker *datePicker;
+@property (strong, nonatomic) UIImagePickerController *imagePicker;
 
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
@@ -48,7 +47,7 @@
 
 #pragma mark - NSObject
 
--(instancetype)initWithUser:(NSMutableDictionary *)user {
+-(instancetype)initWithUser:(DSOUser *)user {
     self = [super initWithNibName:@"LDTUserRegisterView" bundle:nil];
 
     if (self) {
@@ -66,23 +65,28 @@
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton disable];
 
+    [self initDatePicker];
+
+    self.imagePicker = [[UIImagePickerController alloc] init];
+    self.imagePicker.delegate = self;
+    self.imagePicker.allowsEditing = YES;
+
     // If we have a User, it's from Facebook.
 
     if (self.user) {
         self.headerLabel.numberOfLines = 0;
         self.headerLabel.text = @"Confirm your Facebook details and set your password.";
-        UIImage *image = self.user[@"photo"];
-        [self setAvatar:image];
-        [LDTTheme addCircleFrame:self.imageView];
-        self.firstNameTextField.text = self.user[@"first_name"];
-        self.lastNameTextField.text = self.user[@"last_name"];
-        self.emailTextField.text = self.user[@"email"];
-        self.birthdayTextField.text = self.user[@"birthdate"];
+
+        [self setAvatar:self.user.photo];
+        self.firstNameTextField.text = self.user.firstName;
+        self.lastNameTextField.text = self.user.lastName;
+        self.emailTextField.text = self.user.email;
+        [self.datePicker setDate:self.user.birthdate];
+        [self updateBirthdayField:self.datePicker];
     }
     else {
         self.headerLabel.text = @"Tell us about yourself!";
         self.imageView.image = [UIImage imageNamed:@"plus-icon"];
-
     }
 
 
@@ -107,11 +111,8 @@
                                 self.birthdayTextField];
 
     [self theme];
-    [self initDatePicker];
 
-    self.picker = [[UIImagePickerController alloc] init];
-    self.picker.delegate = self;
-    self.picker.allowsEditing = YES;
+
     // @todo: Set mediatypes as images only (not video).
 }
 
@@ -137,18 +138,19 @@
 
 - (void)initDatePicker {
     // Create datePicker for birthdayTextField.
-    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    [datePicker addTarget:self action:@selector(updateBirthdayField:)
+    self.datePicker = [[UIDatePicker alloc] init];
+    self.datePicker.datePickerMode = UIDatePickerModeDate;
+    [self.datePicker addTarget:self action:@selector(updateBirthdayField:)
          forControlEvents:UIControlEventValueChanged];
-    datePicker.maximumDate = [NSDate date];
+    self.datePicker.maximumDate = [NSDate date];
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDate *currentDate = [NSDate date];
     NSDateComponents *comps = [[NSDateComponents alloc] init];
     [comps setYear:-80];
+    // Allowed minimum date is 80 years from today.
     NSDate *minDate = [calendar dateByAddingComponents:comps toDate:currentDate options:0];
-    datePicker.minimumDate = minDate;
-    [self.birthdayTextField setInputView:datePicker];
+    self.datePicker.minimumDate = minDate;
+    [self.birthdayTextField setInputView:self.datePicker];
 }
 
 - (void)updateBirthdayField:(UIDatePicker *)sender{
@@ -298,8 +300,8 @@
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         camera = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
 
-            self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            [self presentViewController:self.picker animated:YES completion:NULL];
+            self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:self.imagePicker animated:YES completion:NULL];
 
         }];
     }
@@ -314,8 +316,8 @@
 
     UIAlertAction *library = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
 
-        self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:self.picker animated:YES completion:NULL];
+        self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePicker animated:YES completion:NULL];
 
     }];
 
@@ -331,7 +333,6 @@
 
 - (void)setAvatar:(UIImage *)image {
     self.imageView.image = image;
-    NSLog(@"image %@", image);
     [LDTTheme addCircleFrame:self.imageView];
 }
 
