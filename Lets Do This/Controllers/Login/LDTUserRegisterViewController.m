@@ -17,6 +17,7 @@
 
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *avatarFilestring;
+@property (strong, nonatomic) UIDatePicker *datePicker;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
@@ -64,6 +65,12 @@
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton disable];
 
+    [self initDatePicker];
+
+    self.imagePicker = [[UIImagePickerController alloc] init];
+    self.imagePicker.delegate = self;
+    self.imagePicker.allowsEditing = YES;
+
     // If we have a User, it's from Facebook.
 
     if (self.user) {
@@ -75,13 +82,12 @@
         self.firstNameTextField.text = self.user.firstName;
         self.lastNameTextField.text = self.user.lastName;
         self.emailTextField.text = self.user.email;
-//        self.birthdayTextField.text = self.user[@"birthdate"];
-
+        [self.datePicker setDate:self.user.birthdate];
+        [self updateBirthdayField:self.datePicker];
     }
     else {
         self.headerLabel.text = @"Tell us about yourself!";
         self.imageView.image = [UIImage imageNamed:@"plus-icon"];
-
     }
 
 
@@ -106,11 +112,8 @@
                                 self.birthdayTextField];
 
     [self theme];
-    [self initDatePicker];
 
-    self.imagePicker = [[UIImagePickerController alloc] init];
-    self.imagePicker.delegate = self;
-    self.imagePicker.allowsEditing = YES;
+
     // @todo: Set mediatypes as images only (not video).
 }
 
@@ -136,18 +139,19 @@
 
 - (void)initDatePicker {
     // Create datePicker for birthdayTextField.
-    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    [datePicker addTarget:self action:@selector(updateBirthdayField:)
+    self.datePicker = [[UIDatePicker alloc] init];
+    self.datePicker.datePickerMode = UIDatePickerModeDate;
+    [self.datePicker addTarget:self action:@selector(updateBirthdayField:)
          forControlEvents:UIControlEventValueChanged];
-    datePicker.maximumDate = [NSDate date];
+    self.datePicker.maximumDate = [NSDate date];
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDate *currentDate = [NSDate date];
     NSDateComponents *comps = [[NSDateComponents alloc] init];
     [comps setYear:-80];
+    // Allowed minimum date is 80 years from today.
     NSDate *minDate = [calendar dateByAddingComponents:comps toDate:currentDate options:0];
-    datePicker.minimumDate = minDate;
-    [self.birthdayTextField setInputView:datePicker];
+    self.datePicker.minimumDate = minDate;
+    [self.birthdayTextField setInputView:self.datePicker];
 }
 
 - (void)updateBirthdayField:(UIDatePicker *)sender{
