@@ -15,6 +15,7 @@
 		B22AB7661B4EE78500BE7052 /* LDTUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22AB7651B4EE78500BE7052 /* LDTUserLoginViewController.m */; };
 		B22AB7681B4EE7BE00BE7052 /* LDTUserLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */; };
 		B24CE3D11B507DEE00377727 /* john-connor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B24CE3D01B507DEE00377727 /* john-connor.jpg */; };
+		B25A729C1B56B87300BC8A2B /* LDTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B25A729B1B56B87300BC8A2B /* LDTNavigationController.m */; };
 		B25C1C9C1B17648200607FF1 /* ds-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B25C1C9B1B17648200607FF1 /* ds-logo.png */; };
 		B260387B1B449491002FE362 /* LDTUserSignupCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */; };
 		B260387D1B4494A8002FE362 /* LDTUserSignupCodeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */; };
@@ -77,6 +78,8 @@
 		B22AB7651B4EE78500BE7052 /* LDTUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserLoginViewController.m; path = Login/LDTUserLoginViewController.m; sourceTree = "<group>"; };
 		B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserLoginView.xib; path = Login/LDTUserLoginView.xib; sourceTree = "<group>"; };
 		B24CE3D01B507DEE00377727 /* john-connor.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "john-connor.jpg"; path = "Resources/Images/john-connor.jpg"; sourceTree = "<group>"; };
+		B25A729A1B56B87300BC8A2B /* LDTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTNavigationController.h; path = Base/LDTNavigationController.h; sourceTree = "<group>"; };
+		B25A729B1B56B87300BC8A2B /* LDTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTNavigationController.m; path = Base/LDTNavigationController.m; sourceTree = "<group>"; };
 		B25C1C9B1B17648200607FF1 /* ds-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ds-logo.png"; sourceTree = "<group>"; };
 		B26038791B449491002FE362 /* LDTUserSignupCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserSignupCodeView.h; path = Login/LDTUserSignupCodeView.h; sourceTree = "<group>"; };
 		B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserSignupCodeView.m; path = Login/LDTUserSignupCodeView.m; sourceTree = "<group>"; };
@@ -270,6 +273,8 @@
 			children = (
 				B27AF0E91B4F64B200164926 /* LDTLoadingViewController.h */,
 				B27AF0EA1B4F64B200164926 /* LDTLoadingViewController.m */,
+				B25A729A1B56B87300BC8A2B /* LDTNavigationController.h */,
+				B25A729B1B56B87300BC8A2B /* LDTNavigationController.m */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -618,6 +623,7 @@
 				C2B152251ACE07560028C336 /* LDTCampaignActionsViewController.m in Sources */,
 				B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */,
 				C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */,
+				B25A729C1B56B87300BC8A2B /* LDTNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

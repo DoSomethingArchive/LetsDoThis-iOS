@@ -9,13 +9,15 @@
 #import "AppDelegate.h"
 #import "DSOSession.h"
 #import <Parse/Parse.h>
+#import "LDTLoadingViewController.h"
 #import "LDTUserConnectViewController.h"
 #import "LDTUserProfileViewController.h"
 #import "LDTTheme.h"
-#import "LDTLoadingViewController.h"
+#import "LDTNavigationController.h"
+
 
 @interface AppDelegate ()
-
+@property (strong, nonatomic) LDTNavigationController *navigationController;
 @end
 
 @implementation AppDelegate
@@ -59,22 +61,20 @@
 }
 
 - (void)displayAnonymous {
-    LDTUserConnectViewController *rootVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
-    UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:rootVC];
-    [LDTTheme setTransparentBackgroundForNavigationController:navVC];
-    self.window.rootViewController = navVC;
+    self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
+    self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
 }
 
 - (void)displayAuthenticated {
     LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOSession currentSession].user];
-    self.window.rootViewController = profileVC;
-    [self.window makeKeyAndVisible];
+    // Navigation controller should already be initialized by the displayLoading method.
+    [self.navigationController presentViewController:profileVC animated:YES completion:nil];
 }
 
 - (void)displayLoading {
-    LDTLoadingViewController *loadingVC = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
-    self.window.rootViewController = loadingVC;
+    self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil]];
+    self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
 }
 
