@@ -26,10 +26,23 @@
         self.firstName = dict[@"first_name"];
         self.lastName = dict[@"last_name"];
         self.email = dict[@"email"];
-        self.photo = dict[@"photo"];
+        if (dict[@"photo"] == (id)[NSNull null]) {
+             self.photo = nil;
+        }
+        // Assume for now we have an ImageView stored as value.
+        else {
+            self.photo = dict[@"photo"];
+        }
         self.birthdate = dict[@"birthdate"];
     }
     return self;
+}
+
+-(UIImage *)getPhoto {
+    if (self.photo == nil) {
+        return [UIImage imageNamed:@"avatar-default"];
+    }
+    return self.photo;
 }
 
 - (void)syncWithDictionary:(NSDictionary *)values {
