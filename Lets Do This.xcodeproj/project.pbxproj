@@ -81,7 +81,7 @@
 		B24CE3D01B507DEE00377727 /* john-connor.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "john-connor.jpg"; path = "Resources/Images/john-connor.jpg"; sourceTree = "<group>"; };
 		B25A729A1B56B87300BC8A2B /* LDTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTNavigationController.h; path = Base/LDTNavigationController.h; sourceTree = "<group>"; };
 		B25A729B1B56B87300BC8A2B /* LDTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTNavigationController.m; path = Base/LDTNavigationController.m; sourceTree = "<group>"; };
-		B25A729D1B5712B300BC8A2B /* avatar-default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-default.png"; sourceTree = "<group>"; };
+		B25A729D1B5712B300BC8A2B /* avatar-default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "avatar-default.png"; path = "Resources/Images/avatar-default.png"; sourceTree = "<group>"; };
 		B25C1C9B1B17648200607FF1 /* ds-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ds-logo.png"; sourceTree = "<group>"; };
 		B26038791B449491002FE362 /* LDTUserSignupCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserSignupCodeView.h; path = Login/LDTUserSignupCodeView.h; sourceTree = "<group>"; };
 		B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserSignupCodeView.m; path = Login/LDTUserSignupCodeView.m; sourceTree = "<group>"; };
