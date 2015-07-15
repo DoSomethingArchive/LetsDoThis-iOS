@@ -20,6 +20,5 @@
 
 +(void)addCircleFrame:(UIImageView *)imageView;
 +(void)setLightningBackground:(UIView *)view;
-+(void)setTransparentBackgroundForNavigationController:(UINavigationController *)navVC;
 
 @end
