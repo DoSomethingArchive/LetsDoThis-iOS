@@ -76,9 +76,8 @@
     if (self.user) {
         self.headerLabel.numberOfLines = 0;
         self.headerLabel.text = @"Confirm your Facebook details and set your password.";
-        UIImage *image = self.user.photo;
-        [self setAvatar:image];
-        [LDTTheme addCircleFrame:self.imageView];
+
+        [self setAvatar:self.user.photo];
         self.firstNameTextField.text = self.user.firstName;
         self.lastNameTextField.text = self.user.lastName;
         self.emailTextField.text = self.user.email;
@@ -334,7 +333,6 @@
 
 - (void)setAvatar:(UIImage *)image {
     self.imageView.image = image;
-    NSLog(@"image %@", image);
     [LDTTheme addCircleFrame:self.imageView];
 }
 
