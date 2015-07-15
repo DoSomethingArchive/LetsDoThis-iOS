@@ -60,12 +60,4 @@
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
 }
 
-+(void)setTransparentBackgroundForNavigationController:(UINavigationController *)navVC {
-    [navVC.navigationBar setBackgroundImage:[UIImage new]
-                              forBarMetrics:UIBarMetricsDefault];
-    navVC.navigationBar.shadowImage = [UIImage new];
-    navVC.navigationBar.translucent = YES;
-    navVC.view.backgroundColor = [UIColor clearColor];
-}
-
 @end
