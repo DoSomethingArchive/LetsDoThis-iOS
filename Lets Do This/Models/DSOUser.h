@@ -16,12 +16,6 @@ typedef void (^DSOUserCampaignActionsBlock) (NSArray *campaignActions, NSError *
 
 @interface DSOUser : NSObject
 
--(id)initWithDict:(NSDictionary*)dict;
-
--(void)syncWithDictionary:(NSDictionary *)values;
-
--(void)campaignActions:(DSOUserCampaignActionsBlock)campaignActionsBlock;
-
 @property (nonatomic, strong) NSString *userID;
 @property (nonatomic, strong, readonly) NSString *displayName;
 @property (nonatomic, strong) NSString *firstName;
@@ -33,6 +27,14 @@ typedef void (^DSOUserCampaignActionsBlock) (NSArray *campaignActions, NSError *
 
 @property (nonatomic, strong) NSMutableDictionary *campaignsDoing;
 @property (nonatomic, strong) NSMutableDictionary *campaignsCompleted;
+
+-(id)initWithDict:(NSDictionary*)dict;
+
+-(UIImage *)getPhoto;
+
+-(void)syncWithDictionary:(NSDictionary *)values;
+
+-(void)campaignActions:(DSOUserCampaignActionsBlock)campaignActionsBlock;
 
 
 @end

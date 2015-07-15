@@ -15,6 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
 @property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
 - (IBAction)logoutButtonTouchUpInside:(id)sender;
@@ -42,6 +43,7 @@
 
     self.navigationItem.hidesBackButton = YES;
     self.nameLabel.text = [self.user displayName];
+    self.avatarImageView.image = [self.user getPhoto];
     [self theme];
 }
 
@@ -49,9 +51,10 @@
 
 - (void) theme {
     [LDTTheme setLightningBackground:self.headerView];
+    [LDTTheme addCircleFrame:self.avatarImageView];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
-    [self.nameLabel setFont:[LDTTheme fontBoldWithSize:40]];
+    [self.nameLabel setFont:[LDTTheme fontBoldWithSize:30]];
     [self.nameLabel setTextColor:[UIColor whiteColor]];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
 
