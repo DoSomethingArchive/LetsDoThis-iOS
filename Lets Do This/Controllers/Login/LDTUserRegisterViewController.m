@@ -17,7 +17,7 @@
 
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *avatarFilestring;
-@property (strong, nonatomic) UIImagePickerController *picker;
+@property (strong, nonatomic) UIImagePickerController *imagePicker;
 
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
@@ -76,6 +76,7 @@
         self.lastNameTextField.text = self.user.lastName;
         self.emailTextField.text = self.user.email;
 //        self.birthdayTextField.text = self.user[@"birthdate"];
+
     }
     else {
         self.headerLabel.text = @"Tell us about yourself!";
@@ -107,9 +108,9 @@
     [self theme];
     [self initDatePicker];
 
-    self.picker = [[UIImagePickerController alloc] init];
-    self.picker.delegate = self;
-    self.picker.allowsEditing = YES;
+    self.imagePicker = [[UIImagePickerController alloc] init];
+    self.imagePicker.delegate = self;
+    self.imagePicker.allowsEditing = YES;
     // @todo: Set mediatypes as images only (not video).
 }
 
@@ -296,8 +297,8 @@
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         camera = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
 
-            self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            [self presentViewController:self.picker animated:YES completion:NULL];
+            self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:self.imagePicker animated:YES completion:NULL];
 
         }];
     }
@@ -312,8 +313,8 @@
 
     UIAlertAction *library = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
 
-        self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:self.picker animated:YES completion:NULL];
+        self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePicker animated:YES completion:NULL];
 
     }];
 
