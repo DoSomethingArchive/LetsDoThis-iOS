@@ -26,6 +26,7 @@
         self.firstName = dict[@"first_name"];
         self.lastName = dict[@"last_name"];
         self.email = dict[@"email"];
+        self.photo = dict[@"photo"];
     }
     return self;
 }

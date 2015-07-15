@@ -29,6 +29,7 @@ typedef void (^DSOUserCampaignActionsBlock) (NSArray *campaignActions, NSError *
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *mobile;
 @property (nonatomic, strong) NSDate *birthdate;
+@property (nonatomic, strong) UIImage *photo;
 
 @property (nonatomic, strong) NSMutableDictionary *campaignsDoing;
 @property (nonatomic, strong) NSMutableDictionary *campaignsCompleted;
