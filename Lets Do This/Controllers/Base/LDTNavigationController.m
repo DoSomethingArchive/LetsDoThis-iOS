@@ -21,6 +21,7 @@
     self.navigationBar.shadowImage = [UIImage new];
     self.navigationBar.translucent = YES;
     self.view.backgroundColor = [UIColor clearColor];
+    [self.navigationBar setTintColor:[UIColor whiteColor]];
 }
 
 @end
