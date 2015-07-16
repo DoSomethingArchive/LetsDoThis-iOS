@@ -106,17 +106,14 @@ static NSString *_APIKey;
     [session.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
     [session.requestSerializer setValue:_APIKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
 
-    NSLog(@"startWithEmail test 1");
-
     NSDictionary *params = @{@"email": email,
                              @"password": password};
 
     [session POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+
         [SSKeychain setPassword:password forService:LDTSERVER account:email];
         session.user = [[DSOUser alloc] initWithDict:response[@"data"]];
         [session saveTokens:response[@"data"]];
-
-        NSLog(@"startWithEmail test 2");
 
         _currentSession = session;
         if (successBlock) {
@@ -199,19 +196,22 @@ static NSString *_APIKey;
 - (void)logout:(DSOSessionLogoutBlock)successBlock
        failure:(DSOSessionFailureBlock)failureBlock {
 
-    [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self.api logoutWithCompletionHandler:^(NSDictionary *response) {
+
+        /// Delete Keychain passwords.
         [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
         [SSKeychain deletePasswordForService:LDTSERVER account:[DSOSession lastLoginEmail]];
-        self.user = nil;
 
-        if (successBlock) {
-            successBlock();
-            _currentSession = nil;
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        // Kill current user.
+        self.user = nil;
+        successBlock(response);
+    }
+                             errorHandler:^(NSError *error) {
+
         if (failureBlock) {
             failureBlock(error);
         }
+
     }];
 }
 

@@ -14,12 +14,19 @@
 
 - (instancetype)initWithApiKey:(NSString *)apiKey;
 
+// Authentication methods:
+
 - (void)setSessionToken:(NSString *)token;
 
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
      completionHandler:(void(^)(NSDictionary *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler;
+
+- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+                       errorHandler:(void(^)(NSError *))errorHandler;
+
+// General methods:
 
 - (void)fetchUserWithEmail:(NSString *)email
          completionHandler:(void(^)(NSDictionary *))completionHandler
