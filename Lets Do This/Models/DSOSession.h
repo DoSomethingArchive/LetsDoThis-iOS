@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
+#import "DSOAPI.h"
 #import "DSOUser.h"
 
 @class DSOSession;
@@ -19,7 +20,8 @@ typedef void (^DSOSessionLogoutBlock) ();
 @interface DSOSession : AFHTTPSessionManager
 
 @property (nonatomic, strong, readonly) AFHTTPSessionManager *legacyServerSession;
-@property (nonatomic, strong, readonly) DSOUser *user;
+@property (nonatomic, strong) DSOAPI *api;
+@property (nonatomic, strong) DSOUser *user;
 @property (nonatomic, strong, readonly) NSString *APIKey;
 
 + (void)setupWithAPIKey:(NSString *)APIKey;

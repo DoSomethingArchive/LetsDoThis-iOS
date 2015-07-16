@@ -9,10 +9,6 @@
 #import <SSKeychain/SSKeychain.h>
 #import <Parse/Parse.h>
 
-@interface DSOSession ()
-@property (nonatomic, strong) NSString *serviceName;
-@end
-
 #ifdef DEBUG
 #define DSOPROTOCOL @"http"
 #define DSOSERVER @"staging.beta.dosomething.org"
@@ -23,18 +19,17 @@
 #define LDTSERVER @"northstar.dosomething.org"
 #endif
 
+@interface DSOSession ()
+@end
 
 static BOOL _setupCalled;
 static DSOSession *_currentSession;
 static NSString *_APIKey;
 
-@interface DSOSession ()
-@property (nonatomic, strong, readwrite) DSOUser *user;
-@end
-
 @implementation DSOSession
 
 @synthesize legacyServerSession = _legacyServerSession;
+@synthesize api = _api;
 
 + (void)setupWithAPIKey:(NSString *)APIKey {
     NSAssert(_setupCalled == NO, @"The DSO Session has already been setup");
@@ -111,14 +106,17 @@ static NSString *_APIKey;
     [session.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
     [session.requestSerializer setValue:_APIKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
 
+    NSLog(@"startWithEmail test 1");
+
     NSDictionary *params = @{@"email": email,
                              @"password": password};
 
     [session POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
-
         [SSKeychain setPassword:password forService:LDTSERVER account:email];
         session.user = [[DSOUser alloc] initWithDict:response[@"data"]];
         [session saveTokens:response[@"data"]];
+
+        NSLog(@"startWithEmail test 2");
 
         _currentSession = session;
         if (successBlock) {
@@ -144,27 +142,29 @@ static NSString *_APIKey;
     }
     
     DSOSession *session = [[DSOSession alloc] init];
-
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
-    [session.requestSerializer setValue:sessionToken forHTTPHeaderField:@"Session"];
-    [session.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
-    [session.requestSerializer setValue:_APIKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
+    session.api = [[DSOAPI alloc] initWithApiKey:_APIKey];
+    [session.api setSessionToken:sessionToken];
 
-    NSString *url = [NSString stringWithFormat:@"users/email/%@", [DSOSession lastLoginEmail]];
-    [session GET:url parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *response) {
-        NSArray *userInfo = response[@"data"];
-        session.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
+    [session.api fetchUserWithEmail:[DSOSession lastLoginEmail]
+                  completionHandler:^(NSDictionary *response) {
 
-        _currentSession = session;
-        if (successBlock) {
-            successBlock(session);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [session deleteCachedSession];
-        if (failure) {
-            failure(error);
-        }
-    }];
+                      NSArray *userInfo = response[@"data"];
+                      session.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
+                      _currentSession = session;
+                      if (successBlock) {
+                          successBlock(session);
+                      }
+
+                  } errorHandler:^(NSError *error) {
+
+                      [session deleteCachedSession];
+                      if (failure) {
+                          failure(error);
+                      }
+
+                  }
+     ];
 }
 
 + (DSOSession *)currentSession {
