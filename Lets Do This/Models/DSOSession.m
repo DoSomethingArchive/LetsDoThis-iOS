@@ -105,7 +105,9 @@ static NSString *_APIKey;
                   [SSKeychain setPassword:password forService:LDTSERVER account:email];
                   session.user = [[DSOUser alloc] initWithDict:response[@"data"]];
                   [session saveTokens:response[@"data"]];
+
                   _currentSession = session;
+
                   if (successBlock) {
                       successBlock(session);
                   }
@@ -164,25 +166,10 @@ static NSString *_APIKey;
     [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
 }
 
-- (instancetype)init {
-    NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/v1/", DSOPROTOCOL, LDTSERVER]];
-    self = [super initWithBaseURL:baseURL];
-
-    if (self != nil) {
-//        [[AFNetworkActivityLogger sharedLogger] startLogging];
-//        [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
-
-        self.responseSerializer = [AFJSONResponseSerializer serializer];
-        self.requestSerializer = [AFJSONRequestSerializer serializer];
-    }
-
-    return self;
-}
-
 - (void)saveTokens:(NSDictionary *)response {
     NSString *sessionToken = response[@"session_token"];
     [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
-    [self.requestSerializer setValue:sessionToken forHTTPHeaderField:@"Session"];
+    [self.api setSessionToken:sessionToken];
 }
 
 - (void)logout:(DSOSessionLogoutBlock)successBlock
