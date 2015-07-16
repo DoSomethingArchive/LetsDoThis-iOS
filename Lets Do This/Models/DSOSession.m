@@ -54,7 +54,7 @@ static NSString *_APIKey;
                  lastName:(NSString *)lastName
                    mobile:(NSString *)mobile
                 birthdate:(NSString *)dateStr
-//                    photo:(NSString *)fileStr
+                    photo:(NSString *)fileStr
                   success:(DSOSessionLoginBlock)successBlock
                   failure:(DSOSessionFailureBlock)failureBlock {
     NSAssert(_setupCalled == YES, @"The DSO Session has not been setup");
