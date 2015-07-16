@@ -103,26 +103,25 @@ static NSString *_APIKey;
     _currentSession = nil;
 
     DSOSession *session = [[DSOSession alloc] init];
-    [session.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
-    [session.requestSerializer setValue:_APIKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
+    session.api = [[DSOAPI alloc] initWithApiKey:_APIKey];
 
-    NSDictionary *params = @{@"email": email,
-                             @"password": password};
+    [session.api loginWithEmail:email
+                       password:password
+              completionHandler:^(NSDictionary *response) {
 
-    [session POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+                  [SSKeychain setPassword:password forService:LDTSERVER account:email];
+                  session.user = [[DSOUser alloc] initWithDict:response[@"data"]];
+                  [session saveTokens:response[@"data"]];
+                  _currentSession = session;
+                  if (successBlock) {
+                      successBlock(session);
+                  }
+              }
+                   errorHandler:^(NSError *error) {
 
-        [SSKeychain setPassword:password forService:LDTSERVER account:email];
-        session.user = [[DSOUser alloc] initWithDict:response[@"data"]];
-        [session saveTokens:response[@"data"]];
-
-        _currentSession = session;
-        if (successBlock) {
-            successBlock(session);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if (failureBlock) {
-            failureBlock(error);
-        }
+                       if (failureBlock) {
+                           failureBlock(error);
+                       }
     }];
 }
 
