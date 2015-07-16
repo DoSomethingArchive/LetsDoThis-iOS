@@ -16,15 +16,25 @@
 
 // Authentication methods:
 
-- (void)setSessionToken:(NSString *)token;
-
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
      completionHandler:(void(^)(NSDictionary *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler;
 
+- (void)setSessionToken:(NSString *)token;
+
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;
+
+- (void)createUserWithEmail:(NSString *)email
+                   password:(NSString *)password
+                  firstName:(NSString *)firstName
+                   lastName:(NSString *)lastName
+                     mobile:(NSString *)mobile
+                  birthdate:(NSString *)dateStr
+                      photo:(NSString *)fileStr
+                    success:(void(^)(NSDictionary *))completionHandler
+                    failure:(void(^)(NSError *))errorHandler;
 
 // General methods:
 
