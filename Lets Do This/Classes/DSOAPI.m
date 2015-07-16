@@ -67,10 +67,14 @@
     [self POST:@"login"
     parameters:params
        success:^(NSURLSessionDataTask *task, id responseObject) {
-           completionHandler(responseObject);
+           if (completionHandler) {
+               completionHandler(responseObject);
+           }
        }
        failure:^(NSURLSessionDataTask *task, NSError *error) {
-           errorHandler(error);
+           if (errorHandler) {
+               errorHandler(error);
+           }
            [self logError:error];
        }];
 
@@ -85,10 +89,14 @@
     [self POST:@"logout"
     parameters:nil
        success:^(NSURLSessionDataTask *task, id responseObject) {
-        completionHandler(responseObject);
+           if (completionHandler) {
+               completionHandler(responseObject);
+           }
        }
        failure:^(NSURLSessionDataTask *task, NSError *error) {
-           errorHandler(error);
+           if (errorHandler) {
+               errorHandler(error);
+           }
            [self logError:error];
        }];
 }
@@ -114,10 +122,14 @@
     [self POST:@"users?create_drupal_user=1"
     parameters:params
        success:^(NSURLSessionDataTask *task, id responseObject) {
-           completionHandler(responseObject);
+           if (completionHandler) {
+               completionHandler(responseObject);
+           }
        }
        failure:^(NSURLSessionDataTask *task, NSError *error) {
-           errorHandler(error);
+           if (errorHandler) {
+               errorHandler(error);
+           }
            [self logError:error];
        }];
 }
@@ -131,10 +143,14 @@
     [self GET:[NSString stringWithFormat:@"users/email/%@", email]
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {
-          completionHandler(responseObject);
+          if (completionHandler) {
+              completionHandler(responseObject);
+          }
       }
       failure:^(NSURLSessionDataTask *task, NSError *error) {
-          errorHandler(error);
+          if (errorHandler) {
+              errorHandler(error);
+          }
           [self logError:error];
       }];
 }
@@ -142,14 +158,18 @@
 - (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                                errorHandler:(void(^)(NSError *))errorHandler {
     [self.phoenixApi GET:@"campaigns.json?mobile_app=true"
-   parameters:nil
-      success:^(NSURLSessionDataTask *task, id responseObject) {
-          completionHandler(responseObject);
-      }
-      failure:^(NSURLSessionDataTask *task, NSError *error) {
-          errorHandler(error);
-          [self logError:error];
-      }];
+              parameters:nil
+                 success:^(NSURLSessionDataTask *task, id responseObject) {
+                     if (completionHandler) {
+                         completionHandler(responseObject);
+                     }
+                 }
+                 failure:^(NSURLSessionDataTask *task, NSError *error) {
+                     if (errorHandler) {
+                         errorHandler(error);
+                     }
+                     [self logError:error];
+                 }];
 }
 
 - (void)logError:(NSError *)error {
