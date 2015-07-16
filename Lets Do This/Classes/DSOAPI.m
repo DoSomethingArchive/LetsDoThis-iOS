@@ -30,8 +30,8 @@
     self = [super initWithBaseURL:baseURL];
 
     if (self != nil) {
-        [[AFNetworkActivityLogger sharedLogger] startLogging];
-        [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
+//        [[AFNetworkActivityLogger sharedLogger] startLogging];
+//        [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         [self.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
@@ -64,6 +64,19 @@
            [self logError:error];
        }];
 
+}
+
+- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+                       errorHandler:(void(^)(NSError *))errorHandler {
+    [self POST:@"logout"
+    parameters:nil
+       success:^(NSURLSessionDataTask *task, id responseObject) {
+        completionHandler(responseObject);
+       }
+       failure:^(NSURLSessionDataTask *task, NSError *error) {
+           errorHandler(error);
+           [self logError:error];
+       }];
 }
 
 - (void)fetchUserWithEmail:(NSString *)email
