@@ -82,6 +82,8 @@
         return;
     }
 
+    /*
+
     [campaign signupFromSource:@"ios" completion:^(NSError *error) {
         // Message is underneath when set to destNavVC,
         // so setting to destVC for now (too much space though).
@@ -99,6 +101,7 @@
         }
 
     }];
+     */
 }
 
 @end

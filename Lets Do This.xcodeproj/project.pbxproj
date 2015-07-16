@@ -12,6 +12,7 @@
 		B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20881A01B0B9B0F00E697B2 /* keys.plist */; };
 		B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B20D06D01B3A58F40053D3B6 /* LDTMessage.m */; };
 		B212C2621B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */; };
+		B22273FE1B58076F005C896D /* DSOAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = B22273FD1B58076F005C896D /* DSOAPI.m */; };
 		B22AB7661B4EE78500BE7052 /* LDTUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22AB7651B4EE78500BE7052 /* LDTUserLoginViewController.m */; };
 		B22AB7681B4EE7BE00BE7052 /* LDTUserLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */; };
 		B24CE3D11B507DEE00377727 /* john-connor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B24CE3D01B507DEE00377727 /* john-connor.jpg */; };
@@ -75,6 +76,8 @@
 		B20D06D01B3A58F40053D3B6 /* LDTMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTMessage.m; sourceTree = "<group>"; };
 		B212C2601B4ED6F300376BB1 /* LDTBaseUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTBaseUserLoginViewController.h; path = Login/LDTBaseUserLoginViewController.h; sourceTree = "<group>"; };
 		B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseUserLoginViewController.m; path = Login/LDTBaseUserLoginViewController.m; sourceTree = "<group>"; };
+		B22273FC1B58076F005C896D /* DSOAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOAPI.h; sourceTree = "<group>"; };
+		B22273FD1B58076F005C896D /* DSOAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOAPI.m; sourceTree = "<group>"; };
 		B22AB7641B4EE78500BE7052 /* LDTUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserLoginViewController.h; path = Login/LDTUserLoginViewController.h; sourceTree = "<group>"; };
 		B22AB7651B4EE78500BE7052 /* LDTUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserLoginViewController.m; path = Login/LDTUserLoginViewController.m; sourceTree = "<group>"; };
 		B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserLoginView.xib; path = Login/LDTUserLoginView.xib; sourceTree = "<group>"; };
@@ -379,6 +382,8 @@
 				C2B152181ACE05510028C336 /* AppDelegate.m */,
 				B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */,
 				B20D06D01B3A58F40053D3B6 /* LDTMessage.m */,
+				B22273FC1B58076F005C896D /* DSOAPI.h */,
+				B22273FD1B58076F005C896D /* DSOAPI.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -614,6 +619,7 @@
 				C20BA28D1AF3DCAB00E9886F /* NSDate+DSO.m in Sources */,
 				C2C112D31B066A710070993C /* LDTCampaignActionsLayout.m in Sources */,
 				B27AF0EB1B4F64B200164926 /* LDTLoadingViewController.m in Sources */,
+				B22273FE1B58076F005C896D /* DSOAPI.m in Sources */,
 				C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */,
 				C2F35F091AD8261E00D12FE5 /* LDTReportbackDetailViewController.m in Sources */,
 				B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */,

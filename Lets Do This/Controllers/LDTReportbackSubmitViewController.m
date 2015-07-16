@@ -47,10 +47,10 @@
                              @"why_participated" : self.captionTextField.text,
                              @"caption" : self.captionTextField.text,
                              @"file": self.selectedFilestring};
-    NSLog(@"values %@", values)
-    ;    [self.campaign postReportbackWithValues:values completionHandler:^(NSDictionary *response, NSError *error) {
-        NSLog(@"response %@", response);
-    }];
+    NSLog(@"values %@", values);
+//    [self.campaign postReportbackWithValues:values completionHandler:^(NSDictionary *response, NSError *error) {
+//        NSLog(@"response %@", response);
+//    }];
 }
 
 - (void) getImageMenu {
