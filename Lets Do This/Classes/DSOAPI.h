@@ -10,8 +10,6 @@
 
 @interface DSOAPI : AFHTTPSessionManager
 
-@property (nonatomic, strong, readonly) AFHTTPSessionManager *phoenixAPI;
-
 - (instancetype)initWithApiKey:(NSString *)apiKey;
 
 // Authentication methods:
@@ -41,4 +39,7 @@
 - (void)fetchUserWithEmail:(NSString *)email
          completionHandler:(void(^)(NSDictionary *))completionHandler
               errorHandler:(void(^)(NSError *))errorHandler;
+
+- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+                               errorHandler:(void(^)(NSError *))errorHandler;
 @end

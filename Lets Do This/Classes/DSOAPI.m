@@ -21,6 +21,10 @@
 #define LDTSERVER @"northstar.dosomething.org"
 #endif
 
+@interface DSOAPI()
+@property (nonatomic, strong) AFHTTPSessionManager *phoenixApi;
+@end
+
 @implementation DSOAPI
 
 #pragma NSObject
@@ -32,10 +36,18 @@
     if (self != nil) {
 //        [[AFNetworkActivityLogger sharedLogger] startLogging];
 //        [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
+
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         [self.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
+
+        // Initialize Phoenix API.
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/api/v1/", DSOPROTOCOL, DSOSERVER]];
+        self.phoenixApi = [[AFHTTPSessionManager alloc] initWithBaseURL:url];
+        self.phoenixApi.responseSerializer = [AFJSONResponseSerializer serializer];
+        self.phoenixApi.requestSerializer = [AFJSONRequestSerializer serializer];
+
     }
     return self;
 }
@@ -117,6 +129,19 @@
               errorHandler:(void(^)(NSError *))errorHandler {
 
     [self GET:[NSString stringWithFormat:@"users/email/%@", email]
+   parameters:nil
+      success:^(NSURLSessionDataTask *task, id responseObject) {
+          completionHandler(responseObject);
+      }
+      failure:^(NSURLSessionDataTask *task, NSError *error) {
+          errorHandler(error);
+          [self logError:error];
+      }];
+}
+
+- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+                               errorHandler:(void(^)(NSError *))errorHandler {
+    [self.phoenixApi GET:@"campaigns.json?mobile_app=true"
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {
           completionHandler(responseObject);
