@@ -10,6 +10,7 @@
 #import "LDTButton.h"
 #import "LDTTheme.h"
 #import "LDTUserConnectViewController.h"
+#import "DSOSession.h"
 
 @interface LDTUserProfileViewController ()
 
@@ -45,6 +46,13 @@
     self.nameLabel.text = [self.user displayName];
     self.avatarImageView.image = [self.user getPhoto];
     [self theme];
+
+    DSOSession *session = [DSOSession currentSession];
+    [session.api fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
+        NSLog(@"response %@", response);
+    } errorHandler:^(NSError *error) {
+        NSLog(@"error %@", error);
+    }];
 }
 
 #pragma Mark - LDTUserProfileViewController

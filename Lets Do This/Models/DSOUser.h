@@ -10,10 +10,6 @@
 
 @class DSOUser;
 
-typedef void (^DSOUserBlock) (DSOUser *user, NSError *error);
-typedef void (^DSOUserSaveBlock) (NSError *error);
-typedef void (^DSOUserCampaignActionsBlock) (NSArray *campaignActions, NSError *error);
-
 @interface DSOUser : NSObject
 
 @property (nonatomic, strong) NSString *userID;
@@ -33,8 +29,6 @@ typedef void (^DSOUserCampaignActionsBlock) (NSArray *campaignActions, NSError *
 -(UIImage *)getPhoto;
 
 -(void)syncWithDictionary:(NSDictionary *)values;
-
--(void)campaignActions:(DSOUserCampaignActionsBlock)campaignActionsBlock;
 
 
 @end
