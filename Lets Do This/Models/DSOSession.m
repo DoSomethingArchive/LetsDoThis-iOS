@@ -52,29 +52,22 @@ static NSString *_APIKey;
                     photo:(NSString *)fileStr
                   success:(DSOSessionLoginBlock)successBlock
                   failure:(DSOSessionFailureBlock)failureBlock {
+
     NSAssert(_setupCalled == YES, @"The DSO Session has not been setup");
 
     _currentSession = nil;
 
     DSOSession *session = [[DSOSession alloc] init];
-    [session.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
-    [session.requestSerializer setValue:_APIKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
+    session.api = [[DSOAPI alloc] initWithApiKey:_APIKey];
 
-    NSDictionary *params = @{@"email": email,
-                             @"password": password,
-                             @"first_name": firstName,
-                             @"last_name": lastName,
-                             @"mobile":mobile,
-                             @"birthdate": dateStr};
-//                             @"photo":fileStr};
-
-    [session POST:@"users?create_drupal_user=1" parameters:params success:^(NSURLSessionDataTask *task, NSDictionary *response) {
+    [session.api createUserWithEmail:email password:password firstName:firstName lastName:lastName mobile:mobile birthdate:dateStr photo:fileStr success:^(NSDictionary *response) {
 
         [SSKeychain setPassword:password forService:LDTSERVER account:email];
 
+        // Login with the newly created user.
         [DSOSession startWithEmail:email password:password success:successBlock failure:failureBlock];
 
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    } failure:^(NSError *error) {
         if (failureBlock) {
             failureBlock(error);
         }

@@ -42,9 +42,7 @@
 
 #pragma DSOAPI
 
-- (void)setSessionToken:(NSString *)token {
-    [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
-}
+// Authentication methods:
 
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
@@ -66,6 +64,10 @@
 
 }
 
+- (void)setSessionToken:(NSString *)token {
+    [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
+}
+
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler {
     [self POST:@"logout"
@@ -78,6 +80,37 @@
            [self logError:error];
        }];
 }
+
+- (void)createUserWithEmail:(NSString *)email
+                   password:(NSString *)password
+                  firstName:(NSString *)firstName
+                   lastName:(NSString *)lastName
+                     mobile:(NSString *)mobile
+                  birthdate:(NSString *)dateStr
+                      photo:(NSString *)fileStr
+                    success:(void(^)(NSDictionary *))completionHandler
+                    failure:(void(^)(NSError *))errorHandler {
+
+    NSDictionary *params = @{@"email": email,
+                             @"password": password,
+                             @"first_name": firstName,
+                             @"last_name": lastName,
+                             @"mobile":mobile,
+                             @"birthdate": dateStr};
+    //                             @"photo":fileStr};
+
+    [self POST:@"users?create_drupal_user=1"
+    parameters:params
+       success:^(NSURLSessionDataTask *task, id responseObject) {
+           completionHandler(responseObject);
+       }
+       failure:^(NSURLSessionDataTask *task, NSError *error) {
+           errorHandler(error);
+           [self logError:error];
+       }];
+}
+
+// General methods:
 
 - (void)fetchUserWithEmail:(NSString *)email
          completionHandler:(void(^)(NSDictionary *))completionHandler
