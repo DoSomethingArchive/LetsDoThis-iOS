@@ -82,21 +82,6 @@
     }
 }
 
-// Do we need this function anymore?  Aren't campaigns always returned on the user object?
-- (void)campaignActions:(DSOUserCampaignActionsBlock)campaignActionsBlock {
-    if(campaignActionsBlock == nil) {
-        return;
-    }
-
-    NSString *url = [NSString stringWithFormat:@"users/_id/%@/campaigns", self.userID];
-    [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        [self syncCampaignActivityWithArray:responseObject[@"data"]];
-        campaignActionsBlock(responseObject[@"data"], nil);
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        campaignActionsBlock(nil, error);
-    }];
-}
-
 
 - (NSString *)displayName {
     if(self.firstName.length > 0 && self.lastName.length > 0) {

@@ -28,7 +28,6 @@ static NSString *_APIKey;
 
 @implementation DSOSession
 
-@synthesize legacyServerSession = _legacyServerSession;
 @synthesize api = _api;
 
 + (void)setupWithAPIKey:(NSString *)APIKey {
@@ -201,18 +200,6 @@ static NSString *_APIKey;
     currentInstallation.channels = @[ @"global" ];
     [currentInstallation saveInBackground];
     NSLog(@"currentInstallation %@", currentInstallation);
-}
-
-- (AFHTTPSessionManager *)legacyServerSession {
-    if(_legacyServerSession) {
-        return _legacyServerSession;
-    }
-
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/api/v1/", DSOPROTOCOL, DSOSERVER]];
-    _legacyServerSession = [[AFHTTPSessionManager alloc] initWithBaseURL:url];
-    _legacyServerSession.responseSerializer = [AFJSONResponseSerializer serializer];
-    _legacyServerSession.requestSerializer = [AFJSONRequestSerializer serializer];
-    return _legacyServerSession;
 }
 
 @end

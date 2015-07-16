@@ -23,10 +23,10 @@
     if (self.campaign.title != nil) {
         self.title = self.campaign.title;
     }
-    [self.campaign reportbackItemsWithStatus:@"promoted" :^(NSArray *reportbackItems, NSError *error) {
-        self.reportbackItems = reportbackItems;
-        [self.tableView reloadData];
-    }];
+//    [self.campaign reportbackItemsWithStatus:@"promoted" :^(NSArray *reportbackItems, NSError *error) {
+//        self.reportbackItems = reportbackItems;
+//        [self.tableView reloadData];
+//    }];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

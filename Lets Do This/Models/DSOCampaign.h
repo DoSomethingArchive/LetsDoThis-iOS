@@ -12,12 +12,6 @@
 @class DSOCampaign;
 @class DSOCampaignActivity;
 
-typedef void (^DSOCampaignListBlock)(NSArray *campaigns, NSError *error);
-typedef void (^DSOCampaignBlock)(DSOCampaign *campaign, NSError *error);
-typedef void (^DSOCampaignActivityBlock)(DSOCampaignActivity *activity, NSError *error);
-typedef void (^DSOCampaignSignupBlock)(NSError *error);
-typedef void (^DSOCampaignReportBackBlock)(NSDictionary *response, NSError *error);
-
 typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
     DSOCampaignInterestGroup1,
     DSOCampaignInterestGroup2,
@@ -27,18 +21,6 @@ typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
 @interface DSOCampaign : NSObject
 
 + (DSOCampaign *)syncWithDictionary:(NSDictionary *)values inContext:(NSManagedObjectContext *)context;
-
-+ (void)campaignsForInterestGroup:(DSOCampaignInterestGroup)interestGroup completionBlock:(DSOCampaignListBlock)completionBlock;
-
-+ (void)campaignWithID:(NSInteger)campaignID inContext:(NSManagedObjectContext *)context completion:(DSOCampaignBlock)completionBlock;
-
-+ (void)allCampaigns:(DSOCampaignListBlock)completionBlock;
-
-- (void)signupFromSource:(NSString *)source completion:(DSOCampaignSignupBlock)completionBlock;
-
-- (void)postReportbackWithValues:(NSDictionary *)values completionHandler:(DSOCampaignReportBackBlock)completionBlock;
-
-- (void)reportbackItemsWithStatus:(NSString *)status :(DSOCampaignListBlock)completionBlock;
 
 @property (nonatomic) NSInteger campaignID;
 @property (strong, nonatomic) NSString *title;

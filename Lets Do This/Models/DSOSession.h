@@ -17,9 +17,8 @@ typedef void (^DSOSessionLoginBlock) (DSOSession *session);
 typedef void (^DSOSessionFailureBlock) (NSError *error);
 typedef void (^DSOSessionLogoutBlock) ();
 
-@interface DSOSession : AFHTTPSessionManager
+@interface DSOSession : NSObject
 
-@property (nonatomic, strong, readonly) AFHTTPSessionManager *legacyServerSession;
 @property (nonatomic, strong) DSOAPI *api;
 @property (nonatomic, strong) DSOUser *user;
 @property (nonatomic, strong, readonly) NSString *APIKey;
