@@ -9,6 +9,7 @@
 #import "LDTCampaignListViewController.h"
 #import "DSOSession.h"
 #import "DSOCampaign.h"
+#import "LDTTheme.h"
 
 @interface LDTCampaignListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -59,6 +60,7 @@ static NSString *cellIdentifier;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     DSOCampaign *campaign = (DSOCampaign *)self.campaigns[indexPath.row];
     cell.textLabel.text = campaign.title;
+    cell.textLabel.font = [LDTTheme font];
     return cell;
 }
 @end
