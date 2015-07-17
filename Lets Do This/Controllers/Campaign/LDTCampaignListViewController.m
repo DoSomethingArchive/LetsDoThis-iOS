@@ -25,7 +25,7 @@ static NSString *cellIdentifier;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Let's Do This";
+    self.title = [@"Let's Do This" uppercaseString];
     self.campaigns = [[NSMutableArray alloc] init];
 
     cellIdentifier = @"rowCell";
