@@ -8,18 +8,27 @@
 
 #import "LDTCampaignListViewController.h"
 #import "DSOSession.h"
+#import "DSOCampaign.h"
 
 @interface LDTCampaignListViewController ()
-
+@property (strong, nonatomic) NSMutableArray *campaigns;
 @end
 
 @implementation LDTCampaignListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.campaigns = [[NSMutableArray alloc] init];
     DSOSession *session = [DSOSession currentSession];
     [session.api fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
-        NSLog(@"response %@", response);
+
+        for (NSDictionary* campaignDict in response[@"data"]) {
+
+            DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
+            [self.campaigns addObject:campaign];
+
+        }
+
     } errorHandler:^(NSError *error) {
         NSLog(@"error %@", error);
     }];

@@ -23,4 +23,7 @@
 @property (strong, nonatomic) NSString *factSolution;
 @property (nonatomic, strong) NSURL *coverImageURL;
 
+-(id)initWithDict:(NSDictionary*)values;
+
+
 @end
