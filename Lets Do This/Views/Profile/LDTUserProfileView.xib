@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserProfileViewController">
             <connections>
                 <outlet property="avatarImageView" destination="ZTn-ki-kwg" id="Xsu-YT-3Bs"/>
+                <outlet property="campaignsButton" destination="WgN-Vh-lQP" id="nRe-O4-4vy"/>
                 <outlet property="headerView" destination="PsE-uh-AxY" id="oKI-hs-1o3"/>
                 <outlet property="logoutButton" destination="I08-SS-WZ3" id="Yb9-70-x9Y"/>
                 <outlet property="nameLabel" destination="O39-w4-qp5" id="rUF-79-a3D"/>
@@ -19,7 +20,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I08-SS-WZ3" customClass="LDTButton">
-                    <rect key="frame" x="276" y="285" width="49" height="30"/>
+                    <rect key="frame" x="276" y="409" width="49" height="30"/>
                     <state key="normal" title="Logout">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -53,13 +54,24 @@
                         <constraint firstAttribute="centerX" secondItem="ZTn-ki-kwg" secondAttribute="centerX" id="mle-3L-bog"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgN-Vh-lQP" customClass="LDTButton">
+                    <rect key="frame" x="261" y="279" width="78" height="30"/>
+                    <state key="normal" title="Campaigns">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="campaignsButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="Vt1-lt-3c4"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="I08-SS-WZ3" firstAttribute="top" secondItem="WgN-Vh-lQP" secondAttribute="bottom" constant="100" id="14k-0I-k7u"/>
+                <constraint firstAttribute="centerX" secondItem="I08-SS-WZ3" secondAttribute="centerX" id="Aui-jV-GWg"/>
                 <constraint firstItem="PsE-uh-AxY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Kf1-yS-9eC"/>
                 <constraint firstItem="PsE-uh-AxY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Lem-og-Gm8"/>
-                <constraint firstAttribute="centerX" secondItem="I08-SS-WZ3" secondAttribute="centerX" id="ZMd-Bc-Afe"/>
-                <constraint firstAttribute="centerY" secondItem="I08-SS-WZ3" secondAttribute="centerY" id="qWC-2K-dEG"/>
+                <constraint firstItem="WgN-Vh-lQP" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="bottom" constant="100" id="WGx-aJ-ylG"/>
+                <constraint firstAttribute="centerX" secondItem="WgN-Vh-lQP" secondAttribute="centerX" id="WhP-e2-L2u"/>
                 <constraint firstAttribute="trailing" secondItem="PsE-uh-AxY" secondAttribute="trailing" id="xIa-zO-Cf6"/>
             </constraints>
         </view>
