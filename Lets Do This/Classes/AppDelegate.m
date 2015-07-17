@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "AFNetworkActivityIndicatorManager.h"
 #import "DSOSession.h"
 #import <Parse/Parse.h>
 #import "LDTLoadingViewController.h"
@@ -32,6 +33,8 @@
         apiKey = @"northstarTestKey";
     }
     [DSOSession setupWithAPIKey:keysDictionary[apiKey]];
+
+    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 
     [Parse setApplicationId:keysDictionary[@"parseApplicationId"] clientKey:keysDictionary[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |

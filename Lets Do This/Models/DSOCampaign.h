@@ -10,17 +10,8 @@
 #import <UIKit/UIKit.h>
 
 @class DSOCampaign;
-@class DSOCampaignActivity;
-
-typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
-    DSOCampaignInterestGroup1,
-    DSOCampaignInterestGroup2,
-    DSOCampaignInterestGroup3,
-};
 
 @interface DSOCampaign : NSObject
-
-+ (DSOCampaign *)syncWithDictionary:(NSDictionary *)values inContext:(NSManagedObjectContext *)context;
 
 @property (nonatomic) NSInteger campaignID;
 @property (strong, nonatomic) NSString *title;
@@ -28,10 +19,11 @@ typedef NS_ENUM(NSUInteger, DSOCampaignInterestGroup) {
 @property (strong, nonatomic) NSString *coverImage;
 @property (strong, nonatomic) NSString *reportbackNoun;
 @property (strong, nonatomic) NSString *reportbackVerb;
+@property (strong, nonatomic) NSString *factProblem;
+@property (strong, nonatomic) NSString *factSolution;
+@property (nonatomic, strong) NSURL *coverImageURL;
 
-@property (strong, nonatomic, readonly) NSString *factProblem;
-@property (strong, nonatomic, readonly) NSString *factSolution;
+-(id)initWithDict:(NSDictionary*)values;
 
-@property (nonatomic, strong, readonly) NSURL *coverImageURL;
 
 @end
