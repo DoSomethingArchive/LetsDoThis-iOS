@@ -22,7 +22,7 @@
 #endif
 
 @interface DSOAPI()
-@property (nonatomic, strong) AFHTTPSessionManager *phoenixApi;
+@property (nonatomic, strong) NSString *phoenixUrl;
 @end
 
 @implementation DSOAPI
@@ -42,12 +42,7 @@
         [self.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
 
-        // Initialize Phoenix API.
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/api/v1/", DSOPROTOCOL, DSOSERVER]];
-        self.phoenixApi = [[AFHTTPSessionManager alloc] initWithBaseURL:url];
-        self.phoenixApi.responseSerializer = [AFJSONResponseSerializer serializer];
-        self.phoenixApi.requestSerializer = [AFJSONRequestSerializer serializer];
-
+        self.phoenixUrl = [NSString stringWithFormat:@"%@://%@/api/v1/", DSOPROTOCOL, DSOSERVER];
     }
     return self;
 }
@@ -157,19 +152,20 @@
 
 - (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                                errorHandler:(void(^)(NSError *))errorHandler {
-    [self.phoenixApi GET:@"campaigns.json?mobile_app=true"
-              parameters:nil
-                 success:^(NSURLSessionDataTask *task, id responseObject) {
-                     if (completionHandler) {
-                         completionHandler(responseObject);
-                     }
-                 }
-                 failure:^(NSURLSessionDataTask *task, NSError *error) {
-                     if (errorHandler) {
-                         errorHandler(error);
-                     }
-                     [self logError:error];
-                 }];
+    NSString *url = [NSString stringWithFormat:@"%@%@", self.phoenixUrl, @"campaigns.json?mobile_app=true"];
+    [self GET:url
+   parameters:nil
+      success:^(NSURLSessionDataTask *task, id responseObject) {
+          if (completionHandler) {
+              completionHandler(responseObject);
+          }
+    }
+    failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+        [self logError:error];
+    }];
 }
 
 - (void)logError:(NSError *)error {
