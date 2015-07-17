@@ -10,6 +10,8 @@
 
 @interface DSOAPI : AFHTTPSessionManager
 
++ (DSOAPI *)sharedInstance;
+
 - (instancetype)initWithApiKey:(NSString *)apiKey;
 
 // Authentication methods:
