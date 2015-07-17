@@ -78,8 +78,8 @@
 		B20D06D01B3A58F40053D3B6 /* LDTMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTMessage.m; sourceTree = "<group>"; };
 		B212C2601B4ED6F300376BB1 /* LDTBaseUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTBaseUserLoginViewController.h; path = Login/LDTBaseUserLoginViewController.h; sourceTree = "<group>"; };
 		B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseUserLoginViewController.m; path = Login/LDTBaseUserLoginViewController.m; sourceTree = "<group>"; };
-		B22273FC1B58076F005C896D /* DSOAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOAPI.h; sourceTree = "<group>"; };
-		B22273FD1B58076F005C896D /* DSOAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOAPI.m; sourceTree = "<group>"; };
+		B22273FC1B58076F005C896D /* DSOAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOAPI.h; path = Networking/DSOAPI.h; sourceTree = "<group>"; };
+		B22273FD1B58076F005C896D /* DSOAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOAPI.m; path = Networking/DSOAPI.m; sourceTree = "<group>"; };
 		B22274001B5879B3005C896D /* LDTCampaignListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCampaignListView.xib; path = Campaign/LDTCampaignListView.xib; sourceTree = "<group>"; };
 		B22274031B587A20005C896D /* LDTCampaignListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCampaignListViewController.h; path = Campaign/LDTCampaignListViewController.h; sourceTree = "<group>"; };
 		B22274041B587A20005C896D /* LDTCampaignListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCampaignListViewController.m; path = Campaign/LDTCampaignListViewController.m; sourceTree = "<group>"; };
@@ -123,8 +123,8 @@
 		C20BA27A1AF3DBE400E9886F /* DSOCampaignActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCampaignActivity.m; sourceTree = "<group>"; };
 		C20BA27B1AF3DBE400E9886F /* DSOReportback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOReportback.h; sourceTree = "<group>"; };
 		C20BA27C1AF3DBE400E9886F /* DSOReportback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOReportback.m; sourceTree = "<group>"; };
-		C20BA27D1AF3DBE400E9886F /* DSOSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOSession.h; sourceTree = "<group>"; };
-		C20BA27E1AF3DBE400E9886F /* DSOSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOSession.m; sourceTree = "<group>"; };
+		C20BA27D1AF3DBE400E9886F /* DSOSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOSession.h; path = Networking/DSOSession.h; sourceTree = "<group>"; };
+		C20BA27E1AF3DBE400E9886F /* DSOSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOSession.m; path = Networking/DSOSession.m; sourceTree = "<group>"; };
 		C20BA2811AF3DBE400E9886F /* DSOUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOUser.h; sourceTree = "<group>"; };
 		C20BA2821AF3DBE400E9886F /* DSOUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOUser.m; sourceTree = "<group>"; };
 		C20BA2891AF3DCAB00E9886F /* NSDate+DSO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DSO.h"; sourceTree = "<group>"; };
@@ -305,6 +305,17 @@
 			name = Base;
 			sourceTree = "<group>";
 		};
+		B2810B021B59749200426BEF /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				B22273FC1B58076F005C896D /* DSOAPI.h */,
+				B22273FD1B58076F005C896D /* DSOAPI.m */,
+				C20BA27D1AF3DBE400E9886F /* DSOSession.h */,
+				C20BA27E1AF3DBE400E9886F /* DSOSession.m */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
 		B2E652DC1B43807000EF9D69 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -344,6 +355,7 @@
 			children = (
 				C2B152151ACE05510028C336 /* Categories */,
 				C2B152161ACE05510028C336 /* Classes */,
+				B2810B021B59749200426BEF /* Networking */,
 				C2B152191ACE05510028C336 /* Controllers */,
 				C2B1521E1ACE05510028C336 /* Models */,
 				C2B1521F1ACE05510028C336 /* Views */,
@@ -402,8 +414,6 @@
 				C2B152181ACE05510028C336 /* AppDelegate.m */,
 				B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */,
 				B20D06D01B3A58F40053D3B6 /* LDTMessage.m */,
-				B22273FC1B58076F005C896D /* DSOAPI.h */,
-				B22273FD1B58076F005C896D /* DSOAPI.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -423,8 +433,6 @@
 		C2B1521E1ACE05510028C336 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C20BA27D1AF3DBE400E9886F /* DSOSession.h */,
-				C20BA27E1AF3DBE400E9886F /* DSOSession.m */,
 				C20BA2811AF3DBE400E9886F /* DSOUser.h */,
 				C20BA2821AF3DBE400E9886F /* DSOUser.m */,
 				C20BA2771AF3DBE400E9886F /* DSOCampaign.h */,
