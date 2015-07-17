@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTCampaignListViewController">
             <connections>
+                <outlet property="tableView" destination="al2-Zh-c7E" id="ZCI-EY-APC"/>
                 <outlet property="view" destination="iN0-l3-epB" id="zMS-Ig-zvl"/>
             </connections>
         </placeholder>
@@ -14,18 +15,16 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Campaigns" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wxB-Lx-OaF">
-                    <rect key="frame" x="256" y="289" width="88" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="al2-Zh-c7E">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="yJ9-JI-j1b"/>
+                        <outlet property="delegate" destination="-1" id="djG-g5-wNs"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstAttribute="centerX" secondItem="wxB-Lx-OaF" secondAttribute="centerX" id="GYj-Om-L0h"/>
-                <constraint firstAttribute="centerY" secondItem="wxB-Lx-OaF" secondAttribute="centerY" id="pdD-bY-3db"/>
-            </constraints>
         </view>
     </objects>
 </document>
