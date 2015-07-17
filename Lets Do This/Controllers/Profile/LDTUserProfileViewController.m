@@ -10,6 +10,7 @@
 #import "LDTButton.h"
 #import "LDTTheme.h"
 #import "LDTUserConnectViewController.h"
+#import "LDTCampaignListViewController.h"
 #import "DSOSession.h"
 
 @interface LDTUserProfileViewController ()
@@ -17,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet LDTButton *campaignsButton;
+- (IBAction)campaignsButtonTouchUpInside:(id)sender;
 
 @property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
 - (IBAction)logoutButtonTouchUpInside:(id)sender;
@@ -46,13 +49,6 @@
     self.nameLabel.text = [self.user displayName];
     self.avatarImageView.image = [self.user getPhoto];
     [self theme];
-
-    DSOSession *session = [DSOSession currentSession];
-    [session.api fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
-        NSLog(@"response %@", response);
-    } errorHandler:^(NSError *error) {
-        NSLog(@"error %@", error);
-    }];
 }
 
 #pragma Mark - LDTUserProfileViewController
@@ -65,6 +61,8 @@
     [self.nameLabel setFont:[LDTTheme fontBoldWithSize:30]];
     [self.nameLabel setTextColor:[UIColor whiteColor]];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
+
+    [self.campaignsButton setTitle:[@"Campaigns" uppercaseString] forState:UIControlStateNormal];
 
     [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
@@ -79,5 +77,11 @@
 
         [self.navigationController pushViewController:destVC animated:YES];
     }failure:nil];
+}
+
+- (IBAction)campaignsButtonTouchUpInside:(id)sender {
+    LDTCampaignListViewController *destVC = [[LDTCampaignListViewController alloc] initWithNibName:@"LDTCampaignListView" bundle:nil];
+
+    [self.navigationController pushViewController:destVC animated:YES];
 }
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "LDTNavigationController.h"
+#import "LDTTheme.h"
 
 @interface LDTNavigationController ()
 
@@ -22,6 +23,11 @@
     self.navigationBar.translucent = YES;
     self.view.backgroundColor = [UIColor clearColor];
     [self.navigationBar setTintColor:[UIColor whiteColor]];
+
+    NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
+    [titleBarAttributes setValue:[LDTTheme font] forKey:NSFontAttributeName];
+    [self.navigationBar setTitleTextAttributes:titleBarAttributes];
+
 }
 
 @end
