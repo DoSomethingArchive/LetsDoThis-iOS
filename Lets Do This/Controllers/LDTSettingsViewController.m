@@ -7,7 +7,6 @@
 //
 
 #import "LDTSettingsViewController.h"
-#import "DSOSession.h"
 #import "DSOAPI.h"
 
 @interface LDTSettingsViewController()

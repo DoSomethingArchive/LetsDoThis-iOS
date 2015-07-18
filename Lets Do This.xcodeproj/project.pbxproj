@@ -41,7 +41,6 @@
 		C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2781AF3DBE400E9886F /* DSOCampaign.m */; };
 		C20BA2841AF3DBE400E9886F /* DSOCampaignActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA27A1AF3DBE400E9886F /* DSOCampaignActivity.m */; };
 		C20BA2851AF3DBE400E9886F /* DSOReportback.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA27C1AF3DBE400E9886F /* DSOReportback.m */; };
-		C20BA2861AF3DBE400E9886F /* DSOSession.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA27E1AF3DBE400E9886F /* DSOSession.m */; };
 		C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2821AF3DBE400E9886F /* DSOUser.m */; };
 		C20BA28D1AF3DCAB00E9886F /* NSDate+DSO.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA28A1AF3DCAB00E9886F /* NSDate+DSO.m */; };
 		C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */; };
@@ -123,8 +122,6 @@
 		C20BA27A1AF3DBE400E9886F /* DSOCampaignActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCampaignActivity.m; sourceTree = "<group>"; };
 		C20BA27B1AF3DBE400E9886F /* DSOReportback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOReportback.h; sourceTree = "<group>"; };
 		C20BA27C1AF3DBE400E9886F /* DSOReportback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOReportback.m; sourceTree = "<group>"; };
-		C20BA27D1AF3DBE400E9886F /* DSOSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOSession.h; path = Networking/DSOSession.h; sourceTree = "<group>"; };
-		C20BA27E1AF3DBE400E9886F /* DSOSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOSession.m; path = Networking/DSOSession.m; sourceTree = "<group>"; };
 		C20BA2811AF3DBE400E9886F /* DSOUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOUser.h; sourceTree = "<group>"; };
 		C20BA2821AF3DBE400E9886F /* DSOUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOUser.m; sourceTree = "<group>"; };
 		C20BA2891AF3DCAB00E9886F /* NSDate+DSO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DSO.h"; sourceTree = "<group>"; };
@@ -310,8 +307,6 @@
 			children = (
 				B22273FC1B58076F005C896D /* DSOAPI.h */,
 				B22273FD1B58076F005C896D /* DSOAPI.m */,
-				C20BA27D1AF3DBE400E9886F /* DSOSession.h */,
-				C20BA27E1AF3DBE400E9886F /* DSOSession.m */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -661,7 +656,6 @@
 				C20BA2841AF3DBE400E9886F /* DSOCampaignActivity.m in Sources */,
 				C2B152201ACE05510028C336 /* AppDelegate.m in Sources */,
 				C2B151EF1ACE04C30028C336 /* main.m in Sources */,
-				C20BA2861AF3DBE400E9886F /* DSOSession.m in Sources */,
 				569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */,
 				B2E652DF1B4380AD00EF9D69 /* LDTTheme.m in Sources */,
 				C2B152251ACE07560028C336 /* LDTCampaignActionsViewController.m in Sources */,
