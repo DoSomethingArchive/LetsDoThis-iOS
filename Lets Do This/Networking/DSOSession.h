@@ -65,7 +65,4 @@ typedef void (^DSOSessionLogoutBlock) ();
 + (void)startWithCachedSession:(DSOSessionLoginBlock)successBlock
                        failure:(DSOSessionFailureBlock)failure;
 
-- (void)logout:(DSOSessionLogoutBlock)successBlock
-       failure:(DSOSessionFailureBlock)failureBlock;
-
 @end
