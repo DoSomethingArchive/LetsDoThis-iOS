@@ -148,7 +148,6 @@ static NSString *_APIKey;
 
                   } errorHandler:^(NSError *error) {
 
-                      [session deleteCachedSession];
                       if (failure) {
                           failure(error);
                       }
@@ -161,36 +160,11 @@ static NSString *_APIKey;
     return _currentSession;
 }
 
-- (void)deleteCachedSession {
-    [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
-}
 
 - (void)saveTokens:(NSDictionary *)response {
     NSString *sessionToken = response[@"session_token"];
     [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
 //    [self.api setSessionToken:sessionToken];
-}
-
-- (void)logout:(DSOSessionLogoutBlock)successBlock
-       failure:(DSOSessionFailureBlock)failureBlock {
-
-    [self.api logoutWithCompletionHandler:^(NSDictionary *response) {
-
-        /// Delete Keychain passwords.
-        [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
-        [SSKeychain deletePasswordForService:LDTSERVER account:[DSOSession lastLoginEmail]];
-
-        // Kill current user.
-        self.user = nil;
-        successBlock(response);
-    }
-                             errorHandler:^(NSError *error) {
-
-        if (failureBlock) {
-            failureBlock(error);
-        }
-
-    }];
 }
 
 + (void)setDeviceToken:(NSData *)deviceToken  {
