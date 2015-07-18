@@ -8,6 +8,7 @@
 
 #import "DSOAPI.h"
 #import "AFNetworkActivityLogger.h"
+#import <SSKeychain/SSKeychain.h>
 
 // API Constants
 
@@ -27,9 +28,24 @@
 
 @implementation DSOAPI
 
+#pragma Singleton
+
++ (DSOAPI *)sharedInstance {
+    static DSOAPI *_sharedInstance = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        // @todo: Don't do it this way.
+        _sharedInstance = [[self alloc] initWithApiKey:@"VmelybfGig4WWEn0I8iHrijgAM0bf8ERvgmt5BLp"];
+    });
+
+    return _sharedInstance;
+}
+
 #pragma NSObject
 
 - (instancetype)initWithApiKey:(NSString *)apiKey {
+
     NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/v1/", DSOPROTOCOL, LDTSERVER]];
     self = [super initWithBaseURL:baseURL];
 
@@ -62,6 +78,18 @@
     [self POST:@"login"
     parameters:params
        success:^(NSURLSessionDataTask *task, id responseObject) {
+
+           self.user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
+
+           NSString *sessionToken = [responseObject valueForKeyPath:@"data.session_token"];
+           [self setSessionToken:sessionToken];
+
+           // Save session in Keychain for when app is quit.
+           [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
+
+           // Save email of current user in Keychain.
+           [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
+
            if (completionHandler) {
                completionHandler(responseObject);
            }
@@ -75,6 +103,46 @@
 
 }
 
+- (void)connectWithCachedSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+                                         errorHandler:(void(^)(NSError *))errorHandler {
+
+    NSString *sessionToken = [self getSessionToken];
+    if ([sessionToken length] > 0 == NO) {
+        // @todo: Should return error here.
+        return;
+    }
+
+    [self setSessionToken:sessionToken];
+    NSString *email = [SSKeychain passwordForService:LDTSERVER account:@"Email"];
+
+    [self fetchUserWithEmail:email
+           completionHandler:^(NSDictionary *response) {
+
+               NSArray *userInfo = response[@"data"];
+               self.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
+
+               if (completionHandler) {
+                   completionHandler(response);
+               }
+           }
+                errorHandler:^(NSError *error) {
+                    if (errorHandler) {
+                        errorHandler(error);
+                    }
+                    [self logError:error];
+                }
+     ];
+}
+
+- (BOOL)hasCachedSession {
+    NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
+    return sessionToken.length > 0;
+}
+
+- (NSString *)getSessionToken {
+    return [SSKeychain passwordForService:LDTSERVER account:@"Session"];
+}
+
 - (void)setSessionToken:(NSString *)token {
     [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
 }
@@ -84,6 +152,13 @@
     [self POST:@"logout"
     parameters:nil
        success:^(NSURLSessionDataTask *task, id responseObject) {
+
+           /// Delete Keychain passwords.
+           [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
+           [SSKeychain deletePasswordForService:LDTSERVER account:@"Email"];
+
+           self.user = nil;
+
            if (completionHandler) {
                completionHandler(responseObject);
            }

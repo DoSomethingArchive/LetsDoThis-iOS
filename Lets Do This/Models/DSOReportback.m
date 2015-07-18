@@ -7,7 +7,6 @@
 //
 
 #import "DSOReportback.h"
-#import "DSOSession.h"
 #import "NSDictionary+DSOJsonHelper.h"
 
 @interface DSOReportback ()
@@ -30,7 +29,8 @@
 @dynamic quantityLabel;
 @dynamic participationReason;
 
-+ (DSOReportback *)syncWithDictionary:(NSDictionary *)values inContext:(NSManagedObjectContext *)context {
++ (DSOReportback *)syncWithDictionary:(NSDictionary *)values{
+
     NSString *reportID = [values valueForKeyAsString:@"_id"];
     if(reportID == nil) {
         return nil;

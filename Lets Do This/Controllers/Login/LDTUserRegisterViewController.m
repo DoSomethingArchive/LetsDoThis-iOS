@@ -162,22 +162,23 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
 
-        [DSOSession registerWithEmail:self.emailTextField.text
-                             password:self.passwordTextField.text
-                            firstName:self.firstNameTextField.text
-                             lastName:self.lastNameTextField.text
-                               mobile:self.mobileTextField.text
-                            birthdate:self.birthdayTextField.text
-                                photo:self.avatarFilestring
-                              success:^(DSOSession *session) {
-                                  // Get User Profile VC
-                                  LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:session.user];
-                                  [self.navigationController pushViewController:destVC animated:YES];
+        [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text lastName:self.lastNameTextField.text mobile:self.mobileTextField.text birthdate:self.birthdayTextField.text photo:self.avatarFilestring success:^(NSDictionary *response) {
 
-                              }
-                              failure:^(NSError *error) {
-                                  [LDTMessage errorMessage:error];
-                              }];
+            // Login the user
+            [[DSOAPI sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(NSDictionary *response) {
+
+                // Redirect to Profile.
+                LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAPI sharedInstance].user];
+                [self.navigationController pushViewController:destVC animated:YES];
+
+            } errorHandler:^(NSError *error) {
+                [LDTMessage errorMessage:error];
+            }];
+
+        } failure:^(NSError *error) {
+            [LDTMessage errorMessage:error];
+        }];
+
     }
     else {
         [self.submitButton disable];

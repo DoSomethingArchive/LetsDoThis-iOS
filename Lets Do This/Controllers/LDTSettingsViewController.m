@@ -7,7 +7,7 @@
 //
 
 #import "LDTSettingsViewController.h"
-#import "DSOSession.h"
+#import "DSOAPI.h"
 
 @interface LDTSettingsViewController()
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
@@ -68,10 +68,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
                              handler:^(UIAlertAction * action)
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
-                                 DSOSession *session = [DSOSession currentSession];
-                                 [session logout:^() {
+
+                                 [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
                                      [self showLogin];
-                                 }failure:nil];
+                                 } errorHandler:^(NSError *error) {
+                                     return;
+                                 }];
                              }];
         UIAlertAction *cancel = [UIAlertAction
                                  actionWithTitle:@"Cancel"
