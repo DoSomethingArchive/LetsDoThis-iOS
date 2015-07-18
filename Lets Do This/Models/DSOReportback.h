@@ -12,7 +12,7 @@ typedef void (^DSOReportbackChangeStatusBlock)(NSError *error);
 
 @interface DSOReportback : NSObject
 
-+ (DSOReportback *)syncWithDictionary:(NSDictionary *)values inContext:(NSManagedObjectContext *)context;
++ (DSOReportback *)syncWithDictionary:(NSDictionary *)values;
 
 @property (nonatomic, readonly) NSInteger reportID;
 @property (nonatomic, strong, readonly) NSString *title;

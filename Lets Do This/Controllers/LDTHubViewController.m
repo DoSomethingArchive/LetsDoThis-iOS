@@ -7,7 +7,6 @@
 //
 
 #import "LDTHubViewController.h"
-#import "DSOSession.h"
 #import "DSOUser.h"
 #import "DSOCampaign.h"
 
@@ -22,7 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.user = [DSOSession currentSession].user;
+    self.user = [DSOAPI sharedInstance].user;
     // Cast dictionaries to arrays for easier traversal in table rows.
     self.campaignsDoing = [self.user.campaignsDoing allValues];
     self.campaignsCompleted = [self.user.campaignsCompleted allValues];

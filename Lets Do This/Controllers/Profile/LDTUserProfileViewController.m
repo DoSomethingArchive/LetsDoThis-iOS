@@ -12,7 +12,6 @@
 #import "LDTMessage.h"
 #import "LDTUserConnectViewController.h"
 #import "LDTCampaignListViewController.h"
-#import "DSOSession.h"
 
 @interface LDTUserProfileViewController ()
 
