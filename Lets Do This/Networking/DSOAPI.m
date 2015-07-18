@@ -45,6 +45,7 @@
 #pragma NSObject
 
 - (instancetype)initWithApiKey:(NSString *)apiKey {
+
     NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/v1/", DSOPROTOCOL, LDTSERVER]];
     self = [super initWithBaseURL:baseURL];
 
@@ -86,6 +87,9 @@
            // Save session in Keychain for when app is quit.
            [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
 
+           // Save email of current user in Keychain.
+           [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
+
            if (completionHandler) {
                completionHandler(responseObject);
            }
@@ -101,15 +105,15 @@
 
 - (void)connectWithCachedSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler {
+
     NSString *sessionToken = [self getSessionToken];
-    NSLog(@"sessonToken %@", sessionToken);
     if ([sessionToken length] > 0 == NO) {
         // @todo: Should return error here.
         return;
     }
 
     [self setSessionToken:sessionToken];
-    NSString *email = [DSOAPI lastLoginEmail];
+    NSString *email = [SSKeychain passwordForService:LDTSERVER account:@"Email"];
 
     [self fetchUserWithEmail:email
            completionHandler:^(NSDictionary *response) {
@@ -143,12 +147,6 @@
     [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
 }
 
-+ (NSString *)lastLoginEmail {
-    NSArray *accounts = [SSKeychain accountsForService:LDTSERVER];
-    NSDictionary *firstAccount = accounts.firstObject;
-    return firstAccount[@"acct"];
-}
-
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler {
     [self POST:@"logout"
@@ -157,7 +155,7 @@
 
            /// Delete Keychain passwords.
            [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
-           [SSKeychain deletePasswordForService:LDTSERVER account:[DSOSession lastLoginEmail]];
+           [SSKeychain deletePasswordForService:LDTSERVER account:@"Email"];
 
            self.user = nil;
 
