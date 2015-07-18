@@ -50,8 +50,8 @@
     self = [super initWithBaseURL:baseURL];
 
     if (self != nil) {
-        [[AFNetworkActivityLogger sharedLogger] startLogging];
-        [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
+//        [[AFNetworkActivityLogger sharedLogger] startLogging];
+//        [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
 
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];
