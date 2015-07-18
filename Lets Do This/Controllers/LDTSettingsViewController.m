@@ -69,7 +69,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
                              handler:^(UIAlertAction * action)
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
-                                 DSOSession *session = [DSOSession currentSession];
+
                                  [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
                                      [self showLogin];
                                  } errorHandler:^(NSError *error) {
