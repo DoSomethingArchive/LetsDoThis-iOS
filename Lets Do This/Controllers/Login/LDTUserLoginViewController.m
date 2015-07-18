@@ -108,12 +108,13 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
-    [DSOSession startWithEmail:self.emailTextField.text password:self.passwordTextField.text success:^(DSOSession *session) {
 
-        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:session.user];
+    [[DSOAPI sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(NSDictionary *response) {
+
+        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAPI sharedInstance].user];
         [self.navigationController pushViewController:destVC animated:YES];
 
-    } failure:^(NSError *error) {
+    } errorHandler:^(NSError *error) {
         [self.passwordTextField becomeFirstResponder];
         [LDTMessage errorMessage:error];
     }];
