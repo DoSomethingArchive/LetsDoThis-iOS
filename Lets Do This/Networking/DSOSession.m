@@ -97,7 +97,7 @@ static NSString *_APIKey;
     DSOSession *session = [[DSOSession alloc] init];
     session.api = [[DSOAPI alloc] initWithApiKey:_APIKey];
 
-    [[DSOAPI sharedInstance] loginWithEmail:email
+    [session.api loginWithEmail:email
                        password:password
               completionHandler:^(NSDictionary *response) {
 
@@ -134,7 +134,7 @@ static NSString *_APIKey;
     DSOSession *session = [[DSOSession alloc] init];
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
     session.api = [DSOAPI sharedInstance];
-    [session.api setSessionToken:sessionToken];
+//    [session.api setSessionToken:sessionToken];
 
     [session.api fetchUserWithEmail:[DSOSession lastLoginEmail]
                   completionHandler:^(NSDictionary *response) {
@@ -168,13 +168,13 @@ static NSString *_APIKey;
 - (void)saveTokens:(NSDictionary *)response {
     NSString *sessionToken = response[@"session_token"];
     [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
-    [self.api setSessionToken:sessionToken];
+//    [self.api setSessionToken:sessionToken];
 }
 
 - (void)logout:(DSOSessionLogoutBlock)successBlock
        failure:(DSOSessionFailureBlock)failureBlock {
 
-    [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
+    [self.api logoutWithCompletionHandler:^(NSDictionary *response) {
 
         /// Delete Keychain passwords.
         [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
