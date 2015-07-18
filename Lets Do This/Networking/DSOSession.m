@@ -119,42 +119,7 @@ static NSString *_APIKey;
     }];
 }
 
-+ (void)startWithCachedSession:(DSOSessionLoginBlock)successBlock
-                       failure:(DSOSessionFailureBlock)failure {
 
-    NSAssert(_setupCalled == YES, @"The DSO Session has not been setup");
-
-    if ([DSOSession hasCachedSession] == NO) {
-        if (failure) {
-            failure(nil);
-        }
-        return;
-    }
-    
-    DSOSession *session = [[DSOSession alloc] init];
-    NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
-    session.api = [DSOAPI sharedInstance];
-//    [session.api setSessionToken:sessionToken];
-
-    [session.api fetchUserWithEmail:[DSOSession lastLoginEmail]
-                  completionHandler:^(NSDictionary *response) {
-
-                      NSArray *userInfo = response[@"data"];
-                      session.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
-                      _currentSession = session;
-                      if (successBlock) {
-                          successBlock(session);
-                      }
-
-                  } errorHandler:^(NSError *error) {
-
-                      if (failure) {
-                          failure(error);
-                      }
-
-                  }
-     ];
-}
 
 + (DSOSession *)currentSession {
     return _currentSession;
