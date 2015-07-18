@@ -7,10 +7,17 @@
 //
 
 #import "AFHTTPSessionManager.h"
+#import "DSOUser.h"
 
 @interface DSOAPI : AFHTTPSessionManager
 
+@property (strong, nonatomic) DSOUser *user;
+
++ (DSOAPI *)sharedInstance;
+
 - (instancetype)initWithApiKey:(NSString *)apiKey;
+
+
 
 // Authentication methods:
 
@@ -19,7 +26,10 @@
      completionHandler:(void(^)(NSDictionary *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)setSessionToken:(NSString *)token;
+- (BOOL)hasCachedSession;
+
+- (void)connectWithCachedSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+                                         errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;

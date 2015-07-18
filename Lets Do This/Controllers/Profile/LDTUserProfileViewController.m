@@ -9,9 +9,9 @@
 #import "LDTUserProfileViewController.h"
 #import "LDTButton.h"
 #import "LDTTheme.h"
+#import "LDTMessage.h"
 #import "LDTUserConnectViewController.h"
 #import "LDTCampaignListViewController.h"
-#import "DSOSession.h"
 
 @interface LDTUserProfileViewController ()
 
@@ -71,12 +71,13 @@
 
 
 - (IBAction)logoutButtonTouchUpInside:(id)sender {
-    DSOSession *session = [DSOSession currentSession];
-    [session logout:^() {
+    [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
         LDTUserConnectViewController *destVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
 
         [self.navigationController pushViewController:destVC animated:YES];
-    }failure:nil];
+    } errorHandler:^(NSError *error) {
+        [LDTMessage errorMessage:error];
+    }];
 }
 
 - (IBAction)campaignsButtonTouchUpInside:(id)sender {

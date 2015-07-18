@@ -12,7 +12,6 @@
 #import "DSOCampaign.h"
 #import "LDTCampaignDetailViewController.h"
 #import "TSMessage.h"
-#import "DSOSession.h"
 #import "DSOUser.h"
 
 @interface LDTCampaignActionsViewController ()
@@ -31,7 +30,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.user = [DSOSession currentSession].user;
+    self.user = [DSOAPI sharedInstance].user;
     [self.collectionView reloadData];
 }
 

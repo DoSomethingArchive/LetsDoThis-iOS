@@ -7,7 +7,7 @@
 //
 
 #import "LDTCampaignListViewController.h"
-#import "DSOSession.h"
+#import "DSOAPI.h"
 #import "DSOCampaign.h"
 #import "LDTTheme.h"
 
@@ -34,8 +34,8 @@ static NSString *cellIdentifier;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    DSOSession *session = [DSOSession currentSession];
-    [session.api fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
+
+    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
 
         for (NSDictionary* campaignDict in response[@"data"]) {
 
