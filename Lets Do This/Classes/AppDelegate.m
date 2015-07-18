@@ -8,12 +8,13 @@
 
 #import "AppDelegate.h"
 #import "AFNetworkActivityIndicatorManager.h"
-#import "DSOSession.h"
+#import "DSOAPI.h"
 #import <Parse/Parse.h>
 #import "LDTLoadingViewController.h"
 #import "LDTUserConnectViewController.h"
 #import "LDTUserProfileViewController.h"
 #import "LDTTheme.h"
+#import "LDTMessage.h"
 #import "LDTNavigationController.h"
 
 
@@ -46,18 +47,18 @@
     [application registerForRemoteNotifications];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    if ([DSOSession hasCachedSession] == NO) {
+    DSOAPI *api = [DSOAPI sharedInstance];
+    if ([api hasCachedSession] == NO) {
         NSLog(@"does not have cached session");
         [self displayAnonymous];
     }
     else {
         [self displayLoading];
-        [DSOSession startWithCachedSession:^(DSOSession *session) {
+        [api connectWithCachedSessionWithCompletionHandler:^(NSDictionary *response) {
             [self displayAuthenticated];
-        } failure:^(NSError *error) {
-            NSLog(@"startWithCachedSession error: %@", error.localizedDescription);
+        } errorHandler:^(NSError *error) {
             [self displayAnonymous];
+            [LDTMessage errorMessage:error];
         }];
     }
     return YES;
@@ -70,7 +71,7 @@
 }
 
 - (void)displayAuthenticated {
-    LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOSession currentSession].user];
+    LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAPI sharedInstance].user];
     // Navigation controller should already be initialized by the displayLoading method.
     [self.navigationController pushViewController:profileVC animated:YES];
 }
