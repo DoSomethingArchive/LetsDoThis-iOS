@@ -68,8 +68,7 @@
     [self theme];
 }
 
-- (void)viewDidLayoutSubviews
-{
+- (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [self.scrollView setContentSize:CGSizeMake(320, 600)];
 }
