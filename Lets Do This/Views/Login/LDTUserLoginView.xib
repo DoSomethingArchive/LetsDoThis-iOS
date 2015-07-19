@@ -51,10 +51,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HQA-Wg-qj6">
-                            <rect key="frame" x="140" y="216" width="320" height="100"/>
+                            <rect key="frame" x="150" y="216" width="300" height="100"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="84m-fh-8Zr">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -62,7 +62,7 @@
                                     </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g81-9z-70h">
-                                    <rect key="frame" x="0.0" y="46" width="320" height="30"/>
+                                    <rect key="frame" x="0.0" y="46" width="300" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -76,7 +76,7 @@
                                 <constraint firstItem="g81-9z-70h" firstAttribute="leading" secondItem="HQA-Wg-qj6" secondAttribute="leading" id="Eel-M4-OF8"/>
                                 <constraint firstItem="84m-fh-8Zr" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="top" id="RtC-tF-YfV"/>
                                 <constraint firstItem="g81-9z-70h" firstAttribute="top" secondItem="84m-fh-8Zr" secondAttribute="bottom" constant="16" id="cJJ-TM-W0k"/>
-                                <constraint firstAttribute="width" constant="320" id="oAt-t0-7y9"/>
+                                <constraint firstAttribute="width" constant="300" id="oAt-t0-7y9"/>
                                 <constraint firstAttribute="height" constant="100" id="rjh-Aw-i0D"/>
                                 <constraint firstAttribute="trailing" secondItem="g81-9z-70h" secondAttribute="trailing" id="wsN-qj-XE7"/>
                             </constraints>
