@@ -130,9 +130,9 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZSq-2j-AkF" customClass="LDTUserSignupCodeView">
-                            <rect key="frame" x="140" y="367" width="320" height="80"/>
+                            <rect key="frame" x="150" y="367" width="300" height="80"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="320" id="nsq-QS-NOr"/>
+                                <constraint firstAttribute="width" constant="300" id="nsq-QS-NOr"/>
                                 <constraint firstAttribute="height" constant="80" id="wo2-Y9-uW5"/>
                             </constraints>
                         </view>
