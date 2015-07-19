@@ -68,6 +68,12 @@
     [self theme];
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    [self.scrollView setContentSize:CGSizeMake(320, 600)];
+}
+
 #pragma mark - LDTUserLoginViewController
 
 - (void) theme {
