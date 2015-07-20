@@ -28,7 +28,4 @@
 
 -(UIImage *)getPhoto;
 
--(void)syncWithDictionary:(NSDictionary *)values;
-
-
 @end
