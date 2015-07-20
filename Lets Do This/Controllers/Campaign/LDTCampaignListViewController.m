@@ -13,7 +13,7 @@
 
 @interface LDTCampaignListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSMutableArray *campaigns;
+@property (strong, nonatomic) NSArray *campaigns;
 @end
 
 // Stores name for a resuable TableView cell. per  http://www.guilmo.com/how-to-create-a-simple-uitableview-with-static-data/
@@ -26,7 +26,6 @@ static NSString *cellIdentifier;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = [@"Let's Do This" uppercaseString];
-    self.campaigns = [[NSMutableArray alloc] init];
 
     cellIdentifier = @"rowCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
@@ -34,20 +33,8 @@ static NSString *cellIdentifier;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
-    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
-
-        for (NSDictionary* campaignDict in response[@"data"]) {
-
-            DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
-            [self.campaigns addObject:campaign];
-
-        }
-        [self.tableView reloadData];
-
-    } errorHandler:^(NSError *error) {
-        NSLog(@"error %@", error);
-    }];
+    self.campaigns = [[[DSOAPI sharedInstance] getCampaigns] allValues];
+    [self.tableView reloadData];
 }
 
 #pragma UITableViewDataSource

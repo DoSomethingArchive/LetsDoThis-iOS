@@ -17,8 +17,6 @@
 
 - (instancetype)initWithApiKey:(NSString *)apiKey;
 
-
-
 // Authentication methods:
 
 - (void)loginWithEmail:(NSString *)email
@@ -43,6 +41,9 @@
                       photo:(NSString *)fileStr
                     success:(void(^)(NSDictionary *))completionHandler
                     failure:(void(^)(NSError *))errorHandler;
+
+- (NSMutableDictionary *)getCampaigns;
+
 
 // General methods:
 
