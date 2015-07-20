@@ -10,6 +10,7 @@
                 <outlet property="headerLabel" destination="50F-0i-WQW" id="Jis-ck-LY3"/>
                 <outlet property="passwordButton" destination="v0D-uH-55q" id="4br-2X-IuZ"/>
                 <outlet property="passwordTextField" destination="g81-9z-70h" id="h06-cB-p4B"/>
+                <outlet property="registerLink" destination="Wdt-W9-ah3" id="9kh-Yp-cId"/>
                 <outlet property="scrollView" destination="pRb-YO-KnF" id="Lcw-5g-4zo"/>
                 <outlet property="signupCodeView" destination="ye2-yH-4dS" id="0Le-vd-Nph"/>
                 <outlet property="submitButton" destination="Eja-ai-TkH" id="5jH-a1-1Ga"/>
@@ -88,22 +89,31 @@
                                 <constraint firstAttribute="height" constant="100" id="ypl-dZ-DRH"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
                             <rect key="frame" x="277" y="478" width="46" height="30"/>
-                            <state key="normal" title="Button">
+                            <state key="normal" title="Submit">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="submitButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="9Mj-0s-X7R"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0D-uH-55q" customClass="LDTButton">
-                            <rect key="frame" x="277" y="568" width="46" height="30"/>
-                            <state key="normal" title="Button">
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0D-uH-55q" customClass="LDTButton">
+                            <rect key="frame" x="277" y="528" width="46" height="30"/>
+                            <state key="normal" title="Forgot password">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="passwordButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="E5g-Zt-a36"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wdt-W9-ah3" customClass="LDTButton">
+                            <rect key="frame" x="277" y="570" width="46" height="30"/>
+                            <state key="normal" title="Register">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="registerLinkTouchUpInside:" destination="-1" eventType="touchUpInside" id="MuM-AD-lW8"/>
                             </connections>
                         </button>
                     </subviews>
@@ -115,9 +125,11 @@
                         <constraint firstAttribute="centerX" secondItem="4pK-DW-rH5" secondAttribute="centerX" id="Q0O-KM-Ti0"/>
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="16" id="UBr-sW-BIg"/>
                         <constraint firstItem="ye2-yH-4dS" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="bottom" constant="22" id="bNZ-eb-7q1"/>
+                        <constraint firstAttribute="centerX" secondItem="Wdt-W9-ah3" secondAttribute="centerX" id="beR-mg-plh"/>
                         <constraint firstAttribute="centerX" secondItem="HQA-Wg-qj6" secondAttribute="centerX" id="ebU-eS-Qs2"/>
                         <constraint firstItem="v0D-uH-55q" firstAttribute="top" secondItem="Eja-ai-TkH" secondAttribute="bottom" constant="60" id="fTD-0y-lbf"/>
                         <constraint firstItem="4pK-DW-rH5" firstAttribute="top" secondItem="pRb-YO-KnF" secondAttribute="top" id="hmm-TD-14n"/>
+                        <constraint firstItem="Wdt-W9-ah3" firstAttribute="top" secondItem="v0D-uH-55q" secondAttribute="bottom" constant="60" id="itY-qm-26Q"/>
                         <constraint firstItem="Eja-ai-TkH" firstAttribute="top" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="40" id="tw0-S8-W1K"/>
                         <constraint firstAttribute="bottom" secondItem="HQA-Wg-qj6" secondAttribute="bottom" id="wi3-PD-TEB"/>
                         <constraint firstAttribute="centerX" secondItem="v0D-uH-55q" secondAttribute="centerX" id="yVD-7u-xFg"/>
