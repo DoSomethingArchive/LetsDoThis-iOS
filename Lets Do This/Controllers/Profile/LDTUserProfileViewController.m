@@ -49,6 +49,8 @@
     self.nameLabel.text = [self.user displayName];
     self.avatarImageView.image = [self.user getPhoto];
     [self theme];
+    NSLog(@"campaignsDoing %@", self.user.campaignsDoing);
+    NSLog(@"campaignsCompleted %@", self.user.campaignsCompleted);
 }
 
 #pragma Mark - LDTUserProfileViewController
