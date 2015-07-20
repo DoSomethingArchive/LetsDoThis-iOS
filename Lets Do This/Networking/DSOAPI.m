@@ -9,8 +9,10 @@
 #import "DSOAPI.h"
 #import "AFNetworkActivityLogger.h"
 #import <SSKeychain/SSKeychain.h>
+#import "DSOCampaign.h"
 
 // API Constants
+#define isActivityLogging NO
 
 #ifdef DEBUG
 #define DSOPROTOCOL @"http"
@@ -23,6 +25,7 @@
 #endif
 
 @interface DSOAPI()
+@property (nonatomic, strong) NSMutableDictionary *campaigns;
 @property (nonatomic, strong) NSString *phoenixUrl;
 @end
 
@@ -50,8 +53,11 @@
     self = [super initWithBaseURL:baseURL];
 
     if (self != nil) {
-//        [[AFNetworkActivityLogger sharedLogger] startLogging];
-//        [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
+
+        if (isActivityLogging) {
+            [[AFNetworkActivityLogger sharedLogger] startLogging];
+            [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
+        }
 
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -59,6 +65,7 @@
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
 
         self.phoenixUrl = [NSString stringWithFormat:@"%@://%@/api/v1/", DSOPROTOCOL, DSOSERVER];
+        self.campaigns = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -89,6 +96,8 @@
 
            // Save email of current user in Keychain.
            [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
+
+           [self fetchCampaignsWithCompletionHandler:nil errorHandler:nil];
 
            if (completionHandler) {
                completionHandler(responseObject);
@@ -121,6 +130,8 @@
                NSArray *userInfo = response[@"data"];
                self.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
 
+               [self fetchCampaignsWithCompletionHandler:nil errorHandler:nil];
+
                if (completionHandler) {
                    completionHandler(response);
                }
@@ -145,6 +156,18 @@
 
 - (void)setSessionToken:(NSString *)token {
     [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
+}
+
+- (NSDictionary *)getCampaigns {
+    return self.campaigns;
+}
+
+
+- (void)setCampaignsFromDict:(NSDictionary *)dict {
+    for (NSDictionary* campaignDict in dict) {
+        DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
+        [self.campaigns setValue:campaign forKey:campaignDict[@"id"]];
+    }
 }
 
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
@@ -231,6 +254,9 @@
     [self GET:url
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {
+
+          [self setCampaignsFromDict:responseObject[@"data"]];
+
           if (completionHandler) {
               completionHandler(responseObject);
           }
