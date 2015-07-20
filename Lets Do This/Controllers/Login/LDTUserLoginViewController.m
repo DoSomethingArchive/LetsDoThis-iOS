@@ -69,6 +69,8 @@
 }
 
 - (void)viewDidLayoutSubviews {
+    // @todo: This is a hack to get scrolling to work.
+    // This isn't needed in the UserRegisterVC.
     [super viewDidLayoutSubviews];
     [self.scrollView setContentSize:CGSizeMake(320, 600)];
 }
