@@ -12,6 +12,7 @@
 #import "LDTButton.h"
 #import "LDTMessage.h"
 #import "LDTUserProfileViewController.h"
+#import "LDTUserRegisterViewController.h"
 
 @interface LDTUserLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
@@ -20,9 +21,12 @@
 @property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet LDTButton *passwordButton;
+@property (weak, nonatomic) IBOutlet LDTButton *registerLink;
 
+- (IBAction)registerLinkTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)passwordButtonTouchUpInside:(id)sender;
+
 - (IBAction)emailEditingDidEnd:(id)sender;
 - (IBAction)passwordEditingDidEnd:(id)sender;
 
@@ -48,6 +52,7 @@
     self.headerLabel.text = @"Sign in with your DoSomething.org account.";
     self.emailTextField.placeholder = @"Email";
     self.passwordTextField.placeholder = @"Password";
+    [self.registerLink setTitle:@"Don't have an account? Register here" forState:UIControlStateNormal];
 
     self.textFields = @[self.emailTextField,
                         self.passwordTextField,
@@ -68,6 +73,13 @@
     [self theme];
 }
 
+- (void)viewDidLayoutSubviews {
+    // @todo: This is a hack to get scrolling to work.
+    // This isn't needed in the UserRegisterVC.
+    [super viewDidLayoutSubviews];
+    [self.scrollView setContentSize:CGSizeMake(320, 650)];
+}
+
 #pragma mark - LDTUserLoginViewController
 
 - (void) theme {
@@ -86,6 +98,7 @@
 
     self.passwordButton.backgroundColor = [UIColor whiteColor];
     [self.passwordButton setTitleColor:[LDTTheme clickyBlue] forState:UIControlStateNormal];
+    [self.registerLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
 -(void)updateSubmitButton {
@@ -105,6 +118,11 @@
     else {
         [self.submitButton disable];
     }
+}
+
+- (IBAction)registerLinkTouchUpInside:(id)sender {
+    LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithNibName:@"LDTUserRegisterView" bundle:nil];
+    [self.navigationController pushViewController:destVC animated:YES];
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {

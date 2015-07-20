@@ -12,8 +12,10 @@
 #import "LDTButton.h"
 #import "LDTMessage.h"
 #import "LDTUserProfileViewController.h"
+#import "LDTUserLoginViewController.h"
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@property (weak, nonatomic) IBOutlet LDTButton *loginLink;
 
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *avatarFilestring;
@@ -34,6 +36,8 @@
 
 - (IBAction)avatarButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
+- (IBAction)loginLinkTouchUpInside:(id)sender;
+
 - (IBAction)lastNameEditingDidEnd:(id)sender;
 - (IBAction)firstNameEditingDidEnd:(id)sender;
 - (IBAction)emailEditingDidEnd:(id)sender;
@@ -64,6 +68,7 @@
 
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton disable];
+    [self.loginLink setTitle:@"Have a DoSomething.org account? Sign in" forState:UIControlStateNormal];
 
     [self initDatePicker];
 
@@ -134,6 +139,7 @@
     self.headerLabel.font = font;
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
     self.headerLabel.textColor = [UIColor whiteColor];
+    [self.loginLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
 - (void)initDatePicker {
@@ -348,5 +354,9 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+- (IBAction)loginLinkTouchUpInside:(id)sender {
+    LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginView" bundle:nil];
+    [self.navigationController pushViewController:destVC animated:YES];
 }
 @end
