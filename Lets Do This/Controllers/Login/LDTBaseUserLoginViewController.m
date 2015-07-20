@@ -15,7 +15,6 @@
 @property (nonatomic, readwrite) CGRect keyboardFrameInWindowCoordinates;
 @property (nonatomic, readwrite) CGRect keyboardFrameInViewCoordinates;
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -33,6 +32,11 @@
     [super viewDidDisappear:animated];
 
     [self stopListeningForNotifications];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationItem.title = @"";
 }
 
 #pragma mark - UITextFieldDelegate

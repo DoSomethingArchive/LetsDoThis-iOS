@@ -12,5 +12,7 @@
 
 @property (strong, nonatomic) NSArray *textFields;
 @property (strong, nonatomic) NSArray *textFieldsRequired;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
 
 @end
