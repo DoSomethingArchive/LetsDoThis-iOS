@@ -10,11 +10,9 @@
 #import "DSOCampaign.h"
 #import "NSDictionary+DSOJsonHelper.h"
 #import "NSDate+DSO.h"
-#import "NSDictionary+DSOJsonHelper.h"
 
 @interface DSOUser()
-@property (nonatomic, strong, readwrite) NSDate *createdAt;
-@property (nonatomic, strong, readwrite) NSDate *updatedAt;
+
 @end
 
 @implementation DSOUser
@@ -34,6 +32,8 @@
             self.photo = dict[@"photo"];
         }
         self.birthdate = dict[@"birthdate"];
+
+        [self setCampaignsWithArray:dict[@"campaigns"]];
     }
     return self;
 }
@@ -45,35 +45,22 @@
     return self.photo;
 }
 
-- (void)syncWithDictionary:(NSDictionary *)values {
-    self.userID = [values valueForKeyAsString:@"_id" nullValue:self.userID];
-    self.email = [values valueForKeyAsString:@"email" nullValue:self.email];
-    self.mobile = [values valueForKeyAsString:@"mobile" nullValue:self.mobile];
-    self.firstName = [values valueForKeyAsString:@"first_name" nullValue:self.firstName];
-    self.lastName = [values valueForKeyAsString:@"last_name" nullValue:self.lastName];
-    self.birthdate = [values valueForKeyAsDate:@"birthdate" nullValue:self.birthdate];
-    // @todo: how often should this run?
-    // Clear activity.
+- (void)setCampaignsWithArray:(NSArray *)activityData {
+
+    NSMutableDictionary *campaigns = [[DSOAPI sharedInstance] getCampaigns];
     self.campaignsDoing = [[NSMutableDictionary alloc] init];
     self.campaignsCompleted = [[NSMutableDictionary alloc] init];
-    [self syncCampaignActivityWithArray:values[@"campaigns"]];
-}
 
-- (void)syncCampaignActivityWithArray:(NSArray *)activityData {
-    for (NSMutableDictionary* campaignActivityData in activityData) {
-        NSString *IDstring = campaignActivityData[@"drupal_id"];
+    for (NSMutableDictionary *activityDict in activityData) {
 
-
-        // @todo: Get campaign by ID from DSOSession array instead of CoreData. This is placeholder.
-        DSOCampaign *campaign = [[DSOCampaign alloc] init];
-
-//        DSOCampaign *campaign = [DSOCampaign MR_findFirstByAttribute:@"campaignID" withValue:IDstring];
+        NSString *IDstring = activityDict[@"drupal_id"];
+        DSOCampaign *campaign = campaigns[activityDict[@"drupal_id"]];
 
         if (campaign == nil) {
             continue;
         }
         // Store campaigns indexed by ID for easy status lookup by CampaignID.
-        if ([campaignActivityData objectForKey:@"reportback_id"]) {
+        if ([activityDict valueForKeyAsString:@"reportback_id"]) {
             self.campaignsCompleted[IDstring] = campaign;
         }
         else {
