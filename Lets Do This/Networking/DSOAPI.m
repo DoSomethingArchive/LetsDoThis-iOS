@@ -86,9 +86,8 @@
     parameters:params
        success:^(NSURLSessionDataTask *task, id responseObject) {
 
-           self.user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
-
-           NSString *sessionToken = [responseObject valueForKeyPath:@"data.session_token"];
+           NSDictionary *loginResponse = (NSDictionary *)responseObject;
+           NSString *sessionToken = [loginResponse  valueForKeyPath:@"data.session_token"];
            [self setSessionToken:sessionToken];
 
            // Save session in Keychain for when app is quit.
@@ -97,11 +96,14 @@
            // Save email of current user in Keychain.
            [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
 
-           [self fetchCampaignsWithCompletionHandler:nil errorHandler:nil];
+           [self fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
 
-           if (completionHandler) {
-               completionHandler(responseObject);
-           }
+                self.user = [[DSOUser alloc] initWithDict:loginResponse[@"data"]];
+
+                if (completionHandler) {
+                    completionHandler(responseObject);
+                }
+            } errorHandler:nil];
        }
        failure:^(NSURLSessionDataTask *task, NSError *error) {
            if (errorHandler) {
@@ -128,13 +130,17 @@
            completionHandler:^(NSDictionary *response) {
 
                NSArray *userInfo = response[@"data"];
-               self.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
 
-               [self fetchCampaignsWithCompletionHandler:nil errorHandler:nil];
+               [self fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
 
-               if (completionHandler) {
-                   completionHandler(response);
-               }
+                   self.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
+
+                   if (completionHandler) {
+                       completionHandler(response);
+                   }
+
+               }errorHandler:nil];
+
            }
                 errorHandler:^(NSError *error) {
                     if (errorHandler) {
