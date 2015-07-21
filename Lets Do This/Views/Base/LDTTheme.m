@@ -31,6 +31,13 @@
                            alpha:1.0f];
 }
 
++(UIColor *)orangeColor {
+    return [UIColor colorWithRed:255.0f/255.0f
+                           green:165.0f/255.0f
+                            blue:58.0f/255.0f
+                           alpha:1.0f];
+}
+
 // @todo: Second set of functions specifying size? Potentially typedef of size values?
 +(UIFont *)font {
     return [UIFont fontWithName:[self fontName:NO] size:18];
