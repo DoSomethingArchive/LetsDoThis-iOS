@@ -7,27 +7,29 @@
 //
 
 #import "AppDelegate.h"
-#import "DSOSession.h"
+#import "AFNetworkActivityIndicatorManager.h"
+#import "DSOAPI.h"
 #import <Parse/Parse.h>
+#import "LDTLoadingViewController.h"
+#import "LDTUserConnectViewController.h"
+#import "LDTUserProfileViewController.h"
+#import "LDTTheme.h"
+#import "LDTMessage.h"
+#import "LDTNavigationController.h"
+
 
 @interface AppDelegate ()
-
+@property (strong, nonatomic) LDTNavigationController *navigationController;
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"LetsDoThis"];
 
     NSDictionary *keysDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
 
-    NSString *apiKey = @"northstarLiveKey";
-    if (DEBUG) {
-        apiKey = @"northstarTestKey";
-    }
-    // @todo: Use environment param correctly (GH #93)
-    [DSOSession setupWithAPIKey:keysDictionary[apiKey] environment:DSOSessionEnvironmentProduction];
+    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 
     [Parse setApplicationId:keysDictionary[@"parseApplicationId"] clientKey:keysDictionary[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
@@ -38,7 +40,40 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    DSOAPI *api = [DSOAPI sharedInstance];
+    if ([api hasCachedSession] == NO) {
+        NSLog(@"does not have cached session");
+        [self displayAnonymous];
+    }
+    else {
+        [self displayLoading];
+        [api connectWithCachedSessionWithCompletionHandler:^(NSDictionary *response) {
+            [self displayAuthenticated];
+        } errorHandler:^(NSError *error) {
+            [self displayAnonymous];
+            [LDTMessage errorMessage:error];
+        }];
+    }
     return YES;
+}
+
+- (void)displayAnonymous {
+    self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
+    self.window.rootViewController = self.navigationController;
+    [self.window makeKeyAndVisible];
+}
+
+- (void)displayAuthenticated {
+    LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAPI sharedInstance].user];
+    // Navigation controller should already be initialized by the displayLoading method.
+    [self.navigationController pushViewController:profileVC animated:YES];
+}
+
+- (void)displayLoading {
+    self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil]];
+    self.window.rootViewController = self.navigationController;
+    [self.window makeKeyAndVisible];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -64,7 +99,11 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [DSOSession setDeviceToken:deviceToken];
+    // Store the deviceToken in the current installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    currentInstallation.channels = @[ @"global" ];
+    [currentInstallation saveInBackground];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {

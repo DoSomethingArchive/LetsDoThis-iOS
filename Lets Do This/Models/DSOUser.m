@@ -7,178 +7,60 @@
 //
 
 #import "DSOUser.h"
-#import "DSOSession.h"
 #import "DSOCampaign.h"
 #import "NSDictionary+DSOJsonHelper.h"
 #import "NSDate+DSO.h"
-#import "NSDictionary+DSOJsonHelper.h"
 
 @interface DSOUser()
 
-@property (nonatomic, readwrite) BOOL isAdmin;
-@property (nonatomic, strong, readwrite) NSDate *createdAt;
-@property (nonatomic, strong, readwrite) NSDate *updatedAt;
 @end
 
 @implementation DSOUser
 
-@dynamic userID;
-@dynamic firstName;
-@dynamic lastName;
-@dynamic email;
-@dynamic mobileNumber;
-@dynamic country;
-@dynamic createdAt;
-@dynamic updatedAt;
-@dynamic birthday;
-@dynamic addressLine1;
-@dynamic addressLine2;
-@dynamic city;
-@dynamic state;
-@dynamic zipcode;
+-(id)initWithDict:(NSDictionary*)dict {
+    self = [super init];
 
-@synthesize isAdmin = _isAdmin;
-@synthesize campaignsDoing = _campaignsDoing;
-@synthesize campaignsCompleted = _campaignsCompleted;
+    if(self) {
+        self.firstName = dict[@"first_name"];
+        self.lastName = dict[@"last_name"];
+        self.email = dict[@"email"];
+        if (dict[@"photo"] == (id)[NSNull null]) {
+             self.photo = nil;
+        }
+        // Assume for now we have an ImageView stored as value.
+        else {
+            self.photo = dict[@"photo"];
+        }
+        self.birthdate = dict[@"birthdate"];
 
-+ (DSOUser *)syncWithDictionary:(NSDictionary *)values inContext:(NSManagedObjectContext *)context {
-    NSString *userID = [values valueForKeyAsString:@"_id"];
-    if(userID == nil) {
-        return nil;
+        [self setCampaignsWithArray:dict[@"campaigns"]];
     }
+    return self;
+}
 
-    DSOUser *user = [DSOUser MR_findFirstByAttribute:@"userID" withValue:userID inContext:context];
-    if(user == nil) {
-        user = [DSOUser MR_createInContext:context];
+-(UIImage *)getPhoto {
+    if (self.photo == nil) {
+        return [UIImage imageNamed:@"avatar-default"];
     }
-
-    [user syncWithDictionary:values];
-
-    return user;
+    return self.photo;
 }
 
-+ (void)userWithID:(NSString *)userID inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock {
-    NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
-    [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [DSOUser syncWithDictionary:responseObject inContext:context];
+- (void)setCampaignsWithArray:(NSArray *)activityData {
 
-        if(completionBlock) {
-            completionBlock(user, nil);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if(completionBlock) {
-            completionBlock(nil, error);
-        }
-    }];
-}
-
-
-+ (void)userWithMobileNumber:(NSString *)mobileNumber inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock {
-    NSString *url = [NSString stringWithFormat:@"users/mobile/%@", mobileNumber];
-    [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [DSOUser syncWithDictionary:responseObject inContext:context];
-
-        if(completionBlock) {
-            completionBlock(user, nil);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if(completionBlock) {
-            completionBlock(nil, error);
-        }
-    }];
-}
-
-+ (void)userWithEmail:(NSString *)email inContext:(NSManagedObjectContext *)context completionBlock:(DSOUserBlock)completionBlock {
-    NSString *url = [NSString stringWithFormat:@"users/email/%@", email];
-    [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [DSOUser syncWithDictionary:responseObject inContext:context];
-
-        if(completionBlock) {
-            completionBlock(user, nil);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if(completionBlock) {
-            completionBlock(nil, error);
-        }
-    }];
-}
-
-
-- (void)syncWithDictionary:(NSDictionary *)values {
-    self.userID = [values valueForKeyAsString:@"_id" nullValue:self.userID];
-    self.email = [values valueForKeyAsString:@"email" nullValue:self.email];
-    self.mobileNumber = [values valueForKeyAsString:@"mobile" nullValue:self.mobileNumber];
-
-    self.firstName = [values valueForKeyAsString:@"first_name" nullValue:self.firstName];
-    self.lastName = [values valueForKeyAsString:@"last_name" nullValue:self.lastName];
-
-    self.country = [values valueForKeyAsString:@"country" nullValue:self.country];
-    self.addressLine1 = [values valueForKeyAsString:@"addr_street1" nullValue:self.addressLine1];
-    self.addressLine2 = [values valueForKeyAsString:@"addr_street2" nullValue:self.addressLine2];
-    self.city = [values valueForKeyAsString:@"addr_city" nullValue:self.city];
-    self.state = [values valueForKeyAsString:@"addr_state" nullValue:self.state];
-    self.zipcode = [values valueForKeyAsString:@"addr_zip" nullValue:self.zipcode];
-
-    self.birthday = [values valueForKeyAsDate:@"birthdate" nullValue:self.birthday];
-
-    self.createdAt = [values valueForKeyAsDate:@"created_at" nullValue:self.createdAt];
-    self.updatedAt = [values valueForKeyAsDate:@"updated_at" nullValue:self.updatedAt];
-
-    self.isAdmin = NO;
-    for(NSString *key in values[@"roles"]) {
-        if([key isEqualToString:@"3"]) {
-            self.isAdmin = YES;
-        }
-    }
-
-    // @todo: how often should this run?
-    // Clear activity.
+    NSMutableDictionary *campaigns = [[DSOAPI sharedInstance] getCampaigns];
     self.campaignsDoing = [[NSMutableDictionary alloc] init];
     self.campaignsCompleted = [[NSMutableDictionary alloc] init];
-    [self syncCampaignActivityWithArray:values[@"campaigns"]];
-}
 
-- (void)saveChanges:(DSOUserSaveBlock)completionBlock {
-    NSAssert(self.canEdit, @"Can not edit a user that isn't yourself");
+    for (NSMutableDictionary *activityDict in activityData) {
 
-    NSString *url = [NSString stringWithFormat:@"users/%@", self.userID];
-    NSDictionary *params = @{
-         @"first_name": self.firstName,
-         @"last_name": self.lastName,
-         @"email": self.email,
-         @"mobile": self.mobileNumber,
-         @"addr_street1": self.addressLine1,
-         @"addr_street2": self.addressLine2,
-         @"addr_city": self.city,
-         @"addr_state": self.state,
-         @"addr_zip": self.zipcode,
-         @"country": self.country,
-         @"birthdate": [self.birthday ISOString]
-    };
+        NSString *IDstring = activityDict[@"drupal_id"];
+        DSOCampaign *campaign = campaigns[activityDict[@"drupal_id"]];
 
-    [[DSOSession currentSession] PUT:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        self.updatedAt = [NSDate date];
-
-        if(completionBlock) {
-            completionBlock(nil);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if(completionBlock) {
-            completionBlock(error);
-        }
-    }];
-}
-
-- (void)syncCampaignActivityWithArray:(NSArray *)activityData {
-    for (NSMutableDictionary* campaignActivityData in activityData) {
-        NSString *IDstring = campaignActivityData[@"drupal_id"];
-        DSOCampaign *campaign = [DSOCampaign MR_findFirstByAttribute:@"campaignID"
-                                                           withValue:IDstring];
         if (campaign == nil) {
             continue;
         }
         // Store campaigns indexed by ID for easy status lookup by CampaignID.
-        if ([campaignActivityData objectForKey:@"reportback_id"]) {
+        if ([activityDict valueForKeyAsString:@"reportback_id"]) {
             self.campaignsCompleted[IDstring] = campaign;
         }
         else {
@@ -187,38 +69,16 @@
     }
 }
 
-// Do we need this function anymore?  Aren't campaigns always returned on the user object?
-- (void)campaignActions:(DSOUserCampaignActionsBlock)campaignActionsBlock {
-    if(campaignActionsBlock == nil) {
-        return;
-    }
 
-    NSString *url = [NSString stringWithFormat:@"users/_id/%@/campaigns", self.userID];
-    [[DSOSession currentSession] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        [self syncCampaignActivityWithArray:responseObject[@"data"]];
-        campaignActionsBlock(responseObject[@"data"], nil);
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        campaignActionsBlock(nil, error);
-    }];
-}
-
-
-- (NSString *)fullName {
+- (NSString *)displayName {
     if(self.firstName.length > 0 && self.lastName.length > 0) {
-        return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
+        // Return First Name Last Initial.
+        return [NSString stringWithFormat:@"%@ %@.", self.firstName, [self.lastName substringToIndex:1]];
     }
     else if(self.firstName.length > 0) {
         return self.firstName;
     }
     return self.lastName;
-}
-
-- (BOOL)canEdit {
-    return [[DSOSession currentSession].user isEqualToUser:self];
-}
-
-- (BOOL)isEqualToUser:(DSOUser *)otherUser {
-    return [self.userID isEqualToString:otherUser.userID];
 }
 
 @end
