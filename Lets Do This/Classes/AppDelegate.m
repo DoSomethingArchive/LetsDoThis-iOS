@@ -29,11 +29,6 @@
 
     NSDictionary *keysDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
 
-    NSString *apiKey = @"northstarLiveKey";
-    if (DEBUG) {
-        apiKey = @"northstarTestKey";
-    }
-
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 
     [Parse setApplicationId:keysDictionary[@"parseApplicationId"] clientKey:keysDictionary[@"parseClientKey"]];
