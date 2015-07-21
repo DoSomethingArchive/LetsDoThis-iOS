@@ -17,6 +17,8 @@
 
 - (instancetype)initWithApiKey:(NSString *)apiKey;
 
+- (NSString *)pheonixBaseUrl;
+
 // Authentication methods:
 
 - (void)loginWithEmail:(NSString *)email

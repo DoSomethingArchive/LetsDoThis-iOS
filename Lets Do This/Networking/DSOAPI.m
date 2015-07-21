@@ -12,22 +12,15 @@
 #import "DSOCampaign.h"
 
 // API Constants
-#define isActivityLogging NO
-#define isTestRelease NO
-
-#ifdef isTestRelease
+#define isActivityLogging YES
 #define DSOPROTOCOL @"http"
 #define DSOSERVER @"staging.beta.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
-#else
-#define DSOPROTOCOL @"https"
-#define DSOSERVER @"www.dosomething.org"
-#define LDTSERVER @"northstar.dosomething.org"
-#endif
 
 @interface DSOAPI()
 @property (nonatomic, strong) NSMutableDictionary *campaigns;
-@property (nonatomic, strong) NSString *phoenixUrl;
+@property (nonatomic, strong) NSString *phoenixBaseURL;
+@property (nonatomic, strong) NSString *phoenixApiURL;
 @end
 
 @implementation DSOAPI
@@ -64,11 +57,15 @@
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         [self.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
-
-        self.phoenixUrl = [NSString stringWithFormat:@"%@://%@/api/v1/", DSOPROTOCOL, DSOSERVER];
+        self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
+        self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
         self.campaigns = [[NSMutableDictionary alloc] init];
     }
     return self;
+}
+
+- (NSString *)pheonixBaseUrl {
+    return self.phoenixBaseURL;
 }
 
 #pragma DSOAPI
@@ -169,7 +166,6 @@
     return self.campaigns;
 }
 
-
 - (void)setCampaignsFromDict:(NSDictionary *)dict {
     for (NSDictionary* campaignDict in dict) {
         DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
@@ -255,7 +251,7 @@
 
 - (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                                errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"%@%@", self.phoenixUrl, @"campaigns.json?mobile_app=true"];
+    NSString *url = [NSString stringWithFormat:@"%@%@", self.phoenixApiURL, @"campaigns.json?mobile_app=true"];
     [self GET:url
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {
