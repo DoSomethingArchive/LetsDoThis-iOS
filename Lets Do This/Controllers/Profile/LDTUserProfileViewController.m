@@ -54,6 +54,11 @@
     self.navigationItem.rightBarButtonItem = anotherButton;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationItem.title = @"";
+}
+
 #pragma Mark - LDTUserProfileViewController
 
 - (void) theme {
