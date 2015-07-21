@@ -13,6 +13,7 @@
 +(UIColor *)clickyBlue;
 +(UIColor *)disabledGray;
 +(UIColor *)facebookBlue;
++(UIColor *)orangeColor;
 
 +(UIFont *)font;
 +(UIFont *)fontBold;
