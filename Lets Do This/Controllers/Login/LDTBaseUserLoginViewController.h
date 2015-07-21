@@ -14,5 +14,6 @@
 @property (strong, nonatomic) NSArray *textFieldsRequired;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
+- (BOOL)validateEmail:(NSString *)candidate;
 
 @end

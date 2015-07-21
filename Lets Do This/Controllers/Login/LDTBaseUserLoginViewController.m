@@ -68,6 +68,15 @@
                                                   object:nil];
 }
 
+- (BOOL)validateEmail:(NSString *)candidate {
+    if (candidate.length < 6) {
+        return NO;
+    }
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:candidate];
+}
+
 #pragma mark - UITextFieldDelegate
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
