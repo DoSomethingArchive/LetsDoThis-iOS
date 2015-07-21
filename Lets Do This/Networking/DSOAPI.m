@@ -13,8 +13,9 @@
 
 // API Constants
 #define isActivityLogging NO
+#define isTestRelease NO
 
-#ifdef DEBUG
+#ifdef isTestRelease
 #define DSOPROTOCOL @"http"
 #define DSOSERVER @"staging.beta.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
