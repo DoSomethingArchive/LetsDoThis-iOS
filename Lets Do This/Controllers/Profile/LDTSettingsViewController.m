@@ -22,9 +22,16 @@
 
 @implementation LDTSettingsViewController
 
+#pragma UIViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title = [@"Settings" uppercaseString];
+    [self theme];
+
+}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.title = [@"Settings" uppercaseString];
 
     UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
     if (grantedSettings.types == UIUserNotificationTypeNone) {
@@ -33,8 +40,10 @@
     else {
         [self.notificationsSwitch setOn:YES];
     }
-    [self theme];
+
 }
+
+#pragma LDTSettingsViewController
 
 - (void)theme {
     [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -65,26 +74,20 @@
 
 
 - (void) confirmLogout {
-    UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Are you sure you want to log out?"
-                                     message:@"Don't worry, it's cool if you do."
+    UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Are you sure? We’ll miss you."
+                                     message:nil
                                      preferredStyle:UIAlertControllerStyleActionSheet];
 
         UIAlertAction *confirm = [UIAlertAction
-                             actionWithTitle:@"Log Out"
+                             actionWithTitle:@"Logout"
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-
-                                 [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
-                                     [self showLogin];
-                                 } errorHandler:^(NSError *error) {
-                                     return;
-                                 }];
+                                 [self logout];
                              }];
         UIAlertAction *cancel = [UIAlertAction
                                  actionWithTitle:@"Cancel"
-                                 style:UIAlertActionStyleDefault
+                                 style:UIAlertActionStyleCancel
                                  handler:^(UIAlertAction * action)
                                  {
                                      [view dismissViewControllerAnimated:YES completion:nil];
@@ -96,16 +99,8 @@
         [self presentViewController:view animated:YES completion:nil];
 }
 
-- (void)showLogin {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)doneTapped:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 - (IBAction)logoutButtonTouchUpInside:(id)sender {
-    [self logout];
+    [self confirmLogout];
 }
 
 - (void) logout {
