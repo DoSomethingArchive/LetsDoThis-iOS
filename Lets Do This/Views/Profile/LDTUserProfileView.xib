@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserProfileViewController">
+            <connections>
+                <outlet property="avatarImageView" destination="ZTn-ki-kwg" id="Xsu-YT-3Bs"/>
+                <outlet property="campaignsButton" destination="WgN-Vh-lQP" id="nRe-O4-4vy"/>
+                <outlet property="headerView" destination="PsE-uh-AxY" id="oKI-hs-1o3"/>
+                <outlet property="nameLabel" destination="O39-w4-qp5" id="rUF-79-a3D"/>
+                <outlet property="view" destination="iN0-l3-epB" id="try-AF-3Wj"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PsE-uh-AxY">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="260"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZTn-ki-kwg">
+                            <rect key="frame" x="240" y="80" width="120" height="120"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="120" id="m7Q-I7-WIq"/>
+                                <constraint firstAttribute="width" constant="120" id="nwk-rj-PI3"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O39-w4-qp5">
+                            <rect key="frame" x="277" y="210" width="46" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="centerX" secondItem="O39-w4-qp5" secondAttribute="centerX" id="9Zo-Xp-Ld6"/>
+                        <constraint firstAttribute="height" constant="260" id="Rl4-hn-OzU"/>
+                        <constraint firstItem="ZTn-ki-kwg" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="top" constant="80" id="bNu-Xs-0TJ"/>
+                        <constraint firstAttribute="centerX" secondItem="ZTn-ki-kwg" secondAttribute="centerX" id="mle-3L-bog"/>
+                        <constraint firstItem="O39-w4-qp5" firstAttribute="top" secondItem="ZTn-ki-kwg" secondAttribute="bottom" constant="10" id="nDz-o0-WeS"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgN-Vh-lQP" customClass="LDTButton">
+                    <rect key="frame" x="261" y="360" width="78" height="30"/>
+                    <state key="normal" title="Campaigns">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="campaignsButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="Vt1-lt-3c4"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="PsE-uh-AxY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Kf1-yS-9eC"/>
+                <constraint firstItem="PsE-uh-AxY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Lem-og-Gm8"/>
+                <constraint firstItem="WgN-Vh-lQP" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="bottom" constant="100" id="WGx-aJ-ylG"/>
+                <constraint firstAttribute="centerX" secondItem="WgN-Vh-lQP" secondAttribute="centerX" id="WhP-e2-L2u"/>
+                <constraint firstAttribute="trailing" secondItem="PsE-uh-AxY" secondAttribute="trailing" id="xIa-zO-Cf6"/>
+            </constraints>
+            <point key="canvasLocation" x="326" y="342"/>
+        </view>
+    </objects>
+</document>
