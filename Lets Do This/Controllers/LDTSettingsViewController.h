@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LDTSettingsViewController : UITableViewController
+@interface LDTSettingsViewController : UIViewController 
 
 @end
