@@ -137,13 +137,7 @@
 }
 
 - (IBAction)passwordButtonTouchUpInside:(id)sender {
-    // @todo: DRY this via DSOSession?
-#ifdef DEBUG
-    NSString *webUrl = @"http://staging.beta.dosomething.org";
-#else
-    NSString *webUrl = @"https://www.dosomething.org";
-#endif
-    NSString *resetUrl = [NSString stringWithFormat:@"%@/user/password", webUrl];
+    NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [[DSOAPI sharedInstance] pheonixBaseUrl]];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:resetUrl]];
 }
 
