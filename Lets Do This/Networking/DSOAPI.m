@@ -206,7 +206,6 @@
                    lastName:(NSString *)lastName
                      mobile:(NSString *)mobile
                   birthdate:(NSString *)dateStr
-                      photo:(NSString *)fileStr
                     success:(void(^)(NSDictionary *))completionHandler
                     failure:(void(^)(NSError *))errorHandler {
 
@@ -216,7 +215,6 @@
                              @"last_name": lastName,
                              @"mobile":mobile,
                              @"birthdate": dateStr};
-    //                             @"photo":fileStr};
 
     [self POST:@"users?create_drupal_user=1"
     parameters:params
