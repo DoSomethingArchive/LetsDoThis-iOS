@@ -24,6 +24,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    self.title = [@"Settings" uppercaseString];
+
     UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
     if (grantedSettings.types == UIUserNotificationTypeNone) {
         [self.notificationsSwitch setOn:NO];
@@ -31,11 +33,14 @@
     else {
         [self.notificationsSwitch setOn:YES];
     }
+    [self theme];
+}
+
+- (void)theme {
     [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
     [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
 }
-
 
 - (IBAction)logoutTapped:(id)sender {
     [self confirmLogout];
