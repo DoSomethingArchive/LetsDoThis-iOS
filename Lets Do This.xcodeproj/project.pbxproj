@@ -81,7 +81,7 @@
 		B25A729A1B56B87300BC8A2B /* LDTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTNavigationController.h; path = Base/LDTNavigationController.h; sourceTree = "<group>"; };
 		B25A729B1B56B87300BC8A2B /* LDTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTNavigationController.m; path = Base/LDTNavigationController.m; sourceTree = "<group>"; };
 		B25A729D1B5712B300BC8A2B /* avatar-default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "avatar-default.png"; path = "Resources/Images/avatar-default.png"; sourceTree = "<group>"; };
-		B25C1C9B1B17648200607FF1 /* ds-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ds-logo.png"; sourceTree = "<group>"; };
+		B25C1C9B1B17648200607FF1 /* ds-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ds-logo.png"; path = "Resources/Images/ds-logo.png"; sourceTree = "<group>"; };
 		B26038791B449491002FE362 /* LDTUserSignupCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserSignupCodeView.h; path = Login/LDTUserSignupCodeView.h; sourceTree = "<group>"; };
 		B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserSignupCodeView.m; path = Login/LDTUserSignupCodeView.m; sourceTree = "<group>"; };
 		B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDTUserSignupCodeView.xib; sourceTree = "<group>"; };
@@ -202,6 +202,7 @@
 			children = (
 				B25A729D1B5712B300BC8A2B /* avatar-default.png */,
 				B26038821B44F8FC002FE362 /* bg-lightning.png */,
+				B25C1C9B1B17648200607FF1 /* ds-logo.png */,
 				B24CE3D01B507DEE00377727 /* john-connor.jpg */,
 				B26038801B44F8A4002FE362 /* plus-icon.png */,
 			);
@@ -311,7 +312,6 @@
 		C2B151EC1ACE04C30028C336 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B25C1C9B1B17648200607FF1 /* ds-logo.png */,
 				C2B151ED1ACE04C30028C336 /* Info.plist */,
 				C2B151EE1ACE04C30028C336 /* main.m */,
 				C20BA28F1AF3DE0D00E9886F /* LetsDoThis.pch */,
