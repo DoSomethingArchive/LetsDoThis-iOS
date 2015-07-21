@@ -10,4 +10,7 @@
 
 @interface LDTNavigationController : UINavigationController
 
+- (void)setClear;
+- (void)setOrange;
+
 @end

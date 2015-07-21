@@ -18,9 +18,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self setClear];
+
     [self.navigationBar setTintColor:[UIColor whiteColor]];
-    [self.navigationBar setBackgroundColor:[LDTTheme orangeColor]];
-    [self.navigationBar setBarTintColor:[LDTTheme orangeColor]];
 
     NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
     [titleBarAttributes setValue:[LDTTheme font] forKey:NSFontAttributeName];
@@ -28,6 +28,21 @@
     [self.navigationBar setTitleTextAttributes:titleBarAttributes];
 
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [LDTTheme font], NSFontAttributeName , nil] forState:UIControlStateNormal];
+}
+
+// @todo: Make this functional.
+// Calling this after the LDTNavigationController is initialized doesn't change the color.
+- (void)setOrange {
+    [[UINavigationBar appearance] setBackgroundColor:[LDTTheme orangeColor]];
+    [[UINavigationBar appearance] setBarTintColor:[LDTTheme orangeColor]];
+    self.view.backgroundColor = [LDTTheme orangeColor];
+}
+
+- (void)setClear {
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setShadowImage: [UIImage new]];
+    [[UINavigationBar appearance] setTranslucent:YES];
+    self.view.backgroundColor = [UIColor clearColor];
 }
 
 @end
