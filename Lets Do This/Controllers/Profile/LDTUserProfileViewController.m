@@ -12,6 +12,7 @@
 #import "LDTMessage.h"
 #import "LDTUserConnectViewController.h"
 #import "LDTCampaignListViewController.h"
+#import "LDTSettingsViewController.h"
 
 @interface LDTUserProfileViewController ()
 
@@ -20,10 +21,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet LDTButton *campaignsButton;
 - (IBAction)campaignsButtonTouchUpInside:(id)sender;
-
-@property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
-- (IBAction)logoutButtonTouchUpInside:(id)sender;
-
 @end
 
 @implementation LDTUserProfileViewController
@@ -51,6 +48,10 @@
     [self theme];
     NSLog(@"campaignsDoing %@", self.user.campaignsDoing);
     NSLog(@"campaignsCompleted %@", self.user.campaignsCompleted);
+
+    // @todo: Add conditional to only display if self.user != current user
+    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
+    self.navigationItem.rightBarButtonItem = anotherButton;
 }
 
 #pragma Mark - LDTUserProfileViewController
@@ -65,21 +66,12 @@
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
 
     [self.campaignsButton setTitle:[@"Campaigns" uppercaseString] forState:UIControlStateNormal];
-
-    [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
-    [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
 }
 
+- (IBAction)settingsTapped:(id)sender {
+    LDTSettingsViewController *destVC = [[LDTSettingsViewController alloc] initWithNibName:@"LDTSettingsView" bundle:nil];
 
-- (IBAction)logoutButtonTouchUpInside:(id)sender {
-    [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
-        LDTUserConnectViewController *destVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
-
-        [self.navigationController pushViewController:destVC animated:YES];
-    } errorHandler:^(NSError *error) {
-        [LDTMessage errorMessage:error];
-    }];
+    [self.navigationController pushViewController:destVC animated:YES];
 }
 
 - (IBAction)campaignsButtonTouchUpInside:(id)sender {

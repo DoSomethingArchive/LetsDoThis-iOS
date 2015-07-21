@@ -8,9 +8,15 @@
 
 #import "LDTSettingsViewController.h"
 #import "DSOAPI.h"
+#import "LDTButton.h"
+#import "LDTMessage.h"
+#import "LDTTheme.h"
+#import "LDTUserConnectViewController.h"
 
 @interface LDTSettingsViewController()
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
+@property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
+- (IBAction)logoutButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -25,13 +31,9 @@
     else {
         [self.notificationsSwitch setOn:YES];
     }
-}
-
-- (void)tableView:(UITableView *)tableView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 1) {
-        [self displayNotificationsInfo];
-    }
+    [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
+    [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
 }
 
 
@@ -97,4 +99,17 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)logoutButtonTouchUpInside:(id)sender {
+    [self logout];
+}
+
+- (void) logout {
+    [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
+        LDTUserConnectViewController *destVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+
+        [self.navigationController pushViewController:destVC animated:YES];
+    } errorHandler:^(NSError *error) {
+        [LDTMessage errorMessage:error];
+    }];
+}
 @end
