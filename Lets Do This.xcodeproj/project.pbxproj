@@ -36,6 +36,7 @@
 		B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */; };
 		B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterView.xib */; };
 		B2A136631B3D9BC600D20273 /* LDTUserRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */; };
+		B2A41A051B5DCC5300C6C1A6 /* LDTSettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A41A041B5DCC5300C6C1A6 /* LDTSettingsView.xib */; };
 		B2E652DF1B4380AD00EF9D69 /* LDTTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E652DE1B4380AD00EF9D69 /* LDTTheme.m */; };
 		B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E652E11B43822600EF9D69 /* LDTButton.m */; };
 		C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2781AF3DBE400E9886F /* DSOCampaign.m */; };
@@ -110,6 +111,7 @@
 		B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserRegisterView.xib; path = Login/LDTUserRegisterView.xib; sourceTree = "<group>"; };
 		B2A136611B3D9BC600D20273 /* LDTUserRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserRegisterViewController.h; path = Login/LDTUserRegisterViewController.h; sourceTree = "<group>"; };
 		B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserRegisterViewController.m; path = Login/LDTUserRegisterViewController.m; sourceTree = "<group>"; };
+		B2A41A041B5DCC5300C6C1A6 /* LDTSettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTSettingsView.xib; path = Profile/LDTSettingsView.xib; sourceTree = "<group>"; };
 		B2E652DD1B4380AD00EF9D69 /* LDTTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTTheme.h; path = Base/LDTTheme.h; sourceTree = "<group>"; };
 		B2E652DE1B4380AD00EF9D69 /* LDTTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTTheme.m; path = Base/LDTTheme.m; sourceTree = "<group>"; };
 		B2E652E01B43822600EF9D69 /* LDTButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTButton.h; path = Base/LDTButton.h; sourceTree = "<group>"; };
@@ -140,8 +142,8 @@
 		C2B152241ACE07560028C336 /* LDTCampaignActionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTCampaignActionsViewController.m; sourceTree = "<group>"; };
 		C2B152261ACE078A0028C336 /* LDTHubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTHubViewController.h; sourceTree = "<group>"; };
 		C2B152271ACE078A0028C336 /* LDTHubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTHubViewController.m; sourceTree = "<group>"; };
-		C2B152361ACE0BB50028C336 /* LDTSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTSettingsViewController.h; sourceTree = "<group>"; };
-		C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTSettingsViewController.m; sourceTree = "<group>"; };
+		C2B152361ACE0BB50028C336 /* LDTSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTSettingsViewController.h; path = Profile/LDTSettingsViewController.h; sourceTree = "<group>"; };
+		C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTSettingsViewController.m; path = Profile/LDTSettingsViewController.m; sourceTree = "<group>"; };
 		C2C112D11B066A710070993C /* LDTCampaignActionsLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCampaignActionsLayout.h; path = ../Classes/LDTCampaignActionsLayout.h; sourceTree = "<group>"; };
 		C2C112D21B066A710070993C /* LDTCampaignActionsLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCampaignActionsLayout.m; path = ../Classes/LDTCampaignActionsLayout.m; sourceTree = "<group>"; };
 		C2C112D51B0670120070993C /* LDTCampaignCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTCampaignCollectionCell.h; sourceTree = "<group>"; };
@@ -233,8 +235,6 @@
 		B26FD5F91B50122000B3F075 /* Refactor / Remove */ = {
 			isa = PBXGroup;
 			children = (
-				C2B152361ACE0BB50028C336 /* LDTSettingsViewController.h */,
-				C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */,
 				C2C112D11B066A710070993C /* LDTCampaignActionsLayout.h */,
 				C2C112D21B066A710070993C /* LDTCampaignActionsLayout.m */,
 				C2B152231ACE07560028C336 /* LDTCampaignActionsViewController.h */,
@@ -274,6 +274,8 @@
 			children = (
 				B27AF0E21B4F48BC00164926 /* LDTUserProfileViewController.h */,
 				B27AF0E31B4F48BC00164926 /* LDTUserProfileViewController.m */,
+				C2B152361ACE0BB50028C336 /* LDTSettingsViewController.h */,
+				C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -282,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				B27AF0E61B4F493D00164926 /* LDTUserProfileView.xib */,
+				B2A41A041B5DCC5300C6C1A6 /* LDTSettingsView.xib */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -574,6 +577,7 @@
 				B27AF0E71B4F493D00164926 /* LDTUserProfileView.xib in Resources */,
 				B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */,
 				C2B152001ACE04C30028C336 /* LaunchScreen.xib in Resources */,
+				B2A41A051B5DCC5300C6C1A6 /* LDTSettingsView.xib in Resources */,
 				C2B151FD1ACE04C30028C336 /* Images.xcassets in Resources */,
 				B260387D1B4494A8002FE362 /* LDTUserSignupCodeView.xib in Resources */,
 				B22AB7681B4EE7BE00BE7052 /* LDTUserLoginView.xib in Resources */,
