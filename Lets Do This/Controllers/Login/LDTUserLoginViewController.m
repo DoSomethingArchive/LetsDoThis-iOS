@@ -119,6 +119,11 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
+    if (![self validateEmail:self.emailTextField.text]) {
+        [LDTMessage displayErrorWithTitle:@"Please enter a valid email."];
+        [self.submitButton disable];
+        return;
+    }
 
     [[DSOAPI sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(NSDictionary *response) {
 
