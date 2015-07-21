@@ -40,7 +40,6 @@
 		B2E652DF1B4380AD00EF9D69 /* LDTTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E652DE1B4380AD00EF9D69 /* LDTTheme.m */; };
 		B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E652E11B43822600EF9D69 /* LDTButton.m */; };
 		C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2781AF3DBE400E9886F /* DSOCampaign.m */; };
-		C20BA2851AF3DBE400E9886F /* DSOReportback.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA27C1AF3DBE400E9886F /* DSOReportback.m */; };
 		C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2821AF3DBE400E9886F /* DSOUser.m */; };
 		C20BA28D1AF3DCAB00E9886F /* NSDate+DSO.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA28A1AF3DCAB00E9886F /* NSDate+DSO.m */; };
 		C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */; };
@@ -119,8 +118,6 @@
 		B92B81EBB03D9FF4D34E3FD9 /* Pods-Lets Do This.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.release.xcconfig"; sourceTree = "<group>"; };
 		C20BA2771AF3DBE400E9886F /* DSOCampaign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCampaign.h; sourceTree = "<group>"; };
 		C20BA2781AF3DBE400E9886F /* DSOCampaign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCampaign.m; sourceTree = "<group>"; };
-		C20BA27B1AF3DBE400E9886F /* DSOReportback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOReportback.h; sourceTree = "<group>"; };
-		C20BA27C1AF3DBE400E9886F /* DSOReportback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOReportback.m; sourceTree = "<group>"; };
 		C20BA2811AF3DBE400E9886F /* DSOUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOUser.h; sourceTree = "<group>"; };
 		C20BA2821AF3DBE400E9886F /* DSOUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOUser.m; sourceTree = "<group>"; };
 		C20BA2891AF3DCAB00E9886F /* NSDate+DSO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DSO.h"; sourceTree = "<group>"; };
@@ -247,15 +244,6 @@
 				C2F35F081AD8261E00D12FE5 /* LDTReportbackDetailViewController.m */,
 				B26A687E1B2894CA006141C0 /* LDTReportbackSubmitViewController.h */,
 				B26A687F1B2894CA006141C0 /* LDTReportbackSubmitViewController.m */,
-			);
-			name = "Refactor / Remove";
-			sourceTree = "<group>";
-		};
-		B26FD5FA1B50131C00B3F075 /* Refactor / Remove */ = {
-			isa = PBXGroup;
-			children = (
-				C20BA27B1AF3DBE400E9886F /* DSOReportback.h */,
-				C20BA27C1AF3DBE400E9886F /* DSOReportback.m */,
 			);
 			name = "Refactor / Remove";
 			sourceTree = "<group>";
@@ -430,7 +418,6 @@
 				C20BA2821AF3DBE400E9886F /* DSOUser.m */,
 				C20BA2771AF3DBE400E9886F /* DSOCampaign.h */,
 				C20BA2781AF3DBE400E9886F /* DSOCampaign.m */,
-				B26FD5FA1B50131C00B3F075 /* Refactor / Remove */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -633,7 +620,6 @@
 			files = (
 				B260387B1B449491002FE362 /* LDTUserSignupCodeView.m in Sources */,
 				C2F35F061AD825DF00D12FE5 /* LDTCampaignDetailViewController.m in Sources */,
-				C20BA2851AF3DBE400E9886F /* DSOReportback.m in Sources */,
 				C2C112D71B0670120070993C /* LDTCampaignCollectionCell.m in Sources */,
 				C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */,
 				B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */,
