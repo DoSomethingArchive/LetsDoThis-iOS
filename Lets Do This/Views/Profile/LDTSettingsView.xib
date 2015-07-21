@@ -7,6 +7,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTSettingsViewController">
             <connections>
                 <outlet property="logoutButton" destination="FsP-Yh-ANF" id="hCS-Y5-Yn3"/>
+                <outlet property="notificationsLabel" destination="1Nu-TY-cY3" id="KST-qf-cU7"/>
+                <outlet property="notificationsSwitch" destination="17t-ud-SWl" id="deF-BC-c6e"/>
                 <outlet property="view" destination="iN0-l3-epB" id="oQO-g4-VRl"/>
             </connections>
         </placeholder>
@@ -24,11 +26,24 @@
                         <action selector="logoutButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="Q56-mT-gEJ"/>
                     </connections>
                 </button>
+                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="17t-ud-SWl">
+                    <rect key="frame" x="276" y="171" width="51" height="31"/>
+                </switch>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Nu-TY-cY3">
+                    <rect key="frame" x="252" y="210" width="96" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="FsP-Yh-ANF" firstAttribute="top" secondItem="17t-ud-SWl" secondAttribute="bottom" constant="83" id="948-zQ-o68"/>
+                <constraint firstAttribute="centerX" secondItem="17t-ud-SWl" secondAttribute="centerX" id="Med-Ku-glZ"/>
+                <constraint firstItem="1Nu-TY-cY3" firstAttribute="top" secondItem="17t-ud-SWl" secondAttribute="bottom" constant="8" id="O19-1j-h70"/>
                 <constraint firstAttribute="centerX" secondItem="FsP-Yh-ANF" secondAttribute="centerX" id="Z3I-rb-i9m"/>
                 <constraint firstAttribute="centerY" secondItem="FsP-Yh-ANF" secondAttribute="centerY" id="gRs-SI-3hi"/>
+                <constraint firstAttribute="centerX" secondItem="1Nu-TY-cY3" secondAttribute="centerX" id="lg2-5s-2gD"/>
             </constraints>
         </view>
     </objects>

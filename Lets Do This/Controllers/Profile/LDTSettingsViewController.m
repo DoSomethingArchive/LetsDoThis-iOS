@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
 @property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
 - (IBAction)logoutButtonTouchUpInside:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 
 @end
 
@@ -27,6 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = [@"Settings" uppercaseString];
+    self.notificationsSwitch.enabled = FALSE;
+
     [self theme];
 
 }
@@ -46,6 +49,7 @@
 #pragma LDTSettingsViewController
 
 - (void)theme {
+    [self.notificationsLabel setFont:[LDTTheme font]];
     [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
     [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
@@ -54,24 +58,6 @@
 - (IBAction)logoutTapped:(id)sender {
     [self confirmLogout];
 }
-
-- (void) displayNotificationsInfo {
-    UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Notification settings"
-                                                                  message:@"Change your notification settings from Settings > Lets Do This."
-                                                           preferredStyle:UIAlertControllerStyleAlert];
-
-    UIAlertAction *confirm = [UIAlertAction
-                              actionWithTitle:@"Oh, ok"
-                              style:UIAlertActionStyleDefault
-                              handler:^(UIAlertAction * action)
-                              {
-                                  [view dismissViewControllerAnimated:YES completion:nil];
-                              }];
-
-    [view addAction:confirm];
-    [self presentViewController:view animated:YES completion:nil];
-}
-
 
 - (void) confirmLogout {
     UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Are you sure? We’ll miss you."
