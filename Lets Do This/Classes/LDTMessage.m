@@ -16,12 +16,16 @@
 }
 
 +(void)errorMessage:(NSError *)error {
-    NSString *subtitle = error.localizedDescription;
+    NSString *title = error.localizedDescription;
     if (error.code == -1009) {
-        subtitle = @"You appear to be offline.";
+        title = @"You appear to be offline.";
     }
-    [TSMessage showNotificationWithTitle:@"Epic fail :("
-                                subtitle:subtitle
+    NSInteger code = [[[error userInfo] objectForKey:AFNetworkingOperationFailingURLResponseErrorKey] statusCode];
+    if (code == 412) {
+        title = @"Invalid email/password.";
+    }
+    [TSMessage showNotificationWithTitle:title
+                                subtitle:nil
                                     type:TSMessageNotificationTypeError];
 }
 
