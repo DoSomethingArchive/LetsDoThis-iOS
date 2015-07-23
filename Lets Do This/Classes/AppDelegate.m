@@ -16,6 +16,7 @@
 #import "LDTTheme.h"
 #import "LDTMessage.h"
 #import "LDTNavigationController.h"
+#import "DSOAuthenticationManager.h"
 
 
 @interface AppDelegate ()
@@ -41,14 +42,16 @@
     [application registerForRemoteNotifications];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    DSOAPI *api = [DSOAPI sharedInstance];
-    if ([api hasCachedSession] == NO) {
+
+    DSOAuthenticationManager *auth = [DSOAuthenticationManager sharedInstance];
+
+    if ([auth hasCachedSession] == NO) {
         NSLog(@"does not have cached session");
         [self displayAnonymous];
     }
     else {
         [self displayLoading];
-        [api connectWithCachedSessionWithCompletionHandler:^(NSDictionary *response) {
+        [auth connectWithCachedSessionWithCompletionHandler:^(NSDictionary *response) {
             [self displayAuthenticated];
         } errorHandler:^(NSError *error) {
             [self displayAnonymous];

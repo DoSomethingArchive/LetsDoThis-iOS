@@ -45,6 +45,7 @@
 
 - (NSMutableDictionary *)getCampaigns;
 
+- (void)setSessionToken:(NSString *)token;
 
 // General methods:
 

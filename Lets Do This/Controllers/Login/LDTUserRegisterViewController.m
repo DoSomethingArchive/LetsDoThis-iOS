@@ -13,6 +13,7 @@
 #import "LDTMessage.h"
 #import "LDTUserProfileViewController.h"
 #import "LDTUserLoginViewController.h"
+#import "DSOAuthenticationManager.h"
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
