@@ -29,6 +29,7 @@
 
 - (IBAction)emailEditingDidEnd:(id)sender;
 - (IBAction)passwordEditingDidEnd:(id)sender;
+- (IBAction)passwordEditingChanged:(id)sender;
 
 
 @end
@@ -147,5 +148,11 @@
 
 - (IBAction)passwordEditingDidEnd:(id)sender {
     [self updateSubmitButton];
+}
+
+- (IBAction)passwordEditingChanged:(id)sender {
+    if (self.passwordTextField.text.length > 5) {
+        [self.submitButton enable];
+    }
 }
 @end
