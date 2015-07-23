@@ -7,6 +7,7 @@
 //
 
 #import "LDTMessage.h"
+#import "NSDictionary+DSOJsonHelper.h"
 
 @implementation LDTMessage
 
@@ -16,16 +17,22 @@
 }
 
 +(void)errorMessage:(NSError *)error {
-    NSString *title = error.localizedDescription;
-    if (error.code == -1009) {
-        title = @"You appear to be offline.";
+    NSInteger code = error.code;
+    NSString *message = error.localizedDescription;
+
+    if (code == -1009) {
+        message = @"You appear to be offline.";
     }
-    NSInteger code = [[[error userInfo] objectForKey:AFNetworkingOperationFailingURLResponseErrorKey] statusCode];
-    if (code == 412) {
-        title = @"Invalid email/password.";
+    NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+    if (errorData) {
+        NSDictionary *reponseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:&error];
+        NSDictionary *errorDict = reponseDict[@"error"];
+        code = [errorDict valueForKeyAsInt:@"code" nullValue:0];
+        message = [errorDict valueForKeyAsString:@"message"];
     }
-    [TSMessage showNotificationWithTitle:title
-                                subtitle:nil
+
+    [TSMessage showNotificationWithTitle:[NSString stringWithFormat:@"O noes, error %li", (long)code]
+                                subtitle:message
                                     type:TSMessageNotificationTypeError];
 }
 
