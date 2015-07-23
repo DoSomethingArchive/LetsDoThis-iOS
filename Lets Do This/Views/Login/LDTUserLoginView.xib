@@ -67,6 +67,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
+                                        <action selector="passwordEditingChanged:" destination="-1" eventType="editingChanged" id="SfK-d1-tER"/>
                                         <action selector="passwordEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="lB0-ic-euL"/>
                                     </connections>
                                 </textField>
