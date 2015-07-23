@@ -353,8 +353,6 @@
 			children = (
 				C2B152171ACE05510028C336 /* AppDelegate.h */,
 				C2B152181ACE05510028C336 /* AppDelegate.m */,
-				B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */,
-				B20D06D01B3A58F40053D3B6 /* LDTMessage.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -388,6 +386,8 @@
 				B239391A1B44495400E5BCC8 /* Login */,
 				B22273FF1B58792D005C896D /* Campaign */,
 				B27AF0E51B4F490800164926 /* Profile */,
+				B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */,
+				B20D06D01B3A58F40053D3B6 /* LDTMessage.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
