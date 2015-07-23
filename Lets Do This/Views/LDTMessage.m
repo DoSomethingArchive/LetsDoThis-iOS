@@ -26,6 +26,7 @@
     NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
     if (errorData) {
         NSDictionary *reponseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:&error];
+        NSLog(@"responseDict %@", reponseDict);
         NSDictionary *errorDict = reponseDict[@"error"];
         code = [errorDict valueForKeyAsInt:@"code" nullValue:0];
         message = [errorDict valueForKeyAsString:@"message"];
