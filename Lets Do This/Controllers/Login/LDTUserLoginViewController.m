@@ -126,9 +126,9 @@
         return;
     }
 
-    [[DSOAPI sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(NSDictionary *response) {
+    [[DSOAuthenticationManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(NSDictionary *response) {
 
-        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAPI sharedInstance].user];
+        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAuthenticationManager sharedInstance].user];
         [self.navigationController pushViewController:destVC animated:YES];
 
     } errorHandler:^(NSError *error) {

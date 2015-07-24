@@ -97,7 +97,7 @@
 
                [api fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
 
-                   api.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
+                   self.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
 
                    if (completionHandler) {
                        completionHandler(response);
