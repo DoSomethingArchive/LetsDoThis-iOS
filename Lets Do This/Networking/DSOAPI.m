@@ -29,11 +29,12 @@
 
 + (DSOAPI *)sharedInstance {
     static DSOAPI *_sharedInstance = nil;
+    NSDictionary *keysDict = [DSOAuthenticationManager keysDict];
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         // @todo: Don't do it this way.
-        _sharedInstance = [[self alloc] initWithApiKey:@"VmelybfGig4WWEn0I8iHrijgAM0bf8ERvgmt5BLp"];
+        _sharedInstance = [[self alloc] initWithApiKey:keysDict[@"northstarTestKey"]];
     });
 
     return _sharedInstance;

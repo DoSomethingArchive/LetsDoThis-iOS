@@ -28,4 +28,7 @@
 
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;
+
++ (NSDictionary *)keysDict;
+
 @end

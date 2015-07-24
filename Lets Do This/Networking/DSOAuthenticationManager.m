@@ -138,4 +138,8 @@
        }];
 }
 
++ (NSDictionary *)keysDict {
+    return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+
+}
 @end
