@@ -28,7 +28,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    NSDictionary *keysDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+
+    NSDictionary *keysDictionary = [DSOAuthenticationManager keysDict];
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 
@@ -44,7 +45,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     DSOAuthenticationManager *auth = [DSOAuthenticationManager sharedInstance];
-
     if ([auth hasCachedSession] == NO) {
         NSLog(@"does not have cached session");
         [self displayAnonymous];
