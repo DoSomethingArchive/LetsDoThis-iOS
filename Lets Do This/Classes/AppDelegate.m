@@ -68,7 +68,7 @@
 }
 
 - (void)displayAuthenticated {
-    LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAPI sharedInstance].user];
+    LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAuthenticationManager sharedInstance].user];
     // Navigation controller should already be initialized by the displayLoading method.
     [self.navigationController pushViewController:profileVC animated:YES];
 }

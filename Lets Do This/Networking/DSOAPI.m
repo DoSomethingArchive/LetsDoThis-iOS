@@ -71,90 +71,6 @@
 
 #pragma DSOAPI
 
-// Authentication methods:
-
-- (void)loginWithEmail:(NSString *)email
-              password:(NSString *)password
-     completionHandler:(void(^)(NSDictionary *))completionHandler
-          errorHandler:(void(^)(NSError *))errorHandler {
-
-    NSDictionary *params = @{@"email": email,
-                             @"password": password};
-
-    [self POST:@"login"
-    parameters:params
-       success:^(NSURLSessionDataTask *task, id responseObject) {
-
-           NSDictionary *loginResponse = (NSDictionary *)responseObject;
-           NSString *sessionToken = [loginResponse  valueForKeyPath:@"data.session_token"];
-           [self setSessionToken:sessionToken];
-
-           // Save session in Keychain for when app is quit.
-           [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
-
-           // Save email of current user in Keychain.
-           [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
-
-           [self fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
-
-                self.user = [[DSOUser alloc] initWithDict:loginResponse[@"data"]];
-
-                if (completionHandler) {
-                    completionHandler(responseObject);
-                }
-            } errorHandler:nil];
-       }
-       failure:^(NSURLSessionDataTask *task, NSError *error) {
-           if (errorHandler) {
-               errorHandler(error);
-           }
-           [self logError:error];
-       }];
-
-}
-
-- (void)connectWithCachedSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
-                                         errorHandler:(void(^)(NSError *))errorHandler {
-
-    NSString *sessionToken = [self getSessionToken];
-    if ([sessionToken length] > 0 == NO) {
-        // @todo: Should return error here.
-        return;
-    }
-
-    [self setSessionToken:sessionToken];
-    NSString *email = [SSKeychain passwordForService:LDTSERVER account:@"Email"];
-
-    [self fetchUserWithEmail:email
-           completionHandler:^(NSDictionary *response) {
-
-               NSArray *userInfo = response[@"data"];
-
-               [self fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
-
-                   self.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
-
-                   if (completionHandler) {
-                       completionHandler(response);
-                   }
-
-               }errorHandler:nil];
-
-           }
-                errorHandler:^(NSError *error) {
-                    if (errorHandler) {
-                        errorHandler(error);
-                    }
-                    [self logError:error];
-                }
-     ];
-}
-
-- (BOOL)hasCachedSession {
-    NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
-    return sessionToken.length > 0;
-}
-
 - (NSString *)getSessionToken {
     return [SSKeychain passwordForService:LDTSERVER account:@"Session"];
 }
@@ -174,29 +90,7 @@
     }
 }
 
-- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
-                       errorHandler:(void(^)(NSError *))errorHandler {
-    [self POST:@"logout"
-    parameters:nil
-       success:^(NSURLSessionDataTask *task, id responseObject) {
 
-           /// Delete Keychain passwords.
-           [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
-           [SSKeychain deletePasswordForService:LDTSERVER account:@"Email"];
-
-           self.user = nil;
-
-           if (completionHandler) {
-               completionHandler(responseObject);
-           }
-       }
-       failure:^(NSURLSessionDataTask *task, NSError *error) {
-           if (errorHandler) {
-               errorHandler(error);
-           }
-           [self logError:error];
-       }];
-}
 
 - (void)createUserWithEmail:(NSString *)email
                    password:(NSString *)password

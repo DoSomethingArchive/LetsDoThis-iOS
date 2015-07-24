@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DSOAPI.h"
 #import "DSOUser.h"
 
 @interface DSOAuthenticationManager : NSObject
