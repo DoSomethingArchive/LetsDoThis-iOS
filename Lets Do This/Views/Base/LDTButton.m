@@ -16,14 +16,10 @@
     if (self) {
 
         [[self titleLabel] setFont:[LDTTheme fontBold]];
-        self.layer.cornerRadius = 10;
+        self.layer.cornerRadius = 4;
 
     }
     return self;
-}
-
-- (UIEdgeInsets)alignmentRectInsets {
-    return UIEdgeInsetsMake(20, 120, 20, 120);
 }
 
 -(void)disable {
