@@ -18,7 +18,8 @@
 #pragma mark - NSNibAwaking
 
 -(void)awakeFromNib {
-    self.headerLabel.text = @"Invited to this app by a friend? \nEnter that invite code here! (Optional.)";
+    self.headerLabel.numberOfLines = 0;
+    self.headerLabel.text = @"Invited to this app by a friend? Enter that invite code here! (Optional.)";
     self.firstTextField.placeholder = @"Enter";
     self.secondTextField.placeholder = @"Code";
     self.thirdTextField.placeholder = @"Here";
