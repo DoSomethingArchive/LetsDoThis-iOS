@@ -40,10 +40,10 @@
 
 // @todo: Second set of functions specifying size? Potentially typedef of size values?
 +(UIFont *)font {
-    return [UIFont fontWithName:[self fontName:NO] size:18];
+    return [UIFont fontWithName:[self fontName:NO] size:16];
 }
 +(UIFont *)fontBold {
-    return [UIFont fontWithName:[self fontName:YES] size:18];
+    return [UIFont fontWithName:[self fontName:YES] size:16];
 }
 +(UIFont *)fontBoldWithSize:(CGFloat)fontSize {
     return [UIFont fontWithName:[self fontName:YES] size:fontSize];
