@@ -82,8 +82,20 @@
                                 <constraint firstAttribute="trailing" secondItem="g81-9z-70h" secondAttribute="trailing" id="wsN-qj-XE7"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ye2-yH-4dS" customClass="LDTUserSignupCodeView">
+                            <rect key="frame" x="8" y="270" width="584" height="100"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="100" id="Fh1-jc-0f3"/>
+                                <constraint firstAttribute="height" constant="100" id="ypl-dZ-DRH"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="ypl-dZ-DRH"/>
+                                </mask>
+                            </variation>
+                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VYf-Yo-Xf8">
-                            <rect key="frame" x="8" y="411" width="584" height="140"/>
+                            <rect key="frame" x="8" y="401" width="584" height="140"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
                                     <rect key="frame" x="268" y="8" width="49" height="30"/>
@@ -123,21 +135,9 @@
                                 <constraint firstItem="Eja-ai-TkH" firstAttribute="top" secondItem="VYf-Yo-Xf8" secondAttribute="top" constant="8" id="v6d-mo-vAj"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ye2-yH-4dS" customClass="LDTUserSignupCodeView">
-                            <rect key="frame" x="8" y="280" width="584" height="100"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="100" id="Fh1-jc-0f3"/>
-                                <constraint firstAttribute="height" constant="100" id="ypl-dZ-DRH"/>
-                            </constraints>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="ypl-dZ-DRH"/>
-                                </mask>
-                            </variation>
-                        </view>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="ye2-yH-4dS" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="bottom" constant="32" id="0Ab-B5-Jjc"/>
+                        <constraint firstItem="ye2-yH-4dS" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="bottom" constant="22" id="0Ab-B5-Jjc"/>
                         <constraint firstItem="ye2-yH-4dS" firstAttribute="leading" secondItem="pRb-YO-KnF" secondAttribute="leading" constant="8" id="5q3-K9-M2g"/>
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="44" id="6Dk-ft-HVd"/>
                         <constraint firstAttribute="trailing" secondItem="HQA-Wg-qj6" secondAttribute="trailing" constant="8" id="EhN-Q8-P45"/>
