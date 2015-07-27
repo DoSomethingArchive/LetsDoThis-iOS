@@ -26,17 +26,17 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4pK-DW-rH5">
-                            <rect key="frame" x="150" y="0.0" width="300" height="200"/>
+                            <rect key="frame" x="150" y="0.0" width="300" height="124"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ds-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="cTZ-YE-jBE">
-                                    <rect key="frame" x="80" y="0.0" width="140" height="140"/>
+                                    <rect key="frame" x="110" y="0.0" width="80" height="80"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="140" id="61i-p2-521"/>
-                                        <constraint firstAttribute="height" constant="140" id="KGS-wi-ncl"/>
+                                        <constraint firstAttribute="width" constant="80" id="61i-p2-521"/>
+                                        <constraint firstAttribute="height" constant="80" id="KGS-wi-ncl"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50F-0i-WQW">
-                                    <rect key="frame" x="129" y="162" width="42" height="21"/>
+                                    <rect key="frame" x="129" y="102" width="42" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -44,7 +44,7 @@
                             </subviews>
                             <constraints>
                                 <constraint firstAttribute="centerX" secondItem="50F-0i-WQW" secondAttribute="centerX" id="10H-BF-JSM"/>
-                                <constraint firstAttribute="height" constant="200" id="998-aR-JZS"/>
+                                <constraint firstAttribute="height" constant="124" id="998-aR-JZS"/>
                                 <constraint firstAttribute="width" constant="300" id="FVP-g1-5wk"/>
                                 <constraint firstAttribute="centerX" secondItem="cTZ-YE-jBE" secondAttribute="centerX" id="Wll-dv-FOM"/>
                                 <constraint firstItem="cTZ-YE-jBE" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="top" id="bWC-ZA-LPI"/>
@@ -52,7 +52,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HQA-Wg-qj6">
-                            <rect key="frame" x="8" y="216" width="584" height="80"/>
+                            <rect key="frame" x="8" y="168" width="584" height="80"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="84m-fh-8Zr">
                                     <rect key="frame" x="0.0" y="0.0" width="584" height="30"/>
@@ -82,8 +82,8 @@
                                 <constraint firstAttribute="trailing" secondItem="g81-9z-70h" secondAttribute="trailing" id="wsN-qj-XE7"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VYf-Yo-Xf8">
-                            <rect key="frame" x="8" y="449" width="584" height="140"/>
+                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VYf-Yo-Xf8">
+                            <rect key="frame" x="8" y="373" width="584" height="140"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
                                     <rect key="frame" x="268" y="8" width="49" height="30"/>
@@ -123,8 +123,8 @@
                                 <constraint firstItem="Eja-ai-TkH" firstAttribute="top" secondItem="VYf-Yo-Xf8" secondAttribute="top" constant="8" id="v6d-mo-vAj"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ye2-yH-4dS" customClass="LDTUserSignupCodeView">
-                            <rect key="frame" x="140" y="318" width="320" height="100"/>
+                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ye2-yH-4dS" customClass="LDTUserSignupCodeView">
+                            <rect key="frame" x="140" y="242" width="320" height="100"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="100" id="Fh1-jc-0f3"/>
                                 <constraint firstAttribute="width" constant="320" id="l4f-GU-yop"/>
@@ -139,7 +139,7 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="ye2-yH-4dS" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="bottom" constant="22" id="0Ab-B5-Jjc"/>
-                        <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="16" id="6Dk-ft-HVd"/>
+                        <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="44" id="6Dk-ft-HVd"/>
                         <constraint firstAttribute="trailing" secondItem="HQA-Wg-qj6" secondAttribute="trailing" constant="8" id="EhN-Q8-P45"/>
                         <constraint firstAttribute="centerX" secondItem="ye2-yH-4dS" secondAttribute="centerX" id="Fr9-bW-DVn"/>
                         <constraint firstAttribute="bottom" secondItem="VYf-Yo-Xf8" secondAttribute="bottom" constant="31" id="MvD-xi-B3t"/>
@@ -156,6 +156,7 @@
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
+                            <exclude reference="UBr-sW-BIg"/>
                             <exclude reference="Tkz-2Q-UXP"/>
                             <exclude reference="bJb-SY-QXU"/>
                         </mask>
