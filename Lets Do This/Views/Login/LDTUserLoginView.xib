@@ -95,10 +95,10 @@
                             </variation>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VYf-Yo-Xf8">
-                            <rect key="frame" x="8" y="401" width="584" height="140"/>
+                            <rect key="frame" x="8" y="378" width="584" height="140"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
-                                    <rect key="frame" x="268" y="8" width="49" height="30"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="584" height="30"/>
                                     <state key="normal" title="Submit">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -107,7 +107,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wdt-W9-ah3" customClass="LDTButton">
-                                    <rect key="frame" x="264" y="168" width="57" height="30"/>
+                                    <rect key="frame" x="264" y="84" width="57" height="30"/>
                                     <state key="normal" title="Register">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -116,7 +116,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0D-uH-55q" customClass="LDTButton">
-                                    <rect key="frame" x="234" y="88" width="116" height="30"/>
+                                    <rect key="frame" x="0.0" y="38" width="584" height="30"/>
                                     <state key="normal" title="Forgot password">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -126,18 +126,22 @@
                                 </button>
                             </subviews>
                             <constraints>
-                                <constraint firstAttribute="centerX" secondItem="v0D-uH-55q" secondAttribute="centerX" id="74U-TJ-WkZ"/>
+                                <constraint firstItem="v0D-uH-55q" firstAttribute="leading" secondItem="VYf-Yo-Xf8" secondAttribute="leading" id="8rl-BU-q5d"/>
+                                <constraint firstItem="Eja-ai-TkH" firstAttribute="leading" secondItem="VYf-Yo-Xf8" secondAttribute="leading" id="JA6-fi-Ij4"/>
                                 <constraint firstAttribute="centerX" secondItem="Eja-ai-TkH" secondAttribute="centerX" id="M4R-oW-j2i"/>
-                                <constraint firstItem="Wdt-W9-ah3" firstAttribute="top" secondItem="v0D-uH-55q" secondAttribute="bottom" constant="50" id="TE2-xe-WnL"/>
-                                <constraint firstItem="v0D-uH-55q" firstAttribute="top" secondItem="Eja-ai-TkH" secondAttribute="bottom" constant="50" id="U63-Xw-rkz"/>
+                                <constraint firstAttribute="trailing" secondItem="v0D-uH-55q" secondAttribute="trailing" id="SDP-Gf-NCT"/>
+                                <constraint firstItem="Wdt-W9-ah3" firstAttribute="top" secondItem="v0D-uH-55q" secondAttribute="bottom" constant="16" id="TE2-xe-WnL"/>
+                                <constraint firstItem="v0D-uH-55q" firstAttribute="top" secondItem="Eja-ai-TkH" secondAttribute="bottom" constant="8" id="U63-Xw-rkz"/>
                                 <constraint firstAttribute="centerX" secondItem="Wdt-W9-ah3" secondAttribute="centerX" id="Y4G-37-jmh"/>
                                 <constraint firstAttribute="height" constant="140" id="hbw-XU-ZUJ"/>
-                                <constraint firstItem="Eja-ai-TkH" firstAttribute="top" secondItem="VYf-Yo-Xf8" secondAttribute="top" constant="8" id="v6d-mo-vAj"/>
+                                <constraint firstItem="Eja-ai-TkH" firstAttribute="top" secondItem="VYf-Yo-Xf8" secondAttribute="top" id="v6d-mo-vAj"/>
+                                <constraint firstAttribute="trailing" secondItem="Eja-ai-TkH" secondAttribute="trailing" id="vTT-JN-MaB"/>
                             </constraints>
                         </view>
                     </subviews>
                     <constraints>
                         <constraint firstItem="ye2-yH-4dS" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="bottom" constant="22" id="0Ab-B5-Jjc"/>
+                        <constraint firstAttribute="trailing" secondItem="VYf-Yo-Xf8" secondAttribute="trailing" constant="8" id="5e1-rx-8sx"/>
                         <constraint firstItem="ye2-yH-4dS" firstAttribute="leading" secondItem="pRb-YO-KnF" secondAttribute="leading" constant="8" id="5q3-K9-M2g"/>
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="44" id="6Dk-ft-HVd"/>
                         <constraint firstAttribute="trailing" secondItem="HQA-Wg-qj6" secondAttribute="trailing" constant="8" id="EhN-Q8-P45"/>
@@ -148,12 +152,13 @@
                         <constraint firstAttribute="bottom" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="162" id="Tkz-2Q-UXP"/>
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="16" id="UBr-sW-BIg"/>
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="leading" secondItem="pRb-YO-KnF" secondAttribute="leading" constant="8" id="VTf-Jf-7i1"/>
-                        <constraint firstItem="VYf-Yo-Xf8" firstAttribute="top" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="31" id="XJY-TP-mN3"/>
+                        <constraint firstItem="VYf-Yo-Xf8" firstAttribute="top" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="8" id="XJY-TP-mN3"/>
                         <constraint firstItem="VYf-Yo-Xf8" firstAttribute="top" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="31" id="bJb-SY-QXU"/>
                         <constraint firstAttribute="centerX" secondItem="HQA-Wg-qj6" secondAttribute="centerX" id="ebU-eS-Qs2"/>
                         <constraint firstItem="4pK-DW-rH5" firstAttribute="top" secondItem="pRb-YO-KnF" secondAttribute="top" id="hmm-TD-14n"/>
                         <constraint firstAttribute="centerX" secondItem="VYf-Yo-Xf8" secondAttribute="centerX" id="iDo-t3-s9P"/>
                         <constraint firstItem="VYf-Yo-Xf8" firstAttribute="leading" secondItem="HQA-Wg-qj6" secondAttribute="leading" id="svQ-5s-RIE"/>
+                        <constraint firstItem="VYf-Yo-Xf8" firstAttribute="leading" secondItem="pRb-YO-KnF" secondAttribute="leading" constant="8" id="xFy-CB-Vp4"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
