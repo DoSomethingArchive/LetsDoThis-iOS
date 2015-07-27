@@ -82,8 +82,8 @@
                                 <constraint firstAttribute="trailing" secondItem="g81-9z-70h" secondAttribute="trailing" id="wsN-qj-XE7"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VYf-Yo-Xf8">
-                            <rect key="frame" x="8" y="373" width="584" height="140"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VYf-Yo-Xf8">
+                            <rect key="frame" x="8" y="411" width="584" height="140"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
                                     <rect key="frame" x="268" y="8" width="49" height="30"/>
@@ -123,11 +123,10 @@
                                 <constraint firstItem="Eja-ai-TkH" firstAttribute="top" secondItem="VYf-Yo-Xf8" secondAttribute="top" constant="8" id="v6d-mo-vAj"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ye2-yH-4dS" customClass="LDTUserSignupCodeView">
-                            <rect key="frame" x="140" y="242" width="320" height="100"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ye2-yH-4dS" customClass="LDTUserSignupCodeView">
+                            <rect key="frame" x="8" y="280" width="584" height="100"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="100" id="Fh1-jc-0f3"/>
-                                <constraint firstAttribute="width" constant="320" id="l4f-GU-yop"/>
                                 <constraint firstAttribute="height" constant="100" id="ypl-dZ-DRH"/>
                             </constraints>
                             <variation key="default">
@@ -138,10 +137,12 @@
                         </view>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="ye2-yH-4dS" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="bottom" constant="22" id="0Ab-B5-Jjc"/>
+                        <constraint firstItem="ye2-yH-4dS" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="bottom" constant="32" id="0Ab-B5-Jjc"/>
+                        <constraint firstItem="ye2-yH-4dS" firstAttribute="leading" secondItem="pRb-YO-KnF" secondAttribute="leading" constant="8" id="5q3-K9-M2g"/>
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="44" id="6Dk-ft-HVd"/>
                         <constraint firstAttribute="trailing" secondItem="HQA-Wg-qj6" secondAttribute="trailing" constant="8" id="EhN-Q8-P45"/>
                         <constraint firstAttribute="centerX" secondItem="ye2-yH-4dS" secondAttribute="centerX" id="Fr9-bW-DVn"/>
+                        <constraint firstAttribute="trailing" secondItem="ye2-yH-4dS" secondAttribute="trailing" constant="8" id="Hp3-ce-1qD"/>
                         <constraint firstAttribute="bottom" secondItem="VYf-Yo-Xf8" secondAttribute="bottom" constant="31" id="MvD-xi-B3t"/>
                         <constraint firstAttribute="centerX" secondItem="4pK-DW-rH5" secondAttribute="centerX" id="Q0O-KM-Ti0"/>
                         <constraint firstAttribute="bottom" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="162" id="Tkz-2Q-UXP"/>
