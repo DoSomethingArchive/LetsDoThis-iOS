@@ -14,7 +14,9 @@
 #import "LDTUserConnectViewController.h"
 
 @interface LDTSettingsViewController()
+@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *notificationsDetailLabel;
 @property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
 - (IBAction)logoutButtonTouchUpInside:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
@@ -49,7 +51,14 @@
 #pragma LDTSettingsViewController
 
 - (void)theme {
-    [self.notificationsLabel setFont:[LDTTheme font]];
+    [self.notificationsLabel setFont:[LDTTheme fontBold]];
+    self.notificationsLabel.text = @"Receive Notifications";
+    [self.notificationsDetailLabel setFont:[LDTTheme font]];
+    self.notificationsDetailLabel.text = @"Settings > Lets Do This";
+    [self.versionLabel setFont:[LDTTheme font]];
+    self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    self.versionLabel.textAlignment = NSTextAlignmentCenter;
+
     [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
     [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
