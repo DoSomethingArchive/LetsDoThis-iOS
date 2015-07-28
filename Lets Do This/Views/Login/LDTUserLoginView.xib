@@ -52,10 +52,13 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HQA-Wg-qj6">
-                            <rect key="frame" x="8" y="168" width="584" height="80"/>
+                            <rect key="frame" x="8" y="168" width="584" height="100"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="84m-fh-8Zr">
-                                    <rect key="frame" x="0.0" y="0.0" width="584" height="30"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="584" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="s2b-2i-x8d"/>
+                                    </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -63,7 +66,10 @@
                                     </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g81-9z-70h">
-                                    <rect key="frame" x="0.0" y="46" width="584" height="30"/>
+                                    <rect key="frame" x="0.0" y="52" width="584" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="NVj-95-r96"/>
+                                    </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -77,13 +83,13 @@
                                 <constraint firstItem="84m-fh-8Zr" firstAttribute="leading" secondItem="HQA-Wg-qj6" secondAttribute="leading" id="Cw8-0Q-YG3"/>
                                 <constraint firstItem="g81-9z-70h" firstAttribute="leading" secondItem="HQA-Wg-qj6" secondAttribute="leading" id="Eel-M4-OF8"/>
                                 <constraint firstItem="84m-fh-8Zr" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="top" id="RtC-tF-YfV"/>
-                                <constraint firstItem="g81-9z-70h" firstAttribute="top" secondItem="84m-fh-8Zr" secondAttribute="bottom" constant="16" id="cJJ-TM-W0k"/>
-                                <constraint firstAttribute="height" constant="80" id="rjh-Aw-i0D"/>
+                                <constraint firstItem="g81-9z-70h" firstAttribute="top" secondItem="84m-fh-8Zr" secondAttribute="bottom" constant="8" id="cJJ-TM-W0k"/>
+                                <constraint firstAttribute="height" constant="100" id="rjh-Aw-i0D"/>
                                 <constraint firstAttribute="trailing" secondItem="g81-9z-70h" secondAttribute="trailing" id="wsN-qj-XE7"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ye2-yH-4dS" customClass="LDTUserSignupCodeView">
-                            <rect key="frame" x="8" y="270" width="584" height="100"/>
+                            <rect key="frame" x="8" y="290" width="584" height="100"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="100" id="Fh1-jc-0f3"/>
                                 <constraint firstAttribute="height" constant="100" id="ypl-dZ-DRH"/>
@@ -95,7 +101,7 @@
                             </variation>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VYf-Yo-Xf8">
-                            <rect key="frame" x="8" y="378" width="584" height="140"/>
+                            <rect key="frame" x="8" y="402" width="584" height="140"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
                                     <rect key="frame" x="0.0" y="0.0" width="584" height="30"/>
@@ -152,7 +158,7 @@
                         <constraint firstAttribute="bottom" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="162" id="Tkz-2Q-UXP"/>
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="16" id="UBr-sW-BIg"/>
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="leading" secondItem="pRb-YO-KnF" secondAttribute="leading" constant="8" id="VTf-Jf-7i1"/>
-                        <constraint firstItem="VYf-Yo-Xf8" firstAttribute="top" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="8" id="XJY-TP-mN3"/>
+                        <constraint firstItem="VYf-Yo-Xf8" firstAttribute="top" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="12" id="XJY-TP-mN3"/>
                         <constraint firstItem="VYf-Yo-Xf8" firstAttribute="top" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="31" id="bJb-SY-QXU"/>
                         <constraint firstAttribute="centerX" secondItem="HQA-Wg-qj6" secondAttribute="centerX" id="ebU-eS-Qs2"/>
                         <constraint firstItem="4pK-DW-rH5" firstAttribute="top" secondItem="pRb-YO-KnF" secondAttribute="top" id="hmm-TD-14n"/>
