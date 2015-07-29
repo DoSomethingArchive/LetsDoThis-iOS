@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "LDTUserRegisterViewController.h"
 #import "LDTUserSignupCodeView.h"
 #import "LDTTheme.h"
@@ -38,6 +40,13 @@
 - (IBAction)avatarButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)loginLinkTouchUpInside:(id)sender;
+
+- (IBAction)firstNameEditingDidBegin:(id)sender;
+- (IBAction)lastNameEditingDidBegin:(id)sender;
+- (IBAction)emailEditingDidBegin:(id)sender;
+- (IBAction)mobileEditingDidBegin:(id)sender;
+- (IBAction)passwordEditingDidBegin:(id)sender;
+- (IBAction)birthdayEditingDidBegin:(id)sender;
 
 - (IBAction)lastNameEditingDidEnd:(id)sender;
 - (IBAction)firstNameEditingDidEnd:(id)sender;
@@ -194,6 +203,34 @@
     }
 }
 
+- (void) removeRedErrorBorderToTextField:(UITextField *)textField {
+    textField.layer.borderColor = [[UIColor clearColor] CGColor];
+}
+
+- (IBAction)firstNameEditingDidBegin:(id)sender {
+    [self removeRedErrorBorderToTextField:sender];
+}
+
+- (IBAction)lastNameEditingDidBegin:(id)sender {
+    [self removeRedErrorBorderToTextField:sender];
+}
+
+- (IBAction)emailEditingDidBegin:(id)sender {
+    [self removeRedErrorBorderToTextField:sender];
+}
+
+- (IBAction)mobileEditingDidBegin:(id)sender {
+    [self removeRedErrorBorderToTextField:sender];
+}
+
+- (IBAction)passwordEditingDidBegin:(id)sender {
+    [self removeRedErrorBorderToTextField:sender];
+}
+
+- (IBAction)birthdayEditingDidBegin:(id)sender {
+    // Are we going to do any validations on birthdays?
+}
+
 - (IBAction)lastNameEditingDidEnd:(id)sender {
     [self updateCreateAccountButton];
 }
@@ -239,22 +276,35 @@
     }
 }
 
+- (void) addRedErrorBorderToTextField:(UITextField *)textField {
+    textField.layer.cornerRadius = 8.0f;
+    textField.layer.masksToBounds = YES;
+    textField.layer.borderColor = [[UIColor redColor] CGColor];
+    textField.layer.borderWidth = 2.0f;
+}
+
 - (BOOL)validateForm {
+    
     NSMutableArray *errorMessages = [[NSMutableArray alloc] init];;
 
     if (![self validateName:self.firstNameTextField.text]) {
+        [self addRedErrorBorderToTextField:self.firstNameTextField];
         [errorMessages addObject:@"We need your first name."];
     }
     if (![self validateName:self.lastNameTextField.text]) {
+        [self addRedErrorBorderToTextField:self.lastNameTextField];
         [errorMessages addObject:@"We need your last name."];
     }
     if (![self validateEmail:self.emailTextField.text]) {
+        [self addRedErrorBorderToTextField:self.emailTextField];
         [errorMessages addObject:@"We need a valid email."];
     }
     if (![self validateMobile:self.mobileTextField.text]) {
+        [self addRedErrorBorderToTextField:self.mobileTextField];
         [errorMessages addObject:@"Enter a valid telephone number."];
     }
     if (![self validatePassword:self.passwordTextField.text]) {
+        [self addRedErrorBorderToTextField:self.passwordTextField];
         [errorMessages addObject:@"Password must be 6+ characters."];
     }
 
@@ -352,4 +402,5 @@
     LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginView" bundle:nil];
     [self.navigationController pushViewController:destVC animated:YES];
 }
+
 @end
