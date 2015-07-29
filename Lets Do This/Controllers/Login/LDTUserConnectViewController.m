@@ -50,6 +50,7 @@
 
 - (void)theme {
     [LDTTheme setLightningBackground:self.view];
+
     [self.headerLabel setFont:[LDTTheme font]];
     [self.headerLabel setTextColor:[UIColor whiteColor]];
 

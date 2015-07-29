@@ -40,10 +40,10 @@
 
 // @todo: Second set of functions specifying size? Potentially typedef of size values?
 +(UIFont *)font {
-    return [UIFont fontWithName:[self fontName:NO] size:18];
+    return [UIFont fontWithName:[self fontName:NO] size:16];
 }
 +(UIFont *)fontBold {
-    return [UIFont fontWithName:[self fontName:YES] size:18];
+    return [UIFont fontWithName:[self fontName:YES] size:16];
 }
 +(UIFont *)fontBoldWithSize:(CGFloat)fontSize {
     return [UIFont fontWithName:[self fontName:YES] size:fontSize];
@@ -54,14 +54,6 @@
         return @"BrandonGrotesque-Bold";
     }
     return @"BrandonGrotesque-Medium";
-}
-
-// Expects a square imageView.
-+(void)addCircleFrame:(UIImageView *)imageView {
-    imageView.layer.cornerRadius = imageView.frame.size.height /2;
-    imageView.layer.masksToBounds = YES;
-    imageView.layer.borderWidth = 2.0;
-    imageView.layer.borderColor = [UIColor whiteColor].CGColor;
 }
 
 +(void)setLightningBackground:(UIView *)view {
