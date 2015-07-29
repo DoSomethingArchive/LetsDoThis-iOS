@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UIImageView+LDT.h"
 
 @interface LDTTheme : NSObject
 
@@ -18,8 +19,6 @@
 +(UIFont *)font;
 +(UIFont *)fontBold;
 +(UIFont *)fontBoldWithSize:(CGFloat)fontSize;
-
-+(void)addCircleFrame:(UIImageView *)imageView;
 +(void)setLightningBackground:(UIView *)view;
 
 @end

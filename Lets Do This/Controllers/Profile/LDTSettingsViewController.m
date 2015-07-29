@@ -31,21 +31,13 @@
     [super viewDidLoad];
     self.title = [@"Settings" uppercaseString];
     self.notificationsSwitch.enabled = FALSE;
-
+    [self setSwitch];
     [self theme];
 
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
-    UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-    if (grantedSettings.types == UIUserNotificationTypeNone) {
-        [self.notificationsSwitch setOn:NO];
-    }
-    else {
-        [self.notificationsSwitch setOn:YES];
-    }
-
+    [self setSwitch];
 }
 
 #pragma LDTSettingsViewController
@@ -62,6 +54,17 @@
     [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
     [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
+}
+
+- (void)setSwitch {
+    UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+    if (grantedSettings.types == UIUserNotificationTypeNone) {
+        [self.notificationsSwitch setOn:NO];
+    }
+    else {
+        [self.notificationsSwitch setOn:YES];
+    }
+
 }
 
 - (IBAction)logoutTapped:(id)sender {
