@@ -63,7 +63,7 @@
 
 - (void) theme {
     [LDTTheme setLightningBackground:self.headerView];
-    [LDTTheme addCircleFrame:self.avatarImageView];
+    [self.avatarImageView addCircleFrame];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
     [self.nameLabel setFont:[LDTTheme fontBoldWithSize:30]];

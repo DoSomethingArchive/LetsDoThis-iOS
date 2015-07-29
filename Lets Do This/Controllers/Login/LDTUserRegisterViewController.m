@@ -333,7 +333,7 @@
 
 - (void)setAvatar:(UIImage *)image {
     self.imageView.image = image;
-    [LDTTheme addCircleFrame:self.imageView];
+    [self.imageView addCircleFrame];
 }
 
 #pragma mark - UIImagePickerControllerDelegate

@@ -13,6 +13,7 @@
 		B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B20D06D01B3A58F40053D3B6 /* LDTMessage.m */; };
 		B21126271B618038009128E7 /* DSOAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B21126261B618038009128E7 /* DSOAuthenticationManager.m */; };
 		B212C2621B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */; };
+		B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */; };
 		B22273FE1B58076F005C896D /* DSOAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = B22273FD1B58076F005C896D /* DSOAPI.m */; };
 		B22274011B5879B3005C896D /* LDTCampaignListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22274001B5879B3005C896D /* LDTCampaignListView.xib */; };
 		B22274051B587A20005C896D /* LDTCampaignListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22274041B587A20005C896D /* LDTCampaignListViewController.m */; };
@@ -74,6 +75,8 @@
 		B21126261B618038009128E7 /* DSOAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOAuthenticationManager.m; path = Networking/DSOAuthenticationManager.m; sourceTree = "<group>"; };
 		B212C2601B4ED6F300376BB1 /* LDTBaseUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTBaseUserLoginViewController.h; path = Login/LDTBaseUserLoginViewController.h; sourceTree = "<group>"; };
 		B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseUserLoginViewController.m; path = Login/LDTBaseUserLoginViewController.m; sourceTree = "<group>"; };
+		B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+LDT.h"; sourceTree = "<group>"; };
+		B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+LDT.m"; sourceTree = "<group>"; };
 		B22273FC1B58076F005C896D /* DSOAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOAPI.h; path = Networking/DSOAPI.h; sourceTree = "<group>"; };
 		B22273FD1B58076F005C896D /* DSOAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOAPI.m; path = Networking/DSOAPI.m; sourceTree = "<group>"; };
 		B22274001B5879B3005C896D /* LDTCampaignListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCampaignListView.xib; path = Campaign/LDTCampaignListView.xib; sourceTree = "<group>"; };
@@ -355,6 +358,8 @@
 				C20BA28A1AF3DCAB00E9886F /* NSDate+DSO.m */,
 				C20BA28B1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.h */,
 				C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */,
+				B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */,
+				B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -595,6 +600,7 @@
 				C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */,
 				B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */,
 				C2B152201ACE05510028C336 /* AppDelegate.m in Sources */,
+				B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */,
 				C2B151EF1ACE04C30028C336 /* main.m in Sources */,
 				B21126271B618038009128E7 /* DSOAuthenticationManager.m in Sources */,
 				569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */,
