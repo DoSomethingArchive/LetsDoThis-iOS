@@ -43,7 +43,7 @@
                      errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)fetchUserWithEmail:(NSString *)email
-         completionHandler:(void(^)(NSDictionary *))completionHandler
+         completionHandler:(void(^)(DSOUser *))completionHandler
               errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
