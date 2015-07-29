@@ -14,6 +14,7 @@
 #import "LDTUserProfileViewController.h"
 #import "LDTUserLoginViewController.h"
 #import "DSOAuthenticationManager.h"
+#import "UITextField+LDT.h"
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
@@ -38,6 +39,13 @@
 - (IBAction)avatarButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)loginLinkTouchUpInside:(id)sender;
+
+- (IBAction)firstNameEditingDidBegin:(id)sender;
+- (IBAction)lastNameEditingDidBegin:(id)sender;
+- (IBAction)emailEditingDidBegin:(id)sender;
+- (IBAction)mobileEditingDidBegin:(id)sender;
+- (IBAction)passwordEditingDidBegin:(id)sender;
+- (IBAction)birthdayEditingDidBegin:(id)sender;
 
 - (IBAction)lastNameEditingDidEnd:(id)sender;
 - (IBAction)firstNameEditingDidEnd:(id)sender;
@@ -194,6 +202,30 @@
     }
 }
 
+- (IBAction)firstNameEditingDidBegin:(id)sender {
+    [self.firstNameTextField setBorderColor:[UIColor clearColor]];
+}
+
+- (IBAction)lastNameEditingDidBegin:(id)sender {
+    [self.lastNameTextField setBorderColor:[UIColor clearColor]];
+}
+
+- (IBAction)emailEditingDidBegin:(id)sender {
+    [self.emailTextField setBorderColor:[UIColor clearColor]];
+}
+
+- (IBAction)mobileEditingDidBegin:(id)sender {
+    [self.mobileTextField setBorderColor:[UIColor clearColor]];
+}
+
+- (IBAction)passwordEditingDidBegin:(id)sender {
+    [self.passwordTextField setBorderColor:[UIColor clearColor]];
+}
+
+- (IBAction)birthdayEditingDidBegin:(id)sender {
+    // Are we going to do any validations on birthdays?
+}
+
 - (IBAction)lastNameEditingDidEnd:(id)sender {
     UITextField *textField = (UITextField *)sender;
     self.lastNameTextField.text = [textField.text capitalizedString];
@@ -244,21 +276,27 @@
 }
 
 - (BOOL)validateForm {
+    
     NSMutableArray *errorMessages = [[NSMutableArray alloc] init];;
 
     if (![self validateName:self.firstNameTextField.text]) {
+        [self.firstNameTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"We need your first name."];
     }
     if (![self validateName:self.lastNameTextField.text]) {
+        [self.lastNameTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"We need your last name."];
     }
     if (![self validateEmail:self.emailTextField.text]) {
+        [self.emailTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"We need a valid email."];
     }
     if (![self validateMobile:self.mobileTextField.text]) {
+        [self.mobileTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"Enter a valid telephone number."];
     }
     if (![self validatePassword:self.passwordTextField.text]) {
+        [self.passwordTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"Password must be 6+ characters."];
     }
 
@@ -356,4 +394,5 @@
     LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginView" bundle:nil];
     [self.navigationController pushViewController:destVC animated:YES];
 }
+
 @end
