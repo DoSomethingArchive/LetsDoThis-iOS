@@ -29,6 +29,7 @@
 
 - (IBAction)emailEditingDidEnd:(id)sender;
 - (IBAction)passwordEditingDidEnd:(id)sender;
+- (IBAction)passwordEditingChanged:(id)sender;
 
 
 @end
@@ -125,9 +126,9 @@
         return;
     }
 
-    [[DSOAPI sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(NSDictionary *response) {
+    [[DSOAuthenticationManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(NSDictionary *response) {
 
-        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAPI sharedInstance].user];
+        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAuthenticationManager sharedInstance].user];
         [self.navigationController pushViewController:destVC animated:YES];
 
     } errorHandler:^(NSError *error) {
@@ -147,5 +148,11 @@
 
 - (IBAction)passwordEditingDidEnd:(id)sender {
     [self updateSubmitButton];
+}
+
+- (IBAction)passwordEditingChanged:(id)sender {
+    if (self.passwordTextField.text.length > 5) {
+        [self.submitButton enable];
+    }
 }
 @end

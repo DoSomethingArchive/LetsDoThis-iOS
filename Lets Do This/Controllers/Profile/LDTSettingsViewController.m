@@ -14,7 +14,9 @@
 #import "LDTUserConnectViewController.h"
 
 @interface LDTSettingsViewController()
+@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *notificationsDetailLabel;
 @property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
 - (IBAction)logoutButtonTouchUpInside:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
@@ -29,13 +31,32 @@
     [super viewDidLoad];
     self.title = [@"Settings" uppercaseString];
     self.notificationsSwitch.enabled = FALSE;
-
+    [self setSwitch];
     [self theme];
 
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self setSwitch];
+}
 
+#pragma LDTSettingsViewController
+
+- (void)theme {
+    [self.notificationsLabel setFont:[LDTTheme fontBold]];
+    self.notificationsLabel.text = @"Receive Notifications";
+    [self.notificationsDetailLabel setFont:[LDTTheme font]];
+    self.notificationsDetailLabel.text = @"Settings > Lets Do This";
+    [self.versionLabel setFont:[LDTTheme font]];
+    self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    self.versionLabel.textAlignment = NSTextAlignmentCenter;
+
+    [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
+    [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
+}
+
+- (void)setSwitch {
     UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
     if (grantedSettings.types == UIUserNotificationTypeNone) {
         [self.notificationsSwitch setOn:NO];
@@ -44,15 +65,6 @@
         [self.notificationsSwitch setOn:YES];
     }
 
-}
-
-#pragma LDTSettingsViewController
-
-- (void)theme {
-    [self.notificationsLabel setFont:[LDTTheme font]];
-    [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
-    [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
 }
 
 - (IBAction)logoutTapped:(id)sender {
@@ -90,7 +102,7 @@
 }
 
 - (void) logout {
-    [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
+    [[DSOAuthenticationManager sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
         LDTUserConnectViewController *destVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
 
         [self.navigationController pushViewController:destVC animated:YES];

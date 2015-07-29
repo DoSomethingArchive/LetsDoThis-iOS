@@ -11,7 +11,9 @@
 		569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */; };
 		B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20881A01B0B9B0F00E697B2 /* keys.plist */; };
 		B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B20D06D01B3A58F40053D3B6 /* LDTMessage.m */; };
+		B21126271B618038009128E7 /* DSOAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B21126261B618038009128E7 /* DSOAuthenticationManager.m */; };
 		B212C2621B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */; };
+		B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */; };
 		B22273FE1B58076F005C896D /* DSOAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = B22273FD1B58076F005C896D /* DSOAPI.m */; };
 		B22274011B5879B3005C896D /* LDTCampaignListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22274001B5879B3005C896D /* LDTCampaignListView.xib */; };
 		B22274051B587A20005C896D /* LDTCampaignListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22274041B587A20005C896D /* LDTCampaignListViewController.m */; };
@@ -27,6 +29,8 @@
 		B26038831B44F8FC002FE362 /* bg-lightning.png in Resources */ = {isa = PBXBuildFile; fileRef = B26038821B44F8FC002FE362 /* bg-lightning.png */; };
 		B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */; };
 		B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */; };
+		B27AA9741B6714910091BCA4 /* fb-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B27AA9721B6714910091BCA4 /* fb-icon@2x.png */; };
+		B27AA9751B6714910091BCA4 /* fb-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B27AA9731B6714910091BCA4 /* fb-icon@3x.png */; };
 		B27AF0E41B4F48BC00164926 /* LDTUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27AF0E31B4F48BC00164926 /* LDTUserProfileViewController.m */; };
 		B27AF0E71B4F493D00164926 /* LDTUserProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27AF0E61B4F493D00164926 /* LDTUserProfileView.xib */; };
 		B27AF0EB1B4F64B200164926 /* LDTLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27AF0EA1B4F64B200164926 /* LDTLoadingViewController.m */; };
@@ -67,8 +71,12 @@
 		B20881A01B0B9B0F00E697B2 /* keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = keys.plist; sourceTree = "<group>"; };
 		B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTMessage.h; sourceTree = "<group>"; };
 		B20D06D01B3A58F40053D3B6 /* LDTMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTMessage.m; sourceTree = "<group>"; };
+		B21126251B618038009128E7 /* DSOAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOAuthenticationManager.h; path = Networking/DSOAuthenticationManager.h; sourceTree = "<group>"; };
+		B21126261B618038009128E7 /* DSOAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOAuthenticationManager.m; path = Networking/DSOAuthenticationManager.m; sourceTree = "<group>"; };
 		B212C2601B4ED6F300376BB1 /* LDTBaseUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTBaseUserLoginViewController.h; path = Login/LDTBaseUserLoginViewController.h; sourceTree = "<group>"; };
 		B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseUserLoginViewController.m; path = Login/LDTBaseUserLoginViewController.m; sourceTree = "<group>"; };
+		B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+LDT.h"; sourceTree = "<group>"; };
+		B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+LDT.m"; sourceTree = "<group>"; };
 		B22273FC1B58076F005C896D /* DSOAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOAPI.h; path = Networking/DSOAPI.h; sourceTree = "<group>"; };
 		B22273FD1B58076F005C896D /* DSOAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOAPI.m; path = Networking/DSOAPI.m; sourceTree = "<group>"; };
 		B22274001B5879B3005C896D /* LDTCampaignListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCampaignListView.xib; path = Campaign/LDTCampaignListView.xib; sourceTree = "<group>"; };
@@ -89,6 +97,8 @@
 		B26038821B44F8FC002FE362 /* bg-lightning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-lightning.png"; path = "Resources/Images/bg-lightning.png"; sourceTree = "<group>"; };
 		B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_med.otf; path = Resources/Fonts/Brandon_med.otf; sourceTree = "<group>"; };
 		B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_bld.otf; path = Resources/Fonts/Brandon_bld.otf; sourceTree = "<group>"; };
+		B27AA9721B6714910091BCA4 /* fb-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fb-icon@2x.png"; path = "Resources/Images/fb-icon@2x.png"; sourceTree = "<group>"; };
+		B27AA9731B6714910091BCA4 /* fb-icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fb-icon@3x.png"; path = "Resources/Images/fb-icon@3x.png"; sourceTree = "<group>"; };
 		B27AF0E21B4F48BC00164926 /* LDTUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserProfileViewController.h; path = Profile/LDTUserProfileViewController.h; sourceTree = "<group>"; };
 		B27AF0E31B4F48BC00164926 /* LDTUserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserProfileViewController.m; path = Profile/LDTUserProfileViewController.m; sourceTree = "<group>"; };
 		B27AF0E61B4F493D00164926 /* LDTUserProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserProfileView.xib; path = Profile/LDTUserProfileView.xib; sourceTree = "<group>"; };
@@ -203,6 +213,8 @@
 				B25A729D1B5712B300BC8A2B /* avatar-default.png */,
 				B26038821B44F8FC002FE362 /* bg-lightning.png */,
 				B25C1C9B1B17648200607FF1 /* ds-logo.png */,
+				B27AA9721B6714910091BCA4 /* fb-icon@2x.png */,
+				B27AA9731B6714910091BCA4 /* fb-icon@3x.png */,
 				B24CE3D01B507DEE00377727 /* john-connor.jpg */,
 				B26038801B44F8A4002FE362 /* plus-icon.png */,
 			);
@@ -254,6 +266,8 @@
 			children = (
 				B22273FC1B58076F005C896D /* DSOAPI.h */,
 				B22273FD1B58076F005C896D /* DSOAPI.m */,
+				B21126251B618038009128E7 /* DSOAuthenticationManager.h */,
+				B21126261B618038009128E7 /* DSOAuthenticationManager.m */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -344,6 +358,8 @@
 				C20BA28A1AF3DCAB00E9886F /* NSDate+DSO.m */,
 				C20BA28B1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.h */,
 				C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */,
+				B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */,
+				B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -353,8 +369,6 @@
 			children = (
 				C2B152171ACE05510028C336 /* AppDelegate.h */,
 				C2B152181ACE05510028C336 /* AppDelegate.m */,
-				B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */,
-				B20D06D01B3A58F40053D3B6 /* LDTMessage.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -388,6 +402,8 @@
 				B239391A1B44495400E5BCC8 /* Login */,
 				B22273FF1B58792D005C896D /* Campaign */,
 				B27AF0E51B4F490800164926 /* Profile */,
+				B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */,
+				B20D06D01B3A58F40053D3B6 /* LDTMessage.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -515,8 +531,10 @@
 				C2B152001ACE04C30028C336 /* LaunchScreen.xib in Resources */,
 				B2A41A051B5DCC5300C6C1A6 /* LDTSettingsView.xib in Resources */,
 				C2B151FD1ACE04C30028C336 /* Images.xcassets in Resources */,
+				B27AA9741B6714910091BCA4 /* fb-icon@2x.png in Resources */,
 				B260387D1B4494A8002FE362 /* LDTUserSignupCodeView.xib in Resources */,
 				B22AB7681B4EE7BE00BE7052 /* LDTUserLoginView.xib in Resources */,
+				B27AA9751B6714910091BCA4 /* fb-icon@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,7 +600,9 @@
 				C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */,
 				B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */,
 				C2B152201ACE05510028C336 /* AppDelegate.m in Sources */,
+				B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */,
 				C2B151EF1ACE04C30028C336 /* main.m in Sources */,
+				B21126271B618038009128E7 /* DSOAuthenticationManager.m in Sources */,
 				569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */,
 				B2E652DF1B4380AD00EF9D69 /* LDTTheme.m in Sources */,
 				B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */,

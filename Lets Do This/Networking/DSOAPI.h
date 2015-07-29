@@ -11,28 +11,13 @@
 
 @interface DSOAPI : AFHTTPSessionManager
 
-@property (strong, nonatomic) DSOUser *user;
-
 + (DSOAPI *)sharedInstance;
 
 - (instancetype)initWithApiKey:(NSString *)apiKey;
 
 - (NSString *)pheonixBaseUrl;
 
-// Authentication methods:
-
-- (void)loginWithEmail:(NSString *)email
-              password:(NSString *)password
-     completionHandler:(void(^)(NSDictionary *))completionHandler
-          errorHandler:(void(^)(NSError *))errorHandler;
-
-- (BOOL)hasCachedSession;
-
-- (void)connectWithCachedSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
-                                         errorHandler:(void(^)(NSError *))errorHandler;
-
-- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
-                       errorHandler:(void(^)(NSError *))errorHandler;
+- (void)setSessionToken:(NSString *)token;
 
 - (void)createUserWithEmail:(NSString *)email
                    password:(NSString *)password
@@ -44,9 +29,6 @@
                     failure:(void(^)(NSError *))errorHandler;
 
 - (NSMutableDictionary *)getCampaigns;
-
-
-// General methods:
 
 - (void)fetchUserWithEmail:(NSString *)email
          completionHandler:(void(^)(NSDictionary *))completionHandler
