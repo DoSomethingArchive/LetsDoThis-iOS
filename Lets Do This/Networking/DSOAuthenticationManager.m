@@ -83,13 +83,11 @@
     NSString *email = [SSKeychain passwordForService:LDTSERVER account:@"Email"];
 
     [[DSOAPI sharedInstance] fetchUserWithEmail:email
-           completionHandler:^(NSDictionary *response) {
-
-               NSArray *userInfo = response[@"data"];
+           completionHandler:^(DSOUser *user) {
 
                [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
 
-                   self.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
+                   self.user = user;
 
                    if (completionHandler) {
                        completionHandler(response);
