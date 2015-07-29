@@ -16,6 +16,7 @@
 #import "LDTUserProfileViewController.h"
 #import "LDTUserLoginViewController.h"
 #import "DSOAuthenticationManager.h"
+#import "UITextField+LDT.h"
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
@@ -203,28 +204,24 @@
     }
 }
 
-- (void) removeRedErrorBorderToTextField:(UITextField *)textField {
-    textField.layer.borderColor = [[UIColor clearColor] CGColor];
-}
-
 - (IBAction)firstNameEditingDidBegin:(id)sender {
-    [self removeRedErrorBorderToTextField:sender];
+    [self.firstNameTextField setBorderColor:[UIColor clearColor]];
 }
 
 - (IBAction)lastNameEditingDidBegin:(id)sender {
-    [self removeRedErrorBorderToTextField:sender];
+    [self.lastNameTextField setBorderColor:[UIColor clearColor]];
 }
 
 - (IBAction)emailEditingDidBegin:(id)sender {
-    [self removeRedErrorBorderToTextField:sender];
+    [self.emailTextField setBorderColor:[UIColor clearColor]];
 }
 
 - (IBAction)mobileEditingDidBegin:(id)sender {
-    [self removeRedErrorBorderToTextField:sender];
+    [self.mobileTextField setBorderColor:[UIColor clearColor]];
 }
 
 - (IBAction)passwordEditingDidBegin:(id)sender {
-    [self removeRedErrorBorderToTextField:sender];
+    [self.passwordTextField setBorderColor:[UIColor clearColor]];
 }
 
 - (IBAction)birthdayEditingDidBegin:(id)sender {
@@ -276,35 +273,28 @@
     }
 }
 
-- (void) addRedErrorBorderToTextField:(UITextField *)textField {
-    textField.layer.cornerRadius = 8.0f;
-    textField.layer.masksToBounds = YES;
-    textField.layer.borderColor = [[UIColor redColor] CGColor];
-    textField.layer.borderWidth = 2.0f;
-}
-
 - (BOOL)validateForm {
     
     NSMutableArray *errorMessages = [[NSMutableArray alloc] init];;
 
     if (![self validateName:self.firstNameTextField.text]) {
-        [self addRedErrorBorderToTextField:self.firstNameTextField];
+        [self.firstNameTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"We need your first name."];
     }
     if (![self validateName:self.lastNameTextField.text]) {
-        [self addRedErrorBorderToTextField:self.lastNameTextField];
+        [self.lastNameTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"We need your last name."];
     }
     if (![self validateEmail:self.emailTextField.text]) {
-        [self addRedErrorBorderToTextField:self.emailTextField];
+        [self.emailTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"We need a valid email."];
     }
     if (![self validateMobile:self.mobileTextField.text]) {
-        [self addRedErrorBorderToTextField:self.mobileTextField];
+        [self.mobileTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"Enter a valid telephone number."];
     }
     if (![self validatePassword:self.passwordTextField.text]) {
-        [self addRedErrorBorderToTextField:self.passwordTextField];
+        [self.passwordTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"Password must be 6+ characters."];
     }
 
