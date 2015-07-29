@@ -195,10 +195,14 @@
 }
 
 - (IBAction)lastNameEditingDidEnd:(id)sender {
+    UITextField *textField = (UITextField *)sender;
+    self.lastNameTextField.text = [textField.text capitalizedString];
     [self updateCreateAccountButton];
 }
 
 - (IBAction)firstNameEditingDidEnd:(id)sender {
+    UITextField *textField = (UITextField *)sender;
+    self.firstNameTextField.text = [textField.text capitalizedString];
     [self updateCreateAccountButton];
 }
 
