@@ -16,8 +16,6 @@
 
 @interface LDTSettingsViewController()
 
-@property (strong, nonatomic) LDTNavigationController *navVC;
-
 @property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsDetailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
@@ -34,7 +32,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navVC = (LDTNavigationController *)self.navigationController;
+
     self.title = [@"Settings" uppercaseString];
     self.notificationsSwitch.enabled = FALSE;
     [self setSwitch];
@@ -49,7 +47,9 @@
 #pragma LDTSettingsViewController
 
 - (void)theme {
-    [self.navVC setOrange];
+    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
+    [navVC setOrange];
+
     [self.notificationsLabel setFont:[LDTTheme fontBold]];
     self.notificationsLabel.text = @"Receive Notifications";
     [self.notificationsDetailLabel setFont:[LDTTheme font]];
