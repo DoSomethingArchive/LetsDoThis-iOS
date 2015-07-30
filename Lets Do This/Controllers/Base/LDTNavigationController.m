@@ -24,7 +24,7 @@
     self.navigationBar.barStyle = UIStatusBarStyleLightContent;
 
     NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
-    [titleBarAttributes setValue:[LDTTheme font] forKey:NSFontAttributeName];
+    [titleBarAttributes setValue:[LDTTheme fontBold] forKey:NSFontAttributeName];
     [titleBarAttributes setValue:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     [self.navigationBar setTitleTextAttributes:titleBarAttributes];
 }
