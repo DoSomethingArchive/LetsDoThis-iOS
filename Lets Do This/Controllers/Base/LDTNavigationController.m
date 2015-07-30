@@ -27,8 +27,6 @@
     [titleBarAttributes setValue:[LDTTheme font] forKey:NSFontAttributeName];
     [titleBarAttributes setValue:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     [self.navigationBar setTitleTextAttributes:titleBarAttributes];
-
-    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [LDTTheme font], NSFontAttributeName , nil] forState:UIControlStateNormal];
 }
 
 - (void)setOrange {
