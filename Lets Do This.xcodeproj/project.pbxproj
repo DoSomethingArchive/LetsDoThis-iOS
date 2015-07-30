@@ -40,6 +40,7 @@
 		B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterView.xib */; };
 		B2A136631B3D9BC600D20273 /* LDTUserRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */; };
 		B2A41A051B5DCC5300C6C1A6 /* LDTSettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A41A041B5DCC5300C6C1A6 /* LDTSettingsView.xib */; };
+		B2BC85EC1B6AC0210018EB1B /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = B2BC85EB1B6AC0210018EB1B /* gear.png */; };
 		B2E652DF1B4380AD00EF9D69 /* LDTTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E652DE1B4380AD00EF9D69 /* LDTTheme.m */; };
 		B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E652E11B43822600EF9D69 /* LDTButton.m */; };
 		C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2781AF3DBE400E9886F /* DSOCampaign.m */; };
@@ -113,6 +114,7 @@
 		B2A136611B3D9BC600D20273 /* LDTUserRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserRegisterViewController.h; path = Login/LDTUserRegisterViewController.h; sourceTree = "<group>"; };
 		B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserRegisterViewController.m; path = Login/LDTUserRegisterViewController.m; sourceTree = "<group>"; };
 		B2A41A041B5DCC5300C6C1A6 /* LDTSettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTSettingsView.xib; path = Profile/LDTSettingsView.xib; sourceTree = "<group>"; };
+		B2BC85EB1B6AC0210018EB1B /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Resources/Images/gear.png; sourceTree = "<group>"; };
 		B2E652DD1B4380AD00EF9D69 /* LDTTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTTheme.h; path = Base/LDTTheme.h; sourceTree = "<group>"; };
 		B2E652DE1B4380AD00EF9D69 /* LDTTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTTheme.m; path = Base/LDTTheme.m; sourceTree = "<group>"; };
 		B2E652E01B43822600EF9D69 /* LDTButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTButton.h; path = Base/LDTButton.h; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				B25A729D1B5712B300BC8A2B /* avatar-default.png */,
 				B26038821B44F8FC002FE362 /* bg-lightning.png */,
 				B25C1C9B1B17648200607FF1 /* ds-logo.png */,
+				B2BC85EB1B6AC0210018EB1B /* gear.png */,
 				B27AA9721B6714910091BCA4 /* fb-icon@2x.png */,
 				B27AA9731B6714910091BCA4 /* fb-icon@3x.png */,
 				B24CE3D01B507DEE00377727 /* john-connor.jpg */,
@@ -528,6 +531,7 @@
 				B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */,
 				B25A729E1B5712B300BC8A2B /* avatar-default.png in Resources */,
 				B22274011B5879B3005C896D /* LDTCampaignListView.xib in Resources */,
+				B2BC85EC1B6AC0210018EB1B /* gear.png in Resources */,
 				B25C1C9C1B17648200607FF1 /* ds-logo.png in Resources */,
 				B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */,
 				B24CE3D11B507DEE00377727 /* john-connor.jpg in Resources */,
