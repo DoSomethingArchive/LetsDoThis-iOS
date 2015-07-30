@@ -40,6 +40,7 @@ static NSString *cellIdentifier;
     // Title goes away upon going to detail then coming back.
     // This gets it back again, but there's a weird delay.
     self.title = [@"Let's Do This" uppercaseString];
+    [self theme];
 
     self.campaigns = [[[DSOAPI sharedInstance] getCampaigns] allValues];
     [self.tableView reloadData];
