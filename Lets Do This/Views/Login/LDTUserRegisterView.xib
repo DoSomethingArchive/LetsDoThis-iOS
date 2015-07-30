@@ -67,6 +67,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
+                                        <action selector="firstNameEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="86I-af-i9h"/>
                                         <action selector="firstNameEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="nbT-qO-hqj"/>
                                     </connections>
                                 </textField>
@@ -78,6 +79,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
+                                        <action selector="lastNameEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="VQW-iZ-42t"/>
                                         <action selector="lastNameEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="zvy-40-VOw"/>
                                     </connections>
                                 </textField>
@@ -89,6 +91,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
+                                        <action selector="emailEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="LIT-XD-dSn"/>
                                         <action selector="emailEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="HEW-0X-uDa"/>
                                     </connections>
                                 </textField>
@@ -100,6 +103,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
+                                        <action selector="mobileEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="rQP-g7-jLa"/>
                                         <action selector="mobileEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="RSk-J1-pW5"/>
                                     </connections>
                                 </textField>
@@ -111,6 +115,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     <connections>
+                                        <action selector="passwordEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="P1w-BR-BWV"/>
                                         <action selector="passwordEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="Gf2-ib-CdJ"/>
                                     </connections>
                                 </textField>
@@ -122,6 +127,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
+                                        <action selector="birthdayEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="rVo-tV-Rgx"/>
                                         <action selector="birthdayEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="8wI-YT-Yj7"/>
                                     </connections>
                                 </textField>
