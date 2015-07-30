@@ -12,7 +12,9 @@
 
 @interface LDTCampaignDetailViewController ()
 
+@property (weak, nonatomic) IBOutlet LDTButton *actionButton;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
+@property (weak, nonatomic) IBOutlet UILabel *problemLabel;
 @property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
@@ -38,9 +40,11 @@
     [super viewDidLoad];
 
     [self theme];
-    self.titleLabel.numberOfLines = 0;
+
     self.titleLabel.text = [self.campaign.title uppercaseString];
     self.taglineLabel.text = self.campaign.tagline;
+    self.problemLabel.text = self.campaign.factProblem;
+
     [self.coverImageView sd_setImageWithURL:self.campaign.coverImageURL];
 }
 
@@ -55,5 +59,8 @@
     self.titleLabel.textColor = [UIColor whiteColor];
     self.taglineLabel.font = [LDTTheme font];
     self.taglineLabel.textColor = [UIColor whiteColor];
+    self.problemLabel.font = [LDTTheme font];
+
+    [self.actionButton enable];
 }
 @end
