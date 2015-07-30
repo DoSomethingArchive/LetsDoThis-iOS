@@ -29,12 +29,21 @@ static NSString *cellIdentifier;
 
     cellIdentifier = @"rowCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
+
+    [self theme];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.campaigns = [[[DSOAPI sharedInstance] getCampaigns] allValues];
     [self.tableView reloadData];
+}
+
+#pragma LDTCampaignListViewController
+
+- (void) theme {
+    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
+    [navVC setOrange];
 }
 
 #pragma UITableViewDataSource
