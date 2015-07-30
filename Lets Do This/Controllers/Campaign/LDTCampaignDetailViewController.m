@@ -11,6 +11,7 @@
 
 @interface LDTCampaignDetailViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end
@@ -37,11 +38,13 @@
     [self theme];
     self.titleLabel.numberOfLines = 0;
     self.titleLabel.text = [self.campaign.title uppercaseString];
+    self.taglineLabel.text = self.campaign.tagline;
 }
 
 #pragma mark - LDTCampaignDetailViewController
 
 - (void) theme {
     self.titleLabel.font  = [LDTTheme fontBoldWithSize:24];
+    self.taglineLabel.font = [LDTTheme font];
 }
 @end

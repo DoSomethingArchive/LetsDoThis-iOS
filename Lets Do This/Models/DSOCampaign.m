@@ -17,7 +17,7 @@
     if(self) {
         self.campaignID = [values valueForKeyAsInt:@"id" nullValue:self.campaignID];
         self.title = [values valueForKeyAsString:@"title" nullValue:self.title];
-        self.callToAction = [values valueForKeyAsString:@"tagline" nullValue:self.callToAction];
+        self.tagline = [values valueForKeyAsString:@"tagline" nullValue:self.tagline];
         self.coverImage = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsString:@"uri" nullValue:self.coverImage];
         self.reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
         self.reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
