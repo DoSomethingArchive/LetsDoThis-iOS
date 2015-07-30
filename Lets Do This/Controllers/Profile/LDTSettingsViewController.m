@@ -11,15 +11,18 @@
 #import "LDTButton.h"
 #import "LDTMessage.h"
 #import "LDTTheme.h"
+#import "LDTNavigationController.h"
 #import "LDTUserConnectViewController.h"
 
 @interface LDTSettingsViewController()
+
+@property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
+@property (weak, nonatomic) IBOutlet UILabel *notificationsDetailLabel;
+@property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
-@property (weak, nonatomic) IBOutlet UILabel *notificationsDetailLabel;
-@property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
+
 - (IBAction)logoutButtonTouchUpInside:(id)sender;
-@property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 
 @end
 
@@ -29,12 +32,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.title = [@"Settings" uppercaseString];
     self.notificationsSwitch.enabled = FALSE;
     [self setSwitch];
     [self theme];
-
 }
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self setSwitch];
@@ -43,6 +47,9 @@
 #pragma LDTSettingsViewController
 
 - (void)theme {
+    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
+    [navVC setOrange];
+
     [self.notificationsLabel setFont:[LDTTheme fontBold]];
     self.notificationsLabel.text = @"Receive Notifications";
     [self.notificationsDetailLabel setFont:[LDTTheme font]];

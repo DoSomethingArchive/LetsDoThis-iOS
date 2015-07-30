@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "UIImageView+LDT.h"
+#import "LDTNavigationController.h"
 
 @interface LDTTheme : NSObject
 

@@ -50,7 +50,7 @@
     NSLog(@"campaignsCompleted %@", self.user.campaignsCompleted);
 
     // @todo: Add conditional to only display if self.user != current user
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
+    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
     self.navigationItem.rightBarButtonItem = anotherButton;
 }
 
