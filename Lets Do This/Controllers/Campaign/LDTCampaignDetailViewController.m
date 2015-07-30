@@ -47,6 +47,10 @@
 #pragma mark - LDTCampaignDetailViewController
 
 - (void) theme {
+    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
+    [navVC setClear];
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
+
     self.titleLabel.font  = [LDTTheme fontBoldWithSize:24];
     self.titleLabel.textColor = [UIColor whiteColor];
     self.taglineLabel.font = [LDTTheme font];
