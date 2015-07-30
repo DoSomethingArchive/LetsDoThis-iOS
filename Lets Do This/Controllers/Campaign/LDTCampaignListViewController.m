@@ -66,7 +66,8 @@ static NSString *cellIdentifier;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     DSOCampaign *campaign = (DSOCampaign *)self.campaigns[indexPath.row];
-    cell.textLabel.text = campaign.title;
+    cell.textLabel.text = [campaign.title uppercaseString];
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.font = [LDTTheme font];
     return cell;
 }
