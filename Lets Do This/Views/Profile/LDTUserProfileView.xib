@@ -10,6 +10,7 @@
                 <outlet property="campaignsButton" destination="WgN-Vh-lQP" id="nRe-O4-4vy"/>
                 <outlet property="headerView" destination="PsE-uh-AxY" id="oKI-hs-1o3"/>
                 <outlet property="nameLabel" destination="O39-w4-qp5" id="rUF-79-a3D"/>
+                <outlet property="tableView" destination="dZd-rn-Ulf" id="Qf6-js-ieG"/>
                 <outlet property="view" destination="iN0-l3-epB" id="try-AF-3Wj"/>
             </connections>
         </placeholder>
@@ -19,7 +20,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PsE-uh-AxY">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="189"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="174"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZTn-ki-kwg">
                             <rect key="frame" x="263" y="44" width="75" height="75"/>
@@ -29,38 +30,51 @@
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O39-w4-qp5">
-                            <rect key="frame" x="277" y="129" width="46" height="21"/>
+                            <rect key="frame" x="8" y="129" width="584" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgN-Vh-lQP" customClass="LDTButton">
+                            <rect key="frame" x="20" y="60" width="78" height="30"/>
+                            <state key="normal" title="Campaigns">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="campaignsButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="Vt1-lt-3c4"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="centerX" secondItem="O39-w4-qp5" secondAttribute="centerX" id="9Zo-Xp-Ld6"/>
-                        <constraint firstAttribute="height" constant="189" id="Rl4-hn-OzU"/>
-                        <constraint firstItem="ZTn-ki-kwg" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="top" constant="44" id="bNu-Xs-0TJ"/>
-                        <constraint firstAttribute="centerX" secondItem="ZTn-ki-kwg" secondAttribute="centerX" id="mle-3L-bog"/>
+                        <constraint firstAttribute="trailing" secondItem="O39-w4-qp5" secondAttribute="trailing" constant="8" id="7pr-3Z-Bz8"/>
+                        <constraint firstAttribute="bottom" secondItem="O39-w4-qp5" secondAttribute="bottom" constant="24" id="D49-3e-zH4"/>
+                        <constraint firstItem="WgN-Vh-lQP" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="top" constant="60" id="HdS-3i-PBV"/>
+                        <constraint firstAttribute="centerX" secondItem="ZTn-ki-kwg" secondAttribute="centerX" id="L2z-D9-cT1"/>
+                        <constraint firstItem="O39-w4-qp5" firstAttribute="leading" secondItem="PsE-uh-AxY" secondAttribute="leading" constant="8" id="QfD-Mf-UlP"/>
+                        <constraint firstItem="WgN-Vh-lQP" firstAttribute="leading" secondItem="PsE-uh-AxY" secondAttribute="leading" constant="20" id="ifc-ah-vcb"/>
                         <constraint firstItem="O39-w4-qp5" firstAttribute="top" secondItem="ZTn-ki-kwg" secondAttribute="bottom" constant="10" id="nDz-o0-WeS"/>
+                        <constraint firstItem="ZTn-ki-kwg" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="top" constant="44" id="tZM-WZ-DmY"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgN-Vh-lQP" customClass="LDTButton">
-                    <rect key="frame" x="261" y="289" width="78" height="30"/>
-                    <state key="normal" title="Campaigns">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dZd-rn-Ulf">
+                    <rect key="frame" x="0.0" y="174" width="600" height="426"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
-                        <action selector="campaignsButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="Vt1-lt-3c4"/>
+                        <outlet property="dataSource" destination="-1" id="l2t-DZ-Chh"/>
+                        <outlet property="delegate" destination="-1" id="dck-tv-xLc"/>
                     </connections>
-                </button>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="PsE-uh-AxY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Kf1-yS-9eC"/>
-                <constraint firstItem="PsE-uh-AxY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Lem-og-Gm8"/>
-                <constraint firstItem="WgN-Vh-lQP" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="bottom" constant="100" id="WGx-aJ-ylG"/>
-                <constraint firstAttribute="centerX" secondItem="WgN-Vh-lQP" secondAttribute="centerX" id="WhP-e2-L2u"/>
-                <constraint firstAttribute="trailing" secondItem="PsE-uh-AxY" secondAttribute="trailing" id="xIa-zO-Cf6"/>
+                <constraint firstAttribute="trailing" secondItem="PsE-uh-AxY" secondAttribute="trailing" id="7cd-Vf-cwM"/>
+                <constraint firstItem="PsE-uh-AxY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Dx9-Q9-L32"/>
+                <constraint firstItem="dZd-rn-Ulf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="NCq-Jw-bjR"/>
+                <constraint firstItem="PsE-uh-AxY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="d4z-fL-HEe"/>
+                <constraint firstAttribute="bottom" secondItem="dZd-rn-Ulf" secondAttribute="bottom" id="f4x-cB-j83"/>
+                <constraint firstItem="dZd-rn-Ulf" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="bottom" id="ti5-E4-m92"/>
+                <constraint firstAttribute="trailing" secondItem="dZd-rn-Ulf" secondAttribute="trailing" id="uhD-jm-3ZG"/>
             </constraints>
             <point key="canvasLocation" x="326" y="342"/>
         </view>
