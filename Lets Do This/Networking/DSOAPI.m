@@ -126,6 +126,28 @@
 
 // General methods:
 
+- (void)createSignupForCampaignId:(NSInteger)campaignId
+                completionHandler:(void(^)(NSDictionary *))completionHandler
+                     errorHandler:(void(^)(NSError *))errorHandler {
+
+    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)campaignId];
+    NSDictionary *params = @{@"source": @"letsdothis_ios"};
+
+    [self POST:url
+   parameters:params
+      success:^(NSURLSessionDataTask *task, id responseObject) {
+          if (completionHandler) {
+              completionHandler(responseObject);
+          }
+      }
+      failure:^(NSURLSessionDataTask *task, NSError *error) {
+          if (errorHandler) {
+              errorHandler(error);
+          }
+          [self logError:error];
+      }];
+
+}
 - (void)fetchUserWithEmail:(NSString *)email
          completionHandler:(void(^)(NSDictionary *))completionHandler
               errorHandler:(void(^)(NSError *))errorHandler {

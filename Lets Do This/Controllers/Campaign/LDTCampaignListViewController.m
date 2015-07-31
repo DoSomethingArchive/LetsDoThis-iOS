@@ -26,7 +26,8 @@ static NSString *cellIdentifier;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = [@"Let's Do This" uppercaseString];
+    self.title = @"Actions";
+    self.navigationItem.title = [@"Let's Do This" uppercaseString];
 
     cellIdentifier = @"rowCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
@@ -37,9 +38,7 @@ static NSString *cellIdentifier;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    // Title goes away upon going to detail then coming back.
-    // This gets it back again, but there's a weird delay.
-    self.title = [@"Let's Do This" uppercaseString];
+    self.navigationItem.title = [@"Let's Do This" uppercaseString];
     [self theme];
 
     self.campaigns = [[[DSOAPI sharedInstance] getCampaigns] allValues];

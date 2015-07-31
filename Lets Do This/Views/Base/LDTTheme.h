@@ -10,6 +10,7 @@
 #import "UIImageView+LDT.h"
 #import "LDTNavigationController.h"
 #import "LDTButton.h"
+#import "LDTMessage.h"
 
 @interface LDTTheme : NSObject
 

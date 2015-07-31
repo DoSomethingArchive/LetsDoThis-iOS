@@ -13,6 +13,7 @@
 #import "LDTLoadingViewController.h"
 #import "LDTUserConnectViewController.h"
 #import "LDTUserProfileViewController.h"
+#import "LDTCampaignListViewController.h"
 #import "LDTTheme.h"
 #import "LDTMessage.h"
 #import "LDTNavigationController.h"
@@ -21,6 +22,8 @@
 
 @interface AppDelegate ()
 @property (strong, nonatomic) LDTNavigationController *navigationController;
+@property (strong, nonatomic) UITabBarController *tabBarController;
+
 @end
 
 @implementation AppDelegate
@@ -69,13 +72,22 @@
 
 - (void)displayAuthenticated {
     LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAuthenticationManager sharedInstance].user];
-    // Navigation controller should already be initialized by the displayLoading method.
-    [self.navigationController pushViewController:profileVC animated:YES];
+    profileVC.title = @"Me";
+    LDTNavigationController *profileNavVC = [[LDTNavigationController alloc] initWithRootViewController:profileVC];
+
+    LDTCampaignListViewController *campaignListVC = [[LDTCampaignListViewController alloc] init];
+    LDTNavigationController *campaignListNavVC = [[LDTNavigationController alloc] initWithRootViewController:campaignListVC];
+
+    self.tabBarController = [[UITabBarController alloc] init];
+    self.tabBarController.tabBar.translucent = NO;
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:campaignListNavVC, profileNavVC, nil];
+
+    // rootViewController should already be initialized by the displayLoading method.
+    [self.window.rootViewController presentViewController:self.tabBarController animated:YES completion:nil];
 }
 
 - (void)displayLoading {
-    self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil]];
-    self.window.rootViewController = self.navigationController;
+    self.window.rootViewController = [[LDTLoadingViewController alloc] init];
     [self.window makeKeyAndVisible];
 }
 
