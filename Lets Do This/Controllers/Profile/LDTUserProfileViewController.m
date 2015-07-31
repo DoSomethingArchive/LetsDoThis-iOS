@@ -25,9 +25,6 @@
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-@property (weak, nonatomic) IBOutlet LDTButton *campaignsButton;
-
-- (IBAction)campaignsButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -52,7 +49,7 @@ static NSString *cellIdentifier;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.title = nil;
     self.nameLabel.text = [self.user displayName];
     self.avatarImageView.image = [self.user getPhoto];
     [self theme];
@@ -61,8 +58,8 @@ static NSString *cellIdentifier;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 
     // @todo: Add conditional to only display if self.user != current user
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
-    self.navigationItem.rightBarButtonItem = anotherButton;
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
+    self.navigationItem.rightBarButtonItem = settingsButton;
 }
 
 - (void)viewDidAppear:(BOOL)animated  {
@@ -92,8 +89,6 @@ static NSString *cellIdentifier;
     [self.nameLabel setTextColor:[UIColor whiteColor]];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
 
-    [self.campaignsButton setTitle:[@"Campaigns" uppercaseString] forState:UIControlStateNormal];
-
     // Stolen from http://stackoverflow.com/questions/19802336/ios-7-changing-font-size-for-uitableview-section-headers
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setFont:[LDTTheme fontBold]];
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextAlignment:NSTextAlignmentCenter];
@@ -102,12 +97,6 @@ static NSString *cellIdentifier;
 
 - (IBAction)settingsTapped:(id)sender {
     LDTSettingsViewController *destVC = [[LDTSettingsViewController alloc] initWithNibName:@"LDTSettingsView" bundle:nil];
-
-    [self.navigationController pushViewController:destVC animated:YES];
-}
-
-- (IBAction)campaignsButtonTouchUpInside:(id)sender {
-    LDTCampaignListViewController *destVC = [[LDTCampaignListViewController alloc] initWithNibName:@"LDTCampaignListView" bundle:nil];
 
     [self.navigationController pushViewController:destVC animated:YES];
 }
