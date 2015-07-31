@@ -12,11 +12,17 @@
 
 @interface LDTCampaignDetailViewController ()
 
+@property (nonatomic, assign) BOOL isDoing;
+@property (nonatomic, assign) BOOL isCompleted;
+@property (nonatomic, strong) NSString *IDstring;
+
 @property (weak, nonatomic) IBOutlet LDTButton *actionButton;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UILabel *problemLabel;
 @property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+
+- (IBAction)actionButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -37,15 +43,18 @@
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
+
     [super viewDidLoad];
 
     [self theme];
-
+    self.IDstring = [NSString stringWithFormat:@"%li", (long)self.campaign.campaignID];
     self.titleLabel.text = [self.campaign.title uppercaseString];
     self.taglineLabel.text = self.campaign.tagline;
     self.problemLabel.text = self.campaign.factProblem;
 
     [self.coverImageView sd_setImageWithURL:self.campaign.coverImageURL];
+    self.isDoing = [[DSOAuthenticationManager sharedInstance].user.campaignsDoing objectForKey:self.IDstring];
+    [self setActionButton];
 }
 
 #pragma mark - LDTCampaignDetailViewController
@@ -60,7 +69,36 @@
     self.taglineLabel.font = [LDTTheme font];
     self.taglineLabel.textColor = [UIColor whiteColor];
     self.problemLabel.font = [LDTTheme font];
-
-    [self.actionButton enable];
 }
+
+- (void) setActionButton {
+    [self.actionButton enable];
+    NSString *title = @"Do this now";
+    if (self.isDoing) {
+        title = @"Prove it";
+    }
+    [self.actionButton setTitle:[title uppercaseString] forState:UIControlStateNormal];
+}
+
+- (IBAction)actionButtonTouchUpInside:(id)sender {
+    if (self.isDoing) {
+        return;
+    }
+
+    [[DSOAPI sharedInstance]
+     createSignupForCampaignId:self.campaign.campaignID
+     completionHandler:^(NSDictionary *response) {
+
+         // Store campaign to campaigns doing.
+         [DSOAuthenticationManager sharedInstance].user.campaignsDoing[self.IDstring] = self.campaign;
+
+         [self.actionButton setTitle:[@"Prove it" uppercaseString] forState:UIControlStateNormal];
+
+    }
+     errorHandler:^(NSError *error) {
+         [LDTMessage errorMessage:error];
+     }];
+
+}
+
 @end
