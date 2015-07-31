@@ -10,6 +10,7 @@
 #import "DSOAPI.h"
 #import "DSOCampaign.h"
 #import "LDTTheme.h"
+#import "LDTCampaignDetailViewcontroller.h"
 
 @interface LDTCampaignListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -35,8 +36,19 @@ static NSString *cellIdentifier;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
+    // Title goes away upon going to detail then coming back.
+    // This gets it back again, but there's a weird delay.
+    self.title = [@"Let's Do This" uppercaseString];
+    [self theme];
+
     self.campaigns = [[[DSOAPI sharedInstance] getCampaigns] allValues];
     [self.tableView reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationItem.title = @"";
 }
 
 #pragma LDTCampaignListViewController
@@ -55,8 +67,15 @@ static NSString *cellIdentifier;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     DSOCampaign *campaign = (DSOCampaign *)self.campaigns[indexPath.row];
-    cell.textLabel.text = campaign.title;
+    cell.textLabel.text = [campaign.title uppercaseString];
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.font = [LDTTheme font];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:self.campaigns[indexPath.row]];
+    [self.navigationController pushViewController:destVC animated:YES];
 }
 @end
