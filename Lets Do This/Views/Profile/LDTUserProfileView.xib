@@ -19,17 +19,17 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PsE-uh-AxY">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="260"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="189"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZTn-ki-kwg">
-                            <rect key="frame" x="240" y="80" width="120" height="120"/>
+                            <rect key="frame" x="263" y="44" width="75" height="75"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="120" id="m7Q-I7-WIq"/>
-                                <constraint firstAttribute="width" constant="120" id="nwk-rj-PI3"/>
+                                <constraint firstAttribute="height" constant="75" id="m7Q-I7-WIq"/>
+                                <constraint firstAttribute="width" constant="75" id="nwk-rj-PI3"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O39-w4-qp5">
-                            <rect key="frame" x="277" y="210" width="46" height="21"/>
+                            <rect key="frame" x="277" y="129" width="46" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
@@ -38,14 +38,14 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerX" secondItem="O39-w4-qp5" secondAttribute="centerX" id="9Zo-Xp-Ld6"/>
-                        <constraint firstAttribute="height" constant="260" id="Rl4-hn-OzU"/>
-                        <constraint firstItem="ZTn-ki-kwg" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="top" constant="80" id="bNu-Xs-0TJ"/>
+                        <constraint firstAttribute="height" constant="189" id="Rl4-hn-OzU"/>
+                        <constraint firstItem="ZTn-ki-kwg" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="top" constant="44" id="bNu-Xs-0TJ"/>
                         <constraint firstAttribute="centerX" secondItem="ZTn-ki-kwg" secondAttribute="centerX" id="mle-3L-bog"/>
                         <constraint firstItem="O39-w4-qp5" firstAttribute="top" secondItem="ZTn-ki-kwg" secondAttribute="bottom" constant="10" id="nDz-o0-WeS"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgN-Vh-lQP" customClass="LDTButton">
-                    <rect key="frame" x="261" y="360" width="78" height="30"/>
+                    <rect key="frame" x="261" y="289" width="78" height="30"/>
                     <state key="normal" title="Campaigns">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
