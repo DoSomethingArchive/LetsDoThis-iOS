@@ -35,6 +35,8 @@
     return sessionToken.length > 0;
 }
 
+#warning This class shouldn't be doing (initiating) any API calls, nor logging in the user
+// our API class should be logging the user in and using this auth manager class to session info for the user
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
      completionHandler:(void(^)(NSDictionary *))completionHandler
