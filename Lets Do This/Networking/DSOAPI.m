@@ -66,11 +66,19 @@
     return self;
 }
 
+#warning You should just be returning _phoenixBaseURL here or you'll get a recursive loop
+// since a call to `self.phoenixBaseURL` accesses your method - (NSString *)pheonixBaseUrl
+// The only reason this isn't happening is because you've misspelled 'phoenix' in your method
 - (NSString *)pheonixBaseUrl {
     return self.phoenixBaseURL;
 }
 
 #pragma DSOAPI
+
+#warning Let DSOAuthenticationManager manage the session token for the user
+// That's what it's there for
+
+// It checks if we have a logged in user
 
 - (NSString *)getSessionToken {
     return [SSKeychain passwordForService:LDTSERVER account:@"Session"];
@@ -80,6 +88,7 @@
     [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
 }
 
+#warning This is already referenced in GitHub issue #167
 - (NSDictionary *)getCampaigns {
     return self.campaigns;
 }

@@ -12,10 +12,15 @@
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewcontroller.h"
 
+#warning Are we using a tableview for both the list of campaigns and the random campaign photos displayed on this page?
+
 @interface LDTCampaignListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *campaigns;
 @end
+
+#warning if you're going to do this with a custom tableview cell xib
+// you don't need to do this here, you can do it in the xib, and I'd imagine we'd do it in a xib since we want customized cells
 
 // Stores name for a resuable TableView cell. per  http://www.guilmo.com/how-to-create-a-simple-uitableview-with-static-data/
 static NSString *cellIdentifier;

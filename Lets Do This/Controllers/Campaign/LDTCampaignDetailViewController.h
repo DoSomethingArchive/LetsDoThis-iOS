@@ -11,6 +11,8 @@
 
 @interface LDTCampaignDetailViewController : UIViewController
 
+#warning Do we need to access this campaign property at all?
+// If so, for what? And do we just need to access it or to set it from another class?
 @property (strong, nonatomic) DSOCampaign *campaign;
 
 -(instancetype)initWithCampaign:(DSOCampaign *)campaign;
