@@ -119,25 +119,25 @@
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler {
 
-    [[DSOAPI sharedInstance] POST:@"logout"
-    parameters:nil
-       success:^(NSURLSessionDataTask *task, id responseObject) {
+    DSOAPI *api = [DSOAPI sharedInstance];
+    [api logoutWithCompletionHandler:^(NSDictionary *responseDict) {
 
-           /// Delete Keychain passwords.
-           [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
-           [SSKeychain deletePasswordForService:LDTSERVER account:@"Email"];
+        /// Delete Keychain passwords.
+        [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
+        [SSKeychain deletePasswordForService:LDTSERVER account:@"Email"];
 
-           self.user = nil;
+        // Delete current user.
+        self.user = nil;
 
-           if (completionHandler) {
-               completionHandler(responseObject);
-           }
-       }
-       failure:^(NSURLSessionDataTask *task, NSError *error) {
-           if (errorHandler) {
-               errorHandler(error);
-           }
-       }];
+        if (completionHandler) {
+            completionHandler(responseDict);
+        }
+    } errorHandler:^(NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+
 }
 
 + (NSDictionary *)keysDict {

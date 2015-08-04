@@ -28,6 +28,9 @@
                     success:(void(^)(NSDictionary *))completionHandler
                     failure:(void(^)(NSError *))errorHandler;
 
+- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+                       errorHandler:(void(^)(NSError *))errorHandler;
+
 - (NSMutableDictionary *)getCampaigns;
 
 - (void)createSignupForCampaignId:(NSInteger)campaignId
