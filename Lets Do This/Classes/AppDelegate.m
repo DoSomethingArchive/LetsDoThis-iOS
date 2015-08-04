@@ -47,46 +47,37 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-#warning This isn't necessary, nor is it normal practice, plus a few other things
-	// Don't need to create another instance to reference the singleton--standard practice is just to reference
-	// the singleton directly. Cuts down on code, makes everything more readable, plus you never want to get
-	// confused whether you're referencing a regular instance of a class vs the singleton instance
-	
-	// I would do like so and refactor this line thus (plus anywhere else through the app, like DSOAPI):
-	
-	// if (![[DSOAuthenticationManager sharedInstance] hasCachedSession]) {
-	
-	// Notes on above: don't need to test for equality for the boolean NO--you can do if (!aBooleanVariable) and it
-	// means the same thing as if (aBooleanVariable == NO)
-	
-	// Also, I would name variables and methods to be more meaningful and descriptive: i.e., instead of
-	// `hasCachedSession` name it `userHasCachedSession`, same for `displayAnonymous`
-	
-	// I'd also consider just putting those methods directly in the if/else blocks, since they're only called once
-    DSOAuthenticationManager *auth = [DSOAuthenticationManager sharedInstance];
-    if ([auth hasCachedSession] == NO) {
-        NSLog(@"does not have cached session");
-        [self displayAnonymous];
+    if (![[DSOAuthenticationManager sharedInstance] userHasCachedSession]) {
+
+        [self displayUserConnectVC];
+
     }
     else {
-        [self displayLoading];
-        [auth connectWithCachedSessionWithCompletionHandler:^(NSDictionary *response) {
-            [self displayAuthenticated];
+
+        self.window.rootViewController = [[LDTLoadingViewController alloc] init];
+        [self.window makeKeyAndVisible];
+
+        [[DSOAuthenticationManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(NSDictionary *response) {
+
+            [self displayTabBarVC];
+
         } errorHandler:^(NSError *error) {
-            [self displayAnonymous];
+
+            [self displayUserConnectVC];
             [LDTMessage errorMessage:error];
+
         }];
     }
     return YES;
 }
 
-- (void)displayAnonymous {
+- (void)displayUserConnectVC {
     self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
 }
 
-- (void)displayAuthenticated {
+- (void)displayTabBarVC {
     LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAuthenticationManager sharedInstance].user];
     profileVC.title = @"Me";
     LDTNavigationController *profileNavVC = [[LDTNavigationController alloc] initWithRootViewController:profileVC];
@@ -100,11 +91,6 @@
 
     // rootViewController should already be initialized by the displayLoading method.
     [self.window.rootViewController presentViewController:self.tabBarController animated:YES completion:nil];
-}
-
-- (void)displayLoading {
-    self.window.rootViewController = [[LDTLoadingViewController alloc] init];
-    [self.window makeKeyAndVisible];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -30,52 +30,44 @@
     return _sharedInstance;
 }
 
-- (BOOL)hasCachedSession {
+- (BOOL)userHasCachedSession {
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
     return sessionToken.length > 0;
 }
 
-#warning This class shouldn't be doing (initiating) any API calls, nor logging in the user
-// our API class should be logging the user in and using this auth manager class to session info for the user
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
      completionHandler:(void(^)(NSDictionary *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler {
 
-    NSDictionary *params = @{@"email": email,
-                             @"password": password};
+    [[DSOAPI sharedInstance] loginWithEmail:email
+               password:password
+      completionHandler:^(NSDictionary *responseDict) {
 
-    DSOAPI *api = [DSOAPI sharedInstance];
+          NSString *sessionToken = [responseDict  valueForKeyPath:@"data.session_token"];
 
-    [api POST:@"login"
-    parameters:params
-       success:^(NSURLSessionDataTask *task, id responseObject) {
+          // @todo: Refactor this to store session token in this class instead.
+          [[DSOAPI sharedInstance] setSessionToken:sessionToken];
 
-           NSDictionary *loginResponse = (NSDictionary *)responseObject;
-           NSString *sessionToken = [loginResponse  valueForKeyPath:@"data.session_token"];
+          // Save session in Keychain for when app is quit.
+          [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
 
-           [api setSessionToken:sessionToken];
+          // Save email of current user in Keychain.
+          [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
 
-           // Save session in Keychain for when app is quit.
-           [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
+          self.user = [[DSOUser alloc] initWithDict:responseDict[@"data"]];
 
-           // Save email of current user in Keychain.
-           [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
+          if (completionHandler) {
+              completionHandler(responseDict);
+          }
 
-           [api fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
-
-               self.user = [[DSOUser alloc] initWithDict:loginResponse[@"data"]];
-
-               if (completionHandler) {
-                   completionHandler(responseObject);
+      }
+           errorHandler:^(NSError *error) {
+               if (errorHandler) {
+                   errorHandler(error);
                }
-           } errorHandler:nil];
-       }
-       failure:^(NSURLSessionDataTask *task, NSError *error) {
-           if (errorHandler) {
-               errorHandler(error);
-           }
-       }];
+           }];
+
 }
 
 - (void)connectWithCachedSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
@@ -86,18 +78,17 @@
         // @todo: Should return error here.
         return;
     }
-    DSOAPI *api = [DSOAPI sharedInstance];
 
-    [api setSessionToken:sessionToken];
+    [[DSOAPI sharedInstance] setSessionToken:sessionToken];
 
     NSString *email = [SSKeychain passwordForService:LDTSERVER account:@"Email"];
 
-    [api fetchUserWithEmail:email
+    [[DSOAPI sharedInstance] fetchUserWithEmail:email
            completionHandler:^(NSDictionary *response) {
 
                NSArray *userInfo = response[@"data"];
 
-               [api fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
+               [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
 
                    self.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
 
@@ -119,25 +110,24 @@
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler {
 
-    [[DSOAPI sharedInstance] POST:@"logout"
-    parameters:nil
-       success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
 
-           /// Delete Keychain passwords.
-           [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
-           [SSKeychain deletePasswordForService:LDTSERVER account:@"Email"];
+        /// Delete Keychain passwords.
+        [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
+        [SSKeychain deletePasswordForService:LDTSERVER account:@"Email"];
 
-           self.user = nil;
+        // Delete current user.
+        self.user = nil;
 
-           if (completionHandler) {
-               completionHandler(responseObject);
-           }
-       }
-       failure:^(NSURLSessionDataTask *task, NSError *error) {
-           if (errorHandler) {
-               errorHandler(error);
-           }
-       }];
+        if (completionHandler) {
+            completionHandler(responseDict);
+        }
+    } errorHandler:^(NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+
 }
 
 + (NSDictionary *)keysDict {
