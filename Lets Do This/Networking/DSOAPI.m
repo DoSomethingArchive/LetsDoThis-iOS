@@ -33,7 +33,7 @@
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        // @todo: Don't do it this way.
+        // @todo: When we're ready to test against prod, setup conditional if DEBUG.
         _sharedInstance = [[self alloc] initWithApiKey:keysDict[@"northstarTestKey"]];
     });
 
@@ -66,11 +66,8 @@
     return self;
 }
 
-#warning You should just be returning _phoenixBaseURL here or you'll get a recursive loop
-// since a call to `self.phoenixBaseURL` accesses your method - (NSString *)pheonixBaseUrl
-// The only reason this isn't happening is because you've misspelled 'phoenix' in your method
-- (NSString *)pheonixBaseUrl {
-    return self.phoenixBaseURL;
+- (NSString *)phoenixBaseUrl {
+    return _phoenixBaseURL;
 }
 
 #pragma DSOAPI
@@ -130,6 +127,45 @@
                errorHandler(error);
            }
            [self logError:error];
+       }];
+}
+
+- (void)loginWithEmail:(NSString *)email
+              password:(NSString *)password
+     completionHandler:(void(^)(NSDictionary *))completionHandler
+          errorHandler:(void(^)(NSError *))errorHandler {
+
+    NSDictionary *params = @{@"email": email,
+                             @"password": password};
+
+    [self POST:@"login"
+   parameters:params
+      success:^(NSURLSessionDataTask *task, id responseObject) {
+          if (completionHandler) {
+              completionHandler(responseObject);
+          }
+      }
+      failure:^(NSURLSessionDataTask *task, NSError *error) {
+          if (errorHandler) {
+              errorHandler(error);
+          }
+      }];
+}
+
+- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+                       errorHandler:(void(^)(NSError *))errorHandler {
+
+    [self POST:@"logout"
+    parameters:nil
+       success:^(NSURLSessionDataTask *task, id responseObject) {
+           if (completionHandler) {
+               completionHandler(responseObject);
+            }
+       }
+       failure:^(NSURLSessionDataTask *task, NSError *error) {
+           if (errorHandler) {
+               errorHandler(error);
+           }
        }];
 }
 

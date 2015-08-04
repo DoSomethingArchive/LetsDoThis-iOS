@@ -15,7 +15,7 @@
 
 - (instancetype)initWithApiKey:(NSString *)apiKey;
 
-- (NSString *)pheonixBaseUrl;
+- (NSString *)phoenixBaseUrl;
 
 - (void)setSessionToken:(NSString *)token;
 
@@ -27,6 +27,14 @@
                   birthdate:(NSString *)dateStr
                     success:(void(^)(NSDictionary *))completionHandler
                     failure:(void(^)(NSError *))errorHandler;
+
+- (void)loginWithEmail:(NSString *)email
+              password:(NSString *)password
+     completionHandler:(void(^)(NSDictionary *))completionHandler
+          errorHandler:(void(^)(NSError *))errorHandler;
+
+- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+                       errorHandler:(void(^)(NSError *))errorHandler;
 
 - (NSMutableDictionary *)getCampaigns;
 

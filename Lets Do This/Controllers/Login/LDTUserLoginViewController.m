@@ -142,7 +142,7 @@
 }
 
 - (IBAction)passwordButtonTouchUpInside:(id)sender {
-    NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [[DSOAPI sharedInstance] pheonixBaseUrl]];
+    NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [[DSOAPI sharedInstance] phoenixBaseUrl]];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:resetUrl]];
 }
 
