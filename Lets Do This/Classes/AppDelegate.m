@@ -53,11 +53,17 @@
 	// I'd also consider just putting those methods directly in the if/else blocks, since they're only called once
 
     if (![[DSOAuthenticationManager sharedInstance] hasCachedSession]) {
-        NSLog(@"does not have cached session");
-        [self displayAnonymous];
+
+        self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
+        self.window.rootViewController = self.navigationController;
+        [self.window makeKeyAndVisible];
+
     }
     else {
-        [self displayLoading];
+
+        self.window.rootViewController = [[LDTLoadingViewController alloc] init];
+        [self.window makeKeyAndVisible];
+
         [[DSOAuthenticationManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(NSDictionary *response) {
             [self displayAuthenticated];
         } errorHandler:^(NSError *error) {
@@ -88,11 +94,6 @@
 
     // rootViewController should already be initialized by the displayLoading method.
     [self.window.rootViewController presentViewController:self.tabBarController animated:YES completion:nil];
-}
-
-- (void)displayLoading {
-    self.window.rootViewController = [[LDTLoadingViewController alloc] init];
-    [self.window makeKeyAndVisible];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
