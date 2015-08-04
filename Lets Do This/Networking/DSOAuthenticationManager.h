@@ -21,7 +21,7 @@
      completionHandler:(void(^)(NSDictionary *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler;
 
-- (BOOL)hasCachedSession;
+- (BOOL)userHasCachedSession;
 
 - (void)connectWithCachedSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler;
