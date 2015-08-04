@@ -15,7 +15,7 @@
 
 - (instancetype)initWithApiKey:(NSString *)apiKey;
 
-- (NSString *)pheonixBaseUrl;
+- (NSString *)phoenixBaseUrl;
 
 - (void)setSessionToken:(NSString *)token;
 
