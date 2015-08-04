@@ -40,15 +40,14 @@
      completionHandler:(void(^)(NSDictionary *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler {
 
-    DSOAPI *api = [DSOAPI sharedInstance];
-    [api loginWithEmail:email
+    [[DSOAPI sharedInstance] loginWithEmail:email
                password:password
       completionHandler:^(NSDictionary *responseDict) {
 
           NSString *sessionToken = [responseDict  valueForKeyPath:@"data.session_token"];
 
           // @todo: Refactor this to store session token in this class instead.
-          [api setSessionToken:sessionToken];
+          [[DSOAPI sharedInstance] setSessionToken:sessionToken];
 
           // Save session in Keychain for when app is quit.
           [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
@@ -77,18 +76,17 @@
         // @todo: Should return error here.
         return;
     }
-    DSOAPI *api = [DSOAPI sharedInstance];
 
-    [api setSessionToken:sessionToken];
+    [[DSOAPI sharedInstance] setSessionToken:sessionToken];
 
     NSString *email = [SSKeychain passwordForService:LDTSERVER account:@"Email"];
 
-    [api fetchUserWithEmail:email
+    [[DSOAPI sharedInstance] fetchUserWithEmail:email
            completionHandler:^(NSDictionary *response) {
 
                NSArray *userInfo = response[@"data"];
 
-               [api fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
+               [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
 
                    self.user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
 
@@ -110,8 +108,7 @@
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler {
 
-    DSOAPI *api = [DSOAPI sharedInstance];
-    [api logoutWithCompletionHandler:^(NSDictionary *responseDict) {
+    [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
 
         /// Delete Keychain passwords.
         [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
