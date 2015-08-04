@@ -30,7 +30,7 @@
     return _sharedInstance;
 }
 
-- (BOOL)hasCachedSession {
+- (BOOL)userHasCachedSession {
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
     return sessionToken.length > 0;
 }

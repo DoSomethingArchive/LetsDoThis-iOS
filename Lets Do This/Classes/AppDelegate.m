@@ -47,16 +47,9 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-#warning I would name variables and methods to be more meaningful and descriptive: i.e., instead of
-	// `hasCachedSession` name it `userHasCachedSession`
-	
-	// I'd also consider just putting those methods directly in the if/else blocks, since they're only called once
+    if (![[DSOAuthenticationManager sharedInstance] userHasCachedSession]) {
 
-    if (![[DSOAuthenticationManager sharedInstance] hasCachedSession]) {
-
-        self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
-        self.window.rootViewController = self.navigationController;
-        [self.window makeKeyAndVisible];
+        [self displayUserConnectVC];
 
     }
     else {
@@ -65,10 +58,14 @@
         [self.window makeKeyAndVisible];
 
         [[DSOAuthenticationManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(NSDictionary *response) {
-            [self displayAuthenticated];
+
+            [self displayTabBarVC];
+
         } errorHandler:^(NSError *error) {
+
             [self displayUserConnectVC];
             [LDTMessage errorMessage:error];
+
         }];
     }
     return YES;
@@ -80,7 +77,7 @@
     [self.window makeKeyAndVisible];
 }
 
-- (void)displayAuthenticated {
+- (void)displayTabBarVC {
     LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAuthenticationManager sharedInstance].user];
     profileVC.title = @"Me";
     LDTNavigationController *profileNavVC = [[LDTNavigationController alloc] initWithRootViewController:profileVC];
