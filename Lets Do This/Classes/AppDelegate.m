@@ -48,7 +48,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
 #warning I would name variables and methods to be more meaningful and descriptive: i.e., instead of
-	// `hasCachedSession` name it `userHasCachedSession`, same for `displayAnonymous`
+	// `hasCachedSession` name it `userHasCachedSession`
 	
 	// I'd also consider just putting those methods directly in the if/else blocks, since they're only called once
 
@@ -67,14 +67,14 @@
         [[DSOAuthenticationManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(NSDictionary *response) {
             [self displayAuthenticated];
         } errorHandler:^(NSError *error) {
-            [self displayAnonymous];
+            [self displayUserConnectVC];
             [LDTMessage errorMessage:error];
         }];
     }
     return YES;
 }
 
-- (void)displayAnonymous {
+- (void)displayUserConnectVC {
     self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
