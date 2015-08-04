@@ -35,47 +35,38 @@
     return sessionToken.length > 0;
 }
 
-#warning This class shouldn't be doing (initiating) any API calls, nor logging in the user
-// our API class should be logging the user in and using this auth manager class to session info for the user
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
      completionHandler:(void(^)(NSDictionary *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler {
 
-    NSDictionary *params = @{@"email": email,
-                             @"password": password};
-
     DSOAPI *api = [DSOAPI sharedInstance];
+    [api loginWithEmail:email
+               password:password
+      completionHandler:^(NSDictionary *responseDict) {
 
-    [api POST:@"login"
-    parameters:params
-       success:^(NSURLSessionDataTask *task, id responseObject) {
+          NSString *sessionToken = [responseDict  valueForKeyPath:@"data.session_token"];
 
-           NSDictionary *loginResponse = (NSDictionary *)responseObject;
-           NSString *sessionToken = [loginResponse  valueForKeyPath:@"data.session_token"];
+          // @todo: Refactor this to store session token in this class instead.
+          [api setSessionToken:sessionToken];
 
-           [api setSessionToken:sessionToken];
+          // Save session in Keychain for when app is quit.
+          [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
 
-           // Save session in Keychain for when app is quit.
-           [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
+          // Save email of current user in Keychain.
+          [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
 
-           // Save email of current user in Keychain.
-           [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
+          self.user = [[DSOUser alloc] initWithDict:responseDict[@"data"]];
 
-           [api fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
+          if (completionHandler) {
+              completionHandler(responseDict);
+          }
 
-               self.user = [[DSOUser alloc] initWithDict:loginResponse[@"data"]];
+      }
+           errorHandler:^(NSError *error) {
+               // Do more stuff
+           }];
 
-               if (completionHandler) {
-                   completionHandler(responseObject);
-               }
-           } errorHandler:nil];
-       }
-       failure:^(NSURLSessionDataTask *task, NSError *error) {
-           if (errorHandler) {
-               errorHandler(error);
-           }
-       }];
 }
 
 - (void)connectWithCachedSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler

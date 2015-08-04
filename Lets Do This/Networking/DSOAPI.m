@@ -130,6 +130,28 @@
        }];
 }
 
+- (void)loginWithEmail:(NSString *)email
+              password:(NSString *)password
+     completionHandler:(void(^)(NSDictionary *))completionHandler
+          errorHandler:(void(^)(NSError *))errorHandler {
+
+    NSDictionary *params = @{@"email": email,
+                             @"password": password};
+
+    [self POST:@"login"
+   parameters:params
+      success:^(NSURLSessionDataTask *task, id responseObject) {
+          if (completionHandler) {
+              completionHandler(responseObject);
+          }
+      }
+      failure:^(NSURLSessionDataTask *task, NSError *error) {
+          if (errorHandler) {
+              errorHandler(error);
+          }
+      }];
+}
+
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler {
 

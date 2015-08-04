@@ -28,6 +28,11 @@
                     success:(void(^)(NSDictionary *))completionHandler
                     failure:(void(^)(NSError *))errorHandler;
 
+- (void)loginWithEmail:(NSString *)email
+              password:(NSString *)password
+     completionHandler:(void(^)(NSDictionary *))completionHandler
+          errorHandler:(void(^)(NSError *))errorHandler;
+
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;
 
