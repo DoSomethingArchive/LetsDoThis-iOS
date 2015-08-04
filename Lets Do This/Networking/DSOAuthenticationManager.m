@@ -63,7 +63,9 @@
 
       }
            errorHandler:^(NSError *error) {
-               // Do more stuff
+               if (errorHandler) {
+                   errorHandler(error);
+               }
            }];
 
 }
