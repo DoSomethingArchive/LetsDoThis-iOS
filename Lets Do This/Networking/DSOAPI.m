@@ -130,6 +130,23 @@
        }];
 }
 
+- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+                       errorHandler:(void(^)(NSError *))errorHandler {
+
+    [self POST:@"logout"
+    parameters:nil
+       success:^(NSURLSessionDataTask *task, id responseObject) {
+           if (completionHandler) {
+               completionHandler(responseObject);
+            }
+       }
+       failure:^(NSURLSessionDataTask *task, NSError *error) {
+           if (errorHandler) {
+               errorHandler(error);
+           }
+       }];
+}
+
 // General methods:
 
 - (void)createSignupForCampaignId:(NSInteger)campaignId
