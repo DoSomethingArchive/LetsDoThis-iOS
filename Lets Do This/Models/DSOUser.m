@@ -45,6 +45,14 @@
     return self.photo;
 }
 
+#warning Example of refactoring out above method
+//-(UIImage *)photo {
+//	if (_photo == nil) {
+//		return [UIImage imageNamed:@"avatar-default"];
+//	}
+//	return _photo;
+//}
+
 - (void)setCampaignsWithArray:(NSArray *)activityData {
 
     NSMutableDictionary *campaigns = [[DSOAPI sharedInstance] getCampaigns];
