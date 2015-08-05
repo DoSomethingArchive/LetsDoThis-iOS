@@ -13,6 +13,7 @@
 
 @interface DSOUser()
 @property (nonatomic, strong, readwrite) NSString *userID;
+@property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *lastName;
@@ -20,6 +21,9 @@
 @property (nonatomic, strong, readwrite) NSString *mobile;
 @property (nonatomic, strong, readwrite) NSDate *birthdate;
 @property (nonatomic, strong, readwrite) UIImage *photo;
+@property (nonatomic, strong, readwrite) NSDictionary *campaigns;
+@property (nonatomic, strong, readwrite) NSDictionary *campaignsDoing;
+@property (nonatomic, strong, readwrite) NSDictionary *campaignsCompleted;
 @end
 
 @implementation DSOUser
@@ -31,6 +35,7 @@
         self.firstName = dict[@"first_name"];
         self.lastName = dict[@"last_name"];
         self.email = dict[@"email"];
+        self.sessionToken = dict[@"session_token"];
         if (dict[@"photo"] == (id)[NSNull null]) {
              self.photo = nil;
         }
@@ -39,8 +44,7 @@
             self.photo = dict[@"photo"];
         }
         self.birthdate = dict[@"birthdate"];
-
-        [self setCampaignsWithArray:dict[@"campaigns"]];
+        self.campaigns = dict[@"campaigns"];
     }
     return self;
 }
@@ -52,28 +56,29 @@
 	return _photo;
 }
 
-- (void)setCampaignsWithArray:(NSArray *)activityData {
+- (void)syncCampaignsDoing:(NSDictionary *)campaignDictionary {
 
-    NSMutableDictionary *campaigns = [[DSOAPI sharedInstance] getCampaigns];
-    self.campaignsDoing = [[NSMutableDictionary alloc] init];
-    self.campaignsCompleted = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *doing = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *completed = [[NSMutableDictionary alloc] init];
 
-    for (NSMutableDictionary *activityDict in activityData) {
+    for (NSMutableDictionary *activityDict in self.campaigns) {
 
         NSString *IDstring = activityDict[@"drupal_id"];
-        DSOCampaign *campaign = campaigns[activityDict[@"drupal_id"]];
+        DSOCampaign *campaign = campaignDictionary[IDstring];
 
         if (campaign == nil) {
             continue;
         }
         // Store campaigns indexed by ID for easy status lookup by CampaignID.
         if ([activityDict valueForKeyAsString:@"reportback_id"]) {
-            self.campaignsCompleted[IDstring] = campaign;
+            completed[IDstring] = campaign;
         }
         else {
-            self.campaignsDoing[IDstring] = campaign;
+            doing[IDstring] = campaign;
         }
     }
+    self.campaignsDoing = doing;
+    self.campaignsCompleted = completed;
 }
 
 

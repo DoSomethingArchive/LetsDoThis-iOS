@@ -30,20 +30,18 @@
 
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
-     completionHandler:(void(^)(NSDictionary *))completionHandler
+     completionHandler:(void(^)(DSOUser *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;
-
-- (NSMutableDictionary *)getCampaigns;
 
 - (void)createSignupForCampaignId:(NSInteger)campaignId
                 completionHandler:(void(^)(NSDictionary *))completionHandler
                      errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)fetchUserWithEmail:(NSString *)email
-         completionHandler:(void(^)(NSDictionary *))completionHandler
+         completionHandler:(void(^)(DSOUser *))completionHandler
               errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler

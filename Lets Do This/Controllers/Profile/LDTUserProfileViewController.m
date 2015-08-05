@@ -65,11 +65,21 @@ static NSString *cellIdentifier;
 - (void)viewDidAppear:(BOOL)animated  {
     [super viewDidAppear:animated];
 
-    // Cast dictionaries to arrays for easier traversal in table rows.
-    self.campaignsDoing = (NSMutableArray *)[self.user.campaignsDoing allValues];
-    self.campaignsCompleted = (NSMutableArray *)[self.user.campaignsCompleted allValues];
+    // @todo Sync User from API.
 
-    [self.tableView reloadData];
+    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
+
+        [self.user syncCampaignsDoing:campaigns];
+        // Cast dictionaries to arrays for easier traversal in table rows.
+        self.campaignsDoing = (NSMutableArray *)[self.user.campaignsDoing allValues];
+        self.campaignsCompleted = (NSMutableArray *)[self.user.campaignsCompleted allValues];
+
+        [self.tableView reloadData];
+
+    } errorHandler:^(NSError *error) {
+        [LDTMessage errorMessage:error];
+    }];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
