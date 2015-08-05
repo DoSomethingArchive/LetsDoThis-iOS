@@ -21,18 +21,12 @@
 @property (nonatomic, strong, readonly) NSString *mobile;
 @property (nonatomic, strong, readonly) NSDate *birthdate;
 @property (nonatomic, strong, readonly) UIImage *photo;
+// Dictionary of campaign activity data.
 @property (nonatomic, strong, readonly) NSDictionary *campaigns;
-
-#warning It's better to expose immutable dictionaries of these campaigns
-// And just have public methods that other classes call to update them when necessary
-
-// Ex: @property (nonatomic, strong) NSDictionary *campaignsDoing;
-
-// -(void) updateCampaignsDoingForCampaigns(NSDictionary *)campaignsDoing overwriteExistingCampaigns:(BOOL)overwrite
-// We probably just want to add to a user's existing campaigns but we could have a situation where we want to overwrite?
-
-@property (nonatomic, strong) NSMutableDictionary *campaignsDoing;
-@property (nonatomic, strong) NSMutableDictionary *campaignsCompleted;
+// Dictionary of DSOCampaign objects user is doing.
+@property (nonatomic, strong, readonly) NSDictionary *campaignsDoing;
+// Dictionary of DSOCampaign objects user has completed.
+@property (nonatomic, strong, readonly) NSDictionary *campaignsCompleted;
 
 - (id)initWithDict:(NSDictionary*)dict;
 - (void)syncCampaignsDoing:(NSDictionary *)campaignDictionary;

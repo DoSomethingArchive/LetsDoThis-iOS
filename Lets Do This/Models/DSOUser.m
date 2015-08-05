@@ -19,9 +19,11 @@
 @property (nonatomic, strong, readwrite) NSString *lastName;
 @property (nonatomic, strong, readwrite) NSString *email;
 @property (nonatomic, strong, readwrite) NSString *mobile;
-@property (nonatomic, strong, readwrite) NSDictionary *campaigns;
 @property (nonatomic, strong, readwrite) NSDate *birthdate;
 @property (nonatomic, strong, readwrite) UIImage *photo;
+@property (nonatomic, strong, readwrite) NSDictionary *campaigns;
+@property (nonatomic, strong, readwrite) NSDictionary *campaignsDoing;
+@property (nonatomic, strong, readwrite) NSDictionary *campaignsCompleted;
 @end
 
 @implementation DSOUser
@@ -56,9 +58,8 @@
 
 - (void)syncCampaignsDoing:(NSDictionary *)campaignDictionary {
 
-
-    self.campaignsDoing = [[NSMutableDictionary alloc] init];
-    self.campaignsCompleted = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *doing = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *completed = [[NSMutableDictionary alloc] init];
 
     for (NSMutableDictionary *activityDict in self.campaigns) {
 
@@ -70,12 +71,14 @@
         }
         // Store campaigns indexed by ID for easy status lookup by CampaignID.
         if ([activityDict valueForKeyAsString:@"reportback_id"]) {
-            self.campaignsCompleted[IDstring] = campaign;
+            completed[IDstring] = campaign;
         }
         else {
-            self.campaignsDoing[IDstring] = campaign;
+            doing[IDstring] = campaign;
         }
     }
+    self.campaignsDoing = doing;
+    self.campaignsCompleted = completed;
 }
 
 
