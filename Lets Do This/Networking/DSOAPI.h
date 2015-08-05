@@ -30,7 +30,7 @@
 
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
-     completionHandler:(void(^)(NSDictionary *))completionHandler
+     completionHandler:(void(^)(DSOUser *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler

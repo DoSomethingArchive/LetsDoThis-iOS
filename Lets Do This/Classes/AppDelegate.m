@@ -57,7 +57,7 @@
         self.window.rootViewController = [[LDTLoadingViewController alloc] init];
         [self.window makeKeyAndVisible];
 
-        [[DSOAuthenticationManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(NSDictionary *response) {
+        [[DSOAuthenticationManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(DSOUser *user) {
 
             [self displayTabBarVC];
 

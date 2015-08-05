@@ -37,27 +37,26 @@
 
 - (void)createSessionWithEmail:(NSString *)email
               password:(NSString *)password
-     completionHandler:(void(^)(NSDictionary *))completionHandler
+     completionHandler:(void(^)(DSOUser *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler {
 
     [[DSOAPI sharedInstance] loginWithEmail:email
                password:password
-      completionHandler:^(NSDictionary *responseDict) {
+      completionHandler:^(DSOUser *user) {
 
-          NSString *sessionToken = [responseDict  valueForKeyPath:@"data.session_token"];
+          self.user = user;
 
-          [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
+          [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
 
           // Save session in Keychain for when app is quit.
-          [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
+          [SSKeychain setPassword:user.sessionToken forService:LDTSERVER account:@"Session"];
 
           // Save email of current user in Keychain.
           [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
 
-          self.user = [[DSOUser alloc] initWithDict:responseDict[@"data"]];
 
           if (completionHandler) {
-              completionHandler(responseDict);
+              completionHandler(user);
           }
 
       }
@@ -69,7 +68,7 @@
 
 }
 
-- (void)connectWithCachedSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+- (void)connectWithCachedSessionWithCompletionHandler:(void(^)(DSOUser *))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler {
 
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
@@ -85,15 +84,12 @@
     [[DSOAPI sharedInstance] fetchUserWithEmail:email
            completionHandler:^(DSOUser *user) {
 
-               [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *response) {
-
-                   self.user = user;
+               self.user = user;
 
                    if (completionHandler) {
-                       completionHandler(response);
+                       completionHandler(user);
                    }
 
-               }errorHandler:nil];
 
            }
                 errorHandler:^(NSError *error) {
