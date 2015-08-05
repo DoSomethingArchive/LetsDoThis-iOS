@@ -51,7 +51,7 @@ static NSString *cellIdentifier;
 
     self.navigationItem.title = nil;
     self.nameLabel.text = [self.user displayName];
-    self.avatarImageView.image = [self.user getPhoto];
+    self.avatarImageView.image = self.user.photo;
     [self theme];
 
     cellIdentifier = @"rowCell";

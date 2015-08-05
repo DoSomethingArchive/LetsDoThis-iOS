@@ -72,16 +72,7 @@
 
 #pragma DSOAPI
 
-#warning Let DSOAuthenticationManager manage the session token for the user
-// That's what it's there for
-
-// It checks if we have a logged in user
-
-- (NSString *)getSessionToken {
-    return [SSKeychain passwordForService:LDTSERVER account:@"Session"];
-}
-
-- (void)setSessionToken:(NSString *)token {
+- (void)setHTTPHeaderFieldSession:(NSString *)token {
     [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
 }
 

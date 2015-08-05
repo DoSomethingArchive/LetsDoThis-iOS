@@ -180,7 +180,7 @@
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text lastName:self.lastNameTextField.text mobile:self.mobileTextField.text birthdate:self.birthdayTextField.text success:^(NSDictionary *response) {
 
             // Login the user
-            [[DSOAuthenticationManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(NSDictionary *response) {
+            [[DSOAuthenticationManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(NSDictionary *response) {
 
                 // @todo: post Avatar if image has been uploaded.
 
