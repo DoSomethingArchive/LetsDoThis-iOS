@@ -66,29 +66,15 @@
     return self;
 }
 
+#pragma DSOAPI
+
 - (NSString *)phoenixBaseUrl {
     return _phoenixBaseURL;
 }
 
-#pragma DSOAPI
-
 - (void)setHTTPHeaderFieldSession:(NSString *)token {
     [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
 }
-
-#warning This is already referenced in GitHub issue #167
-- (NSDictionary *)getCampaigns {
-    return self.campaigns;
-}
-
-- (void)setCampaignsFromDict:(NSDictionary *)dict {
-    for (NSDictionary* campaignDict in dict) {
-        DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
-        [self.campaigns setValue:campaign forKey:campaignDict[@"id"]];
-    }
-}
-
-
 
 - (void)createUserWithEmail:(NSString *)email
                    password:(NSString *)password

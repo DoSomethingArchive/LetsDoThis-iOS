@@ -43,7 +43,6 @@
         }
         self.birthdate = dict[@"birthdate"];
         self.campaigns = dict[@"campaigns"];
-        [self setCampaignsWithArray:dict[@"campaigns"]];
     }
     return self;
 }
@@ -55,16 +54,16 @@
 	return _photo;
 }
 
-- (void)setCampaignsWithArray:(NSArray *)activityData {
+- (void)syncCampaignsDoing:(NSDictionary *)campaignDictionary {
 
-    NSMutableDictionary *campaigns = [[DSOAPI sharedInstance] getCampaigns];
+
     self.campaignsDoing = [[NSMutableDictionary alloc] init];
     self.campaignsCompleted = [[NSMutableDictionary alloc] init];
 
-    for (NSMutableDictionary *activityDict in activityData) {
+    for (NSMutableDictionary *activityDict in self.campaigns) {
 
         NSString *IDstring = activityDict[@"drupal_id"];
-        DSOCampaign *campaign = campaigns[activityDict[@"drupal_id"]];
+        DSOCampaign *campaign = campaignDictionary[IDstring];
 
         if (campaign == nil) {
             continue;
