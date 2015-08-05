@@ -35,7 +35,7 @@
     return sessionToken.length > 0;
 }
 
-- (void)loginWithEmail:(NSString *)email
+- (void)createSessionWithEmail:(NSString *)email
               password:(NSString *)password
      completionHandler:(void(^)(NSDictionary *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler {
@@ -46,8 +46,7 @@
 
           NSString *sessionToken = [responseDict  valueForKeyPath:@"data.session_token"];
 
-          // @todo: Refactor this to store session token in this class instead.
-          [[DSOAPI sharedInstance] setSessionToken:sessionToken];
+          [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
           // Save session in Keychain for when app is quit.
           [SSKeychain setPassword:sessionToken forService:LDTSERVER account:@"Session"];
@@ -79,7 +78,7 @@
         return;
     }
 
-    [[DSOAPI sharedInstance] setSessionToken:sessionToken];
+    [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
     NSString *email = [SSKeychain passwordForService:LDTSERVER account:@"Email"];
 

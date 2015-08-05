@@ -12,7 +12,14 @@
 #import "NSDate+DSO.h"
 
 @interface DSOUser()
-
+@property (nonatomic, strong, readwrite) NSString *userID;
+@property (nonatomic, strong, readwrite) NSString *displayName;
+@property (nonatomic, strong, readwrite) NSString *firstName;
+@property (nonatomic, strong, readwrite) NSString *lastName;
+@property (nonatomic, strong, readwrite) NSString *email;
+@property (nonatomic, strong, readwrite) NSString *mobile;
+@property (nonatomic, strong, readwrite) NSDate *birthdate;
+@property (nonatomic, strong, readwrite) UIImage *photo;
 @end
 
 @implementation DSOUser
@@ -38,20 +45,12 @@
     return self;
 }
 
--(UIImage *)getPhoto {
-    if (self.photo == nil) {
-        return [UIImage imageNamed:@"avatar-default"];
-    }
-    return self.photo;
+-(UIImage *)photo {
+	if (_photo == nil) {
+		return [UIImage imageNamed:@"avatar-default"];
+	}
+	return _photo;
 }
-
-#warning Example of refactoring out above method
-//-(UIImage *)photo {
-//	if (_photo == nil) {
-//		return [UIImage imageNamed:@"avatar-default"];
-//	}
-//	return _photo;
-//}
 
 - (void)setCampaignsWithArray:(NSArray *)activityData {
 

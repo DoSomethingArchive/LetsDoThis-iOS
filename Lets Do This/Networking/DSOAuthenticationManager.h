@@ -16,7 +16,7 @@
 
 + (DSOAuthenticationManager *)sharedInstance;
 
-- (void)loginWithEmail:(NSString *)email
+- (void)createSessionWithEmail:(NSString *)email
               password:(NSString *)password
      completionHandler:(void(^)(NSDictionary *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler;

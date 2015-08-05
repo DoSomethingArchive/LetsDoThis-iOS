@@ -14,6 +14,7 @@
 
 @property (nonatomic, assign) BOOL isDoing;
 @property (nonatomic, assign) BOOL isCompleted;
+@property (strong, nonatomic) DSOCampaign *campaign;
 @property (nonatomic, strong) NSString *IDstring;
 
 @property (weak, nonatomic) IBOutlet LDTButton *actionButton;
