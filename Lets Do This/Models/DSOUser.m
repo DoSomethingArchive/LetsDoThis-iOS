@@ -19,6 +19,7 @@
 @property (nonatomic, strong, readwrite) NSString *lastName;
 @property (nonatomic, strong, readwrite) NSString *email;
 @property (nonatomic, strong, readwrite) NSString *mobile;
+@property (nonatomic, strong, readwrite) NSDictionary *campaigns;
 @property (nonatomic, strong, readwrite) NSDate *birthdate;
 @property (nonatomic, strong, readwrite) UIImage *photo;
 @end
@@ -41,7 +42,7 @@
             self.photo = dict[@"photo"];
         }
         self.birthdate = dict[@"birthdate"];
-
+        self.campaigns = dict[@"campaigns"];
         [self setCampaignsWithArray:dict[@"campaigns"]];
     }
     return self;
