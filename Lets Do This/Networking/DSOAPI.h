@@ -36,8 +36,6 @@
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;
 
-- (NSMutableDictionary *)getCampaigns;
-
 - (void)createSignupForCampaignId:(NSInteger)campaignId
                 completionHandler:(void(^)(NSDictionary *))completionHandler
                      errorHandler:(void(^)(NSError *))errorHandler;

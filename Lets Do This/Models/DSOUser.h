@@ -34,6 +34,8 @@
 @property (nonatomic, strong) NSMutableDictionary *campaignsDoing;
 @property (nonatomic, strong) NSMutableDictionary *campaignsCompleted;
 
--(id)initWithDict:(NSDictionary*)dict;
+- (id)initWithDict:(NSDictionary*)dict;
+- (void)syncCampaignsDoing:(NSDictionary *)campaignDictionary;
+
 
 @end
