@@ -212,11 +212,13 @@
     [self GET:url
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {
-
-          [self setCampaignsFromDict:responseObject[@"data"]];
-
+          NSMutableDictionary *campaigns = [[NSMutableDictionary alloc] init];
+          for (NSDictionary* campaignDict in responseObject[@"data"]) {
+              DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
+              [campaigns setValue:campaign forKey:campaignDict[@"id"]];
+          }
           if (completionHandler) {
-              completionHandler(responseObject);
+              completionHandler(campaigns);
           }
     }
     failure:^(NSURLSessionDataTask *task, NSError *error) {
