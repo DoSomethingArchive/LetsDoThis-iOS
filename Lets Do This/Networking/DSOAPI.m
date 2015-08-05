@@ -66,29 +66,15 @@
     return self;
 }
 
+#pragma DSOAPI
+
 - (NSString *)phoenixBaseUrl {
     return _phoenixBaseURL;
 }
 
-#pragma DSOAPI
-
 - (void)setHTTPHeaderFieldSession:(NSString *)token {
     [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
 }
-
-#warning This is already referenced in GitHub issue #167
-- (NSDictionary *)getCampaigns {
-    return self.campaigns;
-}
-
-- (void)setCampaignsFromDict:(NSDictionary *)dict {
-    for (NSDictionary* campaignDict in dict) {
-        DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
-        [self.campaigns setValue:campaign forKey:campaignDict[@"id"]];
-    }
-}
-
-
 
 - (void)createUserWithEmail:(NSString *)email
                    password:(NSString *)password
@@ -123,7 +109,7 @@
 
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
-     completionHandler:(void(^)(NSDictionary *))completionHandler
+     completionHandler:(void(^)(DSOUser *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler {
 
     NSDictionary *params = @{@"email": email,
@@ -132,8 +118,9 @@
     [self POST:@"login"
    parameters:params
       success:^(NSURLSessionDataTask *task, id responseObject) {
+          DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
           if (completionHandler) {
-              completionHandler(responseObject);
+              completionHandler(user);
           }
       }
       failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -185,14 +172,16 @@
 
 }
 - (void)fetchUserWithEmail:(NSString *)email
-         completionHandler:(void(^)(NSDictionary *))completionHandler
+         completionHandler:(void(^)(DSOUser *))completionHandler
               errorHandler:(void(^)(NSError *))errorHandler {
 
     [self GET:[NSString stringWithFormat:@"users/email/%@", email]
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {
+          NSArray *userInfo = responseObject[@"data"];
+          DSOUser *user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
           if (completionHandler) {
-              completionHandler(responseObject);
+              completionHandler(user);
           }
       }
       failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -209,11 +198,13 @@
     [self GET:url
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {
-
-          [self setCampaignsFromDict:responseObject[@"data"]];
-
+          NSMutableDictionary *campaigns = [[NSMutableDictionary alloc] init];
+          for (NSDictionary* campaignDict in responseObject[@"data"]) {
+              DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
+              [campaigns setValue:campaign forKey:campaignDict[@"id"]];
+          }
           if (completionHandler) {
-              completionHandler(responseObject);
+              completionHandler(campaigns);
           }
     }
     failure:^(NSURLSessionDataTask *task, NSError *error) {

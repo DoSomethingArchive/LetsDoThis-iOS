@@ -90,9 +90,6 @@
      createSignupForCampaignId:self.campaign.campaignID
      completionHandler:^(NSDictionary *response) {
 
-         // Store campaign to campaigns doing.
-         [DSOAuthenticationManager sharedInstance].user.campaignsDoing[self.IDstring] = self.campaign;
-
          [self.actionButton setTitle:[@"Prove it" uppercaseString] forState:UIControlStateNormal];
 
     }

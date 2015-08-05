@@ -180,12 +180,12 @@
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text lastName:self.lastNameTextField.text mobile:self.mobileTextField.text birthdate:self.birthdayTextField.text success:^(NSDictionary *response) {
 
             // Login the user
-            [[DSOAuthenticationManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(NSDictionary *response) {
+            [[DSOAuthenticationManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
 
                 // @todo: post Avatar if image has been uploaded.
 
                 // Redirect to Profile.
-                LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAuthenticationManager sharedInstance].user];
+                LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:user];
                 [self.navigationController pushViewController:destVC animated:YES];
 
             } errorHandler:^(NSError *error) {
