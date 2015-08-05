@@ -123,7 +123,7 @@
 
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
-     completionHandler:(void(^)(NSDictionary *))completionHandler
+     completionHandler:(void(^)(DSOUser *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler {
 
     NSDictionary *params = @{@"email": email,
@@ -132,8 +132,9 @@
     [self POST:@"login"
    parameters:params
       success:^(NSURLSessionDataTask *task, id responseObject) {
+          DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
           if (completionHandler) {
-              completionHandler(responseObject);
+              completionHandler(user);
           }
       }
       failure:^(NSURLSessionDataTask *task, NSError *error) {

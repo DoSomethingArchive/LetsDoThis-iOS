@@ -18,12 +18,12 @@
 
 - (void)createSessionWithEmail:(NSString *)email
               password:(NSString *)password
-     completionHandler:(void(^)(NSDictionary *))completionHandler
+     completionHandler:(void(^)(DSOUser *))completionHandler
           errorHandler:(void(^)(NSError *))errorHandler;
 
 - (BOOL)userHasCachedSession;
 
-- (void)connectWithCachedSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+- (void)connectWithCachedSessionWithCompletionHandler:(void(^)(DSOUser *))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler

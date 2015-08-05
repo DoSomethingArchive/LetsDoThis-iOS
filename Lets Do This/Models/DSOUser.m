@@ -13,6 +13,7 @@
 
 @interface DSOUser()
 @property (nonatomic, strong, readwrite) NSString *userID;
+@property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *lastName;
@@ -31,6 +32,7 @@
         self.firstName = dict[@"first_name"];
         self.lastName = dict[@"last_name"];
         self.email = dict[@"email"];
+        self.sessionToken = dict[@"session_token"];
         if (dict[@"photo"] == (id)[NSNull null]) {
              self.photo = nil;
         }
