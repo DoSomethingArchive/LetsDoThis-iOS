@@ -17,7 +17,7 @@
 
 - (NSString *)phoenixBaseUrl;
 
-- (void)setSessionToken:(NSString *)token;
+- (void)setHTTPHeaderFieldSession:(NSString *)token;
 
 - (void)createUserWithEmail:(NSString *)email
                    password:(NSString *)password
