@@ -46,8 +46,12 @@ static NSString *cellIdentifier;
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
     [self theme];
 
-    self.campaigns = [[[DSOAPI sharedInstance] getCampaigns] allValues];
-    [self.tableView reloadData];
+    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
+        self.campaigns = [campaigns allValues];
+        [self.tableView reloadData];
+    } errorHandler:^(NSError *error) {
+        [LDTMessage errorMessage:error];
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
