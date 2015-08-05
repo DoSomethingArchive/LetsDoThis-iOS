@@ -21,6 +21,7 @@
 @property (nonatomic, strong, readonly) NSString *mobile;
 @property (nonatomic, strong, readonly) NSDate *birthdate;
 @property (nonatomic, strong, readonly) UIImage *photo;
+@property (nonatomic, strong, readonly) NSDictionary *campaigns;
 
 #warning It's better to expose immutable dictionaries of these campaigns
 // And just have public methods that other classes call to update them when necessary

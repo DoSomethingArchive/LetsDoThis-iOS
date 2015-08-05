@@ -132,7 +132,7 @@
 	// and passing a 'User' object on it
     [[DSOAuthenticationManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
 
-        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:user ];
+        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:user];
         [self.navigationController pushViewController:destVC animated:YES];
 
     } errorHandler:^(NSError *error) {
