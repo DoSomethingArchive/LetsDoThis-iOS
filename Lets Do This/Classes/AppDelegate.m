@@ -18,9 +18,11 @@
 #import "LDTMessage.h"
 #import "LDTNavigationController.h"
 #import "DSOUserManager.h"
-
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface AppDelegate ()
+
 @property (strong, nonatomic) LDTNavigationController *navigationController;
 @property (strong, nonatomic) UITabBarController *tabBarController;
 
@@ -31,7 +33,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-
+	[Fabric with:@[CrashlyticsKit]];
+	
     NSDictionary *keysDictionary = [DSOUserManager keysDict];
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
