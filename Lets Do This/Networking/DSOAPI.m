@@ -29,7 +29,7 @@
 
 + (DSOAPI *)sharedInstance {
     static DSOAPI *_sharedInstance = nil;
-    NSDictionary *keysDict = [DSOAuthenticationManager keysDict];
+    NSDictionary *keysDict = [DSOUserManager keysDict];
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

@@ -109,7 +109,7 @@
 }
 
 - (void) logout {
-    [[DSOAuthenticationManager sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
+    [[DSOUserManager sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
         LDTUserConnectViewController *destVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
 
         [self.navigationController pushViewController:destVC animated:YES];

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import "DSOAuthenticationManager.h"
+#import "DSOUserManager.h"
 #import "DSOAPI.h"
 #import <SSKeychain/SSKeychain.h>
 
@@ -15,12 +15,12 @@
 #define LDTSERVER @"northstar-qa.dosomething.org"
 
 
-@implementation DSOAuthenticationManager
+@implementation DSOUserManager
 
 #pragma Singleton
 
-+ (DSOAuthenticationManager *)sharedInstance {
-    static DSOAuthenticationManager *_sharedInstance = nil;
++ (DSOUserManager *)sharedInstance {
+    static DSOUserManager *_sharedInstance = nil;
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

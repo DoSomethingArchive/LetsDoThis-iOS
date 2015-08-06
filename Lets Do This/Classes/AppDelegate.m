@@ -17,7 +17,7 @@
 #import "LDTTheme.h"
 #import "LDTMessage.h"
 #import "LDTNavigationController.h"
-#import "DSOAuthenticationManager.h"
+#import "DSOUserManager.h"
 
 
 @interface AppDelegate ()
@@ -32,7 +32,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 
-    NSDictionary *keysDictionary = [DSOAuthenticationManager keysDict];
+    NSDictionary *keysDictionary = [DSOUserManager keysDict];
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 
@@ -47,7 +47,7 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    if (![[DSOAuthenticationManager sharedInstance] userHasCachedSession]) {
+    if (![[DSOUserManager sharedInstance] userHasCachedSession]) {
 
         [self displayUserConnectVC];
 
@@ -57,7 +57,7 @@
         self.window.rootViewController = [[LDTLoadingViewController alloc] init];
         [self.window makeKeyAndVisible];
 
-        [[DSOAuthenticationManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(DSOUser *user) {
+        [[DSOUserManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(DSOUser *user) {
 
             [self displayTabBarVC];
 
@@ -78,7 +78,7 @@
 }
 
 - (void)displayTabBarVC {
-    LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAuthenticationManager sharedInstance].user];
+    LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
     profileVC.title = @"Me";
     LDTNavigationController *profileNavVC = [[LDTNavigationController alloc] initWithRootViewController:profileVC];
 
