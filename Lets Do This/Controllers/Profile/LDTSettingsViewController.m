@@ -110,9 +110,16 @@
 
 - (void) logout {
     [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^(NSDictionary *response) {
-        LDTUserConnectViewController *destVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
 
-        [self.navigationController pushViewController:destVC animated:YES];
+        // This VC is always presented within the TabBarVC, so kill it.
+        [self dismissViewControllerAnimated:YES completion:^{
+
+            LDTNavigationController *destVC = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] init]];
+
+            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
+
+        }];
+
     } errorHandler:^(NSError *error) {
         [LDTMessage errorMessage:error];
     }];

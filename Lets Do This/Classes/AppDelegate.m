@@ -12,19 +12,15 @@
 #import <Parse/Parse.h>
 #import "LDTLoadingViewController.h"
 #import "LDTUserConnectViewController.h"
-#import "LDTUserProfileViewController.h"
-#import "LDTCampaignListViewController.h"
 #import "LDTTheme.h"
 #import "LDTMessage.h"
 #import "LDTNavigationController.h"
+#import "LDTTabBarController.h"
 #import "DSOUserManager.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
 @interface AppDelegate ()
-
-@property (strong, nonatomic) LDTNavigationController *navigationController;
-@property (strong, nonatomic) UITabBarController *tabBarController;
 
 @end
 
@@ -49,6 +45,8 @@
     [application registerForRemoteNotifications];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
+    [self.window makeKeyAndVisible];
 
     if (![[DSOUserManager sharedInstance] userHasCachedSession]) {
 
@@ -57,12 +55,9 @@
     }
     else {
 
-        self.window.rootViewController = [[LDTLoadingViewController alloc] init];
-        [self.window makeKeyAndVisible];
-
         [[DSOUserManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(DSOUser *user) {
 
-            [self displayTabBarVC];
+            [self.window.rootViewController presentViewController:[[LDTTabBarController alloc] init] animated:YES completion:nil];
 
         } errorHandler:^(NSError *error) {
 
@@ -75,25 +70,8 @@
 }
 
 - (void)displayUserConnectVC {
-    self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
-    self.window.rootViewController = self.navigationController;
-    [self.window makeKeyAndVisible];
-}
-
-- (void)displayTabBarVC {
-    LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
-    profileVC.title = @"Me";
-    LDTNavigationController *profileNavVC = [[LDTNavigationController alloc] initWithRootViewController:profileVC];
-
-    LDTCampaignListViewController *campaignListVC = [[LDTCampaignListViewController alloc] init];
-    LDTNavigationController *campaignListNavVC = [[LDTNavigationController alloc] initWithRootViewController:campaignListVC];
-
-    self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.tabBar.translucent = NO;
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:campaignListNavVC, profileNavVC, nil];
-
-    // rootViewController should already be initialized by the displayLoading method.
-    [self.window.rootViewController presentViewController:self.tabBarController animated:YES completion:nil];
+    LDTNavigationController *navVC = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
+    [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
