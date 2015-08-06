@@ -11,7 +11,7 @@
 #import "LDTTheme.h"
 #import "LDTButton.h"
 #import "LDTMessage.h"
-#import "LDTUserProfileViewController.h"
+#import "LDTTabBarController.h"
 #import "LDTUserLoginViewController.h"
 #import "DSOUserManager.h"
 #import "UITextField+LDT.h"
@@ -184,9 +184,15 @@
 
                 // @todo: post Avatar if image has been uploaded.
 
-                // Redirect to Profile.
-                LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:user];
-                [self.navigationController pushViewController:destVC animated:YES];
+
+                // This VC is always presented within a NavVC, so kill it.
+                [self dismissViewControllerAnimated:YES completion:^{
+
+                    LDTTabBarController *destVC = [[LDTTabBarController alloc] init];
+                    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
+                    
+                }];
+
 
             } errorHandler:^(NSError *error) {
                 [LDTMessage errorMessage:error];
