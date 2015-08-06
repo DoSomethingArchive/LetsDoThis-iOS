@@ -11,7 +11,7 @@
 		569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */; };
 		B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20881A01B0B9B0F00E697B2 /* keys.plist */; };
 		B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B20D06D01B3A58F40053D3B6 /* LDTMessage.m */; };
-		B21126271B618038009128E7 /* DSOAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B21126261B618038009128E7 /* DSOAuthenticationManager.m */; };
+		B21126271B618038009128E7 /* DSOUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B21126261B618038009128E7 /* DSOUserManager.m */; };
 		B212C2621B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */; };
 		B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */; };
 		B22273FE1B58076F005C896D /* DSOAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = B22273FD1B58076F005C896D /* DSOAPI.m */; };
@@ -75,8 +75,8 @@
 		B20881A01B0B9B0F00E697B2 /* keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = keys.plist; sourceTree = "<group>"; };
 		B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTMessage.h; sourceTree = "<group>"; };
 		B20D06D01B3A58F40053D3B6 /* LDTMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTMessage.m; sourceTree = "<group>"; };
-		B21126251B618038009128E7 /* DSOAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOAuthenticationManager.h; path = Networking/DSOAuthenticationManager.h; sourceTree = "<group>"; };
-		B21126261B618038009128E7 /* DSOAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOAuthenticationManager.m; path = Networking/DSOAuthenticationManager.m; sourceTree = "<group>"; };
+		B21126251B618038009128E7 /* DSOUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOUserManager.h; path = Networking/DSOUserManager.h; sourceTree = "<group>"; };
+		B21126261B618038009128E7 /* DSOUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOUserManager.m; path = Networking/DSOUserManager.m; sourceTree = "<group>"; };
 		B212C2601B4ED6F300376BB1 /* LDTBaseUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTBaseUserLoginViewController.h; path = Login/LDTBaseUserLoginViewController.h; sourceTree = "<group>"; };
 		B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseUserLoginViewController.m; path = Login/LDTBaseUserLoginViewController.m; sourceTree = "<group>"; };
 		B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+LDT.h"; sourceTree = "<group>"; };
@@ -280,8 +280,8 @@
 			children = (
 				B22273FC1B58076F005C896D /* DSOAPI.h */,
 				B22273FD1B58076F005C896D /* DSOAPI.m */,
-				B21126251B618038009128E7 /* DSOAuthenticationManager.h */,
-				B21126261B618038009128E7 /* DSOAuthenticationManager.m */,
+				B21126251B618038009128E7 /* DSOUserManager.h */,
+				B21126261B618038009128E7 /* DSOUserManager.m */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -622,7 +622,7 @@
 				C2B152201ACE05510028C336 /* AppDelegate.m in Sources */,
 				B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */,
 				C2B151EF1ACE04C30028C336 /* main.m in Sources */,
-				B21126271B618038009128E7 /* DSOAuthenticationManager.m in Sources */,
+				B21126271B618038009128E7 /* DSOUserManager.m in Sources */,
 				569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */,
 				B2E652DF1B4380AD00EF9D69 /* LDTTheme.m in Sources */,
 				B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */,

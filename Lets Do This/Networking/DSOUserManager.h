@@ -10,11 +10,11 @@
 #import "DSOAPI.h"
 #import "DSOUser.h"
 
-@interface DSOAuthenticationManager : NSObject
+@interface DSOUserManager : NSObject
 
 @property (strong, nonatomic) DSOUser *user;
 
-+ (DSOAuthenticationManager *)sharedInstance;
++ (DSOUserManager *)sharedInstance;
 
 - (void)createSessionWithEmail:(NSString *)email
               password:(NSString *)password
@@ -26,7 +26,7 @@
 - (void)connectWithCachedSessionWithCompletionHandler:(void(^)(DSOUser *))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+- (void)endSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;
 
 + (NSDictionary *)keysDict;
