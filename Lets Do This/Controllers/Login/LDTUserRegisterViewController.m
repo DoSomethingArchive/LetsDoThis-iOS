@@ -13,7 +13,7 @@
 #import "LDTMessage.h"
 #import "LDTUserProfileViewController.h"
 #import "LDTUserLoginViewController.h"
-#import "DSOAuthenticationManager.h"
+#import "DSOUserManager.h"
 #import "UITextField+LDT.h"
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -180,7 +180,7 @@
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text lastName:self.lastNameTextField.text mobile:self.mobileTextField.text birthdate:self.birthdayTextField.text success:^(NSDictionary *response) {
 
             // Login the user
-            [[DSOAuthenticationManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
+            [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
 
                 // @todo: post Avatar if image has been uploaded.
 
