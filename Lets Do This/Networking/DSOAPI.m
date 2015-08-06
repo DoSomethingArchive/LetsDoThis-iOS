@@ -12,7 +12,7 @@
 #import "DSOCampaign.h"
 
 // API Constants
-#define isActivityLogging YES
+#define isActivityLogging NO
 #define DSOPROTOCOL @"http"
 #define DSOSERVER @"staging.beta.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
