@@ -126,11 +126,7 @@
         return;
     }
 
-#warning As referenced in DSOAuthenticationManager we should be doing this in our API class
-	// By 'Authentication Manager' it doesn't mean it should actually be performing login functions, just means it manages session
-	// info for the user. A more accurate title could be 'UserManager' which it may be better to name it to, since you're storing
-	// and passing a 'User' object on it
-    [[DSOAuthenticationManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
+    [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
 
         LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:user];
         [self.navigationController pushViewController:destVC animated:YES];

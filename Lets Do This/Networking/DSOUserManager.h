@@ -10,11 +10,11 @@
 #import "DSOAPI.h"
 #import "DSOUser.h"
 
-@interface DSOAuthenticationManager : NSObject
+@interface DSOUserManager : NSObject
 
 @property (strong, nonatomic) DSOUser *user;
 
-+ (DSOAuthenticationManager *)sharedInstance;
++ (DSOUserManager *)sharedInstance;
 
 - (void)createSessionWithEmail:(NSString *)email
               password:(NSString *)password

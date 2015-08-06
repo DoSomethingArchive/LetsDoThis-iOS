@@ -54,7 +54,7 @@
     self.problemLabel.text = self.campaign.factProblem;
 
     [self.coverImageView sd_setImageWithURL:self.campaign.coverImageURL];
-    self.isDoing = [[DSOAuthenticationManager sharedInstance].user.campaignsDoing objectForKey:self.IDstring];
+    self.isDoing = [[DSOUserManager sharedInstance].user.campaignsDoing objectForKey:self.IDstring];
     [self setActionButton];
 }
 
