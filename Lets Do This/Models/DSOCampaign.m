@@ -23,6 +23,7 @@
         self.reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
         self.factProblem = [values[@"facts"] valueForKeyAsString:@"problem" nullValue:self.factProblem];
         self.factSolution = [values[@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:self.factSolution];
+        self.tags = values[@"tags"];
     }
     return self;
 }
