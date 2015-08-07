@@ -6,8 +6,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTCampaignListViewController">
             <connections>
+                <outlet property="collectionView" destination="410-82-MGm" id="j4r-Gg-7rR"/>
                 <outlet property="segmentedControl" destination="egp-zm-2wL" id="92P-kc-xGy"/>
-                <outlet property="tableView" destination="al2-Zh-c7E" id="ZCI-EY-APC"/>
                 <outlet property="view" destination="iN0-l3-epB" id="zMS-Ig-zvl"/>
             </connections>
         </placeholder>
@@ -16,19 +16,14 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="al2-Zh-c7E">
-                    <rect key="frame" x="0.0" y="44" width="600" height="556"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="yJ9-JI-j1b"/>
-                        <outlet property="delegate" destination="-1" id="djG-g5-wNs"/>
-                    </connections>
-                </tableView>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="egp-zm-2wL">
-                    <rect key="frame" x="8" y="8" width="584" height="29"/>
+                    <rect key="frame" x="8" y="8" width="584" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="VoT-Xs-kIJ"/>
+                    </constraints>
                     <segments>
-                        <segment title="Odds"/>
-                        <segment title="Evens"/>
+                        <segment title="One"/>
+                        <segment title="Two"/>
                         <segment title="Pink"/>
                         <segment title="Floyd"/>
                     </segments>
@@ -36,16 +31,29 @@
                         <action selector="segmentedControlValueChanged:" destination="-1" eventType="valueChanged" id="ecq-pQ-tka"/>
                     </connections>
                 </segmentedControl>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="410-82-MGm">
+                    <rect key="frame" x="0.0" y="70" width="600" height="530"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5Ha-gu-PSJ">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="dvn-qt-XuL"/>
+                        <outlet property="delegate" destination="-1" id="wgE-Im-4Jz"/>
+                    </connections>
+                </collectionView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="al2-Zh-c7E" firstAttribute="top" secondItem="egp-zm-2wL" secondAttribute="bottom" constant="8" id="3op-Ti-13D"/>
+                <constraint firstAttribute="bottom" secondItem="410-82-MGm" secondAttribute="bottom" id="7Wp-s7-mHV"/>
+                <constraint firstItem="410-82-MGm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="7aq-kG-ML2"/>
                 <constraint firstItem="egp-zm-2wL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="Cyu-Sx-UHj"/>
                 <constraint firstItem="egp-zm-2wL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="I7q-VM-5u6"/>
                 <constraint firstAttribute="trailing" secondItem="egp-zm-2wL" secondAttribute="trailing" constant="8" id="RxG-vg-Zg3"/>
-                <constraint firstItem="al2-Zh-c7E" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="UFN-5X-yXR"/>
-                <constraint firstAttribute="trailing" secondItem="al2-Zh-c7E" secondAttribute="trailing" id="b1k-gx-HXS"/>
-                <constraint firstAttribute="bottom" secondItem="al2-Zh-c7E" secondAttribute="bottom" id="ggd-0F-uJj"/>
+                <constraint firstItem="410-82-MGm" firstAttribute="top" secondItem="egp-zm-2wL" secondAttribute="bottom" constant="18" id="VPK-Rt-U5M"/>
+                <constraint firstAttribute="trailing" secondItem="410-82-MGm" secondAttribute="trailing" id="VdC-Ve-OZj"/>
             </constraints>
         </view>
     </objects>

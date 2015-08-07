@@ -11,10 +11,9 @@
 #import "DSOCampaign.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewcontroller.h"
+#import "LDTCampaignListCampaignCell.h"
 
-#warning Are we using a tableview for both the list of campaigns and the random campaign photos displayed on this page?
-
-@interface LDTCampaignListViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *interestGroupIdStrings;
@@ -22,18 +21,12 @@
 @property (strong, nonatomic) NSString *selectedInterestGroupId;
 @property (strong, nonatomic) NSMutableArray *campaignList;
 
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)segmentedControlValueChanged:(id)sender;
 
 @end
-
-#warning if you're going to do this with a custom tableview cell xib
-// you don't need to do this here, you can do it in the xib, and I'd imagine we'd do it in a xib since we want customized cells
-
-// Stores name for a resuable TableView cell. per  http://www.guilmo.com/how-to-create-a-simple-uitableview-with-static-data/
-static NSString *cellIdentifier;
 
 @implementation LDTCampaignListViewController
 
@@ -50,8 +43,7 @@ static NSString *cellIdentifier;
         [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroupNameStrings[i] forSegmentAtIndex:i];
     }
 
-    cellIdentifier = @"rowCell";
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
 
     [self theme];
 }
@@ -65,7 +57,7 @@ static NSString *cellIdentifier;
     [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
         self.allCampaigns = [campaigns allValues];
         [self createInterestGroups];
-        [self.tableView reloadData];
+        [self.collectionView reloadData];
 
     } errorHandler:^(NSError *error) {
         [LDTMessage errorMessage:error];
@@ -80,6 +72,8 @@ static NSString *cellIdentifier;
 #pragma LDTCampaignListViewController
 
 - (void) theme {
+    [self.collectionView setBackgroundColor:[UIColor clearColor]];
+
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
 
@@ -125,23 +119,29 @@ static NSString *cellIdentifier;
     self.campaignList = self.interestGroups[self.selectedInterestGroupId];
 }
 
-#pragma UITableViewDataSource
+#pragma UICollectionViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return [self.campaignList count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    LDTCampaignListCampaignCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+
     DSOCampaign *campaign = (DSOCampaign *)self.campaignList[indexPath.row];
-    cell.textLabel.text = [campaign.title uppercaseString];
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.textLabel.font = [LDTTheme font];
+    cell.titleLabel.text = [campaign.title uppercaseString];
+    [cell.imageView sd_setImageWithURL:campaign.coverImageURL];
+
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return CGSizeMake([[UIScreen mainScreen] bounds].size.width, 100);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:self.campaignList[indexPath.row]];
     [self.navigationController pushViewController:destVC animated:YES];
 }
@@ -151,7 +151,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedInterestGroupId = termID;
     self.campaignList = self.interestGroups[termID];
 
-    [self.tableView reloadData];
+    [self.collectionView reloadData];
 }
+
 
 @end
