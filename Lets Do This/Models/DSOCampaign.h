@@ -13,7 +13,8 @@
 
 @interface DSOCampaign : NSObject
 
-@property (nonatomic) NSInteger campaignID;
+@property (strong, nonatomic) NSArray *tags;
+@property (assign, nonatomic) NSInteger campaignID;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *tagline;
 @property (strong, nonatomic) NSString *coverImage;

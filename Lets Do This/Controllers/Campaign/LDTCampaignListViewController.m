@@ -17,6 +17,7 @@
 @interface LDTCampaignListViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) NSArray *allCampaigns;
+@property (strong, nonatomic) NSArray *interestGroupIdStrings;
 @property (strong, nonatomic) NSMutableDictionary *interestGroups;
 @property (strong, nonatomic) NSString *selectedInterestGroup;
 @property (strong, nonatomic) NSMutableArray *campaignList;
@@ -43,6 +44,8 @@ static NSString *cellIdentifier;
     self.title = @"Actions";
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
     self.selectedInterestGroup = @"0";
+    // Artsy, Bro, Fem, Social
+    self.interestGroupIdStrings = @[@"669", @"667", @"668", @"670"];
 
     cellIdentifier = @"rowCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
