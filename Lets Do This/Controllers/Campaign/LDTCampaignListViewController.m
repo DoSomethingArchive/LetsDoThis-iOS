@@ -82,6 +82,25 @@ static NSString *cellIdentifier;
 - (void) theme {
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
+
+    self.segmentedControl.tintColor = [LDTTheme clickyBlue];
+
+    [[UISegmentedControl appearance]
+     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                             [LDTTheme font],
+                             NSFontAttributeName,
+                             [UIColor grayColor],
+                             NSForegroundColorAttributeName,
+                             nil]
+     forState:UIControlStateNormal];
+
+    [[UISegmentedControl appearance]
+     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                             [UIColor whiteColor],
+                             NSForegroundColorAttributeName,
+                             nil]
+     forState:UIControlStateSelected];
+;
 }
 
 - (void) createInterestGroups {
@@ -92,7 +111,7 @@ static NSString *cellIdentifier;
 
     for (DSOCampaign *campaign in self.allCampaigns) {
 
-        // Because all taxonomy terms are stored in the tags property, we have to loop through all of them.
+        // Because all taxonomy terms are stored in the tags property, we have to loop through and find which ones are Interest Group terms.
         for (NSDictionary *termDict in campaign.tags) {
             NSString *termID = termDict[@"id"];
 

@@ -62,6 +62,8 @@
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
         self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
+
+#warning @todo: Better to store as dictionaries? This feels gross.
         self.interestGroupIdStrings = @[@"669", @"667", @"668", @"670"];
         self.interestGroupNameStrings = @[@"Artsy", @"Bro", @"Fem", @"Social"];
     }
