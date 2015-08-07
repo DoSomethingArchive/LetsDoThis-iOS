@@ -12,9 +12,8 @@
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewcontroller.h"
 
-#warning Are we using a tableview for both the list of campaigns and the random campaign photos displayed on this page?
 
-@interface LDTCampaignListViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *interestGroupIdStrings;
@@ -22,18 +21,12 @@
 @property (strong, nonatomic) NSString *selectedInterestGroupId;
 @property (strong, nonatomic) NSMutableArray *campaignList;
 
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)segmentedControlValueChanged:(id)sender;
 
 @end
-
-#warning if you're going to do this with a custom tableview cell xib
-// you don't need to do this here, you can do it in the xib, and I'd imagine we'd do it in a xib since we want customized cells
-
-// Stores name for a resuable TableView cell. per  http://www.guilmo.com/how-to-create-a-simple-uitableview-with-static-data/
-static NSString *cellIdentifier;
 
 @implementation LDTCampaignListViewController
 
@@ -49,10 +42,7 @@ static NSString *cellIdentifier;
     for (int i = 0; i < 4; i++) {
         [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroupNameStrings[i] forSegmentAtIndex:i];
     }
-
-    cellIdentifier = @"rowCell";
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
-
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellIdentifier"];
     [self theme];
 }
 
@@ -65,7 +55,7 @@ static NSString *cellIdentifier;
     [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
         self.allCampaigns = [campaigns allValues];
         [self createInterestGroups];
-        [self.tableView reloadData];
+        [self.collectionView reloadData];
 
     } errorHandler:^(NSError *error) {
         [LDTMessage errorMessage:error];
@@ -80,6 +70,8 @@ static NSString *cellIdentifier;
 #pragma LDTCampaignListViewController
 
 - (void) theme {
+    [self.collectionView setBackgroundColor:[UIColor clearColor]];
+
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
 
@@ -125,12 +117,22 @@ static NSString *cellIdentifier;
     self.campaignList = self.interestGroups[self.selectedInterestGroupId];
 }
 
-#pragma UITableViewDataSource
+#pragma UICollectionViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return [self.campaignList count];
 }
 
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
+
+    cell.backgroundColor = [UIColor grayColor];
+
+    return cell;
+}
+
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     DSOCampaign *campaign = (DSOCampaign *)self.campaignList[indexPath.row];
@@ -140,18 +142,20 @@ static NSString *cellIdentifier;
     return cell;
 }
 
+
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:self.campaignList[indexPath.row]];
     [self.navigationController pushViewController:destVC animated:YES];
 }
+*/
 
 - (IBAction)segmentedControlValueChanged:(id)sender {
     NSString *termID = [DSOAPI sharedInstance].interestGroupIdStrings[self.segmentedControl.selectedSegmentIndex];
     self.selectedInterestGroupId = termID;
     self.campaignList = self.interestGroups[termID];
 
-    [self.tableView reloadData];
+    [self.collectionView reloadData];
 }
 
 @end
