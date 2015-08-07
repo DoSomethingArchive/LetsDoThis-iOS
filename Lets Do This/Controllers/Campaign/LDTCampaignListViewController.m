@@ -15,8 +15,17 @@
 #warning Are we using a tableview for both the list of campaigns and the random campaign photos displayed on this page?
 
 @interface LDTCampaignListViewController () <UITableViewDataSource, UITableViewDelegate>
+
+@property (strong, nonatomic) NSArray *allCampaigns;
+@property (strong, nonatomic) NSMutableDictionary *interestGroups;
+@property (strong, nonatomic) NSString *selectedInterestGroup;
+@property (strong, nonatomic) NSMutableArray *campaignList;
+
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *campaigns;
+
+- (IBAction)segmentedControlValueChanged:(id)sender;
+
 @end
 
 #warning if you're going to do this with a custom tableview cell xib
@@ -33,6 +42,7 @@ static NSString *cellIdentifier;
     [super viewDidLoad];
     self.title = @"Actions";
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
+    self.selectedInterestGroup = @"0";
 
     cellIdentifier = @"rowCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
@@ -47,8 +57,10 @@ static NSString *cellIdentifier;
     [self theme];
 
     [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
-        self.campaigns = [campaigns allValues];
+        self.allCampaigns = [campaigns allValues];
+        [self createInterestGroups];
         [self.tableView reloadData];
+
     } errorHandler:^(NSError *error) {
         [LDTMessage errorMessage:error];
     }];
@@ -66,15 +78,27 @@ static NSString *cellIdentifier;
     [navVC setOrange];
 }
 
+- (void) createInterestGroups {
+    self.interestGroups = [[NSMutableDictionary alloc] init];
+    self.interestGroups[@"0"] = [[NSMutableArray alloc] init];
+    self.interestGroups[@"1"] = [[NSMutableArray alloc] init];
+
+    for (DSOCampaign *campaign in self.allCampaigns) {
+        NSString *IDstring = [NSString stringWithFormat:@"%li", (long)campaign.campaignID % 2];
+        [self.interestGroups[IDstring] addObject:campaign];
+    }
+    self.campaignList = self.interestGroups[self.selectedInterestGroup];
+}
+
 #pragma UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.campaigns count];
+    return [self.campaignList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    DSOCampaign *campaign = (DSOCampaign *)self.campaigns[indexPath.row];
+    DSOCampaign *campaign = (DSOCampaign *)self.campaignList[indexPath.row];
     cell.textLabel.text = [campaign.title uppercaseString];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.font = [LDTTheme font];
@@ -83,7 +107,14 @@ static NSString *cellIdentifier;
 
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:self.campaigns[indexPath.row]];
+    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:self.campaignList[indexPath.row]];
     [self.navigationController pushViewController:destVC animated:YES];
 }
+
+- (IBAction)segmentedControlValueChanged:(id)sender {
+    self.selectedInterestGroup = [NSString stringWithFormat:@"%li", (long)self.segmentedControl.selectedSegmentIndex];
+    self.campaignList = self.interestGroups[self.selectedInterestGroup];
+    [self.tableView reloadData];
+}
+
 @end
