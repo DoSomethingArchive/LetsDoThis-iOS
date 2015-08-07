@@ -18,7 +18,6 @@
 #define LDTSERVER @"northstar-qa.dosomething.org"
 
 @interface DSOAPI()
-@property (nonatomic, strong) NSMutableDictionary *campaigns;
 @property (nonatomic, strong) NSString *phoenixBaseURL;
 @property (nonatomic, strong) NSString *phoenixApiURL;
 @end
@@ -61,7 +60,6 @@
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
         self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
-        self.campaigns = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
