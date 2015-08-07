@@ -8,7 +8,6 @@
 
 #import "LDTCampaignDetailViewController.h"
 #import "LDTTheme.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface LDTCampaignDetailViewController ()
 
