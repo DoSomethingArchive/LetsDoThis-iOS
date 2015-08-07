@@ -17,6 +17,10 @@
 
 - (NSString *)phoenixBaseUrl;
 
+- (NSArray *)interestGroupIdStrings;
+
+- (NSArray *)interestGroupNameStrings;
+
 - (void)setHTTPHeaderFieldSession:(NSString *)token;
 
 - (void)createUserWithEmail:(NSString *)email
