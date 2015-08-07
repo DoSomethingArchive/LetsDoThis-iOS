@@ -18,6 +18,8 @@
 #define LDTSERVER @"northstar-qa.dosomething.org"
 
 @interface DSOAPI()
+@property (nonatomic, strong) NSArray *interestGroupIdStrings;
+@property (nonatomic, strong) NSArray *interestGroupNameStrings;
 @property (nonatomic, strong) NSString *phoenixBaseURL;
 @property (nonatomic, strong) NSString *phoenixApiURL;
 @end
@@ -60,6 +62,8 @@
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
         self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
+        self.interestGroupIdStrings = @[@"669", @"667", @"668", @"670"];
+        self.interestGroupNameStrings = @[@"Artsy", @"Bro", @"Fem", @"Social"];
     }
     return self;
 }
@@ -68,6 +72,14 @@
 
 - (NSString *)phoenixBaseUrl {
     return _phoenixBaseURL;
+}
+
+- (NSArray *)interestGroupIdStrings {
+    return _interestGroupIdStrings;
+}
+
+- (NSArray *)interestGroupNameStrings {
+    return _interestGroupNameStrings;
 }
 
 - (void)setHTTPHeaderFieldSession:(NSString *)token {
@@ -192,7 +204,9 @@
 
 - (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                                errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"%@%@", self.phoenixApiURL, @"campaigns.json?mobile_app=true"];
+
+    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app=true&term_ids=%@", self.phoenixApiURL, [self.interestGroupIdStrings componentsJoinedByString:@","]];
+
     [self GET:url
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {

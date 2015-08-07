@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *interestGroupIdStrings;
 @property (strong, nonatomic) NSMutableDictionary *interestGroups;
-@property (strong, nonatomic) NSString *selectedInterestGroup;
+@property (strong, nonatomic) NSString *selectedInterestGroupId;
 @property (strong, nonatomic) NSMutableArray *campaignList;
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
@@ -43,9 +43,12 @@ static NSString *cellIdentifier;
     [super viewDidLoad];
     self.title = @"Actions";
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
-    self.selectedInterestGroup = @"0";
-    // Artsy, Bro, Fem, Social
-    self.interestGroupIdStrings = @[@"669", @"667", @"668", @"670"];
+
+    self.selectedInterestGroupId = [DSOAPI sharedInstance].interestGroupIdStrings[0];
+
+    for (int i = 0; i < 4; i++) {
+        [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroupNameStrings[i] forSegmentAtIndex:i];
+    }
 
     cellIdentifier = @"rowCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
@@ -83,14 +86,24 @@ static NSString *cellIdentifier;
 
 - (void) createInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
-    self.interestGroups[@"0"] = [[NSMutableArray alloc] init];
-    self.interestGroups[@"1"] = [[NSMutableArray alloc] init];
+    for (NSString *termID in [DSOAPI sharedInstance].interestGroupIdStrings) {
+        self.interestGroups[termID] = [[NSMutableArray alloc] init];
+    }
 
     for (DSOCampaign *campaign in self.allCampaigns) {
-        NSString *IDstring = [NSString stringWithFormat:@"%li", (long)campaign.campaignID % 2];
-        [self.interestGroups[IDstring] addObject:campaign];
+
+        // Because all taxonomy terms are stored in the tags property, we have to loop through all of them.
+        for (NSDictionary *termDict in campaign.tags) {
+            NSString *termID = termDict[@"id"];
+
+            if ([self.interestGroups objectForKey:termID]) {
+                [self.interestGroups[termID] addObject:campaign];
+                continue;
+            }
+        }
+
     }
-    self.campaignList = self.interestGroups[self.selectedInterestGroup];
+    self.campaignList = self.interestGroups[self.selectedInterestGroupId];
 }
 
 #pragma UITableViewDataSource
@@ -115,8 +128,10 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (IBAction)segmentedControlValueChanged:(id)sender {
-    self.selectedInterestGroup = [NSString stringWithFormat:@"%li", (long)self.segmentedControl.selectedSegmentIndex];
-    self.campaignList = self.interestGroups[self.selectedInterestGroup];
+    NSString *termID = [DSOAPI sharedInstance].interestGroupIdStrings[self.segmentedControl.selectedSegmentIndex];
+    self.selectedInterestGroupId = termID;
+    self.campaignList = self.interestGroups[termID];
+
     [self.tableView reloadData];
 }
 
