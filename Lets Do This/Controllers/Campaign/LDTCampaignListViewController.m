@@ -12,6 +12,7 @@
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewcontroller.h"
 #import "LDTCampaignListCampaignCell.h"
+#import "LDTCampaignListReportbackItemCell.h"
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -44,7 +45,7 @@
     }
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
-
+    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self theme];
 }
 
@@ -125,20 +126,36 @@
     return [self.campaignList count];
 }
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 2;
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    LDTCampaignListCampaignCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+    UICollectionViewCell *emptyCell;
 
-    DSOCampaign *campaign = (DSOCampaign *)self.campaignList[indexPath.row];
-    cell.titleLabel.text = [campaign.title uppercaseString];
-    [cell.imageView sd_setImageWithURL:campaign.coverImageURL];
+    if (indexPath.section == 0) {
+        DSOCampaign *campaign = (DSOCampaign *)self.campaignList[indexPath.row];
+        LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+        cell.titleLabel.text = [campaign.title uppercaseString];
+        [cell.imageView sd_setImageWithURL:campaign.coverImageURL];
+        return cell;
+    }
+    else {
+        LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
+        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"http://www.helpinghomelesscats.com/images/cat1.jpg"]];
+        return cell;
+    }
 
-    return cell;
+    return emptyCell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return CGSizeMake([[UIScreen mainScreen] bounds].size.width, 100);
+    CGFloat width = [[UIScreen mainScreen] bounds].size.width;
+    if (indexPath.section == 1) {
+        width = width / 2.5;
+    }
+    return CGSizeMake(width, 100);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
