@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#warning We probably want to make a base VC for all the screens in the app to inherit from, no?
-
 @interface LDTCampaignListViewController : UIViewController
 
 @end
