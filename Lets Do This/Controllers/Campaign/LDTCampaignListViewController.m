@@ -11,7 +11,7 @@
 #import "DSOCampaign.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewcontroller.h"
-
+#import "LDTCampaignListCampaignCell.h"
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -42,7 +42,9 @@
     for (int i = 0; i < 4; i++) {
         [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroupNameStrings[i] forSegmentAtIndex:i];
     }
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellIdentifier"];
+
+    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
+
     [self theme];
 }
 
@@ -125,30 +127,24 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
+    LDTCampaignListCampaignCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
 
-    cell.backgroundColor = [UIColor grayColor];
-
-    return cell;
-}
-
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     DSOCampaign *campaign = (DSOCampaign *)self.campaignList[indexPath.row];
-    cell.textLabel.text = [campaign.title uppercaseString];
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.textLabel.font = [LDTTheme font];
+    cell.titleLabel.text = [campaign.title uppercaseString];
+    [cell.imageView sd_setImageWithURL:campaign.coverImageURL];
+
     return cell;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return CGSizeMake([[UIScreen mainScreen] bounds].size.width, 100);
+}
 
-- (void)tableView:(UITableView *)tableView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:self.campaignList[indexPath.row]];
     [self.navigationController pushViewController:destVC animated:YES];
 }
-*/
 
 - (IBAction)segmentedControlValueChanged:(id)sender {
     NSString *termID = [DSOAPI sharedInstance].interestGroupIdStrings[self.segmentedControl.selectedSegmentIndex];
@@ -157,5 +153,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     [self.collectionView reloadData];
 }
+
 
 @end

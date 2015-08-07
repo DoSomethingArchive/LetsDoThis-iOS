@@ -11,6 +11,7 @@
 #import "LDTNavigationController.h"
 #import "LDTButton.h"
 #import "LDTMessage.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface LDTTheme : NSObject
 
