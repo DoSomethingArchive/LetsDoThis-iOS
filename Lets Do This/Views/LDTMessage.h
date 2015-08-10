@@ -10,7 +10,7 @@
 
 @interface LDTMessage : TSMessage
 
-+(void)displayErrorWithTitle:(NSString *)title;
-+(void)errorMessage:(NSError *)error;
++(void)displayErrorMessageForString:(NSString *)title;
++(void)displayErrorMessageForError:(NSError *)error;
 
 @end

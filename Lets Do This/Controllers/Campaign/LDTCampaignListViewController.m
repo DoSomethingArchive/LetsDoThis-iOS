@@ -49,16 +49,15 @@
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
-#warning I would use something more descriptive than just "theme"
-// Maybe styleView or something? Especially since we already have the `LDTTheme` class, it could get confusing
-    [self theme];
+
+    [self styleView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
-    [self theme];
+    [self styleView];
 
 #warning Is there a reason you wait to call this until viewDidAppear?
 // Could probably be called at the end of viewDidLoad
@@ -72,26 +71,26 @@
 // I.e., what if there's no connectivity at all before we even hit this fetchCampaigns method? What would we want the user to see?
 // If this method fails, the app is more or less useless
 // I'm thinking we should maybe do this loading on the previous screen--see notes in AppDelegate regarding this
-        [LDTMessage errorMessage:error];
+        [LDTMessage displayErrorMessageForError:error];
     }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-#warning Is there a reason we set this back to an empty string?
+
+    // Hides the navBar title when we present the CampaignDetailVC.
     self.navigationItem.title = @"";
 }
 
 #pragma LDTCampaignListViewController
 
-- (void) theme {
+- (void) styleView {
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
 
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
 
-#warning While `clickyBlue` is nice, we should maybe make this a little more descriptive :)
-    self.segmentedControl.tintColor = [LDTTheme clickyBlue];
+    self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
 
     [[UISegmentedControl appearance]
      setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -144,9 +143,6 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-#warning Don't need emptyCell declaration, just return nil at the last return
-// If we don't have a cell from this method we're going to crash anyway because emptyCell will be nil
-    UICollectionViewCell *emptyCell;
 
     if (indexPath.section == 0) {
         DSOCampaign *campaign = (DSOCampaign *)self.campaignList[indexPath.row];
@@ -169,7 +165,7 @@
         return cell;
     }
 
-    return emptyCell;
+    return nil;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{

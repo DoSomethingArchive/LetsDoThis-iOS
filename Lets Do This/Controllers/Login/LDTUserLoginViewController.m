@@ -71,12 +71,12 @@
     [self.submitButton disable];
     [self.passwordButton setTitle:[@"Forgot password?" uppercaseString] forState:UIControlStateNormal];
 
-    [self theme];
+    [self styleView];
 }
 
 #pragma mark - LDTUserLoginViewController
 
-- (void) theme {
+- (void) styleView {
     [LDTTheme setLightningBackground:self.view];
 
     UIFont *font = [LDTTheme font];
@@ -91,7 +91,7 @@
     self.passwordTextField.secureTextEntry = YES;
 
     self.passwordButton.backgroundColor = [UIColor whiteColor];
-    [self.passwordButton setTitleColor:[LDTTheme clickyBlue] forState:UIControlStateNormal];
+    [self.passwordButton setTitleColor:[LDTTheme ctaBlueColor] forState:UIControlStateNormal];
     [self.registerLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
@@ -121,7 +121,7 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if (![self validateEmail:self.emailTextField.text]) {
-        [LDTMessage displayErrorWithTitle:@"Please enter a valid email."];
+        [LDTMessage displayErrorMessageForString:@"Please enter a valid email."];
         [self.submitButton disable];
         return;
     }
@@ -138,7 +138,7 @@
 
     } errorHandler:^(NSError *error) {
         [self.passwordTextField becomeFirstResponder];
-        [LDTMessage errorMessage:error];
+        [LDTMessage displayErrorMessageForError:error];
     }];
 }
 

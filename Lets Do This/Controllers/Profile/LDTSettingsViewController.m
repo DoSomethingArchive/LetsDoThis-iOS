@@ -36,7 +36,7 @@
     self.title = [@"Settings" uppercaseString];
     self.notificationsSwitch.enabled = FALSE;
     [self setSwitch];
-    [self theme];
+    [self styleView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -46,7 +46,7 @@
 
 #pragma LDTSettingsViewController
 
-- (void)theme {
+- (void)styleView {
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
 
@@ -60,7 +60,7 @@
 
     [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
-    [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
+    [self.logoutButton setBackgroundColor:[LDTTheme ctaBlueColor]];
 }
 
 - (void)setSwitch {
@@ -121,7 +121,7 @@
         }];
 
     } errorHandler:^(NSError *error) {
-        [LDTMessage errorMessage:error];
+        [LDTMessage displayErrorMessageForError:error];
     }];
 }
 @end
