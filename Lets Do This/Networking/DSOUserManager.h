@@ -23,7 +23,7 @@
 
 - (BOOL)userHasCachedSession;
 
-- (void)connectWithCachedSessionWithCompletionHandler:(void(^)(DSOUser *))completionHandler
+- (void)connectWithCachedSessionWithCompletionHandler:(void (^)(void))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)endSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
