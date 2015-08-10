@@ -54,9 +54,8 @@
 
     }
     else {
-#warning We're not using the result of this method here, the DSOUser object
-// Are we going to at some point? If not, maybe we should have another method?
-        [[DSOUserManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(DSOUser *user) {
+
+        [[DSOUserManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^ {
 
 #warning Handling failure of fetch campaigns method
 // Referencing my notes from LDTCampaignListVC about handling this, I'm thinking we should either do this loading here or in the init method for
