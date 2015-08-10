@@ -54,19 +54,35 @@
 
     }
     else {
-
+#warning We're not using the result of this method here, the DSOUser object
+// Are we going to at some point? If not, maybe we should have another method?
         [[DSOUserManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(DSOUser *user) {
+#warning I would explicity init the tab bar controller on a separate line
+// It's better for code readability and more standard in iOS--I know in other languages people combine loads of statements on one line
 
+#warning Handling failure of fetch campaigns method
+// Referencing my notes from LDTCampaignListVC about handling this, I'm thinking we should either do this loading here or in the init method for
+// LDTTabBarController. If this fetch campaigns method fails, we'd probably want to present another view where they could retry the load,
+// since if we don't have campaigns and reportbacks the app is useless.
+// We could present a modal view or something or I guess it could be done through an error message on top of the tab bar controller, too
+// (with a "retry" button on it)
             [self.window.rootViewController presentViewController:[[LDTTabBarController alloc] init] animated:YES completion:nil];
 
         } errorHandler:^(NSError *error) {
 
             [self displayUserConnectVC];
+#warning This class method should probably be changed to something more descriptive
+// Like `showErrorMessageForError:`
             [LDTMessage errorMessage:error];
 
         }];
     }
     return YES;
+	
+#warning Handling connectivity loss
+// If we don't have this specified yet, it probably should be soon--since we don't persist state locally and any action taken requires network
+// connectivity, we should decide how we're going to handle connectivity loss: kick them back out of the tab bar controller if it's not regained
+// in a certain amount of time? Apple has Reachability classes we can use to monitor connectivity
 }
 
 - (void)displayUserConnectVC {
