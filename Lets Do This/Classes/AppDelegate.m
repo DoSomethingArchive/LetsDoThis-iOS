@@ -57,8 +57,6 @@
 #warning We're not using the result of this method here, the DSOUser object
 // Are we going to at some point? If not, maybe we should have another method?
         [[DSOUserManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^(DSOUser *user) {
-#warning I would explicity init the tab bar controller on a separate line
-// It's better for code readability and more standard in iOS--I know in other languages people combine loads of statements on one line
 
 #warning Handling failure of fetch campaigns method
 // Referencing my notes from LDTCampaignListVC about handling this, I'm thinking we should either do this loading here or in the init method for
@@ -66,7 +64,8 @@
 // since if we don't have campaigns and reportbacks the app is useless.
 // We could present a modal view or something or I guess it could be done through an error message on top of the tab bar controller, too
 // (with a "retry" button on it)
-            [self.window.rootViewController presentViewController:[[LDTTabBarController alloc] init] animated:YES completion:nil];
+            LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
+            [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
 
         } errorHandler:^(NSError *error) {
 
