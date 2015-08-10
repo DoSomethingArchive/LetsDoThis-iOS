@@ -68,7 +68,7 @@
 
 }
 
-- (void)connectWithCachedSessionWithCompletionHandler:(void(^)(DSOUser *))completionHandler
+- (void)connectWithCachedSessionWithCompletionHandler:(void (^)(void))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler {
 
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
@@ -85,11 +85,9 @@
            completionHandler:^(DSOUser *user) {
 
                self.user = user;
-
-                   if (completionHandler) {
-                       completionHandler(user);
-                   }
-
+               if (completionHandler) {
+                   completionHandler();
+               }
 
            }
                 errorHandler:^(NSError *error) {
