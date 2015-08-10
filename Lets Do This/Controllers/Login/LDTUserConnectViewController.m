@@ -38,7 +38,7 @@
     [self.facebookButton setTitle:@"Log in with Facebook" forState:UIControlStateNormal];
     [self.loginButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
 
-    [self theme];
+    [self styleView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -48,7 +48,7 @@
 
 #pragma mark - LDTUserConnectViewController
 
-- (void)theme {
+- (void)styleView {
     [LDTTheme setLightningBackground:self.view];
 
     [self.headerLabel setFont:[LDTTheme font]];

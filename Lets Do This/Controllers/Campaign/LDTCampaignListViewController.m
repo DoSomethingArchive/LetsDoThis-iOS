@@ -49,16 +49,15 @@
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
-#warning I would use something more descriptive than just "theme"
-// Maybe styleView or something? Especially since we already have the `LDTTheme` class, it could get confusing
-    [self theme];
+
+    [self styleView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
-    [self theme];
+    [self styleView];
 
 #warning Is there a reason you wait to call this until viewDidAppear?
 // Could probably be called at the end of viewDidLoad
@@ -85,7 +84,7 @@
 
 #pragma LDTCampaignListViewController
 
-- (void) theme {
+- (void) styleView {
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
 
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;

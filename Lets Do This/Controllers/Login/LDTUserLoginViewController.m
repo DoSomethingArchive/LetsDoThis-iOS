@@ -71,12 +71,12 @@
     [self.submitButton disable];
     [self.passwordButton setTitle:[@"Forgot password?" uppercaseString] forState:UIControlStateNormal];
 
-    [self theme];
+    [self styleView];
 }
 
 #pragma mark - LDTUserLoginViewController
 
-- (void) theme {
+- (void) styleView {
     [LDTTheme setLightningBackground:self.view];
 
     UIFont *font = [LDTTheme font];

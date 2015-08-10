@@ -46,7 +46,7 @@
 
     [super viewDidLoad];
 
-    [self theme];
+    [self styleView];
     self.IDstring = [NSString stringWithFormat:@"%li", (long)self.campaign.campaignID];
     self.titleLabel.text = [self.campaign.title uppercaseString];
     self.taglineLabel.text = self.campaign.tagline;
@@ -59,7 +59,7 @@
 
 #pragma mark - LDTCampaignDetailViewController
 
-- (void) theme {
+- (void) styleView {
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setClear];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;

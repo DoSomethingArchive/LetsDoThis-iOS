@@ -36,7 +36,7 @@
     self.title = [@"Settings" uppercaseString];
     self.notificationsSwitch.enabled = FALSE;
     [self setSwitch];
-    [self theme];
+    [self styleView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -46,7 +46,7 @@
 
 #pragma LDTSettingsViewController
 
-- (void)theme {
+- (void)styleView {
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
 
