@@ -18,7 +18,7 @@
         self.campaignID = [values valueForKeyAsInt:@"id" nullValue:self.campaignID];
         self.title = [values valueForKeyAsString:@"title" nullValue:self.title];
         self.tagline = [values valueForKeyAsString:@"tagline" nullValue:self.tagline];
-        self.coverImage = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsString:@"uri" nullValue:self.coverImage];
+        self.coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:self.coverImage];
         self.reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
         self.reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
         self.factProblem = [values[@"facts"] valueForKeyAsString:@"problem" nullValue:self.factProblem];
