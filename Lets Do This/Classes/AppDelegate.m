@@ -85,6 +85,7 @@
 
 - (void)displayUserConnectVC {
     LDTNavigationController *navVC = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
+    [LDTMessage setDefaultViewController:navVC];
     [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
 }
 
