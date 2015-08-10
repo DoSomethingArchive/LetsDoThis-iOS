@@ -78,7 +78,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-#warning Is there a reason we set this back to an empty string?
+
+    // Hides the navBar title when we present the CampaignDetailVC.
     self.navigationItem.title = @"";
 }
 
@@ -90,8 +91,7 @@
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
 
-#warning While `clickyBlue` is nice, we should maybe make this a little more descriptive :)
-    self.segmentedControl.tintColor = [LDTTheme clickyBlue];
+    self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
 
     [[UISegmentedControl appearance]
      setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:

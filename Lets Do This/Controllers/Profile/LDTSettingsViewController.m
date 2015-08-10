@@ -60,7 +60,7 @@
 
     [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
-    [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
+    [self.logoutButton setBackgroundColor:[LDTTheme ctaBlueColor]];
 }
 
 - (void)setSwitch {
