@@ -10,21 +10,21 @@
 
 @implementation LDTTheme
 
-+(UIColor *)clickyBlue {
++(UIColor *)ctaBlueColor {
     return [UIColor colorWithRed:0
                            green:174.0f/255.0f
                             blue:238.0f/255.0f
                            alpha:1.0f];
 }
 
-+(UIColor *)disabledGray {
++(UIColor *)disabledGrayColor {
     return [UIColor colorWithRed:178.0f/255.0f
                            green:178.0f/255.0f
                             blue:178.0f/255.0f
                            alpha:1.0f];
 }
 
-+(UIColor *)facebookBlue {
++(UIColor *)facebookBlueColor {
     return [UIColor colorWithRed:65.0f/255.0f
                            green:94.0f/255.0f
                             blue:169.0f/255.0f

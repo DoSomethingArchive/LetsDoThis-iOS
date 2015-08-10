@@ -91,7 +91,7 @@
     self.passwordTextField.secureTextEntry = YES;
 
     self.passwordButton.backgroundColor = [UIColor whiteColor];
-    [self.passwordButton setTitleColor:[LDTTheme clickyBlue] forState:UIControlStateNormal];
+    [self.passwordButton setTitleColor:[LDTTheme ctaBlueColor] forState:UIControlStateNormal];
     [self.registerLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
