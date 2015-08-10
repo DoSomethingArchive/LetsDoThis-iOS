@@ -38,7 +38,7 @@
     [self.facebookButton setTitle:@"Log in with Facebook" forState:UIControlStateNormal];
     [self.loginButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
 
-    [self theme];
+    [self styleView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -48,18 +48,18 @@
 
 #pragma mark - LDTUserConnectViewController
 
-- (void)theme {
+- (void)styleView {
     [LDTTheme setLightningBackground:self.view];
 
     [self.headerLabel setFont:[LDTTheme font]];
     [self.headerLabel setTextColor:[UIColor whiteColor]];
 
-    [self.registerButton setBackgroundColor:[LDTTheme clickyBlue]];
+    [self.registerButton setBackgroundColor:[LDTTheme ctaBlueColor]];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.facebookButton setBackgroundColor:[LDTTheme facebookBlue]];
+    [self.facebookButton setBackgroundColor:[LDTTheme facebookBlueColor]];
     [self.facebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loginButton setBackgroundColor:[UIColor whiteColor]];
-    [self.loginButton setTitleColor:[LDTTheme clickyBlue] forState:UIControlStateNormal];
+    [self.loginButton setTitleColor:[LDTTheme ctaBlueColor] forState:UIControlStateNormal];
 }
 
 - (IBAction)registerTapped:(id)sender {

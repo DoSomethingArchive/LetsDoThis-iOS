@@ -52,7 +52,7 @@ static NSString *cellIdentifier;
     self.navigationItem.title = nil;
     self.nameLabel.text = [self.user displayName];
     self.avatarImageView.image = self.user.photo;
-    [self theme];
+    [self styleView];
 
     cellIdentifier = @"rowCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
@@ -77,7 +77,7 @@ static NSString *cellIdentifier;
         [self.tableView reloadData];
 
     } errorHandler:^(NSError *error) {
-        [LDTMessage errorMessage:error];
+        [LDTMessage displayErrorMessageForError:error];
     }];
 
 }
@@ -90,7 +90,7 @@ static NSString *cellIdentifier;
 
 #pragma Mark - LDTUserProfileViewController
 
-- (void) theme {
+- (void) styleView {
     [LDTTheme setLightningBackground:self.headerView];
     [self.avatarImageView addCircleFrame];
 
