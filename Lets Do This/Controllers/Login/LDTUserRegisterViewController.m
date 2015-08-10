@@ -195,11 +195,11 @@
 
 
             } errorHandler:^(NSError *error) {
-                [LDTMessage errorMessage:error];
+                [LDTMessage displayErrorMessageForError:error];
             }];
 
         } failure:^(NSError *error) {
-            [LDTMessage errorMessage:error];
+            [LDTMessage displayErrorMessageForError:error];
         }];
 
     }
@@ -308,7 +308,7 @@
 
     if ([errorMessages count] > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
-        [LDTMessage displayErrorWithTitle:errorMessage];
+        [LDTMessage displayErrorMessageForString:errorMessage];
         return NO;
     }
     return YES;

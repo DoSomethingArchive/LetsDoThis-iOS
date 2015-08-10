@@ -121,7 +121,7 @@
         }];
 
     } errorHandler:^(NSError *error) {
-        [LDTMessage errorMessage:error];
+        [LDTMessage displayErrorMessageForError:error];
     }];
 }
 @end

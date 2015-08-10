@@ -71,9 +71,8 @@
         } errorHandler:^(NSError *error) {
 
             [self displayUserConnectVC];
-#warning This class method should probably be changed to something more descriptive
-// Like `showErrorMessageForError:`
-            [LDTMessage errorMessage:error];
+
+            [LDTMessage displayErrorMessageForError:error];
 
         }];
     }
