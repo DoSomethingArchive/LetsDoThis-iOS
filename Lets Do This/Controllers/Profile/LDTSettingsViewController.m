@@ -115,6 +115,7 @@
         [self dismissViewControllerAnimated:YES completion:^{
 
             LDTNavigationController *destVC = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] init]];
+            [LDTMessage setDefaultViewController:destVC];
 
             [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
 
