@@ -121,7 +121,7 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if (![self validateEmail:self.emailTextField.text]) {
-        [LDTMessage displayErrorWithTitle:@"Please enter a valid email."];
+        [LDTMessage displayErrorMessageForString:@"Please enter a valid email."];
         [self.submitButton disable];
         return;
     }
@@ -138,7 +138,7 @@
 
     } errorHandler:^(NSError *error) {
         [self.passwordTextField becomeFirstResponder];
-        [LDTMessage errorMessage:error];
+        [LDTMessage displayErrorMessageForError:error];
     }];
 }
 

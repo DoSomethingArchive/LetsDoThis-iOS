@@ -11,12 +11,12 @@
 
 @implementation LDTMessage
 
-+(void)displayErrorWithTitle:(NSString *)title {
++(void)displayErrorMessageForString:(NSString *)title {
     [TSMessage showNotificationWithTitle:title
                                     type:TSMessageNotificationTypeError];
 }
 
-+(void)errorMessage:(NSError *)error {
++(void)displayErrorMessageForError:(NSError *)error {
     NSInteger code = error.code;
     NSString *message = error.localizedDescription;
 

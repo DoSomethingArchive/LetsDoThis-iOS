@@ -77,7 +77,7 @@ static NSString *cellIdentifier;
         [self.tableView reloadData];
 
     } errorHandler:^(NSError *error) {
-        [LDTMessage errorMessage:error];
+        [LDTMessage displayErrorMessageForError:error];
     }];
 
 }
