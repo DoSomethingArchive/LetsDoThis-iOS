@@ -45,12 +45,6 @@
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
 
     [self styleView];
-
-    [[DSOAPI sharedInstance] fetchReportbackItemsWithCompletionHandler:^(NSArray *rbItems) {
-        self.allReportbackItems = rbItems;
-    } errorHandler:^(NSError *error) {
-        [LDTMessage displayErrorMessageForError:error];
-    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -133,6 +127,11 @@
 
     }
 
+    [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:self.allCampaigns completionHandler:^(NSArray *rbItems) {
+        self.allReportbackItems = rbItems;
+    } errorHandler:^(NSError *error) {
+        [LDTMessage displayErrorMessageForError:error];
+    }];
 }
 
 - (NSNumber *)selectedInterestGroupId {
