@@ -21,8 +21,6 @@
 @property (strong, nonatomic) NSArray *allReportbackItems;
 @property (strong, nonatomic) NSMutableDictionary *interestGroups;
 
-@property (strong, nonatomic) NSMutableArray *campaignList;
-
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
@@ -113,7 +111,10 @@
 - (void) createInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
     for (NSDictionary *term in [DSOAPI sharedInstance].interestGroups) {
-        self.interestGroups[term[@"id"]] = [[NSMutableArray alloc] init];
+
+        self.interestGroups[term[@"id"]] = @{
+                                             @"campaigns" : [[NSMutableArray alloc] init],
+                                             @"reportbackItems" : [[NSMutableArray alloc] init]};
     }
 
     for (DSOCampaign *campaign in self.allCampaigns) {
@@ -123,14 +124,14 @@
             NSNumber *termID = [NSNumber numberWithInt:[termDict[@"id"] intValue]];
 
             if ([self.interestGroups objectForKey:termID]) {
-                [self.interestGroups[termID] addObject:campaign];
+                NSMutableArray *campaigns = self.interestGroups[termID][@"campaigns"];
+                [campaigns addObject:campaign];
                 continue;
             }
         }
 
     }
 
-    self.campaignList = self.interestGroups[[self selectedInterestGroupId]];
 }
 
 - (NSNumber *)selectedInterestGroupId {
@@ -141,10 +142,13 @@
 #pragma UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+
     if (section > 0) {
         return [self.allReportbackItems count];
     }
-    return [self.campaignList count];
+
+    NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
+    return [campaignList count];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -154,7 +158,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.section == 0) {
-        DSOCampaign *campaign = (DSOCampaign *)self.campaignList[indexPath.row];
+        NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
+        DSOCampaign *campaign = (DSOCampaign *)campaignList[indexPath.row];
         LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
         cell.titleLabel.text = [campaign.title uppercaseString];
 #warning Check out the SDWebImageOptions in
@@ -187,16 +192,13 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-#warning If they touch up inside a campaign on this page aren't we expanding the cell to allow them to sign up?
-// https://github.com/DoSomething/LetsDoThis-iOS/issues/173
-// We also need to handle the case where they touch up inside a reportback in section 1, right?
-    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:self.campaignList[indexPath.row]];
+#warning @todo
+    NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
+    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaignList[indexPath.row]];
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
 - (IBAction)segmentedControlValueChanged:(id)sender {
-    self.campaignList = self.interestGroups[[self selectedInterestGroupId]];
-
     [self.collectionView reloadData];
 }
 
