@@ -114,7 +114,8 @@
 
         self.interestGroups[term[@"id"]] = @{
                                              @"campaigns" : [[NSMutableArray alloc] init],
-                                             @"reportbackItems" : [[NSMutableArray alloc] init]};
+                                             @"reportbackItems" : [[NSMutableArray alloc] init]
+                                             };
     }
 
     for (DSOCampaign *campaign in self.allCampaigns) {
@@ -192,7 +193,13 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-#warning @todo
+
+    if (indexPath.section > 0) {
+        // @todo: Present a ReportbackItemVC for selected ReportbackItem.
+        return;
+    }
+
+    // @todo: Cell should expand and display a button, the pushVC happens upon button tap
     NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaignList[indexPath.row]];
     [self.navigationController pushViewController:destVC animated:YES];
