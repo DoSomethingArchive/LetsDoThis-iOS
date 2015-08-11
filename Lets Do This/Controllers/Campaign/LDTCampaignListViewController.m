@@ -19,9 +19,8 @@
 
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
-@property (strong, nonatomic) NSArray *interestGroupIdStrings;
 @property (strong, nonatomic) NSMutableDictionary *interestGroups;
-@property (strong, nonatomic) NSString *selectedInterestGroupId;
+
 @property (strong, nonatomic) NSMutableArray *campaignList;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
