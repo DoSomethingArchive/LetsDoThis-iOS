@@ -37,14 +37,9 @@
     [super viewDidLoad];
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
-	
-#warning If these groups are really going to be hardcoded, can just make a dict property in this class to return them
-// Could also maybe consider making these group IDs NSNumbers instead of strings, since they're numbers
-// There's methods to test equality among NSNumbers, can also use as keys on a dict
-    self.selectedInterestGroupId = [DSOAPI sharedInstance].interestGroupIdStrings[0];
 
     for (int i = 0; i < 4; i++) {
-        [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroupNameStrings[i] forSegmentAtIndex:i];
+        [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forSegmentAtIndex:i];
     }
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
@@ -59,8 +54,6 @@
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
     [self styleView];
 
-#warning Is there a reason you wait to call this until viewDidAppear?
-// Could probably be called at the end of viewDidLoad
     [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
         self.allCampaigns = [campaigns allValues];
         [self createInterestGroups];
@@ -112,15 +105,15 @@
 
 - (void) createInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
-    for (NSString *termID in [DSOAPI sharedInstance].interestGroupIdStrings) {
-        self.interestGroups[termID] = [[NSMutableArray alloc] init];
+    for (NSDictionary *term in [DSOAPI sharedInstance].interestGroups) {
+        self.interestGroups[term[@"id"]] = [[NSMutableArray alloc] init];
     }
 
     for (DSOCampaign *campaign in self.allCampaigns) {
 
         // Because all taxonomy terms are stored in the tags property, we have to loop through and find which ones are Interest Group terms.
         for (NSDictionary *termDict in campaign.tags) {
-            NSString *termID = termDict[@"id"];
+            NSNumber *termID = [NSNumber numberWithInt:[termDict[@"id"] intValue]];
 
             if ([self.interestGroups objectForKey:termID]) {
                 [self.interestGroups[termID] addObject:campaign];
@@ -129,7 +122,13 @@
         }
 
     }
-    self.campaignList = self.interestGroups[self.selectedInterestGroupId];
+
+    self.campaignList = self.interestGroups[[self selectedInterestGroupId]];
+}
+
+- (NSNumber *)selectedInterestGroupId {
+    NSDictionary *term = [DSOAPI sharedInstance].interestGroups[self.segmentedControl.selectedSegmentIndex];
+    return (NSNumber *)term[@"id"];
 }
 
 #pragma UICollectionViewDataSource
@@ -185,9 +184,7 @@
 }
 
 - (IBAction)segmentedControlValueChanged:(id)sender {
-    NSString *termID = [DSOAPI sharedInstance].interestGroupIdStrings[self.segmentedControl.selectedSegmentIndex];
-    self.selectedInterestGroupId = termID;
-    self.campaignList = self.interestGroups[termID];
+    self.campaignList = self.interestGroups[[self selectedInterestGroupId]];
 
     [self.collectionView reloadData];
 }

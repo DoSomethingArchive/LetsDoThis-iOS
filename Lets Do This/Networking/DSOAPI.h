@@ -17,9 +17,7 @@
 
 - (NSString *)phoenixBaseUrl;
 
-- (NSArray *)interestGroupIdStrings;
-
-- (NSArray *)interestGroupNameStrings;
+- (NSArray *)interestGroups;
 
 - (void)setHTTPHeaderFieldSession:(NSString *)token;
 
