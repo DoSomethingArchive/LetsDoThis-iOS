@@ -117,21 +117,25 @@
         // Because all taxonomy terms are stored in the tags property, we have to loop through and find which ones are Interest Group terms.
         for (NSDictionary *termDict in campaign.tags) {
             NSNumber *termID = [NSNumber numberWithInt:[termDict[@"id"] intValue]];
-
             if ([self.interestGroups objectForKey:termID]) {
                 NSMutableArray *campaigns = self.interestGroups[termID][@"campaigns"];
                 [campaigns addObject:campaign];
                 continue;
             }
         }
-
     }
 
-    [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:self.allCampaigns completionHandler:^(NSArray *rbItems) {
-        self.allReportbackItems = rbItems;
-    } errorHandler:^(NSError *error) {
-        [LDTMessage displayErrorMessageForError:error];
-    }];
+    for (NSNumber *key in self.interestGroups) {
+
+        [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] completionHandler:^(NSArray *rbItems) {
+            for (DSOReportbackItem *rbItem in rbItems) {
+                [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
+            }
+        } errorHandler:^(NSError *error) {
+            [LDTMessage displayErrorMessageForError:error];
+        }];
+
+    }
 }
 
 - (NSNumber *)selectedInterestGroupId {
@@ -143,12 +147,13 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
+    NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
+
     if (section > 0) {
-        return [self.allReportbackItems count];
+        return [interestGroup[@"reportbackItems"] count];
     }
 
-    NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
-    return [campaignList count];
+    return [interestGroup[@"campaigns"] count];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -157,8 +162,10 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
+    NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
+
     if (indexPath.section == 0) {
-        NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
+        NSArray *campaignList = interestGroup[@"campaigns"];
         DSOCampaign *campaign = (DSOCampaign *)campaignList[indexPath.row];
         LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
         cell.titleLabel.text = [campaign.title uppercaseString];
@@ -174,8 +181,9 @@
         return cell;
     }
     else {
+        NSArray *rbItems = interestGroup[@"reportbackItems"];
         LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-        DSOReportbackItem *rbItem = self.allReportbackItems[indexPath.row];
+        DSOReportbackItem *rbItem = rbItems[indexPath.row];
         [cell.imageView sd_setImageWithURL:rbItem.imageURL];
         return cell;
     }
