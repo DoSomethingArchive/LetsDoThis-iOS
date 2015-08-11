@@ -242,10 +242,16 @@
     }];
 }
 
-- (void)fetchReportbackItemsWithCompletionHandler:(void(^)(NSArray *))completionHandler
-                                     errorHandler:(void(^)(NSError *))errorHandler {
+- (void)fetchReportbackItemsForCampaigns:(NSArray *)campaigns
+                       completionHandler:(void(^)(NSArray *))completionHandler
+                            errorHandler:(void(^)(NSError *))errorHandler {
 
-    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?status=promoted", self.phoenixApiURL];
+    NSMutableArray *campaignIds = [[NSMutableArray alloc] init];
+    for (DSOCampaign *campaign in campaigns) {
+        [campaignIds addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];
+    }
+
+    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?status=promoted&campaigns=%@", self.phoenixApiURL, [campaignIds componentsJoinedByString:@","]];
 
     [self GET:url
    parameters:nil
