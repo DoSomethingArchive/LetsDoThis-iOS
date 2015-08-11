@@ -18,10 +18,13 @@
 #define LDTSERVER @"northstar-qa.dosomething.org"
 
 @interface DSOAPI()
-@property (nonatomic, strong) NSArray *interestGroupIdStrings;
-@property (nonatomic, strong) NSArray *interestGroupNameStrings;
+
+// Stores Interest Group taxonomy terms as NSDictionaries.
+@property (nonatomic, strong) NSArray *interestGroups;
+
 @property (nonatomic, strong) NSString *phoenixBaseURL;
 @property (nonatomic, strong) NSString *phoenixApiURL;
+
 @end
 
 @implementation DSOAPI
@@ -63,9 +66,16 @@
         self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
 
-#warning @todo: Better to store as dictionaries? This feels gross.
-        self.interestGroupIdStrings = @[@"669", @"667", @"668", @"670"];
-        self.interestGroupNameStrings = @[@"Artsy", @"Bro", @"Fem", @"Social"];
+        self.interestGroups = @[@{@"id" : [NSNumber numberWithInt:669],
+                                  @"name" : @"Artsy"},
+                                @{@"id" : [NSNumber numberWithInt:667],
+                                  @"name" : @"Bro"},
+                                @{@"id" : [NSNumber numberWithInt:668],
+                                  @"name" : @"Fem"},
+                                @{@"id" : [NSNumber numberWithInt:670],
+                                  @"name" : @"Social"}
+                                ];
+
     }
     return self;
 }
@@ -76,12 +86,8 @@
     return _phoenixBaseURL;
 }
 
-- (NSArray *)interestGroupIdStrings {
-    return _interestGroupIdStrings;
-}
-
-- (NSArray *)interestGroupNameStrings {
-    return _interestGroupNameStrings;
+- (NSArray *)interestGroups {
+    return _interestGroups;
 }
 
 - (void)setHTTPHeaderFieldSession:(NSString *)token {
@@ -207,7 +213,13 @@
 - (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                                errorHandler:(void(^)(NSError *))errorHandler {
 
-    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app=true&term_ids=%@", self.phoenixApiURL, [self.interestGroupIdStrings componentsJoinedByString:@","]];
+    NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
+    for (NSDictionary *term in self.interestGroups) {
+        NSNumber *termId = (NSNumber *)term[@"id"];
+        [termIdStrings addObject:[termId stringValue]];
+    }
+
+    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app=true&term_ids=%@", self.phoenixApiURL, [termIdStrings componentsJoinedByString:@","]];
 
     [self GET:url
    parameters:nil
