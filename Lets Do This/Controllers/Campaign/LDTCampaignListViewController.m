@@ -56,8 +56,6 @@
     [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
         self.allCampaigns = [campaigns allValues];
         [self createInterestGroups];
-        [self.collectionView reloadData];
-
     } errorHandler:^(NSError *error) {
 #warning We should talk more about error handling for this screen
 // I.e., what if there's no connectivity at all before we even hit this fetchCampaigns method? What would we want the user to see?
@@ -131,6 +129,7 @@
             for (DSOReportbackItem *rbItem in rbItems) {
                 [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
             }
+            [self.collectionView reloadData];
         } errorHandler:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
         }];
