@@ -10,6 +10,7 @@
 #import "AFNetworkActivityLogger.h"
 #import <SSKeychain/SSKeychain.h>
 #import "DSOCampaign.h"
+#import "DSOReportbackItem.h"
 
 // API Constants
 #define isActivityLogging NO
@@ -239,6 +240,32 @@
         }
         [self logError:error];
     }];
+}
+
+- (void)fetchReportbackItemsWithCompletionHandler:(void(^)(NSArray *))completionHandler
+                                     errorHandler:(void(^)(NSError *))errorHandler {
+
+    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?status=promoted", self.phoenixApiURL];
+
+    [self GET:url
+   parameters:nil
+      success:^(NSURLSessionDataTask *task, id responseObject) {
+          NSMutableArray *rbItems = [[NSMutableArray alloc] init];
+          for (NSDictionary* rbItemDict in responseObject[@"data"]) {
+              DSOReportbackItem *rbItem = [[DSOReportbackItem alloc] initWithDict:rbItemDict];
+              [rbItems addObject:rbItem];
+          }
+          if (completionHandler) {
+              completionHandler(rbItems);
+          }
+      }
+      failure:^(NSURLSessionDataTask *task, NSError *error) {
+          if (errorHandler) {
+              errorHandler(error);
+          }
+          [self logError:error];
+      }];
+
 }
 
 - (void)logError:(NSError *)error {
