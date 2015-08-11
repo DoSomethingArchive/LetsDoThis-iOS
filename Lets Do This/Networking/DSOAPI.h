@@ -49,4 +49,7 @@
 - (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                                errorHandler:(void(^)(NSError *))errorHandler;
 
+- (void)fetchReportbackItemsWithCompletionHandler:(void(^)(NSArray *))completionHandler
+                               errorHandler:(void(^)(NSError *))errorHandler;
+
 @end
