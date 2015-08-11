@@ -9,6 +9,7 @@
 #import "LDTCampaignListViewController.h"
 #import "DSOAPI.h"
 #import "DSOCampaign.h"
+#import "DSOReportbackItem.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewcontroller.h"
 #import "LDTCampaignListCampaignCell.h"
@@ -17,6 +18,7 @@
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) NSArray *allCampaigns;
+@property (strong, nonatomic) NSArray *allReportbackItems;
 @property (strong, nonatomic) NSArray *interestGroupIdStrings;
 @property (strong, nonatomic) NSMutableDictionary *interestGroups;
 @property (strong, nonatomic) NSString *selectedInterestGroupId;
@@ -46,6 +48,12 @@
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
 
     [self styleView];
+
+    [[DSOAPI sharedInstance] fetchReportbackItemsWithCompletionHandler:^(NSArray *rbItems) {
+        self.allReportbackItems = rbItems;
+    } errorHandler:^(NSError *error) {
+        [LDTMessage displayErrorMessageForError:error];
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -134,6 +142,9 @@
 #pragma UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if (section > 0) {
+        return [self.allReportbackItems count];
+    }
     return [self.campaignList count];
 }
 
@@ -160,7 +171,8 @@
     }
     else {
         LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"http://www.helpinghomelesscats.com/images/cat1.jpg"]];
+        DSOReportbackItem *rbItem = self.allReportbackItems[indexPath.row];
+        [cell.imageView sd_setImageWithURL:rbItem.imageURL];
         return cell;
     }
 
