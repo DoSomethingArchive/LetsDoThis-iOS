@@ -192,10 +192,12 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat height = 150;
     if (indexPath.section == 1) {
-        width = width / 2.5;
+        width = width / 2.1;
+        height = width;
     }
-    return CGSizeMake(width, 100);
+    return CGSizeMake(width, height);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
