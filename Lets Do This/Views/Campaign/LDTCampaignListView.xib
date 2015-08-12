@@ -32,7 +32,7 @@
                     </connections>
                 </segmentedControl>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="410-82-MGm">
-                    <rect key="frame" x="0.0" y="70" width="600" height="530"/>
+                    <rect key="frame" x="0.0" y="60" width="600" height="540"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5Ha-gu-PSJ">
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -52,7 +52,7 @@
                 <constraint firstItem="egp-zm-2wL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="Cyu-Sx-UHj"/>
                 <constraint firstItem="egp-zm-2wL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="I7q-VM-5u6"/>
                 <constraint firstAttribute="trailing" secondItem="egp-zm-2wL" secondAttribute="trailing" constant="8" id="RxG-vg-Zg3"/>
-                <constraint firstItem="410-82-MGm" firstAttribute="top" secondItem="egp-zm-2wL" secondAttribute="bottom" constant="18" id="VPK-Rt-U5M"/>
+                <constraint firstItem="410-82-MGm" firstAttribute="top" secondItem="egp-zm-2wL" secondAttribute="bottom" constant="8" id="VPK-Rt-U5M"/>
                 <constraint firstAttribute="trailing" secondItem="410-82-MGm" secondAttribute="trailing" id="VdC-Ve-OZj"/>
             </constraints>
         </view>

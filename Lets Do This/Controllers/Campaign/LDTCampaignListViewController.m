@@ -14,14 +14,16 @@
 #import "LDTCampaignDetailViewcontroller.h"
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
+#import "LDTCampaignListCollectionViewFlowLayout.h"
 
-@interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
 @property (strong, nonatomic) NSMutableDictionary *interestGroups;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) LDTCampaignListCollectionViewFlowLayout *flowLayout;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 - (IBAction)segmentedControlValueChanged:(id)sender;
@@ -45,6 +47,9 @@
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
 
     [self styleView];
+    self.flowLayout = [[LDTCampaignListCollectionViewFlowLayout alloc] init];
+    self.flowLayout.minimumInteritemSpacing = 8.0f;
+    [self.collectionView setCollectionViewLayout:self.flowLayout];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -97,7 +102,6 @@
                              NSForegroundColorAttributeName,
                              nil]
      forState:UIControlStateSelected];
-;
 }
 
 - (void) createInterestGroups {
@@ -192,10 +196,17 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat height = 150;
+
     if (indexPath.section == 1) {
-        width = width / 2.5;
+        // Subtract left, right, and middle gutters with width 8.
+        width = width - 24;
+        // Divide by half to fit 2 cells on a row.
+        width = width / 2;
+        // Make it a square.
+        height = width;
     }
-    return CGSizeMake(width, 100);
+    return CGSizeMake(width, height);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -215,5 +226,23 @@
     [self.collectionView reloadData];
 }
 
+#pragma UICollectionViewDelegateFlowLayout
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                   layout:(UICollectionViewLayout *)collectionViewLayout
+minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    if (section > 0) {
+        return 8.0f;
+    }
+    return 0.0f;
+}
+
+- (UIEdgeInsets)collectionView:
+(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    if (section > 0){
+        return UIEdgeInsetsMake(100, 0, 0, 0);
+    }
+    return UIEdgeInsetsMake(0, 0, 0, 0);
+}
 
 @end
