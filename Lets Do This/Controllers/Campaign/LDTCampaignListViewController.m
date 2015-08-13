@@ -15,6 +15,7 @@
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTCampaignListCollectionViewFlowLayout.h"
+#import "LDTCollectionReusableView.h"
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -45,6 +46,7 @@
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
 
     [self styleView];
     self.flowLayout = [[LDTCampaignListCollectionViewFlowLayout alloc] init];
@@ -240,9 +242,34 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     if (section > 0){
-        return UIEdgeInsetsMake(100, 0, 0, 0);
+        // Adds border below the section 1 header:
+        return UIEdgeInsetsMake(8.0f, 0, 0, 0);
     }
     return UIEdgeInsetsMake(0, 0, 0, 0);
+}
+
+- (CGSize) collectionView:(UICollectionView *)collectionView
+                   layout:(UICollectionViewLayout *)collectionViewLayout
+referenceSizeForHeaderInSection:(NSInteger)section {
+    if (section > 0) {
+        // Width is ignored
+        return CGSizeMake(60.0f, 50.0f);
+    }
+    return CGSizeMake(0.0f, 0.0f);
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionReusableView *reusableView = nil;
+
+    if (kind == UICollectionElementKindSectionHeader) {
+        LDTCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
+        headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
+        headerView.backgroundColor = [LDTTheme ctaBlueColor];
+        reusableView = headerView;
+    }
+
+    return reusableView;
 }
 
 @end
