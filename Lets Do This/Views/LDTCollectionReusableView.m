@@ -12,7 +12,8 @@
 @implementation LDTCollectionReusableView
 
 - (void)awakeFromNib {
-    self.titleLabel.font = [LDTTheme fontBoldWithSize:24.0f];
+    self.titleLabel.font = [LDTTheme fontBoldWithSize:18.0f];
+    self.backgroundColor = [LDTTheme lightGrayColor];
 }
 
 @end

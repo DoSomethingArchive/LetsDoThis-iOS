@@ -12,14 +12,11 @@
 
 -(NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
     NSArray *attributesForElementsInRect = [super layoutAttributesForElementsInRect:rect];
-    NSLog(@"attributesForElementsInRect %@", attributesForElementsInRect);
-    NSLog(@"Count : %ld", (long)attributesForElementsInRect.count);
     NSMutableArray *newAttributesForElementsInRect = [[NSMutableArray alloc] initWithCapacity:attributesForElementsInRect.count];
 
     CGFloat leftMargin = 8.0f;
 
     for (UICollectionViewLayoutAttributes *attributes in attributesForElementsInRect) {
-
 
         if (attributes.indexPath.section == 1) {
 

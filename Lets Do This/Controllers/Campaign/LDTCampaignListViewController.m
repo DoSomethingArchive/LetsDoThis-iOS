@@ -248,8 +248,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
-- (CGSize) collectionView:(UICollectionView *)collectionView
-                   layout:(UICollectionViewLayout *)collectionViewLayout
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
 referenceSizeForHeaderInSection:(NSInteger)section {
     if (section > 0) {
         // Width is ignored
@@ -258,14 +258,15 @@ referenceSizeForHeaderInSection:(NSInteger)section {
     return CGSizeMake(0.0f, 0.0f);
 }
 
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-{
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath{
+
     UICollectionReusableView *reusableView = nil;
 
     if (kind == UICollectionElementKindSectionHeader) {
         LDTCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
         headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
-        headerView.backgroundColor = [LDTTheme ctaBlueColor];
         reusableView = headerView;
     }
 
