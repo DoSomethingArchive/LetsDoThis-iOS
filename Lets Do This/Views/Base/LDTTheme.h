@@ -18,6 +18,7 @@
 +(UIColor *)ctaBlueColor;
 +(UIColor *)disabledGrayColor;
 +(UIColor *)facebookBlueColor;
++(UIColor *)lightGrayColor;
 +(UIColor *)orangeColor;
 
 +(UIFont *)font;
