@@ -24,6 +24,7 @@
     self.expiresLabel.textColor = [UIColor grayColor];
     self.titleLabel.textColor = [UIColor whiteColor];
     [self.actionButton enable];
+    [self.imageView addGrayTint];
 }
 
 @end
