@@ -38,6 +38,10 @@
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;
 
+- (void)updateUserAvatarWithPhoto:(UIImage *)image
+                completionHandler:(void(^)(id))completionHandler
+                     errorHandler:(void(^)(NSError *))errorHandler;
+
 - (void)createSignupForCampaignId:(NSInteger)campaignId
                 completionHandler:(void(^)(NSDictionary *))completionHandler
                      errorHandler:(void(^)(NSError *))errorHandler;
