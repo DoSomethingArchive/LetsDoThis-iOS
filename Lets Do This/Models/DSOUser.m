@@ -22,8 +22,9 @@
 @property (nonatomic, strong, readwrite) NSDate *birthdate;
 @property (nonatomic, strong, readwrite) UIImage *photo;
 @property (nonatomic, strong, readwrite) NSDictionary *campaigns;
-@property (nonatomic, strong, readwrite) NSDictionary *campaignsDoing;
-@property (nonatomic, strong, readwrite) NSDictionary *campaignsCompleted;
+@property (nonatomic, strong, readwrite) NSMutableArray *campaignIDsDoing;
+@property (nonatomic, strong, readwrite) NSMutableArray *campaignIDsCompleted;
+
 @end
 
 @implementation DSOUser
@@ -46,6 +47,7 @@
         }
         self.birthdate = dict[@"birthdate"];
         self.campaigns = dict[@"campaigns"];
+        [self syncCampaignIds];
     }
     return self;
 }
@@ -57,31 +59,22 @@
 	return _photo;
 }
 
-- (void)syncCampaignsDoing:(NSDictionary *)campaignDictionary {
-
-    NSMutableDictionary *doing = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *completed = [[NSMutableDictionary alloc] init];
+- (void)syncCampaignIds {
+    self.campaignIDsDoing = [[NSMutableArray alloc] init];
+    self.campaignIDsCompleted = [[NSMutableArray alloc] init];
 
     for (NSMutableDictionary *activityDict in self.campaigns) {
 
-        NSString *IDstring = activityDict[@"drupal_id"];
-        DSOCampaign *campaign = campaignDictionary[IDstring];
+        NSNumber *campaignID = [NSNumber numberWithInt:[activityDict[@"drupal_id"] intValue]];
 
-        if (campaign == nil) {
-            continue;
-        }
-        // Store campaigns indexed by ID for easy status lookup by CampaignID.
         if ([activityDict valueForKeyAsString:@"reportback_id"]) {
-            completed[IDstring] = campaign;
+            [self.campaignIDsCompleted addObject:campaignID];
         }
         else {
-            doing[IDstring] = campaign;
+            [self.campaignIDsDoing addObject:campaignID];
         }
     }
-    self.campaignsDoing = doing;
-    self.campaignsCompleted = completed;
 }
-
 
 - (NSString *)displayName {
     if(self.firstName.length > 0 && self.lastName.length > 0) {

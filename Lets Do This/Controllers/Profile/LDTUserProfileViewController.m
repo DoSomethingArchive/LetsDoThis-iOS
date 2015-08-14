@@ -69,10 +69,16 @@ static NSString *cellIdentifier;
 
     [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
 
-        [self.user syncCampaignsDoing:campaigns];
-        // Cast dictionaries to arrays for easier traversal in table rows.
-        self.campaignsDoing = (NSMutableArray *)[self.user.campaignsDoing allValues];
-        self.campaignsCompleted = (NSMutableArray *)[self.user.campaignsCompleted allValues];
+        self.campaignsDoing = [[NSMutableArray alloc] init];
+        self.campaignsCompleted = [[NSMutableArray alloc] init];
+
+        for (NSNumber *campaignID in self.user.campaignIDsDoing) {
+            if ([campaigns objectForKey:campaignID]) {
+                DSOCampaign *campaign = campaigns[campaignID];
+                [self.campaignsDoing addObject:campaign];
+            }
+        }
+        // @todo: Loop through campaignIdsCompleted
 
         [self.tableView reloadData];
 
