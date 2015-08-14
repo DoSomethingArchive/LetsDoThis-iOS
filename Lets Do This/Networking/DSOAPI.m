@@ -149,11 +149,11 @@
       }];
 }
 
-- (void)updateUserAvatarWithPhoto:(UIImage *)image
-                completionHandler:(void(^)(id))completionHandler
-                     errorHandler:(void(^)(NSError *))errorHandler
+- (void)postUserAvatarWithUserId:(NSString *)userID
+                       withImage:(UIImage *)image
+               completionHandler:(void(^)(id))completionHandler
+                    errorHandler:(void(^)(NSError *))errorHandler
 {
-    NSString *userID = [DSOUserManager sharedInstance].user.userID;
     NSString *urlPath = [NSString stringWithFormat:@"users/%@/avatar", userID];
     NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     NSString *fileNameForImage = [NSString stringWithFormat:@"User_%@_ProfileImage", userID];
