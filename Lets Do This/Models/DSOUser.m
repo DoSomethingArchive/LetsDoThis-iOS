@@ -87,4 +87,22 @@
     return self.lastName;
 }
 
+- (BOOL)isDoingCampaign:(DSOCampaign *)campaign {
+    for (NSNumber *campaignID in self.campaignIDsDoing) {
+        if ([campaignID intValue] == (int)campaign.campaignID) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign {
+    for (NSNumber *campaignID in self.campaignIDsCompleted) {
+        if ([campaignID intValue] == (int)campaign.campaignID) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 @end
