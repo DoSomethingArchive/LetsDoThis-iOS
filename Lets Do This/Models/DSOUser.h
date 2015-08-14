@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DSOCampaign.h"
 
 @class DSOUser;
 
@@ -23,13 +24,12 @@
 @property (nonatomic, strong, readonly) UIImage *photo;
 // Dictionary of campaign activity data.
 @property (nonatomic, strong, readonly) NSDictionary *campaigns;
-// Dictionary of DSOCampaign objects user is doing.
-@property (nonatomic, strong, readonly) NSDictionary *campaignsDoing;
-// Dictionary of DSOCampaign objects user has completed.
-@property (nonatomic, strong, readonly) NSDictionary *campaignsCompleted;
+
+@property (nonatomic, strong, readonly) NSMutableArray *campaignIDsDoing;
+@property (nonatomic, strong, readonly) NSMutableArray *campaignIDsCompleted;
 
 - (id)initWithDict:(NSDictionary*)dict;
-- (void)syncCampaignsDoing:(NSDictionary *)campaignDictionary;
-
+- (BOOL)isDoingCampaign:(DSOCampaign *)campaign;
+- (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign;
 
 @end
