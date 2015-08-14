@@ -158,6 +158,24 @@ const CGFloat kHeightExpanded = 400;
     [self.collectionView reloadData];
 }
 
+// Presents the selected campaign's CampaignDetailVC
+// @see http://stackoverflow.com/a/11400620/1470725
+
+- (void)presentCampaignDetail:(id)sender event:(id)event{
+    NSSet *touches = [event allTouches];
+    UITouch *touch = [touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:self.collectionView];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
+
+    NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
+    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaignList[indexPath.row]];
+
+    // @todo: Post campaign signup to API if not signed up
+
+    [self.navigationController pushViewController:destVC animated:YES];
+
+}
+
 #pragma UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -185,7 +203,11 @@ const CGFloat kHeightExpanded = 400;
         LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
         cell.titleLabel.text = [campaign.title uppercaseString];
         cell.taglineLabel.text = campaign.tagline;
+
+        // @todo: Conditional title based on user activity
         [cell.actionButton setTitle:[@"Do this now" uppercaseString] forState:UIControlStateNormal];
+        [cell.actionButton addTarget:self action:@selector(presentCampaignDetail:event:) forControlEvents:UIControlEventTouchUpInside];
+
         // @todo: Actually calculate this, and split expiresLabel into 2
         cell.expiresLabel.text = [@"Expires in 5 Days" uppercaseString];
 
@@ -253,12 +275,6 @@ const CGFloat kHeightExpanded = 400;
 
     [self.collectionView reloadData];
 
-    /*
-     // @todo: Move this into an actionButtonTapped IBAction
-    NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
-    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaignList[indexPath.row]];
-    [self.navigationController pushViewController:destVC animated:YES];
-     */
 }
 
 #pragma UICollectionViewDelegateFlowLayout
