@@ -17,4 +17,13 @@
     self.layer.borderColor = [UIColor whiteColor].CGColor;
 }
 
+- (void)addGrayTint {
+    CALayer *sublayer = [CALayer layer];
+    [sublayer setBackgroundColor:[UIColor blackColor].CGColor];
+    [sublayer setOpacity:0.3];
+    UIImage *image = self.image;
+    [sublayer setFrame:self.frame];
+    [self.layer addSublayer:sublayer];
+}
+
 @end
