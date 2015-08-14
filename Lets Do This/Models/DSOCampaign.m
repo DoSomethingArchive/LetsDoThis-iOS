@@ -9,6 +9,21 @@
 #import "DSOCampaign.h"
 #import "NSDictionary+DSOJsonHelper.h"
 
+@interface DSOCampaign ()
+
+@property (strong, nonatomic, readwrite) NSArray *tags;
+@property (assign, nonatomic, readwrite) NSInteger campaignID;
+@property (strong, nonatomic, readwrite) NSString *coverImage;
+@property (strong, nonatomic, readwrite) NSString *factProblem;
+@property (strong, nonatomic, readwrite) NSString *factSolution;
+@property (strong, nonatomic, readwrite) NSString *reportbackNoun;
+@property (strong, nonatomic, readwrite) NSString *reportbackVerb;
+@property (strong, nonatomic, readwrite) NSString *title;
+@property (strong, nonatomic, readwrite) NSString *tagline;
+@property (strong, nonatomic, readwrite) NSURL *coverImageURL;
+
+@end
+
 @implementation DSOCampaign
 
 -(id)initWithDict:(NSDictionary*)values {

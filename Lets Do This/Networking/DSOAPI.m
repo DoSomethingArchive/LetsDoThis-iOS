@@ -252,7 +252,9 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
           NSMutableDictionary *campaigns = [[NSMutableDictionary alloc] init];
           for (NSDictionary* campaignDict in responseObject[@"data"]) {
               DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
-              [campaigns setValue:campaign forKey:campaignDict[@"id"]];
+              // Store campaignID as NSNumber to use as ditctionary key.
+              NSNumber *campaignID = [NSNumber numberWithInteger:campaign.campaignID];
+              campaigns[campaignID] = campaign;
           }
           if (completionHandler) {
               completionHandler(campaigns);

@@ -204,8 +204,11 @@ const CGFloat kHeightExpanded = 400;
         cell.titleLabel.text = [campaign.title uppercaseString];
         cell.taglineLabel.text = campaign.tagline;
 
-        // @todo: Conditional title based on user activity
-        [cell.actionButton setTitle:[@"Do this now" uppercaseString] forState:UIControlStateNormal];
+        NSString *actionButtonTitle = @"Do this now";
+        if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign]) {
+            actionButtonTitle = @"Prove it";
+        }
+        [cell.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
         [cell.actionButton addTarget:self action:@selector(presentCampaignDetail:event:) forControlEvents:UIControlEventTouchUpInside];
 
         // @todo: Actually calculate this, and split expiresLabel into 2
