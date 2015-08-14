@@ -153,6 +153,11 @@ const CGFloat kHeightExpanded = 400;
     return (NSNumber *)term[@"id"];
 }
 
+- (IBAction)segmentedControlValueChanged:(id)sender {
+    self.selectedCampaignIndex = nil;
+    [self.collectionView reloadData];
+}
+
 #pragma UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -254,11 +259,6 @@ const CGFloat kHeightExpanded = 400;
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaignList[indexPath.row]];
     [self.navigationController pushViewController:destVC animated:YES];
      */
-}
-
-- (IBAction)segmentedControlValueChanged:(id)sender {
-    self.selectedCampaignIndex = nil;
-    [self.collectionView reloadData];
 }
 
 #pragma UICollectionViewDelegateFlowLayout
