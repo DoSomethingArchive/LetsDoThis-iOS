@@ -1,5 +1,5 @@
 //
-//  DSOAuthenticationManager.m
+//  DSOUserManager.m
 //  Lets Do This
 //
 //  Created by Aaron Schachter on 7/23/15.

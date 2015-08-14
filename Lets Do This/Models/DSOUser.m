@@ -32,6 +32,7 @@
     self = [super init];
 
     if(self) {
+        self.userID = dict[@"_id"];
         self.firstName = dict[@"first_name"];
         self.lastName = dict[@"last_name"];
         self.email = dict[@"email"];

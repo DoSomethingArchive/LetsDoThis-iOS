@@ -182,8 +182,12 @@
             // Login the user
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
 
-                // @todo: post Avatar if image has been uploaded.
-
+                // Post Avatar if image has been uploaded.
+                [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID withImage:self.imageView.image completionHandler:^(id responseObject) {
+                    NSLog(@"Successful user avatar upload: %@", responseObject);
+                } errorHandler:^(NSError * error) {
+                    [LDTMessage displayErrorMessageForError:error];
+                }];
 
                 // This VC is always presented within a NavVC, so kill it.
                 [self dismissViewControllerAnimated:YES completion:^{
