@@ -17,11 +17,15 @@
 #import "LDTCampaignListCollectionViewFlowLayout.h"
 #import "LDTCollectionReusableView.h"
 
+const CGFloat kHeightCollapsed = 100;
+const CGFloat kHeightExpanded = 400;
+
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
 @property (strong, nonatomic) NSMutableDictionary *interestGroups;
+@property (strong, nonatomic) NSNumber *selectedCampaignIndex;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) LDTCampaignListCollectionViewFlowLayout *flowLayout;
@@ -39,6 +43,7 @@
     [super viewDidLoad];
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
+    self.selectedCampaignIndex = nil;
 
     for (int i = 0; i < 4; i++) {
         [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forSegmentAtIndex:i];
@@ -148,6 +153,29 @@
     return (NSNumber *)term[@"id"];
 }
 
+- (IBAction)segmentedControlValueChanged:(id)sender {
+    self.selectedCampaignIndex = nil;
+    [self.collectionView reloadData];
+}
+
+// Presents the selected campaign's CampaignDetailVC
+// @see http://stackoverflow.com/a/11400620/1470725
+
+- (void)presentCampaignDetail:(id)sender event:(id)event{
+    NSSet *touches = [event allTouches];
+    UITouch *touch = [touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:self.collectionView];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
+
+    NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
+    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaignList[indexPath.row]];
+
+    // @todo: Post campaign signup to API if not signed up
+
+    [self.navigationController pushViewController:destVC animated:YES];
+
+}
+
 #pragma UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -174,6 +202,15 @@
         DSOCampaign *campaign = (DSOCampaign *)campaignList[indexPath.row];
         LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
         cell.titleLabel.text = [campaign.title uppercaseString];
+        cell.taglineLabel.text = campaign.tagline;
+
+        // @todo: Conditional title based on user activity
+        [cell.actionButton setTitle:[@"Do this now" uppercaseString] forState:UIControlStateNormal];
+        [cell.actionButton addTarget:self action:@selector(presentCampaignDetail:event:) forControlEvents:UIControlEventTouchUpInside];
+
+        // @todo: Actually calculate this, and split expiresLabel into 2
+        cell.expiresLabel.text = [@"Expires in 5 Days" uppercaseString];
+
 #warning Check out the SDWebImageOptions in
 // - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock
 // to make sure we have the right ones--it is currently caching downloaded images, which is good
@@ -197,9 +234,18 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat width = [[UIScreen mainScreen] bounds].size.width;
-    CGFloat height = 150;
 
+    CGFloat width = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat height = kHeightCollapsed;
+
+    // Campaigns:
+    if (indexPath.section == 0) {
+        if (self.selectedCampaignIndex && [self.selectedCampaignIndex intValue] == indexPath.row) {
+            height = kHeightExpanded;
+        }
+    }
+
+    // Reportback Items:
     if (indexPath.section == 1) {
         // Subtract left, right, and middle gutters with width 8.
         width = width - 24;
@@ -208,6 +254,7 @@
         // Make it a square.
         height = width;
     }
+
     return CGSizeMake(width, height);
 }
 
@@ -218,14 +265,16 @@
         return;
     }
 
-    // @todo: Cell should expand and display a button, the pushVC happens upon button tap
-    NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
-    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaignList[indexPath.row]];
-    [self.navigationController pushViewController:destVC animated:YES];
-}
+    NSNumber *thisRow = [NSNumber numberWithLong:indexPath.row];
+    if (self.selectedCampaignIndex && [self.selectedCampaignIndex intValue] == [thisRow intValue]) {
+        self.selectedCampaignIndex = nil;
+    }
+    else {
+        self.selectedCampaignIndex = thisRow;
+    }
 
-- (IBAction)segmentedControlValueChanged:(id)sender {
     [self.collectionView reloadData];
+
 }
 
 #pragma UICollectionViewDelegateFlowLayout
