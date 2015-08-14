@@ -149,6 +149,30 @@
       }];
 }
 
+- (void)postUserAvatarWithUserId:(NSString *)userID
+                       withImage:(UIImage *)image
+               completionHandler:(void(^)(id))completionHandler
+                    errorHandler:(void(^)(NSError *))errorHandler
+{
+    NSString *urlPath = [NSString stringWithFormat:@"users/%@/avatar", userID];
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    NSString *fileNameForImage = [NSString stringWithFormat:@"User_%@_ProfileImage", userID];
+    
+    [self POST:urlPath
+    parameters:nil
+constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [formData appendPartWithFileData:imageData name:@"photo" fileName:fileNameForImage mimeType:@"image/jpeg"];
+} success:^(NSURLSessionDataTask *task, id responseObject) {
+    if (completionHandler) {
+        completionHandler(responseObject);
+    }
+} failure:^(NSURLSessionDataTask *task, NSError *error) {
+    if (errorHandler) {
+        errorHandler(error);
+    }
+}];
+}
+
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler {
 
