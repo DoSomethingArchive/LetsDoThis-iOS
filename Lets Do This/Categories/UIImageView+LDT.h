@@ -11,5 +11,6 @@
 @interface UIImageView (LDT)
 
 - (void)addCircleFrame;
+- (void)addGrayTint;
 
 @end

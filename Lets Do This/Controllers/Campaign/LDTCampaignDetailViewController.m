@@ -69,6 +69,7 @@
     self.taglineLabel.font = [LDTTheme font];
     self.taglineLabel.textColor = [UIColor whiteColor];
     self.problemLabel.font = [LDTTheme font];
+    [self.coverImageView addGrayTint];
 }
 
 - (void) setActionButton {

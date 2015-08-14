@@ -7,7 +7,6 @@
 //
 
 #import "LDTCampaignListCampaignCell.h"
-#import "LDTTheme.h"
 
 @implementation LDTCampaignListCampaignCell
 
@@ -17,8 +16,15 @@
 
 - (void)theme {
     self.titleLabel.numberOfLines = 0;
-    [self.titleLabel setFont:[LDTTheme fontBoldWithSize:24]];
+    self.titleLabel.font = [LDTTheme fontBoldWithSize:24];
+    self.taglineLabel.font = [LDTTheme font];
+
+    // @todo Split out expiresLabel into 2 separate UILabels for diff colors
+    self.expiresLabel.font = [LDTTheme fontBold];
+    self.expiresLabel.textColor = [UIColor grayColor];
     self.titleLabel.textColor = [UIColor whiteColor];
+    [self.actionButton enable];
+    [self.imageView addGrayTint];
 }
 
 @end
