@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DSOCampaign.h"
 
 @class DSOUser;
 
@@ -28,5 +29,7 @@
 @property (nonatomic, strong, readonly) NSMutableArray *campaignIDsCompleted;
 
 - (id)initWithDict:(NSDictionary*)dict;
+- (BOOL)isDoingCampaign:(DSOCampaign *)campaign;
+- (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign;
 
 @end

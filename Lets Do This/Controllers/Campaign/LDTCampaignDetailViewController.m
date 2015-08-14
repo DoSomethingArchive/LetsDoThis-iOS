@@ -53,8 +53,7 @@
     self.problemLabel.text = self.campaign.factProblem;
 
     [self.coverImageView sd_setImageWithURL:self.campaign.coverImageURL];
-    // @todo: Check [DSOUserManager sharedInstance].user campaign status
-    self.isDoing = NO;
+    self.isDoing = [[DSOUserManager sharedInstance].user isDoingCampaign:self.campaign];
 
     [self setActionButton];
 }
