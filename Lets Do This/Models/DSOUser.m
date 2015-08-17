@@ -64,7 +64,12 @@
     self.campaignIDsCompleted = [[NSMutableArray alloc] init];
 
     for (NSMutableDictionary *activityDict in self.campaigns) {
-
+#warning This is throwing a crash
+		// Console message: [NSNull intValue]: unrecognized selector sent to instance 0x1059ca4c0
+		// Looks like `drupal_id` in the `activityDict` is an NSNull object
+		// What I did: logged in, and a breakpoint went off in the campaign list controller. I ran it again from
+		// then and upon relauch the crash occurred here. Don't know if you know this, but you can set an "All Exceptions"
+		// breakpoint to catch this before it goes to a crash
         NSNumber *campaignID = [NSNumber numberWithInt:[activityDict[@"drupal_id"] intValue]];
 
         if ([activityDict valueForKeyAsString:@"reportback_id"]) {
