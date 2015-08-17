@@ -39,7 +39,7 @@
                        errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)postUserAvatarWithUserId:(NSString *)userID
-                       withImage:(UIImage *)image
+                           image:(UIImage *)image
                completionHandler:(void(^)(id))completionHandler
                     errorHandler:(void(^)(NSError *))errorHandler;
 
