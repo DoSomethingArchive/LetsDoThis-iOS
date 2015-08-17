@@ -24,6 +24,18 @@ static NSDateFormatter *_toDateFormatter;
     return [_fromDateFormatter dateFromString:dateString];
 }
 
++ (NSDate *)dateFromISO8601String:(NSString *)dateString {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _fromDateFormatter = [[NSDateFormatter alloc] init];
+        // Date string http://stackoverflow.com/a/16449665/1470725
+        _fromDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZ";
+        _fromDateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];;
+    });
+
+    return [_fromDateFormatter dateFromString:dateString];
+}
+
 - (NSString *)ISOString {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

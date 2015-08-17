@@ -7,11 +7,13 @@
 //
 
 #import "DSOCampaign.h"
+#import "NSDate+DSO.h"
 #import "NSDictionary+DSOJsonHelper.h"
 
 @interface DSOCampaign ()
 
 @property (strong, nonatomic, readwrite) NSArray *tags;
+@property (strong, nonatomic, readwrite) NSDate *endDate;
 @property (assign, nonatomic, readwrite) NSInteger campaignID;
 @property (strong, nonatomic, readwrite) NSString *coverImage;
 @property (strong, nonatomic, readwrite) NSString *factProblem;
@@ -31,6 +33,7 @@
 
     if(self) {
         self.campaignID = [values valueForKeyAsInt:@"id" nullValue:self.campaignID];
+        self.endDate = [[values valueForKeyPath:@"mobile_app.dates"] valueForKeyAsDate:@"end" nullValue:nil];
         self.title = [values valueForKeyAsString:@"title" nullValue:self.title];
         self.tagline = [values valueForKeyAsString:@"tagline" nullValue:self.tagline];
         self.coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:self.coverImage];
@@ -45,6 +48,20 @@
 
 - (NSURL *)coverImageURL {
     return [NSURL URLWithString:self.coverImage];
+}
+
+- (NSInteger)numberOfDaysLeft {
+    if (!self.endDate) {
+        return 0;
+    }
+    NSCalendar *c = [NSCalendar currentCalendar];
+    NSDate *today = [NSDate date];
+    NSDateComponents *components = [c components:NSCalendarUnitDay fromDate:today toDate:self.endDate options:0];
+
+    if (components.day > 0) {
+        return components.day;
+    }
+    return 0;
 }
 
 @end
