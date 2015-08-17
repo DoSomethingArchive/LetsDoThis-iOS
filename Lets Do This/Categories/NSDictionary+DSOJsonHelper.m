@@ -63,7 +63,7 @@
     if(value == nil) {
         return nullValue;
     }
-    return [NSDate dateFromISOString:value];
+    return [NSDate dateFromISO8601String:value];
 }
 
 @end

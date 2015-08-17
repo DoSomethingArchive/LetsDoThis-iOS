@@ -11,6 +11,7 @@
 @interface NSDate (DSO)
 
 + (NSDate *)dateFromISOString:(NSString *)dateString;
++ (NSDate *)dateFromISO8601String:(NSString *)dateString;
 - (NSString *)ISOString;
 
 @end
