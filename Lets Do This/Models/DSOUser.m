@@ -59,6 +59,10 @@
 	return _photo;
 }
 
+-(void)setPhotoWithImage:(UIImage *)image {
+    self.photo = image;
+}
+
 - (void)syncCampaignIds {
     self.campaignIDsDoing = [[NSMutableArray alloc] init];
     self.campaignIDsCompleted = [[NSMutableArray alloc] init];

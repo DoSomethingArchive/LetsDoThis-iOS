@@ -28,6 +28,7 @@
 @property (nonatomic, strong, readonly) NSMutableArray *campaignIDsDoing;
 @property (nonatomic, strong, readonly) NSMutableArray *campaignIDsCompleted;
 
+- (void)setPhotoWithImage:(UIImage *)image;
 - (id)initWithDict:(NSDictionary*)dict;
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign;
 - (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign;

@@ -176,14 +176,18 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
-
+        
+        // Create the user.
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text lastName:self.lastNameTextField.text mobile:self.mobileTextField.text birthdate:self.birthdayTextField.text success:^(NSDictionary *response) {
 
-            // Login the user
+            // Login the user.
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
+                
+                // Set avatar photo to newly created user object.
+                [[DSOUserManager sharedInstance].user setPhotoWithImage:self.imageView.image];
 
-                // Post Avatar if image has been uploaded.
-                [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID withImage:self.imageView.image completionHandler:^(id responseObject) {
+                // POST avatar to API.
+                [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID image:self.imageView.image completionHandler:^(id responseObject) {
                     NSLog(@"Successful user avatar upload: %@", responseObject);
                 } errorHandler:^(NSError * error) {
                     [LDTMessage displayErrorMessageForError:error];
@@ -196,7 +200,6 @@
                     [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
                     
                 }];
-
 
             } errorHandler:^(NSError *error) {
                 [LDTMessage displayErrorMessageForError:error];
