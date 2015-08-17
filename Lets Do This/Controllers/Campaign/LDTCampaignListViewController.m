@@ -231,8 +231,12 @@ const CGFloat kHeightExpanded = 400;
         [cell.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
         [cell.actionButton addTarget:self action:@selector(presentCampaignDetail:event:) forControlEvents:UIControlEventTouchUpInside];
 
-        // @todo: Actually calculate this, and split expiresLabel into 2
-        cell.expiresLabel.text = [@"Expires in 5 Days" uppercaseString];
+        // @todo: Split expiresLabel into 2.
+        NSString *expiresString = @"";
+        if ([campaign numberOfDaysLeft] > 0) {
+            expiresString = [NSString stringWithFormat:@"Expires in %li Days", (long)[campaign numberOfDaysLeft]];
+        }
+        cell.expiresLabel.text = [expiresString uppercaseString];
 
 #warning Check out the SDWebImageOptions in
 // - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock
