@@ -25,6 +25,6 @@
 @property (strong, nonatomic, readonly) NSURL *coverImageURL;
 
 -(id)initWithDict:(NSDictionary*)values;
-
+-(NSInteger)numberOfDaysLeft;
 
 @end
