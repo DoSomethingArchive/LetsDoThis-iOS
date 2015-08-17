@@ -15,7 +15,8 @@
     NSMutableArray *newAttributesForElementsInRect = [[NSMutableArray alloc] initWithCapacity:attributesForElementsInRect.count];
 
     CGFloat leftMargin = 8.0f;
-
+#warning Clean up line spacing
+	// For and If statements don't need a line break between them unless there's a comment or something at the top you want to highligh
     for (UICollectionViewLayoutAttributes *attributes in attributesForElementsInRect) {
 
         if (attributes.indexPath.section == 1) {

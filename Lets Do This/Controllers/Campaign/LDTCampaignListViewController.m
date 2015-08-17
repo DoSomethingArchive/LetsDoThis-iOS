@@ -53,6 +53,19 @@ const CGFloat kHeightExpanded = 400;
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
 
+#warning Method calls like this below
+	// Should have line breaks above and below, especially if what they're doing isn't related to what's below. It is a matter of preference
+	// but I think it makes the code easier to read. There's exceptions, esp if you have multiple method calls one after the other
+	
+	/* i.e.,
+	 
+	 [self styleView];
+	 
+	 self.flowLayout = [[LDTCampaignListCollectionViewFlowLayout alloc] init];
+	 self.flowLayout.minimumInteritemSpacing = 8.0f;
+	 [self.collectionView setCollectionViewLayout:self.flowLayout];
+	 */
+	
     [self styleView];
     self.flowLayout = [[LDTCampaignListCollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 8.0f;
@@ -86,6 +99,9 @@ const CGFloat kHeightExpanded = 400;
 
 #pragma LDTCampaignListViewController
 
+#warning Don't put spaces between the return type and the method name
+// - (void)styleView
+
 - (void) styleView {
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
 
@@ -102,7 +118,10 @@ const CGFloat kHeightExpanded = 400;
                              NSForegroundColorAttributeName,
                              nil]
      forState:UIControlStateNormal];
-
+#warning We're also getting this error in the console
+	// Unbalanced calls to begin/end appearance transitions for <LDTLoadingViewController: 0x7f924b00b4d0>.
+	// Possibly see http://stackoverflow.com/questions/7886096/unbalanced-calls-to-begin-end-appearance-transitions-for-uitabbarcontroller-0x
+	// for suggestions on how to fix--I haven't seen this before
     [[UISegmentedControl appearance]
      setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                              [UIColor whiteColor],
@@ -120,7 +139,8 @@ const CGFloat kHeightExpanded = 400;
                                              @"reportbackItems" : [[NSMutableArray alloc] init]
                                              };
     }
-
+#warning Don't put line breaks between these two `for` blocks
+	// Don't need them--code starts to get too spread out
     for (DSOCampaign *campaign in self.allCampaigns) {
 
         // Because all taxonomy terms are stored in the tags property, we have to loop through and find which ones are Interest Group terms.
@@ -267,21 +287,47 @@ const CGFloat kHeightExpanded = 400;
         // @todo: Present a ReportbackItemVC for selected ReportbackItem.
         return;
     }
-
-    NSNumber *thisRow = [NSNumber numberWithLong:indexPath.row];
-    if (self.selectedCampaignIndex && [self.selectedCampaignIndex intValue] == [thisRow intValue]) {
-        self.selectedCampaignIndex = nil;
-    }
-    else {
-        self.selectedCampaignIndex = thisRow;
-    }
-
-    [self.collectionView reloadData];
-
+	
+	// I tried this first--it worked on animating a cell out but not correctly on animating it back in
+	// I think it may have to do with us using a custom flow layout--all the layout math is done in there that the base
+	// collection view would normally handle on its own. If you wanted a challenge, you could try and figure out why
+	// that was happening and how to correct it
+//	[collectionView performBatchUpdates:^{
+//		NSNumber *thisRow = [NSNumber numberWithLong:indexPath.row];
+//		if (self.selectedCampaignIndex && [self.selectedCampaignIndex intValue] == [thisRow intValue]) {
+//			self.selectedCampaignIndex = nil;
+//		}
+//		else {
+//			self.selectedCampaignIndex = thisRow;
+//		}
+//	} completion:^(BOOL finished) {
+//		
+//	}];
+	
+	// This works but I don't love the idea of initializing a new flow layout each time, although it doesn't seem
+	// to impact memory usage (probably because it just gets rid of the old one). There is a little glitchy behavior
+	// on the reportbacks that still needs to be corrected; that may need to be done in the delegate method that
+	// returns the size of the cell, or possibly in our custom flow layout
+#warning name variables better--more descriptively
+	NSNumber *thisRow = [NSNumber numberWithLong:indexPath.row];
+#warning Is there a reason for this?
+	// Can't we just store the whole indexPath on self.selectedCampaignIndex? Do we need to store specifically the row?
+	if (self.selectedCampaignIndex && [self.selectedCampaignIndex intValue] == [thisRow intValue]) {
+		self.selectedCampaignIndex = nil;
+	}
+	else {
+		self.selectedCampaignIndex = thisRow;
+	}
+	
+	LDTCampaignListCollectionViewFlowLayout *flowLayout = [[LDTCampaignListCollectionViewFlowLayout alloc] init];
+	[self.collectionView setCollectionViewLayout:flowLayout animated:YES];
 }
 
 #pragma UICollectionViewDelegateFlowLayout
 
+#warning Fix this up
+// method implementations should be all on one line
+//-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 - (CGFloat)collectionView:(UICollectionView *)collectionView
                    layout:(UICollectionViewLayout *)collectionViewLayout
 minimumLineSpacingForSectionAtIndex:(NSInteger)section {
