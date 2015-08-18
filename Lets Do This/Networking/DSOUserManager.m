@@ -54,7 +54,6 @@
           // Save email of current user in Keychain.
           [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
 
-
           if (completionHandler) {
               completionHandler(user);
           }
