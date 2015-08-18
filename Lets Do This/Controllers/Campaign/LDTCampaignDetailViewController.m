@@ -87,17 +87,12 @@
         return;
     }
 
-    [[DSOAPI sharedInstance]
-     createSignupForCampaignId:self.campaign.campaignID
-     completionHandler:^(NSDictionary *response) {
-
+    [[DSOAPI sharedInstance] createSignupForCampaign:self.campaign completionHandler:^(NSDictionary *response) {
          [self.actionButton setTitle:[@"Prove it" uppercaseString] forState:UIControlStateNormal];
-
     }
      errorHandler:^(NSError *error) {
          [LDTMessage displayErrorMessageForError:error];
      }];
-
 }
 
 @end
