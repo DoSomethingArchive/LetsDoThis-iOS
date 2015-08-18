@@ -10,6 +10,7 @@
 #import "LDTTheme.h"
 
 @interface LDTLoadingViewController ()
+
 @property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 

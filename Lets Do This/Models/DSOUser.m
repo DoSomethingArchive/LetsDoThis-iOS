@@ -12,6 +12,7 @@
 #import "NSDate+DSO.h"
 
 @interface DSOUser()
+
 @property (nonatomic, strong, readwrite) NSString *userID;
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *displayName;
@@ -29,7 +30,7 @@
 
 @implementation DSOUser
 
--(id)initWithDict:(NSDictionary*)dict {
+- (id)initWithDict:(NSDictionary*)dict {
     self = [super init];
 
     if(self) {
@@ -52,14 +53,14 @@
     return self;
 }
 
--(UIImage *)photo {
+- (UIImage *)photo {
 	if (_photo == nil) {
 		return [UIImage imageNamed:@"avatar-default"];
 	}
 	return _photo;
 }
 
--(void)setPhotoWithImage:(UIImage *)image {
+- (void)setPhotoWithImage:(UIImage *)image {
     self.photo = image;
 }
 

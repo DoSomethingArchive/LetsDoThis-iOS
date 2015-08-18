@@ -78,7 +78,7 @@
     [self confirmLogout];
 }
 
-- (void) confirmLogout {
+- (void)confirmLogout {
     UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Are you sure? We’ll miss you."
                                      message:nil
                                      preferredStyle:UIAlertControllerStyleActionSheet];
@@ -108,7 +108,7 @@
     [self confirmLogout];
 }
 
-- (void) logout {
+- (void)logout {
     [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^(NSDictionary *response) {
 
         // This VC is always presented within the TabBarVC, so kill it.

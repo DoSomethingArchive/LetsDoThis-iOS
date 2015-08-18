@@ -13,7 +13,7 @@
 
 @implementation LDTTabBarController
 
--(id) init {
+- (id)init {
     if(self = [super init]){
         self.tabBar.translucent = NO;
 
@@ -25,7 +25,6 @@
         LDTNavigationController *campaignListNavVC = [[LDTNavigationController alloc] initWithRootViewController:campaignListVC];
 
         self.viewControllers = [NSArray arrayWithObjects:campaignListNavVC, profileNavVC, nil];
-
     }
     return self;
 }

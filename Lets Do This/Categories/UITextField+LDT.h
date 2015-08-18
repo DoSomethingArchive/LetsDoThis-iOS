@@ -10,6 +10,6 @@
 
 @interface UITextField (LDT)
 
-- (void) setBorderColor:(UIColor *)color;
+- (void)setBorderColor:(UIColor *)color;
 
 @end
