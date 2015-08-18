@@ -8,6 +8,8 @@
 
 #import "AFHTTPSessionManager.h"
 #import "DSOUser.h"
+#import "DSOCampaign.h"
+#import "DSOReportbackItem.h"
 
 @interface DSOAPI : AFHTTPSessionManager
 
