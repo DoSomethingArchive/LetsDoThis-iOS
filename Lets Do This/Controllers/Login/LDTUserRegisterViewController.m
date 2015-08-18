@@ -30,29 +30,23 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 @property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *lastNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *mobileTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UITextField *birthdayTextField;
 
 - (IBAction)avatarButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)loginLinkTouchUpInside:(id)sender;
 
 - (IBAction)firstNameEditingDidBegin:(id)sender;
-- (IBAction)lastNameEditingDidBegin:(id)sender;
 - (IBAction)emailEditingDidBegin:(id)sender;
 - (IBAction)mobileEditingDidBegin:(id)sender;
 - (IBAction)passwordEditingDidBegin:(id)sender;
-- (IBAction)birthdayEditingDidBegin:(id)sender;
 
-- (IBAction)lastNameEditingDidEnd:(id)sender;
 - (IBAction)firstNameEditingDidEnd:(id)sender;
 - (IBAction)emailEditingDidEnd:(id)sender;
 - (IBAction)mobileEditingDidEnd:(id)sender;
 - (IBAction)passwordEditingDidEnd:(id)sender;
-- (IBAction)birthdayEditingDidEnd:(id)sender;
 
 @end
 
@@ -79,8 +73,6 @@
     [self.submitButton disable];
     [self.loginLink setTitle:@"Have a DoSomething.org account? Sign in" forState:UIControlStateNormal];
 
-    [self initDatePicker];
-
     self.imagePicker = [[UIImagePickerController alloc] init];
     self.imagePicker.delegate = self;
     self.imagePicker.allowsEditing = YES;
@@ -93,10 +85,7 @@
 
         [self setAvatar:self.user.photo];
         self.firstNameTextField.text = self.user.firstName;
-        self.lastNameTextField.text = self.user.lastName;
         self.emailTextField.text = self.user.email;
-        [self.datePicker setDate:self.user.birthdate];
-        [self updateBirthdayField:self.datePicker];
     }
     else {
         self.headerLabel.text = @"Tell us about yourself!";
@@ -105,11 +94,9 @@
 
 
     self.textFields = @[self.firstNameTextField,
-                        self.lastNameTextField,
                         self.emailTextField,
                         self.mobileTextField,
                         self.passwordTextField,
-                        self.birthdayTextField,
                         self.signupCodeView.firstTextField,
                         self.signupCodeView.secondTextField,
                         self.signupCodeView.thirdTextField
@@ -119,10 +106,8 @@
     }
 
     self.textFieldsRequired = @[self.firstNameTextField,
-                                self.lastNameTextField,
                                 self.emailTextField,
-                                self.passwordTextField,
-                                self.birthdayTextField];
+                                self.passwordTextField];
 
     [self styleView];
 
@@ -141,7 +126,6 @@
     }
 
     [self.firstNameTextField setKeyboardType:UIKeyboardTypeNamePhonePad];
-    [self.lastNameTextField setKeyboardType:UIKeyboardTypeNamePhonePad];
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     [self.mobileTextField setKeyboardType:UIKeyboardTypeNumberPad];
 
@@ -151,34 +135,15 @@
     [self.loginLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
-- (void)initDatePicker {
-    // Create datePicker for birthdayTextField.
-    self.datePicker = [[UIDatePicker alloc] init];
-    self.datePicker.datePickerMode = UIDatePickerModeDate;
-    [self.datePicker addTarget:self action:@selector(updateBirthdayField:)
-         forControlEvents:UIControlEventValueChanged];
-    self.datePicker.maximumDate = [NSDate date];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDate *currentDate = [NSDate date];
-    NSDateComponents *comps = [[NSDateComponents alloc] init];
-    [comps setYear:-80];
-    // Allowed minimum date is 80 years from today.
-    NSDate *minDate = [calendar dateByAddingComponents:comps toDate:currentDate options:0];
-    self.datePicker.minimumDate = minDate;
-    [self.birthdayTextField setInputView:self.datePicker];
-}
-
-- (void)updateBirthdayField:(UIDatePicker *)sender{
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"MM/dd/YYYY"];
-    self.birthdayTextField.text = [df stringFromDate:sender.date];
-}
-
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
         
         // Create the user.
-        [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text lastName:self.lastNameTextField.text mobile:self.mobileTextField.text birthdate:self.birthdayTextField.text success:^(NSDictionary *response) {
+        [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text
+                                            password:self.passwordTextField.text
+                                           firstName:self.firstNameTextField.text
+                                              mobile:self.mobileTextField.text
+                                             success:^(NSDictionary *response) {
 
             // Login the user.
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
@@ -219,10 +184,6 @@
     [self.firstNameTextField setBorderColor:[UIColor clearColor]];
 }
 
-- (IBAction)lastNameEditingDidBegin:(id)sender {
-    [self.lastNameTextField setBorderColor:[UIColor clearColor]];
-}
-
 - (IBAction)emailEditingDidBegin:(id)sender {
     [self.emailTextField setBorderColor:[UIColor clearColor]];
 }
@@ -233,16 +194,6 @@
 
 - (IBAction)passwordEditingDidBegin:(id)sender {
     [self.passwordTextField setBorderColor:[UIColor clearColor]];
-}
-
-- (IBAction)birthdayEditingDidBegin:(id)sender {
-    // Are we going to do any validations on birthdays?
-}
-
-- (IBAction)lastNameEditingDidEnd:(id)sender {
-    UITextField *textField = (UITextField *)sender;
-    self.lastNameTextField.text = [textField.text capitalizedString];
-    [self updateCreateAccountButton];
 }
 
 - (IBAction)firstNameEditingDidEnd:(id)sender {
@@ -263,11 +214,6 @@
 - (IBAction)passwordEditingDidEnd:(id)sender {
     [self updateCreateAccountButton];
 }
-
-- (IBAction)birthdayEditingDidEnd:(id)sender {
-    [self updateCreateAccountButton];
-}
-
 
 -(void)updateCreateAccountButton {
     BOOL enabled = NO;
@@ -295,10 +241,6 @@
     if (![self validateName:self.firstNameTextField.text]) {
         [self.firstNameTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"We need your first name."];
-    }
-    if (![self validateName:self.lastNameTextField.text]) {
-        [self.lastNameTextField setBorderColor:[UIColor redColor]];
-        [errorMessages addObject:@"We need your last name."];
     }
     if (![self validateEmail:self.emailTextField.text]) {
         [self.emailTextField setBorderColor:[UIColor redColor]];

@@ -97,18 +97,14 @@
 - (void)createUserWithEmail:(NSString *)email
                    password:(NSString *)password
                   firstName:(NSString *)firstName
-                   lastName:(NSString *)lastName
                      mobile:(NSString *)mobile
-                  birthdate:(NSString *)dateStr
                     success:(void(^)(NSDictionary *))completionHandler
                     failure:(void(^)(NSError *))errorHandler {
 
     NSDictionary *params = @{@"email": email,
                              @"password": password,
                              @"first_name": firstName,
-                             @"last_name": lastName,
-                             @"mobile":mobile,
-                             @"birthdate": dateStr};
+                             @"mobile":mobile};
 
     [self POST:@"users?create_drupal_user=1"
     parameters:params

@@ -7,12 +7,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserRegisterViewController">
             <connections>
                 <outlet property="avatarButton" destination="hON-y7-TtZ" id="NeF-st-hRd"/>
-                <outlet property="birthdayTextField" destination="q98-Fd-6zP" id="bUY-Pz-GzG"/>
                 <outlet property="emailTextField" destination="Mfy-Oc-Vpw" id="cWW-G0-B5W"/>
                 <outlet property="firstNameTextField" destination="QjS-W9-vkE" id="25v-Lz-psE"/>
                 <outlet property="headerLabel" destination="XhN-FG-gBt" id="BX9-bN-4l8"/>
                 <outlet property="imageView" destination="Nkh-6g-VOu" id="3et-Le-1bv"/>
-                <outlet property="lastNameTextField" destination="oXN-8R-m8z" id="6Tc-gp-K0P"/>
                 <outlet property="loginLink" destination="Ggr-KI-p8I" id="PRt-Wl-kjW"/>
                 <outlet property="mobileTextField" destination="CZ0-O0-iWG" id="UV7-sg-a3P"/>
                 <outlet property="passwordTextField" destination="dxA-aT-bK7" id="MbB-Yx-bQc"/>
@@ -60,7 +58,7 @@
                             <rect key="frame" x="8" y="158" width="585" height="200"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QjS-W9-vkE">
-                                    <rect key="frame" x="0.0" y="0.0" width="289" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="585" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="qVc-13-aZu"/>
                                     </constraints>
@@ -69,18 +67,6 @@
                                     <connections>
                                         <action selector="firstNameEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="86I-af-i9h"/>
                                         <action selector="firstNameEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="nbT-qO-hqj"/>
-                                    </connections>
-                                </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oXN-8R-m8z">
-                                    <rect key="frame" x="297" y="0.0" width="288" height="44"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="UJq-HM-aUO"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                    <connections>
-                                        <action selector="lastNameEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="VQW-iZ-42t"/>
-                                        <action selector="lastNameEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="zvy-40-VOw"/>
                                     </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mfy-Oc-Vpw">
@@ -95,6 +81,18 @@
                                         <action selector="emailEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="HEW-0X-uDa"/>
                                     </connections>
                                 </textField>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dxA-aT-bK7">
+                                    <rect key="frame" x="0.0" y="156" width="585" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="Ay5-af-5xt"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    <connections>
+                                        <action selector="passwordEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="P1w-BR-BWV"/>
+                                        <action selector="passwordEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="Gf2-ib-CdJ"/>
+                                    </connections>
+                                </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number (Optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CZ0-O0-iWG">
                                     <rect key="frame" x="0.0" y="104" width="585" height="44"/>
                                     <constraints>
@@ -107,49 +105,22 @@
                                         <action selector="mobileEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="RSk-J1-pW5"/>
                                     </connections>
                                 </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dxA-aT-bK7">
-                                    <rect key="frame" x="0.0" y="156" width="502" height="44"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="Ay5-af-5xt"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
-                                    <connections>
-                                        <action selector="passwordEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="P1w-BR-BWV"/>
-                                        <action selector="passwordEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="Gf2-ib-CdJ"/>
-                                    </connections>
-                                </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q98-Fd-6zP">
-                                    <rect key="frame" x="510" y="156" width="75" height="44"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="wi3-IW-ekV"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                    <connections>
-                                        <action selector="birthdayEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="rVo-tV-Rgx"/>
-                                        <action selector="birthdayEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="8wI-YT-Yj7"/>
-                                    </connections>
-                                </textField>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="QjS-W9-vkE" firstAttribute="top" secondItem="bhL-AU-dqT" secondAttribute="top" id="53y-2r-P5K"/>
-                                <constraint firstItem="QjS-W9-vkE" firstAttribute="width" secondItem="oXN-8R-m8z" secondAttribute="width" id="9II-p8-F4U"/>
                                 <constraint firstAttribute="trailing" secondItem="Mfy-Oc-Vpw" secondAttribute="trailing" id="HAk-5r-bHy"/>
-                                <constraint firstAttribute="trailing" secondItem="q98-Fd-6zP" secondAttribute="trailing" id="KMR-xB-MCo"/>
                                 <constraint firstItem="Mfy-Oc-Vpw" firstAttribute="leading" secondItem="bhL-AU-dqT" secondAttribute="leading" id="NCP-pO-tGK"/>
+                                <constraint firstItem="dxA-aT-bK7" firstAttribute="leading" secondItem="bhL-AU-dqT" secondAttribute="leading" id="Qpd-dO-PAX"/>
+                                <constraint firstAttribute="trailing" secondItem="QjS-W9-vkE" secondAttribute="trailing" id="RfZ-Yg-oF8"/>
                                 <constraint firstAttribute="trailing" secondItem="CZ0-O0-iWG" secondAttribute="trailing" id="Tzv-BM-dtr"/>
-                                <constraint firstItem="oXN-8R-m8z" firstAttribute="leading" secondItem="QjS-W9-vkE" secondAttribute="trailing" constant="8" id="Yh9-UP-I4r"/>
-                                <constraint firstAttribute="trailing" secondItem="oXN-8R-m8z" secondAttribute="trailing" id="bqh-2G-g4v"/>
+                                <constraint firstAttribute="trailing" secondItem="dxA-aT-bK7" secondAttribute="trailing" id="YFZ-Vc-LDx"/>
+                                <constraint firstItem="QjS-W9-vkE" firstAttribute="leading" secondItem="bhL-AU-dqT" secondAttribute="leading" id="YgV-3V-akR"/>
                                 <constraint firstItem="dxA-aT-bK7" firstAttribute="top" secondItem="CZ0-O0-iWG" secondAttribute="bottom" constant="8" id="c4E-jG-D3O"/>
                                 <constraint firstItem="QjS-W9-vkE" firstAttribute="leading" secondItem="bhL-AU-dqT" secondAttribute="leading" id="fjq-6r-md1"/>
                                 <constraint firstItem="CZ0-O0-iWG" firstAttribute="top" secondItem="Mfy-Oc-Vpw" secondAttribute="bottom" constant="8" id="hDJ-ib-oc6"/>
                                 <constraint firstItem="Mfy-Oc-Vpw" firstAttribute="top" secondItem="QjS-W9-vkE" secondAttribute="bottom" constant="8" id="jku-2d-bom"/>
-                                <constraint firstItem="q98-Fd-6zP" firstAttribute="leading" secondItem="dxA-aT-bK7" secondAttribute="trailing" constant="8" id="mRr-PV-fZD"/>
-                                <constraint firstItem="oXN-8R-m8z" firstAttribute="top" secondItem="bhL-AU-dqT" secondAttribute="top" id="nN7-ec-gHi"/>
                                 <constraint firstItem="dxA-aT-bK7" firstAttribute="leading" secondItem="bhL-AU-dqT" secondAttribute="leading" id="pXi-gu-6Hr"/>
                                 <constraint firstAttribute="height" constant="200" id="rLl-7v-b65"/>
-                                <constraint firstItem="q98-Fd-6zP" firstAttribute="top" secondItem="CZ0-O0-iWG" secondAttribute="bottom" constant="8" id="rhw-2D-nEM"/>
                                 <constraint firstItem="CZ0-O0-iWG" firstAttribute="leading" secondItem="bhL-AU-dqT" secondAttribute="leading" id="yDN-mg-NSy"/>
                             </constraints>
                         </view>
