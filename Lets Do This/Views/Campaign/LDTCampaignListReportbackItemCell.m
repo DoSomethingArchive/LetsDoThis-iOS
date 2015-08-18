@@ -9,6 +9,12 @@
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTTheme.h"
 
+@interface LDTCampaignListReportbackItemCell()
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+@end
+
 @implementation LDTCampaignListReportbackItemCell
 
 - (void)awakeFromNib {
