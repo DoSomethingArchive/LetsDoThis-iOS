@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "LDTTheme.h"
-#import "DSOCampaign.h"
 
 @interface LDTCampaignListCampaignCell : UICollectionViewCell
 
