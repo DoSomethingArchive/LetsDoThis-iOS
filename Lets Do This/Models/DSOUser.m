@@ -10,6 +10,7 @@
 #import "DSOCampaign.h"
 #import "NSDictionary+DSOJsonHelper.h"
 #import "NSDate+DSO.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface DSOUser()
 
@@ -39,12 +40,17 @@
         self.lastName = dict[@"last_name"];
         self.email = dict[@"email"];
         self.sessionToken = dict[@"session_token"];
-        if (dict[@"photo"] == (id)[NSNull null]) {
-             self.photo = nil;
-        }
-        // Assume for now we have an ImageView stored as value.
-        else {
-            self.photo = dict[@"photo"];
+        if ([dict objectForKey:@"photo"] != nil) {
+            self.photo = nil;
+            // Retrieve photo from URL.
+            [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"]
+                                  options:0
+                                 progress:0
+                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
+             {
+                 self.photo = image;
+             }];
+            
         }
         self.birthdate = dict[@"birthdate"];
         self.campaigns = dict[@"campaigns"];
