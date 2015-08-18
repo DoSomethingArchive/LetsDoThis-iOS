@@ -197,32 +197,8 @@ const CGFloat kHeightExpanded = 400;
         NSArray *campaignList = interestGroup[@"campaigns"];
         DSOCampaign *campaign = (DSOCampaign *)campaignList[indexPath.row];
         LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
-        cell.titleLabel.text = [campaign.title uppercaseString];
-        cell.taglineLabel.text = campaign.tagline;
-
-        NSString *actionButtonTitle = @"Do this now";
-        if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign]) {
-            actionButtonTitle = @"Prove it";
-        }
-        [cell.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
+        [cell displayForCampaign:campaign];
         [cell.actionButton addTarget:self action:@selector(presentCampaignDetail:event:) forControlEvents:UIControlEventTouchUpInside];
-
-        // @todo: Split expiresLabel into 2.
-        NSString *expiresString = @"";
-        if ([campaign numberOfDaysLeft] > 0) {
-            expiresString = [NSString stringWithFormat:@"Expires in %li Days", (long)[campaign numberOfDaysLeft]];
-        }
-        cell.expiresLabel.text = [expiresString uppercaseString];
-
-#warning Check out the SDWebImageOptions in
-// - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock
-// to make sure we have the right ones--it is currently caching downloaded images, which is good
-// This method you call, [cell.imageView sd_setImageWithURL:campaign.coverImageURL];, calls above method
-#warning We'll probably want to have placeholder images for each type we're loading
-// Campaign, Reportback, etc. This is to show the user something should be there while loading is taking place
-// Could also look into having an error image in case downloaded fails: i.e., switch from placeholder to error image, or they may just want to leave
-// the placeholder image there if that happens
-        [cell.imageView sd_setImageWithURL:campaign.coverImageURL];
         return cell;
     }
     else {
