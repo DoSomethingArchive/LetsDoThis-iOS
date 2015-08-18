@@ -177,9 +177,8 @@ const CGFloat kHeightExpanded = 400;
     }
     else {
         [[DSOUserManager sharedInstance] signupForCampaign:campaign completionHandler:^(NSDictionary *response) {
-             // @todo: Change selected cell's title, since user is signed up now.
             [self.navigationController pushViewController:destVC animated:YES];
-             // @todo: This doesn't display
+            [TSMessage setDefaultViewController:self.navigationController];
              [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
          }
          errorHandler:^(NSError *error) {
