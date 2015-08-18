@@ -23,11 +23,16 @@
 
 - (BOOL)userHasCachedSession;
 
-- (void)connectWithCachedSessionWithCompletionHandler:(void (^)(void))completionHandler
+- (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)endSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;
+
+// Posts a campaign signup for the current user and given DSOCampaign.
+- (void)signupForCampaign:(DSOCampaign *)campaign
+        completionHandler:(void(^)(NSDictionary *))completionHandler
+             errorHandler:(void(^)(NSError *))errorHandler;
 
 + (NSDictionary *)keysDict;
 

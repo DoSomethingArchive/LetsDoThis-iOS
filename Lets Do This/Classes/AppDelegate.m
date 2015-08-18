@@ -55,7 +55,7 @@
     }
     else {
 
-        [[DSOUserManager sharedInstance] connectWithCachedSessionWithCompletionHandler:^ {
+        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
 
 #warning Handling failure of fetch campaigns method
 // Referencing my notes from LDTCampaignListVC about handling this, I'm thinking we should either do this loading here or in the init method for
