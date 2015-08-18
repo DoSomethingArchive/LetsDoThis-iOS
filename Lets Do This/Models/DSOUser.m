@@ -10,6 +10,7 @@
 #import "DSOCampaign.h"
 #import "NSDictionary+DSOJsonHelper.h"
 #import "NSDate+DSO.h"
+#import "LDTTheme.h"
 
 @interface DSOUser()
 
@@ -39,12 +40,22 @@
         self.lastName = dict[@"last_name"];
         self.email = dict[@"email"];
         self.sessionToken = dict[@"session_token"];
-        if (dict[@"photo"] == (id)[NSNull null]) {
+        if ([dict objectForKey:@"photo"] != nil) {
              self.photo = nil;
-        }
-        // Assume for now we have an ImageView stored as value.
-        else {
-            self.photo = dict[@"photo"];
+            // Retrieve photo from URL.
+            if (dict[@"photo"]) {
+                SDWebImageManager *manager = [SDWebImageManager sharedManager];
+                [manager downloadImageWithURL:dict[@"photo"]
+                                      options:0
+                                     progress:^(NSInteger receivedSize, NSInteger expectedSize)
+                 {
+                     // Progression tracking code here. 
+                 }
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
+                {
+                    self.photo = image;
+                }];
+            }
         }
         self.birthdate = dict[@"birthdate"];
         self.campaigns = dict[@"campaigns"];
