@@ -9,8 +9,7 @@
 #import "DSOAPI.h"
 #import "AFNetworkActivityLogger.h"
 #import <SSKeychain/SSKeychain.h>
-#import "DSOCampaign.h"
-#import "DSOReportbackItem.h"
+
 
 // API Constants
 #define isActivityLogging NO

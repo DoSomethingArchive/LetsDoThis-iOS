@@ -7,11 +7,16 @@
 //
 
 #import "LDTCampaignListReportbackItemCell.h"
+#import "LDTTheme.h"
 
 @implementation LDTCampaignListReportbackItemCell
 
 - (void)awakeFromNib {
     // Initialization code
+}
+
+- (void)displayForReportbackItem:(DSOReportbackItem *)rbItem {
+    [self.imageView sd_setImageWithURL:rbItem.imageURL];
 }
 
 @end
