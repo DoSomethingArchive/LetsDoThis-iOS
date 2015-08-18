@@ -10,7 +10,9 @@
 #import "LDTTheme.h"
 
 @interface LDTUserSignupCodeView()
+
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
+
 @end
 
 @implementation LDTUserSignupCodeView

@@ -13,5 +13,4 @@
 
 -(instancetype)initWithCampaign:(DSOCampaign *)campaign;
 
-
 @end

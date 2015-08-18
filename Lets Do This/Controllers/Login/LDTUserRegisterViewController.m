@@ -17,13 +17,13 @@
 #import "UITextField+LDT.h"
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
-@property (weak, nonatomic) IBOutlet LDTButton *loginLink;
 
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *avatarFilestring;
 @property (strong, nonatomic) UIDatePicker *datePicker;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 
+@property (weak, nonatomic) IBOutlet LDTButton *loginLink;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
 @property (weak, nonatomic) IBOutlet UIButton *avatarButton;
@@ -60,7 +60,7 @@
 
 #pragma mark - NSObject
 
--(instancetype)initWithUser:(DSOUser *)user {
+- (instancetype)initWithUser:(DSOUser *)user {
     self = [super initWithNibName:@"LDTUserRegisterView" bundle:nil];
 
     if (self) {
@@ -72,7 +72,7 @@
 
 #pragma mark - UIViewController
 
--(void)viewDidLoad {
+- (void)viewDidLoad {
 	[super viewDidLoad];
 
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
@@ -347,24 +347,20 @@
     [self getImageMenu];
 }
 
-- (void) getImageMenu {
+- (void)getImageMenu {
     UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Set your photo" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
 
     UIAlertAction *camera;
     // Is camera is available?
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         camera = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-
             self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
             [self presentViewController:self.imagePicker animated:YES completion:NULL];
-
         }];
     }
     else {
         camera = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-
             [view dismissViewControllerAnimated:YES completion:nil];
-
         }];
     }
 
@@ -403,6 +399,7 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
+
 - (IBAction)loginLinkTouchUpInside:(id)sender {
     LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginView" bundle:nil];
     [self.navigationController pushViewController:destVC animated:YES];

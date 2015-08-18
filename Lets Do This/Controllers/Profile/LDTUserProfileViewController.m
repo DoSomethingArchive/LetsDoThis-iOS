@@ -17,7 +17,6 @@
 
 @interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate>
 
-
 @property (strong, nonatomic) NSMutableArray *campaignsDoing;
 @property (strong, nonatomic) NSMutableArray *campaignsCompleted;
 
@@ -96,7 +95,7 @@ static NSString *cellIdentifier;
 
 #pragma Mark - LDTUserProfileViewController
 
-- (void) styleView {
+- (void)styleView {
     [LDTTheme setLightningBackground:self.headerView];
     [self.avatarImageView addCircleFrame];
 

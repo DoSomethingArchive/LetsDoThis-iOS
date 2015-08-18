@@ -53,20 +53,8 @@ const CGFloat kHeightExpanded = 400;
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
 
-#warning Method calls like this below
-	// Should have line breaks above and below, especially if what they're doing isn't related to what's below. It is a matter of preference
-	// but I think it makes the code easier to read. There's exceptions, esp if you have multiple method calls one after the other
-	
-	/* i.e.,
-	 
-	 [self styleView];
-	 
-	 self.flowLayout = [[LDTCampaignListCollectionViewFlowLayout alloc] init];
-	 self.flowLayout.minimumInteritemSpacing = 8.0f;
-	 [self.collectionView setCollectionViewLayout:self.flowLayout];
-	 */
-	
     [self styleView];
+
     self.flowLayout = [[LDTCampaignListCollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 8.0f;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
@@ -99,10 +87,7 @@ const CGFloat kHeightExpanded = 400;
 
 #pragma LDTCampaignListViewController
 
-#warning Don't put spaces between the return type and the method name
-// - (void)styleView
-
-- (void) styleView {
+- (void)styleView {
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
 
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
@@ -130,19 +115,16 @@ const CGFloat kHeightExpanded = 400;
      forState:UIControlStateSelected];
 }
 
-- (void) createInterestGroups {
+- (void)createInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
     for (NSDictionary *term in [DSOAPI sharedInstance].interestGroups) {
-
         self.interestGroups[term[@"id"]] = @{
                                              @"campaigns" : [[NSMutableArray alloc] init],
                                              @"reportbackItems" : [[NSMutableArray alloc] init]
                                              };
     }
-#warning Don't put line breaks between these two `for` blocks
-	// Don't need them--code starts to get too spread out
-    for (DSOCampaign *campaign in self.allCampaigns) {
 
+    for (DSOCampaign *campaign in self.allCampaigns) {
         // Because all taxonomy terms are stored in the tags property, we have to loop through and find which ones are Interest Group terms.
         for (NSDictionary *termDict in campaign.tags) {
             NSNumber *termID = [NSNumber numberWithInt:[termDict[@"id"] intValue]];
@@ -155,7 +137,6 @@ const CGFloat kHeightExpanded = 400;
     }
 
     for (NSNumber *key in self.interestGroups) {
-
         [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] completionHandler:^(NSArray *rbItems) {
             for (DSOReportbackItem *rbItem in rbItems) {
                 [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
@@ -164,7 +145,6 @@ const CGFloat kHeightExpanded = 400;
         } errorHandler:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
         }];
-
     }
 }
 
@@ -199,13 +179,10 @@ const CGFloat kHeightExpanded = 400;
 #pragma UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-
     NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
-
     if (section > 0) {
         return [interestGroup[@"reportbackItems"] count];
     }
-
     return [interestGroup[@"campaigns"] count];
 }
 
@@ -214,7 +191,6 @@ const CGFloat kHeightExpanded = 400;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-
     NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
 
     if (indexPath.section == 0) {
@@ -261,7 +237,6 @@ const CGFloat kHeightExpanded = 400;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     CGFloat height = kHeightCollapsed;
 
@@ -329,12 +304,7 @@ const CGFloat kHeightExpanded = 400;
 
 #pragma UICollectionViewDelegateFlowLayout
 
-#warning Fix this up
-// method implementations should be all on one line
-//-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-- (CGFloat)collectionView:(UICollectionView *)collectionView
-                   layout:(UICollectionViewLayout *)collectionViewLayout
-minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     if (section > 0) {
         return 8.0f;
     }
@@ -351,8 +321,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout
-referenceSizeForHeaderInSection:(NSInteger)section {
+                  layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section > 0) {
         // Width is ignored
         return CGSizeMake(60.0f, 50.0f);
@@ -360,18 +329,13 @@ referenceSizeForHeaderInSection:(NSInteger)section {
     return CGSizeMake(0.0f, 0.0f);
 }
 
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
-           viewForSupplementaryElementOfKind:(NSString *)kind
-                                 atIndexPath:(NSIndexPath *)indexPath{
-
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     UICollectionReusableView *reusableView = nil;
-
     if (kind == UICollectionElementKindSectionHeader) {
         LDTCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
         headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
         reusableView = headerView;
     }
-
     return reusableView;
 }
 
