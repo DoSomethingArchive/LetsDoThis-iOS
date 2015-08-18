@@ -68,7 +68,7 @@
 
 }
 
-- (void)connectWithCachedSessionWithCompletionHandler:(void (^)(void))completionHandler
+- (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler {
 
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
@@ -119,6 +119,29 @@
         }
     }];
 
+}
+
+- (void)signupForCampaign:(DSOCampaign *)campaign
+        completionHandler:(void(^)(NSDictionary *))completionHandler
+             errorHandler:(void(^)(NSError *))errorHandler {
+
+    [[DSOAPI sharedInstance] createSignupForCampaign:campaign completionHandler:^(NSDictionary *response) {
+
+        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
+            if (completionHandler) {
+                completionHandler(response);
+            }
+        } errorHandler:^(NSError *error) {
+            if (errorHandler) {
+                errorHandler(error);
+            }
+        }];
+
+    } errorHandler:^(NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
 }
 
 #warning Move this out of here

@@ -84,7 +84,7 @@
     if (self.isDoing) {
         return;
     }
-    [[DSOAPI sharedInstance] createSignupForCampaign:self.campaign completionHandler:^(NSDictionary *response) {
+    [[DSOUserManager sharedInstance] signupForCampaign:self.campaign completionHandler:^(NSDictionary *response) {
          [self.actionButton setTitle:[@"Prove it" uppercaseString] forState:UIControlStateNormal];
     }
      errorHandler:^(NSError *error) {
