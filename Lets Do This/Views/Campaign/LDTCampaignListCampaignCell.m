@@ -22,10 +22,10 @@
 @implementation LDTCampaignListCampaignCell
 
 - (void)awakeFromNib {
-    [self theme];
+    [self styleView];
 }
 
-- (void)theme {
+- (void)styleView {
     self.titleLabel.numberOfLines = 0;
     self.titleLabel.font = [LDTTheme fontBoldWithSize:24];
     self.taglineLabel.font = [LDTTheme font];

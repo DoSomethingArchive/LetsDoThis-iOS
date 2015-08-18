@@ -203,9 +203,9 @@ const CGFloat kHeightExpanded = 400;
     }
     else {
         NSArray *rbItems = interestGroup[@"reportbackItems"];
-        LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         DSOReportbackItem *rbItem = rbItems[indexPath.row];
-        [cell.imageView sd_setImageWithURL:rbItem.imageURL];
+        LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
+        [cell displayForReportbackItem:rbItem];
         return cell;
     }
 
