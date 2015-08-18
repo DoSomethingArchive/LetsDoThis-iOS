@@ -11,7 +11,7 @@
 
 @implementation UITextField (LDT)
 
-- (void) setBorderColor:(UIColor *)color {
+- (void)setBorderColor:(UIColor *)color {
     self.layer.cornerRadius = 8.0f;
     self.layer.masksToBounds = YES;
     self.layer.borderColor = [color CGColor];

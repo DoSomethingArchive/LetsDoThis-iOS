@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface LDTCampaignListReportbackItemCell : UICollectionViewCell
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end

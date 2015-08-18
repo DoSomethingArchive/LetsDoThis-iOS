@@ -24,7 +24,7 @@
 @property (strong, nonatomic, readonly) NSString *tagline;
 @property (strong, nonatomic, readonly) NSURL *coverImageURL;
 
--(id)initWithDict:(NSDictionary*)values;
--(NSInteger)numberOfDaysLeft;
+- (id)initWithDict:(NSDictionary*)values;
+- (NSInteger)numberOfDaysLeft;
 
 @end
