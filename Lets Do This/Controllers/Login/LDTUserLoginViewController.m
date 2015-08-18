@@ -15,6 +15,7 @@
 #import "LDTTabBarController.h"
 
 @interface LDTUserLoginViewController ()
+
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -26,11 +27,9 @@
 - (IBAction)registerLinkTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)passwordButtonTouchUpInside:(id)sender;
-
 - (IBAction)emailEditingDidEnd:(id)sender;
 - (IBAction)passwordEditingDidEnd:(id)sender;
 - (IBAction)passwordEditingChanged:(id)sender;
-
 
 @end
 
@@ -86,10 +85,8 @@
     for (UITextField *aTextField in self.textFields) {
         aTextField.font = font;
     }
-
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     self.passwordTextField.secureTextEntry = YES;
-
     self.passwordButton.backgroundColor = [UIColor whiteColor];
     [self.passwordButton setTitleColor:[LDTTheme ctaBlueColor] forState:UIControlStateNormal];
     [self.registerLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

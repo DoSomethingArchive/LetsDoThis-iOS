@@ -10,13 +10,15 @@
 #import "NSDictionary+DSOJsonHelper.h"
 
 @interface DSOReportbackItem()
+
 @property (nonatomic, assign, readwrite) NSInteger reportbackItemID;
 @property (nonatomic, strong, readwrite) NSURL *imageURL;
+
 @end
 
 @implementation DSOReportbackItem
 
--(id)initWithDict:(NSDictionary*)dict {
+- (id)initWithDict:(NSDictionary*)dict {
     self = [super init];
     if(self) {
         self.reportbackItemID = [dict valueForKeyAsInt:@"id" nullValue:self.reportbackItemID];

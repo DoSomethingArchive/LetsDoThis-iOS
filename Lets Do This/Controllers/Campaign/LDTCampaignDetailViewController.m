@@ -30,7 +30,7 @@
 
 #pragma mark - NSObject
 
--(instancetype)initWithCampaign:(DSOCampaign *)campaign {
+- (instancetype)initWithCampaign:(DSOCampaign *)campaign {
     self = [super initWithNibName:@"LDTCampaignDetailView" bundle:nil];
 
     if (self) {
@@ -60,7 +60,7 @@
 
 #pragma mark - LDTCampaignDetailViewController
 
-- (void) styleView {
+- (void)styleView {
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setClear];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
@@ -73,7 +73,7 @@
     [self.coverImageView addGrayTint];
 }
 
-- (void) setActionButton {
+- (void)setActionButton {
     [self.actionButton enable];
     NSString *title = @"Do this now";
     if (self.isDoing) {
