@@ -176,9 +176,7 @@ const CGFloat kHeightExpanded = 400;
         [self.navigationController pushViewController:destVC animated:YES];
     }
     else {
-        [[DSOAPI sharedInstance]
-         createSignupForCampaignId:campaign.campaignID
-         completionHandler:^(NSDictionary *response) {
+        [[DSOAPI sharedInstance] createSignupForCampaign:campaign completionHandler:^(NSDictionary *response) {
              // @todo: Change selected cell's title, since user is signed up now.
             [self.navigationController pushViewController:destVC animated:YES];
              // @todo: This doesn't display

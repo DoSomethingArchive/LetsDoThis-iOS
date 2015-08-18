@@ -191,11 +191,11 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 
 // General methods:
 
-- (void)createSignupForCampaignId:(NSInteger)campaignId
+- (void)createSignupForCampaign:(DSOCampaign *)campaign
                 completionHandler:(void(^)(NSDictionary *))completionHandler
                      errorHandler:(void(^)(NSError *))errorHandler {
 
-    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)campaignId];
+    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)campaign.campaignID];
     NSDictionary *params = @{@"source": @"letsdothis_ios"};
 
     [self POST:url
