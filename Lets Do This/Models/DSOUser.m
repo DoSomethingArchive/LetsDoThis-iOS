@@ -10,7 +10,7 @@
 #import "DSOCampaign.h"
 #import "NSDictionary+DSOJsonHelper.h"
 #import "NSDate+DSO.h"
-#import "LDTTheme.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface DSOUser()
 
@@ -41,21 +41,16 @@
         self.email = dict[@"email"];
         self.sessionToken = dict[@"session_token"];
         if ([dict objectForKey:@"photo"] != nil) {
-             self.photo = nil;
+            self.photo = nil;
             // Retrieve photo from URL.
-            if (dict[@"photo"]) {
-                SDWebImageManager *manager = [SDWebImageManager sharedManager];
-                [manager downloadImageWithURL:dict[@"photo"]
-                                      options:0
-                                     progress:^(NSInteger receivedSize, NSInteger expectedSize)
-                 {
-                     // Progression tracking code here. 
-                 }
-                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
-                {
-                    self.photo = image;
-                }];
-            }
+            [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"]
+                                  options:0
+                                 progress:0
+                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
+             {
+                 self.photo = image;
+             }];
+            
         }
         self.birthdate = dict[@"birthdate"];
         self.campaigns = dict[@"campaigns"];
