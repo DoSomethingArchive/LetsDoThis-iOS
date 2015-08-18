@@ -14,7 +14,6 @@
 @property (nonatomic, assign) BOOL isDoing;
 @property (nonatomic, assign) BOOL isCompleted;
 @property (strong, nonatomic) DSOCampaign *campaign;
-@property (nonatomic, strong) NSString *IDstring;
 
 @property (weak, nonatomic) IBOutlet LDTButton *actionButton;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
@@ -47,11 +46,10 @@
     [super viewDidLoad];
 
     [self styleView];
-    self.IDstring = [NSString stringWithFormat:@"%li", (long)self.campaign.campaignID];
+
     self.titleLabel.text = [self.campaign.title uppercaseString];
     self.taglineLabel.text = self.campaign.tagline;
     self.problemLabel.text = self.campaign.factProblem;
-
     [self.coverImageView sd_setImageWithURL:self.campaign.coverImageURL];
     self.isDoing = [[DSOUserManager sharedInstance].user isDoingCampaign:self.campaign];
 
@@ -86,7 +84,6 @@
     if (self.isDoing) {
         return;
     }
-
     [[DSOAPI sharedInstance] createSignupForCampaign:self.campaign completionHandler:^(NSDictionary *response) {
          [self.actionButton setTitle:[@"Prove it" uppercaseString] forState:UIControlStateNormal];
     }
