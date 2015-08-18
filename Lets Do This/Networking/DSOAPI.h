@@ -45,7 +45,7 @@
                completionHandler:(void(^)(id))completionHandler
                     errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)createSignupForCampaignId:(NSInteger)campaignId
+- (void)createSignupForCampaign:(DSOCampaign *)campaign
                 completionHandler:(void(^)(NSDictionary *))completionHandler
                      errorHandler:(void(^)(NSError *))errorHandler;
 

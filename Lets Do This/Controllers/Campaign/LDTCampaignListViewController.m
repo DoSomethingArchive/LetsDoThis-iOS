@@ -168,11 +168,24 @@ const CGFloat kHeightExpanded = 400;
     NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
 
     NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
-    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaignList[indexPath.row]];
+    DSOCampaign *campaign = campaignList[indexPath.row];
 
-    // @todo: Post campaign signup to API if not signed up
+    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
 
-    [self.navigationController pushViewController:destVC animated:YES];
+    if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:campaign]) {
+        [self.navigationController pushViewController:destVC animated:YES];
+    }
+    else {
+        [[DSOUserManager sharedInstance] signupForCampaign:campaign completionHandler:^(NSDictionary *response) {
+            [self.navigationController pushViewController:destVC animated:YES];
+            [TSMessage setDefaultViewController:self.navigationController];
+             [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
+         }
+         errorHandler:^(NSError *error) {
+             [LDTMessage displayErrorMessageForError:error];
+         }];
+    }
+
 
 }
 
