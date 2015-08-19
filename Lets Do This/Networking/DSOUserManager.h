@@ -11,7 +11,8 @@
 
 @interface DSOUserManager : NSObject
 
-@property (strong, nonatomic) DSOUser *user;
+@property (strong, nonatomic, readonly) DSOUser *user;
+@property (strong, nonatomic, readonly) NSArray *activeMobileAppCampaigns;
 
 + (DSOUserManager *)sharedInstance;
 
@@ -32,6 +33,10 @@
 - (void)signupForCampaign:(DSOCampaign *)campaign
         completionHandler:(void(^)(NSDictionary *))completionHandler
              errorHandler:(void(^)(NSError *))errorHandler;
+
+// Populates the activeMobileAppCampaigns property.
+- (void)fetchActiveMobileAppCampaignsWithCompletionHandler:(void (^)(void))completionHandler
+                                     errorHandler:(void(^)(NSError *))errorHandler;
 
 + (NSDictionary *)keysDict;
 

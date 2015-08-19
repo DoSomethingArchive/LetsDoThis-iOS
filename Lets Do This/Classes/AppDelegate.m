@@ -48,38 +48,30 @@
     self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
     [self.window makeKeyAndVisible];
 
-    if (![[DSOUserManager sharedInstance] userHasCachedSession]) {
+    [[DSOUserManager sharedInstance] fetchActiveMobileAppCampaignsWithCompletionHandler:^ {
 
-        [self displayUserConnectVC];
-
-    }
-    else {
-
-        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
-
-#warning Handling failure of fetch campaigns method
-// Referencing my notes from LDTCampaignListVC about handling this, I'm thinking we should either do this loading here or in the init method for
-// LDTTabBarController. If this fetch campaigns method fails, we'd probably want to present another view where they could retry the load,
-// since if we don't have campaigns and reportbacks the app is useless.
-// We could present a modal view or something or I guess it could be done through an error message on top of the tab bar controller, too
-// (with a "retry" button on it)
-            LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
-            [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
-
-        } errorHandler:^(NSError *error) {
-
+        if (![[DSOUserManager sharedInstance] userHasCachedSession]) {
             [self displayUserConnectVC];
+        }
+        else {
+            [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
+                LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
+                [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
+            } errorHandler:^(NSError *error) {
+                [self displayUserConnectVC];
+                [LDTMessage displayErrorMessageForError:error];
+            }];
+        }
 
-            [LDTMessage displayErrorMessageForError:error];
+    } errorHandler:^(NSError *error) {
+        [LDTMessage displayErrorMessageForError:error];
+#warning Handling connectivity loss
+        // @todo: Present a new NoConnectionViewController?
+    }];
 
-        }];
-    }
     return YES;
 	
-#warning Handling connectivity loss
-// If we don't have this specified yet, it probably should be soon--since we don't persist state locally and any action taken requires network
-// connectivity, we should decide how we're going to handle connectivity loss: kick them back out of the tab bar controller if it's not regained
-// in a certain amount of time? Apple has Reachability classes we can use to monitor connectivity
+
 }
 
 - (void)displayUserConnectVC {
