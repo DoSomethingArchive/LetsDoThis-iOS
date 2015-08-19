@@ -169,8 +169,7 @@
                                     <exclude reference="9xr-Pb-sNQ"/>
                                 </mask>
                             </variation>
-                            <variation key="heightClass=regular" misplaced="YES">
-                                <rect key="frame" x="8" y="584" width="585" height="49"/>
+                            <variation key="heightClass=regular">
                                 <mask key="constraints">
                                     <exclude reference="9xr-Pb-sNQ"/>
                                 </mask>
@@ -192,7 +191,7 @@
                         <constraint firstAttribute="bottomMargin" secondItem="Cyo-DU-kOw" secondAttribute="bottom" constant="16" id="MLa-NA-jhA"/>
                         <constraint firstItem="Ggr-KI-p8I" firstAttribute="top" secondItem="WQo-g9-7HX" secondAttribute="bottom" constant="15" id="RYR-n2-uo0"/>
                         <constraint firstAttribute="centerX" secondItem="hON-y7-TtZ" secondAttribute="centerX" id="VJU-xS-4es"/>
-                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Cyo-DU-kOw" secondAttribute="bottom" constant="16" id="VUX-g7-WaE"/>
+                        <constraint firstAttribute="bottom" secondItem="Cyo-DU-kOw" secondAttribute="bottom" constant="16" id="VUX-g7-WaE"/>
                         <constraint firstAttribute="trailing" secondItem="ZSq-2j-AkF" secondAttribute="trailing" constant="8" id="WwI-b1-RnR"/>
                         <constraint firstAttribute="trailing" secondItem="WQo-g9-7HX" secondAttribute="trailing" constant="8" id="Zaf-AM-pEo"/>
                         <constraint firstAttribute="bottom" secondItem="Cyo-DU-kOw" secondAttribute="bottom" constant="22" id="aIw-1S-tbQ">
@@ -241,8 +240,7 @@
                             <exclude reference="eyR-E2-Gb5"/>
                         </mask>
                     </variation>
-                    <variation key="heightClass=regular" ambiguous="YES">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="736"/>
+                    <variation key="heightClass=regular">
                         <mask key="subviews">
                             <include reference="Cyo-DU-kOw"/>
                         </mask>
@@ -258,7 +256,7 @@
                             <include reference="hUk-P4-ePv"/>
                             <exclude reference="j1C-PP-KGN"/>
                             <include reference="rF0-bv-ZG9"/>
-                            <include reference="wPe-Gu-zkb"/>
+                            <exclude reference="wPe-Gu-zkb"/>
                             <exclude reference="vmM-2C-Mcd"/>
                             <exclude reference="F8P-Gw-XxE"/>
                         </mask>

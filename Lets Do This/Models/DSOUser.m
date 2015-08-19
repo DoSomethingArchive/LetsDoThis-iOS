@@ -19,10 +19,8 @@
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *firstName;
-@property (nonatomic, strong, readwrite) NSString *lastName;
 @property (nonatomic, strong, readwrite) NSString *email;
 @property (nonatomic, strong, readwrite) NSString *mobile;
-@property (nonatomic, strong, readwrite) NSDate *birthdate;
 @property (nonatomic, strong, readwrite) UIImage *photo;
 @property (nonatomic, strong, readwrite) NSDictionary *campaigns;
 @property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignsDoing;
@@ -39,7 +37,6 @@
         self.userID = dict[@"_id"];
         self.phoenixID = [dict[@"drupal_id"] intValue];
         self.firstName = dict[@"first_name"];
-        self.lastName = dict[@"last_name"];
         self.email = dict[@"email"];
         self.sessionToken = dict[@"session_token"];
         if ([dict objectForKey:@"photo"] != nil) {
@@ -54,7 +51,6 @@
              }];
             
         }
-        self.birthdate = dict[@"birthdate"];
         self.campaigns = dict[@"campaigns"];
         [self syncActiveMobileAppCampaigns];
     }
@@ -97,14 +93,10 @@
 }
 
 - (NSString *)displayName {
-    if(self.firstName.length > 0 && self.lastName.length > 0) {
-        // Return First Name Last Initial.
-        return [NSString stringWithFormat:@"%@ %@.", self.firstName, [self.lastName substringToIndex:1]];
-    }
-    else if(self.firstName.length > 0) {
+    if(self.firstName.length > 0) {
         return self.firstName;
     }
-    return self.lastName;
+    return nil;
 }
 
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign {
