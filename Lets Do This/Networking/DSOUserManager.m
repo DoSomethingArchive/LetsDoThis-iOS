@@ -13,6 +13,12 @@
 #define DSOSERVER @"staging.beta.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
 
+@interface DSOUserManager()
+
+@property (strong, nonatomic, readwrite) DSOUser *user;
+@property (strong, nonatomic, readwrite) NSArray *activeMobileAppCampaigns;
+
+@end
 
 @implementation DSOUserManager
 
@@ -96,7 +102,7 @@
      ];
 }
 
-- (void)endSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+- (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler {
 
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
@@ -109,7 +115,7 @@
         self.user = nil;
 
         if (completionHandler) {
-            completionHandler(responseDict);
+            completionHandler();
         }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
@@ -140,6 +146,21 @@
             errorHandler(error);
         }
     }];
+}
+
+- (void)fetchActiveMobileAppCampaignsWithCompletionHandler:(void (^)(void))completionHandler
+                                     errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
+        self.activeMobileAppCampaigns = [campaigns allValues];
+        if (completionHandler) {
+            completionHandler();
+        }
+    } errorHandler:^(NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+
 }
 
 #warning Move this out of here
