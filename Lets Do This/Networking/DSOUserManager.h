@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "DSOAPI.h"
-#import "DSOUser.h"
 
 @interface DSOUserManager : NSObject
 
-@property (strong, nonatomic) DSOUser *user;
+@property (strong, nonatomic, readonly) DSOUser *user;
+@property (strong, nonatomic, readonly) NSArray *activeMobileAppCampaigns;
 
 + (DSOUserManager *)sharedInstance;
 
@@ -26,13 +26,19 @@
 - (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)endSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+- (void)endSessionWithCompletionHandler:(void(^)(void))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;
 
 // Posts a campaign signup for the current user and given DSOCampaign.
 - (void)signupForCampaign:(DSOCampaign *)campaign
         completionHandler:(void(^)(NSDictionary *))completionHandler
              errorHandler:(void(^)(NSError *))errorHandler;
+
+// Populates the activeMobileAppCampaigns property.
+- (void)fetchActiveMobileAppCampaignsWithCompletionHandler:(void (^)(void))completionHandler
+                                     errorHandler:(void(^)(NSError *))errorHandler;
+
+- (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID;
 
 + (NSDictionary *)keysDict;
 

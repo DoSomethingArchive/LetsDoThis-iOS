@@ -53,7 +53,11 @@
          completionHandler:(void(^)(DSOUser *))completionHandler
               errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+- (void)fetchUserWithPhoenixID:(NSInteger)phoenixID
+             completionHandler:(void(^)(DSOUser *))completionHandler
+                  errorHandler:(void(^)(NSError *))errorHandler;
+
+- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler
                                errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)fetchReportbackItemsForCampaigns:(NSArray *)campaigns 

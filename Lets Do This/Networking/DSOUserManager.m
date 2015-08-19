@@ -7,13 +7,18 @@
 //
 
 #import "DSOUserManager.h"
-#import "DSOAPI.h"
 #import <SSKeychain/SSKeychain.h>
 
 #define DSOPROTOCOL @"http"
 #define DSOSERVER @"staging.beta.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
 
+@interface DSOUserManager()
+
+@property (strong, nonatomic, readwrite) DSOUser *user;
+@property (strong, nonatomic, readwrite) NSArray *activeMobileAppCampaigns;
+
+@end
 
 @implementation DSOUserManager
 
@@ -97,7 +102,7 @@
      ];
 }
 
-- (void)endSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+- (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler {
 
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
@@ -110,7 +115,7 @@
         self.user = nil;
 
         if (completionHandler) {
-            completionHandler(responseDict);
+            completionHandler();
         }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
@@ -141,6 +146,30 @@
             errorHandler(error);
         }
     }];
+}
+
+- (void)fetchActiveMobileAppCampaignsWithCompletionHandler:(void (^)(void))completionHandler
+                                     errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+        self.activeMobileAppCampaigns = campaigns;
+        if (completionHandler) {
+            completionHandler();
+        }
+    } errorHandler:^(NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+
+}
+
+- (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID {
+    for (DSOCampaign *campaign in self.activeMobileAppCampaigns) {
+        if (campaign.campaignID == campaignID) {
+            return campaign;
+        }
+    }
+    return nil;
 }
 
 #warning Move this out of here

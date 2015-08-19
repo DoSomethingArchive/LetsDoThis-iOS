@@ -44,10 +44,13 @@ const CGFloat kHeightExpanded = 400;
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
     self.selectedCampaignIndex = nil;
+    self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
+    [self createInterestGroups];
 
     for (int i = 0; i < 4; i++) {
         [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forSegmentAtIndex:i];
     }
+
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
@@ -64,18 +67,10 @@ const CGFloat kHeightExpanded = 400;
     [super viewDidAppear:animated];
 
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
-    [self styleView];
 
-    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
-        self.allCampaigns = [campaigns allValues];
-        [self createInterestGroups];
-    } errorHandler:^(NSError *error) {
-#warning We should talk more about error handling for this screen
-// I.e., what if there's no connectivity at all before we even hit this fetchCampaigns method? What would we want the user to see?
-// If this method fails, the app is more or less useless
-// I'm thinking we should maybe do this loading on the previous screen--see notes in AppDelegate regarding this
-        [LDTMessage displayErrorMessageForError:error];
-    }];
+    [self.collectionView reloadData];
+
+    [self styleView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

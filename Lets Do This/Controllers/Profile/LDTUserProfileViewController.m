@@ -64,27 +64,13 @@ static NSString *cellIdentifier;
 - (void)viewDidAppear:(BOOL)animated  {
     [super viewDidAppear:animated];
 
-    // @todo Sync User from API.
-
-    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
-
-        self.campaignsDoing = [[NSMutableArray alloc] init];
-        self.campaignsCompleted = [[NSMutableArray alloc] init];
-
-        for (NSNumber *campaignID in self.user.campaignIDsDoing) {
-            if ([campaigns objectForKey:campaignID]) {
-                DSOCampaign *campaign = campaigns[campaignID];
-                [self.campaignsDoing addObject:campaign];
-            }
-        }
-        // @todo: Loop through campaignIdsCompleted
-
+    [[DSOAPI sharedInstance] fetchUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
+        self.campaignsDoing = user.activeMobileAppCampaignsDoing;
+        self.campaignsCompleted = user.activeMobileAppCampaignsCompleted;
         [self.tableView reloadData];
-
     } errorHandler:^(NSError *error) {
         [LDTMessage displayErrorMessageForError:error];
     }];
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
