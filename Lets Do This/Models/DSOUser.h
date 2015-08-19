@@ -24,12 +24,11 @@
 @property (nonatomic, strong, readonly) UIImage *photo;
 // Dictionary of campaign activity data.
 @property (nonatomic, strong, readonly) NSDictionary *campaigns;
+@property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsDoing;
+@property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsCompleted;
 
-@property (nonatomic, strong, readonly) NSMutableArray *campaignIDsDoing;
-@property (nonatomic, strong, readonly) NSMutableArray *campaignIDsCompleted;
-
-- (void)setPhotoWithImage:(UIImage *)image;
 - (id)initWithDict:(NSDictionary*)dict;
+- (void)setPhotoWithImage:(UIImage *)image;
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign;
 - (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign;
 

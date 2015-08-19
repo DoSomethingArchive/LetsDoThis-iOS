@@ -38,6 +38,8 @@
 - (void)fetchActiveMobileAppCampaignsWithCompletionHandler:(void (^)(void))completionHandler
                                      errorHandler:(void(^)(NSError *))errorHandler;
 
+- (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID;
+
 + (NSDictionary *)keysDict;
 
 @end
