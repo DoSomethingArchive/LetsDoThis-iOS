@@ -253,7 +253,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
       }];
 }
 
-- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler
                                errorHandler:(void(^)(NSError *))errorHandler {
 
     NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
@@ -267,12 +267,10 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     [self GET:url
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {
-          NSMutableDictionary *campaigns = [[NSMutableDictionary alloc] init];
+          NSMutableArray *campaigns = [[NSMutableArray alloc] init];
           for (NSDictionary* campaignDict in responseObject[@"data"]) {
               DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
-              // Store campaignID as NSNumber to use as ditctionary key.
-              NSNumber *campaignID = [NSNumber numberWithInteger:campaign.campaignID];
-              campaigns[campaignID] = campaign;
+              [campaigns addObject:campaign];
           }
           if (completionHandler) {
               completionHandler(campaigns);
