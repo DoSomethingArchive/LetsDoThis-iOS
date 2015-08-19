@@ -18,10 +18,8 @@
 @property (nonatomic, strong, readonly) NSString *sessionToken;
 @property (nonatomic, strong, readonly) NSString *displayName;
 @property (nonatomic, strong, readonly) NSString *firstName;
-@property (nonatomic, strong, readonly) NSString *lastName;
 @property (nonatomic, strong, readonly) NSString *email;
 @property (nonatomic, strong, readonly) NSString *mobile;
-@property (nonatomic, strong, readonly) NSDate *birthdate;
 @property (nonatomic, strong, readonly) UIImage *photo;
 // Dictionary of campaign activity data.
 @property (nonatomic, strong, readonly) NSDictionary *campaigns;
