@@ -48,9 +48,6 @@ static NSString *cellIdentifier;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
-    self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;
-
     self.navigationItem.title = nil;
     self.nameLabel.text = [self.user displayName];
     self.avatarImageView.image = self.user.photo;
@@ -67,7 +64,13 @@ static NSString *cellIdentifier;
 - (void)viewDidAppear:(BOOL)animated  {
     [super viewDidAppear:animated];
 
-    // @todo Sync User from API to get latest activity/profile info.
+    [[DSOAPI sharedInstance] fetchUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
+        self.campaignsDoing = user.activeMobileAppCampaignsDoing;
+        self.campaignsCompleted = user.activeMobileAppCampaignsCompleted;
+        [self.tableView reloadData];
+    } errorHandler:^(NSError *error) {
+        [LDTMessage displayErrorMessageForError:error];
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

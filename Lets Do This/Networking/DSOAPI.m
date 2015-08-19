@@ -234,6 +234,25 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
       }];
 }
 
+- (void)fetchUserWithPhoenixID:(NSInteger)phoenixID
+             completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+
+    NSString *url = [NSString stringWithFormat:@"users/drupal_id/%li", (long)phoenixID];
+    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+          NSArray *userInfo = responseObject[@"data"];
+          DSOUser *user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
+          if (completionHandler) {
+              completionHandler(user);
+          }
+      }
+      failure:^(NSURLSessionDataTask *task, NSError *error) {
+          if (errorHandler) {
+              errorHandler(error);
+          }
+          [self logError:error];
+      }];
+}
+
 - (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                                errorHandler:(void(^)(NSError *))errorHandler {
 
