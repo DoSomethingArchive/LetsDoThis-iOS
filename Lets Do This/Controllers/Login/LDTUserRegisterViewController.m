@@ -33,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *mobileTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UILabel *footerLabel;
 
 - (IBAction)avatarButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
@@ -72,6 +73,10 @@
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton disable];
     [self.loginLink setTitle:@"Have a DoSomething.org account? Sign in" forState:UIControlStateNormal];
+    
+    self.footerLabel.adjustsFontSizeToFitWidth = NO;
+    self.footerLabel.numberOfLines = 0;
+    self.footerLabel.text = @"Creating an account means you agree to our Privacy Policy & to receive our weekly update. Message & data rates may apply. Text STOP to opt-out, HELP for help.";
 
     self.imagePicker = [[UIImagePickerController alloc] init];
     self.imagePicker.delegate = self;
@@ -129,6 +134,10 @@
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     [self.mobileTextField setKeyboardType:UIKeyboardTypeNumberPad];
 
+    self.footerLabel.font = font;
+    self.footerLabel.textAlignment = NSTextAlignmentCenter;
+    self.footerLabel.textColor = [UIColor whiteColor];
+    
     self.headerLabel.font = font;
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
     self.headerLabel.textColor = [UIColor whiteColor];
