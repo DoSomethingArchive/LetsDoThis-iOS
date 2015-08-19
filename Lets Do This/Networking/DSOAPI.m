@@ -234,7 +234,26 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
       }];
 }
 
-- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+- (void)fetchUserWithPhoenixID:(NSInteger)phoenixID
+             completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+
+    NSString *url = [NSString stringWithFormat:@"users/drupal_id/%li", (long)phoenixID];
+    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+          NSArray *userInfo = responseObject[@"data"];
+          DSOUser *user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
+          if (completionHandler) {
+              completionHandler(user);
+          }
+      }
+      failure:^(NSURLSessionDataTask *task, NSError *error) {
+          if (errorHandler) {
+              errorHandler(error);
+          }
+          [self logError:error];
+      }];
+}
+
+- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler
                                errorHandler:(void(^)(NSError *))errorHandler {
 
     NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
@@ -248,12 +267,10 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     [self GET:url
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {
-          NSMutableDictionary *campaigns = [[NSMutableDictionary alloc] init];
+          NSMutableArray *campaigns = [[NSMutableArray alloc] init];
           for (NSDictionary* campaignDict in responseObject[@"data"]) {
               DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
-              // Store campaignID as NSNumber to use as ditctionary key.
-              NSNumber *campaignID = [NSNumber numberWithInteger:campaign.campaignID];
-              campaigns[campaignID] = campaign;
+              [campaigns addObject:campaign];
           }
           if (completionHandler) {
               completionHandler(campaigns);

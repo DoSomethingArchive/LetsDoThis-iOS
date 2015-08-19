@@ -109,7 +109,7 @@
 }
 
 - (void)logout {
-    [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^(NSDictionary *response) {
+    [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
 
         // This VC is always presented within the TabBarVC, so kill it.
         [self dismissViewControllerAnimated:YES completion:^{
