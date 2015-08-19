@@ -57,7 +57,7 @@
              completionHandler:(void(^)(DSOUser *))completionHandler
                   errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler
                                errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)fetchReportbackItemsForCampaigns:(NSArray *)campaigns 

@@ -150,8 +150,8 @@
 
 - (void)fetchActiveMobileAppCampaignsWithCompletionHandler:(void (^)(void))completionHandler
                                      errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
-        self.activeMobileAppCampaigns = [campaigns allValues];
+    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+        self.activeMobileAppCampaigns = campaigns;
         if (completionHandler) {
             completionHandler();
         }
