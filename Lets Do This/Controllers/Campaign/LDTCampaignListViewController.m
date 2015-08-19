@@ -25,7 +25,7 @@ const CGFloat kHeightExpanded = 400;
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
 @property (strong, nonatomic) NSMutableDictionary *interestGroups;
-@property (strong, nonatomic) NSNumber *selectedCampaignIndex;
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) LDTCampaignListCollectionViewFlowLayout *flowLayout;
@@ -43,14 +43,14 @@ const CGFloat kHeightExpanded = 400;
     [super viewDidLoad];
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
-    self.selectedCampaignIndex = nil;
+    self.selectedIndexPath = nil;
+
     self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
     [self createInterestGroups];
 
     for (int i = 0; i < 4; i++) {
         [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forSegmentAtIndex:i];
     }
-
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
@@ -89,19 +89,14 @@ const CGFloat kHeightExpanded = 400;
     [navVC setOrange];
 
     self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
-
     [[UISegmentedControl appearance]
-     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+    setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                              [LDTTheme font],
                              NSFontAttributeName,
                              [UIColor grayColor],
                              NSForegroundColorAttributeName,
                              nil]
      forState:UIControlStateNormal];
-#warning We're also getting this error in the console
-	// Unbalanced calls to begin/end appearance transitions for <LDTLoadingViewController: 0x7f924b00b4d0>.
-	// Possibly see http://stackoverflow.com/questions/7886096/unbalanced-calls-to-begin-end-appearance-transitions-for-uitabbarcontroller-0x
-	// for suggestions on how to fix--I haven't seen this before
     [[UISegmentedControl appearance]
      setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                              [UIColor whiteColor],
@@ -149,7 +144,7 @@ const CGFloat kHeightExpanded = 400;
 }
 
 - (IBAction)segmentedControlValueChanged:(id)sender {
-    self.selectedCampaignIndex = nil;
+    self.selectedIndexPath = nil;
     [self.collectionView reloadData];
 }
 
@@ -180,7 +175,6 @@ const CGFloat kHeightExpanded = 400;
              [LDTMessage displayErrorMessageForError:error];
          }];
     }
-
 
 }
 
@@ -226,7 +220,7 @@ const CGFloat kHeightExpanded = 400;
 
     // Campaigns:
     if (indexPath.section == 0) {
-        if (self.selectedCampaignIndex && [self.selectedCampaignIndex intValue] == indexPath.row) {
+        if (self.selectedIndexPath == indexPath) {
             height = kHeightExpanded;
         }
     }
@@ -271,15 +265,11 @@ const CGFloat kHeightExpanded = 400;
 	// to impact memory usage (probably because it just gets rid of the old one). There is a little glitchy behavior
 	// on the reportbacks that still needs to be corrected; that may need to be done in the delegate method that
 	// returns the size of the cell, or possibly in our custom flow layout
-#warning name variables better--more descriptively
-	NSNumber *thisRow = [NSNumber numberWithLong:indexPath.row];
-#warning Is there a reason for this?
-	// Can't we just store the whole indexPath on self.selectedCampaignIndex? Do we need to store specifically the row?
-	if (self.selectedCampaignIndex && [self.selectedCampaignIndex intValue] == [thisRow intValue]) {
-		self.selectedCampaignIndex = nil;
+	if (self.selectedIndexPath == indexPath) {
+		self.selectedIndexPath = nil;
 	}
 	else {
-		self.selectedCampaignIndex = thisRow;
+		self.selectedIndexPath = indexPath;
 	}
 	
 	LDTCampaignListCollectionViewFlowLayout *flowLayout = [[LDTCampaignListCollectionViewFlowLayout alloc] init];
