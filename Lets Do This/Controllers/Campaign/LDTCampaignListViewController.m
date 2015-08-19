@@ -68,6 +68,8 @@ const CGFloat kHeightExpanded = 400;
 
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
 
+    [self.collectionView reloadData];
+
     [self styleView];
 }
 
