@@ -89,19 +89,14 @@ const CGFloat kHeightExpanded = 400;
     [navVC setOrange];
 
     self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
-
     [[UISegmentedControl appearance]
-     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+    setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                              [LDTTheme font],
                              NSFontAttributeName,
                              [UIColor grayColor],
                              NSForegroundColorAttributeName,
                              nil]
      forState:UIControlStateNormal];
-#warning We're also getting this error in the console
-	// Unbalanced calls to begin/end appearance transitions for <LDTLoadingViewController: 0x7f924b00b4d0>.
-	// Possibly see http://stackoverflow.com/questions/7886096/unbalanced-calls-to-begin-end-appearance-transitions-for-uitabbarcontroller-0x
-	// for suggestions on how to fix--I haven't seen this before
     [[UISegmentedControl appearance]
      setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                              [UIColor whiteColor],
