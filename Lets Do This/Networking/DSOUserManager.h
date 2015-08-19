@@ -26,7 +26,7 @@
 - (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)endSessionWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
+- (void)endSessionWithCompletionHandler:(void(^)(void))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;
 
 // Posts a campaign signup for the current user and given DSOCampaign.
