@@ -14,7 +14,6 @@
 #import "LDTCampaignDetailViewcontroller.h"
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
-#import "LDTCampaignListCollectionViewFlowLayout.h"
 #import "LDTCollectionReusableView.h"
 
 const CGFloat kHeightCollapsed = 100;
@@ -28,7 +27,7 @@ const CGFloat kHeightExpanded = 400;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (strong, nonatomic) LDTCampaignListCollectionViewFlowLayout *flowLayout;
+@property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 - (IBAction)segmentedControlValueChanged:(id)sender;
@@ -58,7 +57,7 @@ const CGFloat kHeightExpanded = 400;
 
     [self styleView];
 
-    self.flowLayout = [[LDTCampaignListCollectionViewFlowLayout alloc] init];
+    self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 8.0f;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
 }
@@ -244,36 +243,17 @@ const CGFloat kHeightExpanded = 400;
         // @todo: Present a ReportbackItemVC for selected ReportbackItem.
         return;
     }
-	
-	// I tried this first--it worked on animating a cell out but not correctly on animating it back in
-	// I think it may have to do with us using a custom flow layout--all the layout math is done in there that the base
-	// collection view would normally handle on its own. If you wanted a challenge, you could try and figure out why
-	// that was happening and how to correct it
-//	[collectionView performBatchUpdates:^{
-//		NSNumber *thisRow = [NSNumber numberWithLong:indexPath.row];
-//		if (self.selectedCampaignIndex && [self.selectedCampaignIndex intValue] == [thisRow intValue]) {
-//			self.selectedCampaignIndex = nil;
-//		}
-//		else {
-//			self.selectedCampaignIndex = thisRow;
-//		}
-//	} completion:^(BOOL finished) {
-//		
-//	}];
-	
-	// This works but I don't love the idea of initializing a new flow layout each time, although it doesn't seem
-	// to impact memory usage (probably because it just gets rid of the old one). There is a little glitchy behavior
-	// on the reportbacks that still needs to be corrected; that may need to be done in the delegate method that
-	// returns the size of the cell, or possibly in our custom flow layout
-	if (self.selectedIndexPath == indexPath) {
-		self.selectedIndexPath = nil;
-	}
-	else {
-		self.selectedIndexPath = indexPath;
-	}
-	
-	LDTCampaignListCollectionViewFlowLayout *flowLayout = [[LDTCampaignListCollectionViewFlowLayout alloc] init];
-	[self.collectionView setCollectionViewLayout:flowLayout animated:YES];
+
+	[collectionView performBatchUpdates:^{
+        if (self.selectedIndexPath == indexPath) {
+            self.selectedIndexPath = nil;
+        }
+        else {
+            self.selectedIndexPath = indexPath;
+        }
+	} completion:^(BOOL finished) {
+		
+	}];
 }
 
 #pragma UICollectionViewDelegateFlowLayout
@@ -288,8 +268,8 @@ const CGFloat kHeightExpanded = 400;
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     if (section > 0){
-        // Adds border below the section 1 header:
-        return UIEdgeInsetsMake(8.0f, 0, 0, 0);
+        // Adds padding around the ReportbackItem section.
+        return UIEdgeInsetsMake(8.0f, 8.0f, 0, 8.0f);
     }
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
