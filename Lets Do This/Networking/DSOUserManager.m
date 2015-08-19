@@ -163,6 +163,15 @@
 
 }
 
+- (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID {
+    for (DSOCampaign *campaign in self.activeMobileAppCampaigns) {
+        if (campaign.campaignID == campaignID) {
+            return campaign;
+        }
+    }
+    return nil;
+}
+
 #warning Move this out of here
 + (NSDictionary *)keysDict {
     return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];

@@ -48,6 +48,9 @@ static NSString *cellIdentifier;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
+    self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;
+
     self.navigationItem.title = nil;
     self.nameLabel.text = [self.user displayName];
     self.avatarImageView.image = self.user.photo;
@@ -64,27 +67,7 @@ static NSString *cellIdentifier;
 - (void)viewDidAppear:(BOOL)animated  {
     [super viewDidAppear:animated];
 
-    // @todo Sync User from API.
-
-    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSDictionary *campaigns) {
-
-        self.campaignsDoing = [[NSMutableArray alloc] init];
-        self.campaignsCompleted = [[NSMutableArray alloc] init];
-
-        for (NSNumber *campaignID in self.user.campaignIDsDoing) {
-            if ([campaigns objectForKey:campaignID]) {
-                DSOCampaign *campaign = campaigns[campaignID];
-                [self.campaignsDoing addObject:campaign];
-            }
-        }
-        // @todo: Loop through campaignIdsCompleted
-
-        [self.tableView reloadData];
-
-    } errorHandler:^(NSError *error) {
-        [LDTMessage displayErrorMessageForError:error];
-    }];
-
+    // @todo Sync User from API to get latest activity/profile info.
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
