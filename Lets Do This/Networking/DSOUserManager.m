@@ -7,7 +7,6 @@
 //
 
 #import "DSOUserManager.h"
-#import "DSOAPI.h"
 #import <SSKeychain/SSKeychain.h>
 
 #define DSOPROTOCOL @"http"
