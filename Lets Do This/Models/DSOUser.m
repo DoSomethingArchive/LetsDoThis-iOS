@@ -15,6 +15,7 @@
 @interface DSOUser()
 
 @property (nonatomic, strong, readwrite) NSString *userID;
+@property (nonatomic, assign, readwrite) NSInteger phoenixID;
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *firstName;
@@ -36,6 +37,7 @@
 
     if(self) {
         self.userID = dict[@"_id"];
+        self.phoenixID = [dict[@"drupal_id"] intValue];
         self.firstName = dict[@"first_name"];
         self.lastName = dict[@"last_name"];
         self.email = dict[@"email"];

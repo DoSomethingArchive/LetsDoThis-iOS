@@ -14,6 +14,7 @@
 @interface DSOUser : NSObject
 
 @property (nonatomic, strong, readonly) NSString *userID;
+@property (nonatomic, assign, readonly) NSInteger phoenixID;
 @property (nonatomic, strong, readonly) NSString *sessionToken;
 @property (nonatomic, strong, readonly) NSString *displayName;
 @property (nonatomic, strong, readonly) NSString *firstName;
