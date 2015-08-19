@@ -71,15 +71,8 @@
     // @todo: Actually connect to Facebook here.
     NSMutableDictionary *fbUser = [[NSMutableDictionary alloc] init];
     fbUser[@"first_name"] = @"John";
-    fbUser[@"last_name"] = @"Connor";
     fbUser[@"email"] = @"john.connor@dosomething.org";
     fbUser[@"photo"] = [UIImage imageNamed:@"john-connor.jpg"];
-
-    NSDateFormatter *mmddccyy = [[NSDateFormatter alloc] init];
-    mmddccyy.timeStyle = NSDateFormatterNoStyle;
-    mmddccyy.dateFormat = @"MM/dd/yyyy";
-    NSDate *birthdate = [mmddccyy dateFromString:@"12/11/1995"];
-    fbUser[@"birthdate"] = birthdate;
 
     DSOUser *user = [[DSOUser alloc] initWithDict:fbUser];
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:user];
