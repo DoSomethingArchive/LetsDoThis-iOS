@@ -14,8 +14,8 @@
 		B21126271B618038009128E7 /* DSOUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B21126261B618038009128E7 /* DSOUserManager.m */; };
 		B212C2621B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */; };
 		B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */; };
-		B21996B11B7CFEDA0054EADC /* LDTCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B21996AF1B7CFEDA0054EADC /* LDTCollectionReusableView.m */; };
-		B21996B21B7CFEDA0054EADC /* LDTCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21996B01B7CFEDA0054EADC /* LDTCollectionReusableView.xib */; };
+		B21996B11B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B21996AF1B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m */; };
+		B21996B21B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21996B01B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.xib */; };
 		B22273FE1B58076F005C896D /* DSOAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = B22273FD1B58076F005C896D /* DSOAPI.m */; };
 		B22274011B5879B3005C896D /* LDTCampaignListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22274001B5879B3005C896D /* LDTCampaignListView.xib */; };
 		B22274051B587A20005C896D /* LDTCampaignListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22274041B587A20005C896D /* LDTCampaignListViewController.m */; };
@@ -89,9 +89,9 @@
 		B212C2611B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseUserLoginViewController.m; path = Login/LDTBaseUserLoginViewController.m; sourceTree = "<group>"; };
 		B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+LDT.h"; sourceTree = "<group>"; };
 		B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+LDT.m"; sourceTree = "<group>"; };
-		B21996AE1B7CFEDA0054EADC /* LDTCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTCollectionReusableView.h; sourceTree = "<group>"; };
-		B21996AF1B7CFEDA0054EADC /* LDTCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTCollectionReusableView.m; sourceTree = "<group>"; };
-		B21996B01B7CFEDA0054EADC /* LDTCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDTCollectionReusableView.xib; sourceTree = "<group>"; };
+		B21996AE1B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTHeaderCollectionReusableView.h; sourceTree = "<group>"; };
+		B21996AF1B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTHeaderCollectionReusableView.m; sourceTree = "<group>"; };
+		B21996B01B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDTHeaderCollectionReusableView.xib; sourceTree = "<group>"; };
 		B22273FC1B58076F005C896D /* DSOAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOAPI.h; path = Networking/DSOAPI.h; sourceTree = "<group>"; };
 		B22273FD1B58076F005C896D /* DSOAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOAPI.m; path = Networking/DSOAPI.m; sourceTree = "<group>"; };
 		B22274001B5879B3005C896D /* LDTCampaignListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCampaignListView.xib; path = Campaign/LDTCampaignListView.xib; sourceTree = "<group>"; };
@@ -451,9 +451,9 @@
 				B27AF0E51B4F490800164926 /* Profile */,
 				B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */,
 				B20D06D01B3A58F40053D3B6 /* LDTMessage.m */,
-				B21996AE1B7CFEDA0054EADC /* LDTCollectionReusableView.h */,
-				B21996AF1B7CFEDA0054EADC /* LDTCollectionReusableView.m */,
-				B21996B01B7CFEDA0054EADC /* LDTCollectionReusableView.xib */,
+				B21996AE1B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.h */,
+				B21996AF1B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m */,
+				B21996B01B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -570,7 +570,7 @@
 				B26038831B44F8FC002FE362 /* bg-lightning.png in Resources */,
 				B27F49EA1B6ADB68005CFC35 /* LDTCampaignDetailView.xib in Resources */,
 				B26038811B44F8A4002FE362 /* plus-icon.png in Resources */,
-				B21996B21B7CFEDA0054EADC /* LDTCollectionReusableView.xib in Resources */,
+				B21996B21B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.xib in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
 				B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */,
 				B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */,
@@ -673,7 +673,7 @@
 				B2DB71991B754E3F00915A18 /* LDTCampaignListCampaignCell.m in Sources */,
 				B27F49ED1B6ADB93005CFC35 /* LDTCampaignDetailViewController.m in Sources */,
 				B240DD321B73DA4D00CA6C6E /* LDTTabBarController.m in Sources */,
-				B21996B11B7CFEDA0054EADC /* LDTCollectionReusableView.m in Sources */,
+				B21996B11B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m in Sources */,
 				B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */,
 				C2B152201ACE05510028C336 /* AppDelegate.m in Sources */,
 				B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */,
