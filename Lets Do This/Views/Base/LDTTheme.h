@@ -19,12 +19,11 @@
 +(UIColor *)disabledGrayColor;
 +(UIColor *)facebookBlueColor;
 +(UIColor *)lightGrayColor;
-+(UIColor *)orangeColor;
 +(UIFont *)font;
 +(UIFont *)fontBold;
 +(UIFont *)fontBoldWithSize:(CGFloat)fontSize;
 +(NSString *)fontName;
 +(NSString *)fontBoldName;
-+(void)setLightningBackground:(UIView *)view;
++(UIImage *)fullBackgroundImage;
 
 @end

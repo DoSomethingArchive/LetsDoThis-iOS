@@ -76,7 +76,7 @@
 #pragma mark - LDTUserLoginViewController
 
 - (void) styleView {
-    [LDTTheme setLightningBackground:self.view];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
 
     UIFont *font = [LDTTheme font];
     self.headerLabel.font = font;
