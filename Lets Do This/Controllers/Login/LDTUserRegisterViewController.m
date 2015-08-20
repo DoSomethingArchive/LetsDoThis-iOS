@@ -94,7 +94,7 @@
     }
     else {
         self.headerLabel.text = @"Tell us about yourself!";
-        self.imageView.image = [UIImage imageNamed:@"plus-icon"];
+        self.imageView.image = [UIImage imageNamed:@"Upload Button"];
     }
 
 
