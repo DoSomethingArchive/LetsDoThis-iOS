@@ -219,7 +219,7 @@ const CGFloat kHeightExpanded = 400;
 
     // Campaigns:
     if (indexPath.section == 0) {
-        if (self.selectedIndexPath == indexPath) {
+        if ([self.selectedIndexPath isEqual:indexPath]) {
             height = kHeightExpanded;
         }
     }
@@ -245,7 +245,7 @@ const CGFloat kHeightExpanded = 400;
     }
 
 	[collectionView performBatchUpdates:^{
-        if (self.selectedIndexPath == indexPath) {
+        if ([self.selectedIndexPath isEqual:indexPath]) {
             self.selectedIndexPath = nil;
         }
         else {
