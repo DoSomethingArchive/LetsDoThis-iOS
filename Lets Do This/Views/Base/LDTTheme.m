@@ -65,7 +65,11 @@
 }
 
 +(void)setLightningBackground:(UIView *)view {
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
+    view.backgroundColor = [UIColor colorWithPatternImage:[self fullBackgroundImage]];
+}
+
++(UIImage *)fullBackgroundImage {
+    return [UIImage imageNamed:@"Full Background"];
 }
 
 @end
