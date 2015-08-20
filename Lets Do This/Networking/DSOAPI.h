@@ -27,6 +27,7 @@
                    password:(NSString *)password
                   firstName:(NSString *)firstName
                      mobile:(NSString *)mobile
+     optionalUserProperties:(NSDictionary *)optionalUserProperties
                     success:(void(^)(NSDictionary *))completionHandler
                     failure:(void(^)(NSError *))errorHandler;
 
