@@ -59,7 +59,7 @@
 
 - (UIImage *)photo {
 	if (_photo == nil) {
-		return [UIImage imageNamed:@"avatar-default"];
+		return [UIImage imageNamed:@"Default Avatar"];
 	}
 	return _photo;
 }

@@ -28,10 +28,10 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4pK-DW-rH5">
                             <rect key="frame" x="150" y="0.0" width="300" height="124"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ds-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="cTZ-YE-jBE">
-                                    <rect key="frame" x="110" y="0.0" width="80" height="80"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DS Logo" translatesAutoresizingMaskIntoConstraints="NO" id="cTZ-YE-jBE">
+                                    <rect key="frame" x="100" y="0.0" width="100" height="80"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="80" id="61i-p2-521"/>
+                                        <constraint firstAttribute="width" constant="100" id="61i-p2-521"/>
                                         <constraint firstAttribute="height" constant="80" id="KGS-wi-ncl"/>
                                     </constraints>
                                 </imageView>
@@ -186,6 +186,6 @@
         </view>
     </objects>
     <resources>
-        <image name="ds-logo.png" width="160" height="140"/>
+        <image name="DS Logo" width="100" height="80"/>
     </resources>
 </document>

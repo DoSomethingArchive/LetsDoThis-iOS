@@ -22,9 +22,11 @@
         LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
         profileVC.title = @"Me";
         LDTNavigationController *profileNavVC = [[LDTNavigationController alloc] initWithRootViewController:profileVC];
+        profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
 
         LDTCampaignListViewController *campaignListVC = [[LDTCampaignListViewController alloc] init];
         LDTNavigationController *campaignListNavVC = [[LDTNavigationController alloc] initWithRootViewController:campaignListVC];
+        campaignListNavVC.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
 
         self.viewControllers = [NSArray arrayWithObjects:campaignListNavVC, profileNavVC, nil];
     }
