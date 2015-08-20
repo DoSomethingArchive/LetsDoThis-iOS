@@ -82,7 +82,6 @@ static NSString *cellIdentifier;
 #pragma Mark - LDTUserProfileViewController
 
 - (void)styleView {
-    [LDTTheme setLightningBackground:self.headerView];
     [self.avatarImageView addCircleFrame];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];

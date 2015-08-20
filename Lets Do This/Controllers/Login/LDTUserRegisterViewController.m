@@ -123,7 +123,7 @@
 #pragma mark - LDTUserRegisterViewController
 
 - (void)styleView {
-    [LDTTheme setLightningBackground:self.view];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
 
     UIFont *font = [LDTTheme font];
     for (UITextField *aTextField in self.textFields) {
