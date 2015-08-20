@@ -57,12 +57,14 @@ static NSString *cellIdentifier;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 
     // @todo: Add conditional to only display if self.user != current user
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
     self.navigationItem.rightBarButtonItem = settingsButton;
 }
 
 - (void)viewDidAppear:(BOOL)animated  {
     [super viewDidAppear:animated];
+
+    [self styleView];
 
     [[DSOAPI sharedInstance] fetchUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
         self.campaignsDoing = user.activeMobileAppCampaignsDoing;
@@ -82,8 +84,10 @@ static NSString *cellIdentifier;
 #pragma Mark - LDTUserProfileViewController
 
 - (void)styleView {
-    [LDTTheme setLightningBackground:self.headerView];
     [self.avatarImageView addCircleFrame];
+    self.headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
+    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
+    [navVC setClear];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
     [self.nameLabel setFont:[LDTTheme fontBoldWithSize:30]];

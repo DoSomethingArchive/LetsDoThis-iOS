@@ -29,10 +29,9 @@
 }
 
 - (void)setOrange {
-    self.navigationBar.backgroundColor = [LDTTheme orangeColor];
+    [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"Header Background"] forBarMetrics:UIBarMetricsDefault];
     self.navigationBar.translucent = NO;
-    self.navigationBar.barTintColor = [LDTTheme orangeColor];
-    self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    self.navigationBar.barStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)setClear {

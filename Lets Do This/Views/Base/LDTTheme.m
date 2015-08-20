@@ -38,13 +38,6 @@
                            alpha:1.0f];
 }
 
-+(UIColor *)orangeColor {
-    return [UIColor colorWithRed:255.0f/255.0f
-                           green:165.0f/255.0f
-                            blue:0/255.0f
-                           alpha:1.0f];
-}
-
 // @todo: Second set of functions specifying size? Potentially typedef of size values?
 +(UIFont *)font {
     return [UIFont fontWithName:[self fontName] size:16];
@@ -64,8 +57,8 @@
     return @"BrandonGrotesque-Bold";
 }
 
-+(void)setLightningBackground:(UIView *)view {
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg-lightning"]];
++(UIImage *)fullBackgroundImage {
+    return [UIImage imageNamed:@"Full Background"];
 }
 
 @end

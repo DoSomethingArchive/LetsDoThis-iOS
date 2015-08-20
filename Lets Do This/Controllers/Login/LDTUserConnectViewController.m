@@ -49,7 +49,7 @@
 #pragma mark - LDTUserConnectViewController
 
 - (void)styleView {
-    [LDTTheme setLightningBackground:self.view];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
 
     [self.headerLabel setFont:[LDTTheme font]];
     [self.headerLabel setTextColor:[UIColor whiteColor]];

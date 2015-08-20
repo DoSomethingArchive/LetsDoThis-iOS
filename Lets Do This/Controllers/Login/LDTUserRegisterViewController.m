@@ -94,7 +94,7 @@
     }
     else {
         self.headerLabel.text = @"Tell us about yourself!";
-        self.imageView.image = [UIImage imageNamed:@"plus-icon"];
+        self.imageView.image = [UIImage imageNamed:@"Upload Button"];
     }
 
 
@@ -123,7 +123,7 @@
 #pragma mark - LDTUserRegisterViewController
 
 - (void)styleView {
-    [LDTTheme setLightningBackground:self.view];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
 
     UIFont *font = [LDTTheme font];
     for (UITextField *aTextField in self.textFields) {
