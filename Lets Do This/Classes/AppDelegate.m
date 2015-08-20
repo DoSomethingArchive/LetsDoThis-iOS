@@ -50,18 +50,18 @@
 
     [[DSOUserManager sharedInstance] fetchActiveMobileAppCampaignsWithCompletionHandler:^ {
 
-        if (![[DSOUserManager sharedInstance] userHasCachedSession]) {
+//        if (![[DSOUserManager sharedInstance] userHasCachedSession]) {
             [self displayUserConnectVC];
-        }
-        else {
-            [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
-                LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
-                [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
-            } errorHandler:^(NSError *error) {
-                [self displayUserConnectVC];
-                [LDTMessage displayErrorMessageForError:error];
-            }];
-        }
+//        }
+//        else {
+//            [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
+//                LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
+//                [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
+//            } errorHandler:^(NSError *error) {
+//                [self displayUserConnectVC];
+//                [LDTMessage displayErrorMessageForError:error];
+//            }];
+//        }
 
     } errorHandler:^(NSError *error) {
         [LDTMessage displayErrorMessageForError:error];

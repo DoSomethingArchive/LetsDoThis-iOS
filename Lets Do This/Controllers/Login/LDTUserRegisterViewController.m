@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSString *avatarFilestring;
 @property (strong, nonatomic) UIDatePicker *datePicker;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
+@property (strong, nonatomic) NSString *countryCode;
 
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
@@ -34,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *mobileTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UILabel *footerLabel;
+@property (strong, nonatomic) CLLocationManager *locationManager;
 
 - (IBAction)avatarButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
@@ -115,9 +117,48 @@
                                 self.passwordTextField];
 
     [self styleView];
-
+    
+    [self determineUserLocation];
 
     // @todo: Set mediatypes as images only (not video).
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)determineUserLocation {
+    self.locationManager = [[CLLocationManager alloc]init]; // initializing locationManager
+    self.locationManager.delegate = self;
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers; // most coarse-grained accuracy setting
+    
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+}
+
+- (void)locationManager:(CLLocationManager*)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        [self.locationManager startUpdatingLocation];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [errorAlert show];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    CLLocation *location = [locations lastObject];
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        if(!error && self.countryCode == nil) {
+            NSString *countryCode = [placemarks[0] ISOcountryCode];
+            self.countryCode = countryCode;
+        }
+    }];
 }
 
 #pragma mark - LDTUserRegisterViewController
