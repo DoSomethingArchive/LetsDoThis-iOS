@@ -177,7 +177,7 @@ const CGFloat kHeightExpanded = 400;
 
 }
 
-#pragma UICollectionViewDataSource
+#pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
@@ -238,18 +238,26 @@ const CGFloat kHeightExpanded = 400;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-
     if (indexPath.section > 0) {
         // @todo: Present a ReportbackItemVC for selected ReportbackItem.
         return;
     }
 
+    LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
 	[collectionView performBatchUpdates:^{
         if ([self.selectedIndexPath isEqual:indexPath]) {
             self.selectedIndexPath = nil;
+            [UIView animateWithDuration:0.2f animations:^{
+                [cell collapse];
+                [self.view layoutIfNeeded];
+            }];
         }
         else {
             self.selectedIndexPath = indexPath;
+            [UIView animateWithDuration:0.2f animations:^{
+                [cell expand];
+                [self.view layoutIfNeeded];
+            }];
         }
 	} completion:^(BOOL finished) {
 		
