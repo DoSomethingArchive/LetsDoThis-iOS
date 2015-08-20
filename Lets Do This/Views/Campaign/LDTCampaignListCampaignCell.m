@@ -56,4 +56,13 @@
     }
     self.expiresLabel.text = [expiresString uppercaseString];
 }
+
+- (void)collapse {
+    self.titleLabelTopLayoutConstraint.constant = 32.0f;
+}
+
+- (void)expand {
+    self.titleLabelTopLayoutConstraint.constant = 180.0f;
+}
+
 @end
