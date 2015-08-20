@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#warning If we're going to use it as header view for collection view,
-// Should probably name it as such
-@interface LDTCollectionReusableView : UICollectionReusableView
+@interface LDTHeaderCollectionReusableView : UICollectionReusableView
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
