@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import "LDTCollectionReusableView.h"
+#import "LDTHeaderCollectionReusableView.h"
 #import "LDTTheme.h"
 
-@implementation LDTCollectionReusableView
+@implementation LDTHeaderCollectionReusableView
 
 - (void)awakeFromNib {
     self.titleLabel.font = [LDTTheme fontBoldWithSize:18.0f];
