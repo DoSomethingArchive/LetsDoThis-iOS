@@ -19,5 +19,6 @@
 // That way, if someone else new (or even you at some point down the road) sees the files, they instantly know what everything's for
 
 - (void)displayForCampaign:(DSOCampaign *)campaign;
-
+- (void)collapse;
+- (void)expand;
 @end
