@@ -29,7 +29,6 @@
 		B25C1C9C1B17648200607FF1 /* ds-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B25C1C9B1B17648200607FF1 /* ds-logo.png */; };
 		B260387B1B449491002FE362 /* LDTUserSignupCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */; };
 		B260387D1B4494A8002FE362 /* LDTUserSignupCodeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */; };
-		B26038811B44F8A4002FE362 /* plus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B26038801B44F8A4002FE362 /* plus-icon.png */; };
 		B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */; };
 		B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */; };
 		B27AA9741B6714910091BCA4 /* fb-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B27AA9721B6714910091BCA4 /* fb-icon@2x.png */; };
@@ -110,7 +109,6 @@
 		B26038791B449491002FE362 /* LDTUserSignupCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserSignupCodeView.h; path = Login/LDTUserSignupCodeView.h; sourceTree = "<group>"; };
 		B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserSignupCodeView.m; path = Login/LDTUserSignupCodeView.m; sourceTree = "<group>"; };
 		B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserSignupCodeView.xib; path = Login/LDTUserSignupCodeView.xib; sourceTree = "<group>"; };
-		B26038801B44F8A4002FE362 /* plus-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-icon.png"; path = "Resources/Images/plus-icon.png"; sourceTree = "<group>"; };
 		B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_med.otf; path = Resources/Fonts/Brandon_med.otf; sourceTree = "<group>"; };
 		B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_bld.otf; path = Resources/Fonts/Brandon_bld.otf; sourceTree = "<group>"; };
 		B27AA9721B6714910091BCA4 /* fb-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fb-icon@2x.png"; path = "Resources/Images/fb-icon@2x.png"; sourceTree = "<group>"; };
@@ -251,7 +249,6 @@
 				B27AA9721B6714910091BCA4 /* fb-icon@2x.png */,
 				B27AA9731B6714910091BCA4 /* fb-icon@3x.png */,
 				B24CE3D01B507DEE00377727 /* john-connor.jpg */,
-				B26038801B44F8A4002FE362 /* plus-icon.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -562,7 +559,6 @@
 			files = (
 				B27AF0ED1B4F64D200164926 /* LDTLoadingView.xib in Resources */,
 				B27F49EA1B6ADB68005CFC35 /* LDTCampaignDetailView.xib in Resources */,
-				B26038811B44F8A4002FE362 /* plus-icon.png in Resources */,
 				B21996B21B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.xib in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
 				B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */,
