@@ -143,13 +143,6 @@
     }
 }
 
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    NSLog(@"didFailWithError: %@", error);
-    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [errorAlert show];
-}
-
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     CLLocation *location = [locations lastObject];
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
@@ -159,6 +152,7 @@
             self.countryCode = countryCode;
         }
     }];
+    [manager stopUpdatingLocation];
 }
 
 #pragma mark - LDTUserRegisterViewController
@@ -188,6 +182,14 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
         
+        NSDictionary *optionalUserProperties = [NSDictionary new];
+        if (self.countryCode) {
+            optionalUserProperties = @{@"country": self.countryCode};
+        }
+        else {
+            optionalUserProperties = nil;
+        }
+        
         // Create the user.
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text
                                             password:self.passwordTextField.text
@@ -197,6 +199,7 @@
 		 // where [[DSOAPI sharedinstance] starts. When you start dealing with nested blocks, it can get difficult
 		 // to read.
 											 success:^(NSDictionary *response) {
+
 
             // Login the user.
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {

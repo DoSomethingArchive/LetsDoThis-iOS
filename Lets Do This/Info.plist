@@ -65,7 +65,5 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location to give you the most relevant campaigns!</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need your location to give you the most relevant campaigns!</string>
 </dict>
 </plist>
