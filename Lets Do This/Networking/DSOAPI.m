@@ -1,3 +1,4 @@
+
 //
 //  DSOAPI.m
 //  Lets Do This
@@ -98,20 +99,19 @@
                    password:(NSString *)password
                   firstName:(NSString *)firstName
                      mobile:(NSString *)mobile
-     optionalUserProperties:(NSDictionary *)optionalUserProperties
+                countryCode:(NSString *)countryCode
                     success:(void(^)(NSDictionary *))completionHandler
                     failure:(void(^)(NSError *))errorHandler {
     
-    NSMutableDictionary *params = [NSMutableDictionary new];
-    [params setObject:email forKey:@"email"];
-    [params setObject:password forKey:@"password"];
-    [params setObject:mobile forKey:@"mobile"];
-    
-    if (optionalUserProperties.count > 0) {
-        for (NSString *key in optionalUserProperties) {
-            params[key] = optionalUserProperties[key];
-        }
+    if (countryCode == nil) {
+        countryCode = @"";
     }
+    
+    NSDictionary *params = @{@"email": email,
+                             @"password": password,
+                             @"first_name": firstName,
+                             @"mobile": mobile,
+                             @"country": countryCode};
     
     [self POST:@"users?create_drupal_user=1"
     parameters:params
