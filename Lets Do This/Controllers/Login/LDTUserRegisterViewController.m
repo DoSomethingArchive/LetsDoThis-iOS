@@ -18,11 +18,12 @@
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
+@property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *avatarFilestring;
+@property (strong, nonatomic) NSString *countryCode;
 @property (strong, nonatomic) UIDatePicker *datePicker;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
-@property (strong, nonatomic) NSString *countryCode;
 
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
@@ -35,7 +36,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *mobileTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UILabel *footerLabel;
-@property (strong, nonatomic) CLLocationManager *locationManager;
 
 - (IBAction)avatarButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
@@ -126,7 +126,7 @@
 #pragma mark - CLLocationManagerDelegate
 
 - (void)determineUserLocation {
-    self.locationManager = [[CLLocationManager alloc]init]; // initializing locationManager
+    self.locationManager = [[CLLocationManager alloc] init]; // initializing locationManager
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers; // most coarse-grained accuracy setting
@@ -182,14 +182,6 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
         
-        NSDictionary *optionalUserProperties = [NSDictionary new];
-        if (self.countryCode) {
-            optionalUserProperties = @{@"country": self.countryCode};
-        }
-        else {
-            optionalUserProperties = nil;
-        }
-        
         // Create the user.
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text
                                             password:self.passwordTextField.text
@@ -198,8 +190,8 @@
 #warning You should have this success block be lined up
 		 // where [[DSOAPI sharedinstance] starts. When you start dealing with nested blocks, it can get difficult
 		 // to read.
-											 success:^(NSDictionary *response) {
-
+                                         countryCode:self.countryCode
+                                             success:^(NSDictionary *response) {
 
             // Login the user.
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
