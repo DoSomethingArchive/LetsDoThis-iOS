@@ -11,10 +11,12 @@
 #import "DSOCampaign.h"
 #import "DSOReportbackItem.h"
 #import "LDTTheme.h"
-#import "LDTCampaignDetailViewcontroller.h"
+#import "LDTCampaignDetailViewController.h"
+#import "LDTReportbackItemDetailViewController.h"
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
+
 
 const CGFloat kHeightCollapsed = 100;
 const CGFloat kHeightExpanded = 400;
@@ -238,8 +240,12 @@ const CGFloat kHeightExpanded = 400;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
     if (indexPath.section > 0) {
-        // @todo: Present a ReportbackItemVC for selected ReportbackItem.
+        NSArray *rbItems = self.interestGroups[[self selectedInterestGroupId]][@"reportbackItems"];
+        DSOReportbackItem *reportbackItem = rbItems[indexPath.row];
+        LDTReportbackItemDetailViewController *destVC = [[LDTReportbackItemDetailViewController alloc] initWithReportbackItem:reportbackItem];
+        [self.navigationController pushViewController:destVC animated:YES];
         return;
     }
 
