@@ -30,8 +30,7 @@
 
 @implementation DSOUser
 
-#warning instancetype return
-- (id)initWithDict:(NSDictionary*)dict {
+- (instancetype)initWithDict:(NSDictionary*)dict {
     self = [super init];
 
     if(self) {

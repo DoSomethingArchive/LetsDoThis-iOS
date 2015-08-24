@@ -17,6 +17,6 @@
 @property (nonatomic, strong, readonly) NSString *caption;
 @property (nonatomic, strong, readonly) NSURL *imageURL;
 
-- (id)initWithDict:(NSDictionary*)dict;
+- (instancetype)initWithDict:(NSDictionary*)dict;
 
 @end

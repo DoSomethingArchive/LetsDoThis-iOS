@@ -28,7 +28,7 @@
 
 @implementation DSOCampaign
 
-- (id)initWithDict:(NSDictionary*)values {
+- (instancetype)initWithDict:(NSDictionary*)values {
     self = [super init];
 
     if(self) {
