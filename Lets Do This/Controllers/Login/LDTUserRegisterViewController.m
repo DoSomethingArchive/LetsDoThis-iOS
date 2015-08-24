@@ -147,9 +147,8 @@
     CLLocation *location = [locations lastObject];
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-        if(!error && self.countryCode == nil) {
-            NSString *countryCode = [placemarks[0] ISOcountryCode];
-            self.countryCode = countryCode;
+        if (!error) {
+            self.countryCode = [placemarks[0] ISOcountryCode];
         }
     }];
     [manager stopUpdatingLocation];
