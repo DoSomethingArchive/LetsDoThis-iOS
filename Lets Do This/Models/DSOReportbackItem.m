@@ -32,7 +32,9 @@
         NSString *imagePath = [[dict valueForKeyPath:@"media"] valueForKeyAsString:@"uri" nullValue:nil];
         self.imageURL = [NSURL URLWithString:imagePath];
         NSInteger campaignID = [[dict valueForKeyPath:@"campaign.id"] intValue];
-        // @todo: If an active DSOCampaign doesn't exist, use the dictionary to create a DSOCampaign to expose the Campaign Title 
+        // @todo: If an active DSOCampaign doesn't exist, use the dictionary to create a DSOCampaign to expose the Campaign Title
+		
+#warning Could self.campaign ever be nil?
         self.campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:campaignID];
     }
 

@@ -30,6 +30,7 @@
 
 @implementation DSOUser
 
+#warning instancetype return
 - (id)initWithDict:(NSDictionary*)dict {
     self = [super init];
 
@@ -58,11 +59,18 @@
 }
 
 - (UIImage *)photo {
+#warning This can be shortened to what I put below--it's more common practice
+	// if (!_photo)
 	if (_photo == nil) {
 		return [UIImage imageNamed:@"Default Avatar"];
 	}
 	return _photo;
 }
+
+#warning If all you're trying to do is set the self.photo property,
+// why not just use its built in setter function (Xcode will autocomplete it for you if you start typing:
+
+//-(void)setPhoto:(UIImage *)photo
 
 - (void)setPhotoWithImage:(UIImage *)image {
     self.photo = image;
