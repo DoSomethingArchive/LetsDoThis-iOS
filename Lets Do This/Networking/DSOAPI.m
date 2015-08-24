@@ -103,7 +103,7 @@
                     success:(void(^)(NSDictionary *))completionHandler
                     failure:(void(^)(NSError *))errorHandler {
     
-    if (countryCode == nil) {
+    if (!countryCode) {
         countryCode = @"";
     }
     
@@ -113,19 +113,17 @@
                              @"mobile": mobile,
                              @"country": countryCode};
     
-    [self POST:@"users?create_drupal_user=1"
-    parameters:params
-       success:^(NSURLSessionDataTask *task, id responseObject) {
-           if (completionHandler) {
-               completionHandler(responseObject);
-           }
-       }
-       failure:^(NSURLSessionDataTask *task, NSError *error) {
-           if (errorHandler) {
-               errorHandler(error);
-           }
-           [self logError:error];
-       }];
+    [self POST:@"users?create_drupal_user=1" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (completionHandler) {
+            completionHandler(responseObject);
+        }
+    }
+    failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+        [self logError:error];
+    }];
 }
 
 - (void)loginWithEmail:(NSString *)email
@@ -136,19 +134,17 @@
     NSDictionary *params = @{@"email": email,
                              @"password": password};
 
-    [self POST:@"login"
-   parameters:params
-      success:^(NSURLSessionDataTask *task, id responseObject) {
-          DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
-          if (completionHandler) {
-              completionHandler(user);
-          }
-      }
-      failure:^(NSURLSessionDataTask *task, NSError *error) {
-          if (errorHandler) {
-              errorHandler(error);
-          }
-      }];
+    [self POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
+        if (completionHandler) {
+            completionHandler(user);
+        }
+    }
+    failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
 }
 
 - (void)postUserAvatarWithUserId:(NSString *)userID
@@ -160,36 +156,32 @@
     NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     NSString *fileNameForImage = [NSString stringWithFormat:@"User_%@_ProfileImage", userID];
     
-    [self POST:urlPath
-    parameters:nil
-constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-    [formData appendPartWithFileData:imageData name:@"photo" fileName:fileNameForImage mimeType:@"image/jpeg"];
-} success:^(NSURLSessionDataTask *task, id responseObject) {
-    if (completionHandler) {
-        completionHandler(responseObject);
-    }
-} failure:^(NSURLSessionDataTask *task, NSError *error) {
-    if (errorHandler) {
-        errorHandler(error);
-    }
-}];
+    [self POST:urlPath parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageData name:@"photo" fileName:fileNameForImage mimeType:@"image/jpeg"];
+    } success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (completionHandler) {
+            completionHandler(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
 }
 
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler {
 
-    [self POST:@"logout"
-    parameters:nil
-       success:^(NSURLSessionDataTask *task, id responseObject) {
-           if (completionHandler) {
-               completionHandler(responseObject);
-            }
-       }
-       failure:^(NSURLSessionDataTask *task, NSError *error) {
-           if (errorHandler) {
-               errorHandler(error);
-           }
-       }];
+    [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (completionHandler) {
+            completionHandler(responseObject);
+        }
+    }
+    failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
 }
 
 // General methods:
