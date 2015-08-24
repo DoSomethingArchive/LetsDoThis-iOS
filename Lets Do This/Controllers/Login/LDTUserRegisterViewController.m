@@ -18,8 +18,10 @@
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
+@property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *avatarFilestring;
+@property (strong, nonatomic) NSString *countryCode;
 @property (strong, nonatomic) UIDatePicker *datePicker;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 
@@ -115,9 +117,41 @@
                                 self.passwordTextField];
 
     [self styleView];
-
+    
+    [self determineUserLocation];
 
     // @todo: Set mediatypes as images only (not video).
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)determineUserLocation {
+    self.locationManager = [[CLLocationManager alloc] init]; // initializing locationManager
+    self.locationManager.delegate = self;
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers; // most coarse-grained accuracy setting
+    
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+}
+
+- (void)locationManager:(CLLocationManager*)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        [self.locationManager startUpdatingLocation];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    CLLocation *location = [locations lastObject];
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (!error) {
+            self.countryCode = [placemarks[0] ISOcountryCode];
+        }
+    }];
+    [manager stopUpdatingLocation];
 }
 
 #pragma mark - LDTUserRegisterViewController
@@ -155,7 +189,8 @@
 #warning You should have this success block be lined up
 		 // where [[DSOAPI sharedinstance] starts. When you start dealing with nested blocks, it can get difficult
 		 // to read.
-											 success:^(NSDictionary *response) {
+                                         countryCode:self.countryCode
+                                             success:^(NSDictionary *response) {
 
             // Login the user.
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
