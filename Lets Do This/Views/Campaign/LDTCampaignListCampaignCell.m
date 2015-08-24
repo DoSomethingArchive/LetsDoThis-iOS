@@ -8,6 +8,9 @@
 
 #import "LDTCampaignListCampaignCell.h"
 
+const CGFloat kCampaignCellHeightCollapsed = 32.0f;
+const CGFloat kCampaignCellHeightExpanded = 180.0f;
+
 @interface LDTCampaignListCampaignCell()
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -58,13 +61,11 @@
 }
 
 - (void)collapse {
-#warning I would make these numbers as constants up to
-// i.e., static float kUnexpandedCellConstant = 32.0f;
-    self.titleLabelTopLayoutConstraint.constant = 32.0f;
+    self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightCollapsed;
 }
 
 - (void)expand {
-    self.titleLabelTopLayoutConstraint.constant = 180.0f;
+    self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightExpanded;
 }
 
 @end
