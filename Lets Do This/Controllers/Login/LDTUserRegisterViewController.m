@@ -152,7 +152,10 @@
                                             password:self.passwordTextField.text
                                            firstName:self.firstNameTextField.text
                                               mobile:self.mobileTextField.text
-                                             success:^(NSDictionary *response) {
+#warning You should have this success block be lined up
+		 // where [[DSOAPI sharedinstance] starts. When you start dealing with nested blocks, it can get difficult
+		 // to read.
+											 success:^(NSDictionary *response) {
 
             // Login the user.
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {

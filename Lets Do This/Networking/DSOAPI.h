@@ -38,6 +38,15 @@
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler
                        errorHandler:(void(^)(NSError *))errorHandler;
 
+#warning not a big deal but what kind of image is it?
+// Profile image? If so, it's good to be explicit in the function parameters
+/* 
+ - (void)postUserAvatarWithUserId:(NSString *)userID
+ andProfileImage:(UIImage *)profileImage
+ completionHandler:(void(^)(id))completionHandler
+ errorHandler:(void(^)(NSError *))errorHandler;
+ */
+
 - (void)postUserAvatarWithUserId:(NSString *)userID
                            image:(UIImage *)image
                completionHandler:(void(^)(id))completionHandler

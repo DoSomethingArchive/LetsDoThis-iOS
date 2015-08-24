@@ -11,6 +11,7 @@
 
 @interface LDTCampaignListCampaignCell : UICollectionViewCell
 
+#warning Do we need this exposed publicly?
 @property (weak, nonatomic) IBOutlet LDTButton *actionButton;
 
 #warning Descriptive naming in xib files
