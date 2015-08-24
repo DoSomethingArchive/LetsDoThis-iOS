@@ -17,6 +17,10 @@
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 
+typedef NS_ENUM(NSInteger, LDTCampaignListSections) {
+    LDTSectionTypeCampaign = 0,
+    LDTSectionTypeReportback = 1
+};
 
 const CGFloat kHeightCollapsed = 100;
 const CGFloat kHeightExpanded = 400;
@@ -183,7 +187,7 @@ const CGFloat kHeightExpanded = 400;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
-    if (section > 0) {
+    if (section == LDTSectionTypeReportback) {
         return [interestGroup[@"reportbackItems"] count];
     }
     return [interestGroup[@"campaigns"] count];
@@ -196,7 +200,7 @@ const CGFloat kHeightExpanded = 400;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
 
-    if (indexPath.section == 0) {
+    if (indexPath.section == LDTSectionTypeCampaign) {
         NSArray *campaignList = interestGroup[@"campaigns"];
         DSOCampaign *campaign = (DSOCampaign *)campaignList[indexPath.row];
         LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
@@ -204,7 +208,8 @@ const CGFloat kHeightExpanded = 400;
         [cell.actionButton addTarget:self action:@selector(presentCampaignDetail:event:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }
-    else {
+
+    if (indexPath.section == LDTSectionTypeReportback) {
         NSArray *rbItems = interestGroup[@"reportbackItems"];
         DSOReportbackItem *rbItem = rbItems[indexPath.row];
         LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
@@ -218,23 +223,15 @@ const CGFloat kHeightExpanded = 400;
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     CGFloat height = kHeightCollapsed;
-	
-#warning Just to make things explicit we could typedef the section numbers
-// So instead of '0' it would be
-// if (indexPath.section == SectionTypeCampaign)
-	
-    // Campaigns:
-    if (indexPath.section == 0) {
+
+    if (indexPath.section == LDTSectionTypeCampaign) {
         if ([self.selectedIndexPath isEqual:indexPath]) {
             height = kHeightExpanded;
         }
     }
 
-#warning This would be
-// if (indexPath.section == SectionTypeReportback)
-	
     // Reportback Items:
-    if (indexPath.section == 1) {
+    if (indexPath.section == LDTSectionTypeReportback) {
         // Subtract left, right, and middle gutters with width 8.
         width = width - 24;
         // Divide by half to fit 2 cells on a row.
@@ -248,7 +245,7 @@ const CGFloat kHeightExpanded = 400;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.section > 0) {
+    if (indexPath.section == LDTSectionTypeReportback) {
         NSArray *rbItems = self.interestGroups[[self selectedInterestGroupId]][@"reportbackItems"];
         DSOReportbackItem *reportbackItem = rbItems[indexPath.row];
         LDTReportbackItemDetailViewController *destVC = [[LDTReportbackItemDetailViewController alloc] initWithReportbackItem:reportbackItem];
@@ -280,7 +277,7 @@ const CGFloat kHeightExpanded = 400;
 #pragma UICollectionViewDelegateFlowLayout
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    if (section > 0) {
+    if (section == LDTSectionTypeReportback) {
         return 8.0f;
     }
     return 0.0f;
@@ -288,8 +285,7 @@ const CGFloat kHeightExpanded = 400;
 
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    if (section > 0){
-        // Adds padding around the ReportbackItem section.
+    if (section == LDTSectionTypeReportback){
         return UIEdgeInsetsMake(8.0f, 8.0f, 0, 8.0f);
     }
     return UIEdgeInsetsMake(0, 0, 0, 0);
@@ -297,8 +293,8 @@ const CGFloat kHeightExpanded = 400;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    if (section > 0) {
-        // Width is ignored
+    if (section == LDTSectionTypeReportback) {
+        // Width is ignored here.
         return CGSizeMake(60.0f, 50.0f);
     }
     return CGSizeMake(0.0f, 0.0f);
