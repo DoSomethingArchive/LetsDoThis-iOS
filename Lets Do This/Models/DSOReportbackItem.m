@@ -22,7 +22,7 @@
 
 @implementation DSOReportbackItem
 
-- (id)initWithDict:(NSDictionary*)dict {
+- (instancetype)initWithDict:(NSDictionary*)dict {
     self = [super init];
 
     if (self) {
