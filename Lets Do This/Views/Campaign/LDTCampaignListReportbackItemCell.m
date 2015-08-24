@@ -22,6 +22,8 @@
 }
 
 - (void)displayForReportbackItem:(DSOReportbackItem *)rbItem {
+#warning Still need to specify failure options for image download
+	
     [self.imageView sd_setImageWithURL:rbItem.imageURL];
 }
 
