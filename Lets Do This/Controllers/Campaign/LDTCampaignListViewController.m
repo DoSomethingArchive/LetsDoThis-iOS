@@ -218,7 +218,11 @@ const CGFloat kHeightExpanded = 400;
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     CGFloat height = kHeightCollapsed;
-
+	
+#warning Just to make things explicit we could typedef the section numbers
+// So instead of '0' it would be
+// if (indexPath.section == SectionTypeCampaign)
+	
     // Campaigns:
     if (indexPath.section == 0) {
         if ([self.selectedIndexPath isEqual:indexPath]) {
@@ -226,6 +230,9 @@ const CGFloat kHeightExpanded = 400;
         }
     }
 
+#warning This would be
+// if (indexPath.section == SectionTypeReportback)
+	
     // Reportback Items:
     if (indexPath.section == 1) {
         // Subtract left, right, and middle gutters with width 8.

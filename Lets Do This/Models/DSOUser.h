@@ -26,6 +26,12 @@
 @property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsDoing;
 @property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsCompleted;
 
+#warning This shouldn't return an id type
+// It should return an instance of a DSOUser. 'id' is when we don't know the type of the object; it could be anything.
+// In this case, we always know we (and in fact must) get back an instance of a DSOUser from this method.
+// In order to ensure that, use 'instancetype' for the return http://nshipster.com/instancetype/
+
+//- (instancetype)initWithDict:(NSDictionary*)dict;
 - (id)initWithDict:(NSDictionary*)dict;
 - (void)setPhotoWithImage:(UIImage *)image;
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign;

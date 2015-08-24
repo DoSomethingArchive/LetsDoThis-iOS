@@ -24,6 +24,7 @@
 @property (strong, nonatomic, readonly) NSString *tagline;
 @property (strong, nonatomic, readonly) NSURL *coverImageURL;
 
+#warning Same here with the instancetype
 - (id)initWithDict:(NSDictionary*)values;
 - (NSInteger)numberOfDaysLeft;
 
