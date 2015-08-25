@@ -45,7 +45,8 @@ const CGFloat kCampaignCellHeightExpanded = 180.0f;
     self.titleLabel.text = [campaign.title uppercaseString];
     self.taglineLabel.text = campaign.tagline;
     [self.imageView sd_setImageWithURL:campaign.coverImageURL];
-
+	self.imageViewTop.constant = -25;
+	self.imageViewBottom.constant = -25;
     NSString *actionButtonTitle = @"Do this now";
     if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign]) {
         actionButtonTitle = @"Prove it";
@@ -62,10 +63,14 @@ const CGFloat kCampaignCellHeightExpanded = 180.0f;
 
 - (void)collapse {
     self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightCollapsed;
+	self.imageViewTop.constant = -25;
+	self.imageViewBottom.constant = -25;
 }
 
 - (void)expand {
     self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightExpanded;
+	self.imageViewTop.constant = 0;
+	self.imageViewBottom.constant = 0;
 }
 
 @end
