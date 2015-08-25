@@ -270,7 +270,7 @@ const CGFloat kHeightExpanded = 400;
             }];
         }
 	} completion:^(BOOL finished) {
-		
+		[self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
 	}];
 }
 
