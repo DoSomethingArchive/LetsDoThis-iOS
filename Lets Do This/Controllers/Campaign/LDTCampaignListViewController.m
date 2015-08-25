@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSections) {
 const CGFloat kHeightCollapsed = 100;
 const CGFloat kHeightExpanded = 400;
 
-@interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate>
 
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
@@ -42,7 +42,7 @@ const CGFloat kHeightExpanded = 400;
 
 @implementation LDTCampaignListViewController
 
-#pragma UIViewController
+#pragma mark - UIViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -85,7 +85,7 @@ const CGFloat kHeightExpanded = 400;
     self.navigationItem.title = @"";
 }
 
-#pragma LDTCampaignListViewController
+#pragma mark - LDTCampaignListViewController
 
 - (void)styleView {
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
@@ -153,35 +153,32 @@ const CGFloat kHeightExpanded = 400;
     [self.collectionView reloadData];
 }
 
-// Presents the selected campaign's CampaignDetailVC
-// @see http://stackoverflow.com/a/11400620/1470725
 
-- (void)presentCampaignDetail:(id)sender event:(id)event{
-    NSSet *touches = [event allTouches];
-    UITouch *touch = [touches anyObject];
-    CGPoint currentTouchPosition = [touch locationInView:self.collectionView];
-    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
+#pragma mark - LDTCampaignListCampaignCellDelegate
 
+- (void)didClickActionButton:(LDTCampaignListCampaignCell *)cell {
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
     DSOCampaign *campaign = campaignList[indexPath.row];
-
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
 
     if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:campaign]) {
         [self.navigationController pushViewController:destVC animated:YES];
     }
     else {
-        [[DSOUserManager sharedInstance] signupForCampaign:campaign completionHandler:^(NSDictionary *response) {
+        [[DSOUserManager sharedInstance]
+         signupForCampaign:campaign
+         completionHandler:^(NSDictionary *response) {
             [self.navigationController pushViewController:destVC animated:YES];
             [TSMessage setDefaultViewController:self.navigationController];
-             [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
-         }
+            [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
+        }
          errorHandler:^(NSError *error) {
              [LDTMessage displayErrorMessageForError:error];
-         }];
+        }];
     }
-
 }
+
 
 #pragma mark - UICollectionViewDataSource
 
@@ -205,7 +202,7 @@ const CGFloat kHeightExpanded = 400;
         DSOCampaign *campaign = (DSOCampaign *)campaignList[indexPath.row];
         LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
         [cell displayForCampaign:campaign];
-        [cell.actionButton addTarget:self action:@selector(presentCampaignDetail:event:) forControlEvents:UIControlEventTouchUpInside];
+        cell.delegate = self;
         return cell;
     }
 
