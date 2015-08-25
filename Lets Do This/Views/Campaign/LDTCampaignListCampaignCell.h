@@ -9,10 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "LDTTheme.h"
 
+@protocol LDTCampaignListCampaignCellDelegate <NSObject>
+
+- (void)didClickActionButton:(UICollectionViewCell *)cell;
+
+@end
+
 @interface LDTCampaignListCampaignCell : UICollectionViewCell
 
-#warning Do we need this exposed publicly?
-@property (weak, nonatomic) IBOutlet LDTButton *actionButton;
+@property (weak, nonatomic) id<LDTCampaignListCampaignCellDelegate> delegate;
+
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTop;
 
@@ -24,4 +30,6 @@
 - (void)displayForCampaign:(DSOCampaign *)campaign;
 - (void)collapse;
 - (void)expand;
+
 @end
+
