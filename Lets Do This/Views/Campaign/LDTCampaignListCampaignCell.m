@@ -13,6 +13,10 @@ const CGFloat kCampaignCellHeightExpanded = 180.0f;
 
 @interface LDTCampaignListCampaignCell()
 
+
+- (IBAction)actionButtonTouchUpInside:(id)sender;
+
+@property (weak, nonatomic) IBOutlet LDTButton *actionButton;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *actionView;
@@ -73,4 +77,9 @@ const CGFloat kCampaignCellHeightExpanded = 180.0f;
 	self.imageViewBottom.constant = 0;
 }
 
+- (IBAction)actionButtonTouchUpInside:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickActionButton:)]) {
+        [self.delegate didClickActionButton:self];
+    }
+}
 @end
