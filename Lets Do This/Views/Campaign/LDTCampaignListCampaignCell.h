@@ -13,6 +13,8 @@
 
 #warning Do we need this exposed publicly?
 @property (weak, nonatomic) IBOutlet LDTButton *actionButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewBottom;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTop;
 
 #warning Descriptive naming in xib files
 // The interface objects in the xib files (labels, views, etc.) should be named descriptively
