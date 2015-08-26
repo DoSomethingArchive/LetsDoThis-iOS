@@ -27,7 +27,7 @@
 @property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsCompleted;
 
 - (instancetype)initWithDict:(NSDictionary*)dict;
-- (void)setPhotoWithImage:(UIImage *)image;
+- (void)setPhoto:(UIImage *)image;
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign;
 - (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign;
 
