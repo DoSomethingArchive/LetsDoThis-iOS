@@ -9,8 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "InterfaceBuilderView.h"
 
+@protocol LDTReportbackItemDetailViewDelegate;
+
 @interface LDTReportbackItemDetailView : InterfaceBuilderView
 
+@property (weak, nonatomic) id<LDTReportbackItemDetailViewDelegate> delegate;
+
 - (void)displayForReportbackItem:(DSOReportbackItem *)reportbackItem;
+
+@end
+
+@protocol LDTReportbackItemDetailViewDelegate <NSObject>
+
+- (void)didClickCampaignTitleButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView;
+
+- (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView;
 
 @end
