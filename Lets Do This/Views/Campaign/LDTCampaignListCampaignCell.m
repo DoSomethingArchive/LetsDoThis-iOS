@@ -78,8 +78,8 @@ const CGFloat kCampaignCellHeightExpanded = 180.0f;
 }
 
 - (IBAction)actionButtonTouchUpInside:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickActionButton:)]) {
-        [self.delegate didClickActionButton:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickActionButtonForCell:)]) {
+        [self.delegate didClickActionButtonForCell:self];
     }
 }
 @end

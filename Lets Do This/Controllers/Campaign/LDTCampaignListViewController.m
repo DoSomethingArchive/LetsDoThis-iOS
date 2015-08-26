@@ -156,7 +156,7 @@ const CGFloat kHeightExpanded = 400;
 
 #pragma mark - LDTCampaignListCampaignCellDelegate
 
-- (void)didClickActionButton:(LDTCampaignListCampaignCell *)cell {
+- (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
     DSOCampaign *campaign = campaignList[indexPath.row];
