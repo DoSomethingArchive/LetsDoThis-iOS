@@ -9,11 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LDTTheme.h"
 
-@protocol LDTCampaignListCampaignCellDelegate <NSObject>
-
-- (void)didClickActionButton:(UICollectionViewCell *)cell;
-
-@end
+@protocol LDTCampaignListCampaignCellDelegate;
 
 @interface LDTCampaignListCampaignCell : UICollectionViewCell
 
@@ -30,6 +26,12 @@
 - (void)displayForCampaign:(DSOCampaign *)campaign;
 - (void)collapse;
 - (void)expand;
+
+@end
+
+@protocol LDTCampaignListCampaignCellDelegate <NSObject>
+
+- (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell;
 
 @end
 
