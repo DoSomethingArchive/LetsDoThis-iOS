@@ -31,7 +31,7 @@
 
 @protocol LDTCampaignListCampaignCellDelegate <NSObject>
 
-- (void)didClickActionButtonForCell:(UICollectionViewCell *)cell;
+- (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell;
 
 @end
 
