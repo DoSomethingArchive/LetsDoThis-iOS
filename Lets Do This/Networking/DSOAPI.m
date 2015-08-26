@@ -148,7 +148,7 @@
 }
 
 - (void)postUserAvatarWithUserId:(NSString *)userID
-                           image:(UIImage *)image
+                           avatarImage:(UIImage *)image
                completionHandler:(void(^)(id))completionHandler
                     errorHandler:(void(^)(NSError *))errorHandler
 {
