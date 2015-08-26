@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LDTReportbackItemDetailViewController : UIViewController
+@interface LDTReportbackItemDetailSingleViewController : UIViewController
 
 -(instancetype)initWithReportbackItem:(DSOReportbackItem *)reportbackItem;
 

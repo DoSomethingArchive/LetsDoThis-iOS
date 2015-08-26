@@ -12,7 +12,7 @@
 #import "DSOReportbackItem.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
-#import "LDTReportbackItemDetailViewController.h"
+#import "LDTReportbackItemDetailSingleViewController.h"
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
@@ -245,7 +245,7 @@ const CGFloat kHeightExpanded = 400;
     if (indexPath.section == LDTSectionTypeReportback) {
         NSArray *rbItems = self.interestGroups[[self selectedInterestGroupId]][@"reportbackItems"];
         DSOReportbackItem *reportbackItem = rbItems[indexPath.row];
-        LDTReportbackItemDetailViewController *destVC = [[LDTReportbackItemDetailViewController alloc] initWithReportbackItem:reportbackItem];
+        LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:reportbackItem];
         [self.navigationController pushViewController:destVC animated:YES];
         return;
     }
