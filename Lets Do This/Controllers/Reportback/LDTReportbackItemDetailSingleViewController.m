@@ -6,27 +6,25 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import "LDTReportbackItemDetailViewController.h"
+#import "LDTReportbackItemDetailSingleViewController.h"
+#import "LDTReportbackItemDetailView.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 
-@interface LDTReportbackItemDetailViewController ()
+@interface LDTReportbackItemDetailSingleViewController () <LDTReportbackItemDetailViewDelegate>
 
 @property (strong, nonatomic) DSOReportbackItem *reportbackItem;
 
-@property (weak, nonatomic) IBOutlet UIButton *viewCampaignDetailButton;
-@property (weak, nonatomic) IBOutlet UIButton *viewUserProfileButton;
-@property (weak, nonatomic) IBOutlet UIImageView *reportbackItemImageView;
-- (IBAction)viewCampaignDetailButtonTouchUpInside:(id)sender;
+@property (weak, nonatomic) IBOutlet LDTReportbackItemDetailView *reportbackItemDetailView;
 
 @end
 
-@implementation LDTReportbackItemDetailViewController
+@implementation LDTReportbackItemDetailSingleViewController
 
 #pragma mark - NSObject
 
 - (instancetype)initWithReportbackItem:(DSOReportbackItem *)reportbackItem {
-    self = [super initWithNibName:@"LDTReportbackItemDetailView" bundle:nil];
+    self = [super initWithNibName:@"LDTReportbackItemDetailSingleView" bundle:nil];
 
     if (self) {
         self.reportbackItem = reportbackItem;
@@ -35,12 +33,14 @@
     return self;
 }
 
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self.reportbackItemImageView sd_setImageWithURL:self.reportbackItem.imageURL];
-    [self.viewCampaignDetailButton setTitle:self.reportbackItem.campaign.title forState:UIControlStateNormal];
     self.title = [self.reportbackItem.campaign.title uppercaseString];
+    self.reportbackItemDetailView.delegate = self;
+    [self.reportbackItemDetailView displayForReportbackItem:self.reportbackItem];
 
     [self styleView];
 }
@@ -51,17 +51,22 @@
     [self styleView];
 }
 
+#pragma mark - LDTReportbackItemDetailSingleViewController
+
 - (void)styleView {
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
-
-    self.viewCampaignDetailButton.titleLabel.font = [LDTTheme fontBold];
-    self.viewUserProfileButton.titleLabel.font = [LDTTheme fontBold];
 }
 
-- (IBAction)viewCampaignDetailButtonTouchUpInside:(id)sender {
+#pragma mark - LDTReportbackItemDetailViewDelegate
+
+- (void)didClickCampaignTitleButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:self.reportbackItem.campaign];
     [self.navigationController pushViewController:destVC animated:YES];
+}
+
+- (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+    NSLog(@"Clicked on User");
 }
 
 @end
