@@ -148,12 +148,12 @@
 }
 
 - (void)postUserAvatarWithUserId:(NSString *)userID
-                           avatarImage:(UIImage *)image
+                    avatarImage:(UIImage *)avatarImage
                completionHandler:(void(^)(id))completionHandler
                     errorHandler:(void(^)(NSError *))errorHandler
 {
     NSString *urlPath = [NSString stringWithFormat:@"users/%@/avatar", userID];
-    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    NSData *imageData = UIImageJPEGRepresentation(avatarImage, 1.0);
     NSString *fileNameForImage = [NSString stringWithFormat:@"User_%@_ProfileImage", userID];
     
     [self POST:urlPath parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {

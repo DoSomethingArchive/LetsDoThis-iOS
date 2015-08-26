@@ -180,17 +180,16 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
-        
         // Create the user.
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode success:^(NSDictionary *response) {
 
             // Login the user.
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
                 
-                // Set avatar photo to newly created user object.
-                [[DSOUserManager sharedInstance].user setPhotoWithImage:self.imageView.image];
-
+                // Set photo.
+                [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
                 // POST avatar to API.
+
                 [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
                     NSLog(@"Successful user avatar upload: %@", responseObject);
                 } errorHandler:^(NSError * error) {
@@ -199,10 +198,8 @@
 
                 // This VC is always presented within a NavVC, so kill it.
                 [self dismissViewControllerAnimated:YES completion:^{
-
                     LDTTabBarController *destVC = [[LDTTabBarController alloc] init];
                     [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
-                    
                 }];
 
             } errorHandler:^(NSError *error) {
@@ -212,7 +209,6 @@
         } failure:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
         }];
-
     }
     else {
         [self.submitButton disable];
