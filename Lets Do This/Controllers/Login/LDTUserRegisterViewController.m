@@ -191,7 +191,7 @@
                 [[DSOUserManager sharedInstance].user setPhotoWithImage:self.imageView.image];
 
                 // POST avatar to API.
-                [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID image:self.imageView.image completionHandler:^(id responseObject) {
+                [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
                     NSLog(@"Successful user avatar upload: %@", responseObject);
                 } errorHandler:^(NSError * error) {
                     [LDTMessage displayErrorMessageForError:error];
