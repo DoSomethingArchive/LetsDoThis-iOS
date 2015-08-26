@@ -182,15 +182,7 @@
     if ([self validateForm]) {
         
         // Create the user.
-        [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text
-                                            password:self.passwordTextField.text
-                                           firstName:self.firstNameTextField.text
-                                              mobile:self.mobileTextField.text
-#warning You should have this success block be lined up
-		 // where [[DSOAPI sharedinstance] starts. When you start dealing with nested blocks, it can get difficult
-		 // to read.
-                                         countryCode:self.countryCode
-                                             success:^(NSDictionary *response) {
+        [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode success:^(NSDictionary *response) {
 
             // Login the user.
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
