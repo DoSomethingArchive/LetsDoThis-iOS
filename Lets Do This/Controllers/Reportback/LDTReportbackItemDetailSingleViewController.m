@@ -11,7 +11,7 @@
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 
-@interface LDTReportbackItemDetailSingleViewController ()
+@interface LDTReportbackItemDetailSingleViewController () <LDTReportbackItemDetailViewDelegate>
 
 @property (strong, nonatomic) DSOReportbackItem *reportbackItem;
 
@@ -33,10 +33,13 @@
     return self;
 }
 
+#pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     self.title = [self.reportbackItem.campaign.title uppercaseString];
+    self.reportbackItemDetailView.delegate = self;
     [self.reportbackItemDetailView displayForReportbackItem:self.reportbackItem];
 
     [self styleView];
@@ -48,14 +51,22 @@
     [self styleView];
 }
 
+#pragma mark - LDTReportbackItemDetailSingleViewController
+
 - (void)styleView {
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
 }
 
-- (IBAction)viewCampaignDetailButtonTouchUpInside:(id)sender {
+#pragma mark - LDTReportbackItemDetailViewDelegate
+
+- (void)didClickCampaignTitleButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:self.reportbackItem.campaign];
     [self.navigationController pushViewController:destVC animated:YES];
+}
+
+- (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+    NSLog(@"Clicked on User");
 }
 
 @end

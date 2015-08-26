@@ -32,10 +32,16 @@
     [self.campaignTitleButton setTitle:reportbackItem.campaign.title forState:UIControlStateNormal];
 }
 
-
 - (IBAction)campaignTitleButtonTouchUpInside:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickCampaignTitleButtonForReportbackItemDetailView:)]) {
+        [self.delegate didClickCampaignTitleButtonForReportbackItemDetailView:self];
+    }
 }
 
 - (IBAction)userNameButtonTouchUpInside:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickUserNameButtonForReportbackItemDetailView:)]) {
+        [self.delegate didClickUserNameButtonForReportbackItemDetailView:self];
+    }
 }
+
 @end
