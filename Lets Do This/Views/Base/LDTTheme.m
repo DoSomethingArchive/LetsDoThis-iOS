@@ -38,9 +38,12 @@
                            alpha:1.0f];
 }
 
-// @todo: Second set of functions specifying size? Potentially typedef of size values?
+
 +(UIFont *)font {
     return [UIFont fontWithName:[self fontName] size:16];
+}
++(UIFont *)fontWithSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:[self fontName] size:fontSize];
 }
 +(UIFont *)fontBold {
     return [UIFont fontWithName:[self fontName] size:16];
