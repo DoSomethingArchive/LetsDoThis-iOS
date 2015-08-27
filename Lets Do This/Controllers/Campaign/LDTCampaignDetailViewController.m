@@ -21,7 +21,9 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 
 @property (nonatomic, assign) BOOL isDoing;
 @property (nonatomic, assign) BOOL isCompleted;
-@property (strong, nonatomic) DSOCampaign *campaign;
+@property (nonatomic, nonatomic) DSOCampaign *campaign;
+@property (strong, nonatomic) NSMutableArray *reportbackItems;
+
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
@@ -43,7 +45,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
-
     [super viewDidLoad];
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
@@ -54,6 +55,16 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 
     self.isDoing = [[DSOUserManager sharedInstance].user isDoingCampaign:self.campaign];
 
+    [self fetchReportbackItems];
+
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
+    CGRect rect = self.navigationController.navigationBar.frame;
+    float y = -rect.origin.y;
+    self.collectionView.contentInset = UIEdgeInsetsMake(y,0,0,0);
 }
 
 #pragma mark - LDTCampaignDetailViewController
@@ -64,12 +75,18 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
+- (void)fetchReportbackItems {
+    self.reportbackItems = [[NSMutableArray alloc] init];
 
-    CGRect rect = self.navigationController.navigationBar.frame;
-    float y = -rect.origin.y;
-    self.collectionView.contentInset = UIEdgeInsetsMake(y,0,0,0);
+    [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:@[self.campaign] completionHandler:^(NSArray *rbItems) {
+        for (DSOReportbackItem *rbItem in rbItems) {
+            [self.reportbackItems addObject:rbItem];
+        }
+        NSLog(@"self.reportbackItems %@", self.reportbackItems);
+        [self.collectionView reloadData];
+    } errorHandler:^(NSError *error) {
+        [LDTMessage displayErrorMessageForError:error];
+    }];
 }
 
 //- (void)setActionButton {
