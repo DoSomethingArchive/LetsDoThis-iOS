@@ -19,6 +19,7 @@
 +(UIColor *)disabledGrayColor;
 +(UIColor *)facebookBlueColor;
 +(UIColor *)lightGrayColor;
++(UIColor *)mediumGrayColor;
 +(UIFont *)font;
 +(UIFont *)fontBold;
 +(UIFont *)fontCaption;
