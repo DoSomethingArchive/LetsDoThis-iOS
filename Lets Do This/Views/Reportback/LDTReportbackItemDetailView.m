@@ -38,7 +38,7 @@
     [self.reportbackItemImageView sd_setImageWithURL:reportbackItem.imageURL];
     self.userAvatarImageView.image = reportbackItem.user.photo;
     [self.userDisplayNameButton setTitle:[reportbackItem.user displayName] forState:UIControlStateNormal];
-    self.userCountryNameLabel.text = @"United States";
+    self.userCountryNameLabel.text = reportbackItem.user.countryName;
 }
 
 - (void)styleView {
