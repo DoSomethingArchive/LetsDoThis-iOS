@@ -8,20 +8,21 @@
 
 #import "LDTCampaignDetailViewController.h"
 #import "LDTTheme.h"
+#import "LDTCampaignDetailCampaignCell.h"
+#import "LDTCampaignDetailReportbackItemCell.h"
+#import "LDTHeaderCollectionReusableView.h"
 
-@interface LDTCampaignDetailViewController ()
+typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
+    LDTSectionTypeCampaign = 0,
+    LDTSectionTypeReportback = 1
+};
+
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, assign) BOOL isDoing;
 @property (nonatomic, assign) BOOL isCompleted;
 @property (strong, nonatomic) DSOCampaign *campaign;
-
-@property (weak, nonatomic) IBOutlet LDTButton *actionButton;
-@property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
-@property (weak, nonatomic) IBOutlet UILabel *problemLabel;
-@property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-
-- (IBAction)actionButtonTouchUpInside:(id)sender;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 
@@ -45,15 +46,14 @@
 
     [super viewDidLoad];
 
+    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
+
     [self styleView];
 
-    self.titleLabel.text = [self.campaign.title uppercaseString];
-    self.taglineLabel.text = self.campaign.tagline;
-    self.problemLabel.text = self.campaign.factProblem;
-    [self.coverImageView sd_setImageWithURL:self.campaign.coverImageURL];
     self.isDoing = [[DSOUserManager sharedInstance].user isDoingCampaign:self.campaign];
 
-    [self setActionButton];
 }
 
 #pragma mark - LDTCampaignDetailViewController
@@ -62,34 +62,66 @@
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setClear];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
-
-    self.titleLabel.font  = [LDTTheme fontTitle];
-    self.titleLabel.textColor = [UIColor whiteColor];
-    self.taglineLabel.font = [LDTTheme font];
-    self.taglineLabel.textColor = [UIColor whiteColor];
-    self.problemLabel.font = [LDTTheme font];
-    [self.coverImageView addGrayTint];
 }
 
-- (void)setActionButton {
-    [self.actionButton enable];
-    NSString *title = @"Do this now";
-    if (self.isDoing) {
-        title = @"Prove it";
+//- (void)setActionButton {
+//    [self.actionButton enable];
+//    NSString *title = @"Do this now";
+//    if (self.isDoing) {
+//        title = @"Prove it";
+//    }
+//    [self.actionButton setTitle:[title uppercaseString] forState:UIControlStateNormal];
+//}
+
+//- (IBAction)actionButtonTouchUpInside:(id)sender {
+//    if (self.isDoing) {
+//        return;
+//    }
+//    [[DSOUserManager sharedInstance] signupForCampaign:self.campaign completionHandler:^(NSDictionary *response) {
+//         [self.actionButton setTitle:[@"Prove it" uppercaseString] forState:UIControlStateNormal];
+//    }
+//     errorHandler:^(NSError *error) {
+//         [LDTMessage displayErrorMessageForError:error];
+//     }];
+//}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if (section == LDTSectionTypeReportback) {
+        return 0;
     }
-    [self.actionButton setTitle:[title uppercaseString] forState:UIControlStateNormal];
+    return 1;
 }
 
-- (IBAction)actionButtonTouchUpInside:(id)sender {
-    if (self.isDoing) {
-        return;
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 2;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (indexPath.section == LDTSectionTypeCampaign) {
+        LDTCampaignDetailCampaignCell *cell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+        [cell displayForCampaign:self.campaign];
+        return cell;
     }
-    [[DSOUserManager sharedInstance] signupForCampaign:self.campaign completionHandler:^(NSDictionary *response) {
-         [self.actionButton setTitle:[@"Prove it" uppercaseString] forState:UIControlStateNormal];
-    }
-     errorHandler:^(NSError *error) {
-         [LDTMessage displayErrorMessageForError:error];
-     }];
+
+//    if (indexPath.section == LDTSectionTypeReportback) {
+//        NSArray *rbItems = interestGroup[@"reportbackItems"];
+//        DSOReportbackItem *rbItem = rbItems[indexPath.row];
+//        LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
+//        [cell displayForReportbackItem:rbItem];
+//        return cell;
+//    }
+
+    return nil;
+}
+
+#pragma mark - UICollectionViewDelegate
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat width = [[UIScreen mainScreen] bounds].size.width;
+    return CGSizeMake(width, 400);
 }
 
 @end
