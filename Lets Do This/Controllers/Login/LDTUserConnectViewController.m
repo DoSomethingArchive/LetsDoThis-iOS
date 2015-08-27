@@ -74,7 +74,7 @@
     fbUser[@"email"] = @"john.connor@dosomething.org";
     fbUser[@"photo"] = [UIImage imageNamed:@"john-connor.jpg"];
 
-    DSOUser *user = [[DSOUser alloc] initWithDict:fbUser];
+    DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:fbUser];
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:user];
     [self.navigationController pushViewController:destVC animated:YES];
 }

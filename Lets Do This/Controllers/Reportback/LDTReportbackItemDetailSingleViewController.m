@@ -10,6 +10,7 @@
 #import "LDTReportbackItemDetailView.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
+#import "LDTUserProfileViewController.h"
 
 @interface LDTReportbackItemDetailSingleViewController () <LDTReportbackItemDetailViewDelegate>
 
@@ -43,6 +44,8 @@
     [self.reportbackItemDetailView displayForReportbackItem:self.reportbackItem];
 
     [self styleView];
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -66,7 +69,8 @@
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
-    NSLog(@"Clicked on User");
+    LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:self.reportbackItem.user];
+    [self.navigationController pushViewController:destVC animated:YES];
 }
 
 @end
