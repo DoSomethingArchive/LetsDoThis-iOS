@@ -7,7 +7,6 @@
 //
 
 #import "LDTUserLoginViewController.h"
-#import "LDTUserSignupCodeView.h"
 #import "LDTTheme.h"
 #import "LDTButton.h"
 #import "LDTMessage.h"
@@ -19,7 +18,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet LDTButton *passwordButton;
 @property (weak, nonatomic) IBOutlet LDTButton *registerLink;
@@ -55,10 +53,7 @@
     [self.registerLink setTitle:@"Don't have an account? Register here" forState:UIControlStateNormal];
 
     self.textFields = @[self.emailTextField,
-                        self.passwordTextField,
-                        self.signupCodeView.firstTextField,
-                        self.signupCodeView.secondTextField,
-                        self.signupCodeView.thirdTextField
+                        self.passwordTextField
                         ];
     for (UITextField *aTextField in self.textFields) {
         aTextField.delegate = self;
