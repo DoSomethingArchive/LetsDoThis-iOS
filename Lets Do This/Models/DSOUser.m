@@ -17,6 +17,7 @@
 @property (nonatomic, strong, readwrite) NSString *userID;
 @property (nonatomic, assign, readwrite) NSInteger phoenixID;
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
+@property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *email;
@@ -69,6 +70,12 @@
         return [UIImage imageNamed:@"Default Avatar"];
 	}
 	return _photo;
+}
+
+- (NSString *)countryName {
+    // @todo: Find the country name for user.countryCode if exists
+    // GH - https://github.com/DoSomething/LetsDoThis-iOS/issues/240
+    return @"United States";
 }
 
 - (void)setPhoto:(UIImage *)photo {
