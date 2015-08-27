@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *campaignTitleButton;
 @property (weak, nonatomic) IBOutlet UIButton *userDisplayNameButton;
 @property (weak, nonatomic) IBOutlet UIImageView *reportbackItemImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *userAvatarImageView;
 
 - (IBAction)campaignTitleButtonTouchUpInside:(id)sender;
 - (IBAction)userNameButtonTouchUpInside:(id)sender;
@@ -29,6 +30,7 @@
 
 - (void)displayForReportbackItem:(DSOReportbackItem *)reportbackItem {
     [self.reportbackItemImageView sd_setImageWithURL:reportbackItem.imageURL];
+    self.userAvatarImageView.image = reportbackItem.user.photo;
     [self.campaignTitleButton setTitle:reportbackItem.campaign.title forState:UIControlStateNormal];
     [self.userDisplayNameButton setTitle:[reportbackItem.user displayName] forState:UIControlStateNormal];
 }

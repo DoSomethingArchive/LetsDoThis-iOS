@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="campaignTitleButton" destination="cYz-Gq-gFn" id="PsV-rQ-SFw"/>
                 <outlet property="reportbackItemImageView" destination="Msq-pA-qPX" id="TZZ-GR-l6k"/>
+                <outlet property="userAvatarImageView" destination="roJ-Pk-kPs" id="BFh-9f-Vdv"/>
                 <outlet property="userDisplayNameButton" destination="NhW-LK-kVz" id="d2u-zs-abR"/>
             </connections>
         </placeholder>
@@ -16,17 +17,8 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NhW-LK-kVz">
-                    <rect key="frame" x="8" y="8" width="32" height="30"/>
-                    <state key="normal" title="User">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="userNameButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="s7Z-Yr-gKq"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYz-Gq-gFn">
-                    <rect key="frame" x="8" y="361" width="71" height="30"/>
+                    <rect key="frame" x="8" y="391" width="71" height="30"/>
                     <state key="normal" title="Campaign">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -35,21 +27,39 @@
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Msq-pA-qPX">
-                    <rect key="frame" x="0.0" y="55" width="600" height="284"/>
+                    <rect key="frame" x="0.0" y="33" width="600" height="350"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="284" id="3yE-5r-EtR"/>
+                        <constraint firstAttribute="height" constant="350" id="nV5-so-jqX"/>
                     </constraints>
                 </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="roJ-Pk-kPs">
+                    <rect key="frame" x="8" y="8" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="IdX-HH-vVR"/>
+                        <constraint firstAttribute="width" constant="50" id="cCJ-8F-uCk"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NhW-LK-kVz">
+                    <rect key="frame" x="63" y="8" width="32" height="30"/>
+                    <state key="normal" title="User">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="userNameButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="s7Z-Yr-gKq"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="NhW-LK-kVz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="24G-mC-bxs"/>
-                <constraint firstItem="Msq-pA-qPX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Jae-rP-iJE"/>
+                <constraint firstAttribute="trailing" secondItem="Msq-pA-qPX" secondAttribute="trailing" id="BmI-7u-DhA"/>
+                <constraint firstItem="cYz-Gq-gFn" firstAttribute="top" secondItem="Msq-pA-qPX" secondAttribute="bottom" constant="8" id="GUu-3H-eoj"/>
                 <constraint firstItem="cYz-Gq-gFn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="PSF-kz-kls"/>
-                <constraint firstItem="NhW-LK-kVz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="ZRs-y7-hmv"/>
-                <constraint firstItem="Msq-pA-qPX" firstAttribute="top" secondItem="NhW-LK-kVz" secondAttribute="bottom" constant="17" id="Zxf-y9-bbU"/>
-                <constraint firstItem="cYz-Gq-gFn" firstAttribute="top" secondItem="Msq-pA-qPX" secondAttribute="bottom" constant="22" id="nl6-2O-BHD"/>
-                <constraint firstAttribute="trailing" secondItem="Msq-pA-qPX" secondAttribute="trailing" id="yn3-bv-JIa"/>
+                <constraint firstItem="roJ-Pk-kPs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="ZgB-Tx-f2B"/>
+                <constraint firstItem="Msq-pA-qPX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="aDy-7E-nBS"/>
+                <constraint firstItem="Msq-pA-qPX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="33" id="etf-7T-qgH"/>
+                <constraint firstItem="roJ-Pk-kPs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="qp5-AW-wf0"/>
+                <constraint firstItem="NhW-LK-kVz" firstAttribute="leading" secondItem="roJ-Pk-kPs" secondAttribute="trailing" constant="5" id="qwY-wK-x0i"/>
+                <constraint firstItem="NhW-LK-kVz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="rQQ-Df-ewl"/>
             </constraints>
             <point key="canvasLocation" x="328" y="211"/>
         </view>
