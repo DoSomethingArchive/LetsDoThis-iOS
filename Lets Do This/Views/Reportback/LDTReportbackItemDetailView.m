@@ -43,9 +43,9 @@
 
 - (void)styleView {
     self.campaignTitleButton.titleLabel.font = [LDTTheme fontBold];
-    self.reportbackItemCaptionLabel.font = [LDTTheme fontWithSize:14];
-    self.reportbackItemQuantityLabel.font = [LDTTheme fontBoldWithSize:14];
-    self.userCountryNameLabel.font = [LDTTheme fontWithSize:14];
+    self.reportbackItemCaptionLabel.font = [LDTTheme fontCaption];
+    self.reportbackItemQuantityLabel.font = [LDTTheme fontCaptionBold];
+    self.userCountryNameLabel.font = [LDTTheme fontCaption];
     self.userDisplayNameButton.titleLabel.font = [LDTTheme fontBold];
 }
 
