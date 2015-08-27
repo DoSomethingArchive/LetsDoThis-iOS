@@ -35,7 +35,7 @@
 - (instancetype)initWithNorthstarDict:(NSDictionary*)northstarDict {
     self = [super init];
 
-    if(self) {
+    if (self) {
         self.userID = northstarDict[@"_id"];
         self.phoenixID = [northstarDict[@"drupal_id"] intValue];
         self.firstName = northstarDict[@"first_name"];
@@ -43,28 +43,24 @@
         self.sessionToken = northstarDict[@"session_token"];
         if ([northstarDict objectForKey:@"photo"] != nil) {
             self.photo = nil;
-            // Retrieve photo from URL.
-            [[SDWebImageManager sharedManager] downloadImageWithURL:northstarDict[@"photo"]
-                                  options:0
-                                 progress:0
-                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
-             {
+            [[SDWebImageManager sharedManager] downloadImageWithURL:northstarDict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
                  self.photo = image;
              }];
-            
         }
         self.campaigns = northstarDict[@"campaigns"];
         [self syncActiveMobileAppCampaigns];
     }
+
     return self;
 }
 
 - (instancetype)initWithPhoenixDict:(NSDictionary *)phoenixDict {
     self = [super init];
 
-    if(self) {
+    if (self) {
         self.phoenixID = [phoenixDict[@"id"] intValue];
     }
+
     return self;
 }
 
