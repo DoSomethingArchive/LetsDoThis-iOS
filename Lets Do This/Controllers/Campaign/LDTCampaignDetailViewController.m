@@ -64,6 +64,14 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
+    CGRect rect = self.navigationController.navigationBar.frame;
+    float y = -rect.origin.y;
+    self.collectionView.contentInset = UIEdgeInsetsMake(y,0,0,0);
+}
+
 //- (void)setActionButton {
 //    [self.actionButton enable];
 //    NSString *title = @"Do this now";
