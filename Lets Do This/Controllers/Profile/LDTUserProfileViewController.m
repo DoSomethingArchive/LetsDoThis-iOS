@@ -56,9 +56,10 @@ static NSString *cellIdentifier;
     cellIdentifier = @"rowCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 
-    // @todo: Add conditional to only display if self.user != current user
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
-    self.navigationItem.rightBarButtonItem = settingsButton;
+    if (self.user.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) {
+        UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
+        self.navigationItem.rightBarButtonItem = settingsButton;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated  {
