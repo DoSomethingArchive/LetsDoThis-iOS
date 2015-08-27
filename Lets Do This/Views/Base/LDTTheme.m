@@ -8,6 +8,12 @@
 
 #import "LDTTheme.h"
 
+const CGFloat kFontSizeCaption = 13.0f;
+const CGFloat kFontSizeNormal = 15.0f;
+const CGFloat kFontSizeSubHeading = 17.0f;
+const CGFloat kFontSizeHeading = 17.0f;
+const CGFloat kFontSizeTitle = 24.0f;
+
 @implementation LDTTheme
 
 +(UIColor *)ctaBlueColor {
@@ -40,16 +46,35 @@
 
 
 +(UIFont *)font {
-    return [UIFont fontWithName:[self fontName] size:16];
+    return [UIFont fontWithName:[self fontName] size:kFontSizeNormal];
 }
-+(UIFont *)fontWithSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:[self fontName] size:fontSize];
-}
+
 +(UIFont *)fontBold {
-    return [UIFont fontWithName:[self fontName] size:16];
+    return [UIFont fontWithName:[self fontBoldName] size:kFontSizeNormal];
 }
-+(UIFont *)fontBoldWithSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:[self fontBoldName] size:fontSize];
+
++(UIFont *)fontCaption {
+    return [UIFont fontWithName:[self fontName] size:kFontSizeCaption];
+}
+
++(UIFont *)fontCaptionBold {
+    return [UIFont fontWithName:[self fontBoldName] size:kFontSizeCaption];
+}
+
++(UIFont *)fontSubHeading {
+    return [UIFont fontWithName:[self fontName] size:kFontSizeSubHeading];
+}
+
++(UIFont *)fontHeading {
+    return [UIFont fontWithName:[self fontName] size:kFontSizeHeading];
+}
+
++(UIFont *)fontHeadingBold {
+    return [UIFont fontWithName:[self fontBoldName] size:kFontSizeHeading];
+}
+
++(UIFont *)fontTitle {
+    return [UIFont fontWithName:[self fontBoldName] size:kFontSizeTitle];
 }
 
 +(NSString *)fontName {
