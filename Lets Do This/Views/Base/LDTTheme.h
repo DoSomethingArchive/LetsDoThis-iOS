@@ -20,6 +20,7 @@
 +(UIColor *)facebookBlueColor;
 +(UIColor *)lightGrayColor;
 +(UIFont *)font;
++(UIFont *)fontWithSize:(CGFloat)fontSize;
 +(UIFont *)fontBold;
 +(UIFont *)fontBoldWithSize:(CGFloat)fontSize;
 +(NSString *)fontName;
