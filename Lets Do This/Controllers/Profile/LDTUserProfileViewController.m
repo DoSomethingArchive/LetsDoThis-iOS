@@ -95,7 +95,7 @@ static NSString *cellIdentifier;
     [navVC setClear];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
-    [self.nameLabel setFont:[LDTTheme fontBoldWithSize:30]];
+    [self.nameLabel setFont:[LDTTheme fontTitle]];
     [self.nameLabel setTextColor:[UIColor whiteColor]];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
 

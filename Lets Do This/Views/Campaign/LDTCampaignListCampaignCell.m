@@ -34,7 +34,7 @@ const CGFloat kCampaignCellHeightExpanded = 180.0f;
 
 - (void)styleView {
     self.titleLabel.numberOfLines = 0;
-    self.titleLabel.font = [LDTTheme fontBoldWithSize:24];
+    self.titleLabel.font = [LDTTheme fontTitle];
     self.taglineLabel.font = [LDTTheme font];
 
     // @todo Split out expiresLabel into 2 separate UILabels for diff colors

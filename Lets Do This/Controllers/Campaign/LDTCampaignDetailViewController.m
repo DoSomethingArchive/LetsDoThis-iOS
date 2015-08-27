@@ -63,7 +63,7 @@
     [navVC setClear];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
 
-    self.titleLabel.font  = [LDTTheme fontBoldWithSize:24];
+    self.titleLabel.font  = [LDTTheme fontTitle];
     self.titleLabel.textColor = [UIColor whiteColor];
     self.taglineLabel.font = [LDTTheme font];
     self.taglineLabel.textColor = [UIColor whiteColor];
