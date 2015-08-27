@@ -32,30 +32,35 @@
 
 @synthesize photo = _photo;
 
-- (instancetype)initWithDict:(NSDictionary*)dict {
+- (instancetype)initWithNorthstarDict:(NSDictionary*)northstarDict {
     self = [super init];
 
-    if(self) {
-        self.userID = dict[@"_id"];
-        self.phoenixID = [dict[@"drupal_id"] intValue];
-        self.firstName = dict[@"first_name"];
-        self.email = dict[@"email"];
-        self.sessionToken = dict[@"session_token"];
-        if ([dict objectForKey:@"photo"] != nil) {
+    if (self) {
+        self.userID = northstarDict[@"_id"];
+        self.phoenixID = [northstarDict[@"drupal_id"] intValue];
+        self.firstName = northstarDict[@"first_name"];
+        self.email = northstarDict[@"email"];
+        self.sessionToken = northstarDict[@"session_token"];
+        if ([northstarDict objectForKey:@"photo"] != nil) {
             self.photo = nil;
-            // Retrieve photo from URL.
-            [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"]
-                                  options:0
-                                 progress:0
-                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
-             {
+            [[SDWebImageManager sharedManager] downloadImageWithURL:northstarDict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
                  self.photo = image;
              }];
-            
         }
-        self.campaigns = dict[@"campaigns"];
+        self.campaigns = northstarDict[@"campaigns"];
         [self syncActiveMobileAppCampaigns];
     }
+
+    return self;
+}
+
+- (instancetype)initWithPhoenixDict:(NSDictionary *)phoenixDict {
+    self = [super init];
+
+    if (self) {
+        self.phoenixID = [phoenixDict[@"id"] intValue];
+    }
+
     return self;
 }
 
@@ -89,8 +94,11 @@
 }
 
 - (NSString *)displayName {
-    if(self.firstName.length > 0) {
+    if (self.firstName.length > 0) {
         return self.firstName;
+    }
+    if (self.phoenixID > 0) {
+        return [NSString stringWithFormat:@"%li", (long)self.phoenixID];
     }
     return nil;
 }

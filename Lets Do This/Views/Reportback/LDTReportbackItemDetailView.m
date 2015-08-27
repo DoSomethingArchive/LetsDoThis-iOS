@@ -30,6 +30,7 @@
 - (void)displayForReportbackItem:(DSOReportbackItem *)reportbackItem {
     [self.reportbackItemImageView sd_setImageWithURL:reportbackItem.imageURL];
     [self.campaignTitleButton setTitle:reportbackItem.campaign.title forState:UIControlStateNormal];
+    [self.userNameButton setTitle:[reportbackItem.user displayName] forState:UIControlStateNormal];
 }
 
 - (IBAction)campaignTitleButtonTouchUpInside:(id)sender {
