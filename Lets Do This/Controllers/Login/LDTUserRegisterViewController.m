@@ -7,7 +7,6 @@
 //
 
 #import "LDTUserRegisterViewController.h"
-#import "LDTUserSignupCodeView.h"
 #import "LDTTheme.h"
 #import "LDTButton.h"
 #import "LDTMessage.h"
@@ -27,7 +26,6 @@
 
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
-@property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
 @property (weak, nonatomic) IBOutlet UIButton *avatarButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
@@ -103,10 +101,7 @@
     self.textFields = @[self.firstNameTextField,
                         self.emailTextField,
                         self.mobileTextField,
-                        self.passwordTextField,
-                        self.signupCodeView.firstTextField,
-                        self.signupCodeView.secondTextField,
-                        self.signupCodeView.thirdTextField
+                        self.passwordTextField
                         ];
     for (UITextField *aTextField in self.textFields) {
         aTextField.delegate = self;

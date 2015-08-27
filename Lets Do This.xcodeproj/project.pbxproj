@@ -27,8 +27,6 @@
 		B258EB311B8E548B00B298C0 /* LDTReportbackItemDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = B258EB301B8E548B00B298C0 /* LDTReportbackItemDetailView.m */; };
 		B258EB331B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B258EB321B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib */; };
 		B25A729C1B56B87300BC8A2B /* LDTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B25A729B1B56B87300BC8A2B /* LDTNavigationController.m */; };
-		B260387B1B449491002FE362 /* LDTUserSignupCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */; };
-		B260387D1B4494A8002FE362 /* LDTUserSignupCodeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */; };
 		B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */; };
 		B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */; };
 		B27AF0E41B4F48BC00164926 /* LDTUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27AF0E31B4F48BC00164926 /* LDTUserProfileViewController.m */; };
@@ -107,9 +105,6 @@
 		B258EB321B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTReportbackItemDetailSingleView.xib; path = Reportback/LDTReportbackItemDetailSingleView.xib; sourceTree = "<group>"; };
 		B25A729A1B56B87300BC8A2B /* LDTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTNavigationController.h; path = Base/LDTNavigationController.h; sourceTree = "<group>"; };
 		B25A729B1B56B87300BC8A2B /* LDTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTNavigationController.m; path = Base/LDTNavigationController.m; sourceTree = "<group>"; };
-		B26038791B449491002FE362 /* LDTUserSignupCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserSignupCodeView.h; path = Login/LDTUserSignupCodeView.h; sourceTree = "<group>"; };
-		B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserSignupCodeView.m; path = Login/LDTUserSignupCodeView.m; sourceTree = "<group>"; };
-		B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserSignupCodeView.xib; path = Login/LDTUserSignupCodeView.xib; sourceTree = "<group>"; };
 		B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_med.otf; path = Resources/Fonts/Brandon_med.otf; sourceTree = "<group>"; };
 		B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_bld.otf; path = Resources/Fonts/Brandon_bld.otf; sourceTree = "<group>"; };
 		B27AF0E21B4F48BC00164926 /* LDTUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserProfileViewController.h; path = Profile/LDTUserProfileViewController.h; sourceTree = "<group>"; };
@@ -227,9 +222,6 @@
 				B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */,
 				B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterView.xib */,
 				B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */,
-				B26038791B449491002FE362 /* LDTUserSignupCodeView.h */,
-				B260387A1B449491002FE362 /* LDTUserSignupCodeView.m */,
-				B260387C1B4494A8002FE362 /* LDTUserSignupCodeView.xib */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -595,7 +587,6 @@
 				C2B152001ACE04C30028C336 /* LaunchScreen.xib in Resources */,
 				B2A41A051B5DCC5300C6C1A6 /* LDTSettingsView.xib in Resources */,
 				C2B151FD1ACE04C30028C336 /* Images.xcassets in Resources */,
-				B260387D1B4494A8002FE362 /* LDTUserSignupCodeView.xib in Resources */,
 				B22AB7681B4EE7BE00BE7052 /* LDTUserLoginView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -660,7 +651,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B260387B1B449491002FE362 /* LDTUserSignupCodeView.m in Sources */,
 				C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */,
 				EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */,
 				B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */,
