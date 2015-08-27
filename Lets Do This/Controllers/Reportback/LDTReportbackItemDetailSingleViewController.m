@@ -10,6 +10,7 @@
 #import "LDTReportbackItemDetailView.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
+#import "LDTUserProfileViewController.h"
 
 @interface LDTReportbackItemDetailSingleViewController () <LDTReportbackItemDetailViewDelegate>
 
@@ -66,7 +67,8 @@
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
-    NSLog(@"Clicked on User");
+    LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:self.reportbackItem.user];
+    [self.navigationController pushViewController:destVC animated:YES];
 }
 
 @end
