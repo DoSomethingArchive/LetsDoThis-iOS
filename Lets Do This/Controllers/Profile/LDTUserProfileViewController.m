@@ -49,9 +49,9 @@ static NSString *cellIdentifier;
     [super viewDidLoad];
 
     self.navigationItem.title = nil;
-    self.nameLabel.text = [self.user displayName];
-    self.avatarImageView.image = self.user.photo;
+
     [self styleView];
+    [self updateUserDetails];
 
     cellIdentifier = @"rowCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
@@ -60,6 +60,8 @@ static NSString *cellIdentifier;
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
         self.navigationItem.rightBarButtonItem = settingsButton;
     }
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated  {
@@ -68,8 +70,10 @@ static NSString *cellIdentifier;
     [self styleView];
 
     [[DSOAPI sharedInstance] fetchUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
-        self.campaignsDoing = user.activeMobileAppCampaignsDoing;
-        self.campaignsCompleted = user.activeMobileAppCampaignsCompleted;
+        self.user = user;
+        self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
+        self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;
+        [self updateUserDetails];
         [self.tableView reloadData];
     } errorHandler:^(NSError *error) {
         [LDTMessage displayErrorMessageForError:error];
@@ -98,7 +102,11 @@ static NSString *cellIdentifier;
     // Stolen from http://stackoverflow.com/questions/19802336/ios-7-changing-font-size-for-uitableview-section-headers
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setFont:[LDTTheme fontBold]];
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextAlignment:NSTextAlignmentCenter];
+}
 
+- (void)updateUserDetails {
+    self.nameLabel.text = [[self.user displayName] uppercaseString];
+    self.avatarImageView.image = self.user.photo;
 }
 
 - (IBAction)settingsTapped:(id)sender {
