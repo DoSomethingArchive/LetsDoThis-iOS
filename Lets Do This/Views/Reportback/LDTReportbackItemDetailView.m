@@ -12,7 +12,7 @@
 @interface LDTReportbackItemDetailView ()
 
 @property (weak, nonatomic) IBOutlet UIButton *campaignTitleButton;
-@property (weak, nonatomic) IBOutlet UIButton *userNameButton;
+@property (weak, nonatomic) IBOutlet UIButton *userDisplayNameButton;
 @property (weak, nonatomic) IBOutlet UIImageView *reportbackItemImageView;
 
 - (IBAction)campaignTitleButtonTouchUpInside:(id)sender;
@@ -24,13 +24,13 @@
 
 - (void)awakeFromNib {
     self.campaignTitleButton.titleLabel.font = [LDTTheme fontBold];
-    self.userNameButton.titleLabel.font = [LDTTheme fontBold];
+    self.userDisplayNameButton.titleLabel.font = [LDTTheme fontBold];
 }
 
 - (void)displayForReportbackItem:(DSOReportbackItem *)reportbackItem {
     [self.reportbackItemImageView sd_setImageWithURL:reportbackItem.imageURL];
     [self.campaignTitleButton setTitle:reportbackItem.campaign.title forState:UIControlStateNormal];
-    [self.userNameButton setTitle:[reportbackItem.user displayName] forState:UIControlStateNormal];
+    [self.userDisplayNameButton setTitle:[reportbackItem.user displayName] forState:UIControlStateNormal];
 }
 
 - (IBAction)campaignTitleButtonTouchUpInside:(id)sender {
