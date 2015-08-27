@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTReportbackItemDetailView">
@@ -30,7 +31,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYz-Gq-gFn">
-                    <rect key="frame" x="8" y="391" width="71" height="30"/>
+                    <rect key="frame" x="8" y="641" width="71" height="30"/>
                     <state key="normal" title="Campaign">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -39,9 +40,9 @@
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Msq-pA-qPX">
-                    <rect key="frame" x="0.0" y="33" width="600" height="350"/>
+                    <rect key="frame" x="0.0" y="33" width="600" height="600"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="350" id="nV5-so-jqX"/>
+                        <constraint firstAttribute="width" secondItem="Msq-pA-qPX" secondAttribute="height" multiplier="1:1" id="aDt-iZ-Rb5"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="roJ-Pk-kPs">
@@ -58,13 +59,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEZ-BR-iUW">
-                    <rect key="frame" x="8" y="429" width="584" height="21"/>
+                    <rect key="frame" x="8" y="679" width="584" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quantity Nouns Verbed" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oiQ-oe-SbM">
-                    <rect key="frame" x="414" y="391" width="178" height="21"/>
+                    <rect key="frame" x="414" y="641" width="178" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -89,7 +90,7 @@
                 <constraint firstItem="NhW-LK-kVz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="rQQ-Df-ewl"/>
                 <constraint firstItem="uEZ-BR-iUW" firstAttribute="top" secondItem="cYz-Gq-gFn" secondAttribute="bottom" constant="8" id="u6r-OQ-g35"/>
             </constraints>
-            <point key="canvasLocation" x="335" y="189"/>
+            <point key="canvasLocation" x="278" y="-332"/>
         </view>
     </objects>
 </document>
