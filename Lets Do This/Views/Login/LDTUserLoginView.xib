@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -12,7 +12,6 @@
                 <outlet property="passwordTextField" destination="g81-9z-70h" id="h06-cB-p4B"/>
                 <outlet property="registerLink" destination="Wdt-W9-ah3" id="9kh-Yp-cId"/>
                 <outlet property="scrollView" destination="pRb-YO-KnF" id="Lcw-5g-4zo"/>
-                <outlet property="signupCodeView" destination="ye2-yH-4dS" id="0Le-vd-Nph"/>
                 <outlet property="submitButton" destination="Eja-ai-TkH" id="5jH-a1-1Ga"/>
                 <outlet property="view" destination="iN0-l3-epB" id="Wyp-pI-Z39"/>
             </connections>
@@ -36,7 +35,7 @@
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50F-0i-WQW">
-                                    <rect key="frame" x="129" y="102" width="42" height="21"/>
+                                    <rect key="frame" x="129" y="102" width="42" height="20.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -88,30 +87,9 @@
                                 <constraint firstAttribute="trailing" secondItem="g81-9z-70h" secondAttribute="trailing" id="wsN-qj-XE7"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ye2-yH-4dS" customClass="LDTUserSignupCodeView">
-                            <rect key="frame" x="8" y="290" width="584" height="100"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="100" id="Fh1-jc-0f3"/>
-                                <constraint firstAttribute="height" constant="100" id="ypl-dZ-DRH"/>
-                            </constraints>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="ypl-dZ-DRH"/>
-                                </mask>
-                            </variation>
-                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VYf-Yo-Xf8">
-                            <rect key="frame" x="8" y="402" width="584" height="140"/>
+                            <rect key="frame" x="8" y="276" width="584" height="140"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="584" height="30"/>
-                                    <state key="normal" title="Submit">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="submitButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="9Mj-0s-X7R"/>
-                                    </connections>
-                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wdt-W9-ah3" customClass="LDTButton">
                                     <rect key="frame" x="264" y="84" width="57" height="30"/>
                                     <state key="normal" title="Register">
@@ -130,6 +108,15 @@
                                         <action selector="passwordButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="E5g-Zt-a36"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="584" height="30"/>
+                                    <state key="normal" title="Submit">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="submitButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="9Mj-0s-X7R"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="v0D-uH-55q" firstAttribute="leading" secondItem="VYf-Yo-Xf8" secondAttribute="leading" id="8rl-BU-q5d"/>
@@ -146,20 +133,14 @@
                         </view>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="ye2-yH-4dS" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="bottom" constant="22" id="0Ab-B5-Jjc"/>
                         <constraint firstAttribute="trailing" secondItem="VYf-Yo-Xf8" secondAttribute="trailing" constant="8" id="5e1-rx-8sx"/>
-                        <constraint firstItem="ye2-yH-4dS" firstAttribute="leading" secondItem="pRb-YO-KnF" secondAttribute="leading" constant="8" id="5q3-K9-M2g"/>
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="44" id="6Dk-ft-HVd"/>
                         <constraint firstAttribute="trailing" secondItem="HQA-Wg-qj6" secondAttribute="trailing" constant="8" id="EhN-Q8-P45"/>
-                        <constraint firstAttribute="centerX" secondItem="ye2-yH-4dS" secondAttribute="centerX" id="Fr9-bW-DVn"/>
-                        <constraint firstAttribute="trailing" secondItem="ye2-yH-4dS" secondAttribute="trailing" constant="8" id="Hp3-ce-1qD"/>
+                        <constraint firstItem="VYf-Yo-Xf8" firstAttribute="top" secondItem="HQA-Wg-qj6" secondAttribute="bottom" constant="8" id="Gd0-Cl-BnM"/>
                         <constraint firstAttribute="bottom" secondItem="VYf-Yo-Xf8" secondAttribute="bottom" constant="31" id="MvD-xi-B3t"/>
                         <constraint firstAttribute="centerX" secondItem="4pK-DW-rH5" secondAttribute="centerX" id="Q0O-KM-Ti0"/>
-                        <constraint firstAttribute="bottom" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="162" id="Tkz-2Q-UXP"/>
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="top" secondItem="4pK-DW-rH5" secondAttribute="bottom" constant="16" id="UBr-sW-BIg"/>
                         <constraint firstItem="HQA-Wg-qj6" firstAttribute="leading" secondItem="pRb-YO-KnF" secondAttribute="leading" constant="8" id="VTf-Jf-7i1"/>
-                        <constraint firstItem="VYf-Yo-Xf8" firstAttribute="top" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="12" id="XJY-TP-mN3"/>
-                        <constraint firstItem="VYf-Yo-Xf8" firstAttribute="top" secondItem="ye2-yH-4dS" secondAttribute="bottom" constant="31" id="bJb-SY-QXU"/>
                         <constraint firstAttribute="centerX" secondItem="HQA-Wg-qj6" secondAttribute="centerX" id="ebU-eS-Qs2"/>
                         <constraint firstItem="4pK-DW-rH5" firstAttribute="top" secondItem="pRb-YO-KnF" secondAttribute="top" id="hmm-TD-14n"/>
                         <constraint firstAttribute="centerX" secondItem="VYf-Yo-Xf8" secondAttribute="centerX" id="iDo-t3-s9P"/>
@@ -169,8 +150,7 @@
                     <variation key="default">
                         <mask key="constraints">
                             <exclude reference="UBr-sW-BIg"/>
-                            <exclude reference="Tkz-2Q-UXP"/>
-                            <exclude reference="bJb-SY-QXU"/>
+                            <exclude reference="svQ-5s-RIE"/>
                         </mask>
                     </variation>
                 </scrollView>
