@@ -44,6 +44,12 @@ const CGFloat kFontSizeTitle = 24.0f;
                            alpha:1.0f];
 }
 
++(UIColor *)mediumGrayColor {
+    return [UIColor colorWithRed:155.0f/255.0f
+                           green:155.0f/255.0f
+                            blue:155.0f/255.0f
+                           alpha:1.0f];
+}
 
 +(UIFont *)font {
     return [UIFont fontWithName:[self fontName] size:kFontSizeNormal];
