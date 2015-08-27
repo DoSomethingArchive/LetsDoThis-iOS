@@ -135,7 +135,7 @@
                              @"password": password};
 
     [self POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
+        DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:responseObject[@"data"]];
         if (completionHandler) {
             completionHandler(user);
         }
@@ -216,7 +216,7 @@
    parameters:nil
       success:^(NSURLSessionDataTask *task, id responseObject) {
           NSArray *userInfo = responseObject[@"data"];
-          DSOUser *user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
+          DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:userInfo.firstObject];
           if (completionHandler) {
               completionHandler(user);
           }
@@ -235,7 +235,7 @@
     NSString *url = [NSString stringWithFormat:@"users/drupal_id/%li", (long)phoenixID];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSArray *userInfo = responseObject[@"data"];
-          DSOUser *user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
+          DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:userInfo.firstObject];
           if (completionHandler) {
               completionHandler(user);
           }

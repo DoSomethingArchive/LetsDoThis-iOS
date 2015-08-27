@@ -32,7 +32,7 @@
 
 @synthesize photo = _photo;
 
-- (instancetype)initWithDict:(NSDictionary*)dict {
+- (instancetype)initWithNorthstarDict:(NSDictionary*)dict {
     self = [super init];
 
     if(self) {
