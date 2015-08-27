@@ -44,6 +44,8 @@
     [self.reportbackItemDetailView displayForReportbackItem:self.reportbackItem];
 
     [self styleView];
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
