@@ -89,27 +89,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     }];
 }
 
-//- (void)setActionButton {
-//    [self.actionButton enable];
-//    NSString *title = @"Do this now";
-//    if (self.isDoing) {
-//        title = @"Prove it";
-//    }
-//    [self.actionButton setTitle:[title uppercaseString] forState:UIControlStateNormal];
-//}
-
-//- (IBAction)actionButtonTouchUpInside:(id)sender {
-//    if (self.isDoing) {
-//        return;
-//    }
-//    [[DSOUserManager sharedInstance] signupForCampaign:self.campaign completionHandler:^(NSDictionary *response) {
-//         [self.actionButton setTitle:[@"Prove it" uppercaseString] forState:UIControlStateNormal];
-//    }
-//     errorHandler:^(NSError *error) {
-//         [LDTMessage displayErrorMessageForError:error];
-//     }];
-//}
-
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -156,7 +135,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
-    return CGSizeMake(width, 450);
+    CGFloat height = 440;
+    if (indexPath.section == LDTSectionTypeCampaign) {
+        height = 350;
+    }
+    return CGSizeMake(width, height);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {

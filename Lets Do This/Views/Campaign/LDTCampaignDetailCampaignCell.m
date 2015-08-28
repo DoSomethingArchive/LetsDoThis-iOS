@@ -30,6 +30,11 @@
     self.taglineLabel.text = campaign.tagline;
     self.problemLabel.text = campaign.factProblem;
     [self.coverImageView sd_setImageWithURL:campaign.coverImageURL];
+    NSString *actionButtonTitle = @"Prove it";
+    if ([[DSOUserManager sharedInstance].user hasCompletedCampaign:campaign]) {
+        actionButtonTitle = @"Proved it";
+    }
+    [self.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
 }
 
 - (void)styleView {
@@ -39,6 +44,7 @@
     self.taglineLabel.textColor = [UIColor whiteColor];
     self.problemLabel.font = [LDTTheme font];
     [self.coverImageView addGrayTint];
+    [self.actionButton enable];
 }
 
 @end
