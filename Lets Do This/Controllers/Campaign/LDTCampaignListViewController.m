@@ -179,7 +179,6 @@ const CGFloat kHeightExpanded = 400;
     }
 }
 
-
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -288,8 +287,7 @@ const CGFloat kHeightExpanded = 400;
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section == LDTSectionTypeReportback) {
         // Width is ignored here.
         return CGSizeMake(60.0f, 50.0f);
