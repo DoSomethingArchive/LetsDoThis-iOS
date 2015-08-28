@@ -142,11 +142,29 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     return nil;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    UICollectionReusableView *reusableView = nil;
+    if (kind == UICollectionElementKindSectionHeader) {
+        LDTHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
+        headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
+        reusableView = headerView;
+    }
+    return reusableView;
+}
+
 #pragma mark - UICollectionViewDelegate
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     return CGSizeMake(width, 450);
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    if (section == LDTSectionTypeReportback) {
+        // Width is ignored here.
+        return CGSizeMake(60.0f, 50.0f);
+    }
+    return CGSizeMake(0.0f, 0.0f);
 }
 
 # pragma mark - LDTReportbackItemDetailViewDelegate
