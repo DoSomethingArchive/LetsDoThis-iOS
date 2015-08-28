@@ -140,8 +140,8 @@
                                 <constraint firstAttribute="height" constant="21" id="9xr-Pb-sNQ"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
                             <variation key="default">
                                 <mask key="constraints">
                                     <exclude reference="9xr-Pb-sNQ"/>
