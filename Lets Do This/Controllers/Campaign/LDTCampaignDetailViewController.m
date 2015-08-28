@@ -11,13 +11,14 @@
 #import "LDTCampaignDetailCampaignCell.h"
 #import "LDTCampaignDetailReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
+#import "LDTUserProfileViewController.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     LDTSectionTypeCampaign = 0,
     LDTSectionTypeReportback = 1
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (nonatomic, assign) BOOL isDoing;
 @property (nonatomic, assign) BOOL isCompleted;
@@ -82,7 +83,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
         for (DSOReportbackItem *rbItem in rbItems) {
             [self.reportbackItems addObject:rbItem];
         }
-        NSLog(@"self.reportbackItems %@", self.reportbackItems);
         [self.collectionView reloadData];
     } errorHandler:^(NSError *error) {
         [LDTMessage displayErrorMessageForError:error];
@@ -134,7 +134,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     if (indexPath.section == LDTSectionTypeReportback) {
         DSOReportbackItem *rbItem = self.reportbackItems[indexPath.row];
         LDTCampaignDetailReportbackItemCell *cell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-        [cell displayForReportbackItem:rbItem];
+        cell.reportbackItemDetailView.delegate = self;
+        [cell displayForReportbackItem:rbItem tag:indexPath.row];
         return cell;
     }
 
@@ -146,6 +147,18 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     return CGSizeMake(width, 450);
+}
+
+# pragma mark - LDTReportbackItemDetailViewDelegate
+
+- (void)didClickCampaignTitleButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+    [self.collectionView setContentOffset:CGPointZero animated:YES];
+}
+
+- (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+    DSOReportbackItem *reportbackItem = self.reportbackItems[reportbackItemDetailView.tag];
+    LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:reportbackItem.user];
+    [self.navigationController pushViewController:destVC animated:YES];
 }
 
 @end
