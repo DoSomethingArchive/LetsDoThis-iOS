@@ -10,4 +10,6 @@
 
 @interface LDTCampaignDetailReportbackItemCell : UICollectionViewCell
 
+- (void)displayForReportbackItem:(DSOReportbackItem *)reportbackItem;
+
 @end
