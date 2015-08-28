@@ -7,11 +7,20 @@
 //
 
 #import "LDTCampaignDetailReportbackItemCell.h"
+#import "LDTReportbackItemDetailView.h";
+
+@interface LDTCampaignDetailReportbackItemCell ()
+
+@property (weak, nonatomic) IBOutlet LDTReportbackItemDetailView *reportbackItemDetailView;
+
+@end
 
 @implementation LDTCampaignDetailReportbackItemCell
 
 - (void)awakeFromNib {
     // Initialization code
 }
-
+- (void)displayForReportbackItem:(DSOReportbackItem *)reportbackItem {
+    [self.reportbackItemDetailView displayForReportbackItem:reportbackItem];
+}
 @end

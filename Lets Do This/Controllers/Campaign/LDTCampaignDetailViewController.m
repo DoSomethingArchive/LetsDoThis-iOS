@@ -114,7 +114,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == LDTSectionTypeReportback) {
-        return 0;
+        return [self.reportbackItems count];
     }
     return 1;
 }
@@ -131,13 +131,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
         return cell;
     }
 
-//    if (indexPath.section == LDTSectionTypeReportback) {
-//        NSArray *rbItems = interestGroup[@"reportbackItems"];
-//        DSOReportbackItem *rbItem = rbItems[indexPath.row];
-//        LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-//        [cell displayForReportbackItem:rbItem];
-//        return cell;
-//    }
+    if (indexPath.section == LDTSectionTypeReportback) {
+        DSOReportbackItem *rbItem = self.reportbackItems[indexPath.row];
+        LDTCampaignDetailReportbackItemCell *cell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
+        [cell displayForReportbackItem:rbItem];
+        return cell;
+    }
 
     return nil;
 }
@@ -146,7 +145,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
-    return CGSizeMake(width, 400);
+    return CGSizeMake(width, 450);
 }
 
 @end
