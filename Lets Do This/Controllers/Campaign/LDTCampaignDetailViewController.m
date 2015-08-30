@@ -77,12 +77,26 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 }
 
 - (void)fetchReportbackItems {
+#warning We only should be initializing this array once
+// Unless we're trying to clear it out each time? If so, we should do it another way.
+// This way, the array's getting initialized every time this method's called, which will probably happen multiple
+// times once we implement lazy loading of more reportbacks
+// This should get initialized in the -init method
     self.reportbackItems = [[NSMutableArray alloc] init];
 
+#warning I'm more a fan of creating a temp array to do this
+// Is there ever a case where the array we receive would contain anything else other than DSOReportbackItems?
+// If not, we don't have to iterate through the results we receive and can just do this:
+	
+/*
+	[[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:@[self.campaign] completionHandler:^(NSArray *rbItems) {
+		[self.reportbackItems addObjectsFromArray:rbItems];
+		[self.collectionView reloadData];
+	}
+ */
+	
     [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:@[self.campaign] completionHandler:^(NSArray *rbItems) {
-        for (DSOReportbackItem *rbItem in rbItems) {
-            [self.reportbackItems addObject:rbItem];
-        }
+		[self.reportbackItems addObjectsFromArray:rbItems];
         [self.collectionView reloadData];
     } errorHandler:^(NSError *error) {
         [LDTMessage displayErrorMessageForError:error];
@@ -93,6 +107,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == LDTSectionTypeReportback) {
+#warning Think we should pick a coding style and stick to it throughout the app
+// Dot notation or bracket syntax
+// I.e., return self.reportbackItems.count;
+		
         return [self.reportbackItems count];
     }
     return 1;
@@ -114,6 +132,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
         DSOReportbackItem *rbItem = self.reportbackItems[indexPath.row];
         LDTCampaignDetailReportbackItemCell *cell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         cell.reportbackItemDetailView.delegate = self;
+#warning Let's go over what needs to happen here more
+// I think you'd opened up a question/issue around this on GitHub, regarding using the `tag` property this way
+// In general, it's not good practice unless absolutely necessary, which I've found isn't usually the case
+// Can't test this now because Phoenix is down, but I'm sure we can come up with another way
+// We could just do a base VC that holds a UICollectionView and then subclasses can override the methods as necessary.
+// This base VC could hold our datasources for the reportbacks, etc.
         [cell displayForReportbackItem:rbItem tag:indexPath.row];
         return cell;
     }
