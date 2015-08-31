@@ -72,6 +72,7 @@
 
 }
 
+#warning Fix to be on one line
 - (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler
                                          errorHandler:(void(^)(NSError *))errorHandler {
 
