@@ -40,10 +40,7 @@
     return sessionToken.length > 0;
 }
 
-- (void)createSessionWithEmail:(NSString *)email
-              password:(NSString *)password
-     completionHandler:(void(^)(DSOUser *))completionHandler
-          errorHandler:(void(^)(NSError *))errorHandler {
+- (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
     [[DSOAPI sharedInstance] loginWithEmail:email
                password:password
@@ -63,18 +60,15 @@
               completionHandler(user);
           }
 
-      }
-           errorHandler:^(NSError *error) {
-               if (errorHandler) {
-                   errorHandler(error);
-               }
-           }];
+      } errorHandler:^(NSError *error) {
+          if (errorHandler) {
+              errorHandler(error);
+          }
+      }];
 
 }
 
-#warning Fix to be on one line
-- (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler
-                                         errorHandler:(void(^)(NSError *))errorHandler {
+- (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
     if ([sessionToken length] > 0 == NO) {
@@ -88,23 +82,19 @@
 
     [[DSOAPI sharedInstance] fetchUserWithEmail:email
            completionHandler:^(DSOUser *user) {
-
                self.user = user;
                if (completionHandler) {
                    completionHandler();
                }
-
+           } errorHandler:^(NSError *error) {
+               if (errorHandler) {
+                   errorHandler(error);
+               }
            }
-                errorHandler:^(NSError *error) {
-                    if (errorHandler) {
-                        errorHandler(error);
-                    }
-                }
      ];
 }
 
-- (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler
-                       errorHandler:(void(^)(NSError *))errorHandler {
+- (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
 
@@ -126,9 +116,7 @@
 
 }
 
-- (void)signupForCampaign:(DSOCampaign *)campaign
-        completionHandler:(void(^)(NSDictionary *))completionHandler
-             errorHandler:(void(^)(NSError *))errorHandler {
+- (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
     [[DSOAPI sharedInstance] createSignupForCampaign:campaign completionHandler:^(NSDictionary *response) {
 
@@ -149,8 +137,7 @@
     }];
 }
 
-- (void)fetchActiveMobileAppCampaignsWithCompletionHandler:(void (^)(void))completionHandler
-                                     errorHandler:(void(^)(NSError *))errorHandler {
+- (void)fetchActiveMobileAppCampaignsWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSArray *campaigns) {
         self.activeMobileAppCampaigns = campaigns;
         if (completionHandler) {
