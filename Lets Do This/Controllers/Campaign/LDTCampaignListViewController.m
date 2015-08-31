@@ -184,9 +184,11 @@ const CGFloat kHeightExpanded = 400;
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
     if (section == LDTSectionTypeReportback) {
-        return [interestGroup[@"reportbackItems"] count];
+        NSArray *rbItems = interestGroup[@"reportbackItems"];
+        return rbItems.count;
     }
-    return [interestGroup[@"campaigns"] count];
+    NSArray *campaigns = interestGroup[@"campaigns"];
+    return campaigns.count;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {

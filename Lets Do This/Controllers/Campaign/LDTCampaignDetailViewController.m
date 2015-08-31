@@ -106,12 +106,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (section == LDTSectionTypeReportback) {
-#warning Think we should pick a coding style and stick to it throughout the app
-// Dot notation or bracket syntax
-// I.e., return self.reportbackItems.count;
-		
-        return [self.reportbackItems count];
+    if (section == LDTSectionTypeReportback) {	
+        return self.reportbackItems.count;
     }
     return 1;
 }
