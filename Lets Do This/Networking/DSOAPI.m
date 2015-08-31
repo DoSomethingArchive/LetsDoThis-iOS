@@ -248,8 +248,7 @@
       }];
 }
 
-- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler
-                               errorHandler:(void(^)(NSError *))errorHandler {
+- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
     NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
     for (NSDictionary *term in self.interestGroups) {
@@ -259,9 +258,7 @@
 
     NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app=true&term_ids=%@", self.phoenixApiURL, [termIdStrings componentsJoinedByString:@","]];
 
-    [self GET:url
-   parameters:nil
-      success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSMutableArray *campaigns = [[NSMutableArray alloc] init];
           for (NSDictionary* campaignDict in responseObject[@"data"]) {
               DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
@@ -270,8 +267,7 @@
           if (completionHandler) {
               completionHandler(campaigns);
           }
-    }
-    failure:^(NSURLSessionDataTask *task, NSError *error) {
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
         if (errorHandler) {
             errorHandler(error);
         }
