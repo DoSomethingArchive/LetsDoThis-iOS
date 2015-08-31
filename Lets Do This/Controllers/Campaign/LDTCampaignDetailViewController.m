@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 
     if (self) {
         self.campaign = campaign;
+        self.reportbackItems = [[NSMutableArray alloc] init];
     }
 
     return self;
@@ -57,7 +58,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     [self styleView];
 
     [self fetchReportbackItems];
-
 }
 
 - (void)viewDidLayoutSubviews {
@@ -77,24 +77,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 }
 
 - (void)fetchReportbackItems {
-#warning We only should be initializing this array once
-// Unless we're trying to clear it out each time? If so, we should do it another way.
-// This way, the array's getting initialized every time this method's called, which will probably happen multiple
-// times once we implement lazy loading of more reportbacks
-// This should get initialized in the -init method
-    self.reportbackItems = [[NSMutableArray alloc] init];
-
-#warning I'm more a fan of creating a temp array to do this
-// Is there ever a case where the array we receive would contain anything else other than DSOReportbackItems?
-// If not, we don't have to iterate through the results we receive and can just do this:
-	
-/*
-	[[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:@[self.campaign] completionHandler:^(NSArray *rbItems) {
-		[self.reportbackItems addObjectsFromArray:rbItems];
-		[self.collectionView reloadData];
-	}
- */
-	
     [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:@[self.campaign] completionHandler:^(NSArray *rbItems) {
 		[self.reportbackItems addObjectsFromArray:rbItems];
         [self.collectionView reloadData];
