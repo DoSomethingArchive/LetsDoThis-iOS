@@ -285,7 +285,7 @@
         [errorMessages addObject:@"Password must be 6+ characters."];
     }
 
-    if ([errorMessages count] > 0) {
+    if (errorMessages.count > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
         [LDTMessage displayErrorMessageForString:errorMessage];
         return NO;
