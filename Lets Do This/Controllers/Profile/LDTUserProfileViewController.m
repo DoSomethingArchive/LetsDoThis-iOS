@@ -134,10 +134,10 @@ static NSString *cellIdentifier;
     NSInteger rowCount;
     switch (section) {
         case 0:
-            rowCount =  [self.campaignsDoing count];
+            rowCount = self.campaignsDoing.count;
             break;
         case 1:
-            rowCount = [self.campaignsCompleted count];
+            rowCount = self.campaignsCompleted.count;
             break;
         default:
             rowCount = 1;
