@@ -22,7 +22,7 @@
 
 @implementation DSOUserManager
 
-#pragma Singleton
+#pragma mark - Singleton
 
 + (DSOUserManager *)sharedInstance {
     static DSOUserManager *_sharedInstance = nil;
@@ -34,6 +34,8 @@
 
     return _sharedInstance;
 }
+
+#pragma mark - DSOUserManager
 
 - (BOOL)userHasCachedSession {
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
@@ -160,9 +162,8 @@
     return nil;
 }
 
-#warning Move this out of here
 + (NSDictionary *)keysDict {
     return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
-
 }
+
 @end
