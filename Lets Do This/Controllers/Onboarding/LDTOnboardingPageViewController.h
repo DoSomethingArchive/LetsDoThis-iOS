@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LDTOnboardingPageViewController : UIViewController
+@interface LDTOnboardingPageViewController : UIViewController <UIPageViewControllerDataSource>
+
+@property (strong, nonatomic) UIPageViewController *pageController;
 
 @end
