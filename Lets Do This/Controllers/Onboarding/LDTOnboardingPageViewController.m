@@ -19,20 +19,18 @@
 
 @end
 
-@implementation LDTOnboardingPageViewController {
-    NSArray *viewControllers;
-}
+@implementation LDTOnboardingPageViewController
 
 - (UIViewController *)actionsController {
     if (!_actionsController) {
-        _actionsController = [[LDTActionsOnboardingViewController alloc] initWithNibName:@"LDTActionsOnboardingViewController" bundle:nil];
+        _actionsController = [[LDTActionsOnboardingViewController alloc] initWithNibName:@"LDTActionsOnboardingView" bundle:nil];
     }
     return _actionsController;
 }
 
 - (UIViewController *)invitesController {
     if (!_invitesController) {
-        _invitesController = [[LDTInvitesOnboardingViewController alloc] initWithNibName:@"LDTInvitesOnboardingViewController" bundle:nil];
+        _invitesController = [[LDTInvitesOnboardingViewController alloc] initWithNibName:@"LDTInvitesOnboardingView" bundle:nil];
     }
     return _invitesController;
 }
@@ -65,7 +63,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 // Provides the view controller after the current view controller. What to display for the next screen.

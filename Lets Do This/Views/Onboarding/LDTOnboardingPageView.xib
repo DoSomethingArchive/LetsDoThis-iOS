@@ -13,8 +13,6 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <color key="backgroundColor" red="0.1411764771" green="0.63529413940000001" blue="0.2941176593" alpha="1" colorSpace="deviceRGB"/>
-            <color key="tintColor" red="0.14117647707462311" green="0.63529413938522339" blue="0.29411765933036804" alpha="1" colorSpace="deviceRGB"/>
         </view>
     </objects>
 </document>

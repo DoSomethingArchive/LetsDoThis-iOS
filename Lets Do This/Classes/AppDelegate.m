@@ -87,11 +87,8 @@
 }
 
 - (void)displayUserConnectVC {
-//    LDTNavigationController *navVC = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
-    LDTNavigationController *navVC = [[LDTNavigationController alloc]initWithRootViewController:[[LDTOnboardingPageViewController alloc] initWithNibName:@"LDTOnboardingPageViewController" bundle:nil]];
+    LDTNavigationController *navVC = [[LDTNavigationController alloc]initWithRootViewController:[[LDTOnboardingPageViewController alloc] initWithNibName:@"LDTOnboardingPageView" bundle:nil]];
     [LDTMessage setDefaultViewController:navVC];
-
-    
     [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
 }
 
