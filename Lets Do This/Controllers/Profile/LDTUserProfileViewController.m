@@ -80,12 +80,6 @@ static NSString *cellIdentifier;
     }];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-
-    self.navigationItem.title = @"";
-}
-
 #pragma Mark - LDTUserProfileViewController
 
 - (void)styleView {
