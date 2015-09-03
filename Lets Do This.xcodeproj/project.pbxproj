@@ -63,6 +63,12 @@
 		C2B152201ACE05510028C336 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B152181ACE05510028C336 /* AppDelegate.m */; };
 		C2B152381ACE0BB50028C336 /* LDTSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */; };
 		EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */; };
+		EAC7D9B91B98CED100F16D0D /* LDTActionsOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EAC7D9B41B98CED100F16D0D /* LDTActionsOnboardingViewController.m */; };
+		EAC7D9BA1B98CED100F16D0D /* LDTInvitesOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EAC7D9B61B98CED100F16D0D /* LDTInvitesOnboardingViewController.m */; };
+		EAC7D9BB1B98CED100F16D0D /* LDTOnboardingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EAC7D9B81B98CED100F16D0D /* LDTOnboardingPageViewController.m */; };
+		EAC7D9C01B98CEDD00F16D0D /* LDTActionsOnboardingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EAC7D9BD1B98CEDD00F16D0D /* LDTActionsOnboardingView.xib */; };
+		EAC7D9C11B98CEDD00F16D0D /* LDTInvitesOnboardingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EAC7D9BE1B98CEDD00F16D0D /* LDTInvitesOnboardingView.xib */; };
+		EAC7D9C21B98CEDD00F16D0D /* LDTOnboardingPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EAC7D9BF1B98CEDD00F16D0D /* LDTOnboardingPageView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -170,6 +176,15 @@
 		C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTSettingsViewController.m; path = Profile/LDTSettingsViewController.m; sourceTree = "<group>"; };
 		EA5C9F191B694712001D3EEA /* UITextField+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+LDT.h"; sourceTree = "<group>"; };
 		EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+LDT.m"; sourceTree = "<group>"; };
+		EAC7D9B31B98CED100F16D0D /* LDTActionsOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTActionsOnboardingViewController.h; sourceTree = "<group>"; };
+		EAC7D9B41B98CED100F16D0D /* LDTActionsOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTActionsOnboardingViewController.m; sourceTree = "<group>"; };
+		EAC7D9B51B98CED100F16D0D /* LDTInvitesOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTInvitesOnboardingViewController.h; sourceTree = "<group>"; };
+		EAC7D9B61B98CED100F16D0D /* LDTInvitesOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTInvitesOnboardingViewController.m; sourceTree = "<group>"; };
+		EAC7D9B71B98CED100F16D0D /* LDTOnboardingPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTOnboardingPageViewController.h; sourceTree = "<group>"; };
+		EAC7D9B81B98CED100F16D0D /* LDTOnboardingPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTOnboardingPageViewController.m; sourceTree = "<group>"; };
+		EAC7D9BD1B98CEDD00F16D0D /* LDTActionsOnboardingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDTActionsOnboardingView.xib; sourceTree = "<group>"; };
+		EAC7D9BE1B98CEDD00F16D0D /* LDTInvitesOnboardingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDTInvitesOnboardingView.xib; sourceTree = "<group>"; };
+		EAC7D9BF1B98CEDD00F16D0D /* LDTOnboardingPageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDTOnboardingPageView.xib; sourceTree = "<group>"; };
 		FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Lets Do This.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -438,6 +453,7 @@
 		C2B152191ACE05510028C336 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				EAC7D9B21B98CED100F16D0D /* Onboarding */,
 				B27AF0E81B4F647A00164926 /* Base */,
 				C2F35F0A1AD8272C00D12FE5 /* Login */,
 				B22274021B587A02005C896D /* Campaign */,
@@ -463,6 +479,7 @@
 		C2B1521F1ACE05510028C336 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EAC7D9BC1B98CEDD00F16D0D /* Onboarding */,
 				B2E652DC1B43807000EF9D69 /* Base */,
 				B239391A1B44495400E5BCC8 /* Login */,
 				B22273FF1B58792D005C896D /* Campaign */,
@@ -499,6 +516,29 @@
 				B92B81EBB03D9FF4D34E3FD9 /* Pods-Lets Do This.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		EAC7D9B21B98CED100F16D0D /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				EAC7D9B31B98CED100F16D0D /* LDTActionsOnboardingViewController.h */,
+				EAC7D9B41B98CED100F16D0D /* LDTActionsOnboardingViewController.m */,
+				EAC7D9B51B98CED100F16D0D /* LDTInvitesOnboardingViewController.h */,
+				EAC7D9B61B98CED100F16D0D /* LDTInvitesOnboardingViewController.m */,
+				EAC7D9B71B98CED100F16D0D /* LDTOnboardingPageViewController.h */,
+				EAC7D9B81B98CED100F16D0D /* LDTOnboardingPageViewController.m */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		EAC7D9BC1B98CEDD00F16D0D /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				EAC7D9BD1B98CEDD00F16D0D /* LDTActionsOnboardingView.xib */,
+				EAC7D9BE1B98CEDD00F16D0D /* LDTInvitesOnboardingView.xib */,
+				EAC7D9BF1B98CEDD00F16D0D /* LDTOnboardingPageView.xib */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -595,14 +635,17 @@
 				B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */,
 				B22274011B5879B3005C896D /* LDTCampaignListView.xib in Resources */,
 				B23E68271B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.xib in Resources */,
+				EAC7D9C01B98CEDD00F16D0D /* LDTActionsOnboardingView.xib in Resources */,
 				B2DB719F1B755E6300915A18 /* LDTCampaignListReportbackItemCell.xib in Resources */,
 				B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */,
 				B23E68221B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.xib in Resources */,
 				B24CE3D11B507DEE00377727 /* john-connor.jpg in Resources */,
 				B27AF0E71B4F493D00164926 /* LDTUserProfileView.xib in Resources */,
 				B2DB719A1B754E3F00915A18 /* LDTCampaignListCampaignCell.xib in Resources */,
+				EAC7D9C21B98CEDD00F16D0D /* LDTOnboardingPageView.xib in Resources */,
 				B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */,
 				C2B152001ACE04C30028C336 /* LaunchScreen.xib in Resources */,
+				EAC7D9C11B98CEDD00F16D0D /* LDTInvitesOnboardingView.xib in Resources */,
 				B2A41A051B5DCC5300C6C1A6 /* LDTSettingsView.xib in Resources */,
 				C2B151FD1ACE04C30028C336 /* Images.xcassets in Resources */,
 				B22AB7681B4EE7BE00BE7052 /* LDTUserLoginView.xib in Resources */,
@@ -673,6 +716,7 @@
 				EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */,
 				B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */,
 				B22274051B587A20005C896D /* LDTCampaignListViewController.m in Sources */,
+				EAC7D9B91B98CED100F16D0D /* LDTActionsOnboardingViewController.m in Sources */,
 				B2A136631B3D9BC600D20273 /* LDTUserRegisterViewController.m in Sources */,
 				B258EB311B8E548B00B298C0 /* LDTReportbackItemDetailView.m in Sources */,
 				B212C2621B4ED6F300376BB1 /* LDTBaseUserLoginViewController.m in Sources */,
@@ -682,12 +726,14 @@
 				B2DB719E1B755E6300915A18 /* LDTCampaignListReportbackItemCell.m in Sources */,
 				B223AD761B7A724000D4AA40 /* DSOReportbackItem.m in Sources */,
 				C20BA28D1AF3DCAB00E9886F /* NSDate+DSO.m in Sources */,
+				EAC7D9BA1B98CED100F16D0D /* LDTInvitesOnboardingViewController.m in Sources */,
 				B27AF0EB1B4F64B200164926 /* LDTLoadingViewController.m in Sources */,
 				B22273FE1B58076F005C896D /* DSOAPI.m in Sources */,
 				C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */,
 				B2DB71991B754E3F00915A18 /* LDTCampaignListCampaignCell.m in Sources */,
 				B23E68211B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.m in Sources */,
 				B27F49ED1B6ADB93005CFC35 /* LDTCampaignDetailViewController.m in Sources */,
+				EAC7D9BB1B98CED100F16D0D /* LDTOnboardingPageViewController.m in Sources */,
 				B2E75D831B87B1920015BE4A /* LDTReportbackItemDetailSingleViewController.m in Sources */,
 				B240DD321B73DA4D00CA6C6E /* LDTTabBarController.m in Sources */,
 				B21996B11B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m in Sources */,

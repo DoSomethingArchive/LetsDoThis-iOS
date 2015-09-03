@@ -51,50 +51,39 @@
     
     self.pageController.dataSource = self;
     
-    [self.pageController setViewControllers:@[self.actionsController]
-                                  direction:UIPageViewControllerNavigationDirectionForward
-                                   animated:YES
-                                 completion:nil];
+    [self.pageController setViewControllers:@[self.actionsController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
     
     [self addChildViewController:self.pageController];
     [[self view] addSubview:[self.pageController view]];
     [self.pageController didMoveToParentViewController:self];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-// Provides the view controller after the current view controller. What to display for the next screen.
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     UIViewController *nextViewController = nil;
-    if (viewController == self.actionsController) {
+    if ([viewController isEqual:self.actionsController]) {
         nextViewController = self.invitesController;
     }
-    else if (viewController == self.invitesController) {
+    else if ([viewController isEqual:self.invitesController]) {
         nextViewController = self.connectController;
     }
     return nextViewController;
 }
 
-// Provides the view controller before the current view controller. What to display when the user switches back to the previous screen.
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     UIViewController *nextViewController = nil;
-    if (viewController == self.connectController) {
+    if ([viewController isEqual:self.connectController]) {
         nextViewController = self.invitesController;
     }
-    else if (viewController == self.invitesController) {
+    else if ([viewController isEqual:self.invitesController]) {
         nextViewController = self.actionsController;
     }
     return nextViewController;
 }
 
-// The number of items reflected in the page indicator.
 - (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
     return 3;
 }
 
-// The index of the page view controller, as reflected in the page indicator.
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
     return 0;
 }
