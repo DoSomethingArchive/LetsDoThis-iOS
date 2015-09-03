@@ -28,17 +28,16 @@
 
 - (void)awakeFromNib {
     [self styleView];
-
 }
 
-- (void)displayForReportbackItem:(DSOReportbackItem *)reportbackItem {
-    [self.campaignTitleButton setTitle:reportbackItem.campaign.title forState:UIControlStateNormal];
-    self.reportbackItemQuantityLabel.text = [NSString stringWithFormat:@"%li %@ %@", reportbackItem.quantity, reportbackItem.campaign.reportbackNoun, reportbackItem.campaign.reportbackVerb];
-    self.reportbackItemCaptionLabel.text = reportbackItem.caption;
-    [self.reportbackItemImageView sd_setImageWithURL:reportbackItem.imageURL];
-    self.userAvatarImageView.image = reportbackItem.user.photo;
-    [self.userDisplayNameButton setTitle:[reportbackItem.user displayName] forState:UIControlStateNormal];
-    self.userCountryNameLabel.text = reportbackItem.user.countryName;
+- (void)displayForReportbackItem {
+    [self.campaignTitleButton setTitle:self.reportbackItem.campaign.title forState:UIControlStateNormal];
+    self.reportbackItemQuantityLabel.text = [NSString stringWithFormat:@"%li %@ %@", self.reportbackItem.quantity, self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
+    self.reportbackItemCaptionLabel.text = self.reportbackItem.caption;
+    [self.reportbackItemImageView sd_setImageWithURL:self.reportbackItem.imageURL];
+    self.userAvatarImageView.image = self.reportbackItem.user.photo;
+    [self.userDisplayNameButton setTitle:[self.reportbackItem.user displayName] forState:UIControlStateNormal];
+    self.userCountryNameLabel.text = self.reportbackItem.user.countryName;
 }
 
 - (void)styleView {

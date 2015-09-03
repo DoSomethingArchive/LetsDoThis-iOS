@@ -14,6 +14,5 @@
 // This needs to be public so its delegate can be set.
 @property (weak, nonatomic) IBOutlet LDTReportbackItemDetailView *reportbackItemDetailView;
 
-- (void)displayForReportbackItem:(DSOReportbackItem *)reportbackItem tag:(NSInteger)tag;
 
 @end
