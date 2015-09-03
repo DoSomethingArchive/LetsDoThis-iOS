@@ -21,22 +21,17 @@
 
 #pragma mark - UIViewController
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+}
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     [self startListeningForNotifications];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-
-    [self stopListeningForNotifications];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.navigationItem.title = @"";
-}
 
 #pragma mark - UITextFieldDelegate
 
