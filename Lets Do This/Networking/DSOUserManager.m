@@ -55,8 +55,9 @@
           // Save session in Keychain for when app is quit.
           [SSKeychain setPassword:user.sessionToken forService:LDTSERVER account:@"Session"];
 
-          // Save email of current user in Keychain.
-          [SSKeychain setPassword:email forService:LDTSERVER account:@"Email"];
+          // Save Phoenix ID of current user in Keychain.
+          NSString *phoenixIDString = [NSString stringWithFormat:@"%li", (long)self.user.phoenixID];
+          [SSKeychain setPassword:phoenixIDString forService:LDTSERVER account:@"PhoenixID"];
 
           if (completionHandler) {
               completionHandler(user);
@@ -80,31 +81,24 @@
 
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
-    NSString *email = [SSKeychain passwordForService:LDTSERVER account:@"Email"];
-
-    [[DSOAPI sharedInstance] fetchUserWithEmail:email
-           completionHandler:^(DSOUser *user) {
-               self.user = user;
-               if (completionHandler) {
-                   completionHandler();
-               }
-           } errorHandler:^(NSError *error) {
-               if (errorHandler) {
-                   errorHandler(error);
-               }
-           }
-     ];
+    NSInteger phoenixID = [[SSKeychain passwordForService:LDTSERVER account:@"PhoenixID"] intValue];
+    [[DSOAPI sharedInstance] fetchUserWithPhoenixID:phoenixID completionHandler:^(DSOUser *user) {
+        self.user = user;
+        if (completionHandler) {
+            completionHandler();
+        }
+    } errorHandler:^(NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
 }
 
 - (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
-
-        /// Delete Keychain passwords.
         [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
-        [SSKeychain deletePasswordForService:LDTSERVER account:@"Email"];
+        [SSKeychain deletePasswordForService:LDTSERVER account:@"PhoenixID"];
 
-        // Delete current user.
         self.user = nil;
 
         if (completionHandler) {
@@ -115,7 +109,6 @@
             errorHandler(error);
         }
     }];
-
 }
 
 - (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {

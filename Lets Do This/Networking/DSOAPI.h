@@ -48,10 +48,6 @@
                 completionHandler:(void(^)(NSDictionary *))completionHandler
                      errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)fetchUserWithEmail:(NSString *)email
-         completionHandler:(void(^)(DSOUser *))completionHandler
-              errorHandler:(void(^)(NSError *))errorHandler;
-
 - (void)fetchUserWithPhoenixID:(NSInteger)phoenixID
              completionHandler:(void(^)(DSOUser *))completionHandler
                   errorHandler:(void(^)(NSError *))errorHandler;

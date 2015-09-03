@@ -208,26 +208,6 @@
       }];
 
 }
-- (void)fetchUserWithEmail:(NSString *)email
-         completionHandler:(void(^)(DSOUser *))completionHandler
-              errorHandler:(void(^)(NSError *))errorHandler {
-
-    [self GET:[NSString stringWithFormat:@"users/email/%@", email]
-   parameters:nil
-      success:^(NSURLSessionDataTask *task, id responseObject) {
-          NSArray *userInfo = responseObject[@"data"];
-          DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:userInfo.firstObject];
-          if (completionHandler) {
-              completionHandler(user);
-          }
-      }
-      failure:^(NSURLSessionDataTask *task, NSError *error) {
-          if (errorHandler) {
-              errorHandler(error);
-          }
-          [self logError:error];
-      }];
-}
 
 - (void)fetchUserWithPhoenixID:(NSInteger)phoenixID
              completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
