@@ -17,10 +17,14 @@
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 
+#warning The enum should be LDTCampaignListSectionType
 typedef NS_ENUM(NSInteger, LDTCampaignListSections) {
+// And this should be LDTCampaignListSectionTypeCampaign
     LDTSectionTypeCampaign = 0,
+// And this should be LDTCampaignListSectionTypeReportback
     LDTSectionTypeReportback = 1
 };
+// If that's too long, maybe we should rename this file, since it's really not just a campaign list
 
 const CGFloat kHeightCollapsed = 100;
 const CGFloat kHeightExpanded = 400;
@@ -201,7 +205,16 @@ const CGFloat kHeightExpanded = 400;
     if (indexPath.section == LDTSectionTypeCampaign) {
         NSArray *campaignList = interestGroup[@"campaigns"];
         DSOCampaign *campaign = (DSOCampaign *)campaignList[indexPath.row];
+#warning Name cells better--there are two types
+// Should be campaignListCell or something
         LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+		
+#warning The cell should be configured in this VC, not inside itself
+// Make a method in here like -(void)configureCell:(UICollectionViewCell *)cell forCampaign:(DSOCampaign *)campaign
+// And then call [self configureCell:campaignListCell forCampaign:campaign];
+// Or you could find out the particular campaign in this method if you just do
+// -(void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+// Cleaner either way
         [cell displayForCampaign:campaign];
         cell.delegate = self;
         return cell;
@@ -210,6 +223,7 @@ const CGFloat kHeightExpanded = 400;
     if (indexPath.section == LDTSectionTypeReportback) {
         NSArray *rbItems = interestGroup[@"reportbackItems"];
         DSOReportbackItem *rbItem = rbItems[indexPath.row];
+#warning Same here
         LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         [cell displayForReportbackItem:rbItem];
         return cell;
@@ -256,6 +270,8 @@ const CGFloat kHeightExpanded = 400;
         if ([self.selectedIndexPath isEqual:indexPath]) {
             self.selectedIndexPath = nil;
             [UIView animateWithDuration:0.2f animations:^{
+#warning Same here, just make the cell's height constraint public
+// And set it here
                 [cell collapse];
                 [self.view layoutIfNeeded];
             }];
@@ -263,6 +279,7 @@ const CGFloat kHeightExpanded = 400;
         else {
             self.selectedIndexPath = indexPath;
             [UIView animateWithDuration:0.2f animations:^{
+#warning And here
                 [cell expand];
                 [self.view layoutIfNeeded];
             }];
