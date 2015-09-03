@@ -38,6 +38,9 @@
 
     if (self) {
         self.userID = northstarDict[@"_id"];
+        if ([northstarDict objectForKey:@"country"] != nil) {
+            self.countryCode = northstarDict[@"country"];
+        }
         self.phoenixID = [northstarDict[@"drupal_id"] intValue];
         self.firstName = northstarDict[@"first_name"];
         self.email = northstarDict[@"email"];
@@ -73,9 +76,23 @@
 }
 
 - (NSString *)countryName {
-    // @todo: Find the country name for user.countryCode if exists
-    // GH - https://github.com/DoSomething/LetsDoThis-iOS/issues/240
-    return @"United States";
+    if (!self.countryCode) {
+        return @"";
+    }
+    else {
+        NSArray *countryCodes = [NSLocale ISOCountryCodes];
+        NSMutableArray *countries = [NSMutableArray arrayWithCapacity:[countryCodes count]];
+        
+        for (NSString *countryCode in countryCodes)
+        {
+            NSString *identifier = [NSLocale localeIdentifierFromComponents: [NSDictionary dictionaryWithObject: countryCode forKey: NSLocaleCountryCode]];
+            NSString *country = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] displayNameForKey: NSLocaleIdentifier value: identifier];
+            [countries addObject: country];
+        }
+        
+        NSDictionary *codeForCountryDictionary = [[NSDictionary alloc] initWithObjects:countries forKeys:countryCodes];
+        return codeForCountryDictionary[self.countryCode];
+    }
 }
 
 - (void)setPhoto:(UIImage *)photo {
