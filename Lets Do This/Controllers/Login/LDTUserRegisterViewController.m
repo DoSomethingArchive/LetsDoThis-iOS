@@ -18,6 +18,7 @@
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
+@property (nonatomic, assign) BOOL userDidPickAvatarPhoto;
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *avatarFilestring;
 @property (strong, nonatomic) NSString *countryCode;
@@ -181,16 +182,16 @@
             // Login the user.
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
                 
-                // Set photo.
-                [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
-                // POST avatar to API.
+                if (self.userDidPickAvatarPhoto) {
+                    [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
 
-                [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
-                    NSLog(@"Successful user avatar upload: %@", responseObject);
-                } errorHandler:^(NSError * error) {
-                    [LDTMessage displayErrorMessageForError:error];
-                }];
-
+                    [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
+                        NSLog(@"Successful user avatar upload: %@", responseObject);
+                    } errorHandler:^(NSError * error) {
+                        [LDTMessage displayErrorMessageForError:error];
+                    }];
+                }
+                
                 // This VC is always presented within a NavVC, so kill it.
                 [self dismissViewControllerAnimated:YES completion:^{
                     LDTTabBarController *destVC = [[LDTTabBarController alloc] init];
@@ -364,6 +365,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     [self setAvatar:chosenImage];
+    self.userDidPickAvatarPhoto = YES;
     self.avatarFilestring = [UIImagePNGRepresentation(chosenImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
