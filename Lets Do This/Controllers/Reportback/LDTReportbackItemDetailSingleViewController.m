@@ -41,7 +41,8 @@
 
     self.title = [self.reportbackItem.campaign.title uppercaseString];
     self.reportbackItemDetailView.delegate = self;
-    [self.reportbackItemDetailView displayForReportbackItem:self.reportbackItem];
+    self.reportbackItemDetailView.reportbackItem = self.reportbackItem;
+    [self.reportbackItemDetailView displayForReportbackItem];
 
     [self styleView];
 

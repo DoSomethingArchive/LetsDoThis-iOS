@@ -10,6 +10,8 @@
 
 const CGFloat kCampaignCellHeightCollapsed = 32.0f;
 const CGFloat kCampaignCellHeightExpanded = 180.0f;
+const CGFloat kCampaignImageViewConstantCollapsed = -25;
+const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 @interface LDTCampaignListCampaignCell()
 
@@ -49,8 +51,8 @@ const CGFloat kCampaignCellHeightExpanded = 180.0f;
     self.titleLabel.text = [campaign.title uppercaseString];
     self.taglineLabel.text = campaign.tagline;
     [self.imageView sd_setImageWithURL:campaign.coverImageURL];
-	self.imageViewTop.constant = -25;
-	self.imageViewBottom.constant = -25;
+    [self collapse];
+
     NSString *actionButtonTitle = @"Do this now";
     if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign]) {
         actionButtonTitle = @"Prove it";
@@ -67,14 +69,14 @@ const CGFloat kCampaignCellHeightExpanded = 180.0f;
 
 - (void)collapse {
     self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightCollapsed;
-	self.imageViewTop.constant = -25;
-	self.imageViewBottom.constant = -25;
+	self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
+	self.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
 }
 
 - (void)expand {
     self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightExpanded;
-	self.imageViewTop.constant = 0;
-	self.imageViewBottom.constant = 0;
+	self.imageViewTop.constant = kCampaignImageViewConstantExpanded;
+	self.imageViewBottom.constant = kCampaignImageViewConstantExpanded;
 }
 
 - (IBAction)actionButtonTouchUpInside:(id)sender {

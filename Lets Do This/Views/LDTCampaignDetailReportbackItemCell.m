@@ -14,12 +14,4 @@
 
 @implementation LDTCampaignDetailReportbackItemCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)displayForReportbackItem:(DSOReportbackItem *)reportbackItem  tag:(NSInteger)tag{
-    [self.reportbackItemDetailView displayForReportbackItem:reportbackItem];
-    self.reportbackItemDetailView.tag = tag;
-}
 @end

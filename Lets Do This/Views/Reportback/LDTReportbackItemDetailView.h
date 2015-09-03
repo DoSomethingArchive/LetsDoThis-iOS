@@ -15,7 +15,9 @@
 
 @property (weak, nonatomic) id<LDTReportbackItemDetailViewDelegate> delegate;
 
-- (void)displayForReportbackItem:(DSOReportbackItem *)reportbackItem;
+@property (strong, nonatomic) DSOReportbackItem *reportbackItem;
+
+- (void)displayForReportbackItem;
 
 @end
 

@@ -107,16 +107,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     }
 
     if (indexPath.section == LDTSectionTypeReportback) {
-        DSOReportbackItem *rbItem = self.reportbackItems[indexPath.row];
+        DSOReportbackItem *reportbackItem = self.reportbackItems[indexPath.row];
         LDTCampaignDetailReportbackItemCell *cell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
+        cell.reportbackItemDetailView.reportbackItem = reportbackItem;
         cell.reportbackItemDetailView.delegate = self;
-#warning Let's go over what needs to happen here more
-// I think you'd opened up a question/issue around this on GitHub, regarding using the `tag` property this way
-// In general, it's not good practice unless absolutely necessary, which I've found isn't usually the case
-// Can't test this now because Phoenix is down, but I'm sure we can come up with another way
-// We could just do a base VC that holds a UICollectionView and then subclasses can override the methods as necessary.
-// This base VC could hold our datasources for the reportbacks, etc.
-        [cell displayForReportbackItem:rbItem tag:indexPath.row];
+        [cell.reportbackItemDetailView displayForReportbackItem];
         return cell;
     }
 
@@ -159,8 +154,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
-    DSOReportbackItem *reportbackItem = self.reportbackItems[reportbackItemDetailView.tag];
-    LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:reportbackItem.user];
+    LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:reportbackItemDetailView.reportbackItem.user];
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
