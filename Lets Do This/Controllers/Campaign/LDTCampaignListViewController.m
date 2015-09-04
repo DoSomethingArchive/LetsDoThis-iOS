@@ -153,6 +153,24 @@ const CGFloat kHeightExpanded = 400;
     [self.collectionView reloadData];
 }
 
+- (void)configureCampaignCell:(LDTCampaignListCampaignCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    NSArray *campaigns = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
+    DSOCampaign *campaign = (DSOCampaign *)campaigns[indexPath.row];
+    cell.titleLabelText = campaign.title;
+    cell.taglineLabelText = campaign.tagline;
+    cell.imageViewImageURL = campaign.coverImageURL;
+    NSString *actionButtonTitle = @"Do this now";
+    if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign]) {
+        actionButtonTitle = @"Prove it";
+    }
+    cell.actionButtonTitle = actionButtonTitle;
+    // @todo: Split out expiresLabel - GH #226
+    NSString *expiresString = @"";
+    if ([campaign numberOfDaysLeft] > 0) {
+        expiresString = [NSString stringWithFormat:@"Expires in %li Days", (long)[campaign numberOfDaysLeft]];
+    }
+    cell.expiresDaysLabelText = expiresString;
+}
 
 #pragma mark - LDTCampaignListCampaignCellDelegate
 
@@ -204,14 +222,7 @@ const CGFloat kHeightExpanded = 400;
 #warning Name cells better--there are two types
 // Should be campaignListCell or something
         LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
-		
-#warning The cell should be configured in this VC, not inside itself
-// Make a method in here like -(void)configureCell:(UICollectionViewCell *)cell forCampaign:(DSOCampaign *)campaign
-// And then call [self configureCell:campaignListCell forCampaign:campaign];
-// Or you could find out the particular campaign in this method if you just do
-// -(void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-// Cleaner either way
-        [cell displayForCampaign:campaign];
+        [self configureCampaignCell:cell atIndexPath:indexPath];
         cell.delegate = self;
         return cell;
     }
