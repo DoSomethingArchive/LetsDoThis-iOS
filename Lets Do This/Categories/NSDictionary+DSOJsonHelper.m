@@ -23,6 +23,8 @@
     return [self valueForKeyAsString:key nullValue:nil];
 }
 
+#warning I'd like to talk a little more about how we should handle
+// nil values in the app and maybe how we should change some of these methods a little
 - (NSString *)valueForKeyAsString:(NSString *)key nullValue:(NSString *)nullValue {
     id value = [self valueForJSONKey:key];
     if(value == nil) {
@@ -63,7 +65,7 @@
     if(value == nil) {
         return nullValue;
     }
-    return [NSDate dateFromISOString:value];
+    return [NSDate dateFromISO8601String:value];
 }
 
 @end

@@ -7,18 +7,17 @@
 //
 
 #import "LDTUserLoginViewController.h"
-#import "LDTUserSignupCodeView.h"
 #import "LDTTheme.h"
 #import "LDTButton.h"
 #import "LDTMessage.h"
-#import "LDTUserProfileViewController.h"
 #import "LDTUserRegisterViewController.h"
+#import "LDTTabBarController.h"
 
 @interface LDTUserLoginViewController ()
+
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet LDTUserSignupCodeView *signupCodeView;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet LDTButton *passwordButton;
 @property (weak, nonatomic) IBOutlet LDTButton *registerLink;
@@ -26,11 +25,9 @@
 - (IBAction)registerLinkTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)passwordButtonTouchUpInside:(id)sender;
-
 - (IBAction)emailEditingDidEnd:(id)sender;
 - (IBAction)passwordEditingDidEnd:(id)sender;
 - (IBAction)passwordEditingChanged:(id)sender;
-
 
 @end
 
@@ -56,10 +53,7 @@
     [self.registerLink setTitle:@"Don't have an account? Register here" forState:UIControlStateNormal];
 
     self.textFields = @[self.emailTextField,
-                        self.passwordTextField,
-                        self.signupCodeView.firstTextField,
-                        self.signupCodeView.secondTextField,
-                        self.signupCodeView.thirdTextField
+                        self.passwordTextField
                         ];
     for (UITextField *aTextField in self.textFields) {
         aTextField.delegate = self;
@@ -71,13 +65,13 @@
     [self.submitButton disable];
     [self.passwordButton setTitle:[@"Forgot password?" uppercaseString] forState:UIControlStateNormal];
 
-    [self theme];
+    [self styleView];
 }
 
 #pragma mark - LDTUserLoginViewController
 
-- (void) theme {
-    [LDTTheme setLightningBackground:self.view];
+- (void) styleView {
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
 
     UIFont *font = [LDTTheme font];
     self.headerLabel.font = font;
@@ -86,12 +80,10 @@
     for (UITextField *aTextField in self.textFields) {
         aTextField.font = font;
     }
-
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     self.passwordTextField.secureTextEntry = YES;
-
     self.passwordButton.backgroundColor = [UIColor whiteColor];
-    [self.passwordButton setTitleColor:[LDTTheme clickyBlue] forState:UIControlStateNormal];
+    [self.passwordButton setTitleColor:[LDTTheme ctaBlueColor] forState:UIControlStateNormal];
     [self.registerLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
@@ -121,24 +113,29 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if (![self validateEmail:self.emailTextField.text]) {
-        [LDTMessage displayErrorWithTitle:@"Please enter a valid email."];
+        [LDTMessage displayErrorMessageForString:@"Please enter a valid email."];
         [self.submitButton disable];
         return;
     }
 
-    [[DSOAuthenticationManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(NSDictionary *response) {
+    [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
 
-        LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAuthenticationManager sharedInstance].user];
-        [self.navigationController pushViewController:destVC animated:YES];
+        // This VC is always presented within a NavVC, so kill it.
+        [self dismissViewControllerAnimated:YES completion:^{
+
+            LDTTabBarController *destVC = [[LDTTabBarController alloc] init];
+            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
+
+        }];
 
     } errorHandler:^(NSError *error) {
         [self.passwordTextField becomeFirstResponder];
-        [LDTMessage errorMessage:error];
+        [LDTMessage displayErrorMessageForError:error];
     }];
 }
 
 - (IBAction)passwordButtonTouchUpInside:(id)sender {
-    NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [[DSOAPI sharedInstance] pheonixBaseUrl]];
+    NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [[DSOAPI sharedInstance] phoenixBaseUrl]];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:resetUrl]];
 }
 

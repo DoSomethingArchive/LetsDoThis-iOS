@@ -24,13 +24,13 @@
 
 -(void)disable {
     self.enabled = NO;
-    self.backgroundColor = [LDTTheme disabledGray];
+    self.backgroundColor = [LDTTheme disabledGrayColor];
     [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
 }
 
 -(void)enable {
     self.enabled = YES;
-    self.backgroundColor = [LDTTheme clickyBlue];
+    self.backgroundColor = [LDTTheme ctaBlueColor];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 

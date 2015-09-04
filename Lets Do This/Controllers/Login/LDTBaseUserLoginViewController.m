@@ -15,29 +15,23 @@
 @property (nonatomic, readwrite) CGRect keyboardFrameInWindowCoordinates;
 @property (nonatomic, readwrite) CGRect keyboardFrameInViewCoordinates;
 
-
 @end
 
 @implementation LDTBaseUserLoginViewController
 
 #pragma mark - UIViewController
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+}
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     [self startListeningForNotifications];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-
-    [self stopListeningForNotifications];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.navigationItem.title = @"";
-}
 
 #pragma mark - UITextFieldDelegate
 
@@ -79,6 +73,7 @@
 
 #pragma mark - UITextFieldDelegate
 
+// @todo Remove me
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
 
 }
@@ -147,7 +142,7 @@
     return coveredFrame;
 }
 
--(UIToolbar *)keyboardToolbar {
+- (UIToolbar *)keyboardToolbar {
     if (!_keyboardToolbar) {
         _keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
         _keyboardToolbar.barStyle = UIBarStyleDefault;
@@ -159,7 +154,7 @@
     return _keyboardToolbar;
 }
 
--(UIView *)nextTextView {
+- (UIView *)nextTextView {
     NSArray *textViews = [NSArray arrayWithArray:self.textFields];
     NSPredicate *responderPredicate = [NSPredicate predicateWithFormat:@"isFirstResponder == YES"];
     UIView *currentTextView = [[textViews filteredArrayUsingPredicate:responderPredicate] firstObject];
@@ -176,7 +171,7 @@
     return nextTextView;
 }
 
--(UIView *)prevTextView {
+- (UIView *)prevTextView {
     NSArray *textViews = [NSArray arrayWithArray:self.textFields];
     NSPredicate *responderPredicate = [NSPredicate predicateWithFormat:@"isFirstResponder == YES"];
     UIView *currentTextView = [[textViews filteredArrayUsingPredicate:responderPredicate] firstObject];
@@ -199,15 +194,15 @@
     }
 }
 
--(void)keyboardPrevButtonPressed {
+- (void)keyboardPrevButtonPressed {
     [self prevTextView];
 }
 
--(void)keyboardNextButtonPressed {
+- (void)keyboardNextButtonPressed {
     [self nextTextView];
 }
 
--(void)keyboardDoneButtonPressed {
+- (void)keyboardDoneButtonPressed {
     [self stopEditing];
 }
 

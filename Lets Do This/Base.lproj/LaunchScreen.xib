@@ -10,14 +10,15 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ds-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="ykC-YV-aNs">
-                    <rect key="frame" x="160" y="170" width="160" height="140"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Full Background" translatesAutoresizingMaskIntoConstraints="NO" id="yZU-0F-sit">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" red="1" green="0.6470588235294118" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="centerX" secondItem="ykC-YV-aNs" secondAttribute="centerX" id="a9E-w5-9gu"/>
-                <constraint firstAttribute="centerY" secondItem="ykC-YV-aNs" secondAttribute="centerY" id="ehJ-oh-ldi"/>
+                <constraint firstItem="yZU-0F-sit" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="71j-rF-G1r"/>
+                <constraint firstAttribute="bottom" secondItem="yZU-0F-sit" secondAttribute="bottom" id="Up8-Sp-Bmf"/>
+                <constraint firstItem="yZU-0F-sit" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jN5-BI-MwT"/>
+                <constraint firstAttribute="trailing" secondItem="yZU-0F-sit" secondAttribute="trailing" id="xtI-pk-fQh"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -25,6 +26,6 @@
         </view>
     </objects>
     <resources>
-        <image name="ds-logo.png" width="160" height="140"/>
+        <image name="Full Background" width="375" height="668"/>
     </resources>
 </document>

@@ -7,25 +7,31 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DSOCampaign.h"
 
 @class DSOUser;
 
 @interface DSOUser : NSObject
 
-@property (nonatomic, strong) NSString *userID;
+@property (nonatomic, strong, readonly) NSString *userID;
+@property (nonatomic, assign, readonly) NSInteger phoenixID;
+@property (nonatomic, strong, readonly) NSString *sessionToken;
+@property (nonatomic, strong, readonly) NSString *countryCode;
+@property (nonatomic, strong, readonly) NSString *countryName;
 @property (nonatomic, strong, readonly) NSString *displayName;
-@property (nonatomic, strong) NSString *firstName;
-@property (nonatomic, strong) NSString *lastName;
-@property (nonatomic, strong) NSString *email;
-@property (nonatomic, strong) NSString *mobile;
-@property (nonatomic, strong) NSDate *birthdate;
-@property (nonatomic, strong) UIImage *photo;
+@property (nonatomic, strong, readonly) NSString *firstName;
+@property (nonatomic, strong, readonly) NSString *email;
+@property (nonatomic, strong, readonly) NSString *mobile;
+@property (nonatomic, strong, readonly) UIImage *photo;
+// Dictionary of campaign activity data.
+@property (nonatomic, strong, readonly) NSDictionary *campaigns;
+@property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsDoing;
+@property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsCompleted;
 
-@property (nonatomic, strong) NSMutableDictionary *campaignsDoing;
-@property (nonatomic, strong) NSMutableDictionary *campaignsCompleted;
-
--(id)initWithDict:(NSDictionary*)dict;
-
--(UIImage *)getPhoto;
+- (instancetype)initWithNorthstarDict:(NSDictionary*)northstarDict;
+- (instancetype)initWithPhoenixDict:(NSDictionary *)phoenixDict;
+- (void)setPhoto:(UIImage *)image;
+- (BOOL)isDoingCampaign:(DSOCampaign *)campaign;
+- (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign;
 
 @end

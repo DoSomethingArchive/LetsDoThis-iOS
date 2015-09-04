@@ -10,6 +10,7 @@
 #import "LDTTheme.h"
 
 @interface LDTLoadingViewController ()
+
 @property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
@@ -20,7 +21,7 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [LDTTheme orangeColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
     self.loadingLabel.font = [LDTTheme font];
     self.loadingLabel.textColor = [UIColor whiteColor];
 

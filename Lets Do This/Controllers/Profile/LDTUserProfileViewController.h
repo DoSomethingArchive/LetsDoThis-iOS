@@ -12,6 +12,7 @@
 @interface LDTUserProfileViewController : UIViewController
 
 @property (strong, nonatomic) DSOUser *user;
+
 -(instancetype)initWithUser:(DSOUser *)user;
 
 @end
