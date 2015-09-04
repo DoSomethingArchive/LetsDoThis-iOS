@@ -85,6 +85,18 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     }];
 }
 
+- (void)configureCampaignCell:(LDTCampaignDetailCampaignCell *)cell {
+    cell.titleLabelText = self.campaign.title;
+    cell.taglineLabelText = self.campaign.tagline;
+    cell.problemLabelText = self.campaign.factProblem;
+    cell.coverImageURL = self.campaign.coverImageURL;
+    NSString *actionButtonTitle = @"Prove it";
+    if ([[DSOUserManager sharedInstance].user hasCompletedCampaign:self.campaign]) {
+        actionButtonTitle = @"Proved it";
+    }
+    cell.actionButtonTitle = actionButtonTitle;
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -102,7 +114,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 
     if (indexPath.section == LDTSectionTypeCampaign) {
         LDTCampaignDetailCampaignCell *cell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
-        [cell displayForCampaign:self.campaign];
+        [self configureCampaignCell:cell];
         return cell;
     }
 
@@ -134,6 +146,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     CGFloat height = 440;
     if (indexPath.section == LDTSectionTypeCampaign) {
+        // @todo: Should this be dynamic based on the campaign content?
         height = 350;
     }
     return CGSizeMake(width, height);
