@@ -273,9 +273,11 @@ const CGFloat kHeightExpanded = 400;
             }];
         }
         else {
+			LDTCampaignListCampaignCell *expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];			
             self.selectedIndexPath = indexPath;
             [UIView animateWithDuration:0.2f animations:^{
 #warning And here
+				[expandedCell collapse];
                 [cell expand];
                 [self.view layoutIfNeeded];
             }];
