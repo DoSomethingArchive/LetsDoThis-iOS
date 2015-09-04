@@ -25,18 +25,6 @@
     [self styleView];
 }
 
-- (void)displayForCampaign:(DSOCampaign *)campaign {
-    self.titleLabel.text = [campaign.title uppercaseString];
-    self.taglineLabel.text = campaign.tagline;
-    self.problemLabel.text = campaign.factProblem;
-    [self.coverImageView sd_setImageWithURL:campaign.coverImageURL];
-    NSString *actionButtonTitle = @"Prove it";
-    if ([[DSOUserManager sharedInstance].user hasCompletedCampaign:campaign]) {
-        actionButtonTitle = @"Proved it";
-    }
-    [self.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
-}
-
 - (void)styleView {
     self.titleLabel.font  = [LDTTheme fontTitle];
     self.titleLabel.textColor = [UIColor whiteColor];
@@ -45,6 +33,26 @@
     self.problemLabel.font = [LDTTheme font];
     [self.coverImageView addGrayTint];
     [self.actionButton enable];
+}
+
+- (void)setActionButtonTitle:(NSString *)actionButtonTitle {
+    [self.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
+}
+
+- (void)setCoverImageURL:(NSURL *)coverImageURL {
+    [self.coverImageView sd_setImageWithURL:coverImageURL];
+}
+
+- (void)setProblemLabelText:(NSString *)problemLabelText {
+    self.problemLabel.text = problemLabelText;
+}
+
+- (void)setTaglineLabelText:(NSString *)taglineLabelText {
+    self.taglineLabel.text = taglineLabelText;
+}
+
+- (void)setTitleLabelText:(NSString *)titleLabelText{
+    self.titleLabel.text = [titleLabelText uppercaseString];
 }
 
 @end
