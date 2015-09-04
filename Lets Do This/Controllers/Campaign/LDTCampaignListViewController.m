@@ -220,8 +220,6 @@ const CGFloat kHeightExpanded = 400;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
-
     if (indexPath.section == LDTSectionTypeCampaign) {
 #warning Name cells better--there are two types
 // Should be campaignListCell or something
@@ -230,13 +228,11 @@ const CGFloat kHeightExpanded = 400;
         cell.delegate = self;
         return cell;
     }
-
     if (indexPath.section == LDTSectionTypeReportback) {
         LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         [self configureReportbackItemCell:cell atIndexPath:indexPath];
         return cell;
     }
-
     return nil;
 }
 
