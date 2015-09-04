@@ -16,12 +16,13 @@
 
 @property (nonatomic, strong, readwrite) NSString *userID;
 @property (nonatomic, assign, readwrite) NSInteger phoenixID;
-@property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *email;
 @property (nonatomic, strong, readwrite) NSString *mobile;
+@property (nonatomic, strong, readwrite) NSString *photoPath;
+@property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) UIImage *photo;
 @property (nonatomic, strong, readwrite) NSDictionary *campaigns;
 @property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignsDoing;
@@ -69,8 +70,14 @@
 }
 
 - (UIImage *)photo {
+    // if user is the logged in user, the user.photoPath exists, and the file exists, return the locally saved file and attach it to the _photo property.
     if (!_photo) {
-        return [UIImage imageNamed:@"Default Avatar"];
+        if (self.phoenixID == [DSOUserManager sharedInstance].user.phoenixID && self.photoPath) {
+            _photo = [UIImage imageWithContentsOfFile:self.photoPath];
+        }
+        else {
+            return [UIImage imageNamed:@"Default Avatar"];
+        }
 	}
 	return _photo;
 }
@@ -97,9 +104,29 @@
     return @"";
 }
 
+// Should I rename this function so that it's something like: setAndSavePhotoLocally? Or is it better to have this function call `savePhotoLocally` within it? Is it necessary to let everyone know that the function also saves it locally?
+
 - (void)setPhoto:(UIImage *)photo {
     _photo = photo;
+    
+    NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *photoPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpeg", @"cached"]];
+    
+    NSLog((@"pre writing to file"));
+    if (![photoData writeToFile:photoPath atomically:NO])
+    {
+        NSLog((@"Failed to cache photo data to disk"));
+    }
+    else
+    {
+        NSLog(@"image successfully cached");
+        NSLog((@"the cachedImagedPath is %@", photoPath));
+        self.photoPath = photoPath;
+    }
 }
+
 
 - (void)syncActiveMobileAppCampaigns {
     self.activeMobileAppCampaignsDoing = [[NSMutableArray alloc] init];
