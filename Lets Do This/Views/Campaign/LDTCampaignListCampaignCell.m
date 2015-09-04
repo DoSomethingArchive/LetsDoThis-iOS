@@ -8,10 +8,6 @@
 
 #import "LDTCampaignListCampaignCell.h"
 
-const CGFloat kCampaignCellHeightCollapsed = 32.0f;
-const CGFloat kCampaignCellHeightExpanded = 180.0f;
-const CGFloat kCampaignImageViewConstantCollapsed = -25;
-const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 @interface LDTCampaignListCampaignCell()
 
@@ -24,7 +20,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 @property (weak, nonatomic) IBOutlet UIView *actionView;
 @property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *expiresLabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleLabelTopLayoutConstraint;
+
 
 @end
 
@@ -66,18 +62,6 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 - (void)setActionButtonTitle:(NSString *)actionButtonTitle {
     [self.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
-}
-
-- (void)collapse {
-    self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightCollapsed;
-	self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
-	self.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
-}
-
-- (void)expand {
-    self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightExpanded;
-	self.imageViewTop.constant = kCampaignImageViewConstantExpanded;
-	self.imageViewBottom.constant = kCampaignImageViewConstantExpanded;
 }
 
 - (IBAction)actionButtonTouchUpInside:(id)sender {

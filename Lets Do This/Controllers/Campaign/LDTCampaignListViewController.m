@@ -28,6 +28,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSections) {
 
 const CGFloat kHeightCollapsed = 100;
 const CGFloat kHeightExpanded = 400;
+const CGFloat kCampaignCellHeightCollapsed = 32.0f;
+const CGFloat kCampaignCellHeightExpanded = 180.0f;
+const CGFloat kCampaignImageViewConstantCollapsed = -25;
+const CGFloat kCampaignImageViewConstantExpanded = 0;
+
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate>
 
@@ -178,6 +183,18 @@ const CGFloat kHeightExpanded = 400;
     cell.reportbackItemImageURL = reportbackItem.imageURL;
 }
 
+- (void)expandCampaignCell:(LDTCampaignListCampaignCell *)cell {
+    cell.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightExpanded;
+    cell.imageViewTop.constant = kCampaignImageViewConstantExpanded;
+    cell.imageViewBottom.constant = kCampaignImageViewConstantExpanded;
+}
+
+- (void)collapseCampaignCell:(LDTCampaignListCampaignCell *)cell {
+    cell.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightCollapsed;
+    cell.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
+    cell.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
+}
+
 #pragma mark - LDTCampaignListCampaignCellDelegate
 
 - (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell {
@@ -274,9 +291,7 @@ const CGFloat kHeightExpanded = 400;
         if ([self.selectedIndexPath isEqual:indexPath]) {
             self.selectedIndexPath = nil;
             [UIView animateWithDuration:0.2f animations:^{
-#warning Same here, just make the cell's height constraint public
-// And set it here
-                [cell collapse];
+                [self collapseCampaignCell:cell];
                 [self.view layoutIfNeeded];
             }];
         }
@@ -284,9 +299,8 @@ const CGFloat kHeightExpanded = 400;
 			LDTCampaignListCampaignCell *expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];			
             self.selectedIndexPath = indexPath;
             [UIView animateWithDuration:0.2f animations:^{
-#warning And here
-				[expandedCell collapse];
-                [cell expand];
+                [self collapseCampaignCell:expandedCell];
+                [self expandCampaignCell:cell];
                 [self.view layoutIfNeeded];
             }];
         }
