@@ -47,24 +47,25 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     [self.imageView addGrayTint];
 }
 
-- (void)displayForCampaign:(DSOCampaign *)campaign {
-    self.titleLabel.text = [campaign.title uppercaseString];
-    self.taglineLabel.text = campaign.tagline;
-    [self.imageView sd_setImageWithURL:campaign.coverImageURL];
-    [self collapse];
+- (void)setTitleLabelText:(NSString *)titleLabelText {
+    self.titleLabel.text = [titleLabelText uppercaseString];
+}
 
-    NSString *actionButtonTitle = @"Do this now";
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign]) {
-        actionButtonTitle = @"Prove it";
-    }
+- (void)setTaglineLabelText:(NSString *)taglineLabelText {
+    self.taglineLabel.text = taglineLabelText;
+}
+
+- (void)setImageViewImageURL:(NSURL *)imageURL {
+    [self.imageView sd_setImageWithURL:imageURL];
+}
+
+- (void)setExpiresDaysLabelText:(NSString *)expiresDaysLabelText {
+    // @todo: Should only set a DaysLabel - GH #226
+     self.expiresLabel.text = [expiresDaysLabelText uppercaseString];
+}
+
+- (void)setActionButtonTitle:(NSString *)actionButtonTitle {
     [self.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
-
-    // @todo: Split expiresLabel into 2.
-    NSString *expiresString = @"";
-    if ([campaign numberOfDaysLeft] > 0) {
-        expiresString = [NSString stringWithFormat:@"Expires in %li Days", (long)[campaign numberOfDaysLeft]];
-    }
-    self.expiresLabel.text = [expiresString uppercaseString];
 }
 
 - (void)collapse {
