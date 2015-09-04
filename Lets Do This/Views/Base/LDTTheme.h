@@ -8,17 +8,28 @@
 
 #import <Foundation/Foundation.h>
 #import "UIImageView+LDT.h"
+#import "LDTNavigationController.h"
+#import "LDTButton.h"
+#import "LDTMessage.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface LDTTheme : NSObject
 
-+(UIColor *)clickyBlue;
-+(UIColor *)disabledGray;
-+(UIColor *)facebookBlue;
-+(UIColor *)orangeColor;
-
++(UIColor *)ctaBlueColor;
++(UIColor *)disabledGrayColor;
++(UIColor *)facebookBlueColor;
++(UIColor *)lightGrayColor;
++(UIColor *)mediumGrayColor;
 +(UIFont *)font;
 +(UIFont *)fontBold;
-+(UIFont *)fontBoldWithSize:(CGFloat)fontSize;
-+(void)setLightningBackground:(UIView *)view;
++(UIFont *)fontCaption;
++(UIFont *)fontCaptionBold;
++(UIFont *)fontSubHeading;
++(UIFont *)fontHeading;
++(UIFont *)fontHeadingBold;
++(UIFont *)fontTitle;
++(NSString *)fontName;
++(NSString *)fontBoldName;
++(UIImage *)fullBackgroundImage;
 
 @end

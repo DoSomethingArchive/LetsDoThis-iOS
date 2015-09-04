@@ -33,33 +33,30 @@
     [super viewDidLoad];
 
     self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+
     self.headerLabel.text = @"Let's make this official. Create an account\nto find actions you can do with friends.";
     [self.registerButton setTitle:[@"Register" uppercaseString] forState:UIControlStateNormal];
     [self.facebookButton setTitle:@"Log in with Facebook" forState:UIControlStateNormal];
     [self.loginButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
 
-    [self theme];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.navigationItem.title = @"";
+    [self styleView];
 }
 
 #pragma mark - LDTUserConnectViewController
 
-- (void)theme {
-    [LDTTheme setLightningBackground:self.view];
+- (void)styleView {
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
 
     [self.headerLabel setFont:[LDTTheme font]];
     [self.headerLabel setTextColor:[UIColor whiteColor]];
 
-    [self.registerButton setBackgroundColor:[LDTTheme clickyBlue]];
+    [self.registerButton setBackgroundColor:[LDTTheme ctaBlueColor]];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.facebookButton setBackgroundColor:[LDTTheme facebookBlue]];
+    [self.facebookButton setBackgroundColor:[LDTTheme facebookBlueColor]];
     [self.facebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loginButton setBackgroundColor:[UIColor whiteColor]];
-    [self.loginButton setTitleColor:[LDTTheme clickyBlue] forState:UIControlStateNormal];
+    [self.loginButton setTitleColor:[LDTTheme ctaBlueColor] forState:UIControlStateNormal];
 }
 
 - (IBAction)registerTapped:(id)sender {
@@ -71,17 +68,10 @@
     // @todo: Actually connect to Facebook here.
     NSMutableDictionary *fbUser = [[NSMutableDictionary alloc] init];
     fbUser[@"first_name"] = @"John";
-    fbUser[@"last_name"] = @"Connor";
     fbUser[@"email"] = @"john.connor@dosomething.org";
     fbUser[@"photo"] = [UIImage imageNamed:@"john-connor.jpg"];
 
-    NSDateFormatter *mmddccyy = [[NSDateFormatter alloc] init];
-    mmddccyy.timeStyle = NSDateFormatterNoStyle;
-    mmddccyy.dateFormat = @"MM/dd/yyyy";
-    NSDate *birthdate = [mmddccyy dateFromString:@"12/11/1995"];
-    fbUser[@"birthdate"] = birthdate;
-
-    DSOUser *user = [[DSOUser alloc] initWithDict:fbUser];
+    DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:fbUser];
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:user];
     [self.navigationController pushViewController:destVC animated:YES];
 }

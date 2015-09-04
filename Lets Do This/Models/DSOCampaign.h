@@ -13,17 +13,18 @@
 
 @interface DSOCampaign : NSObject
 
-@property (nonatomic) NSInteger campaignID;
-@property (strong, nonatomic) NSString *title;
-@property (strong, nonatomic) NSString *callToAction;
-@property (strong, nonatomic) NSString *coverImage;
-@property (strong, nonatomic) NSString *reportbackNoun;
-@property (strong, nonatomic) NSString *reportbackVerb;
-@property (strong, nonatomic) NSString *factProblem;
-@property (strong, nonatomic) NSString *factSolution;
-@property (nonatomic, strong) NSURL *coverImageURL;
+@property (strong, nonatomic, readonly) NSArray *tags;
+@property (assign, nonatomic, readonly) NSInteger campaignID;
+@property (strong, nonatomic, readonly) NSString *coverImage;
+@property (strong, nonatomic, readonly) NSString *factProblem;
+@property (strong, nonatomic, readonly) NSString *factSolution;
+@property (strong, nonatomic, readonly) NSString *reportbackNoun;
+@property (strong, nonatomic, readonly) NSString *reportbackVerb;
+@property (strong, nonatomic, readonly) NSString *title;
+@property (strong, nonatomic, readonly) NSString *tagline;
+@property (strong, nonatomic, readonly) NSURL *coverImageURL;
 
--(id)initWithDict:(NSDictionary*)values;
-
+- (instancetype)initWithDict:(NSDictionary*)values;
+- (NSInteger)numberOfDaysLeft;
 
 @end

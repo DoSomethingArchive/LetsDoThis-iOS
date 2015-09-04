@@ -13,15 +13,21 @@
 #import "LDTUserConnectViewController.h"
 #import "LDTCampaignListViewController.h"
 #import "LDTSettingsViewController.h"
+#import "DSOCampaign.h"
 
-@interface LDTUserProfileViewController ()
+@interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate>
 
+@property (strong, nonatomic) NSMutableArray *campaignsDoing;
+@property (strong, nonatomic) NSMutableArray *campaignsCompleted;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-@property (weak, nonatomic) IBOutlet LDTButton *campaignsButton;
-- (IBAction)campaignsButtonTouchUpInside:(id)sender;
+
 @end
+
+static NSString *cellIdentifier;
 
 @implementation LDTUserProfileViewController
 
@@ -42,35 +48,59 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.hidesBackButton = YES;
-    self.nameLabel.text = [self.user displayName];
-    self.avatarImageView.image = [self.user getPhoto];
-    [self theme];
-    NSLog(@"campaignsDoing %@", self.user.campaignsDoing);
-    NSLog(@"campaignsCompleted %@", self.user.campaignsCompleted);
+    self.navigationItem.title = nil;
 
-    // @todo: Add conditional to only display if self.user != current user
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
-    self.navigationItem.rightBarButtonItem = anotherButton;
+    [self styleView];
+    [self updateUserDetails];
+
+    cellIdentifier = @"rowCell";
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
+
+    if (self.user.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) {
+        UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
+        self.navigationItem.rightBarButtonItem = settingsButton;
+    }
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.navigationItem.title = @"";
+- (void)viewDidAppear:(BOOL)animated  {
+    [super viewDidAppear:animated];
+
+    [self styleView];
+
+    [[DSOAPI sharedInstance] fetchUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
+        self.user = user;
+        self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
+        self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;
+        [self updateUserDetails];
+        [self.tableView reloadData];
+    } errorHandler:^(NSError *error) {
+        [LDTMessage displayErrorMessageForError:error];
+    }];
 }
 
 #pragma Mark - LDTUserProfileViewController
 
-- (void) theme {
-    [LDTTheme setLightningBackground:self.headerView];
+- (void)styleView {
     [self.avatarImageView addCircleFrame];
+    self.headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
+    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
+    [navVC setClear];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
-    [self.nameLabel setFont:[LDTTheme fontBoldWithSize:30]];
+    [self.nameLabel setFont:[LDTTheme fontTitle]];
     [self.nameLabel setTextColor:[UIColor whiteColor]];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
 
-    [self.campaignsButton setTitle:[@"Campaigns" uppercaseString] forState:UIControlStateNormal];
+    // Stolen from http://stackoverflow.com/questions/19802336/ios-7-changing-font-size-for-uitableview-section-headers
+    [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setFont:[LDTTheme fontBold]];
+    [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextAlignment:NSTextAlignmentCenter];
+}
+
+- (void)updateUserDetails {
+    self.nameLabel.text = [[self.user displayName] uppercaseString];
+    self.avatarImageView.image = self.user.photo;
 }
 
 - (IBAction)settingsTapped:(id)sender {
@@ -79,9 +109,53 @@
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
-- (IBAction)campaignsButtonTouchUpInside:(id)sender {
-    LDTCampaignListViewController *destVC = [[LDTCampaignListViewController alloc] initWithNibName:@"LDTCampaignListView" bundle:nil];
+#pragma mark -- UITableViewDataSource
 
-    [self.navigationController pushViewController:destVC animated:YES];
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *header = nil;
+    switch (section) {
+        case 0:
+            header = [@"Currently doing" uppercaseString];
+            break;
+        case 1:
+            header = [@"Been there, done good" uppercaseString];
+            break;
+    }
+    return header;
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSInteger rowCount;
+    switch (section) {
+        case 0:
+            rowCount = self.campaignsDoing.count;
+            break;
+        case 1:
+            rowCount = self.campaignsCompleted.count;
+            break;
+        default:
+            rowCount = 1;
+    }
+    return rowCount;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    DSOCampaign *campaign;
+    if (indexPath.section == 0) {
+        campaign = self.campaignsDoing[indexPath.row];
+    }
+    else {
+        campaign = self.campaignsCompleted[indexPath.row];
+    }
+    cell.textLabel.text = [campaign.title uppercaseString];
+    cell.userInteractionEnabled = YES;
+    cell.textLabel.font = [LDTTheme fontBold];
+    return cell;
+}
+
 @end

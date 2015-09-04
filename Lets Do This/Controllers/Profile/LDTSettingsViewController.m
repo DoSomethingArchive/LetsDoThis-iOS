@@ -11,15 +11,18 @@
 #import "LDTButton.h"
 #import "LDTMessage.h"
 #import "LDTTheme.h"
+#import "LDTNavigationController.h"
 #import "LDTUserConnectViewController.h"
 
 @interface LDTSettingsViewController()
+
+@property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
+@property (weak, nonatomic) IBOutlet UILabel *notificationsDetailLabel;
+@property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
-@property (weak, nonatomic) IBOutlet UILabel *notificationsDetailLabel;
-@property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
+
 - (IBAction)logoutButtonTouchUpInside:(id)sender;
-@property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 
 @end
 
@@ -29,12 +32,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.title = [@"Settings" uppercaseString];
     self.notificationsSwitch.enabled = FALSE;
     [self setSwitch];
-    [self theme];
-
+    [self styleView];
 }
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self setSwitch];
@@ -42,7 +46,10 @@
 
 #pragma LDTSettingsViewController
 
-- (void)theme {
+- (void)styleView {
+    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
+    [navVC setOrange];
+
     [self.notificationsLabel setFont:[LDTTheme fontBold]];
     self.notificationsLabel.text = @"Receive Notifications";
     [self.notificationsDetailLabel setFont:[LDTTheme font]];
@@ -53,7 +60,7 @@
 
     [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
-    [self.logoutButton setBackgroundColor:[LDTTheme clickyBlue]];
+    [self.logoutButton setBackgroundColor:[LDTTheme ctaBlueColor]];
 }
 
 - (void)setSwitch {
@@ -71,7 +78,7 @@
     [self confirmLogout];
 }
 
-- (void) confirmLogout {
+- (void)confirmLogout {
     UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Are you sure? We’ll miss you."
                                      message:nil
                                      preferredStyle:UIAlertControllerStyleActionSheet];
@@ -101,13 +108,21 @@
     [self confirmLogout];
 }
 
-- (void) logout {
-    [[DSOAuthenticationManager sharedInstance] logoutWithCompletionHandler:^(NSDictionary *response) {
-        LDTUserConnectViewController *destVC = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+- (void)logout {
+    [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
 
-        [self.navigationController pushViewController:destVC animated:YES];
+        // This VC is always presented within the TabBarVC, so kill it.
+        [self dismissViewControllerAnimated:YES completion:^{
+
+            LDTNavigationController *destVC = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] init]];
+            [LDTMessage setDefaultViewController:destVC];
+
+            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
+
+        }];
+
     } errorHandler:^(NSError *error) {
-        [LDTMessage errorMessage:error];
+        [LDTMessage displayErrorMessageForError:error];
     }];
 }
 @end

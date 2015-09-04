@@ -12,15 +12,16 @@
 #import <Parse/Parse.h>
 #import "LDTLoadingViewController.h"
 #import "LDTUserConnectViewController.h"
-#import "LDTUserProfileViewController.h"
 #import "LDTTheme.h"
 #import "LDTMessage.h"
 #import "LDTNavigationController.h"
-#import "DSOAuthenticationManager.h"
-
+#import "LDTTabBarController.h"
+#import "DSOUserManager.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface AppDelegate ()
-@property (strong, nonatomic) LDTNavigationController *navigationController;
+
 @end
 
 @implementation AppDelegate
@@ -28,8 +29,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-
-    NSDictionary *keysDictionary = [DSOAuthenticationManager keysDict];
+	[Fabric with:@[CrashlyticsKit]];
+	
+    NSDictionary *keysDictionary = [DSOUserManager keysDict];
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 
@@ -43,40 +45,50 @@
     [application registerForRemoteNotifications];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
+    [self.window makeKeyAndVisible];
 
-    DSOAuthenticationManager *auth = [DSOAuthenticationManager sharedInstance];
-    if ([auth hasCachedSession] == NO) {
-        NSLog(@"does not have cached session");
-        [self displayAnonymous];
-    }
-    else {
-        [self displayLoading];
-        [auth connectWithCachedSessionWithCompletionHandler:^(NSDictionary *response) {
-            [self displayAuthenticated];
-        } errorHandler:^(NSError *error) {
-            [self displayAnonymous];
-            [LDTMessage errorMessage:error];
-        }];
-    }
+#warning I'm wondering if it would make more sense
+// To do the user login/registration stuff and then get the active campaigns, as we can't view any campaigns unless
+// we have a logged in user, right? Under this implementation, we get the campaigns first when I feel that should
+// happen after the user's logged in or their auth token's retrieved/verified.  Then we potentially make one less
+// network call.
+	
+#warning I know we talked about
+// having the User Manager do some API-related things (or at least present an API to call our DSOAPI class),
+// but wasn't that only for the -syncCurrentUserWithCompletionHandler method?
+// I think we should fetch the campaigns directly through the DSOAPI class instead of through the User Manager.
+// We have a singleton on the User Manager, so we can update its `activeMobileAppCampaigns` property
+    [[DSOUserManager sharedInstance] fetchActiveMobileAppCampaignsWithCompletionHandler:^ {
+
+        if (![[DSOUserManager sharedInstance] userHasCachedSession]) {
+            [self displayUserConnectVC];
+        }
+        else {
+            [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
+                LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
+                [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
+            } errorHandler:^(NSError *error) {
+                [self displayUserConnectVC];
+                [LDTMessage displayErrorMessageForError:error];
+            }];
+        }
+
+    } errorHandler:^(NSError *error) {
+        [LDTMessage displayErrorMessageForError:error];
+#warning Handling connectivity loss
+        // @todo: Present a new NoConnectionViewController?
+    }];
+
     return YES;
+	
+
 }
 
-- (void)displayAnonymous {
-    self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
-    self.window.rootViewController = self.navigationController;
-    [self.window makeKeyAndVisible];
-}
-
-- (void)displayAuthenticated {
-    LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOAuthenticationManager sharedInstance].user];
-    // Navigation controller should already be initialized by the displayLoading method.
-    [self.navigationController pushViewController:profileVC animated:YES];
-}
-
-- (void)displayLoading {
-    self.navigationController = [[LDTNavigationController alloc]initWithRootViewController:[[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil]];
-    self.window.rootViewController = self.navigationController;
-    [self.window makeKeyAndVisible];
+- (void)displayUserConnectVC {
+    LDTNavigationController *navVC = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
+    [LDTMessage setDefaultViewController:navVC];
+    [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
