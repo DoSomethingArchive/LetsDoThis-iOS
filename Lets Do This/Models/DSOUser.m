@@ -38,6 +38,9 @@
 
     if (self) {
         self.userID = northstarDict[@"_id"];
+        if ([northstarDict objectForKey:@"country"]) {
+            self.countryCode = northstarDict[@"country"];
+        }
         self.phoenixID = [northstarDict[@"drupal_id"] intValue];
         self.firstName = northstarDict[@"first_name"];
         self.email = northstarDict[@"email"];
@@ -73,9 +76,25 @@
 }
 
 - (NSString *)countryName {
-    // @todo: Find the country name for user.countryCode if exists
-    // GH - https://github.com/DoSomething/LetsDoThis-iOS/issues/240
-    return @"United States";
+    if (!self.countryCode) {
+        return @"";
+    }
+    NSArray *countryCodes = [NSLocale ISOCountryCodes];
+    NSMutableArray *fullCountryNames = [NSMutableArray arrayWithCapacity:countryCodes.count];
+    
+    for (NSString *countryCode in countryCodes) {
+        // Finding a unique locale identifier from one geographic datum: the countryCode.
+        NSString *localeIdentifier = [NSLocale localeIdentifierFromComponents:[NSDictionary dictionaryWithObject:countryCode forKey:NSLocaleCountryCode]];
+        // Using that locale identifier to find all the information about that locale, and specifically retrieving its full name.
+        NSString *fullCountryName = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] displayNameForKey:NSLocaleIdentifier value:localeIdentifier];
+        [fullCountryNames addObject:fullCountryName];
+    }
+    
+    NSDictionary *codeForCountryDictionary = [[NSDictionary alloc] initWithObjects:fullCountryNames forKeys:countryCodes];
+    if (codeForCountryDictionary[self.countryCode]) {
+        return codeForCountryDictionary[self.countryCode];
+    }
+    return @"";
 }
 
 - (void)setPhoto:(UIImage *)photo {
