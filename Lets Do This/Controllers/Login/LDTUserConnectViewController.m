@@ -33,17 +33,14 @@
     [super viewDidLoad];
 
     self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+
     self.headerLabel.text = @"Let's make this official. Create an account\nto find actions you can do with friends.";
     [self.registerButton setTitle:[@"Register" uppercaseString] forState:UIControlStateNormal];
     [self.facebookButton setTitle:@"Log in with Facebook" forState:UIControlStateNormal];
     [self.loginButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
 
     [self styleView];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.navigationItem.title = @"";
 }
 
 #pragma mark - LDTUserConnectViewController

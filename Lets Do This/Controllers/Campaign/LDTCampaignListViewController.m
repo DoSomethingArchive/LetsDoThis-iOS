@@ -50,8 +50,11 @@ const CGFloat kHeightExpanded = 400;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+
     self.selectedIndexPath = nil;
 
     self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
@@ -80,13 +83,6 @@ const CGFloat kHeightExpanded = 400;
     [self.collectionView reloadData];
 
     [self styleView];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-
-    // Hides the navBar title when we present the CampaignDetailVC.
-    self.navigationItem.title = @"";
 }
 
 #pragma mark - LDTCampaignListViewController
