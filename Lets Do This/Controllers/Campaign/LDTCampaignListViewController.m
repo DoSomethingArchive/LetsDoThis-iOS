@@ -172,6 +172,12 @@ const CGFloat kHeightExpanded = 400;
     cell.expiresDaysLabelText = expiresString;
 }
 
+- (void)configureReportbackItemCell:(LDTCampaignListReportbackItemCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    NSArray *reportbackItems = self.interestGroups[[self selectedInterestGroupId]][@"reportbackItems"];
+    DSOReportbackItem *reportbackItem = (DSOReportbackItem *)reportbackItems[indexPath.row];
+    cell.reportbackItemImageURL = reportbackItem.imageURL;
+}
+
 #pragma mark - LDTCampaignListCampaignCellDelegate
 
 - (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell {
@@ -217,8 +223,6 @@ const CGFloat kHeightExpanded = 400;
     NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
 
     if (indexPath.section == LDTSectionTypeCampaign) {
-        NSArray *campaignList = interestGroup[@"campaigns"];
-        DSOCampaign *campaign = (DSOCampaign *)campaignList[indexPath.row];
 #warning Name cells better--there are two types
 // Should be campaignListCell or something
         LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
@@ -228,11 +232,8 @@ const CGFloat kHeightExpanded = 400;
     }
 
     if (indexPath.section == LDTSectionTypeReportback) {
-        NSArray *rbItems = interestGroup[@"reportbackItems"];
-        DSOReportbackItem *rbItem = rbItems[indexPath.row];
-#warning Same here
         LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-        [cell displayForReportbackItem:rbItem];
+        [self configureReportbackItemCell:cell atIndexPath:indexPath];
         return cell;
     }
 

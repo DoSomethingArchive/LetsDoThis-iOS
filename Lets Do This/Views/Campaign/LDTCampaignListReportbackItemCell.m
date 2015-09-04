@@ -17,14 +17,8 @@
 
 @implementation LDTCampaignListReportbackItemCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)displayForReportbackItem:(DSOReportbackItem *)rbItem {
-#warning Still need to specify failure options for image download
-	
-    [self.imageView sd_setImageWithURL:rbItem.imageURL];
+- (void)setReportbackItemImageURL:(NSURL *)reportbackItemImageURL {
+    [self.imageView sd_setImageWithURL:reportbackItemImageURL];
 }
 
 @end
