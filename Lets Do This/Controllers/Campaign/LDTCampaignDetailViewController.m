@@ -13,9 +13,9 @@
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTUserProfileViewController.h"
 
-typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
-    LDTSectionTypeCampaign = 0,
-    LDTSectionTypeReportback = 1
+typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
+    LDTCampaignDetailSectionTypeCampaign = 0,
+    LDTCampaignDetailSectionTypeReportback = 1
 };
 
 @interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTReportbackItemDetailViewDelegate>
@@ -113,7 +113,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (section == LDTSectionTypeReportback) {	
+    if (section == LDTCampaignDetailSectionTypeReportback) {
         return self.reportbackItems.count;
     }
     return 1;
@@ -125,13 +125,13 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.section == LDTSectionTypeCampaign) {
+    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         LDTCampaignDetailCampaignCell *cell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
         [self configureCampaignCell:cell];
         return cell;
     }
 
-    if (indexPath.section == LDTSectionTypeReportback) {
+    if (indexPath.section == LDTCampaignDetailSectionTypeReportback) {
         LDTCampaignDetailReportbackItemCell *cell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         [self configureReportbackItemDetailView:cell.reportbackItemDetailView forIndexPath:indexPath];
         return cell;
@@ -155,7 +155,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     CGFloat height = 480;
-    if (indexPath.section == LDTSectionTypeCampaign) {
+    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         // @todo: Should this be dynamic based on the campaign content?
         height = 350;
     }
@@ -163,7 +163,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    if (section == LDTSectionTypeReportback) {
+    if (section == LDTCampaignDetailSectionTypeReportback) {
         // Width is ignored here.
         return CGSizeMake(60.0f, 50.0f);
     }
