@@ -97,6 +97,19 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     cell.actionButtonTitle = actionButtonTitle;
 }
 
+- (void)configureReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView forIndexPath:(NSIndexPath *)indexPath {
+    reportbackItemDetailView.delegate = self;
+    DSOReportbackItem *reportbackItem = self.reportbackItems[indexPath.row];
+    reportbackItemDetailView.reportbackItem = reportbackItem;
+    reportbackItemDetailView.campaignButtonTitle = @"";
+    reportbackItemDetailView.captionLabelText = reportbackItem.caption;
+    reportbackItemDetailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", reportbackItem.quantity, reportbackItem.campaign.reportbackNoun, reportbackItem.campaign.reportbackVerb];
+    reportbackItemDetailView.reportbackItemImageURL = reportbackItem.imageURL;
+    reportbackItemDetailView.userAvatarImage = reportbackItem.user.photo;
+    reportbackItemDetailView.userCountryNameLabelText = reportbackItem.user.countryName;
+    reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -119,11 +132,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
     }
 
     if (indexPath.section == LDTSectionTypeReportback) {
-        DSOReportbackItem *reportbackItem = self.reportbackItems[indexPath.row];
         LDTCampaignDetailReportbackItemCell *cell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-        cell.reportbackItemDetailView.reportbackItem = reportbackItem;
-        cell.reportbackItemDetailView.delegate = self;
-        [cell.reportbackItemDetailView displayForReportbackItem];
+        [self configureReportbackItemDetailView:cell.reportbackItemDetailView forIndexPath:indexPath];
         return cell;
     }
 
@@ -144,7 +154,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
-    CGFloat height = 440;
+    CGFloat height = 480;
     if (indexPath.section == LDTSectionTypeCampaign) {
         // @todo: Should this be dynamic based on the campaign content?
         height = 350;
@@ -163,7 +173,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSections) {
 # pragma mark - LDTReportbackItemDetailViewDelegate
 
 - (void)didClickCampaignTitleButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
-    [self.collectionView setContentOffset:CGPointZero animated:YES];
+    return;
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {

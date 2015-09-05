@@ -40,13 +40,11 @@
     [super viewDidLoad];
 
     self.title = [self.reportbackItem.campaign.title uppercaseString];
-    self.reportbackItemDetailView.delegate = self;
-    self.reportbackItemDetailView.reportbackItem = self.reportbackItem;
-    [self.reportbackItemDetailView displayForReportbackItem];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+
+    [self configureReportbackItemDetailView];
 
     [self styleView];
-
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -60,6 +58,18 @@
 - (void)styleView {
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
+}
+
+- (void)configureReportbackItemDetailView {
+    self.reportbackItemDetailView.delegate = self;
+    self.reportbackItemDetailView.reportbackItem = self.reportbackItem;
+    self.reportbackItemDetailView.campaignButtonTitle = self.reportbackItem.campaign.title;
+    self.reportbackItemDetailView.captionLabelText = self.reportbackItem.caption;
+    self.reportbackItemDetailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", self.reportbackItem.quantity, self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
+    self.reportbackItemDetailView.reportbackItemImageURL = self.reportbackItem.imageURL;
+    self.reportbackItemDetailView.userAvatarImage = self.reportbackItem.user.photo;
+    self.reportbackItemDetailView.userCountryNameLabelText = self.reportbackItem.user.countryName;
+    self.reportbackItemDetailView.userDisplayNameButtonTitle = self.reportbackItem.user.displayName;
 }
 
 #pragma mark - LDTReportbackItemDetailViewDelegate
