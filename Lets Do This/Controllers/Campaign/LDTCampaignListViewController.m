@@ -66,7 +66,6 @@ const CGFloat kHeightExpanded = 400;
 
     [self styleView];
 	
-	self.collectionView.layer.speed = 0.7;
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 8.0f;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
@@ -265,20 +264,22 @@ const CGFloat kHeightExpanded = 400;
     }
 
     LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	[collectionView performBatchUpdates:^{
-        if ([self.selectedIndexPath isEqual:indexPath]) {
-            self.selectedIndexPath = nil;
+	[UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0 options:0 animations:^{
+		[collectionView performBatchUpdates:^{
+			if ([self.selectedIndexPath isEqual:indexPath]) {
+				self.selectedIndexPath = nil;
 				campaignCell.expanded = NO;
-        }
-        else {
-			LDTCampaignListCampaignCell *expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];			
-            self.selectedIndexPath = indexPath;
+			}
+			else {
+				LDTCampaignListCampaignCell *expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];
+				self.selectedIndexPath = indexPath;
 				expandedCell.expanded = NO;
 				campaignCell.expanded = YES;
-        }
-	} completion:^(BOOL finished) {
-		[self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
-	}];
+			}
+		} completion:^(BOOL finished) {
+			[self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
+		}];
+	} completion:nil];
 }
 
 #pragma UICollectionViewDelegateFlowLayout
