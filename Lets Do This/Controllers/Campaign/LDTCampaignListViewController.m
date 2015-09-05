@@ -161,6 +161,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 - (void)configureCampaignCell:(LDTCampaignListCampaignCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     NSArray *campaigns = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
     DSOCampaign *campaign = (DSOCampaign *)campaigns[indexPath.row];
+    cell.campaign = campaign;
     cell.titleLabelText = campaign.title;
     cell.taglineLabelText = campaign.tagline;
     cell.imageViewImageURL = campaign.coverImageURL;
@@ -198,17 +199,14 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 #pragma mark - LDTCampaignListCampaignCellDelegate
 
 - (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell {
-    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    NSArray *campaignList = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
-    DSOCampaign *campaign = campaignList[indexPath.row];
-    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
+    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:cell.campaign];
 
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:campaign]) {
+    if ([[DSOUserManager sharedInstance].user isDoingCampaign:cell.campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:cell.campaign]) {
         [self.navigationController pushViewController:destVC animated:YES];
     }
     else {
         [[DSOUserManager sharedInstance]
-         signupForCampaign:campaign
+         signupForCampaign:cell.campaign
          completionHandler:^(NSDictionary *response) {
             [self.navigationController pushViewController:destVC animated:YES];
             [TSMessage setDefaultViewController:self.navigationController];
