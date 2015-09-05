@@ -17,14 +17,10 @@
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 
-#warning The enum should be LDTCampaignListSectionType
-typedef NS_ENUM(NSInteger, LDTCampaignListSections) {
-// And this should be LDTCampaignListSectionTypeCampaign
-    LDTSectionTypeCampaign = 0,
-// And this should be LDTCampaignListSectionTypeReportback
-    LDTSectionTypeReportback = 1
+typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
+    LDTCampaignListSectionTypeCampaign = 0,
+    LDTCampaignListSectionTypeReportback = 1
 };
-// If that's too long, maybe we should rename this file, since it's really not just a campaign list
 
 const CGFloat kHeightCollapsed = 100;
 const CGFloat kHeightExpanded = 400;
@@ -224,7 +220,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
-    if (section == LDTSectionTypeReportback) {
+    if (section == LDTCampaignListSectionTypeReportback) {
         NSArray *rbItems = interestGroup[@"reportbackItems"];
         return rbItems.count;
     }
@@ -237,17 +233,15 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == LDTSectionTypeCampaign) {
-#warning Name cells better--there are two types
-// Should be campaignListCell or something
-        LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
-        [self configureCampaignCell:cell atIndexPath:indexPath];
-        return cell;
+    if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
+        LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+        [self configureCampaignCell:campaignCell atIndexPath:indexPath];
+        return campaignCell;
     }
-    if (indexPath.section == LDTSectionTypeReportback) {
-        LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-        [self configureReportbackItemCell:cell atIndexPath:indexPath];
-        return cell;
+    if (indexPath.section == LDTCampaignListSectionTypeReportback) {
+        LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
+        [self configureReportbackItemCell:reportbackItemCell atIndexPath:indexPath];
+        return reportbackItemCell;
     }
     return nil;
 }
@@ -256,14 +250,13 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     CGFloat height = kHeightCollapsed;
 
-    if (indexPath.section == LDTSectionTypeCampaign) {
+    if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
         if ([self.selectedIndexPath isEqual:indexPath]) {
             height = kHeightExpanded;
         }
     }
 
-    // Reportback Items:
-    if (indexPath.section == LDTSectionTypeReportback) {
+    if (indexPath.section == LDTCampaignListSectionTypeReportback) {
         // Subtract left, right, and middle gutters with width 8.
         width = width - 24;
         // Divide by half to fit 2 cells on a row.
@@ -277,19 +270,19 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.section == LDTSectionTypeReportback) {
-        LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
-        LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:cell.reportbackItem];
+    if (indexPath.section == LDTCampaignListSectionTypeReportback) {
+        LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:reportbackItemCell.reportbackItem];
         [self.navigationController pushViewController:destVC animated:YES];
         return;
     }
 
-    LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
 	[collectionView performBatchUpdates:^{
         if ([self.selectedIndexPath isEqual:indexPath]) {
             self.selectedIndexPath = nil;
             [UIView animateWithDuration:0.2f animations:^{
-                [self collapseCampaignCell:cell];
+                [self collapseCampaignCell:campaignCell];
                 [self.view layoutIfNeeded];
             }];
         }
@@ -298,7 +291,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
             self.selectedIndexPath = indexPath;
             [UIView animateWithDuration:0.2f animations:^{
                 [self collapseCampaignCell:expandedCell];
-                [self expandCampaignCell:cell];
+                [self expandCampaignCell:campaignCell];
                 [self.view layoutIfNeeded];
             }];
         }
@@ -310,7 +303,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 #pragma UICollectionViewDelegateFlowLayout
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    if (section == LDTSectionTypeReportback) {
+    if (section == LDTCampaignListSectionTypeReportback) {
         return 8.0f;
     }
     return 0.0f;
@@ -318,14 +311,14 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    if (section == LDTSectionTypeReportback){
+    if (section == LDTCampaignListSectionTypeReportback){
         return UIEdgeInsetsMake(8.0f, 8.0f, 0, 8.0f);
     }
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    if (section == LDTSectionTypeReportback) {
+    if (section == LDTCampaignListSectionTypeReportback) {
         // Width is ignored here.
         return CGSizeMake(60.0f, 50.0f);
     }
