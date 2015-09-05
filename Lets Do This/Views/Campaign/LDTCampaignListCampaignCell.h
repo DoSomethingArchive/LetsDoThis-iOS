@@ -21,10 +21,7 @@
 @property (strong, nonatomic) NSString *titleLabelText;
 @property (strong, nonatomic) NSString *taglineLabelText;
 @property (strong, nonatomic) NSURL *imageViewImageURL;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewBottom;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTop;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleLabelTopLayoutConstraint;
+@property (nonatomic, assign, getter=isExpanded) BOOL expanded;
 
 #warning Descriptive naming in xib files
 // The interface objects in the xib files (labels, views, etc.) should be named descriptively
