@@ -30,16 +30,6 @@
     [self styleView];
 }
 
-- (void)displayForReportbackItem {
-    [self.campaignTitleButton setTitle:self.reportbackItem.campaign.title forState:UIControlStateNormal];
-    self.reportbackItemQuantityLabel.text = [NSString stringWithFormat:@"%li %@ %@", self.reportbackItem.quantity, self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
-    self.reportbackItemCaptionLabel.text = self.reportbackItem.caption;
-    [self.reportbackItemImageView sd_setImageWithURL:self.reportbackItem.imageURL];
-    self.userAvatarImageView.image = self.reportbackItem.user.photo;
-    [self.userDisplayNameButton setTitle:[self.reportbackItem.user displayName] forState:UIControlStateNormal];
-    self.userCountryNameLabel.text = self.reportbackItem.user.countryName;
-}
-
 - (void)styleView {
     self.campaignTitleButton.titleLabel.font = [LDTTheme fontBold];
     self.reportbackItemCaptionLabel.font = [LDTTheme font];
@@ -48,6 +38,34 @@
     self.userCountryNameLabel.font = [LDTTheme fontCaption];
     self.userCountryNameLabel.textColor = [LDTTheme mediumGrayColor];
     self.userDisplayNameButton.titleLabel.font = [LDTTheme fontBold];
+}
+
+- (void)setCampaignButtonTitle:(NSString *)campaignButtonTitle {
+    [self.campaignTitleButton setTitle:campaignButtonTitle forState:UIControlStateNormal];
+}
+
+- (void)setCaptionLabelText:(NSString *)captionLabelText {
+    self.reportbackItemCaptionLabel.text = captionLabelText;
+}
+
+- (void)setQuantityLabelText:(NSString *)quantityLabelText {
+    self.reportbackItemQuantityLabel.text = quantityLabelText;
+}
+
+- (void)setReportbackItemImageURL:(NSURL *)reportbackItemImageURL {
+    [self.reportbackItemImageView sd_setImageWithURL:reportbackItemImageURL];
+}
+
+- (void)setUserAvatarImage:(UIImage *)userAvatarImage {
+    self.userAvatarImageView.image = userAvatarImage;
+}
+
+- (void)setUserCountryNameLabelText:(NSString *)userCountryNameLabelText {
+    self.userCountryNameLabel.text = [userCountryNameLabelText uppercaseString];
+}
+
+- (void)setUserDisplayNameButtonTitle:(NSString *)userDisplayNameButtonTitle {
+    [self.userDisplayNameButton setTitle:[userDisplayNameButtonTitle uppercaseString] forState:UIControlStateNormal];
 }
 
 - (IBAction)campaignTitleButtonTouchUpInside:(id)sender {
