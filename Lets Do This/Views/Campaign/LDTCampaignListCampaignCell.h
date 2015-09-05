@@ -15,6 +15,7 @@
 
 @property (weak, nonatomic) id<LDTCampaignListCampaignCellDelegate> delegate;
 
+@property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) NSString *actionButtonTitle;
 @property (strong, nonatomic) NSString *expiresDaysLabelText;
 @property (strong, nonatomic) NSString *titleLabelText;
