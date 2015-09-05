@@ -65,7 +65,8 @@ const CGFloat kHeightExpanded = 400;
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
 
     [self styleView];
-
+	
+	self.collectionView.layer.speed = 0.7;
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 8.0f;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
@@ -267,19 +268,13 @@ const CGFloat kHeightExpanded = 400;
 	[collectionView performBatchUpdates:^{
         if ([self.selectedIndexPath isEqual:indexPath]) {
             self.selectedIndexPath = nil;
-            [UIView animateWithDuration:0.2f animations:^{
 				campaignCell.expanded = NO;
-                [self.view layoutIfNeeded];
-            }];
         }
         else {
 			LDTCampaignListCampaignCell *expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];			
             self.selectedIndexPath = indexPath;
-            [UIView animateWithDuration:0.2f animations:^{
 				expandedCell.expanded = NO;
 				campaignCell.expanded = YES;
-                [self.view layoutIfNeeded];
-            }];
         }
 	} completion:^(BOOL finished) {
 		[self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
