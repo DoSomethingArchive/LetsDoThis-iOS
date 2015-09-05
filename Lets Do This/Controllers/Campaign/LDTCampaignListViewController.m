@@ -159,6 +159,9 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (void)configureCampaignCell:(LDTCampaignListCampaignCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+	if (!self.selectedIndexPath) {
+		[self collapseCampaignCell:cell];
+	}
     NSArray *campaigns = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
     DSOCampaign *campaign = (DSOCampaign *)campaigns[indexPath.row];
     cell.titleLabelText = campaign.title;
