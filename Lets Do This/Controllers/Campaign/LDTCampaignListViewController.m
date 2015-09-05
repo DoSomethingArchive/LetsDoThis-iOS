@@ -159,6 +159,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (void)configureCampaignCell:(LDTCampaignListCampaignCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    cell.delegate = self;
     NSArray *campaigns = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
     DSOCampaign *campaign = (DSOCampaign *)campaigns[indexPath.row];
     cell.campaign = campaign;
@@ -181,6 +182,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 - (void)configureReportbackItemCell:(LDTCampaignListReportbackItemCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     NSArray *reportbackItems = self.interestGroups[[self selectedInterestGroupId]][@"reportbackItems"];
     DSOReportbackItem *reportbackItem = (DSOReportbackItem *)reportbackItems[indexPath.row];
+    cell.reportbackItem = reportbackItem;
     cell.reportbackItemImageURL = reportbackItem.imageURL;
 }
 
@@ -240,7 +242,6 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 // Should be campaignListCell or something
         LDTCampaignListCampaignCell *cell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
         [self configureCampaignCell:cell atIndexPath:indexPath];
-        cell.delegate = self;
         return cell;
     }
     if (indexPath.section == LDTSectionTypeReportback) {
@@ -277,9 +278,8 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.section == LDTSectionTypeReportback) {
-        NSArray *rbItems = self.interestGroups[[self selectedInterestGroupId]][@"reportbackItems"];
-        DSOReportbackItem *reportbackItem = rbItems[indexPath.row];
-        LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:reportbackItem];
+        LDTCampaignListReportbackItemCell *cell = (LDTCampaignListReportbackItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:cell.reportbackItem];
         [self.navigationController pushViewController:destVC animated:YES];
         return;
     }
