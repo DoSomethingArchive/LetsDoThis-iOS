@@ -24,11 +24,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 
 const CGFloat kHeightCollapsed = 100;
 const CGFloat kHeightExpanded = 400;
-const CGFloat kCampaignCellHeightCollapsed = 32.0f;
-const CGFloat kCampaignCellHeightExpanded = 180.0f;
-const CGFloat kCampaignImageViewConstantCollapsed = -25;
-const CGFloat kCampaignImageViewConstantExpanded = 0;
-
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate>
 
@@ -156,6 +151,9 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 - (void)configureCampaignCell:(LDTCampaignListCampaignCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     cell.delegate = self;
+	if (!self.selectedIndexPath && cell.isExpanded) {
+		cell.expanded = NO;
+	}
     NSArray *campaigns = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
     DSOCampaign *campaign = (DSOCampaign *)campaigns[indexPath.row];
     cell.campaign = campaign;
@@ -180,18 +178,6 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     DSOReportbackItem *reportbackItem = (DSOReportbackItem *)reportbackItems[indexPath.row];
     cell.reportbackItem = reportbackItem;
     cell.reportbackItemImageURL = reportbackItem.imageURL;
-}
-
-- (void)expandCampaignCell:(LDTCampaignListCampaignCell *)cell {
-    cell.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightExpanded;
-    cell.imageViewTop.constant = kCampaignImageViewConstantExpanded;
-    cell.imageViewBottom.constant = kCampaignImageViewConstantExpanded;
-}
-
-- (void)collapseCampaignCell:(LDTCampaignListCampaignCell *)cell {
-    cell.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightCollapsed;
-    cell.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
-    cell.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
 }
 
 #pragma mark - LDTCampaignListCampaignCellDelegate
@@ -282,7 +268,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
         if ([self.selectedIndexPath isEqual:indexPath]) {
             self.selectedIndexPath = nil;
             [UIView animateWithDuration:0.2f animations:^{
-                [self collapseCampaignCell:campaignCell];
+				campaignCell.expanded = NO;
                 [self.view layoutIfNeeded];
             }];
         }
@@ -290,8 +276,8 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 			LDTCampaignListCampaignCell *expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];			
             self.selectedIndexPath = indexPath;
             [UIView animateWithDuration:0.2f animations:^{
-                [self collapseCampaignCell:expandedCell];
-                [self expandCampaignCell:campaignCell];
+				expandedCell.expanded = NO;
+				campaignCell.expanded = YES;
                 [self.view layoutIfNeeded];
             }];
         }
