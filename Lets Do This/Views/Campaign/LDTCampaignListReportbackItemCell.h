@@ -10,6 +10,7 @@
 
 @interface LDTCampaignListReportbackItemCell : UICollectionViewCell
 
+@property (strong, nonatomic) DSOReportbackItem *reportbackItem;
 @property (strong, nonatomic) NSURL *reportbackItemImageURL;
 
 @end
