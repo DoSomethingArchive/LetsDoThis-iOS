@@ -70,9 +70,9 @@
 }
 
 - (UIImage *)photo {
-    // if user is the logged in user, the user.photoPath exists, and the file exists, return the locally saved file and attach it to the _photo property.
+    // If this user is the logged in user, the user.photoPath exists, and the file exists, return the locally saved file.
     if (!_photo) {
-        if (self.phoenixID == [DSOUserManager sharedInstance].user.phoenixID && self.photoPath) {
+        if ((self.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) && self.photoPath) {
             _photo = [UIImage imageWithContentsOfFile:self.photoPath];
         }
         else {
@@ -104,29 +104,25 @@
     return @"";
 }
 
-// Should I rename this function so that it's something like: setAndSavePhotoLocally? Or is it better to have this function call `savePhotoLocally` within it? Is it necessary to let everyone know that the function also saves it locally?
-
 - (void)setPhoto:(UIImage *)photo {
     _photo = photo;
-    
-    NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *photoPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpeg", @"cached"]];
-    
-    NSLog((@"pre writing to file"));
-    if (![photoData writeToFile:photoPath atomically:NO])
-    {
-        NSLog((@"Failed to cache photo data to disk"));
-    }
-    else
-    {
-        NSLog(@"image successfully cached");
-        NSLog((@"the cachedImagedPath is %@", photoPath));
-        self.photoPath = photoPath;
-    }
-}
 
+    if (photo) {
+        NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
+        NSArray *storagePaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [storagePaths objectAtIndex:0];
+        NSString *photoPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpeg", @"cached"]];
+
+        if (![photoData writeToFile:photoPath atomically:NO]) {
+            NSLog((@"Failed to cache photo data to disk"));
+        }
+        else {
+            NSLog((@"Image successfully cached. The cachedImagedPath is %@", photoPath));
+            self.photoPath = photoPath;
+        }
+    }
+
+}
 
 - (void)syncActiveMobileAppCampaigns {
     self.activeMobileAppCampaignsDoing = [[NSMutableArray alloc] init];
