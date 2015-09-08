@@ -21,7 +21,6 @@
 @property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *email;
 @property (nonatomic, strong, readwrite) NSString *mobile;
-@property (nonatomic, strong, readwrite) NSString *photoPath;
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) UIImage *photo;
 @property (nonatomic, strong, readwrite) NSDictionary *campaigns;
@@ -70,10 +69,12 @@
 }
 
 - (UIImage *)photo {
-    // If this user is the logged in user, the user.photoPath exists, and the file exists, return the locally saved file.
     if (!_photo) {
-        if ((self.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) && self.photoPath) {
-            _photo = [UIImage imageWithContentsOfFile:self.photoPath];
+        NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *cachedAvatarPhotoPath = [storedUserDefaults objectForKey:@"cachedAvatarPhotoPath"];
+        // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
+        if ((self.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) && cachedAvatarPhotoPath) {
+            _photo = [UIImage imageWithContentsOfFile:cachedAvatarPhotoPath];
         }
         else {
             return [UIImage imageNamed:@"Default Avatar"];
@@ -111,14 +112,16 @@
         NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
         NSArray *storagePaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [storagePaths objectAtIndex:0];
-        NSString *photoPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpeg", @"cached"]];
+        NSString *cachedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpeg", @"cached"]];
+        NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
 
-        if (![photoData writeToFile:photoPath atomically:NO]) {
+        if (![photoData writeToFile:cachedAvatarPhotoPath atomically:NO]) {
             NSLog((@"Failed to cache photo data to disk"));
         }
         else {
-            NSLog((@"Image successfully cached. The cachedImagedPath is %@", photoPath));
-            self.photoPath = photoPath;
+            [storedUserDefaults setObject:cachedAvatarPhotoPath forKey:@"cachedAvatarPhotoPath"];
+            [storedUserDefaults synchronize];
+            NSLog((@"Avatar photo path successfully cached. The path is is %@", cachedAvatarPhotoPath));
         }
     }
 
