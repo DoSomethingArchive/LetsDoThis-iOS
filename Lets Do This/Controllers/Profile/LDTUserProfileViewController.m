@@ -69,15 +69,22 @@ static NSString *cellIdentifier;
 
     [self styleView];
 
-    [[DSOAPI sharedInstance] fetchUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
-        self.user = user;
+    if (self.user.phoenixID != [DSOUserManager sharedInstance].user.phoenixID) {
+        [[DSOAPI sharedInstance] fetchUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
+            self.user = user;
+            self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
+            self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;
+            [self updateUserDetails];
+            [self.tableView reloadData];
+        } errorHandler:^(NSError *error) {
+            [LDTMessage displayErrorMessageForError:error];
+        }];
+    }
+    else {
         self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
-        self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;
         [self updateUserDetails];
         [self.tableView reloadData];
-    } errorHandler:^(NSError *error) {
-        [LDTMessage displayErrorMessageForError:error];
-    }];
+    }
 }
 
 #pragma Mark - LDTUserProfileViewController
