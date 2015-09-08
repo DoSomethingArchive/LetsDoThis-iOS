@@ -264,7 +264,7 @@ const CGFloat kHeightExpanded = 400;
     }
 
     LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	[UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0 options:0 animations:^{
+	[UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:0 animations:^{
 		[collectionView performBatchUpdates:^{
 			if ([self.selectedIndexPath isEqual:indexPath]) {
 				self.selectedIndexPath = nil;
