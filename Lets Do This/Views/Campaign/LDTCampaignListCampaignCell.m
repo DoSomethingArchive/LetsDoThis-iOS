@@ -80,26 +80,16 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 -(void)setExpanded:(BOOL)expanded {
 	if (expanded) {
-		[UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0.5 options:0 animations:^{
-			self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightExpanded;
-			[self layoutIfNeeded];
-		} completion:nil];
-		[UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0.5 options:0 animations:^{
-			self.imageViewTop.constant = kCampaignImageViewConstantExpanded;
-			self.imageViewBottom.constant = kCampaignImageViewConstantExpanded;
-			[self layoutIfNeeded];
-		} completion:nil];
+		self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightExpanded;
+		self.imageViewTop.constant = kCampaignImageViewConstantExpanded;
+		self.imageViewBottom.constant = kCampaignImageViewConstantExpanded;
+		[self layoutIfNeeded];
 	}
 	else {
-		[UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0.5 options:0 animations:^{
-			self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightCollapsed;
-			[self layoutIfNeeded];
-		} completion:nil];
-		[UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0.5 options:0 animations:^{
-			self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
-			self.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
-			[self layoutIfNeeded];
-		} completion:nil];
+		self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightCollapsed;
+		self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
+		self.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
+		[self layoutIfNeeded];
 	}
 	_expanded = expanded;
 }
