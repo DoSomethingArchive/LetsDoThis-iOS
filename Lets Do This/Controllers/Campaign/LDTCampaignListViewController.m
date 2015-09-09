@@ -160,11 +160,16 @@ const CGFloat kHeightExpanded = 400;
     cell.titleLabelText = campaign.title;
     cell.taglineLabelText = campaign.tagline;
     cell.imageViewImageURL = campaign.coverImageURL;
-    NSString *actionButtonTitle = @"Do this now";
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign]) {
-        actionButtonTitle = @"Prove it";
+
+    if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:campaign]) {
+        cell.actionButtonTitle = @"Prove it";
+        cell.isSignedUp = YES;
     }
-    cell.actionButtonTitle = actionButtonTitle;
+    else {
+        cell.actionButtonTitle = @"Do this now";
+        cell.isSignedUp = NO;
+    }
+
     // @todo: Split out expiresLabel - GH #226
     NSString *expiresString = @"";
     if ([campaign numberOfDaysLeft] > 0) {
