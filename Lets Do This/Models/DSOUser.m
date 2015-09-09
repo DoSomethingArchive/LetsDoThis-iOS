@@ -73,9 +73,9 @@
         // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
         if (self.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) {
             NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
-            NSString *cachedAvatarPhotoPath = [storedUserDefaults objectForKey:@"cachedAvatarPhotoPath"];
-            if (cachedAvatarPhotoPath) {
-                _photo = [UIImage imageWithContentsOfFile:cachedAvatarPhotoPath];
+            NSString *storedAvatarPhotoPath = [storedUserDefaults objectForKey:@"storedAvatarPhotoPath"];
+            if (storedAvatarPhotoPath) {
+                _photo = [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
             }
         }
         else {
@@ -93,16 +93,17 @@
             NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
             NSArray *storagePaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentsDirectory = [storagePaths objectAtIndex:0];
-            NSString *cachedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpeg", @"cached"]];
+            NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpeg", @"stored"]];
             NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
             
-            if (![photoData writeToFile:cachedAvatarPhotoPath atomically:NO]) {
-                NSLog((@"Failed to cache photo data to disk"));
+            if (![photoData writeToFile:storedAvatarPhotoPath atomically:NO]) {
+                NSLog((@"Failed to persist photo data to disk"));
             }
             else {
-                [storedUserDefaults setObject:cachedAvatarPhotoPath forKey:@"cachedAvatarPhotoPath"];
+                [storedUserDefaults setObject:storedAvatarPhotoPath forKey:@"storedAvatarPhotoPath"];
                 [storedUserDefaults synchronize];
-                NSLog((@"Avatar photo path successfully cached. The path is %@", cachedAvatarPhotoPath));
+                NSString *successMessage = [NSString stringWithFormat:@"Avatar successfully stored locally at path: %@", storedAvatarPhotoPath];
+                NSLog(successMessage, nil);
             }
         }
     }
