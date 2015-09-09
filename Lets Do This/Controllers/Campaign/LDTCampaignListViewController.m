@@ -115,7 +115,11 @@ const CGFloat kHeightExpanded = 400;
                                              };
     }
 
-    for (DSOCampaign *campaign in self.allCampaigns) {
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSArray *sortedCampaigns = [self.allCampaigns sortedArrayUsingDescriptors:sortDescriptors];
+
+    for (DSOCampaign *campaign in sortedCampaigns) {
         // Because all taxonomy terms are stored in the tags property, we have to loop through and find which ones are Interest Group terms.
         for (NSDictionary *termDict in campaign.tags) {
             NSNumber *termID = [NSNumber numberWithInt:[termDict[@"id"] intValue]];
