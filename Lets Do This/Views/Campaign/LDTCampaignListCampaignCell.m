@@ -24,6 +24,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 @property (weak, nonatomic) IBOutlet UIView *actionView;
 @property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *expiresLabel;
+@property (weak, nonatomic) IBOutlet UIView *signupIndicatorView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTop;
@@ -94,4 +95,12 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 	_expanded = expanded;
 }
 
+- (void)setIsSignedUp:(BOOL)isSignedUp {
+    if (isSignedUp) {
+        self.signupIndicatorView.backgroundColor = [UIColor colorWithRed:141.0f/255.0f green:196.0f/255.0f blue:85.0f/255.0f alpha:1.0f];
+    }
+    else {
+        self.signupIndicatorView.backgroundColor = [UIColor clearColor];
+    }
+}
 @end
