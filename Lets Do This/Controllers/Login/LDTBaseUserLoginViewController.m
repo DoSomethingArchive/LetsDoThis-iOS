@@ -43,23 +43,13 @@
 #pragma mark - LDTBaseUserLoginViewController
 
 - (void)startListeningForNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleKeyboardWillShowNotification:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleKeyboardWillHideNotification:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)stopListeningForNotifications {
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardWillShowNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardWillHideNotification
-                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (BOOL)validateEmail:(NSString *)candidate {
@@ -93,15 +83,11 @@
     UIViewAnimationCurve animationCurve = [notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue];
     UIViewAnimationOptions animationOptions = animationCurve << 16;
 
-    [UIView animateWithDuration:animationDuration
-                          delay:0
-                        options:animationOptions
-                     animations:^{
-                         // Scrollview scroll area adjusts to fit keyboard
-                         self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.view.frame.size.height - self.keyboardFrameInViewCoordinates.origin.y, 0);
-                         self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
-                     }
-                     completion:NULL];
+    [UIView animateWithDuration:animationDuration delay:0 options:animationOptions animations:^{
+         // Scrollview scroll area adjusts to fit keyboard
+         self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.view.frame.size.height - self.keyboardFrameInViewCoordinates.origin.y, 0);
+         self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
+     } completion:NULL];
 }
 
 - (void)handleKeyboardWillHideNotification:(NSNotification *)notification {
@@ -113,15 +99,11 @@
     UIViewAnimationCurve animationCurve = [notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue];
     UIViewAnimationOptions animationOptions = animationCurve << 16;
 
-    [UIView animateWithDuration:animationDuration
-                          delay:0
-                        options:animationOptions
-                     animations:^{
-                         // Scrollview scroll area goes back to full-size
-                         self.scrollView.contentInset =  UIEdgeInsetsMake(0, 0, self.bottomLayoutGuide.length, 0);
-                         self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
-                     }
-                     completion:NULL];
+    [UIView animateWithDuration:animationDuration delay:0 options:animationOptions animations:^{
+         // Scrollview scroll area goes back to full-size
+         self.scrollView.contentInset =  UIEdgeInsetsMake(0, 0, self.bottomLayoutGuide.length, 0);
+         self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
+     } completion:NULL];
 }
 
 - (CGRect)keyboardFrameInViewCoordinates:(UIView *)view {
