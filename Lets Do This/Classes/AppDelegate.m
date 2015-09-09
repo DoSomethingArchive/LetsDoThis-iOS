@@ -48,33 +48,25 @@
     self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
     [self.window makeKeyAndVisible];
 
-#warning I'm wondering if it would make more sense
-// To do the user login/registration stuff and then get the active campaigns, as we can't view any campaigns unless
-// we have a logged in user, right? Under this implementation, we get the campaigns first when I feel that should
-// happen after the user's logged in or their auth token's retrieved/verified.  Then we potentially make one less
-// network call.
-	
-    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
-        if (![[DSOUserManager sharedInstance] userHasCachedSession]) {
-            [self displayUserConnectVC];
-        }
-        else {
+    if (![[DSOUserManager sharedInstance] userHasCachedSession]) {
+        [self displayUserConnectVC];
+    }
+    else {
+        [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+            [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
             [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
                 LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
                 [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
-            } errorHandler:^(NSError *error) {
-                [self displayUserConnectVC];
-                [LDTMessage displayErrorMessageForError:error];
-            }];
-        }
-
-    } errorHandler:^(NSError *error) {
-        [LDTMessage displayErrorMessageForError:error];
-#warning Handling connectivity loss
-        // @todo: Present a new NoConnectionViewController?
-    }];
-
+                } errorHandler:^(NSError *error) {
+                    [self displayUserConnectVC];
+                    [LDTMessage displayErrorMessageForError:error];
+                }];
+        } errorHandler:^(NSError *error) {
+            [LDTMessage displayErrorMessageForError:error];
+#warning Handling connectivity loss and/or no campaigns
+            // @todo: Present a new NoConnectionViewController?
+        }];
+    }
     return YES;
 	
 

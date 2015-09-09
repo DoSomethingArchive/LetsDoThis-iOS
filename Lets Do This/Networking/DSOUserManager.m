@@ -59,6 +59,14 @@
           NSString *phoenixIDString = [NSString stringWithFormat:@"%li", (long)self.user.phoenixID];
           [SSKeychain setPassword:phoenixIDString forService:LDTSERVER account:@"PhoenixID"];
 
+          [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+              self.activeMobileAppCampaigns = campaigns;
+          } errorHandler:^(NSError *error) {
+              if (errorHandler) {
+                  errorHandler(error);
+              }
+          }];
+
           if (completionHandler) {
               completionHandler(user);
           }
