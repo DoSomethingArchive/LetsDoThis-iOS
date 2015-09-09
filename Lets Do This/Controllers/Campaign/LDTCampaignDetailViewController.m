@@ -77,7 +77,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 }
 
 - (void)fetchReportbackItems {
-    [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:@[self.campaign] completionHandler:^(NSArray *rbItems) {
+    [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:@[self.campaign] status:@"promoted" completionHandler:^(NSArray *rbItems) {
 		[self.reportbackItems addObjectsFromArray:rbItems];
         [self.collectionView reloadData];
     } errorHandler:^(NSError *error) {

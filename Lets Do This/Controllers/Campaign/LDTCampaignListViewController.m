@@ -132,7 +132,7 @@ const CGFloat kHeightExpanded = 400;
     }
 
     for (NSNumber *key in self.interestGroups) {
-        [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] completionHandler:^(NSArray *rbItems) {
+        [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:@"promoted" completionHandler:^(NSArray *rbItems) {
             for (DSOReportbackItem *rbItem in rbItems) {
                 [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
             }
