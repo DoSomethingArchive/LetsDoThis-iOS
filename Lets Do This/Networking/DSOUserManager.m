@@ -132,20 +132,6 @@
     }];
 }
 
-- (void)fetchActiveMobileAppCampaignsWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-        self.activeMobileAppCampaigns = campaigns;
-        if (completionHandler) {
-            completionHandler();
-        }
-    } errorHandler:^(NSError *error) {
-        if (errorHandler) {
-            errorHandler(error);
-        }
-    }];
-
-}
-
 - (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID {
     for (DSOCampaign *campaign in self.activeMobileAppCampaigns) {
         if (campaign.campaignID == campaignID) {
