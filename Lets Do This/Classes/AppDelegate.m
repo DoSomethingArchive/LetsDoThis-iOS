@@ -54,13 +54,8 @@
 // happen after the user's logged in or their auth token's retrieved/verified.  Then we potentially make one less
 // network call.
 	
-#warning I know we talked about
-// having the User Manager do some API-related things (or at least present an API to call our DSOAPI class),
-// but wasn't that only for the -syncCurrentUserWithCompletionHandler method?
-// I think we should fetch the campaigns directly through the DSOAPI class instead of through the User Manager.
-// We have a singleton on the User Manager, so we can update its `activeMobileAppCampaigns` property
-    [[DSOUserManager sharedInstance] fetchActiveMobileAppCampaignsWithCompletionHandler:^ {
-
+    [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
         if (![[DSOUserManager sharedInstance] userHasCachedSession]) {
             [self displayUserConnectVC];
         }
