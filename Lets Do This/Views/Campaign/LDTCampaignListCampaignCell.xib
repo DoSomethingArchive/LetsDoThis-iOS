@@ -24,6 +24,13 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gec-if-FXG">
+                        <rect key="frame" x="0.0" y="0.0" width="8" height="400"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="8" id="dgE-ab-Byo"/>
+                        </constraints>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rcw-DX-Omy">
                         <rect key="frame" x="0.0" y="242" width="385" height="158"/>
                         <subviews>
@@ -70,17 +77,22 @@
                 <constraint firstItem="YLY-38-HRb" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="5Ak-wS-aSM"/>
                 <constraint firstItem="YLY-38-HRb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="E0W-T1-ySj"/>
                 <constraint firstAttribute="trailing" secondItem="rcw-DX-Omy" secondAttribute="trailing" id="Fpi-jV-LHi"/>
+                <constraint firstItem="Gec-if-FXG" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="JTj-R3-fys"/>
+                <constraint firstItem="YLY-38-HRb" firstAttribute="bottom" secondItem="Gec-if-FXG" secondAttribute="bottom" constant="-158" id="MPW-P0-qG7"/>
                 <constraint firstItem="rcw-DX-Omy" firstAttribute="top" secondItem="YLY-38-HRb" secondAttribute="bottom" id="Rmg-UZ-qQD"/>
                 <constraint firstAttribute="trailing" secondItem="4Ct-iF-EqI" secondAttribute="trailing" constant="8" id="Y5T-wc-J5D"/>
                 <constraint firstItem="4Ct-iF-EqI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="ZSF-wd-D7m"/>
                 <constraint firstItem="rcw-DX-Omy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="cw8-5F-SFb"/>
+                <constraint firstItem="YLY-38-HRb" firstAttribute="top" secondItem="Gec-if-FXG" secondAttribute="top" id="jGi-ji-nBx"/>
                 <constraint firstAttribute="trailing" secondItem="YLY-38-HRb" secondAttribute="trailing" id="pfC-BV-Xsl"/>
                 <constraint firstAttribute="bottom" secondItem="4Ct-iF-EqI" secondAttribute="bottom" constant="8" id="qlO-On-fsP"/>
                 <constraint firstItem="4Ct-iF-EqI" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="32" id="rkg-tR-MYb"/>
+                <constraint firstItem="YLY-38-HRb" firstAttribute="height" secondItem="Gec-if-FXG" secondAttribute="height" id="s0L-zL-92e"/>
             </constraints>
             <size key="customSize" width="385" height="400"/>
             <variation key="default">
                 <mask key="constraints">
+                    <exclude reference="s0L-zL-92e"/>
                     <exclude reference="qlO-On-fsP"/>
                 </mask>
             </variation>
@@ -91,6 +103,7 @@
                 <outlet property="imageView" destination="YLY-38-HRb" id="cKD-59-2BH"/>
                 <outlet property="imageViewBottom" destination="Rmg-UZ-qQD" id="qpG-BT-Ojb"/>
                 <outlet property="imageViewTop" destination="5Ak-wS-aSM" id="7uL-K5-Q5X"/>
+                <outlet property="signupIndicatorView" destination="Gec-if-FXG" id="Ajc-CY-1j6"/>
                 <outlet property="taglineLabel" destination="vEa-dR-bea" id="BVl-yC-mfz"/>
                 <outlet property="titleLabel" destination="4Ct-iF-EqI" id="dO4-rM-JHV"/>
                 <outlet property="titleLabelTopLayoutConstraint" destination="rkg-tR-MYb" id="ulH-6g-kk7"/>
