@@ -61,6 +61,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
+                                        <action selector="emailEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="O3p-wm-uBo"/>
                                         <action selector="emailEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="Geq-eG-sRW"/>
                                     </connections>
                                 </textField>
