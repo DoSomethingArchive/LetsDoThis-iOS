@@ -49,6 +49,16 @@
     self.staticInstructionLabel.textColor = [UIColor whiteColor];
     self.staticInstructionLabel.font = [LDTTheme font];
     [self.actionButton enable];
+
+    CAShapeLayer *layer = [CAShapeLayer layer];
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0,0)];
+    [path addLineToPoint:CGPointMake(0, 26)];
+    [path addLineToPoint:CGPointMake(self.campaignDetailsView.frame.size.width, 0)];
+    [path closePath];
+    layer.path = path.CGPath;
+    layer.fillColor = [UIColor whiteColor].CGColor;
+    [self.campaignDetailsView.layer addSublayer:layer];
 }
 
 - (void)setActionButtonTitle:(NSString *)actionButtonTitle {
