@@ -13,14 +13,13 @@
 
 @property (weak, nonatomic) IBOutlet LDTButton *actionButton;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
-@property (weak, nonatomic) IBOutlet UILabel *problemLabel;
-@property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIView *campaignDetailsView;
 @property (weak, nonatomic) IBOutlet UILabel *campaignDetailsHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *solutionCopyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *solutionSupportCopyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *staticInstructionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIView *campaignDetailsView;
 
 @end
 
@@ -59,6 +58,11 @@
     layer.path = path.CGPath;
     layer.fillColor = [UIColor whiteColor].CGColor;
     [self.campaignDetailsView.layer addSublayer:layer];
+
+    self.coverImageView.layer.masksToBounds = NO;
+    self.coverImageView.layer.shadowOffset = CGSizeMake(0, 5);
+    self.coverImageView.layer.shadowRadius = 0.8f;
+    self.coverImageView.layer.shadowOpacity = 0.3;
 }
 
 - (void)setActionButtonTitle:(NSString *)actionButtonTitle {
