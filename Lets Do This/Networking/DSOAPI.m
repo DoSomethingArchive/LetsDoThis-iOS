@@ -103,7 +103,8 @@
                              @"password": password,
                              @"first_name": firstName,
                              @"mobile": mobile,
-                             @"country": countryCode};
+                             @"country": countryCode,
+                             @"source": @"ios"};
     
     [self POST:@"users?create_drupal_user=1" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
