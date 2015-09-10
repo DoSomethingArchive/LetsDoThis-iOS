@@ -59,8 +59,12 @@
     [self.coverImageView sd_setImageWithURL:coverImageURL];
 }
 
-- (void)setProblemLabelText:(NSString *)problemLabelText {
-    self.problemLabel.text = problemLabelText;
+- (void)setSolutionCopyLabelText:(NSString *)solutionCopyLabelText {
+    self.solutionCopyLabel.text = solutionCopyLabelText;
+}
+
+- (void)setSolutionSupportCopyLabelText:(NSString *)solutionSupportCopyLabelText {
+    self.solutionSupportCopyLabel.text = solutionSupportCopyLabelText;
 }
 
 - (void)setTaglineLabelText:(NSString *)taglineLabelText {
