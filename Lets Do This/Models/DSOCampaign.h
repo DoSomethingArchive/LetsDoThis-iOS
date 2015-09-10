@@ -16,8 +16,8 @@
 @property (strong, nonatomic, readonly) NSArray *tags;
 @property (assign, nonatomic, readonly) NSInteger campaignID;
 @property (strong, nonatomic, readonly) NSString *coverImage;
-@property (strong, nonatomic, readonly) NSString *factProblem;
-@property (strong, nonatomic, readonly) NSString *factSolution;
+@property (strong, nonatomic, readonly) NSString *solutionCopy;
+@property (strong, nonatomic, readonly) NSString *solutionSupportCopy;
 @property (strong, nonatomic, readonly) NSString *reportbackNoun;
 @property (strong, nonatomic, readonly) NSString *reportbackVerb;
 @property (strong, nonatomic, readonly) NSString *title;
