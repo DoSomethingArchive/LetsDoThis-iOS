@@ -161,7 +161,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     CGFloat height = 480;
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         // @todo: Can this be dynamic based on the Campaign Detail cell's content?
-        height = 600;
+        height = 660;
     }
     return CGSizeMake(width, height);
 }
