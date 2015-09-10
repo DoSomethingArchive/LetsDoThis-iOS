@@ -91,7 +91,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 - (void)configureCampaignCell:(LDTCampaignDetailCampaignCell *)cell {
     cell.titleLabelText = self.campaign.title;
     cell.taglineLabelText = self.campaign.tagline;
-    cell.problemLabelText = self.campaign.factProblem;
+    cell.solutionCopyLabelText = self.campaign.solutionCopy;
+    cell.solutionSupportCopyLabelText = self.campaign.solutionSupportCopy;
     cell.coverImageURL = self.campaign.coverImageURL;
     NSString *actionButtonTitle = @"Prove it";
     if ([[DSOUserManager sharedInstance].user hasCompletedCampaign:self.campaign]) {
@@ -159,8 +160,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     CGFloat height = 480;
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-        // @todo: Should this be dynamic based on the campaign content?
-        height = 350;
+        // @todo: Can this be dynamic based on the Campaign Detail cell's content?
+        height = 660;
     }
     return CGSizeMake(width, height);
 }
