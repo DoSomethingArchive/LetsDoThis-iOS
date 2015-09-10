@@ -20,6 +20,7 @@
 +(UIColor *)facebookBlueColor;
 +(UIColor *)lightGrayColor;
 +(UIColor *)mediumGrayColor;
++(UIColor *)orangeColor;
 +(UIFont *)font;
 +(UIFont *)fontBold;
 +(UIFont *)fontCaption;
