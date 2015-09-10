@@ -28,6 +28,7 @@
 - (void)awakeFromNib {
     [self styleView];
 
+    self.campaignDetailsHeadingLabel.text = [@"Do this" uppercaseString];
     self.staticInstructionLabel.text = @"When you’re done, submit your photo to us so you can show off and get props from your friends.";
 }
 
@@ -35,10 +36,8 @@
     self.titleLabel.font  = [LDTTheme fontTitle];
     self.titleLabel.textColor = [UIColor whiteColor];
     self.taglineLabel.font = [LDTTheme font];
-    self.problemLabel.font = [LDTTheme font];
     [self.coverImageView addGrayTint];
     self.campaignDetailsView.backgroundColor = [LDTTheme orangeColor];
-    self.campaignDetailsHeadingLabel.text = [@"Do this" uppercaseString];
     self.campaignDetailsHeadingLabel.font = [LDTTheme fontHeadingBold];
     self.campaignDetailsHeadingLabel.textColor = [UIColor whiteColor];
     self.solutionCopyLabel.textColor = [UIColor whiteColor];
