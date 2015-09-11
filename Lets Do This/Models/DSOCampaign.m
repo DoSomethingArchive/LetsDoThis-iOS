@@ -16,10 +16,10 @@
 @property (strong, nonatomic, readwrite) NSDate *endDate;
 @property (assign, nonatomic, readwrite) NSInteger campaignID;
 @property (strong, nonatomic, readwrite) NSString *coverImage;
-@property (strong, nonatomic, readwrite) NSString *factProblem;
-@property (strong, nonatomic, readwrite) NSString *factSolution;
 @property (strong, nonatomic, readwrite) NSString *reportbackNoun;
 @property (strong, nonatomic, readwrite) NSString *reportbackVerb;
+@property (strong, nonatomic, readwrite) NSString *solutionCopy;
+@property (strong, nonatomic, readwrite) NSString *solutionSupportCopy;
 @property (strong, nonatomic, readwrite) NSString *title;
 @property (strong, nonatomic, readwrite) NSString *tagline;
 @property (strong, nonatomic, readwrite) NSURL *coverImageURL;
@@ -39,8 +39,21 @@
         self.coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:self.coverImage];
         self.reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
         self.reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
-        self.factProblem = [values[@"facts"] valueForKeyAsString:@"problem" nullValue:self.factProblem];
-        self.factSolution = [values[@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:self.factSolution];
+
+        // @todo: This actually doesn't return the nullValue but blank
+        self.solutionCopy = [[values valueForKeyPath:@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:@"Placeholder solution copy"];
+
+        self.solutionSupportCopy = @"Placeholder solution copy";
+        if ([values[@"solutions"] objectForKey:@"support_copy"]) {
+            // Might be string: see https://github.com/DoSomething/phoenix/issues/5069
+            if ([[values[@"solutions"] objectForKey:@"support_copy"] isKindOfClass:[NSString class]]) {
+                self.solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy"];
+            }
+            else {
+                self.solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy.raw"];
+            }
+        }
+
         self.tags = values[@"tags"];
     }
     return self;

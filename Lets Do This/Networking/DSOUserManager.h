@@ -20,6 +20,8 @@
 // Singleton object for accessing authenticated User, activeMobileAppCampaigns.
 + (DSOUserManager *)sharedInstance;
 
+- (void)setActiveMobileAppCampaigns:(NSArray *)activeMobileAppCampaigns;
+
 // Posts login request to the API with given email and password, and saves session tokens to remain authenticated upon future app usage.
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
@@ -34,9 +36,6 @@
 
 // Posts a campaign signup for the current user and given DSOCampaign. Called from a relevant Campaign view.
 - (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
-
-// Populates the activeMobileAppCampaigns property.
-- (void)fetchActiveMobileAppCampaignsWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 // Returns DSOCampaign for a given Campaign id if it exists in the activeMobileAppCampaigns property.
 - (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID;

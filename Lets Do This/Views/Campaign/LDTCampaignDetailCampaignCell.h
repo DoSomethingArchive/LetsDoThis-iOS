@@ -10,6 +10,11 @@
 
 @interface LDTCampaignDetailCampaignCell : UICollectionViewCell
 
-- (void)displayForCampaign:(DSOCampaign *)campaign;
+@property (strong, nonatomic) NSString *actionButtonTitle;
+@property (strong, nonatomic) NSString *solutionCopyLabelText;
+@property (strong, nonatomic) NSString *solutionSupportCopyLabelText;
+@property (strong, nonatomic) NSString *titleLabelText;
+@property (strong, nonatomic) NSString *taglineLabelText;
+@property (strong, nonatomic) NSURL *coverImageURL;
 
 @end
