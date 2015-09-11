@@ -86,7 +86,7 @@
     if (self.user) {
         self.headerLabel.numberOfLines = 0;
         self.headerLabel.text = @"Confirm your Facebook details and set your password.";
-        [self setAvatar:self.user.photo];
+        self.imageView.image = self.user.photo;
         self.firstNameTextField.text = self.user.firstName;
         self.emailTextField.text = self.user.email;
     }
@@ -123,6 +123,7 @@
 
 - (void)styleView {
     self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
+    [self.imageView addCircleFrame];
     for (UITextField *aTextField in self.textFields) {
         aTextField.font = [LDTTheme font];
     }
@@ -316,11 +317,6 @@
     [self presentViewController:avatarAlertController animated:YES completion:nil];
 }
 
-- (void)setAvatar:(UIImage *)image {
-    self.imageView.image = image;
-    [self.imageView addCircleFrame];
-}
-
 #pragma mark - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager*)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -344,7 +340,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    [self setAvatar:chosenImage];
+    self.imageView.image = chosenImage;
     self.userDidPickAvatarPhoto = YES;
     self.avatarFilestring = [UIImagePNGRepresentation(chosenImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     [picker dismissViewControllerAnimated:YES completion:NULL];
