@@ -119,25 +119,6 @@
     }
 }
 
-#pragma mark - CLLocationManagerDelegate
-
-- (void)locationManager:(CLLocationManager*)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-        [self.locationManager startUpdatingLocation];
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    CLLocation *location = [locations lastObject];
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (!error) {
-            self.countryCode = [placemarks[0] ISOcountryCode];
-        }
-    }];
-    [manager stopUpdatingLocation];
-}
-
 #pragma mark - LDTUserRegisterViewController
 
 - (void)styleView {
@@ -338,6 +319,25 @@
 - (void)setAvatar:(UIImage *)image {
     self.imageView.image = image;
     [self.imageView addCircleFrame];
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager*)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        [self.locationManager startUpdatingLocation];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    CLLocation *location = [locations lastObject];
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (!error) {
+            self.countryCode = [placemarks[0] ISOcountryCode];
+        }
+    }];
+    [manager stopUpdatingLocation];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
