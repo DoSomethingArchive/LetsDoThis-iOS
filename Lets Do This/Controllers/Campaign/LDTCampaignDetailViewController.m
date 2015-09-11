@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     LDTCampaignDetailSectionTypeReportback = 1
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (nonatomic, assign) BOOL isDoing;
 @property (nonatomic, assign) BOOL isCompleted;
@@ -89,6 +89,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 }
 
 - (void)configureCampaignCell:(LDTCampaignDetailCampaignCell *)cell {
+    cell.delegate = self;
+    cell.campaign = self.campaign;
     cell.titleLabelText = self.campaign.title;
     cell.taglineLabelText = self.campaign.tagline;
     cell.solutionCopyLabelText = self.campaign.solutionCopy;
@@ -112,6 +114,25 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     reportbackItemDetailView.userAvatarImage = reportbackItem.user.photo;
     reportbackItemDetailView.userCountryNameLabelText = reportbackItem.user.countryName;
     reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
+}
+
+#pragma mark - LDTCampaignListCampaignCellDelegate
+
+- (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
+    [TSMessage setDefaultViewController:self];
+    if ([[DSOUserManager sharedInstance].user isDoingCampaign:cell.campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:cell.campaign]) {
+             [LDTMessage showNotificationWithTitle:@"Right on!" type:TSMessageNotificationTypeSuccess];
+    }
+    else {
+        [[DSOUserManager sharedInstance]
+         signupForCampaign:cell.campaign
+         completionHandler:^(NSDictionary *response) {
+             [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
+         }
+         errorHandler:^(NSError *error) {
+             [LDTMessage displayErrorMessageForError:error];
+         }];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
