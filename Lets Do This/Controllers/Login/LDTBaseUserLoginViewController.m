@@ -26,18 +26,11 @@
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     [self startListeningForNotifications];
-}
-
-
-#pragma mark - UITextFieldDelegate
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    [textField resignFirstResponder];
-    return YES;
 }
 
 #pragma mark - LDTBaseUserLoginViewController
@@ -59,19 +52,6 @@
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:candidate];
-}
-
-#pragma mark - UITextFieldDelegate
-
-// @todo Remove me
--(void)textFieldDidBeginEditing:(UITextField *)textField {
-
-}
-
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    textField.inputAccessoryView = self.keyboardToolbar;
-
-    return YES;
 }
 
 - (void)handleKeyboardWillShowNotification:(NSNotification *)notification {
@@ -188,5 +168,16 @@
     [self stopEditing];
 }
 
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    textField.inputAccessoryView = self.keyboardToolbar;
+    return YES;
+}
 
 @end
