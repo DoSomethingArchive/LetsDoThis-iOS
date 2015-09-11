@@ -56,8 +56,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
 
     [self styleView];
-
     [self fetchReportbackItems];
+    [TSMessage setDefaultViewController:self];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -122,9 +122,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 #pragma mark - LDTCampaignListCampaignCellDelegate
 
 - (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
-    [TSMessage setDefaultViewController:self];
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:cell.campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:cell.campaign]) {
-             [LDTMessage showNotificationWithTitle:@"Right on!" type:TSMessageNotificationTypeSuccess];
+    if ([[DSOUserManager sharedInstance].user isDoingCampaign:cell.campaign]) {
+        // @todo Present action sheet instead - GH #321
     }
     else {
         [[DSOUserManager sharedInstance]
