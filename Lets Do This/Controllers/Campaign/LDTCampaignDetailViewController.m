@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     LDTCampaignDetailSectionTypeReportback = 1
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (nonatomic, assign) BOOL isDoing;
 @property (nonatomic, assign) BOOL isCompleted;
@@ -56,8 +56,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
 
     [self styleView];
-
     [self fetchReportbackItems];
+    [TSMessage setDefaultViewController:self];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -89,13 +89,18 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 }
 
 - (void)configureCampaignCell:(LDTCampaignDetailCampaignCell *)cell {
+    cell.delegate = self;
+    cell.campaign = self.campaign;
     cell.titleLabelText = self.campaign.title;
     cell.taglineLabelText = self.campaign.tagline;
     cell.solutionCopyLabelText = self.campaign.solutionCopy;
     cell.solutionSupportCopyLabelText = self.campaign.solutionSupportCopy;
     cell.coverImageURL = self.campaign.coverImageURL;
-    NSString *actionButtonTitle = @"Prove it";
-    if ([[DSOUserManager sharedInstance].user hasCompletedCampaign:self.campaign]) {
+    NSString *actionButtonTitle = @"Stop being bored";
+    if ([[DSOUserManager sharedInstance].user isDoingCampaign:self.campaign]) {
+        actionButtonTitle = @"Prove it";
+    }
+    else if ([[DSOUserManager sharedInstance].user hasCompletedCampaign:self.campaign]) {
         actionButtonTitle = @"Proved it";
     }
     cell.actionButtonTitle = actionButtonTitle;
@@ -112,6 +117,22 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     reportbackItemDetailView.userAvatarImage = reportbackItem.user.photo;
     reportbackItemDetailView.userCountryNameLabelText = reportbackItem.user.countryName;
     reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
+}
+
+#pragma mark - LDTCampaignDetailCampaignCellDelegate
+
+- (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
+    if ([[DSOUserManager sharedInstance].user isDoingCampaign:cell.campaign]) {
+        // @todo Present action sheet instead - GH #321
+    }
+    else {
+        [[DSOUserManager sharedInstance] signupForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
+             [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
+             cell.actionButtonTitle = @"Prove it";
+         } errorHandler:^(NSError *error) {
+             [LDTMessage displayErrorMessageForError:error];
+         }];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource

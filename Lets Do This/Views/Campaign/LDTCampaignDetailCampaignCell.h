@@ -8,13 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LDTCampaignDetailCampaignCellDelegate;
+
 @interface LDTCampaignDetailCampaignCell : UICollectionViewCell
 
+@property (weak, nonatomic) id<LDTCampaignDetailCampaignCellDelegate> delegate;
+
+@property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) NSString *actionButtonTitle;
 @property (strong, nonatomic) NSString *solutionCopyLabelText;
 @property (strong, nonatomic) NSString *solutionSupportCopyLabelText;
 @property (strong, nonatomic) NSString *titleLabelText;
 @property (strong, nonatomic) NSString *taglineLabelText;
 @property (strong, nonatomic) NSURL *coverImageURL;
+
+@end
+
+@protocol LDTCampaignDetailCampaignCellDelegate <NSObject>
+
+- (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell;
 
 @end

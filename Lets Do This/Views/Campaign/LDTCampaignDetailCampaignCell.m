@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *campaignDetailsView;
 
+- (IBAction)actionButtonTouchUpInside:(id)sender;
+
 @end
 
 @implementation LDTCampaignDetailCampaignCell
@@ -86,6 +88,12 @@
 
 - (void)setTitleLabelText:(NSString *)titleLabelText{
     self.titleLabel.text = [titleLabelText uppercaseString];
+}
+
+- (IBAction)actionButtonTouchUpInside:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickActionButtonForCell:)]) {
+        [self.delegate didClickActionButtonForCell:self];
+    }
 }
 
 @end
