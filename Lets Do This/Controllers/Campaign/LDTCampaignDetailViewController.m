@@ -96,8 +96,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     cell.solutionCopyLabelText = self.campaign.solutionCopy;
     cell.solutionSupportCopyLabelText = self.campaign.solutionSupportCopy;
     cell.coverImageURL = self.campaign.coverImageURL;
-    NSString *actionButtonTitle = @"Prove it";
-    if ([[DSOUserManager sharedInstance].user hasCompletedCampaign:self.campaign]) {
+    NSString *actionButtonTitle = @"Stop being bored";
+    if ([[DSOUserManager sharedInstance].user isDoingCampaign:self.campaign]) {
+        actionButtonTitle = @"Prove it";
+    }
+    else if ([[DSOUserManager sharedInstance].user hasCompletedCampaign:self.campaign]) {
         actionButtonTitle = @"Proved it";
     }
     cell.actionButtonTitle = actionButtonTitle;
@@ -128,6 +131,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
          signupForCampaign:cell.campaign
          completionHandler:^(NSDictionary *response) {
              [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
+             cell.actionButtonTitle = @"Prove it";
          }
          errorHandler:^(NSError *error) {
              [LDTMessage displayErrorMessageForError:error];
