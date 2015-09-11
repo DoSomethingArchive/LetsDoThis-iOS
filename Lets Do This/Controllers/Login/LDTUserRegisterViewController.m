@@ -8,46 +8,44 @@
 
 #import "LDTUserRegisterViewController.h"
 #import "LDTTheme.h"
-#import "LDTButton.h"
-#import "LDTMessage.h"
 #import "LDTTabBarController.h"
 #import "LDTUserLoginViewController.h"
-#import "DSOUserManager.h"
 #import "UITextField+LDT.h"
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
+@property (assign, nonatomic) BOOL userDidPickAvatarPhoto;
 @property (strong, nonatomic) CLLocationManager *locationManager;
-@property (nonatomic, assign) BOOL userDidPickAvatarPhoto;
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *avatarFilestring;
 @property (strong, nonatomic) NSString *countryCode;
-@property (strong, nonatomic) UIDatePicker *datePicker;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *avatarButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *footerLabel;
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
-@property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *mobileTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UILabel *footerLabel;
+;
 
+// Buttons
 - (IBAction)avatarButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)loginLinkTouchUpInside:(id)sender;
 
+// Textfields
 - (IBAction)firstNameEditingDidBegin:(id)sender;
-- (IBAction)emailEditingDidBegin:(id)sender;
-- (IBAction)mobileEditingDidBegin:(id)sender;
-- (IBAction)passwordEditingDidBegin:(id)sender;
-
 - (IBAction)firstNameEditingDidEnd:(id)sender;
+- (IBAction)emailEditingDidBegin:(id)sender;
 - (IBAction)emailEditingDidEnd:(id)sender;
+- (IBAction)mobileEditingDidBegin:(id)sender;
 - (IBAction)mobileEditingDidEnd:(id)sender;
+- (IBAction)passwordEditingDidBegin:(id)sender;
 - (IBAction)passwordEditingDidEnd:(id)sender;
 
 @end
@@ -84,7 +82,6 @@
     self.imagePicker.allowsEditing = YES;
 
     // If we have a User, it's from Facebook.
-
     if (self.user) {
         self.headerLabel.numberOfLines = 0;
         self.headerLabel.text = @"Confirm your Facebook details and set your password.";
@@ -119,21 +116,19 @@
     // @todo: Set mediatypes as images only (not video).
 }
 
-#pragma mark - CLLocationManagerDelegate
-
 - (void)determineUserLocation {
-    self.locationManager = [[CLLocationManager alloc] init]; // initializing locationManager
+    self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers; // most coarse-grained accuracy setting
-    
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
     if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
         [self.locationManager requestWhenInUseAuthorization];
     }
 }
 
-- (void)locationManager:(CLLocationManager*)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager*)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         [self.locationManager startUpdatingLocation];
     }
@@ -154,21 +149,16 @@
 
 - (void)styleView {
     self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
-
-    UIFont *font = [LDTTheme font];
     for (UITextField *aTextField in self.textFields) {
-        aTextField.font = font;
+        aTextField.font = [LDTTheme font];
     }
-
     [self.firstNameTextField setKeyboardType:UIKeyboardTypeNamePhonePad];
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     [self.mobileTextField setKeyboardType:UIKeyboardTypeNumberPad];
-
-    self.footerLabel.font = font;
+    self.footerLabel.font = [LDTTheme font];
     self.footerLabel.textAlignment = NSTextAlignmentCenter;
     self.footerLabel.textColor = [UIColor whiteColor];
-    
-    self.headerLabel.font = font;
+    self.headerLabel.font = [LDTTheme font];
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
     self.headerLabel.textColor = [UIColor whiteColor];
     [self.loginLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -176,10 +166,8 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
-        // Create the user.
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode success:^(NSDictionary *response) {
 
-            // Login the user.
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
                 
                 if (self.userDidPickAvatarPhoto) {
@@ -266,7 +254,6 @@
 }
 
 - (BOOL)validateForm {
-    
     NSMutableArray *errorMessages = [[NSMutableArray alloc] init];;
 
     if (![self validateName:self.firstNameTextField.text]) {
@@ -285,7 +272,6 @@
         [self.passwordTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"Password must be 6+ characters."];
     }
-
     if (errorMessages.count > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
         [LDTMessage displayErrorMessageForString:errorMessage];
@@ -317,42 +303,38 @@
 }
 
 - (IBAction)avatarButtonTouchUpInside:(id)sender {
-    [self getImageMenu];
+    [self presentAvatarAlertController];
 }
 
-- (void)getImageMenu {
-    UIAlertController *view = [UIAlertController alertControllerWithTitle:@"Set your photo" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+- (void)presentAvatarAlertController {
+    UIAlertController *avatarAlertController = [UIAlertController alertControllerWithTitle:@"Set your photo" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
 
-    UIAlertAction *camera;
-    // Is camera is available?
+    UIAlertAction *cameraAlertAction;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        camera = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
             self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
             [self presentViewController:self.imagePicker animated:YES completion:NULL];
         }];
     }
     else {
-        camera = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-            [view dismissViewControllerAnimated:YES completion:nil];
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            [avatarAlertController dismissViewControllerAnimated:YES completion:nil];
         }];
     }
 
-
-    UIAlertAction *library = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-
+    UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
         self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:self.imagePicker animated:YES completion:NULL];
-
     }];
 
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
-        [view dismissViewControllerAnimated:YES completion:nil];
+    UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        [avatarAlertController dismissViewControllerAnimated:YES completion:nil];
     }];
 
-    [view addAction:camera];
-    [view addAction:library];
-    [view addAction:cancel];
-    [self presentViewController:view animated:YES completion:nil];
+    [avatarAlertController addAction:cameraAlertAction];
+    [avatarAlertController addAction:photoLibraryAlertAction];
+    [avatarAlertController addAction:cancelAlertAction];
+    [self presentViewController:avatarAlertController animated:YES completion:nil];
 }
 
 - (void)setAvatar:(UIImage *)image {
