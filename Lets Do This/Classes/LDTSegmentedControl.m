@@ -29,12 +29,8 @@
         
         CGFloat dividerImageWidth = [UIImage imageNamed:@"SegCtrl None Selected.png"].size.width;
         
-//        [self setContentPositionAdjustment:UIOffsetMake(dividerImageWidth / 2, 0)
-//                            forSegmentType:UISegmentedControlSegmentLeft
-//                                barMetrics:UIBarMetricsDefault];
-//        [self setContentPositionAdjustment:UIOffsetMake(- dividerImageWidth / 2, 0)
-//                            forSegmentType:UISegmentedControlSegmentRight
-//                                barMetrics:UIBarMetricsDefault];
+        [self setContentPositionAdjustment:UIOffsetMake(dividerImageWidth / 2, 0) forSegmentType:UISegmentedControlSegmentLeft barMetrics:UIBarMetricsDefault];
+        [self setContentPositionAdjustment:UIOffsetMake(- dividerImageWidth / 2, 0) forSegmentType:UISegmentedControlSegmentRight barMetrics:UIBarMetricsDefault];
     }
     return self;
 }

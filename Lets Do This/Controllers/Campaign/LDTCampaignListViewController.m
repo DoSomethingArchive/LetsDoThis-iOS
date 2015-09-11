@@ -73,7 +73,7 @@ const CGFloat kHeightExpanded = 400;
     
     NSArray *items = @[@"first", @"second", @"third", @"fourth"];
     LDTSegmentedControl *mySegmentedControl = [[LDTSegmentedControl alloc] initWithItems:items];
-    mySegmentedControl.frame = CGRectMake(0, 35, 380, 100);
+    mySegmentedControl.frame = CGRectMake(0, 0, 380, 100);
     mySegmentedControl.selectedSegmentIndex = 0;
     
     
