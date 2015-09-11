@@ -80,7 +80,6 @@
     self.imagePicker = [[UIImagePickerController alloc] init];
     self.imagePicker.delegate = self;
     self.imagePicker.allowsEditing = YES;
-    // @todo: Set mediatypes as images only (not video).
 
     // If we have a User, it's from Facebook.
     if (self.user) {
