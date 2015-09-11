@@ -202,14 +202,11 @@ const CGFloat kHeightExpanded = 400;
         [self.navigationController pushViewController:destVC animated:YES];
     }
     else {
-        [[DSOUserManager sharedInstance]
-         signupForCampaign:cell.campaign
-         completionHandler:^(NSDictionary *response) {
+        [[DSOUserManager sharedInstance] signupForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
             [self.navigationController pushViewController:destVC animated:YES];
             [TSMessage setDefaultViewController:self.navigationController];
             [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
-        }
-         errorHandler:^(NSError *error) {
+        } errorHandler:^(NSError *error) {
              [LDTMessage displayErrorMessageForError:error];
         }];
     }
