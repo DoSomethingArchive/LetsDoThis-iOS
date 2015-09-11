@@ -128,7 +128,34 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 
 - (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
     if ([[DSOUserManager sharedInstance].user isDoingCampaign:cell.campaign]) {
-        // @todo Present action sheet instead - GH #321
+        UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+
+        UIAlertAction *cameraAlertAction;
+        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+                [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+            }];
+        }
+        else {
+            cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
+            }];
+        }
+
+        UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+        }];
+
+        UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+            [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
+        }];
+
+        [reportbackPhotoAlertController addAction:cameraAlertAction];
+        [reportbackPhotoAlertController addAction:photoLibraryAlertAction];
+        [reportbackPhotoAlertController addAction:cancelAlertAction];
+        [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
     }
     else {
         [[DSOUserManager sharedInstance] signupForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
