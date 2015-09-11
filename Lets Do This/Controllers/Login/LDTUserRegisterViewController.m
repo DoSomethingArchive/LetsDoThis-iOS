@@ -80,12 +80,12 @@
     self.imagePicker = [[UIImagePickerController alloc] init];
     self.imagePicker.delegate = self;
     self.imagePicker.allowsEditing = YES;
+    // @todo: Set mediatypes as images only (not video).
 
     // If we have a User, it's from Facebook.
     if (self.user) {
         self.headerLabel.numberOfLines = 0;
         self.headerLabel.text = @"Confirm your Facebook details and set your password.";
-
         [self setAvatar:self.user.photo];
         self.firstNameTextField.text = self.user.firstName;
         self.emailTextField.text = self.user.email;
@@ -94,7 +94,6 @@
         self.headerLabel.text = @"Tell us about yourself!";
         self.imageView.image = [UIImage imageNamed:@"Upload Button"];
     }
-
 
     self.textFields = @[self.firstNameTextField,
                         self.emailTextField,
@@ -111,12 +110,6 @@
 
     [self styleView];
     
-    [self determineUserLocation];
-
-    // @todo: Set mediatypes as images only (not video).
-}
-
-- (void)determineUserLocation {
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
