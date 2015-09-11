@@ -199,6 +199,15 @@
     }
 }
 
+- (IBAction)loginLinkTouchUpInside:(id)sender {
+    LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginView" bundle:nil];
+    [self.navigationController pushViewController:destVC animated:YES];
+}
+
+- (IBAction)avatarButtonTouchUpInside:(id)sender {
+    [self presentAvatarAlertController];
+}
+
 - (IBAction)firstNameEditingDidBegin:(id)sender {
     [self.firstNameTextField setBorderColor:[UIColor clearColor]];
 }
@@ -234,7 +243,7 @@
     [self updateCreateAccountButton];
 }
 
--(void)updateCreateAccountButton {
+- (void)updateCreateAccountButton {
     BOOL enabled = NO;
     for (UITextField *aTextField in self.textFieldsRequired) {
         if (aTextField.text.length > 0) {
@@ -302,10 +311,6 @@
     return YES;
 }
 
-- (IBAction)avatarButtonTouchUpInside:(id)sender {
-    [self presentAvatarAlertController];
-}
-
 - (void)presentAvatarAlertController {
     UIAlertController *avatarAlertController = [UIAlertController alertControllerWithTitle:@"Set your photo" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
 
@@ -354,11 +359,6 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (IBAction)loginLinkTouchUpInside:(id)sender {
-    LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginView" bundle:nil];
-    [self.navigationController pushViewController:destVC animated:YES];
 }
 
 @end
