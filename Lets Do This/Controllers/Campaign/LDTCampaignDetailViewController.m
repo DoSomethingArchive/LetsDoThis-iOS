@@ -18,12 +18,13 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     LDTCampaignDetailSectionTypeReportback = 1
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (nonatomic, assign) BOOL isDoing;
 @property (nonatomic, assign) BOOL isCompleted;
 @property (nonatomic, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) NSMutableArray *reportbackItems;
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
@@ -54,6 +55,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
+
+    self.imagePickerController = [[UIImagePickerController alloc] init];
+    self.imagePickerController.delegate = self;
+    self.imagePickerController.allowsEditing = YES;
 
     [self styleView];
     [self fetchReportbackItems];
