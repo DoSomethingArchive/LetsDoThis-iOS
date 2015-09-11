@@ -12,6 +12,7 @@
 #import "LDTMessage.h"
 #import "LDTUserRegisterViewController.h"
 #import "LDTTabBarController.h"
+#import "UITextField+LDT.h"
 
 @interface LDTUserLoginViewController ()
 
@@ -25,6 +26,7 @@
 - (IBAction)registerLinkTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)passwordButtonTouchUpInside:(id)sender;
+- (IBAction)emailEditingDidBegin:(id)sender;
 - (IBAction)emailEditingDidEnd:(id)sender;
 - (IBAction)passwordEditingDidEnd:(id)sender;
 - (IBAction)passwordEditingChanged:(id)sender;
@@ -131,12 +133,17 @@
     } errorHandler:^(NSError *error) {
         [self.passwordTextField becomeFirstResponder];
         [LDTMessage displayErrorMessageForError:error];
+        [self.emailTextField setBorderColor:[UIColor redColor]];
     }];
 }
 
 - (IBAction)passwordButtonTouchUpInside:(id)sender {
     NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [[DSOAPI sharedInstance] phoenixBaseUrl]];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:resetUrl]];
+}
+
+- (IBAction)emailEditingDidBegin:(id)sender {
+    [self.emailTextField setBorderColor:[UIColor clearColor]];
 }
 
 - (IBAction)emailEditingDidEnd:(id)sender {

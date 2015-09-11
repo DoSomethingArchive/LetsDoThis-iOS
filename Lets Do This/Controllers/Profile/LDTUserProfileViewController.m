@@ -64,7 +64,7 @@ static NSString *cellIdentifier;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated  {
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
     [self styleView];
