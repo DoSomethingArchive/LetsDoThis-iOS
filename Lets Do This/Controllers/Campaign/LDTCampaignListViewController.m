@@ -90,21 +90,44 @@ const CGFloat kHeightExpanded = 400;
     [navVC setOrange];
 
     self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
-    [[UISegmentedControl appearance]
-    setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [LDTTheme font],
-                             NSFontAttributeName,
-                             [UIColor grayColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateNormal];
-    [[UISegmentedControl appearance]
-     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [UIColor whiteColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateSelected];
+    self.segmentedControl.tintColor = [UIColor whiteColor];
+    
+    [self.segmentedControl setBackgroundImage:[self imageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [self.segmentedControl setBackgroundImage:[self imageWithColor:[LDTTheme ctaBlueColor]] forState:UIControlStateSelected  barMetrics:UIBarMetricsDefault];
+
+    [[UISegmentedControl appearance] setDividerImage:[self imageWithColor:[UIColor purpleColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UISegmentedControl appearance] setDividerImage:[self imageWithColor:[UIColor greenColor]] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    
+    [[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [LDTTheme font], NSFontAttributeName, [UIColor grayColor], NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+    [[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor], NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
 }
+
+- (UIImage *)imageWithColor:(UIColor *)color
+{
+    CGRect rect = CGRectMake(0.0, 0.0, 1.0, 1.0);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+//
+//- (UIImage*) roundCorneredImage: (UIImage*) orig radius:(CGFloat) r {
+//    UIGraphicsBeginImageContextWithOptions(orig.size, NO, 0);
+//    [[UIBezierPath bezierPathWithRoundedRect:(CGRect){CGPointZero, orig.size}
+//                                cornerRadius:r] addClip];
+//    [orig drawInRect:(CGRect){CGPointZero, orig.size}];
+//    UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return result;
+//}
+
+
 
 - (void)createInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
