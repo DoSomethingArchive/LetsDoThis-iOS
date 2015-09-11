@@ -119,20 +119,17 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
 }
 
-#pragma mark - LDTCampaignListCampaignCellDelegate
+#pragma mark - LDTCampaignDetailCampaignCellDelegate
 
 - (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
     if ([[DSOUserManager sharedInstance].user isDoingCampaign:cell.campaign]) {
         // @todo Present action sheet instead - GH #321
     }
     else {
-        [[DSOUserManager sharedInstance]
-         signupForCampaign:cell.campaign
-         completionHandler:^(NSDictionary *response) {
+        [[DSOUserManager sharedInstance] signupForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
              [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
              cell.actionButtonTitle = @"Prove it";
-         }
-         errorHandler:^(NSError *error) {
+         } errorHandler:^(NSError *error) {
              [LDTMessage displayErrorMessageForError:error];
          }];
     }

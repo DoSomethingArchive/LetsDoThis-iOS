@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIView *campaignDetailsView;
 
 - (IBAction)actionButtonTouchUpInside:(id)sender;
+
 @end
 
 @implementation LDTCampaignDetailCampaignCell
@@ -94,4 +95,5 @@
         [self.delegate didClickActionButtonForCell:self];
     }
 }
+
 @end
