@@ -50,7 +50,8 @@
                 self.solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy"];
             }
             else {
-                self.solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy.raw"];
+                // @todo: Same here
+                self.solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw" nullValue:@"Placeholder solution support copy"];
             }
         }
 
