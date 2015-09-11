@@ -16,6 +16,7 @@
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
+#import "LDTSegmentedControl.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
     LDTCampaignListSectionTypeCampaign = 0,
@@ -69,6 +70,15 @@ const CGFloat kHeightExpanded = 400;
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 8.0f;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
+    
+    NSArray *items = @[@"first", @"second", @"third", @"fourth"];
+    LDTSegmentedControl *mySegmentedControl = [[LDTSegmentedControl alloc] initWithItems:items];
+    mySegmentedControl.frame = CGRectMake(0, 0, 380, 100);
+    mySegmentedControl.selectedSegmentIndex = 0;
+    
+    
+    
+    [self.view addSubview:mySegmentedControl];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -90,21 +100,13 @@ const CGFloat kHeightExpanded = 400;
     [navVC setOrange];
 
     self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
-    [[UISegmentedControl appearance]
-    setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [LDTTheme font],
-                             NSFontAttributeName,
-                             [UIColor grayColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateNormal];
-    [[UISegmentedControl appearance]
-     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [UIColor whiteColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateSelected];
+//    self.segmentedControl.tintColor = [UIColor whiteColor];
+    
+    [[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [LDTTheme font], NSFontAttributeName, [UIColor grayColor], NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+    [[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor], NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
 }
+
+
 
 - (void)createInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
