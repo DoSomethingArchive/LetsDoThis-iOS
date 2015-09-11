@@ -69,7 +69,8 @@
     NSMutableDictionary *fbUser = [[NSMutableDictionary alloc] init];
     fbUser[@"first_name"] = @"John";
     fbUser[@"email"] = @"john.connor@dosomething.org";
-    fbUser[@"photo"] = [UIImage imageNamed:@"john-connor.jpg"];
+    // This doesn't work anyway.
+    fbUser[@"photo"] = @"http://static.deathandtaxesmag.com/uploads/2013/06/furlong1.jpg";
 
     DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:fbUser];
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:user];
