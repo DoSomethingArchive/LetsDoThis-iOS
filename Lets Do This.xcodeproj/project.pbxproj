@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		421774269F5DF5997622C2F9 /* libPods-Lets Do This.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */; };
+		56954DAD1BA636290038422D /* DSOCampaignTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 56954DAC1BA636290038422D /* DSOCampaignTests.m */; };
 		569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */; };
 		B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20881A01B0B9B0F00E697B2 /* keys.plist */; };
 		B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B20D06D01B3A58F40053D3B6 /* LDTMessage.m */; };
@@ -58,7 +59,6 @@
 		C2B151EF1ACE04C30028C336 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B151EE1ACE04C30028C336 /* main.m */; };
 		C2B151FD1ACE04C30028C336 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2B151FC1ACE04C30028C336 /* Images.xcassets */; };
 		C2B152001ACE04C30028C336 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B151FE1ACE04C30028C336 /* LaunchScreen.xib */; };
-		C2B1520C1ACE04C30028C336 /* Lets_Do_ThisTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B1520B1ACE04C30028C336 /* Lets_Do_ThisTests.m */; };
 		C2B152201ACE05510028C336 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B152181ACE05510028C336 /* AppDelegate.m */; };
 		C2B152381ACE0BB50028C336 /* LDTSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */; };
 		EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */; };
@@ -76,6 +76,7 @@
 
 /* Begin PBXFileReference section */
 		481832CD7E534871B0CC8938 /* Pods-Lets Do This.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.debug.xcconfig"; sourceTree = "<group>"; };
+		56954DAC1BA636290038422D /* DSOCampaignTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCampaignTests.m; sourceTree = "<group>"; };
 		569AA55C1B4085A000D8C8C9 /* InterfaceBuilderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InterfaceBuilderView.h; path = Base/InterfaceBuilderView.h; sourceTree = "<group>"; };
 		569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InterfaceBuilderView.m; path = Base/InterfaceBuilderView.m; sourceTree = "<group>"; };
 		B20881A01B0B9B0F00E697B2 /* keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = keys.plist; sourceTree = "<group>"; };
@@ -161,7 +162,6 @@
 		C2B151FF1ACE04C30028C336 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C2B152051ACE04C30028C336 /* Lets Do ThisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Lets Do ThisTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B1520A1ACE04C30028C336 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C2B1520B1ACE04C30028C336 /* Lets_Do_ThisTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Lets_Do_ThisTests.m; sourceTree = "<group>"; };
 		C2B152171ACE05510028C336 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C2B152181ACE05510028C336 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C2B152361ACE0BB50028C336 /* LDTSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTSettingsViewController.h; path = Profile/LDTSettingsViewController.h; sourceTree = "<group>"; };
@@ -386,7 +386,7 @@
 		C2B152081ACE04C30028C336 /* Lets Do ThisTests */ = {
 			isa = PBXGroup;
 			children = (
-				C2B1520B1ACE04C30028C336 /* Lets_Do_ThisTests.m */,
+				56954DAC1BA636290038422D /* DSOCampaignTests.m */,
 				C2B152091ACE04C30028C336 /* Supporting Files */,
 			);
 			path = "Lets Do ThisTests";
@@ -697,7 +697,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2B1520C1ACE04C30028C336 /* Lets_Do_ThisTests.m in Sources */,
+				56954DAD1BA636290038422D /* DSOCampaignTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
