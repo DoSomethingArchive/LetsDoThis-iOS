@@ -47,4 +47,16 @@
 	XCTAssertEqualObjects(readyValue, @"1", @"Should have been converted to a string from a BOOL");
 }
 
+-(void)testNilValueWithPlaceholder {
+	NSDictionary *dict = [NSDictionary dictionary];
+	
+	NSString *testValue = [dict valueForKeyAsString:@"noKey" nullValue:@"Test nil value"];
+	
+	XCTAssertEqualObjects(testValue, @"Test nil value", @"Should have been placeholder text in this case.");
+	
+	// This will come back as nil, which we probably don't want
+	NSString *nilValue = [dict valueForKeyAsString:@"noKey"];
+}
+
+
 @end
