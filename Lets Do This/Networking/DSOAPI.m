@@ -222,7 +222,7 @@
     }];
 }
 
-- (void)fetchReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)loadReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSMutableArray *campaignIds = [[NSMutableArray alloc] init];
     for (DSOCampaign *campaign in campaigns) {
         [campaignIds addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];

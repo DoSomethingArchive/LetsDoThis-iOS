@@ -57,6 +57,7 @@
 
         self.tags = values[@"tags"];
     }
+	
     return self;
 }
 
@@ -68,6 +69,7 @@
     if (!self.endDate) {
         return 0;
     }
+	
     NSCalendar *c = [NSCalendar currentCalendar];
     NSDate *today = [NSDate date];
     NSDateComponents *components = [c components:NSCalendarUnitDay fromDate:today toDate:self.endDate options:0];

@@ -84,7 +84,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 - (void)fetchReportbackItems {
     NSArray *statusValues = @[@"promoted", @"approved"];
     for (NSString *status in statusValues) {
-        [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:@[self.campaign] status:status completionHandler:^(NSArray *rbItems) {
+        [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:@[self.campaign] status:status completionHandler:^(NSArray *rbItems) {
 		[self.reportbackItems addObjectsFromArray:rbItems];
         [self.collectionView reloadData];
         } errorHandler:^(NSError *error) {
@@ -102,10 +102,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     cell.solutionSupportCopyLabelText = self.campaign.solutionSupportCopy;
     cell.coverImageURL = self.campaign.coverImageURL;
     NSString *actionButtonTitle = @"Stop being bored";
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:self.campaign]) {
+    if ([self.user isDoingCampaign:self.campaign]) {
         actionButtonTitle = @"Prove it";
     }
-    else if ([[DSOUserManager sharedInstance].user hasCompletedCampaign:self.campaign]) {
+    else if ([self.user hasCompletedCampaign:self.campaign]) {
         actionButtonTitle = @"Proved it";
     }
     cell.actionButtonTitle = actionButtonTitle;
@@ -124,10 +124,14 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
 }
 
+-(DSOUser *)user {
+	return [DSOUserManager sharedInstance].user;
+}
+
 #pragma mark - LDTCampaignDetailCampaignCellDelegate
 
 - (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:cell.campaign]) {
+    if ([self.user isDoingCampaign:cell.campaign]) {
         UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
 
         UIAlertAction *cameraAlertAction;
@@ -158,7 +162,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
         [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
     }
     else {
-        [[DSOUserManager sharedInstance] signupForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
+        [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
              [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
              cell.actionButtonTitle = @"Prove it";
          } errorHandler:^(NSError *error) {
@@ -185,12 +189,14 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         LDTCampaignDetailCampaignCell *cell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
         [self configureCampaignCell:cell];
+		
         return cell;
     }
 
     if (indexPath.section == LDTCampaignDetailSectionTypeReportback) {
         LDTCampaignDetailReportbackItemCell *cell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         [self configureReportbackItemDetailView:cell.reportbackItemDetailView forIndexPath:indexPath];
+		
         return cell;
     }
 
