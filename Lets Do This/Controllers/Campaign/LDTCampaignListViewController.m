@@ -132,15 +132,39 @@ const CGFloat kHeightExpanded = 400;
     }
 
     NSArray *statusValues = @[@"promoted", @"approved"];
+	NSInteger totalAPICallCount = statusValues.count * [self.interestGroups allKeys].count;
+	__block NSUInteger completedAPICallCount = 0;
+	NSMutableArray *errors = [[NSMutableArray alloc] initWithCapacity:totalAPICallCount];
+	
+	void (^reportBacksCompletionBlock)() = ^{
+		++completedAPICallCount;
+		
+		if (completedAPICallCount != totalAPICallCount) {
+			return;
+		}
+		
+		if(errors.count > 0) {
+			NSLog(@"%zd error[s] occurred while executing API calls.", errors.count);
+			// Pick the first error (arbitrary)
+		}
+		else {
+			NSLog(@"\n---All calls completed successfully---");
+			[self.collectionView reloadData];
+		}
+		
+	};
     for (NSString *status in statusValues) {
         for (NSNumber *key in self.interestGroups) {
             [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
                 for (DSOReportbackItem *rbItem in rbItems) {
                     [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
                 }
-                [self.collectionView reloadData];
+				reportBacksCompletionBlock();
             } errorHandler:^(NSError *error) {
                 [LDTMessage displayErrorMessageForError:error];
+				[errors addObject:error];
+				
+				reportBacksCompletionBlock();
             }];
         }
     }
