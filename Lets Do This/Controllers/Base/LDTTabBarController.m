@@ -15,9 +15,9 @@
 @implementation LDTTabBarController
 
 - (id)init {
-    if(self = [super init]){
+    if(self = [super init]) {
         self.tabBar.translucent = NO;
-        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:[LDTTheme fontName] size:10.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:[LDTTheme fontName] size:10.0f] } forState:UIControlStateNormal];
 
         LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
         profileVC.title = @"Me";
@@ -30,6 +30,7 @@
 
         self.viewControllers = [NSArray arrayWithObjects:campaignListNavVC, profileNavVC, nil];
     }
+	
     return self;
 }
 

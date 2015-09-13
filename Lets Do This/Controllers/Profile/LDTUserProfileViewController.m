@@ -69,7 +69,7 @@ static NSString *cellIdentifier;
 
     [self styleView];
 
-    [[DSOAPI sharedInstance] fetchUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] loadUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
         self.user = user;
         self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
         self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;
