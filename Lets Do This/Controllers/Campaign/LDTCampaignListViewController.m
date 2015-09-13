@@ -124,7 +124,7 @@ const CGFloat kHeightExpanded = 400;
     NSArray *statusValues = @[@"promoted", @"approved"];
     for (NSString *status in statusValues) {
         for (NSNumber *key in self.interestGroups) {
-            [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
+            [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
                 for (DSOReportbackItem *rbItem in rbItems) {
                     [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
                 }
@@ -192,11 +192,11 @@ const CGFloat kHeightExpanded = 400;
 - (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell {
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:cell.campaign];
 
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:cell.campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:cell.campaign]) {
+    if ([self.user isDoingCampaign:cell.campaign] || [self.user hasCompletedCampaign:cell.campaign]) {
         [self.navigationController pushViewController:destVC animated:YES];
     }
     else {
-        [[DSOUserManager sharedInstance] signupForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
+        [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
             [self.navigationController pushViewController:destVC animated:YES];
             [TSMessage setDefaultViewController:self.navigationController];
             [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
@@ -215,7 +215,9 @@ const CGFloat kHeightExpanded = 400;
 		
         return rbItems.count;
     }
+	
     NSArray *campaigns = interestGroup[@"campaigns"];
+	
     return campaigns.count;
 }
 

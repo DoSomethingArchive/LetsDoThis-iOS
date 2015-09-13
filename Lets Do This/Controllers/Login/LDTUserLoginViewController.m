@@ -39,8 +39,11 @@
 
 -(id)init{
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
+	
     if (self) {
+		
     }
+	
     return self;
 }
 
@@ -57,9 +60,11 @@
     self.textFields = @[self.emailTextField,
                         self.passwordTextField
                         ];
+	
     for (UITextField *aTextField in self.textFields) {
         aTextField.delegate = self;
     }
+	
     self.textFieldsRequired = @[self.emailTextField,
                                 self.passwordTextField];
 
@@ -72,7 +77,7 @@
 
 #pragma mark - LDTUserLoginViewController
 
-- (void) styleView {
+- (void)styleView {
     self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
 
     UIFont *font = [LDTTheme font];
@@ -110,6 +115,7 @@
 
 - (IBAction)registerLinkTouchUpInside:(id)sender {
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithNibName:@"LDTUserRegisterView" bundle:nil];
+	
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
@@ -117,6 +123,7 @@
     if (![self validateEmailForCandidate:self.emailTextField.text]) {
         [LDTMessage displayErrorMessageForString:@"Please enter a valid email."];
         [self.submitButton disable];
+		
         return;
     }
 
@@ -159,4 +166,5 @@
         [self.submitButton enable];
     }
 }
+
 @end

@@ -116,7 +116,7 @@
     }];
 }
 
-- (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
     [[DSOAPI sharedInstance] createSignupForCampaign:campaign completionHandler:^(NSDictionary *response) {
 
