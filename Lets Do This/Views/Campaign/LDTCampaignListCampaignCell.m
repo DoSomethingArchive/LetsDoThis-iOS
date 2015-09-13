@@ -8,8 +8,6 @@
 
 #import "LDTCampaignListCampaignCell.h"
 
-const CGFloat kCampaignCellHeightCollapsed = 32.0f;
-const CGFloat kCampaignCellHeightExpanded = 180.0f;
 const CGFloat kCampaignImageViewConstantCollapsed = -25;
 const CGFloat kCampaignImageViewConstantExpanded = 0;
 
@@ -28,6 +26,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleLabelTopLayoutConstraint;
+@property (nonatomic, assign) CGFloat collapsedTitleLabelTopConstant;
 
 
 @end
@@ -49,6 +48,15 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     self.titleLabel.textColor = [UIColor whiteColor];
     [self.actionButton enable];
     [self.imageView addGrayTint];
+}
+
+- (void)layoutSubviews {
+	[super layoutSubviews];
+	
+	if (!self.expanded) {
+			self.titleLabelTopLayoutConstraint.constant = CGRectGetMidY(self.bounds) - CGRectGetMidY(self.titleLabel.bounds);
+		self.collapsedTitleLabelTopConstant = self.titleLabelTopLayoutConstraint.constant;
+	}
 }
 
 - (void)setTitleLabelText:(NSString *)titleLabelText {
@@ -79,19 +87,20 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 -(void)setExpanded:(BOOL)expanded {
+	_expanded = expanded;
+	
 	if (expanded) {
-		self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightExpanded;
+		self.titleLabelTopLayoutConstraint.constant = CGRectGetHeight(self.imageView.bounds)-CGRectGetHeight(self.titleLabel.bounds)-10; // -10 for padding
 		self.imageViewTop.constant = kCampaignImageViewConstantExpanded;
 		self.imageViewBottom.constant = kCampaignImageViewConstantExpanded;
 		[self layoutIfNeeded];
 	}
 	else {
-		self.titleLabelTopLayoutConstraint.constant = kCampaignCellHeightCollapsed;
 		self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
 		self.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
+		self.titleLabelTopLayoutConstraint.constant = self.collapsedTitleLabelTopConstant;
 		[self layoutIfNeeded];
 	}
-	_expanded = expanded;
 }
 
 @end
