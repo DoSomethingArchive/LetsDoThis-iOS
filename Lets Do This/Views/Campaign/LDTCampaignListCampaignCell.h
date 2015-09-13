@@ -22,7 +22,7 @@
 @property (strong, nonatomic) NSString *taglineLabelText;
 @property (strong, nonatomic) NSURL *imageViewImageURL;
 @property (nonatomic, assign, getter=isExpanded) BOOL expanded;
-@property (nonatomic, assign) BOOL isSignedUp;
+@property (nonatomic, assign) BOOL signedUp;
 
 #warning Descriptive naming in xib files
 // The interface objects in the xib files (labels, views, etc.) should be named descriptively

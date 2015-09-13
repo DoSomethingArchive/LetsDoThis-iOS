@@ -105,7 +105,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 	}
 }
 
-- (void)setIsSignedUp:(BOOL)isSignedUp {
+- (void)setSignedUp:(BOOL)isSignedUp {
     if (isSignedUp) {
         self.signupIndicatorView.backgroundColor = [UIColor colorWithRed:141.0f/255.0f green:196.0f/255.0f blue:85.0f/255.0f alpha:1.0f];
     }

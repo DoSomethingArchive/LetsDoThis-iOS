@@ -39,15 +39,13 @@
 
 - (BOOL)userHasCachedSession {
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
+	
     return sessionToken.length > 0;
 }
 
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
-    [[DSOAPI sharedInstance] loginWithEmail:email
-               password:password
-      completionHandler:^(DSOUser *user) {
-
+    [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
           self.user = user;
 
           [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
@@ -59,7 +57,7 @@
           NSString *phoenixIDString = [NSString stringWithFormat:@"%li", (long)self.user.phoenixID];
           [SSKeychain setPassword:phoenixIDString forService:LDTSERVER account:@"PhoenixID"];
 
-          [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+          [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
               self.activeMobileAppCampaigns = campaigns;
           } errorHandler:^(NSError *error) {
               if (errorHandler) {
@@ -76,13 +74,12 @@
               errorHandler(error);
           }
       }];
-
 }
 
 - (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
-    if ([sessionToken length] > 0 == NO) {
+    if (sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
     }
@@ -90,7 +87,7 @@
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
     NSInteger phoenixID = [[SSKeychain passwordForService:LDTSERVER account:@"PhoenixID"] intValue];
-    [[DSOAPI sharedInstance] fetchUserWithPhoenixID:phoenixID completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] loadUserWithPhoenixID:phoenixID completionHandler:^(DSOUser *user) {
         self.user = user;
         if (completionHandler) {
             completionHandler();

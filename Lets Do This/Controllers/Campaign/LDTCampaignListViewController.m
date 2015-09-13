@@ -90,20 +90,10 @@ const CGFloat kHeightExpanded = 400;
     [navVC setOrange];
 
     self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
-    [[UISegmentedControl appearance]
-    setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [LDTTheme font],
-                             NSFontAttributeName,
-                             [UIColor grayColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateNormal];
-    [[UISegmentedControl appearance]
-     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [UIColor whiteColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateSelected];
+	[[UISegmentedControl appearance] setTitleTextAttributes:@{ NSFontAttributeName : [LDTTheme font],
+															   NSForegroundColorAttributeName : [UIColor grayColor] }
+												   forState:UIControlStateNormal];
+	[[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] } forState:UIControlStateSelected];
 }
 
 - (void)createInterestGroups {
@@ -169,18 +159,18 @@ const CGFloat kHeightExpanded = 400;
     cell.taglineLabelText = campaign.tagline;
     cell.imageViewImageURL = campaign.coverImageURL;
 
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:campaign]) {
+    if ([self.user isDoingCampaign:campaign] || [self.user hasCompletedCampaign:campaign]) {
         cell.actionButtonTitle = @"Prove it";
-        cell.isSignedUp = YES;
+        cell.signedUp = YES;
     }
     else {
         cell.actionButtonTitle = @"Do this now";
-        cell.isSignedUp = NO;
+        cell.signedUp = NO;
     }
 
     // @todo: Split out expiresLabel - GH #226
     NSString *expiresString = @"";
-    if ([campaign numberOfDaysLeft] > 0) {
+    if (campaign.numberOfDaysLeft > 0) {
         expiresString = [NSString stringWithFormat:@"Expires in %li Days", (long)[campaign numberOfDaysLeft]];
     }
     cell.expiresDaysLabelText = expiresString;
@@ -191,6 +181,10 @@ const CGFloat kHeightExpanded = 400;
     DSOReportbackItem *reportbackItem = (DSOReportbackItem *)reportbackItems[indexPath.row];
     cell.reportbackItem = reportbackItem;
     cell.reportbackItemImageURL = reportbackItem.imageURL;
+}
+
+-(DSOUser *)user {
+	return [DSOUserManager sharedInstance].user;
 }
 
 #pragma mark - LDTCampaignListCampaignCellDelegate
@@ -218,6 +212,7 @@ const CGFloat kHeightExpanded = 400;
     NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
     if (section == LDTCampaignListSectionTypeReportback) {
         NSArray *rbItems = interestGroup[@"reportbackItems"];
+		
         return rbItems.count;
     }
     NSArray *campaigns = interestGroup[@"campaigns"];
@@ -232,11 +227,13 @@ const CGFloat kHeightExpanded = 400;
     if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
         LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
         [self configureCampaignCell:campaignCell atIndexPath:indexPath];
+		
         return campaignCell;
     }
     if (indexPath.section == LDTCampaignListSectionTypeReportback) {
         LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         [self configureReportbackItemCell:reportbackItemCell atIndexPath:indexPath];
+		
         return reportbackItemCell;
     }
     return nil;
@@ -270,6 +267,7 @@ const CGFloat kHeightExpanded = 400;
         LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
         LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:reportbackItemCell.reportbackItem];
         [self.navigationController pushViewController:destVC animated:YES];
+		
         return;
     }
 
