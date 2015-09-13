@@ -32,6 +32,7 @@
 
 @protocol LDTCampaignListCampaignCellDelegate <NSObject>
 
+@required
 - (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell;
 
 @end
