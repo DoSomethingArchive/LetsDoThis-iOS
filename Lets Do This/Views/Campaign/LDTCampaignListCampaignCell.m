@@ -13,9 +13,6 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 @interface LDTCampaignListCampaignCell()
 
-
-- (IBAction)actionButtonTouchUpInside:(id)sender;
-
 @property (weak, nonatomic) IBOutlet LDTButton *actionButton;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -26,8 +23,9 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleLabelTopLayoutConstraint;
-@property (nonatomic, assign) CGFloat collapsedTitleLabelTopConstant;
+@property (nonatomic, assign) CGFloat collapsedTitleLabelTopLayoutConstraintConstant;
 
+- (IBAction)actionButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -38,7 +36,6 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (void)styleView {
-    self.titleLabel.numberOfLines = 0;
     self.titleLabel.font = [LDTTheme fontTitle];
     self.taglineLabel.font = [LDTTheme font];
 
@@ -52,10 +49,12 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 - (void)layoutSubviews {
 	[super layoutSubviews];
-	
+	// When we first load this cell, it's in a collapsed state. Since label height is variable based on amount of text,
+	// after we set the label's text and lay it out this method gets called. Save the constant for later use when collapse it again
+	// after expanding
 	if (!self.expanded) {
-			self.titleLabelTopLayoutConstraint.constant = CGRectGetMidY(self.bounds) - CGRectGetMidY(self.titleLabel.bounds);
-		self.collapsedTitleLabelTopConstant = self.titleLabelTopLayoutConstraint.constant;
+		self.titleLabelTopLayoutConstraint.constant = CGRectGetMidY(self.bounds) - CGRectGetMidY(self.titleLabel.bounds);
+		self.collapsedTitleLabelTopLayoutConstraintConstant = self.titleLabelTopLayoutConstraint.constant;
 	}
 }
 
@@ -93,12 +92,14 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 		self.titleLabelTopLayoutConstraint.constant = CGRectGetHeight(self.imageView.bounds)-CGRectGetHeight(self.titleLabel.bounds)-10; // -10 for padding
 		self.imageViewTop.constant = kCampaignImageViewConstantExpanded;
 		self.imageViewBottom.constant = kCampaignImageViewConstantExpanded;
+		
 		[self layoutIfNeeded];
 	}
 	else {
 		self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
 		self.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
-		self.titleLabelTopLayoutConstraint.constant = self.collapsedTitleLabelTopConstant;
+		self.titleLabelTopLayoutConstraint.constant = self.collapsedTitleLabelTopLayoutConstraintConstant;
+		
 		[self layoutIfNeeded];
 	}
 }
