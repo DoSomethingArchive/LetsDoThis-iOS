@@ -13,15 +13,24 @@
 
 @interface DSOCampaignTests : XCTestCase
 
+// Can create model objects and test them
 @property (nonatomic, strong) DSOCampaign *campaign;
 
 @end
 
 @implementation DSOCampaignTests
 
+// Hit command-u to run unit tests. Output will appear in the debugger console. In addition, you can also put breakpoints on
+// these methods just like normal code. Since they execute methods in our code, you can also put breakpoints on those methods
+// to examine their values, if needed.
+
+// This is a good tutorial: http://code.tutsplus.com/tutorials/introduction-to-testing-on-ios--cms-22394
+
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+	
+	// This is like the -init method on NSObjects
 }
 
 - (void)tearDown {
@@ -54,7 +63,8 @@
 	
 	XCTAssertEqualObjects(testValue, @"Test nil value", @"Should have been placeholder text in this case.");
 	
-	// This will come back as nil, which we probably don't want
+	// This will come back as nil, but in real life our dict never could've been initialized with a nil value
+	// If we misspell a key in a dict it would come back nil but that's fair
 	NSString *nilValue = [dict valueForKeyAsString:@"noKey"];
 }
 
