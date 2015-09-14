@@ -52,10 +52,7 @@
 
           // Save session in Keychain for when app is quit.
           [SSKeychain setPassword:user.sessionToken forService:LDTSERVER account:@"Session"];
-
-          // Save Phoenix ID of current user in Keychain.
-          NSString *phoenixIDString = [NSString stringWithFormat:@"%li", (long)self.user.phoenixID];
-          [SSKeychain setPassword:phoenixIDString forService:LDTSERVER account:@"PhoenixID"];
+          [SSKeychain setPassword:self.user.userID forService:LDTSERVER account:@"UserID"];
 
           [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
               self.activeMobileAppCampaigns = campaigns;
@@ -86,8 +83,8 @@
 
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
-    NSInteger phoenixID = [[SSKeychain passwordForService:LDTSERVER account:@"PhoenixID"] intValue];
-    [[DSOAPI sharedInstance] loadUserWithPhoenixID:phoenixID completionHandler:^(DSOUser *user) {
+    NSString *userID = [SSKeychain passwordForService:LDTSERVER account:@"UserID"];
+    [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         if (completionHandler) {
             completionHandler();
@@ -102,7 +99,7 @@
 - (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
         [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
-        [SSKeychain deletePasswordForService:LDTSERVER account:@"PhoenixID"];
+        [SSKeychain deletePasswordForService:LDTSERVER account:@"UserID"];
 
         self.user = nil;
 

@@ -180,8 +180,8 @@
       }];
 }
 
-- (void)loadUserWithPhoenixID:(NSInteger)phoenixID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"users/drupal_id/%li", (long)phoenixID];
+- (void)loadUserWithUserId:(NSString *)userID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSArray *userInfo = responseObject[@"data"];
           DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:userInfo.firstObject];
