@@ -97,6 +97,9 @@ const CGFloat kHeightExpanded = 400;
     [self.segmentedControl setDividerImage:[UIImage imageNamed:@"SegCtrl None Selected.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [self.segmentedControl setDividerImage:[UIImage imageNamed:@"SegCtrl Divider Left Selected.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [self.segmentedControl setDividerImage:[UIImage imageNamed:@"SegCtrl Divider Right Selected.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+
+    [self.segmentedControl setDividerImage:[UIImage imageNamed:@"SegCtrl Divider Right Selected.png"] forLeftSegmentState:UIControlStateHighlighted rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    [self.segmentedControl setDividerImage:[UIImage imageNamed:@"SegCtrl Divider Left Selected.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
     
     UIImage *normalBackgroundImage = [UIImage imageNamed:@"SegCtrl None Selected.png"];
     [self.segmentedControl setBackgroundImage:normalBackgroundImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];\
