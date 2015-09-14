@@ -32,25 +32,25 @@
 
 @synthesize photo = _photo;
 
-- (instancetype)initWithNorthstarDict:(NSDictionary*)northstarDict {
+- (instancetype)initWithDict:(NSDictionary *)dict {
     self = [super init];
 
     if (self) {
-        self.userID = northstarDict[@"_id"];
-        if ([northstarDict objectForKey:@"country"]) {
-            self.countryCode = northstarDict[@"country"];
+        self.userID = dict[@"_id"];
+        if ([dict objectForKey:@"country"]) {
+            self.countryCode = dict[@"country"];
         }
-        self.firstName = northstarDict[@"first_name"];
-        self.email = northstarDict[@"email"];
-        self.sessionToken = northstarDict[@"session_token"];
+        self.firstName = dict[@"first_name"];
+        self.email = dict[@"email"];
+        self.sessionToken = dict[@"session_token"];
 		
-        if (northstarDict[@"photo"]) {
+        if (dict[@"photo"]) {
             self.photo = nil;
-            [[SDWebImageManager sharedManager] downloadImageWithURL:northstarDict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
+            [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
                  self.photo = image;
              }];
         }
-        self.campaigns = northstarDict[@"campaigns"];
+        self.campaigns = dict[@"campaigns"];
 		
         [self syncActiveMobileAppCampaigns];
     }

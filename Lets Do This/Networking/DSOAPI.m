@@ -123,7 +123,7 @@
                              @"password": password};
 
     [self POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:responseObject[@"data"]];
+        DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
         if (completionHandler) {
             completionHandler(user);
         }
@@ -184,7 +184,7 @@
     NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSArray *userInfo = responseObject[@"data"];
-          DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:userInfo.firstObject];
+          DSOUser *user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
           if (completionHandler) {
               completionHandler(user);
           }

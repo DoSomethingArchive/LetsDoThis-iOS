@@ -72,7 +72,7 @@
     // This doesn't work anyway.
     fbUser[@"photo"] = @"http://static.deathandtaxesmag.com/uploads/2013/06/furlong1.jpg";
 
-    DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:fbUser];
+    DSOUser *user = [[DSOUser alloc] initWithDict:fbUser];
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:user];
 	
     [self.navigationController pushViewController:destVC animated:YES];
