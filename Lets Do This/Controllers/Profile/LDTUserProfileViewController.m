@@ -55,7 +55,7 @@ static NSString *cellIdentifier = @"rowCell";
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 
-    if (self.user.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) {
+    if (self.user.userID == [DSOUserManager sharedInstance].user.userID) {
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
         self.navigationItem.rightBarButtonItem = settingsButton;
     }
@@ -68,7 +68,7 @@ static NSString *cellIdentifier = @"rowCell";
 
     [self styleView];
 
-    [[DSOAPI sharedInstance] loadUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] loadUserWithUserId:self.user.userID completionHandler:^(DSOUser *user) {
         self.user = user;
         self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
         self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;

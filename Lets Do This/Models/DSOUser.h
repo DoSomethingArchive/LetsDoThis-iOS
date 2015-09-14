@@ -14,7 +14,6 @@
 @interface DSOUser : NSObject
 
 @property (nonatomic, strong, readonly) NSString *userID;
-@property (nonatomic, assign, readonly) NSInteger phoenixID;
 @property (nonatomic, strong, readonly) NSString *sessionToken;
 @property (nonatomic, strong, readonly) NSString *countryCode;
 @property (nonatomic, strong, readonly) NSString *countryName;
@@ -28,8 +27,7 @@
 @property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsDoing;
 @property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsCompleted;
 
-- (instancetype)initWithNorthstarDict:(NSDictionary*)northstarDict;
-- (instancetype)initWithPhoenixDict:(NSDictionary *)phoenixDict;
+- (instancetype)initWithDict:(NSDictionary *)dict;
 - (void)setPhoto:(UIImage *)image;
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign;
 - (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign;
