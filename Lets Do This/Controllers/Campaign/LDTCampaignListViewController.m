@@ -91,19 +91,25 @@ const CGFloat kHeightExpanded = 400;
 
     self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
     [[UISegmentedControl appearance]
-    setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [LDTTheme font],
-                             NSFontAttributeName,
-                             [UIColor grayColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateNormal];
-    [[UISegmentedControl appearance]
-     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [UIColor whiteColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateSelected];
+    setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [LDTTheme font], NSFontAttributeName, [UIColor grayColor], NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+    [[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor], NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+    
+    [self.segmentedControl setDividerImage:[UIImage imageNamed:@"SegCtrl None Selected.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [self.segmentedControl setDividerImage:[UIImage imageNamed:@"SegCtrl Divider Left Selected.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [self.segmentedControl setDividerImage:[UIImage imageNamed:@"SegCtrl Divider Right Selected.png"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    
+    UIImage *normalBackgroundImage = [UIImage imageNamed:@"SegCtrl None Selected.png"];
+    [self.segmentedControl setBackgroundImage:normalBackgroundImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];\
+    UIImage *selectedBackgroundImage = [UIImage imageNamed:@"SegCtrl Selected.png"];
+    [self.segmentedControl setBackgroundImage:selectedBackgroundImage forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    
+    // UISegmentedControl center-aligns text inside its segments according to their width,
+    // which doesn't include divider images. Here, we're shifting the left-most segment text
+    // to the right and the right-most segment text to the left by a proportion of the
+    // segment divider image width.
+    CGFloat dividerImageWidth = [UIImage imageNamed:@"SegCtrl Divider Right Selected.png"].size.width;
+    [self.segmentedControl setContentPositionAdjustment:UIOffsetMake(dividerImageWidth / 3, 0) forSegmentType:UISegmentedControlSegmentLeft barMetrics:UIBarMetricsDefault];
+    [self.segmentedControl setContentPositionAdjustment:UIOffsetMake(- dividerImageWidth / 3, 0) forSegmentType:UISegmentedControlSegmentRight barMetrics:UIBarMetricsDefault];
 }
 
 - (void)createInterestGroups {
@@ -153,6 +159,19 @@ const CGFloat kHeightExpanded = 400;
 }
 
 - (IBAction)segmentedControlValueChanged:(id)sender {
+    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+    
+    // Removes default UISegmentedControl animations run when switching segments.
+    for (UIView *segment in [segmentedControl subviews]) {
+        [segment.layer removeAllAnimations];
+        
+        for (UIView *view in [segment subviews]) {
+            if ([view isKindOfClass:[UILabel class]]) {
+                [view.layer removeAllAnimations];
+            }
+        }
+    }
+    
     self.selectedIndexPath = nil;
     [self.collectionView reloadData];
 }
