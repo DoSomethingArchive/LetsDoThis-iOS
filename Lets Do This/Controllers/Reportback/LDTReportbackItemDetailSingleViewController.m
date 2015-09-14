@@ -15,7 +15,6 @@
 @interface LDTReportbackItemDetailSingleViewController () <LDTReportbackItemDetailViewDelegate>
 
 @property (strong, nonatomic) DSOReportbackItem *reportbackItem;
-
 @property (weak, nonatomic) IBOutlet LDTReportbackItemDetailView *reportbackItemDetailView;
 
 @end
@@ -76,11 +75,13 @@
 
 - (void)didClickCampaignTitleButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:self.reportbackItem.campaign];
+	
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
     LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:self.reportbackItem.user];
+	
     [self.navigationController pushViewController:destVC animated:YES];
 }
 

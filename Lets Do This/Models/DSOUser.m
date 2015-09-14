@@ -45,13 +45,15 @@
         self.firstName = northstarDict[@"first_name"];
         self.email = northstarDict[@"email"];
         self.sessionToken = northstarDict[@"session_token"];
-        if ([northstarDict objectForKey:@"photo"] != nil) {
+		
+        if (northstarDict[@"photo"]) {
             self.photo = nil;
             [[SDWebImageManager sharedManager] downloadImageWithURL:northstarDict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
                  self.photo = image;
              }];
         }
         self.campaigns = northstarDict[@"campaigns"];
+		
         [self syncActiveMobileAppCampaigns];
     }
 
@@ -72,8 +74,7 @@
     if (!_photo) {
         // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
         if (self.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) {
-            NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
-            NSString *storedAvatarPhotoPath = [storedUserDefaults objectForKey:@"storedAvatarPhotoPath"];
+            NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"storedAvatarPhotoPath"];
             if (storedAvatarPhotoPath) {
                 _photo = [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
             }
@@ -82,6 +83,7 @@
             return [UIImage imageNamed:@"Default Avatar"];
         }
 	}
+	
 	return _photo;
 }
 
@@ -102,6 +104,7 @@
             else {
                 [storedUserDefaults setObject:storedAvatarPhotoPath forKey:@"storedAvatarPhotoPath"];
                 [storedUserDefaults synchronize];
+				
                 NSString *successMessage = [NSString stringWithFormat:@"Avatar successfully stored locally at path: %@", storedAvatarPhotoPath];
                 NSLog(successMessage, nil);
             }
@@ -113,6 +116,7 @@
     if (!self.countryCode) {
         return @"";
     }
+	
     NSArray *countryCodes = [NSLocale ISOCountryCodes];
     NSMutableArray *fullCountryNames = [NSMutableArray arrayWithCapacity:countryCodes.count];
     
@@ -121,6 +125,7 @@
         NSString *localeIdentifier = [NSLocale localeIdentifierFromComponents:[NSDictionary dictionaryWithObject:countryCode forKey:NSLocaleCountryCode]];
         // Using that locale identifier to find all the information about that locale, and specifically retrieving its full name.
         NSString *fullCountryName = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] displayNameForKey:NSLocaleIdentifier value:localeIdentifier];
+		
         [fullCountryNames addObject:fullCountryName];
     }
     
@@ -128,6 +133,7 @@
     if (codeForCountryDictionary[self.countryCode]) {
         return codeForCountryDictionary[self.countryCode];
     }
+	
     return @"";
 }
 
@@ -144,7 +150,6 @@
             else {
                 [self.activeMobileAppCampaignsDoing addObject:campaign];
             }
-
         }
     }
 }
@@ -156,6 +161,7 @@
     if (self.phoenixID > 0) {
         return [NSString stringWithFormat:@"%li", (long)self.phoenixID];
     }
+	
     return nil;
 }
 
@@ -165,6 +171,7 @@
             return YES;
         }
     }
+	
     return NO;
 }
 
@@ -174,6 +181,7 @@
             return YES;
         }
     }
+	
     return NO;
 }
 

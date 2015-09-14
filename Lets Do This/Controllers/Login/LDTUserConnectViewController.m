@@ -48,19 +48,19 @@
 - (void)styleView {
     self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
 
-    [self.headerLabel setFont:[LDTTheme font]];
-    [self.headerLabel setTextColor:[UIColor whiteColor]];
-
-    [self.registerButton setBackgroundColor:[LDTTheme ctaBlueColor]];
+    self.headerLabel.font = [LDTTheme font];
+    self.headerLabel.textColor = [UIColor whiteColor];
+	self.registerButton.backgroundColor = [LDTTheme ctaBlueColor];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.facebookButton setBackgroundColor:[LDTTheme facebookBlueColor]];
+    self.facebookButton.backgroundColor = [LDTTheme facebookBlueColor];
     [self.facebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.loginButton setBackgroundColor:[UIColor whiteColor]];
+    self.loginButton.backgroundColor = [UIColor whiteColor];
     [self.loginButton setTitleColor:[LDTTheme ctaBlueColor] forState:UIControlStateNormal];
 }
 
 - (IBAction)registerTapped:(id)sender {
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:nil];
+	
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
@@ -74,11 +74,13 @@
 
     DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:fbUser];
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:user];
+	
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
 - (IBAction)loginButtonTouchUpInside:(id)sender {
     LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginView" bundle:nil];
+	
     [self.navigationController pushViewController:destVC animated:YES];
 }
 

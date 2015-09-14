@@ -13,12 +13,14 @@
 
 - (id)initWithCoder:(NSCoder*)coder {
     self = [super initWithCoder:coder];
+	
     if (self) {
 
         [[self titleLabel] setFont:[LDTTheme fontBold]];
         self.layer.cornerRadius = 4;
 
     }
+	
     return self;
 }
 

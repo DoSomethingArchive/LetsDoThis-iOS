@@ -90,20 +90,10 @@ const CGFloat kHeightExpanded = 400;
     [navVC setOrange];
 
     self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
-    [[UISegmentedControl appearance]
-    setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [LDTTheme font],
-                             NSFontAttributeName,
-                             [UIColor grayColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateNormal];
-    [[UISegmentedControl appearance]
-     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [UIColor whiteColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateSelected];
+	[[UISegmentedControl appearance] setTitleTextAttributes:@{ NSFontAttributeName : [LDTTheme font],
+															   NSForegroundColorAttributeName : [UIColor grayColor] }
+												   forState:UIControlStateNormal];
+	[[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] } forState:UIControlStateSelected];
 }
 
 - (void)createInterestGroups {
@@ -134,7 +124,7 @@ const CGFloat kHeightExpanded = 400;
     NSArray *statusValues = @[@"promoted", @"approved"];
     for (NSString *status in statusValues) {
         for (NSNumber *key in self.interestGroups) {
-            [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
+            [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
                 for (DSOReportbackItem *rbItem in rbItems) {
                     [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
                 }
@@ -169,18 +159,18 @@ const CGFloat kHeightExpanded = 400;
     cell.taglineLabelText = campaign.tagline;
     cell.imageViewImageURL = campaign.coverImageURL;
 
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:campaign]) {
+    if ([self.user isDoingCampaign:campaign] || [self.user hasCompletedCampaign:campaign]) {
         cell.actionButtonTitle = @"Prove it";
-        cell.isSignedUp = YES;
+        cell.signedUp = YES;
     }
     else {
         cell.actionButtonTitle = @"Do this now";
-        cell.isSignedUp = NO;
+        cell.signedUp = NO;
     }
 
     // @todo: Split out expiresLabel - GH #226
     NSString *expiresString = @"";
-    if ([campaign numberOfDaysLeft] > 0) {
+    if (campaign.numberOfDaysLeft > 0) {
         expiresString = [NSString stringWithFormat:@"Expires in %li Days", (long)[campaign numberOfDaysLeft]];
     }
     cell.expiresDaysLabelText = expiresString;
@@ -193,16 +183,20 @@ const CGFloat kHeightExpanded = 400;
     cell.reportbackItemImageURL = reportbackItem.imageURL;
 }
 
+-(DSOUser *)user {
+	return [DSOUserManager sharedInstance].user;
+}
+
 #pragma mark - LDTCampaignListCampaignCellDelegate
 
 - (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell {
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:cell.campaign];
 
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:cell.campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:cell.campaign]) {
+    if ([self.user isDoingCampaign:cell.campaign] || [self.user hasCompletedCampaign:cell.campaign]) {
         [self.navigationController pushViewController:destVC animated:YES];
     }
     else {
-        [[DSOUserManager sharedInstance] signupForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
+        [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
             [self.navigationController pushViewController:destVC animated:YES];
             [TSMessage setDefaultViewController:self.navigationController];
             [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
@@ -218,9 +212,12 @@ const CGFloat kHeightExpanded = 400;
     NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
     if (section == LDTCampaignListSectionTypeReportback) {
         NSArray *rbItems = interestGroup[@"reportbackItems"];
+		
         return rbItems.count;
     }
+	
     NSArray *campaigns = interestGroup[@"campaigns"];
+	
     return campaigns.count;
 }
 
@@ -232,11 +229,13 @@ const CGFloat kHeightExpanded = 400;
     if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
         LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
         [self configureCampaignCell:campaignCell atIndexPath:indexPath];
+		
         return campaignCell;
     }
     if (indexPath.section == LDTCampaignListSectionTypeReportback) {
         LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         [self configureReportbackItemCell:reportbackItemCell atIndexPath:indexPath];
+		
         return reportbackItemCell;
     }
     return nil;
@@ -270,6 +269,7 @@ const CGFloat kHeightExpanded = 400;
         LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
         LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:reportbackItemCell.reportbackItem];
         [self.navigationController pushViewController:destVC animated:YES];
+		
         return;
     }
 

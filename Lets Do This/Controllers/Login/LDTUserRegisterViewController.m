@@ -20,7 +20,6 @@
 @property (strong, nonatomic) NSString *avatarFilestring;
 @property (strong, nonatomic) NSString *countryCode;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
-
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *avatarButton;
@@ -243,7 +242,7 @@
         [self.firstNameTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"We need your first name."];
     }
-    if (![self validateEmail:self.emailTextField.text]) {
+    if (![self validateEmailForCandidate:self.emailTextField.text]) {
         [self.emailTextField setBorderColor:[UIColor redColor]];
         [errorMessages addObject:@"We need a valid email."];
     }
