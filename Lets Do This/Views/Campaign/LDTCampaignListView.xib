@@ -17,8 +17,9 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="egp-zm-2wL">
-                    <rect key="frame" x="8" y="8" width="584" height="45"/>
+                    <rect key="frame" x="8" y="0.0" width="584" height="71"/>
                     <constraints>
+                        <constraint firstAttribute="height" constant="70" id="6eZ-wJ-WLH"/>
                         <constraint firstAttribute="height" constant="44" id="VoT-Xs-kIJ"/>
                     </constraints>
                     <segments>
@@ -27,12 +28,17 @@
                         <segment title="Pink"/>
                         <segment title="Floyd"/>
                     </segments>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="VoT-Xs-kIJ"/>
+                        </mask>
+                    </variation>
                     <connections>
                         <action selector="segmentedControlValueChanged:" destination="-1" eventType="valueChanged" id="ecq-pQ-tka"/>
                     </connections>
                 </segmentedControl>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="410-82-MGm">
-                    <rect key="frame" x="0.0" y="60" width="600" height="540"/>
+                    <rect key="frame" x="0.0" y="70" width="600" height="556"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5Ha-gu-PSJ">
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -47,12 +53,12 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="410-82-MGm" secondAttribute="bottom" id="7Wp-s7-mHV"/>
+                <constraint firstAttribute="bottom" secondItem="410-82-MGm" secondAttribute="bottom" constant="-26" id="7Wp-s7-mHV"/>
                 <constraint firstItem="410-82-MGm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="7aq-kG-ML2"/>
-                <constraint firstItem="egp-zm-2wL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="Cyu-Sx-UHj"/>
+                <constraint firstItem="egp-zm-2wL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Cyu-Sx-UHj"/>
                 <constraint firstItem="egp-zm-2wL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="I7q-VM-5u6"/>
                 <constraint firstAttribute="trailing" secondItem="egp-zm-2wL" secondAttribute="trailing" constant="8" id="RxG-vg-Zg3"/>
-                <constraint firstItem="410-82-MGm" firstAttribute="top" secondItem="egp-zm-2wL" secondAttribute="bottom" constant="8" id="VPK-Rt-U5M"/>
+                <constraint firstItem="410-82-MGm" firstAttribute="top" secondItem="egp-zm-2wL" secondAttribute="bottom" id="VPK-Rt-U5M"/>
                 <constraint firstAttribute="trailing" secondItem="410-82-MGm" secondAttribute="trailing" id="VdC-Ve-OZj"/>
             </constraints>
         </view>

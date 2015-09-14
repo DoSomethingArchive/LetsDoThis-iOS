@@ -59,7 +59,7 @@ const CGFloat kHeightExpanded = 400;
     for (int i = 0; i < 4; i++) {
         [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forSegmentAtIndex:i];
     }
-
+    
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
@@ -88,6 +88,8 @@ const CGFloat kHeightExpanded = 400;
 
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
+    
+    [self.segmentedControl setFrame:CGRectMake(0, 0, 320, 100)];
 
     self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
     [[UISegmentedControl appearance]
@@ -102,7 +104,7 @@ const CGFloat kHeightExpanded = 400;
     [self.segmentedControl setDividerImage:[UIImage imageNamed:@"SegCtrl Divider Left Selected.png"] forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
     
     UIImage *normalBackgroundImage = [UIImage imageNamed:@"SegCtrl None Selected.png"];
-    [self.segmentedControl setBackgroundImage:normalBackgroundImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];\
+    [self.segmentedControl setBackgroundImage:normalBackgroundImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     UIImage *selectedBackgroundImage = [UIImage imageNamed:@"SegCtrl Selected.png"];
     [self.segmentedControl setBackgroundImage:selectedBackgroundImage forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
     
