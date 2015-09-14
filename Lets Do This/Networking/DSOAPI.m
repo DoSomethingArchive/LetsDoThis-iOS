@@ -51,8 +51,7 @@
     NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/v1/", DSOPROTOCOL, LDTSERVER]];
     self = [super initWithBaseURL:baseURL];
 
-    if (self != nil) {
-
+    if (self) {
         if (isActivityLogging) {
             [[AFNetworkActivityLogger sharedLogger] startLogging];
             [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
@@ -181,7 +180,7 @@
       }];
 }
 
-- (void)fetchUserWithPhoenixID:(NSInteger)phoenixID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+- (void)loadUserWithPhoenixID:(NSInteger)phoenixID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"users/drupal_id/%li", (long)phoenixID];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSArray *userInfo = responseObject[@"data"];
@@ -197,7 +196,7 @@
       }];
 }
 
-- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)loadCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
     for (NSDictionary *term in self.interestGroups) {
         NSNumber *termId = (NSNumber *)term[@"id"];
@@ -223,7 +222,7 @@
     }];
 }
 
-- (void)fetchReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)loadReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSMutableArray *campaignIds = [[NSMutableArray alloc] init];
     for (DSOCampaign *campaign in campaigns) {
         [campaignIds addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];

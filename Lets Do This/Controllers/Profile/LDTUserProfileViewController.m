@@ -27,7 +27,7 @@
 
 @end
 
-static NSString *cellIdentifier;
+static NSString *cellIdentifier = @"rowCell";
 
 @implementation LDTUserProfileViewController
 
@@ -53,7 +53,6 @@ static NSString *cellIdentifier;
     [self styleView];
     [self updateUserDetails];
 
-    cellIdentifier = @"rowCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 
     if (self.user.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) {
@@ -69,11 +68,12 @@ static NSString *cellIdentifier;
 
     [self styleView];
 
-    [[DSOAPI sharedInstance] fetchUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] loadUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
         self.user = user;
         self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
         self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;
         [self updateUserDetails];
+		
         [self.tableView reloadData];
     } errorHandler:^(NSError *error) {
         [LDTMessage displayErrorMessageForError:error];
@@ -146,6 +146,7 @@ static NSString *cellIdentifier;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     DSOCampaign *campaign;
+	
     if (indexPath.section == 0) {
         campaign = self.campaignsDoing[indexPath.row];
     }
@@ -155,6 +156,7 @@ static NSString *cellIdentifier;
     cell.textLabel.text = [campaign.title uppercaseString];
     cell.userInteractionEnabled = YES;
     cell.textLabel.font = [LDTTheme fontBold];
+	
     return cell;
 }
 

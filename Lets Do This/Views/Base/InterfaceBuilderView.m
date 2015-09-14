@@ -30,6 +30,7 @@
 	
 	UIView *view = [nib instantiateWithOwner:self options:nil][0];
 	view.frame = self.bounds;
+	
 	[self addSubview:view];
 }
 

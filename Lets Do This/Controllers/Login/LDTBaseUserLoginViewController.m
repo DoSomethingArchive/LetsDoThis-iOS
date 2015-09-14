@@ -45,12 +45,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
-- (BOOL)validateEmail:(NSString *)candidate {
+- (BOOL)validateEmailForCandidate:(NSString *)candidate {
     if (candidate.length < 6) {
         return NO;
     }
+	
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+	
     return [emailTest evaluateWithObject:candidate];
 }
 
@@ -67,7 +69,7 @@
          // Scrollview scroll area adjusts to fit keyboard
          self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.view.frame.size.height - self.keyboardFrameInViewCoordinates.origin.y, 0);
          self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
-     } completion:NULL];
+     } completion:nil];
 }
 
 - (void)handleKeyboardWillHideNotification:(NSNotification *)notification {
@@ -83,7 +85,7 @@
          // Scrollview scroll area goes back to full-size
          self.scrollView.contentInset =  UIEdgeInsetsMake(0, 0, self.bottomLayoutGuide.length, 0);
          self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
-     } completion:NULL];
+     } completion:nil];
 }
 
 - (CGRect)keyboardFrameInViewCoordinates:(UIView *)view {
