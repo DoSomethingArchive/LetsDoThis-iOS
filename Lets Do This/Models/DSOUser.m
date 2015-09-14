@@ -15,7 +15,6 @@
 @interface DSOUser()
 
 @property (nonatomic, strong, readwrite) NSString *userID;
-@property (nonatomic, assign, readwrite) NSInteger phoenixID;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *firstName;
@@ -33,26 +32,25 @@
 
 @synthesize photo = _photo;
 
-- (instancetype)initWithNorthstarDict:(NSDictionary*)northstarDict {
+- (instancetype)initWithDict:(NSDictionary *)dict {
     self = [super init];
 
     if (self) {
-        self.userID = northstarDict[@"_id"];
-        if ([northstarDict objectForKey:@"country"]) {
-            self.countryCode = northstarDict[@"country"];
+        self.userID = dict[@"_id"];
+        if ([dict objectForKey:@"country"]) {
+            self.countryCode = dict[@"country"];
         }
-        self.phoenixID = [northstarDict[@"drupal_id"] intValue];
-        self.firstName = northstarDict[@"first_name"];
-        self.email = northstarDict[@"email"];
-        self.sessionToken = northstarDict[@"session_token"];
+        self.firstName = dict[@"first_name"];
+        self.email = dict[@"email"];
+        self.sessionToken = dict[@"session_token"];
 		
-        if (northstarDict[@"photo"]) {
+        if (dict[@"photo"]) {
             self.photo = nil;
-            [[SDWebImageManager sharedManager] downloadImageWithURL:northstarDict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
+            [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
                  self.photo = image;
              }];
         }
-        self.campaigns = northstarDict[@"campaigns"];
+        self.campaigns = dict[@"campaigns"];
 		
         [self syncActiveMobileAppCampaigns];
     }
@@ -60,20 +58,12 @@
     return self;
 }
 
-- (instancetype)initWithPhoenixDict:(NSDictionary *)phoenixDict {
-    self = [super init];
 
-    if (self) {
-        self.phoenixID = [phoenixDict[@"id"] intValue];
-    }
-
-    return self;
-}
 
 - (UIImage *)photo {
     if (!_photo) {
         // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
-        if (self.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) {
+        if (self.userID == [DSOUserManager sharedInstance].user.userID) {
             NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"storedAvatarPhotoPath"];
             if (storedAvatarPhotoPath) {
                 _photo = [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
@@ -90,7 +80,7 @@
 - (void)setPhoto:(UIImage *)photo {
     _photo = photo;
     // If this user is the logged in user, persist her avatar photo.
-    if (self.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) {
+    if (self.userID == [DSOUserManager sharedInstance].user.userID) {
         if (photo) {
             NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
             NSArray *storagePaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -158,11 +148,7 @@
     if (self.firstName.length > 0) {
         return self.firstName;
     }
-    if (self.phoenixID > 0) {
-        return [NSString stringWithFormat:@"%li", (long)self.phoenixID];
-    }
-	
-    return nil;
+    return self.userID;
 }
 
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign {
