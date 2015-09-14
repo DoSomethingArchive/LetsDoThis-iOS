@@ -31,7 +31,7 @@
         self.caption = [dict valueForKeyAsString:@"caption"];
         NSString *imagePath = [[dict valueForKeyPath:@"media"] valueForKeyAsString:@"uri" nullValue:nil];
         self.imageURL = [NSURL URLWithString:imagePath];
-        self.user = [[DSOUser alloc] initWithNorthstarDict:dict[@"user"]];
+        self.user = [[DSOUser alloc] initWithDict:dict[@"user"]];
         NSInteger campaignID = [[dict valueForKeyPath:@"campaign.id"] intValue];
         // @todo: If an active DSOCampaign doesn't exist, use the dictionary to create a DSOCampaign to expose the Campaign Title
 		
