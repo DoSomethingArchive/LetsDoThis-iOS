@@ -67,7 +67,7 @@
 - (UIImage *)photo {
     if (!_photo) {
         // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
-        if (self.userID == [DSOUserManager sharedInstance].user.userID) {
+        if ([self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
             NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"storedAvatarPhotoPath"];
             if (storedAvatarPhotoPath) {
                 _photo = [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
@@ -84,7 +84,7 @@
 - (void)setPhoto:(UIImage *)photo {
     _photo = photo;
     // If this user is the logged in user, persist her avatar photo.
-    if (self.userID == [DSOUserManager sharedInstance].user.userID) {
+    if ([self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
         if (photo) {
             NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
             NSArray *storagePaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
