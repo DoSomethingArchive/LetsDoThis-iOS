@@ -18,8 +18,8 @@
 #import "LDTHeaderCollectionReusableView.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
-    LDTCampaignListSectionTypeCampaign = 0,
-    LDTCampaignListSectionTypeReportback = 1
+    LDTCampaignListSectionTypeCampaign,
+    LDTCampaignListSectionTypeReportback
 };
 
 const CGFloat kHeightCollapsed = 100;
