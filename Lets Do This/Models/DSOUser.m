@@ -39,12 +39,12 @@
         self.userID = dict[@"_id"];
         // Hack to hotfix inconsistent API id property: https://github.com/DoSomething/LetsDoThis-iOS/issues/340
         if (!self.userID) {
-            self.userID = dict[@"id"];
+            self.userID = [dict valueForKeyAsString:@"id" nullValue:@"Null ID"];
         }
         if ([dict objectForKey:@"country"]) {
             self.countryCode = dict[@"country"];
         }
-        self.firstName = dict[@"first_name"];
+        self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Null First Name"];
         self.email = dict[@"email"];
         self.sessionToken = dict[@"session_token"];
 		
