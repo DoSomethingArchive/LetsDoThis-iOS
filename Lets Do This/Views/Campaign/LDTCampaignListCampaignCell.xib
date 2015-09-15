@@ -49,26 +49,53 @@
                                     <action selector="actionButtonTouchUpInside:" destination="gTV-IL-0wX" eventType="touchUpInside" id="O5P-qH-qnh"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VbD-83-6o3" userLabel="Campaign Expires">
-                                <rect key="frame" x="8" y="99" width="369" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Campaign Expires Days" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VbD-83-6o3" userLabel="Campaign Expires">
+                                <rect key="frame" x="203" y="99" width="174" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="179" id="gve-ET-q6f"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="gve-ET-q6f"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Campaign Expires Prefix" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGh-ze-BLR">
+                                <rect key="frame" x="8" y="99" width="191" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="191" id="djJ-Z5-z2c"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="yGh-ze-BLR" firstAttribute="top" secondItem="D5G-Kr-aLa" secondAttribute="bottom" constant="16" id="Avd-f0-3k9"/>
                             <constraint firstItem="VbD-83-6o3" firstAttribute="top" secondItem="D5G-Kr-aLa" secondAttribute="bottom" constant="16" id="Bb3-cx-Mm6"/>
                             <constraint firstItem="D5G-Kr-aLa" firstAttribute="top" secondItem="vEa-dR-bea" secondAttribute="bottom" constant="16" id="DCM-TH-Ls5"/>
                             <constraint firstItem="vEa-dR-bea" firstAttribute="leading" secondItem="rcw-DX-Omy" secondAttribute="leading" constant="8" id="Ex3-iC-1aV"/>
                             <constraint firstAttribute="trailing" secondItem="vEa-dR-bea" secondAttribute="trailing" constant="8" id="Gb4-2Y-Xxh"/>
                             <constraint firstAttribute="trailing" secondItem="D5G-Kr-aLa" secondAttribute="trailing" constant="8" id="Hsz-p7-JNi"/>
+                            <constraint firstItem="VbD-83-6o3" firstAttribute="leading" secondItem="yGh-ze-BLR" secondAttribute="trailing" constant="4" id="ItT-d3-NYs"/>
                             <constraint firstAttribute="height" constant="158" id="P2i-IF-zNH"/>
+                            <constraint firstItem="VbD-83-6o3" firstAttribute="leading" secondItem="rcw-DX-Omy" secondAttribute="leading" id="WXx-b1-FF7"/>
                             <constraint firstItem="vEa-dR-bea" firstAttribute="top" secondItem="rcw-DX-Omy" secondAttribute="top" constant="16" id="eep-p8-Gtj"/>
                             <constraint firstAttribute="trailing" secondItem="VbD-83-6o3" secondAttribute="trailing" constant="8" id="g5H-6O-NbH"/>
+                            <constraint firstItem="yGh-ze-BLR" firstAttribute="leading" secondItem="rcw-DX-Omy" secondAttribute="leading" constant="8" id="kjR-pc-fKw"/>
                             <constraint firstItem="VbD-83-6o3" firstAttribute="leading" secondItem="rcw-DX-Omy" secondAttribute="leading" constant="8" id="qQH-Aw-fCb"/>
                             <constraint firstItem="D5G-Kr-aLa" firstAttribute="leading" secondItem="rcw-DX-Omy" secondAttribute="leading" constant="8" id="rjk-3x-f5A"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="WXx-b1-FF7"/>
+                                <exclude reference="qQH-Aw-fCb"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -100,6 +127,7 @@
                 <outlet property="actionButton" destination="D5G-Kr-aLa" id="8Mp-o4-dfK"/>
                 <outlet property="actionView" destination="rcw-DX-Omy" id="aWI-gS-8u3"/>
                 <outlet property="expiresLabel" destination="VbD-83-6o3" id="jeS-Y0-zRQ"/>
+                <outlet property="expiresPrefixLabel" destination="yGh-ze-BLR" id="RgA-NL-91b"/>
                 <outlet property="imageView" destination="YLY-38-HRb" id="cKD-59-2BH"/>
                 <outlet property="imageViewBottom" destination="Rmg-UZ-qQD" id="qpG-BT-Ojb"/>
                 <outlet property="imageViewTop" destination="5Ak-wS-aSM" id="7uL-K5-Q5X"/>

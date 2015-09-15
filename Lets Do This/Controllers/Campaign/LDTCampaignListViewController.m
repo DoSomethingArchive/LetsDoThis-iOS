@@ -171,8 +171,10 @@ const CGFloat kHeightExpanded = 400;
     // @todo: Split out expiresLabel - GH #226
     NSString *expiresString = @"";
     if (campaign.numberOfDaysLeft > 0) {
-        expiresString = [NSString stringWithFormat:@"Expires in %li Days", (long)[campaign numberOfDaysLeft]];
+        expiresString = [NSString stringWithFormat:@"%li Days", (long)[campaign numberOfDaysLeft]];
     }
+    
+    cell.expiresDaysPrefixLabelText = @"Expires in";
     cell.expiresDaysLabelText = expiresString;
 }
 
