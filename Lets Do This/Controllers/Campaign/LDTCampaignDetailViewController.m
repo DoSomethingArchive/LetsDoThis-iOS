@@ -14,8 +14,8 @@
 #import "LDTUserProfileViewController.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
-    LDTCampaignDetailSectionTypeCampaign = 0,
-    LDTCampaignDetailSectionTypeReportback = 1
+    LDTCampaignDetailSectionTypeCampaign,
+    LDTCampaignDetailSectionTypeReportback
 };
 
 @interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
