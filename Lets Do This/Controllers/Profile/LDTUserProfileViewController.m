@@ -55,7 +55,7 @@ static NSString *cellIdentifier = @"rowCell";
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 
-    if (self.user.userID == [DSOUserManager sharedInstance].user.userID) {
+    if ([self.user.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
         self.navigationItem.rightBarButtonItem = settingsButton;
     }
