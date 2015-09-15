@@ -27,16 +27,28 @@ const CGFloat kHeightExpanded = 400;
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate>
 
+@property (strong, nonatomic) LDTButton *selectedGroupButton;
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
-@property (strong, nonatomic) NSMutableDictionary *interestGroups;
+@property (strong, nonatomic) NSArray *interestGroupButtons;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+@property (strong, nonatomic) NSMutableDictionary *interestGroups;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 - (IBAction)segmentedControlValueChanged:(id)sender;
+
+@property (weak, nonatomic) IBOutlet LDTButton *firstGroupButton;
+@property (weak, nonatomic) IBOutlet LDTButton *secondGroupButton;
+@property (weak, nonatomic) IBOutlet LDTButton *thirdGroupButton;
+@property (weak, nonatomic) IBOutlet LDTButton *fourthGroupButton;
+- (IBAction)firstGroupButtonTouchUpInside:(id)sender;
+- (IBAction)secondGroupButtonTouchUpInside:(id)sender;
+- (IBAction)thirdGroupButtonTouchUpInside:(id)sender;
+- (IBAction)fourthGroupButtonTouchUpInside:(id)sender;
+
 
 @end
 
@@ -51,14 +63,18 @@ const CGFloat kHeightExpanded = 400;
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 
+    self.interestGroupButtons = @[self.firstGroupButton, self.secondGroupButton, self.thirdGroupButton, self.fourthGroupButton];
+
     self.selectedIndexPath = nil;
 
     self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
     [self createInterestGroups];
 
     for (int i = 0; i < 4; i++) {
-        [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forSegmentAtIndex:i];
+        LDTButton *aButton = self.interestGroupButtons[i];
+        [aButton setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forState:UIControlStateNormal];
     }
+    self.selectedGroupButton = self.interestGroupButtons[0];
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
@@ -94,6 +110,12 @@ const CGFloat kHeightExpanded = 400;
 															   NSForegroundColorAttributeName : [UIColor grayColor] }
 												   forState:UIControlStateNormal];
 	[[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] } forState:UIControlStateSelected];
+
+    [self styleButtons];
+}
+
+- (void)styleButtons {
+    [self.selectedGroupButton enable];
 }
 
 - (void)createInterestGroups {
@@ -327,4 +349,15 @@ const CGFloat kHeightExpanded = 400;
     return reusableView;
 }
 
+- (IBAction)firstGroupButtonTouchUpInside:(id)sender {
+}
+
+- (IBAction)secondGroupButtonTouchUpInside:(id)sender {
+}
+
+- (IBAction)thirdGroupButtonTouchUpInside:(id)sender {
+}
+
+- (IBAction)fourthGroupButtonTouchUpInside:(id)sender {
+}
 @end
