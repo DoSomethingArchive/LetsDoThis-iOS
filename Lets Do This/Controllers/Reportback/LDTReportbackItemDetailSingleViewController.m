@@ -55,8 +55,7 @@
 #pragma mark - LDTReportbackItemDetailSingleViewController
 
 - (void)styleView {
-    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
-    [navVC setOrange];
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
 }
 
 - (void)configureReportbackItemDetailView {

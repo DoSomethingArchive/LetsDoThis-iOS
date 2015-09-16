@@ -76,8 +76,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 #pragma mark - LDTCampaignDetailViewController
 
 - (void)styleView {
-    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
-    [navVC setClear];
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
 }
 

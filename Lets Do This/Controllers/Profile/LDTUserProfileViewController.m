@@ -85,8 +85,7 @@ static NSString *cellIdentifier = @"rowCell";
 - (void)styleView {
     [self.avatarImageView addCircleFrame];
     self.headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
-    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
-    [navVC setClear];
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
     [self.nameLabel setFont:[LDTTheme fontTitle]];
