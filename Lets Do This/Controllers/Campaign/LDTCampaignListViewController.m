@@ -180,12 +180,14 @@ const CGFloat kHeightExpanded = 400;
         cell.signedUp = NO;
     }
 
-    // @todo: Split out expiresLabel - GH #226
-    NSString *expiresString = @"";
+    NSString *expiresPrefixString = @"";
+    NSString *expiresSuffixString = @"";
     if (campaign.numberOfDaysLeft > 0) {
-        expiresString = [NSString stringWithFormat:@"Expires in %li Days", (long)[campaign numberOfDaysLeft]];
+        expiresSuffixString = [NSString stringWithFormat:@"%li Days", (long)[campaign numberOfDaysLeft]];
+        expiresPrefixString = @"Expires in";
     }
-    cell.expiresDaysLabelText = expiresString;
+    cell.expiresDaysPrefixLabelText = expiresPrefixString;
+    cell.expiresDaysSuffixLabelText = expiresSuffixString;
 }
 
 - (void)configureReportbackItemCell:(LDTCampaignListReportbackItemCell *)cell atIndexPath:(NSIndexPath *)indexPath {

@@ -13,18 +13,18 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 @interface LDTCampaignListCampaignCell()
 
+@property (nonatomic, assign) CGFloat collapsedTitleLabelTopLayoutConstraintConstant;
 @property (weak, nonatomic) IBOutlet LDTButton *actionButton;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UIView *actionView;
+@property (weak, nonatomic) IBOutlet UILabel *expiresPrefixLabel;
+@property (weak, nonatomic) IBOutlet UILabel *expiresSuffixLabel;
 @property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
-@property (weak, nonatomic) IBOutlet UILabel *expiresLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIView *actionView;
 @property (weak, nonatomic) IBOutlet UIView *signupIndicatorView;
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleLabelTopLayoutConstraint;
-@property (nonatomic, assign) CGFloat collapsedTitleLabelTopLayoutConstraintConstant;
 
 - (IBAction)actionButtonTouchUpInside:(id)sender;
 
@@ -40,9 +40,14 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     self.titleLabel.font = [LDTTheme fontTitle];
     self.taglineLabel.font = [LDTTheme font];
 
-    // @todo Split out expiresLabel into 2 separate UILabels for diff colors
-    self.expiresLabel.font = [LDTTheme fontBold];
-    self.expiresLabel.textColor = [UIColor grayColor];
+    self.expiresPrefixLabel.font = [LDTTheme fontBold];
+    self.expiresPrefixLabel.textColor = [UIColor grayColor];
+    self.expiresPrefixLabel.textAlignment = NSTextAlignmentRight;
+
+    self.expiresSuffixLabel.font = [LDTTheme fontBold];
+    self.expiresSuffixLabel.textColor = [UIColor blackColor];
+    self.expiresSuffixLabel.textAlignment = NSTextAlignmentLeft;
+    
     self.titleLabel.textColor = [UIColor whiteColor];
     [self.actionButton enable];
     [self.imageView addGrayTint];
@@ -71,9 +76,12 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     [self.imageView sd_setImageWithURL:imageURL];
 }
 
-- (void)setExpiresDaysLabelText:(NSString *)expiresDaysLabelText {
-    // @todo: Should only set a DaysLabel - GH #226
-     self.expiresLabel.text = [expiresDaysLabelText uppercaseString];
+- (void)setExpiresDaysPrefixLabelText:(NSString *)expiresDaysPrefixLabelText {
+    self.expiresPrefixLabel.text = [expiresDaysPrefixLabelText uppercaseString];
+}
+
+- (void)setExpiresDaysSuffixLabelText:(NSString *)expiresDaysSuffixLabelText {
+     self.expiresSuffixLabel.text = [expiresDaysSuffixLabelText uppercaseString];
 }
 
 - (void)setActionButtonTitle:(NSString *)actionButtonTitle {
