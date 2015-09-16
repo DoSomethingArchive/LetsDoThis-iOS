@@ -24,7 +24,7 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pRb-YO-KnF">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4pK-DW-rH5">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4pK-DW-rH5" userLabel="Header View">
                             <rect key="frame" x="150" y="0.0" width="300" height="124"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DS Logo" translatesAutoresizingMaskIntoConstraints="NO" id="cTZ-YE-jBE">
@@ -34,8 +34,8 @@
                                         <constraint firstAttribute="height" constant="80" id="KGS-wi-ncl"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50F-0i-WQW">
-                                    <rect key="frame" x="129" y="102" width="42" height="20.5"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50F-0i-WQW" userLabel="Headline">
+                                    <rect key="frame" x="129" y="102" width="42" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -50,10 +50,10 @@
                                 <constraint firstItem="50F-0i-WQW" firstAttribute="top" secondItem="cTZ-YE-jBE" secondAttribute="bottom" constant="22" id="iKB-Bo-wtV"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HQA-Wg-qj6">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HQA-Wg-qj6" userLabel="Form Fields Container View">
                             <rect key="frame" x="8" y="168" width="584" height="100"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="84m-fh-8Zr">
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="84m-fh-8Zr" userLabel="Email TextField">
                                     <rect key="frame" x="0.0" y="0.0" width="584" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="s2b-2i-x8d"/>
@@ -65,7 +65,7 @@
                                         <action selector="emailEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="Geq-eG-sRW"/>
                                     </connections>
                                 </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g81-9z-70h">
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g81-9z-70h" userLabel="Password TextField">
                                     <rect key="frame" x="0.0" y="52" width="584" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="NVj-95-r96"/>
@@ -88,19 +88,19 @@
                                 <constraint firstAttribute="trailing" secondItem="g81-9z-70h" secondAttribute="trailing" id="wsN-qj-XE7"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VYf-Yo-Xf8">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VYf-Yo-Xf8" userLabel="Buttons Container View">
                             <rect key="frame" x="8" y="276" width="584" height="140"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wdt-W9-ah3" customClass="LDTButton">
-                                    <rect key="frame" x="264" y="84" width="57" height="30"/>
-                                    <state key="normal" title="Register">
+                                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" userLabel="Submit Button" customClass="LDTButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="584" height="30"/>
+                                    <state key="normal" title="Submit">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="registerLinkTouchUpInside:" destination="-1" eventType="touchUpInside" id="MuM-AD-lW8"/>
+                                        <action selector="submitButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="9Mj-0s-X7R"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0D-uH-55q" customClass="LDTButton">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0D-uH-55q" userLabel="Forgot Password Button" customClass="LDTButton">
                                     <rect key="frame" x="0.0" y="38" width="584" height="30"/>
                                     <state key="normal" title="Forgot password">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -109,13 +109,13 @@
                                         <action selector="passwordButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="E5g-Zt-a36"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eja-ai-TkH" customClass="LDTButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="584" height="30"/>
-                                    <state key="normal" title="Submit">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wdt-W9-ah3" userLabel="Link to Register Screen" customClass="LDTButton">
+                                    <rect key="frame" x="264" y="84" width="57" height="30"/>
+                                    <state key="normal" title="Register">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="submitButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="9Mj-0s-X7R"/>
+                                        <action selector="registerLinkTouchUpInside:" destination="-1" eventType="touchUpInside" id="MuM-AD-lW8"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -163,6 +163,7 @@
                 <constraint firstItem="pRb-YO-KnF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="adJ-u6-qdp"/>
                 <constraint firstAttribute="bottom" secondItem="pRb-YO-KnF" secondAttribute="bottom" id="ef7-O0-BZP"/>
             </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="279" y="309"/>
         </view>
     </objects>
