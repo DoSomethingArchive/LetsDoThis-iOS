@@ -29,14 +29,22 @@ const CGFloat kHeightExpanded = 400;
 
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
-@property (strong, nonatomic) NSMutableDictionary *interestGroups;
+@property (strong, nonatomic) NSArray *interestGroupButtons;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
-
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (assign, nonatomic) NSInteger selectedGroupButtonIndex;
+@property (strong, nonatomic) NSMutableDictionary *interestGroups;
 @property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (weak, nonatomic) IBOutlet LDTButton *firstGroupButton;
+@property (weak, nonatomic) IBOutlet LDTButton *secondGroupButton;
+@property (weak, nonatomic) IBOutlet LDTButton *thirdGroupButton;
+@property (weak, nonatomic) IBOutlet LDTButton *fourthGroupButton;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
-- (IBAction)segmentedControlValueChanged:(id)sender;
+- (IBAction)firstGroupButtonTouchUpInside:(id)sender;
+- (IBAction)secondGroupButtonTouchUpInside:(id)sender;
+- (IBAction)thirdGroupButtonTouchUpInside:(id)sender;
+- (IBAction)fourthGroupButtonTouchUpInside:(id)sender;
+
 
 @end
 
@@ -51,14 +59,16 @@ const CGFloat kHeightExpanded = 400;
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 
+    self.interestGroupButtons = @[self.firstGroupButton, self.secondGroupButton, self.thirdGroupButton, self.fourthGroupButton];
+    for (int i = 0; i < 4; i++) {
+        LDTButton *aButton = self.interestGroupButtons[i];
+        [aButton setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forState:UIControlStateNormal];
+    }
+    self.selectedGroupButtonIndex = 0;
     self.selectedIndexPath = nil;
 
     self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
     [self createInterestGroups];
-
-    for (int i = 0; i < 4; i++) {
-        [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forSegmentAtIndex:i];
-    }
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
@@ -76,8 +86,6 @@ const CGFloat kHeightExpanded = 400;
 
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
 
-    [self.collectionView reloadData];
-
     [self styleView];
 }
 
@@ -88,12 +96,21 @@ const CGFloat kHeightExpanded = 400;
 
     LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
     [navVC setOrange];
+    [self styleButtons];
+}
 
-    self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
-	[[UISegmentedControl appearance] setTitleTextAttributes:@{ NSFontAttributeName : [LDTTheme font],
-															   NSForegroundColorAttributeName : [UIColor grayColor] }
-												   forState:UIControlStateNormal];
-	[[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] } forState:UIControlStateSelected];
+- (void)styleButtons {
+    for (int i = 0; i < self.interestGroupButtons.count; i++) {
+        LDTButton *aButton = self.interestGroupButtons[i];
+        if (i == self.selectedGroupButtonIndex) {
+            aButton.backgroundColor = [LDTTheme ctaBlueColor];
+            [aButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+        else {
+            aButton.backgroundColor = [UIColor whiteColor];
+            [aButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        }
+    }
 }
 
 - (void)createInterestGroups {
@@ -138,13 +155,8 @@ const CGFloat kHeightExpanded = 400;
 }
 
 - (NSNumber *)selectedInterestGroupId {
-    NSDictionary *term = [DSOAPI sharedInstance].interestGroups[self.segmentedControl.selectedSegmentIndex];
+    NSDictionary *term = [DSOAPI sharedInstance].interestGroups[self.selectedGroupButtonIndex];
     return (NSNumber *)term[@"id"];
-}
-
-- (IBAction)segmentedControlValueChanged:(id)sender {
-    self.selectedIndexPath = nil;
-    [self.collectionView reloadData];
 }
 
 - (void)configureCampaignCell:(LDTCampaignListCampaignCell *)cell atIndexPath:(NSIndexPath *)indexPath {
@@ -187,6 +199,31 @@ const CGFloat kHeightExpanded = 400;
 	return [DSOUserManager sharedInstance].user;
 }
 
+- (IBAction)firstGroupButtonTouchUpInside:(id)sender {
+    [self interestGroupButtonSelected:0];
+}
+
+- (IBAction)secondGroupButtonTouchUpInside:(id)sender {
+    [self interestGroupButtonSelected:1];
+}
+
+- (IBAction)thirdGroupButtonTouchUpInside:(id)sender {
+    [self interestGroupButtonSelected:2];
+}
+
+- (IBAction)fourthGroupButtonTouchUpInside:(id)sender {
+    [self interestGroupButtonSelected:3];
+}
+
+- (void)interestGroupButtonSelected:(NSInteger)index {
+    if (self.selectedGroupButtonIndex != index) {
+        self.selectedGroupButtonIndex = index;
+        self.selectedIndexPath = nil;
+        [self styleButtons];
+        [self.collectionView reloadData];
+    }
+}
+
 #pragma mark - LDTCampaignListCampaignCellDelegate
 
 - (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell {
@@ -197,6 +234,8 @@ const CGFloat kHeightExpanded = 400;
     }
     else {
         [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
+            cell.signedUp = YES;
+            cell.actionButtonTitle = @"Prove it";
             [self.navigationController pushViewController:destVC animated:YES];
             [TSMessage setDefaultViewController:self.navigationController];
             [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
