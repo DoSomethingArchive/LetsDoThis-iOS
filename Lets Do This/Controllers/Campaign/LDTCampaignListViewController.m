@@ -128,7 +128,7 @@ const CGFloat kHeightExpanded = 400;
                 for (DSOReportbackItem *rbItem in rbItems) {
                     [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
                 }
-                [self.collectionView reloadData];
+                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignListSectionTypeReportback]];
             } errorHandler:^(NSError *error) {
                 [LDTMessage displayErrorMessageForError:error];
             }];
