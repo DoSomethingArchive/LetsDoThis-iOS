@@ -93,9 +93,7 @@ const CGFloat kHeightExpanded = 400;
 
 - (void)styleView {
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
-
-    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
-    [navVC setOrange];
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     [self styleButtons];
 }
 

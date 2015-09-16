@@ -11,7 +11,6 @@
 #import "LDTButton.h"
 #import "LDTMessage.h"
 #import "LDTTheme.h"
-#import "LDTNavigationController.h"
 #import "LDTUserConnectViewController.h"
 
 @interface LDTSettingsViewController()
@@ -47,8 +46,7 @@
 #pragma LDTSettingsViewController
 
 - (void)styleView {
-    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
-    [navVC setOrange];
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
 
     [self.notificationsLabel setFont:[LDTTheme fontBold]];
     self.notificationsLabel.text = @"Receive Notifications";
@@ -114,7 +112,8 @@
         // This VC is always presented within the TabBarVC, so kill it.
         [self dismissViewControllerAnimated:YES completion:^{
 
-            LDTNavigationController *destVC = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] init]];
+            UINavigationController *destVC = [[UINavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] init]];
+            [destVC styleNavigationBar:LDTNavigationBarStyleClear];
             [LDTMessage setDefaultViewController:destVC];
 
             [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
