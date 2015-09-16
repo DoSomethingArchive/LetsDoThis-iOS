@@ -348,4 +348,13 @@
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
+# pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    viewController.title = @"Select photo".uppercaseString;
+    [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    [viewController styleBackBarButton];
+    [viewController styleRightBarButton];
+}
+
 @end

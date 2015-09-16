@@ -244,4 +244,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
+# pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    viewController.title = [NSString stringWithFormat:@"I did %@", self.campaign.title].uppercaseString;
+    [viewController styleRightBarButton];
+}
+
 @end
