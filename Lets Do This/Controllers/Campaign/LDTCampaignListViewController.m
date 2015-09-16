@@ -168,13 +168,14 @@ const CGFloat kHeightExpanded = 400;
         cell.signedUp = NO;
     }
 
-    NSString *expiresString = @"";
+    NSString *expiresPrefixString = @"";
+    NSString *expiresSuffixString = @"";
     if (campaign.numberOfDaysLeft > 0) {
-        expiresString = [NSString stringWithFormat:@"%li Days", (long)[campaign numberOfDaysLeft]];
-        cell.expiresDaysPrefixLabelText = @"Expires in";
+        expiresSuffixString = [NSString stringWithFormat:@"%li Days", (long)[campaign numberOfDaysLeft]];
+        expiresPrefixString = @"Expires in";
     }
-    
-    cell.expiresDaysLabelText = expiresString;
+    cell.expiresDaysPrefixLabelText = expiresPrefixString;
+    cell.expiresDaysSuffixLabelText = expiresSuffixString;
 }
 
 - (void)configureReportbackItemCell:(LDTCampaignListReportbackItemCell *)cell atIndexPath:(NSIndexPath *)indexPath {
