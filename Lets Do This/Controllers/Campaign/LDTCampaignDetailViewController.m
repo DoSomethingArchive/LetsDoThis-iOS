@@ -249,6 +249,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     viewController.title = [NSString stringWithFormat:@"I did %@", self.campaign.title].uppercaseString;
+    viewController.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 @end
