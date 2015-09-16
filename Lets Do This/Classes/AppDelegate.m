@@ -66,9 +66,8 @@
             // @todo: Present a new NoConnectionViewController?
         }];
     }
-    return YES;
-	
 
+    return YES;
 }
 
 - (void)displayUserConnectVC {
