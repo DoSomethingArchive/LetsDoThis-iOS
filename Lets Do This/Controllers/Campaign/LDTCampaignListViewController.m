@@ -57,7 +57,7 @@ const CGFloat kHeightExpanded = 400;
 
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self styleBackBarButton];
 
     self.interestGroupButtons = @[self.firstGroupButton, self.secondGroupButton, self.thirdGroupButton, self.fourthGroupButton];
     for (int i = 0; i < 4; i++) {

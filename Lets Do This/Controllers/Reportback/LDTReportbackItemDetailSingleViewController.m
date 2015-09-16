@@ -39,7 +39,7 @@
     [super viewDidLoad];
 
     self.title = [self.reportbackItem.campaign.title uppercaseString];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self styleBackBarButton];
 
     [self configureReportbackItemDetailView];
 
