@@ -351,9 +351,10 @@
 # pragma mark - UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     viewController.title = @"Select photo".uppercaseString;
-    viewController.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    [viewController styleBackBarButton];
+    [viewController styleRightBarButton];
 }
 
 @end
