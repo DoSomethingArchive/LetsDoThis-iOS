@@ -17,9 +17,10 @@
 
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) NSString *actionButtonTitle;
-@property (strong, nonatomic) NSString *expiresDaysLabelText;
-@property (strong, nonatomic) NSString *titleLabelText;
+@property (strong, nonatomic) NSString *expiresDaysPrefixLabelText;
+@property (strong, nonatomic) NSString *expiresDaysSuffixLabelText;
 @property (strong, nonatomic) NSString *taglineLabelText;
+@property (strong, nonatomic) NSString *titleLabelText;
 @property (strong, nonatomic) NSURL *imageViewImageURL;
 @property (nonatomic, assign, getter=isExpanded) BOOL expanded;
 @property (nonatomic, assign) BOOL signedUp;
