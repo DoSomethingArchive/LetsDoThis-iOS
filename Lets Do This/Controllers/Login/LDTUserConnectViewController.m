@@ -33,7 +33,7 @@
     [super viewDidLoad];
 
     self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self styleBackBarButton];
 
     self.headerLabel.text = @"Let's make this official. Create an account\nto find actions you can do with friends.";
     [self.registerButton setTitle:[@"Register" uppercaseString] forState:UIControlStateNormal];

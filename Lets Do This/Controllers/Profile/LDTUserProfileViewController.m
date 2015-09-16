@@ -60,7 +60,7 @@ static NSString *cellIdentifier = @"rowCell";
         self.navigationItem.rightBarButtonItem = settingsButton;
     }
 
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self styleBackBarButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
