@@ -72,7 +72,7 @@
 }
 
 - (void)displayUserConnectVC {
-    UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
     [navVC styleNavigationBar:LDTNavigationBarStyleClear];
     [LDTMessage setDefaultViewController:navVC];
     [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];

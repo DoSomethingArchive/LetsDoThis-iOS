@@ -112,7 +112,7 @@
         // This VC is always presented within the TabBarVC, so kill it.
         [self dismissViewControllerAnimated:YES completion:^{
 
-            UINavigationController *destVC = [[UINavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] init]];
+            UINavigationController *destVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] init]];
             [destVC styleNavigationBar:LDTNavigationBarStyleClear];
             [LDTMessage setDefaultViewController:destVC];
 
