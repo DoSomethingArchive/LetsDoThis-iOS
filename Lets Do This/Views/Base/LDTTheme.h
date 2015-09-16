@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "UIImageView+LDT.h"
+#import "UINavigationController+LDT.h"
 #import "LDTNavigationController.h"
 #import "LDTButton.h"
 #import "LDTMessage.h"
