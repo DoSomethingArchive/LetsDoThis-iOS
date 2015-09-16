@@ -7,6 +7,7 @@
 //
 
 #import "LDTBaseUserLoginViewController.h"
+#import "LDTTheme.h"
 
 @interface LDTBaseUserLoginViewController ()
 
@@ -24,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self styleBackBarButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -7,7 +7,6 @@
 //
 
 #import "LDTTabBarController.h"
-#import "LDTNavigationController.h"
 #import "LDTUserProfileViewController.h"
 #import "LDTCampaignListViewController.h"
 #import "LDTTheme.h"
@@ -21,11 +20,11 @@
 
         LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
         profileVC.title = @"Me";
-        LDTNavigationController *profileNavVC = [[LDTNavigationController alloc] initWithRootViewController:profileVC];
+        UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
 
         LDTCampaignListViewController *campaignListVC = [[LDTCampaignListViewController alloc] init];
-        LDTNavigationController *campaignListNavVC = [[LDTNavigationController alloc] initWithRootViewController:campaignListVC];
+        UINavigationController *campaignListNavVC = [[UINavigationController alloc] initWithRootViewController:campaignListVC];
         campaignListNavVC.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
 
         self.viewControllers = [NSArray arrayWithObjects:campaignListNavVC, profileNavVC, nil];
