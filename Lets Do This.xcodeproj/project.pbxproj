@@ -38,6 +38,7 @@
 		B27AF0ED1B4F64D200164926 /* LDTLoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27AF0EC1B4F64D200164926 /* LDTLoadingView.xib */; };
 		B27F49EA1B6ADB68005CFC35 /* LDTCampaignDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27F49E91B6ADB68005CFC35 /* LDTCampaignDetailView.xib */; };
 		B27F49ED1B6ADB93005CFC35 /* LDTCampaignDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27F49EC1B6ADB93005CFC35 /* LDTCampaignDetailViewController.m */; };
+		B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */; };
 		B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */; };
 		B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */; };
 		B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterView.xib */; };
@@ -124,6 +125,8 @@
 		B27F49E91B6ADB68005CFC35 /* LDTCampaignDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCampaignDetailView.xib; path = Campaign/LDTCampaignDetailView.xib; sourceTree = "<group>"; };
 		B27F49EB1B6ADB93005CFC35 /* LDTCampaignDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCampaignDetailViewController.h; path = Campaign/LDTCampaignDetailViewController.h; sourceTree = "<group>"; };
 		B27F49EC1B6ADB93005CFC35 /* LDTCampaignDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCampaignDetailViewController.m; path = Campaign/LDTCampaignDetailViewController.m; sourceTree = "<group>"; };
+		B28124CD1BAA0DF000DF58DA /* UINavigationController+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+LDT.h"; sourceTree = "<group>"; };
+		B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+LDT.m"; sourceTree = "<group>"; };
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserConnectView.xib; path = Login/LDTUserConnectView.xib; sourceTree = "<group>"; };
 		B2A1365C1B3CA4B100D20273 /* LDTUserConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserConnectViewController.h; path = Login/LDTUserConnectViewController.h; sourceTree = "<group>"; };
 		B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserConnectViewController.m; path = Login/LDTUserConnectViewController.m; sourceTree = "<group>"; };
@@ -409,6 +412,8 @@
 				C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */,
 				B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */,
 				B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */,
+				B28124CD1BAA0DF000DF58DA /* UINavigationController+LDT.h */,
+				B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */,
 				EA5C9F191B694712001D3EEA /* UITextField+LDT.h */,
 				EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */,
 			);
@@ -689,6 +694,7 @@
 				B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */,
 				C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */,
 				B23E68261B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.m in Sources */,
+				B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */,
 				B25A729C1B56B87300BC8A2B /* LDTNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
