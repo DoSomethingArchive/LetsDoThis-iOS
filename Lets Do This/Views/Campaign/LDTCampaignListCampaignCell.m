@@ -16,8 +16,8 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 @property (nonatomic, assign) CGFloat collapsedTitleLabelTopLayoutConstraintConstant;
 @property (weak, nonatomic) IBOutlet LDTButton *actionButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UILabel *expiresLabel;
 @property (weak, nonatomic) IBOutlet UILabel *expiresPrefixLabel;
+@property (weak, nonatomic) IBOutlet UILabel *expiresSuffixLabel;
 @property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *actionView;
@@ -44,9 +44,9 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     self.expiresPrefixLabel.textColor = [UIColor grayColor];
     self.expiresPrefixLabel.textAlignment = NSTextAlignmentRight;
 
-    self.expiresLabel.font = [LDTTheme fontBold];
-    self.expiresLabel.textColor = [UIColor blackColor];
-    self.expiresLabel.textAlignment = NSTextAlignmentLeft;
+    self.expiresSuffixLabel.font = [LDTTheme fontBold];
+    self.expiresSuffixLabel.textColor = [UIColor blackColor];
+    self.expiresSuffixLabel.textAlignment = NSTextAlignmentLeft;
     
     self.titleLabel.textColor = [UIColor whiteColor];
     [self.actionButton enable];
@@ -80,8 +80,8 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     self.expiresPrefixLabel.text = [expiresDaysPrefixLabelText uppercaseString];
 }
 
-- (void)setExpiresDaysLabelText:(NSString *)expiresDaysLabelText {
-     self.expiresLabel.text = [expiresDaysLabelText uppercaseString];
+- (void)setExpiresDaysSuffixLabelText:(NSString *)expiresDaysSuffixLabelText {
+     self.expiresSuffixLabel.text = [expiresDaysSuffixLabelText uppercaseString];
 }
 
 - (void)setActionButtonTitle:(NSString *)actionButtonTitle {

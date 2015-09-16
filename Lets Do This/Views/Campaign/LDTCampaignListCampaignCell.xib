@@ -128,8 +128,8 @@
             <connections>
                 <outlet property="actionButton" destination="D5G-Kr-aLa" id="8Mp-o4-dfK"/>
                 <outlet property="actionView" destination="rcw-DX-Omy" id="aWI-gS-8u3"/>
-                <outlet property="expiresLabel" destination="VbD-83-6o3" id="jeS-Y0-zRQ"/>
                 <outlet property="expiresPrefixLabel" destination="AoE-fr-CS1" id="dVg-D4-DBn"/>
+                <outlet property="expiresSuffixLabel" destination="VbD-83-6o3" id="yvO-5o-I4W"/>
                 <outlet property="imageView" destination="YLY-38-HRb" id="cKD-59-2BH"/>
                 <outlet property="imageViewBottom" destination="Rmg-UZ-qQD" id="qpG-BT-Ojb"/>
                 <outlet property="imageViewTop" destination="5Ak-wS-aSM" id="7uL-K5-Q5X"/>
