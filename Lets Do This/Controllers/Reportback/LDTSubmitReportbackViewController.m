@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) DSOReportbackItem *reportbackItem;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *primaryImageView;
 @property (weak, nonatomic) IBOutlet UITextField *captionField;
 @property (weak, nonatomic) IBOutlet UITextField *quantityField;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
@@ -43,6 +44,7 @@
     self.title = [NSString stringWithFormat:@"I did %@", self.reportbackItem.campaign.title].uppercaseString;
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     self.backgroundImageView.image = self.reportbackItem.image;
+    self.primaryImageView.image = self.reportbackItem.image;
     self.captionField.placeholder = @"Caption your photo";
     self.quantityField.placeholder = [NSString stringWithFormat:@"Number of %@ %@", self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
 
@@ -58,6 +60,9 @@
     [sublayer setOpacity:0.5];
     [sublayer setFrame:self.backgroundImageView.frame];
     [self.backgroundImageView.layer addSublayer:sublayer];
+    self.primaryImageView.layer.masksToBounds = YES;
+    self.primaryImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.primaryImageView.layer.borderWidth = 1;
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
