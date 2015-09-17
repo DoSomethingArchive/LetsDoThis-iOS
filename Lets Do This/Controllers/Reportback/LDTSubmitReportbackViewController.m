@@ -14,8 +14,8 @@
 @property (strong, nonatomic) DSOReportbackItem *reportbackItem;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *primaryImageView;
-@property (weak, nonatomic) IBOutlet UITextField *captionField;
-@property (weak, nonatomic) IBOutlet UITextField *quantityField;
+@property (weak, nonatomic) IBOutlet UITextField *captionTextField;
+@property (weak, nonatomic) IBOutlet UITextField *quantityTextField;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 
 - (IBAction)submitButtonTouchUpInside:(id)sender;
@@ -45,16 +45,27 @@
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     self.backgroundImageView.image = self.reportbackItem.image;
     self.primaryImageView.image = self.reportbackItem.image;
-    self.captionField.placeholder = @"Caption your photo";
-    self.quantityField.placeholder = [NSString stringWithFormat:@"Number of %@ %@", self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
+    self.captionTextField.placeholder = @"Caption your photo";
+    self.quantityTextField.placeholder = [NSString stringWithFormat:@"Number of %@ %@", self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
+    [self.submitButton setTitle:@"Upload photo".uppercaseString forState:UIControlStateNormal];
 
     [self styleView];
+
+    self.textFields = @[self.captionTextField,
+                        self.quantityTextField,
+                        ];
+    for (UITextField *aTextField in self.textFields) {
+        aTextField.delegate = self;
+    }
+    self.textFieldsRequired = @[self.captionTextField,
+                                self.quantityTextField,
+                                ];
 }
 
 - (void)styleView {
     [self.backgroundImageView addGrayTint];
-    self.captionField.font = [LDTTheme font];
-    self.quantityField.font = [LDTTheme font];
+    self.captionTextField.font = [LDTTheme font];
+    self.quantityTextField.font = [LDTTheme font];
     CALayer *sublayer = [CALayer layer];
     [sublayer setBackgroundColor:[UIColor blackColor].CGColor];
     [sublayer setOpacity:0.5];
@@ -63,6 +74,7 @@
     self.primaryImageView.layer.masksToBounds = YES;
     self.primaryImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.primaryImageView.layer.borderWidth = 1;
+    [self.submitButton disable];
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {

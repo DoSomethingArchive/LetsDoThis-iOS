@@ -7,9 +7,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTSubmitReportbackViewController">
             <connections>
                 <outlet property="backgroundImageView" destination="nvl-h4-81s" id="0an-4r-CgH"/>
-                <outlet property="captionField" destination="gOG-MY-Cld" id="xOv-Pc-iaO"/>
+                <outlet property="captionTextField" destination="gOG-MY-Cld" id="LP6-14-R7R"/>
                 <outlet property="primaryImageView" destination="YGt-fQ-cao" id="h7g-qo-nCB"/>
-                <outlet property="quantityField" destination="z5z-3H-aUv" id="u2N-2m-sOo"/>
+                <outlet property="quantityTextField" destination="z5z-3H-aUv" id="RYf-3w-LRl"/>
                 <outlet property="scrollView" destination="XlJ-J5-zn2" id="REg-kw-Gcg"/>
                 <outlet property="submitButton" destination="g7X-Cr-BiL" id="ras-ZA-SBO"/>
                 <outlet property="view" destination="iN0-l3-epB" id="dC7-t6-jAG"/>
