@@ -63,6 +63,10 @@
     self.textFieldsRequired = @[self.captionTextField,
                                 self.quantityTextField,
                                 ];
+
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModalViewControllerAnimated:)];
+    [self styleRightBarButton];
 }
 
 - (void)styleView {
