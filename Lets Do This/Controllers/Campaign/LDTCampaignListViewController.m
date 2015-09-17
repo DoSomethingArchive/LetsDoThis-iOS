@@ -170,7 +170,7 @@ const CGFloat kHeightExpanded = 400;
     cell.imageViewImageURL = campaign.coverImageURL;
 
     if ([self.user isDoingCampaign:campaign] || [self.user hasCompletedCampaign:campaign]) {
-        cell.actionButtonTitle = @"Prove it";
+        cell.actionButtonTitle = @"More info";
         cell.signedUp = YES;
     }
     else {
@@ -235,7 +235,7 @@ const CGFloat kHeightExpanded = 400;
     else {
         [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
             cell.signedUp = YES;
-            cell.actionButtonTitle = @"Prove it";
+            cell.actionButtonTitle = @"More info";
             [self.navigationController pushViewController:destVC animated:YES];
             [TSMessage setDefaultViewController:self.navigationController];
             [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
