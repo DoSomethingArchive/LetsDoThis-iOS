@@ -6,7 +6,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTSubmitReportbackViewController">
             <connections>
+                <outlet property="backgroundImageView" destination="nvl-h4-81s" id="0an-4r-CgH"/>
+                <outlet property="captionField" destination="gOG-MY-Cld" id="xOv-Pc-iaO"/>
+                <outlet property="quantityField" destination="z5z-3H-aUv" id="u2N-2m-sOo"/>
                 <outlet property="scrollView" destination="XlJ-J5-zn2" id="REg-kw-Gcg"/>
+                <outlet property="submitButton" destination="g7X-Cr-BiL" id="ras-ZA-SBO"/>
                 <outlet property="view" destination="iN0-l3-epB" id="dC7-t6-jAG"/>
             </connections>
         </placeholder>
@@ -19,10 +23,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F8f-9C-1gQ" userLabel="Image Container View">
-                            <rect key="frame" x="0.0" y="0.0" width="78" height="150"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nvl-h4-81s" userLabel="Background Image View">
-                                    <rect key="frame" x="0.0" y="0.0" width="78" height="150"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -35,37 +39,40 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VkY-ms-Xy5" userLabel="Form Container View">
-                            <rect key="frame" x="8" y="168" width="62" height="134"/>
+                            <rect key="frame" x="8" y="166" width="584" height="136"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gOG-MY-Cld" userLabel="Caption Text Field">
-                                    <rect key="frame" x="0.0" y="0.0" width="62" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Caption" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gOG-MY-Cld" userLabel="Caption Text Field">
+                                    <rect key="frame" x="0.0" y="0.0" width="584" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z5z-3H-aUv" userLabel="Quantity Text Field">
-                                    <rect key="frame" x="0.0" y="38" width="62" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Number of nouns verbed" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z5z-3H-aUv" userLabel="Quantity Text Field">
+                                    <rect key="frame" x="0.0" y="38" width="584" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g7X-Cr-BiL" userLabel="Submit Button" customClass="LDTButton">
-                                    <rect key="frame" x="8" y="96" width="46" height="30"/>
+                                    <rect key="frame" x="0.0" y="98" width="584" height="30"/>
                                     <state key="normal" title="Button">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="submitButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="eXR-Kl-1fb"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="g7X-Cr-BiL" secondAttribute="bottom" constant="8" id="CNl-gr-olK"/>
                                 <constraint firstItem="gOG-MY-Cld" firstAttribute="top" secondItem="VkY-ms-Xy5" secondAttribute="top" id="HZK-wf-2Gv"/>
-                                <constraint firstItem="g7X-Cr-BiL" firstAttribute="leading" secondItem="VkY-ms-Xy5" secondAttribute="leading" constant="8" id="RCQ-FH-ZMC"/>
-                                <constraint firstItem="g7X-Cr-BiL" firstAttribute="top" secondItem="z5z-3H-aUv" secondAttribute="bottom" constant="28" id="Sc7-VX-LZ9"/>
+                                <constraint firstItem="g7X-Cr-BiL" firstAttribute="leading" secondItem="VkY-ms-Xy5" secondAttribute="leading" id="RCQ-FH-ZMC"/>
+                                <constraint firstItem="g7X-Cr-BiL" firstAttribute="top" secondItem="z5z-3H-aUv" secondAttribute="bottom" constant="30" id="Sc7-VX-LZ9"/>
                                 <constraint firstItem="gOG-MY-Cld" firstAttribute="leading" secondItem="VkY-ms-Xy5" secondAttribute="leading" id="Ype-4B-FNV"/>
                                 <constraint firstAttribute="trailing" secondItem="z5z-3H-aUv" secondAttribute="trailing" id="aO5-hn-ylH"/>
                                 <constraint firstItem="z5z-3H-aUv" firstAttribute="top" secondItem="gOG-MY-Cld" secondAttribute="bottom" constant="8" id="b2U-T2-GU3"/>
                                 <constraint firstItem="z5z-3H-aUv" firstAttribute="leading" secondItem="VkY-ms-Xy5" secondAttribute="leading" id="gkn-e4-IqI"/>
                                 <constraint firstAttribute="trailing" secondItem="gOG-MY-Cld" secondAttribute="trailing" id="syv-nT-00z"/>
-                                <constraint firstAttribute="trailing" secondItem="g7X-Cr-BiL" secondAttribute="trailing" constant="8" id="t07-L0-Yfz"/>
+                                <constraint firstAttribute="trailing" secondItem="g7X-Cr-BiL" secondAttribute="trailing" id="t07-L0-Yfz"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -76,7 +83,8 @@
                         <constraint firstItem="VkY-ms-Xy5" firstAttribute="leading" secondItem="XlJ-J5-zn2" secondAttribute="leading" constant="8" id="QLJ-7G-eo5"/>
                         <constraint firstAttribute="trailing" secondItem="VkY-ms-Xy5" secondAttribute="trailing" constant="8" id="d3O-cN-EG0"/>
                         <constraint firstAttribute="bottom" secondItem="VkY-ms-Xy5" secondAttribute="bottom" id="lg5-Rn-1mm"/>
-                        <constraint firstItem="VkY-ms-Xy5" firstAttribute="top" secondItem="F8f-9C-1gQ" secondAttribute="bottom" constant="18" id="xdV-3H-Asc"/>
+                        <constraint firstItem="F8f-9C-1gQ" firstAttribute="width" secondItem="XlJ-J5-zn2" secondAttribute="width" id="wU6-y5-uyJ"/>
+                        <constraint firstItem="VkY-ms-Xy5" firstAttribute="top" secondItem="F8f-9C-1gQ" secondAttribute="bottom" constant="16" id="xdV-3H-Asc"/>
                     </constraints>
                 </scrollView>
             </subviews>

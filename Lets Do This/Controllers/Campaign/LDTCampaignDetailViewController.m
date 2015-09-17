@@ -256,9 +256,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithNibName:@"LDTSubmitReportbackView" bundle:nil];
-    [self.navigationController presentViewController:destVC animated:YES completion:nil];
+    DSOReportbackItem *reportbackItem = [[DSOReportbackItem alloc] initWithCampaign:self.campaign];
+    reportbackItem.image = info[UIImagePickerControllerEditedImage];
+    LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithReportbackItem:reportbackItem];
+    UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
+    [self.navigationController presentViewController:destNavVC animated:YES completion:nil];
 }
 
 @end
