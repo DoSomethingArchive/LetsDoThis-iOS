@@ -74,6 +74,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     self.collectionView.contentInset = UIEdgeInsetsMake(y,0,0,0);
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
+}
+
 #pragma mark - LDTCampaignDetailViewController
 
 - (void)styleView {
@@ -131,6 +137,9 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 #pragma mark - LDTCampaignDetailCampaignCellDelegate
 
 - (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
+    if ([self.user hasCompletedCampaign:cell.campaign]) {
+        return;
+    }
     if ([self.user isDoingCampaign:cell.campaign]) {
         UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
 

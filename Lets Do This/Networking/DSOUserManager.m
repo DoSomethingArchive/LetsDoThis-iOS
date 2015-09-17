@@ -134,6 +134,27 @@
     }];
 }
 
+- (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+
+    [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
+
+        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
+            if (completionHandler) {
+                completionHandler(response);
+            }
+        } errorHandler:^(NSError *error) {
+            if (errorHandler) {
+                errorHandler(error);
+            }
+        }];
+
+    } errorHandler:^(NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
 - (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID {
     for (DSOCampaign *campaign in self.activeMobileAppCampaigns) {
         if (campaign.campaignID == campaignID) {
