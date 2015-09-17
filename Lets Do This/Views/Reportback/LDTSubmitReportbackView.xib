@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="backgroundImageView" destination="nvl-h4-81s" id="0an-4r-CgH"/>
                 <outlet property="captionField" destination="gOG-MY-Cld" id="xOv-Pc-iaO"/>
+                <outlet property="primaryImageView" destination="YGt-fQ-cao" id="h7g-qo-nCB"/>
                 <outlet property="quantityField" destination="z5z-3H-aUv" id="u2N-2m-sOo"/>
                 <outlet property="scrollView" destination="XlJ-J5-zn2" id="REg-kw-Gcg"/>
                 <outlet property="submitButton" destination="g7X-Cr-BiL" id="ras-ZA-SBO"/>
@@ -28,6 +29,13 @@
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nvl-h4-81s" userLabel="Background Image View">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
                                 </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YGt-fQ-cao" userLabel="Primary Image View">
+                                    <rect key="frame" x="238" y="13" width="124" height="124"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="124" id="hTN-6q-2cN"/>
+                                        <constraint firstAttribute="height" constant="124" id="yIK-RF-FHB"/>
+                                    </constraints>
+                                </imageView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
@@ -35,7 +43,9 @@
                                 <constraint firstAttribute="height" constant="150" id="aoq-SJ-QDW"/>
                                 <constraint firstItem="nvl-h4-81s" firstAttribute="top" secondItem="F8f-9C-1gQ" secondAttribute="top" id="c3N-r3-1Q5"/>
                                 <constraint firstItem="nvl-h4-81s" firstAttribute="leading" secondItem="F8f-9C-1gQ" secondAttribute="leading" id="rxV-3j-21l"/>
+                                <constraint firstAttribute="centerX" secondItem="YGt-fQ-cao" secondAttribute="centerX" id="tYd-Uz-bJH"/>
                                 <constraint firstAttribute="bottom" secondItem="nvl-h4-81s" secondAttribute="bottom" id="thC-Ca-5Bp"/>
+                                <constraint firstAttribute="centerY" secondItem="YGt-fQ-cao" secondAttribute="centerY" constant="0.5" id="zKH-NV-CGA"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VkY-ms-Xy5" userLabel="Form Container View">
