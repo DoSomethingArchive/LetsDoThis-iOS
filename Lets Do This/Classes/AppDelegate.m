@@ -16,6 +16,8 @@
 #import "LDTMessage.h"
 #import "LDTTabBarController.h"
 #import "DSOUserManager.h"
+#import "TSMessageView.h"
+
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
@@ -46,6 +48,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
     [self.window makeKeyAndVisible];
+    
+    [TSMessageView addNotificationDesignFromFile:@"customMessagesDefaultDesign.json"];
 
     if (![DSOUserManager sharedInstance].userHasCachedSession) {
         [self displayUserConnectVC];
