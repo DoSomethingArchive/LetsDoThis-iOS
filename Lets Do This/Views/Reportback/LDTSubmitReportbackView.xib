@@ -55,11 +55,17 @@
                                     <rect key="frame" x="0.0" y="0.0" width="584" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="captionTextFieldEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="2jt-1S-6ee"/>
+                                    </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Number of nouns verbed" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z5z-3H-aUv" userLabel="Quantity Text Field">
                                     <rect key="frame" x="0.0" y="38" width="584" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="quantityTextFieldEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="0xc-a2-WbS"/>
+                                    </connections>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g7X-Cr-BiL" userLabel="Submit Button" customClass="LDTButton">
                                     <rect key="frame" x="0.0" y="98" width="584" height="30"/>
