@@ -12,6 +12,7 @@
 #import "LDTCampaignDetailReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTUserProfileViewController.h"
+#import "LDTSubmitReportbackViewController.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     LDTCampaignDetailSectionTypeCampaign,
@@ -142,7 +143,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
         }
         else {
             cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
+                // Nada
             }];
         }
 
@@ -249,6 +250,17 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     viewController.title = [NSString stringWithFormat:@"I did %@", self.campaign.title].uppercaseString;
     [viewController styleRightBarButton];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    DSOReportbackItem *reportbackItem = [[DSOReportbackItem alloc] initWithCampaign:self.campaign];
+    reportbackItem.image = info[UIImagePickerControllerEditedImage];
+    LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithReportbackItem:reportbackItem];
+    UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
+    [self.navigationController presentViewController:destNavVC animated:YES completion:nil];
 }
 
 @end

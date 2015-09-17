@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import "LDTBaseUserLoginViewController.h"
+#import "LDTBaseViewController.h"
 
-@interface LDTUserLoginViewController : LDTBaseUserLoginViewController
+@interface LDTUserLoginViewController : LDTBaseViewController
 
 @end
