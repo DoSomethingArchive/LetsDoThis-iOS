@@ -56,8 +56,16 @@
 
 #pragma mark - DSOReportbackItem
 
+- (void)setCaption:(NSString *)caption {
+    _caption = caption;
+}
+
 - (void)setImage:(UIImage *)image {
     _image = image;
+}
+
+- (void)setQuantity:(NSInteger)quantity {
+    _quantity = quantity;
 }
 
 @end
