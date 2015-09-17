@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import "LDTBaseUserLoginViewController.h"
+#import "LDTBaseViewController.h"
 #import "LDTTheme.h"
 
-@interface LDTBaseUserLoginViewController ()
+@interface LDTBaseViewController ()
 
 @property (nonatomic, strong) UIToolbar *keyboardToolbar;
 @property (nonatomic, readwrite) BOOL keyboardVisible;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation LDTBaseUserLoginViewController
+@implementation LDTBaseViewController
 
 #pragma mark - UIViewController
 
