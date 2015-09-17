@@ -95,7 +95,7 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     self.reportbackItem.caption = self.captionTextField.text;
     self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
-    [[DSOAPI sharedInstance] postReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
+    [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
         [self dismissViewControllerAnimated:YES completion:nil];
         [LDTMessage showNotificationWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted a %@ photo for approval.", self.reportbackItem.campaign.title] type:TSMessageNotificationTypeSuccess];
     } errorHandler:^(NSError *error) {
