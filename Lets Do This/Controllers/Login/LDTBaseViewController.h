@@ -20,7 +20,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LDTBaseUserLoginViewController : UIViewController<UITextFieldDelegate>
+@interface LDTBaseViewController : UIViewController<UITextFieldDelegate>
 
 @property (strong, nonatomic) NSArray *textFields;
 @property (strong, nonatomic) NSArray *textFieldsRequired;

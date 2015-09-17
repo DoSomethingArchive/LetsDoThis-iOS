@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "LDTBaseUserLoginViewController.h"
+#import "LDTBaseViewController.h"
 
-@interface LDTUserRegisterViewController : LDTBaseUserLoginViewController <UITextFieldDelegate, CLLocationManagerDelegate>
+@interface LDTUserRegisterViewController : LDTBaseViewController <UITextFieldDelegate, CLLocationManagerDelegate>
 
 -(instancetype)initWithUser:(DSOUser *)user;
 
