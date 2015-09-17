@@ -22,6 +22,18 @@
 
 @implementation DSOReportbackItem
 
+#pragma mark - NSObject
+
+- (instancetype)initWithCampaign:(DSOCampaign *)campaign {
+    self = [super init];
+
+    if (self) {
+        self.campaign = campaign;
+    }
+
+    return self;
+}
+
 - (instancetype)initWithDict:(NSDictionary*)dict {
     self = [super init];
 
@@ -40,6 +52,12 @@
     }
 
     return self;
+}
+
+#pragma mark - DSOReportbackItem
+
+- (void)setImage:(UIImage *)image {
+    _image = image;
 }
 
 @end
