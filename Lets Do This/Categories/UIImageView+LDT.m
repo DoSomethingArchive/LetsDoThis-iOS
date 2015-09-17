@@ -19,9 +19,9 @@
 
 - (void)addGrayTint {
     CALayer *sublayer = [CALayer layer];
-    [sublayer setBackgroundColor:[UIColor blackColor].CGColor];
-    [sublayer setOpacity:0.3];
-    [sublayer setFrame:self.frame];
+    sublayer.backgroundColor = [UIColor blackColor].CGColor;
+    sublayer.opacity = 0.3;
+    sublayer.frame = self.frame;
     [self.layer addSublayer:sublayer];
 }
 
