@@ -143,7 +143,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
         }
         else {
             cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
+                // Nada
             }];
         }
 
