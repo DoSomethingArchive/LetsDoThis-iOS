@@ -17,6 +17,7 @@
 #define DSOPROTOCOL @"http"
 #define DSOSERVER @"staging.beta.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
+#define LDTSOURCENAME @"letsdothis_ios"
 
 @interface DSOAPI()
 
@@ -166,7 +167,7 @@
 
 - (void)createSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)campaign.campaignID];
-    NSDictionary *params = @{@"source": @"letsdothis_ios"};
+    NSDictionary *params = @{@"source": LDTSOURCENAME};
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
           if (completionHandler) {
@@ -178,6 +179,29 @@
           }
           [self logError:error];
       }];
+}
+
+- (void)postReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/reportback", (long)reportbackItem.campaign.campaignID];
+    NSDictionary *params = @{
+                             @"quantity": [NSNumber numberWithInteger:reportbackItem.quantity],
+                             @"caption": reportbackItem.caption,
+                             // why_participated is a required property on server-side that we currently don't collect in the app, so set to empty.
+                             @"why_participated": reportbackItem.caption,
+                             @"source": LDTSOURCENAME,
+                             @"file": [UIImagePNGRepresentation(reportbackItem.image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]
+                             };
+
+    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (completionHandler) {
+            completionHandler(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+        [self logError:error];
+    }];
 }
 
 - (void)loadUserWithUserId:(NSString *)userID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
