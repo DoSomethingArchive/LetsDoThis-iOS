@@ -16,7 +16,10 @@
 @property (nonatomic, assign, readonly) NSInteger reportbackItemID;
 @property (nonatomic, strong, readonly) NSString *caption;
 @property (nonatomic, strong, readonly) NSURL *imageURL;
+@property (nonatomic, strong, readonly) UIImage *image;
 
-- (instancetype)initWithDict:(NSDictionary*)dict;
+- (instancetype)initWithCampaign:(DSOCampaign *)campaign;
+- (instancetype)initWithDict:(NSDictionary *)dict;
+- (void)setImage:(UIImage *)image;
 
 @end

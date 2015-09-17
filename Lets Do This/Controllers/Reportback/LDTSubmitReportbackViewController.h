@@ -10,4 +10,6 @@
 
 @interface LDTSubmitReportbackViewController : LDTBaseViewController
 
+- (instancetype)initWithReportbackItem:(DSOReportbackItem *)reportbackItem;
+
 @end
