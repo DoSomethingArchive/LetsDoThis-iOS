@@ -49,7 +49,7 @@
     self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
     [self.window makeKeyAndVisible];
     
-    [TSMessageView addNotificationDesignFromFile:@"customMessagesDefaultDesign.json"];
+    [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
     if (![DSOUserManager sharedInstance].userHasCachedSession) {
         [self displayUserConnectVC];

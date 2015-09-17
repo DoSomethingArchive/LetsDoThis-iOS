@@ -237,7 +237,7 @@ const CGFloat kHeightExpanded = 400;
             cell.signedUp = YES;
             cell.actionButtonTitle = @"Prove it";
             [self.navigationController pushViewController:destVC animated:YES];
-            [TSMessage setDefaultViewController:self.navigationController];
+            [LDTMessage setDefaultViewController:self.navigationController];
             [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
         } errorHandler:^(NSError *error) {
              [LDTMessage displayErrorMessageForError:error];
