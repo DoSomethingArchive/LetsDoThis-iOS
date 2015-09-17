@@ -19,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 
 - (IBAction)submitButtonTouchUpInside:(id)sender;
+- (IBAction)captionTextFieldEditingDidEnd:(id)sender;
+- (IBAction)quantityTextFieldEditingDidEnd:(id)sender;
 
 @end
 
@@ -47,6 +49,7 @@
     self.primaryImageView.image = self.reportbackItem.image;
     self.captionTextField.placeholder = @"Caption your photo";
     self.quantityTextField.placeholder = [NSString stringWithFormat:@"Number of %@ %@", self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
+    self.quantityTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.submitButton setTitle:@"Upload photo".uppercaseString forState:UIControlStateNormal];
 
     [self styleView];
@@ -77,7 +80,24 @@
     [self.submitButton disable];
 }
 
+- (void)updateSubmitButton {
+    if (self.captionTextField.text.length > 0 && self.quantityTextField.text.length > 0 && self.quantityTextField.text.intValue > 0) {
+        [self.submitButton enable];
+    }
+    else {
+        [self.submitButton disable];
+    }
+}
 - (IBAction)submitButtonTouchUpInside:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)captionTextFieldEditingDidEnd:(id)sender {
+    [self updateSubmitButton];
+}
+
+- (IBAction)quantityTextFieldEditingDidEnd:(id)sender {
+    [self updateSubmitButton];
 }
 
 @end
