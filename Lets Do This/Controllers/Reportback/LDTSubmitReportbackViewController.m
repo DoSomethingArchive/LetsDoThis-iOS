@@ -91,8 +91,17 @@
         [self.submitButton disable];
     }
 }
+
 - (IBAction)submitButtonTouchUpInside:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    self.reportbackItem.caption = self.captionTextField.text;
+    self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
+    [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        [LDTMessage showNotificationWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted a %@ photo for approval.", self.reportbackItem.campaign.title] type:TSMessageNotificationTypeSuccess];
+    } errorHandler:^(NSError *error) {
+        [LDTMessage setDefaultViewController:self.navigationController];
+        [LDTMessage displayErrorMessageForError:error];
+    }];
 }
 
 - (IBAction)captionTextFieldEditingDidEnd:(id)sender {

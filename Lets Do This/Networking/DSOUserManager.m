@@ -114,9 +114,7 @@
 }
 
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-
     [[DSOAPI sharedInstance] createSignupForCampaign:campaign completionHandler:^(NSDictionary *response) {
-
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
             if (completionHandler) {
                 completionHandler(response);
@@ -126,7 +124,24 @@
                 errorHandler(error);
             }
         }];
+    } errorHandler:^(NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
 
+- (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
+        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
+            if (completionHandler) {
+                completionHandler(response);
+            }
+        } errorHandler:^(NSError *error) {
+            if (errorHandler) {
+                errorHandler(error);
+            }
+        }];
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);
