@@ -56,6 +56,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
+    // Set the estimated width of the cells to half the screen width (2 columns layout)
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    CGFloat screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
+    layout.estimatedItemSize = CGSizeMake(screenWidth, 400);
 
     self.imagePickerController = [[UIImagePickerController alloc] init];
     self.imagePickerController.delegate = self;
@@ -224,6 +228,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 
 #pragma mark - UICollectionViewDelegate
 
+/*
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     CGFloat height = 480;
@@ -233,6 +238,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     }
     return CGSizeMake(width, height);
 }
+ */
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section == LDTCampaignDetailSectionTypeReportback) {
