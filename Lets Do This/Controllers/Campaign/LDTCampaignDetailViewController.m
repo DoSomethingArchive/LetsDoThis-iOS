@@ -13,6 +13,8 @@
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTUserProfileViewController.h"
 #import "LDTSubmitReportbackViewController.h"
+#import "LDTMessage.h"
+
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     LDTCampaignDetailSectionTypeCampaign,
@@ -63,7 +65,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 
     [self styleView];
     [self fetchReportbackItems];
-    [TSMessage setDefaultViewController:self];
+    [LDTMessage setDefaultViewController:self];
 }
 
 - (void)viewDidLayoutSubviews {
