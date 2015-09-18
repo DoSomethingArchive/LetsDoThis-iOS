@@ -12,8 +12,7 @@
 @implementation LDTMessage
 
 +(void)displayErrorMessageForString:(NSString *)title {
-    [TSMessage showNotificationWithTitle:title
-                                    type:TSMessageNotificationTypeError];
+    [TSMessage showNotificationInViewController:[TSMessage defaultViewController] title:title subtitle:nil image:nil type:TSMessageNotificationTypeError duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
 }
 
 +(void)displayErrorMessageForError:(NSError *)error {
@@ -31,10 +30,12 @@
         code = [errorDict valueForKeyAsInt:@"code" nullValue:0];
         message = [errorDict valueForKeyAsString:@"message"];
     }
+    [TSMessage showNotificationInViewController:[TSMessage defaultViewController] title:[NSString stringWithFormat:@"O noes, error %li", (long)code] subtitle:message image:nil type:TSMessageNotificationTypeError duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
+}
 
-    [TSMessage showNotificationWithTitle:[NSString stringWithFormat:@"O noes, error %li", (long)code]
-                                subtitle:message
-                                    type:TSMessageNotificationTypeError];
++(void)displaySuccessMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle {
+    [TSMessage showNotificationInViewController:[TSMessage defaultViewController] title:title subtitle:subtitle image:nil type:TSMessageNotificationTypeSuccess duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
+
 }
 
 @end
