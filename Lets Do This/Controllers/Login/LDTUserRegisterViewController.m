@@ -139,6 +139,7 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
+        [self.submitButton disable];
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode success:^(NSDictionary *response) {
 
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
@@ -161,10 +162,12 @@
 
             } errorHandler:^(NSError *error) {
                 [LDTMessage displayErrorMessageForError:error];
+                [self.submitButton enable];
             }];
 
         } failure:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
+            [self.submitButton enable];
         }];
     }
     else {
