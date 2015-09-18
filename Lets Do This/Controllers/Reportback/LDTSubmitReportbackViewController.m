@@ -93,6 +93,7 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
+    [self.submitButton disable];
     self.reportbackItem.caption = self.captionTextField.text;
     self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
@@ -101,6 +102,7 @@
     } errorHandler:^(NSError *error) {
         [LDTMessage setDefaultViewController:self.navigationController];
         [LDTMessage displayErrorMessageForError:error];
+        [self.submitButton enable];
     }];
 }
 

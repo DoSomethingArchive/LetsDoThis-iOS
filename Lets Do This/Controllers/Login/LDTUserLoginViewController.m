@@ -126,18 +126,15 @@
 		
         return;
     }
-
+    [self.submitButton disable];
     [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
-
         // This VC is always presented within a NavVC, so kill it.
         [self dismissViewControllerAnimated:YES completion:^{
-
             LDTTabBarController *destVC = [[LDTTabBarController alloc] init];
             [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
-
         }];
-
     } errorHandler:^(NSError *error) {
+        [self.submitButton enable];
         [self.passwordTextField becomeFirstResponder];
         [LDTMessage displayErrorMessageForError:error];
         [self.emailTextField setBorderColor:[UIColor redColor]];
