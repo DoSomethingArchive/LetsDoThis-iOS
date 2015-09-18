@@ -15,7 +15,6 @@
 @interface LDTReportbackItemDetailSingleViewController () <LDTReportbackItemDetailViewDelegate>
 
 @property (strong, nonatomic) DSOReportbackItem *reportbackItem;
-
 @property (weak, nonatomic) IBOutlet LDTReportbackItemDetailView *reportbackItemDetailView;
 
 @end
@@ -40,7 +39,7 @@
     [super viewDidLoad];
 
     self.title = [self.reportbackItem.campaign.title uppercaseString];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self styleBackBarButton];
 
     [self configureReportbackItemDetailView];
 
@@ -56,8 +55,7 @@
 #pragma mark - LDTReportbackItemDetailSingleViewController
 
 - (void)styleView {
-    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
-    [navVC setOrange];
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
 }
 
 - (void)configureReportbackItemDetailView {
@@ -76,11 +74,13 @@
 
 - (void)didClickCampaignTitleButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:self.reportbackItem.campaign];
+	
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
     LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:self.reportbackItem.user];
+	
     [self.navigationController pushViewController:destVC animated:YES];
 }
 

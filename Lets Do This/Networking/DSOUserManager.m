@@ -39,27 +39,22 @@
 
 - (BOOL)userHasCachedSession {
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
+	
     return sessionToken.length > 0;
 }
 
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
-    [[DSOAPI sharedInstance] loginWithEmail:email
-               password:password
-      completionHandler:^(DSOUser *user) {
-
+    [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
           self.user = user;
 
           [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
 
           // Save session in Keychain for when app is quit.
           [SSKeychain setPassword:user.sessionToken forService:LDTSERVER account:@"Session"];
+          [SSKeychain setPassword:self.user.userID forService:LDTSERVER account:@"UserID"];
 
-          // Save Phoenix ID of current user in Keychain.
-          NSString *phoenixIDString = [NSString stringWithFormat:@"%li", (long)self.user.phoenixID];
-          [SSKeychain setPassword:phoenixIDString forService:LDTSERVER account:@"PhoenixID"];
-
-          [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+          [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
               self.activeMobileAppCampaigns = campaigns;
           } errorHandler:^(NSError *error) {
               if (errorHandler) {
@@ -76,21 +71,20 @@
               errorHandler(error);
           }
       }];
-
 }
 
 - (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
     NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
-    if ([sessionToken length] > 0 == NO) {
+    if (sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
     }
 
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
-    NSInteger phoenixID = [[SSKeychain passwordForService:LDTSERVER account:@"PhoenixID"] intValue];
-    [[DSOAPI sharedInstance] fetchUserWithPhoenixID:phoenixID completionHandler:^(DSOUser *user) {
+    NSString *userID = [SSKeychain passwordForService:LDTSERVER account:@"UserID"];
+    [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         if (completionHandler) {
             completionHandler();
@@ -105,7 +99,7 @@
 - (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
         [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
-        [SSKeychain deletePasswordForService:LDTSERVER account:@"PhoenixID"];
+        [SSKeychain deletePasswordForService:LDTSERVER account:@"UserID"];
 
         self.user = nil;
 
@@ -119,10 +113,8 @@
     }];
 }
 
-- (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-
+- (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] createSignupForCampaign:campaign completionHandler:^(NSDictionary *response) {
-
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
             if (completionHandler) {
                 completionHandler(response);
@@ -132,7 +124,24 @@
                 errorHandler(error);
             }
         }];
+    } errorHandler:^(NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
 
+- (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
+        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
+            if (completionHandler) {
+                completionHandler(response);
+            }
+        } errorHandler:^(NSError *error) {
+            if (errorHandler) {
+                errorHandler(error);
+            }
+        }];
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);

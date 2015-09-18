@@ -17,6 +17,7 @@
 #define DSOPROTOCOL @"http"
 #define DSOSERVER @"staging.beta.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
+#define LDTSOURCENAME @"letsdothis_ios"
 
 @interface DSOAPI()
 
@@ -51,8 +52,7 @@
     NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/v1/", DSOPROTOCOL, LDTSERVER]];
     self = [super initWithBaseURL:baseURL];
 
-    if (self != nil) {
-
+    if (self) {
         if (isActivityLogging) {
             [[AFNetworkActivityLogger sharedLogger] startLogging];
             [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
@@ -124,7 +124,7 @@
                              @"password": password};
 
     [self POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:responseObject[@"data"]];
+        DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
         if (completionHandler) {
             completionHandler(user);
         }
@@ -167,7 +167,7 @@
 
 - (void)createSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)campaign.campaignID];
-    NSDictionary *params = @{@"source": @"letsdothis_ios"};
+    NSDictionary *params = @{@"source": LDTSOURCENAME};
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
           if (completionHandler) {
@@ -181,11 +181,34 @@
       }];
 }
 
-- (void)fetchUserWithPhoenixID:(NSInteger)phoenixID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"users/drupal_id/%li", (long)phoenixID];
+- (void)postReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/reportback", (long)reportbackItem.campaign.campaignID];
+    NSDictionary *params = @{
+                             @"quantity": [NSNumber numberWithInteger:reportbackItem.quantity],
+                             @"caption": reportbackItem.caption,
+                             // why_participated is a required property on server-side that we currently don't collect in the app, so set to empty.
+                             @"why_participated": reportbackItem.caption,
+                             @"source": LDTSOURCENAME,
+                             @"file": [UIImagePNGRepresentation(reportbackItem.image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]
+                             };
+
+    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (completionHandler) {
+            completionHandler(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+        [self logError:error];
+    }];
+}
+
+- (void)loadUserWithUserId:(NSString *)userID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSArray *userInfo = responseObject[@"data"];
-          DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:userInfo.firstObject];
+          DSOUser *user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
           if (completionHandler) {
               completionHandler(user);
           }
@@ -197,7 +220,7 @@
       }];
 }
 
-- (void)fetchCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)loadCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
     for (NSDictionary *term in self.interestGroups) {
         NSNumber *termId = (NSNumber *)term[@"id"];
@@ -223,7 +246,7 @@
     }];
 }
 
-- (void)fetchReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)loadReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSMutableArray *campaignIds = [[NSMutableArray alloc] init];
     for (DSOCampaign *campaign in campaigns) {
         [campaignIds addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];

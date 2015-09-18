@@ -14,9 +14,10 @@
 #import "LDTUserConnectViewController.h"
 #import "LDTTheme.h"
 #import "LDTMessage.h"
-#import "LDTNavigationController.h"
 #import "LDTTabBarController.h"
 #import "DSOUserManager.h"
+#import "TSMessageView.h"
+
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
@@ -47,12 +48,14 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
     [self.window makeKeyAndVisible];
+    
+    [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
-    if (![[DSOUserManager sharedInstance] userHasCachedSession]) {
+    if (![DSOUserManager sharedInstance].userHasCachedSession) {
         [self displayUserConnectVC];
     }
     else {
-        [[DSOAPI sharedInstance] fetchCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+        [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
             [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
             [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
                 LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
@@ -67,13 +70,13 @@
             // @todo: Present a new NoConnectionViewController?
         }];
     }
-    return YES;
-	
 
+    return YES;
 }
 
 - (void)displayUserConnectVC {
-    LDTNavigationController *navVC = [[LDTNavigationController alloc]initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
+    [navVC styleNavigationBar:LDTNavigationBarStyleClear];
     [LDTMessage setDefaultViewController:navVC];
     [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
 }

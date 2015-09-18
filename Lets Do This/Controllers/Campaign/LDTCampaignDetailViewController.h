@@ -11,6 +11,6 @@
 
 @interface LDTCampaignDetailViewController : UIViewController
 
--(instancetype)initWithCampaign:(DSOCampaign *)campaign;
+- (instancetype)initWithCampaign:(DSOCampaign *)campaign;
 
 @end

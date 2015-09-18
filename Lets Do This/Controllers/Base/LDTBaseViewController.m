@@ -6,9 +6,10 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import "LDTBaseUserLoginViewController.h"
+#import "LDTBaseViewController.h"
+#import "LDTTheme.h"
 
-@interface LDTBaseUserLoginViewController ()
+@interface LDTBaseViewController ()
 
 @property (nonatomic, strong) UIToolbar *keyboardToolbar;
 @property (nonatomic, readwrite) BOOL keyboardVisible;
@@ -17,27 +18,20 @@
 
 @end
 
-@implementation LDTBaseUserLoginViewController
+@implementation LDTBaseViewController
 
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self styleBackBarButton];
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     [self startListeningForNotifications];
-}
-
-
-#pragma mark - UITextFieldDelegate
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    [textField resignFirstResponder];
-    return YES;
 }
 
 #pragma mark - LDTBaseUserLoginViewController
@@ -52,26 +46,15 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
-- (BOOL)validateEmail:(NSString *)candidate {
+- (BOOL)validateEmailForCandidate:(NSString *)candidate {
     if (candidate.length < 6) {
         return NO;
     }
+	
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+	
     return [emailTest evaluateWithObject:candidate];
-}
-
-#pragma mark - UITextFieldDelegate
-
-// @todo Remove me
--(void)textFieldDidBeginEditing:(UITextField *)textField {
-
-}
-
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    textField.inputAccessoryView = self.keyboardToolbar;
-
-    return YES;
 }
 
 - (void)handleKeyboardWillShowNotification:(NSNotification *)notification {
@@ -87,7 +70,7 @@
          // Scrollview scroll area adjusts to fit keyboard
          self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.view.frame.size.height - self.keyboardFrameInViewCoordinates.origin.y, 0);
          self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
-     } completion:NULL];
+     } completion:nil];
 }
 
 - (void)handleKeyboardWillHideNotification:(NSNotification *)notification {
@@ -103,7 +86,7 @@
          // Scrollview scroll area goes back to full-size
          self.scrollView.contentInset =  UIEdgeInsetsMake(0, 0, self.bottomLayoutGuide.length, 0);
          self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
-     } completion:NULL];
+     } completion:nil];
 }
 
 - (CGRect)keyboardFrameInViewCoordinates:(UIView *)view {
@@ -188,5 +171,16 @@
     [self stopEditing];
 }
 
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    textField.inputAccessoryView = self.keyboardToolbar;
+    return YES;
+}
 
 @end

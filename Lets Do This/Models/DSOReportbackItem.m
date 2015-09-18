@@ -22,6 +22,18 @@
 
 @implementation DSOReportbackItem
 
+#pragma mark - NSObject
+
+- (instancetype)initWithCampaign:(DSOCampaign *)campaign {
+    self = [super init];
+
+    if (self) {
+        self.campaign = campaign;
+    }
+
+    return self;
+}
+
 - (instancetype)initWithDict:(NSDictionary*)dict {
     self = [super init];
 
@@ -31,7 +43,7 @@
         self.caption = [dict valueForKeyAsString:@"caption"];
         NSString *imagePath = [[dict valueForKeyPath:@"media"] valueForKeyAsString:@"uri" nullValue:nil];
         self.imageURL = [NSURL URLWithString:imagePath];
-        self.user = [[DSOUser alloc] initWithPhoenixDict:dict[@"user"]];
+        self.user = [[DSOUser alloc] initWithDict:dict[@"user"]];
         NSInteger campaignID = [[dict valueForKeyPath:@"campaign.id"] intValue];
         // @todo: If an active DSOCampaign doesn't exist, use the dictionary to create a DSOCampaign to expose the Campaign Title
 		
@@ -40,6 +52,20 @@
     }
 
     return self;
+}
+
+#pragma mark - DSOReportbackItem
+
+- (void)setCaption:(NSString *)caption {
+    _caption = caption;
+}
+
+- (void)setImage:(UIImage *)image {
+    _image = image;
+}
+
+- (void)setQuantity:(NSInteger)quantity {
+    _quantity = quantity;
 }
 
 @end
