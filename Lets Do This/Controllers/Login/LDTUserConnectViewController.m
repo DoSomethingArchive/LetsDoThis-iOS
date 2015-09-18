@@ -33,7 +33,7 @@
     [super viewDidLoad];
 
     self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self styleBackBarButton];
 
     self.headerLabel.text = @"Let's make this official. Create an account\nto find actions you can do with friends.";
     [self.registerButton setTitle:[@"Register" uppercaseString] forState:UIControlStateNormal];
@@ -48,19 +48,19 @@
 - (void)styleView {
     self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
 
-    [self.headerLabel setFont:[LDTTheme font]];
-    [self.headerLabel setTextColor:[UIColor whiteColor]];
-
-    [self.registerButton setBackgroundColor:[LDTTheme ctaBlueColor]];
+    self.headerLabel.font = [LDTTheme font];
+    self.headerLabel.textColor = [UIColor whiteColor];
+	self.registerButton.backgroundColor = [LDTTheme ctaBlueColor];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.facebookButton setBackgroundColor:[LDTTheme facebookBlueColor]];
+    self.facebookButton.backgroundColor = [LDTTheme facebookBlueColor];
     [self.facebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.loginButton setBackgroundColor:[UIColor whiteColor]];
+    self.loginButton.backgroundColor = [UIColor whiteColor];
     [self.loginButton setTitleColor:[LDTTheme ctaBlueColor] forState:UIControlStateNormal];
 }
 
 - (IBAction)registerTapped:(id)sender {
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:nil];
+	
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
@@ -69,15 +69,18 @@
     NSMutableDictionary *fbUser = [[NSMutableDictionary alloc] init];
     fbUser[@"first_name"] = @"John";
     fbUser[@"email"] = @"john.connor@dosomething.org";
-    fbUser[@"photo"] = [UIImage imageNamed:@"john-connor.jpg"];
+    // This doesn't work anyway.
+    fbUser[@"photo"] = @"http://static.deathandtaxesmag.com/uploads/2013/06/furlong1.jpg";
 
-    DSOUser *user = [[DSOUser alloc] initWithNorthstarDict:fbUser];
+    DSOUser *user = [[DSOUser alloc] initWithDict:fbUser];
     LDTUserRegisterViewController *destVC = [[LDTUserRegisterViewController alloc] initWithUser:user];
+	
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
 - (IBAction)loginButtonTouchUpInside:(id)sender {
     LDTUserLoginViewController *destVC = [[LDTUserLoginViewController alloc] initWithNibName:@"LDTUserLoginView" bundle:nil];
+	
     [self.navigationController pushViewController:destVC animated:YES];
 }
 

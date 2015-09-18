@@ -15,7 +15,6 @@
 @interface DSOUser()
 
 @property (nonatomic, strong, readwrite) NSString *userID;
-@property (nonatomic, assign, readwrite) NSInteger phoenixID;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *firstName;
@@ -33,47 +32,43 @@
 
 @synthesize photo = _photo;
 
-- (instancetype)initWithNorthstarDict:(NSDictionary*)northstarDict {
+- (instancetype)initWithDict:(NSDictionary *)dict {
     self = [super init];
 
     if (self) {
-        self.userID = northstarDict[@"_id"];
-        if ([northstarDict objectForKey:@"country"]) {
-            self.countryCode = northstarDict[@"country"];
+        self.userID = dict[@"_id"];
+        // Hack to hotfix inconsistent API id property: https://github.com/DoSomething/LetsDoThis-iOS/issues/340
+        if (!self.userID) {
+            self.userID = [dict valueForKeyAsString:@"id" nullValue:@"Null ID"];
         }
-        self.phoenixID = [northstarDict[@"drupal_id"] intValue];
-        self.firstName = northstarDict[@"first_name"];
-        self.email = northstarDict[@"email"];
-        self.sessionToken = northstarDict[@"session_token"];
-        if ([northstarDict objectForKey:@"photo"] != nil) {
+        if ([dict objectForKey:@"country"]) {
+            self.countryCode = dict[@"country"];
+        }
+        self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Null First Name"];
+        self.email = dict[@"email"];
+        self.sessionToken = dict[@"session_token"];
+		
+        if (dict[@"photo"]) {
             self.photo = nil;
-            [[SDWebImageManager sharedManager] downloadImageWithURL:northstarDict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
+            [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
                  self.photo = image;
              }];
         }
-        self.campaigns = northstarDict[@"campaigns"];
+        self.campaigns = dict[@"campaigns"];
+		
         [self syncActiveMobileAppCampaigns];
     }
 
     return self;
 }
 
-- (instancetype)initWithPhoenixDict:(NSDictionary *)phoenixDict {
-    self = [super init];
 
-    if (self) {
-        self.phoenixID = [phoenixDict[@"id"] intValue];
-    }
-
-    return self;
-}
 
 - (UIImage *)photo {
     if (!_photo) {
         // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
-        if (self.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) {
-            NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
-            NSString *storedAvatarPhotoPath = [storedUserDefaults objectForKey:@"storedAvatarPhotoPath"];
+        if ([self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
+            NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"storedAvatarPhotoPath"];
             if (storedAvatarPhotoPath) {
                 _photo = [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
             }
@@ -82,13 +77,14 @@
             return [UIImage imageNamed:@"Default Avatar"];
         }
 	}
+	
 	return _photo;
 }
 
 - (void)setPhoto:(UIImage *)photo {
     _photo = photo;
     // If this user is the logged in user, persist her avatar photo.
-    if (self.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) {
+    if ([self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
         if (photo) {
             NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
             NSArray *storagePaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -102,6 +98,7 @@
             else {
                 [storedUserDefaults setObject:storedAvatarPhotoPath forKey:@"storedAvatarPhotoPath"];
                 [storedUserDefaults synchronize];
+				
                 NSString *successMessage = [NSString stringWithFormat:@"Avatar successfully stored locally at path: %@", storedAvatarPhotoPath];
                 NSLog(successMessage, nil);
             }
@@ -113,6 +110,7 @@
     if (!self.countryCode) {
         return @"";
     }
+	
     NSArray *countryCodes = [NSLocale ISOCountryCodes];
     NSMutableArray *fullCountryNames = [NSMutableArray arrayWithCapacity:countryCodes.count];
     
@@ -121,6 +119,7 @@
         NSString *localeIdentifier = [NSLocale localeIdentifierFromComponents:[NSDictionary dictionaryWithObject:countryCode forKey:NSLocaleCountryCode]];
         // Using that locale identifier to find all the information about that locale, and specifically retrieving its full name.
         NSString *fullCountryName = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] displayNameForKey:NSLocaleIdentifier value:localeIdentifier];
+		
         [fullCountryNames addObject:fullCountryName];
     }
     
@@ -128,6 +127,7 @@
     if (codeForCountryDictionary[self.countryCode]) {
         return codeForCountryDictionary[self.countryCode];
     }
+	
     return @"";
 }
 
@@ -144,7 +144,6 @@
             else {
                 [self.activeMobileAppCampaignsDoing addObject:campaign];
             }
-
         }
     }
 }
@@ -153,10 +152,7 @@
     if (self.firstName.length > 0) {
         return self.firstName;
     }
-    if (self.phoenixID > 0) {
-        return [NSString stringWithFormat:@"%li", (long)self.phoenixID];
-    }
-    return nil;
+    return self.userID;
 }
 
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign {
@@ -165,6 +161,7 @@
             return YES;
         }
     }
+	
     return NO;
 }
 
@@ -174,6 +171,7 @@
             return YES;
         }
     }
+	
     return NO;
 }
 

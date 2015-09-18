@@ -18,8 +18,8 @@
 #import "LDTHeaderCollectionReusableView.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
-    LDTCampaignListSectionTypeCampaign = 0,
-    LDTCampaignListSectionTypeReportback = 1
+    LDTCampaignListSectionTypeCampaign,
+    LDTCampaignListSectionTypeReportback
 };
 
 const CGFloat kHeightCollapsed = 100;
@@ -29,14 +29,22 @@ const CGFloat kHeightExpanded = 400;
 
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
-@property (strong, nonatomic) NSMutableDictionary *interestGroups;
+@property (strong, nonatomic) NSArray *interestGroupButtons;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
-
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (assign, nonatomic) NSInteger selectedGroupButtonIndex;
+@property (strong, nonatomic) NSMutableDictionary *interestGroups;
 @property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (weak, nonatomic) IBOutlet LDTButton *firstGroupButton;
+@property (weak, nonatomic) IBOutlet LDTButton *secondGroupButton;
+@property (weak, nonatomic) IBOutlet LDTButton *thirdGroupButton;
+@property (weak, nonatomic) IBOutlet LDTButton *fourthGroupButton;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
-- (IBAction)segmentedControlValueChanged:(id)sender;
+- (IBAction)firstGroupButtonTouchUpInside:(id)sender;
+- (IBAction)secondGroupButtonTouchUpInside:(id)sender;
+- (IBAction)thirdGroupButtonTouchUpInside:(id)sender;
+- (IBAction)fourthGroupButtonTouchUpInside:(id)sender;
+
 
 @end
 
@@ -49,16 +57,18 @@ const CGFloat kHeightExpanded = 400;
 
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self styleBackBarButton];
 
+    self.interestGroupButtons = @[self.firstGroupButton, self.secondGroupButton, self.thirdGroupButton, self.fourthGroupButton];
+    for (int i = 0; i < 4; i++) {
+        LDTButton *aButton = self.interestGroupButtons[i];
+        [aButton setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forState:UIControlStateNormal];
+    }
+    self.selectedGroupButtonIndex = 0;
     self.selectedIndexPath = nil;
 
     self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
     [self createInterestGroups];
-
-    for (int i = 0; i < 4; i++) {
-        [self.segmentedControl setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forSegmentAtIndex:i];
-    }
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
@@ -76,8 +86,6 @@ const CGFloat kHeightExpanded = 400;
 
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
 
-    [self.collectionView reloadData];
-
     [self styleView];
 }
 
@@ -85,25 +93,22 @@ const CGFloat kHeightExpanded = 400;
 
 - (void)styleView {
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    [self styleButtons];
+}
 
-    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
-    [navVC setOrange];
-
-    self.segmentedControl.tintColor = [LDTTheme ctaBlueColor];
-    [[UISegmentedControl appearance]
-    setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [LDTTheme font],
-                             NSFontAttributeName,
-                             [UIColor grayColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateNormal];
-    [[UISegmentedControl appearance]
-     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [UIColor whiteColor],
-                             NSForegroundColorAttributeName,
-                             nil]
-     forState:UIControlStateSelected];
+- (void)styleButtons {
+    for (int i = 0; i < self.interestGroupButtons.count; i++) {
+        LDTButton *aButton = self.interestGroupButtons[i];
+        if (i == self.selectedGroupButtonIndex) {
+            aButton.backgroundColor = [LDTTheme ctaBlueColor];
+            [aButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+        else {
+            aButton.backgroundColor = [UIColor whiteColor];
+            [aButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        }
+    }
 }
 
 - (void)createInterestGroups {
@@ -134,11 +139,11 @@ const CGFloat kHeightExpanded = 400;
     NSArray *statusValues = @[@"promoted", @"approved"];
     for (NSString *status in statusValues) {
         for (NSNumber *key in self.interestGroups) {
-            [[DSOAPI sharedInstance] fetchReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
+            [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
                 for (DSOReportbackItem *rbItem in rbItems) {
                     [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
                 }
-                [self.collectionView reloadData];
+                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignListSectionTypeReportback]];
             } errorHandler:^(NSError *error) {
                 [LDTMessage displayErrorMessageForError:error];
             }];
@@ -148,13 +153,8 @@ const CGFloat kHeightExpanded = 400;
 }
 
 - (NSNumber *)selectedInterestGroupId {
-    NSDictionary *term = [DSOAPI sharedInstance].interestGroups[self.segmentedControl.selectedSegmentIndex];
+    NSDictionary *term = [DSOAPI sharedInstance].interestGroups[self.selectedGroupButtonIndex];
     return (NSNumber *)term[@"id"];
-}
-
-- (IBAction)segmentedControlValueChanged:(id)sender {
-    self.selectedIndexPath = nil;
-    [self.collectionView reloadData];
 }
 
 - (void)configureCampaignCell:(LDTCampaignListCampaignCell *)cell atIndexPath:(NSIndexPath *)indexPath {
@@ -169,21 +169,23 @@ const CGFloat kHeightExpanded = 400;
     cell.taglineLabelText = campaign.tagline;
     cell.imageViewImageURL = campaign.coverImageURL;
 
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:campaign]) {
-        cell.actionButtonTitle = @"Prove it";
-        cell.isSignedUp = YES;
+    if ([self.user isDoingCampaign:campaign] || [self.user hasCompletedCampaign:campaign]) {
+        cell.actionButtonTitle = @"More info";
+        cell.signedUp = YES;
     }
     else {
         cell.actionButtonTitle = @"Do this now";
-        cell.isSignedUp = NO;
+        cell.signedUp = NO;
     }
 
-    // @todo: Split out expiresLabel - GH #226
-    NSString *expiresString = @"";
-    if ([campaign numberOfDaysLeft] > 0) {
-        expiresString = [NSString stringWithFormat:@"Expires in %li Days", (long)[campaign numberOfDaysLeft]];
+    NSString *expiresPrefixString = @"";
+    NSString *expiresSuffixString = @"";
+    if (campaign.numberOfDaysLeft > 0) {
+        expiresSuffixString = [NSString stringWithFormat:@"%li Days", (long)[campaign numberOfDaysLeft]];
+        expiresPrefixString = @"Expires in";
     }
-    cell.expiresDaysLabelText = expiresString;
+    cell.expiresDaysPrefixLabelText = expiresPrefixString;
+    cell.expiresDaysSuffixLabelText = expiresSuffixString;
 }
 
 - (void)configureReportbackItemCell:(LDTCampaignListReportbackItemCell *)cell atIndexPath:(NSIndexPath *)indexPath {
@@ -193,23 +195,51 @@ const CGFloat kHeightExpanded = 400;
     cell.reportbackItemImageURL = reportbackItem.imageURL;
 }
 
+-(DSOUser *)user {
+	return [DSOUserManager sharedInstance].user;
+}
+
+- (IBAction)firstGroupButtonTouchUpInside:(id)sender {
+    [self interestGroupButtonSelected:0];
+}
+
+- (IBAction)secondGroupButtonTouchUpInside:(id)sender {
+    [self interestGroupButtonSelected:1];
+}
+
+- (IBAction)thirdGroupButtonTouchUpInside:(id)sender {
+    [self interestGroupButtonSelected:2];
+}
+
+- (IBAction)fourthGroupButtonTouchUpInside:(id)sender {
+    [self interestGroupButtonSelected:3];
+}
+
+- (void)interestGroupButtonSelected:(NSInteger)index {
+    if (self.selectedGroupButtonIndex != index) {
+        self.selectedGroupButtonIndex = index;
+        self.selectedIndexPath = nil;
+        [self styleButtons];
+        [self.collectionView reloadData];
+    }
+}
+
 #pragma mark - LDTCampaignListCampaignCellDelegate
 
 - (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell {
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:cell.campaign];
 
-    if ([[DSOUserManager sharedInstance].user isDoingCampaign:cell.campaign] || [[DSOUserManager sharedInstance].user hasCompletedCampaign:cell.campaign]) {
+    if ([self.user isDoingCampaign:cell.campaign] || [self.user hasCompletedCampaign:cell.campaign]) {
         [self.navigationController pushViewController:destVC animated:YES];
     }
     else {
-        [[DSOUserManager sharedInstance]
-         signupForCampaign:cell.campaign
-         completionHandler:^(NSDictionary *response) {
+        [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
+            cell.signedUp = YES;
+            cell.actionButtonTitle = @"More info";
             [self.navigationController pushViewController:destVC animated:YES];
-            [TSMessage setDefaultViewController:self.navigationController];
-            [LDTMessage showNotificationWithTitle:@"You're signed up!" type:TSMessageNotificationTypeSuccess];
-        }
-         errorHandler:^(NSError *error) {
+            [LDTMessage setDefaultViewController:self.navigationController];
+            [LDTMessage showNotificationWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", cell.campaign.title] type:TSMessageNotificationTypeSuccess];
+        } errorHandler:^(NSError *error) {
              [LDTMessage displayErrorMessageForError:error];
         }];
     }
@@ -221,9 +251,12 @@ const CGFloat kHeightExpanded = 400;
     NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
     if (section == LDTCampaignListSectionTypeReportback) {
         NSArray *rbItems = interestGroup[@"reportbackItems"];
+		
         return rbItems.count;
     }
+	
     NSArray *campaigns = interestGroup[@"campaigns"];
+	
     return campaigns.count;
 }
 
@@ -235,11 +268,13 @@ const CGFloat kHeightExpanded = 400;
     if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
         LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
         [self configureCampaignCell:campaignCell atIndexPath:indexPath];
+		
         return campaignCell;
     }
     if (indexPath.section == LDTCampaignListSectionTypeReportback) {
         LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         [self configureReportbackItemCell:reportbackItemCell atIndexPath:indexPath];
+		
         return reportbackItemCell;
     }
     return nil;
@@ -273,6 +308,7 @@ const CGFloat kHeightExpanded = 400;
         LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
         LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:reportbackItemCell.reportbackItem];
         [self.navigationController pushViewController:destVC animated:YES];
+		
         return;
     }
 

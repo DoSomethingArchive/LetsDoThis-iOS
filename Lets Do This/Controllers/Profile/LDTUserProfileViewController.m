@@ -27,7 +27,7 @@
 
 @end
 
-static NSString *cellIdentifier;
+static NSString *cellIdentifier = @"rowCell";
 
 @implementation LDTUserProfileViewController
 
@@ -53,15 +53,14 @@ static NSString *cellIdentifier;
     [self styleView];
     [self updateUserDetails];
 
-    cellIdentifier = @"rowCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 
-    if (self.user.phoenixID == [DSOUserManager sharedInstance].user.phoenixID) {
+    if ([self.user.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
         self.navigationItem.rightBarButtonItem = settingsButton;
     }
 
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self styleBackBarButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -69,11 +68,12 @@ static NSString *cellIdentifier;
 
     [self styleView];
 
-    [[DSOAPI sharedInstance] fetchUserWithPhoenixID:self.user.phoenixID completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] loadUserWithUserId:self.user.userID completionHandler:^(DSOUser *user) {
         self.user = user;
         self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
         self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;
         [self updateUserDetails];
+		
         [self.tableView reloadData];
     } errorHandler:^(NSError *error) {
         [LDTMessage displayErrorMessageForError:error];
@@ -85,8 +85,7 @@ static NSString *cellIdentifier;
 - (void)styleView {
     [self.avatarImageView addCircleFrame];
     self.headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
-    LDTNavigationController *navVC = (LDTNavigationController *)self.navigationController;
-    [navVC setClear];
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
     [self.nameLabel setFont:[LDTTheme fontTitle]];
@@ -146,6 +145,7 @@ static NSString *cellIdentifier;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     DSOCampaign *campaign;
+	
     if (indexPath.section == 0) {
         campaign = self.campaignsDoing[indexPath.row];
     }
@@ -155,6 +155,7 @@ static NSString *cellIdentifier;
     cell.textLabel.text = [campaign.title uppercaseString];
     cell.userInteractionEnabled = YES;
     cell.textLabel.font = [LDTTheme fontBold];
+	
     return cell;
 }
 

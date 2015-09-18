@@ -50,12 +50,14 @@
                 self.solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy"];
             }
             else {
-                self.solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy.raw"];
+                // @todo: Same here
+                self.solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw" nullValue:@"Placeholder solution support copy"];
             }
         }
 
         self.tags = values[@"tags"];
     }
+	
     return self;
 }
 
@@ -67,6 +69,7 @@
     if (!self.endDate) {
         return 0;
     }
+	
     NSCalendar *c = [NSCalendar currentCalendar];
     NSDate *today = [NSDate date];
     NSDateComponents *components = [c components:NSCalendarUnitDay fromDate:today toDate:self.endDate options:0];
