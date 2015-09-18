@@ -31,6 +31,7 @@
 }
 
 - (void)styleView {
+    [self.userAvatarImageView addCircleFrame];
     self.campaignTitleButton.titleLabel.font = [LDTTheme fontBold];
     self.reportbackItemCaptionLabel.font = [LDTTheme font];
     self.reportbackItemQuantityLabel.font = [LDTTheme fontCaptionBold];
