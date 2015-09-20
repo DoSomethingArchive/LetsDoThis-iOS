@@ -15,13 +15,28 @@
     self = [super initWithCoder:coder];
 	
     if (self) {
-
         [[self titleLabel] setFont:[LDTTheme fontBold]];
         self.layer.cornerRadius = 4;
-
+		
+		// Can we not set these here once? Don't think we should have to set each time on disabled or not. Also,
+		// Don't we want UIControlStateDisabled for enabled = NO?
+		[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		[self setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     }
 	
     return self;
+}
+
+// These both can be combined into one method
+-(void)enable:(BOOL)enabled {
+	if (enabled) {
+		self.backgroundColor = [LDTTheme ctaBlueColor];
+	}
+	else {
+		self.backgroundColor = [LDTTheme disabledGrayColor];
+	}
+	
+	self.enabled = enabled;
 }
 
 -(void)disable {

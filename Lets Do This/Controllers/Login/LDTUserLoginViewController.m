@@ -120,13 +120,16 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
+	// Think we can just put this here once and then enable it further down if we're successful:
+	[self.submitButton disable];
+	
     if (![self validateEmailForCandidate:self.emailTextField.text]) {
         [LDTMessage displayErrorMessageForString:@"Please enter a valid email."];
-        [self.submitButton disable];
+//        [self.submitButton disable];
 		
         return;
     }
-    [self.submitButton disable];
+//    [self.submitButton disable];
     [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
         // This VC is always presented within a NavVC, so kill it.
         [self dismissViewControllerAnimated:YES completion:^{
