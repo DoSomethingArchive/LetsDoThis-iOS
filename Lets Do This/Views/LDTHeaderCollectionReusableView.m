@@ -12,6 +12,8 @@
 @implementation LDTHeaderCollectionReusableView
 
 - (void)awakeFromNib {
+#warning Always call [super awakeFromNib]; in all of these
+	
     self.titleLabel.font = [LDTTheme fontHeadingBold];
     self.backgroundColor = [LDTTheme lightGrayColor];
 }
