@@ -55,6 +55,8 @@
         [self displayUserConnectVC];
     }
     else {
+#warning Think I wrote this before
+// But recommend we log the user in first then load campaigns
         [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
             [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
             [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
