@@ -174,7 +174,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     }
     else {
         [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
-            [LDTMessage showNotificationWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", cell.campaign.title] type:TSMessageNotificationTypeSuccess];
+            [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", cell.campaign.title]];
             cell.actionButtonTitle = @"Prove it";
          } errorHandler:^(NSError *error) {
              [LDTMessage displayErrorMessageForError:error];

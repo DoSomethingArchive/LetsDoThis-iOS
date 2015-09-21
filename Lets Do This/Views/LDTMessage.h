@@ -12,5 +12,6 @@
 
 +(void)displayErrorMessageForString:(NSString *)title;
 +(void)displayErrorMessageForError:(NSError *)error;
++(void)displaySuccessMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
 
 @end
