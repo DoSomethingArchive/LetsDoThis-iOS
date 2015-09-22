@@ -218,23 +218,21 @@
 }
 
 - (IBAction)passwordEditingChanged:(id)sender {
-    if (self.passwordTextField.text.length <= 5) {
-        [self.submitButton disable];
-    }
-    else if (self.passwordTextField.text.length > 5) {
-        [self.submitButton enable];
-    }
+    [self updateCreateAccountButton];
 }
 
 - (void)updateCreateAccountButton {
     BOOL enabled = NO;
-    for (UITextField *aTextField in self.textFieldsRequired) {
-        if (aTextField.text.length > 0) {
-            enabled = YES;
-        }
-        else {
-            enabled = NO;
-            break;
+
+    if (self.passwordTextField.text.length > 5) {
+        for (UITextField *aTextField in self.textFieldsRequired) {
+            if (aTextField.text.length > 0) {
+                enabled = YES;
+            }
+            else {
+                enabled = NO;
+                break;
+            }
         }
     }
     if (enabled) {
@@ -304,7 +302,6 @@
             [self presentViewController:self.imagePicker animated:YES completion:NULL];
         }];
     }
-    
     else {
         cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
             [avatarAlertController dismissViewControllerAnimated:YES completion:nil];
