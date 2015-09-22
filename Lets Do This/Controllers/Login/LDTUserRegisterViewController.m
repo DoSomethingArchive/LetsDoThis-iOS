@@ -69,7 +69,7 @@
 	[super viewDidLoad];
 
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
-    [self.submitButton disable];
+    [self.submitButton enable:NO];
     [self.loginLink setTitle:@"Have a DoSomething.org account? Sign in" forState:UIControlStateNormal];
     
     self.footerLabel.adjustsFontSizeToFitWidth = NO;
@@ -139,7 +139,7 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
-        [self.submitButton disable];
+        [self.submitButton enable:NO];
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode success:^(NSDictionary *response) {
 
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
@@ -162,16 +162,16 @@
 
             } errorHandler:^(NSError *error) {
                 [LDTMessage displayErrorMessageForError:error];
-                [self.submitButton enable];
+                [self.submitButton enable:YES];
             }];
 
         } failure:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
-            [self.submitButton enable];
+            [self.submitButton enable:YES];
         }];
     }
     else {
-        [self.submitButton disable];
+        [self.submitButton enable:NO];
     }
 }
 
@@ -231,10 +231,10 @@
         }
     }
     if (enabled) {
-        [self.submitButton enable];
+        [self.submitButton enable:YES];
     }
     else {
-        [self.submitButton disable];
+        [self.submitButton enable:NO];
     }
 }
 
