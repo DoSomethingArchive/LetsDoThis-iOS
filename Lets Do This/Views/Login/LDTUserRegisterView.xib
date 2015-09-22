@@ -90,6 +90,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     <connections>
+                                        <action selector="passwordEditingChanged:" destination="-1" eventType="editingChanged" id="snh-Y1-dGf"/>
                                         <action selector="passwordEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="P1w-BR-BWV"/>
                                         <action selector="passwordEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="Gf2-ib-CdJ"/>
                                     </connections>
@@ -161,6 +162,15 @@
                                 </mask>
                             </variation>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ggr-KI-p8I" userLabel="Link to Login Screen" customClass="LDTButton">
+                            <rect key="frame" x="277" y="412" width="47" height="30"/>
+                            <state key="normal" title="Sign In">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="loginLinkTouchUpInside:" destination="-1" eventType="touchUpInside" id="Uj6-8b-X7n"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -168,14 +178,12 @@
                         <constraint firstItem="bhL-AU-dqT" firstAttribute="top" secondItem="Nkh-6g-VOu" secondAttribute="bottom" constant="29" id="BR9-Gc-kcK"/>
                         <constraint firstAttribute="centerX" secondItem="Ggr-KI-p8I" secondAttribute="centerX" id="Ce6-1x-qlH"/>
                         <constraint firstAttribute="bottom" secondItem="Cyo-DU-kOw" secondAttribute="bottom" constant="32" id="DH8-Di-M63"/>
-                        <constraint firstAttribute="bottom" secondItem="Ggr-KI-p8I" secondAttribute="bottom" constant="16" id="F8P-Gw-XxE"/>
                         <constraint firstAttribute="trailing" secondItem="XhN-FG-gBt" secondAttribute="trailing" id="GSS-1g-ZF1"/>
                         <constraint firstItem="bhL-AU-dqT" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="8" id="H4G-Hx-0eN"/>
                         <constraint firstItem="Nkh-6g-VOu" firstAttribute="top" secondItem="XhN-FG-gBt" secondAttribute="bottom" constant="8" id="JkS-q4-BBw"/>
                         <constraint firstItem="Ggr-KI-p8I" firstAttribute="top" secondItem="WQo-g9-7HX" secondAttribute="bottom" constant="8" id="RYR-n2-uo0"/>
                         <constraint firstItem="Cyo-DU-kOw" firstAttribute="top" secondItem="Ggr-KI-p8I" secondAttribute="bottom" constant="16" id="Sxx-xB-F4Y"/>
                         <constraint firstAttribute="centerX" secondItem="hON-y7-TtZ" secondAttribute="centerX" id="VJU-xS-4es"/>
-                        <constraint firstItem="Ggr-KI-p8I" firstAttribute="top" secondItem="WQo-g9-7HX" secondAttribute="bottom" constant="16" id="Yby-hs-kge"/>
                         <constraint firstAttribute="trailing" secondItem="WQo-g9-7HX" secondAttribute="trailing" constant="8" id="Zaf-AM-pEo"/>
                         <constraint firstItem="WQo-g9-7HX" firstAttribute="top" secondItem="bhL-AU-dqT" secondAttribute="bottom" constant="16" id="aCU-f9-iKV"/>
                         <constraint firstAttribute="trailing" secondItem="bhL-AU-dqT" secondAttribute="trailing" constant="8" id="giQ-BH-W6B"/>
@@ -188,17 +196,6 @@
                         <constraint firstItem="WQo-g9-7HX" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="8" id="toA-aX-YsM"/>
                         <constraint firstAttribute="centerX" secondItem="Nkh-6g-VOu" secondAttribute="centerX" id="vzw-I9-IM8"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="F8P-Gw-XxE"/>
-                            <exclude reference="Yby-hs-kge"/>
-                        </mask>
-                    </variation>
-                    <variation key="heightClass=regular">
-                        <mask key="constraints">
-                            <exclude reference="F8P-Gw-XxE"/>
-                        </mask>
-                    </variation>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
