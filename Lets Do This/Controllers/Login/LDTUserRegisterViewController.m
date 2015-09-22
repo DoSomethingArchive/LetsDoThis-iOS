@@ -44,6 +44,7 @@
 - (IBAction)emailEditingDidEnd:(id)sender;
 - (IBAction)mobileEditingDidBegin:(id)sender;
 - (IBAction)mobileEditingDidEnd:(id)sender;
+- (IBAction)passwordEditingChanged:(id)sender;
 - (IBAction)passwordEditingDidBegin:(id)sender;
 - (IBAction)passwordEditingDidEnd:(id)sender;
 
@@ -216,15 +217,22 @@
     [self updateCreateAccountButton];
 }
 
+- (IBAction)passwordEditingChanged:(id)sender {
+    [self updateCreateAccountButton];
+}
+
 - (void)updateCreateAccountButton {
     BOOL enabled = NO;
-    for (UITextField *aTextField in self.textFieldsRequired) {
-        if (aTextField.text.length > 0) {
-            enabled = YES;
-        }
-        else {
-            enabled = NO;
-            break;
+    
+    if (self.passwordTextField.text.length > 5) {
+        for (UITextField *aTextField in self.textFieldsRequired) {
+            if (aTextField.text.length > 0) {
+                enabled = YES;
+            }
+            else {
+                enabled = NO;
+                break;
+            }
         }
     }
     if (enabled) {
