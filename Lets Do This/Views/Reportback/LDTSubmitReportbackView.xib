@@ -57,7 +57,8 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
-                                        <action selector="captionTextFieldEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="2jt-1S-6ee"/>
+                                        <action selector="captionTextFieldEditingChanged:" destination="-1" eventType="editingChanged" id="Mdm-3a-o57"/>
+                                        <action selector="captionTextFieldEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="oml-KD-67w"/>
                                     </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Number of nouns verbed" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z5z-3H-aUv" userLabel="Quantity Text Field">
@@ -66,7 +67,7 @@
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="quantityTextFieldEditingChanged:" destination="-1" eventType="editingChanged" id="ht6-pZ-PPT"/>
-                                        <action selector="quantityTextFieldEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="hdS-Ji-9uB"/>
+                                        <action selector="quantityTextFieldEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="sFY-4U-8Oh"/>
                                     </connections>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g7X-Cr-BiL" userLabel="Submit Button" customClass="LDTButton">

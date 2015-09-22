@@ -19,9 +19,10 @@
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 
 - (IBAction)submitButtonTouchUpInside:(id)sender;
-- (IBAction)captionTextFieldEditingDidEnd:(id)sender;
-- (IBAction)quantityTextFieldEditingDidEnd:(id)sender;
 - (IBAction)quantityTextFieldEditingChanged:(id)sender;
+- (IBAction)quantityTextFieldEditingDidEnd:(id)sender;
+- (IBAction)captionTextFieldEditingChanged:(id)sender;
+- (IBAction)captionTextFieldEditingDidEnd:(id)sender;
 
 @end
 
@@ -85,7 +86,7 @@
 }
 
 - (void)updateSubmitButton {
-    if (self.captionTextField.text.length > 0 && self.quantityTextField.text.length > 0 && self.quantityTextField.text.intValue > 0) {
+    if (self.captionTextField.text.length > 0 && self.captionTextField.text.length < 61 && self.quantityTextField.text.length > 0 && self.quantityTextField.text.intValue > 0) {
         [self.submitButton enable:YES];
     }
     else {
@@ -107,21 +108,20 @@
     }];
 }
 
+- (IBAction)quantityTextFieldEditingChanged:(id)sender {
+    [self updateSubmitButton];
+}
+
+- (IBAction)captionTextFieldEditingChanged:(id)sender {
+    [self updateSubmitButton];
+}
+
 - (IBAction)captionTextFieldEditingDidEnd:(id)sender {
     [self updateSubmitButton];
 }
 
 - (IBAction)quantityTextFieldEditingDidEnd:(id)sender {
     [self updateSubmitButton];
-}
-
-- (IBAction)quantityTextFieldEditingChanged:(id)sender {
-    if (self.quantityTextField.text.intValue > 0) {
-        [self.submitButton enable];
-    }
-    else {
-        [self.submitButton disable];
-    }
 }
 
 @end
