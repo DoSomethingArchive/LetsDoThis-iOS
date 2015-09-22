@@ -21,6 +21,7 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)captionTextFieldEditingDidEnd:(id)sender;
 - (IBAction)quantityTextFieldEditingDidEnd:(id)sender;
+- (IBAction)quantityTextFieldEditingChanged:(id)sender;
 
 @end
 
@@ -97,7 +98,7 @@
     self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
         [self dismissViewControllerAnimated:YES completion:nil];
-        [LDTMessage showNotificationWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted a %@ photo for approval.", self.reportbackItem.campaign.title] type:TSMessageNotificationTypeSuccess];
+        [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted a %@ photo for approval.", self.reportbackItem.campaign.title]];
     } errorHandler:^(NSError *error) {
         [LDTMessage setDefaultViewController:self.navigationController];
         [LDTMessage displayErrorMessageForError:error];
@@ -110,6 +111,15 @@
 
 - (IBAction)quantityTextFieldEditingDidEnd:(id)sender {
     [self updateSubmitButton];
+}
+
+- (IBAction)quantityTextFieldEditingChanged:(id)sender {
+    if (self.quantityTextField.text.intValue > 0) {
+        [self.submitButton enable];
+    }
+    else {
+        [self.submitButton disable];
+    }
 }
 
 @end

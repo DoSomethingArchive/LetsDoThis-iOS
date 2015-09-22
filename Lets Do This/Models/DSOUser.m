@@ -72,6 +72,9 @@
             if (storedAvatarPhotoPath) {
                 _photo = [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
             }
+            else {
+                return [UIImage imageNamed:@"Default Avatar"];
+            }
         }
         else {
             return [UIImage imageNamed:@"Default Avatar"];
