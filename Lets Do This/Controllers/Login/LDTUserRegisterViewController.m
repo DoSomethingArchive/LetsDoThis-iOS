@@ -44,6 +44,7 @@
 - (IBAction)emailEditingDidEnd:(id)sender;
 - (IBAction)mobileEditingDidBegin:(id)sender;
 - (IBAction)mobileEditingDidEnd:(id)sender;
+- (IBAction)passwordEditingChanged:(id)sender;
 - (IBAction)passwordEditingDidBegin:(id)sender;
 - (IBAction)passwordEditingDidEnd:(id)sender;
 
@@ -216,6 +217,15 @@
     [self updateCreateAccountButton];
 }
 
+- (IBAction)passwordEditingChanged:(id)sender {
+    if (self.passwordTextField.text.length <= 5) {
+        [self.submitButton disable];
+    }
+    else if (self.passwordTextField.text.length > 5) {
+        [self.submitButton enable];
+    }
+}
+
 - (void)updateCreateAccountButton {
     BOOL enabled = NO;
     for (UITextField *aTextField in self.textFieldsRequired) {
@@ -294,6 +304,7 @@
             [self presentViewController:self.imagePicker animated:YES completion:NULL];
         }];
     }
+    
     else {
         cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
             [avatarAlertController dismissViewControllerAnimated:YES completion:nil];
