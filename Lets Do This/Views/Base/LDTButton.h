@@ -10,7 +10,6 @@
 
 @interface LDTButton : UIButton
 
--(void)disable;
--(void)enable;
+-(void)enable:(BOOL)enabled;
 
 @end

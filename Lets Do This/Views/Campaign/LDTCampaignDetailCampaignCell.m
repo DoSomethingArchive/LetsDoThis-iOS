@@ -48,7 +48,7 @@
     self.solutionSupportCopyLabel.font = [LDTTheme font];
     self.staticInstructionLabel.textColor = [UIColor whiteColor];
     self.staticInstructionLabel.font = [LDTTheme font];
-    [self.actionButton enable];
+    [self.actionButton enable:YES];
 
     CAShapeLayer *layer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPath];

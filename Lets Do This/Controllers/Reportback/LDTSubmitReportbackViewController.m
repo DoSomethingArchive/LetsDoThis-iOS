@@ -81,19 +81,20 @@
     self.primaryImageView.layer.masksToBounds = YES;
     self.primaryImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.primaryImageView.layer.borderWidth = 1;
-    [self.submitButton disable];
+    [self.submitButton enable:NO];
 }
 
 - (void)updateSubmitButton {
     if (self.captionTextField.text.length > 0 && self.quantityTextField.text.length > 0 && self.quantityTextField.text.intValue > 0) {
-        [self.submitButton enable];
+        [self.submitButton enable:YES];
     }
     else {
-        [self.submitButton disable];
+        [self.submitButton enable:NO];
     }
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
+    [self.submitButton enable:NO];
     self.reportbackItem.caption = self.captionTextField.text;
     self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
@@ -102,6 +103,7 @@
     } errorHandler:^(NSError *error) {
         [LDTMessage setDefaultViewController:self.navigationController];
         [LDTMessage displayErrorMessageForError:error];
+        [self.submitButton enable:YES];
     }];
 }
 
