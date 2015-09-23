@@ -33,6 +33,8 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 @implementation LDTCampaignListCampaignCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+
     [self styleView];
 }
 
@@ -49,7 +51,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     self.expiresSuffixLabel.textAlignment = NSTextAlignmentLeft;
     
     self.titleLabel.textColor = [UIColor whiteColor];
-    [self.actionButton enable];
+    [self.actionButton enable:YES];
     [self.imageView addGrayTint];
 }
 

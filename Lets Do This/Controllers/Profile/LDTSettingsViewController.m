@@ -107,20 +107,18 @@
 }
 
 - (void)logout {
+    [SVProgressHUD show];
     [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
-
         // This VC is always presented within the TabBarVC, so kill it.
         [self dismissViewControllerAnimated:YES completion:^{
-
+            [SVProgressHUD dismiss];
             UINavigationController *destVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] init]];
             [destVC styleNavigationBar:LDTNavigationBarStyleClear];
             [LDTMessage setDefaultViewController:destVC];
-
             [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
-
         }];
-
     } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
         [LDTMessage displayErrorMessageForError:error];
     }];
 }

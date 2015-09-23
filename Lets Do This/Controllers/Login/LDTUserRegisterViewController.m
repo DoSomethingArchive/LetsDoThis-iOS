@@ -44,6 +44,7 @@
 - (IBAction)emailEditingDidEnd:(id)sender;
 - (IBAction)mobileEditingDidBegin:(id)sender;
 - (IBAction)mobileEditingDidEnd:(id)sender;
+- (IBAction)passwordEditingChanged:(id)sender;
 - (IBAction)passwordEditingDidBegin:(id)sender;
 - (IBAction)passwordEditingDidEnd:(id)sender;
 
@@ -69,7 +70,7 @@
 	[super viewDidLoad];
 
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
-    [self.submitButton disable];
+    [self.submitButton enable:NO];
     [self.loginLink setTitle:@"Have a DoSomething.org account? Sign in" forState:UIControlStateNormal];
     
     self.footerLabel.adjustsFontSizeToFitWidth = NO;
@@ -139,6 +140,7 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
+        [SVProgressHUD show];
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode success:^(NSDictionary *response) {
 
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
@@ -154,21 +156,24 @@
                 }
                 
                 // This VC is always presented within a NavVC, so kill it.
+                [SVProgressHUD dismiss];
                 [self dismissViewControllerAnimated:YES completion:^{
                     LDTTabBarController *destVC = [[LDTTabBarController alloc] init];
                     [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
                 }];
 
             } errorHandler:^(NSError *error) {
+                [SVProgressHUD dismiss];
                 [LDTMessage displayErrorMessageForError:error];
             }];
 
         } failure:^(NSError *error) {
+            [SVProgressHUD dismiss];
             [LDTMessage displayErrorMessageForError:error];
         }];
     }
     else {
-        [self.submitButton disable];
+        [self.submitButton enable:NO];
     }
 }
 
@@ -216,22 +221,29 @@
     [self updateCreateAccountButton];
 }
 
+- (IBAction)passwordEditingChanged:(id)sender {
+    [self updateCreateAccountButton];
+}
+
 - (void)updateCreateAccountButton {
     BOOL enabled = NO;
-    for (UITextField *aTextField in self.textFieldsRequired) {
-        if (aTextField.text.length > 0) {
-            enabled = YES;
-        }
-        else {
-            enabled = NO;
-            break;
+    
+    if (self.passwordTextField.text.length > 5) {
+        for (UITextField *aTextField in self.textFieldsRequired) {
+            if (aTextField.text.length > 0) {
+                enabled = YES;
+            }
+            else {
+                enabled = NO;
+                break;
+            }
         }
     }
     if (enabled) {
-        [self.submitButton enable];
+        [self.submitButton enable:YES];
     }
     else {
-        [self.submitButton disable];
+        [self.submitButton enable:NO];
     }
 }
 

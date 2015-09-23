@@ -35,6 +35,8 @@
     NSDictionary *keysDictionary = [DSOUserManager keysDict];
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD setForegroundColor:[LDTTheme ctaBlueColor]];
 
     [Parse setApplicationId:keysDictionary[@"parseApplicationId"] clientKey:keysDictionary[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
@@ -51,6 +53,7 @@
     
     [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
+    [SVProgressHUD show];
     if (![DSOUserManager sharedInstance].userHasCachedSession) {
         [self displayUserConnectVC];
     }
@@ -59,12 +62,14 @@
             [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
             [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
                 LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
+                [SVProgressHUD dismiss];
                 [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
                 } errorHandler:^(NSError *error) {
                     [self displayUserConnectVC];
                     [LDTMessage displayErrorMessageForError:error];
                 }];
         } errorHandler:^(NSError *error) {
+            [SVProgressHUD dismiss];
             [LDTMessage displayErrorMessageForError:error];
 #warning Handling connectivity loss and/or no campaigns
             // @todo: Present a new NoConnectionViewController?
@@ -75,6 +80,7 @@
 }
 
 - (void)displayUserConnectVC {
+    [SVProgressHUD dismiss];
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
     [navVC styleNavigationBar:LDTNavigationBarStyleClear];
     [LDTMessage setDefaultViewController:navVC];

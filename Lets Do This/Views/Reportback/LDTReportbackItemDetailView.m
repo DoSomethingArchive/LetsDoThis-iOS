@@ -27,6 +27,8 @@
 @implementation LDTReportbackItemDetailView
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+
     [self styleView];
 }
 

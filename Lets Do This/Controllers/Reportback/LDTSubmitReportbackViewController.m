@@ -19,9 +19,10 @@
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 
 - (IBAction)submitButtonTouchUpInside:(id)sender;
-- (IBAction)captionTextFieldEditingDidEnd:(id)sender;
-- (IBAction)quantityTextFieldEditingDidEnd:(id)sender;
 - (IBAction)quantityTextFieldEditingChanged:(id)sender;
+- (IBAction)quantityTextFieldEditingDidEnd:(id)sender;
+- (IBAction)captionTextFieldEditingChanged:(id)sender;
+- (IBAction)captionTextFieldEditingDidEnd:(id)sender;
 
 @end
 
@@ -81,28 +82,40 @@
     self.primaryImageView.layer.masksToBounds = YES;
     self.primaryImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.primaryImageView.layer.borderWidth = 1;
-    [self.submitButton disable];
+    [self.submitButton enable:NO];
 }
 
 - (void)updateSubmitButton {
-    if (self.captionTextField.text.length > 0 && self.quantityTextField.text.length > 0 && self.quantityTextField.text.intValue > 0) {
-        [self.submitButton enable];
+    if (self.captionTextField.text.length > 0 && self.captionTextField.text.length < 61 && self.quantityTextField.text.length > 0 && self.quantityTextField.text.intValue > 0) {
+        [self.submitButton enable:YES];
     }
     else {
-        [self.submitButton disable];
+        [self.submitButton enable:NO];
     }
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
+    [SVProgressHUD show];
     self.reportbackItem.caption = self.captionTextField.text;
     self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
+
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
+        [SVProgressHUD dismiss];
         [self dismissViewControllerAnimated:YES completion:nil];
         [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted a %@ photo for approval.", self.reportbackItem.campaign.title]];
     } errorHandler:^(NSError *error) {
         [LDTMessage setDefaultViewController:self.navigationController];
+        [SVProgressHUD dismiss];
         [LDTMessage displayErrorMessageForError:error];
     }];
+}
+
+- (IBAction)quantityTextFieldEditingChanged:(id)sender {
+    [self updateSubmitButton];
+}
+
+- (IBAction)captionTextFieldEditingChanged:(id)sender {
+    [self updateSubmitButton];
 }
 
 - (IBAction)captionTextFieldEditingDidEnd:(id)sender {
@@ -111,15 +124,6 @@
 
 - (IBAction)quantityTextFieldEditingDidEnd:(id)sender {
     [self updateSubmitButton];
-}
-
-- (IBAction)quantityTextFieldEditingChanged:(id)sender {
-    if (self.quantityTextField.text.intValue > 0) {
-        [self.submitButton enable];
-    }
-    else {
-        [self.submitButton disable];
-    }
 }
 
 @end

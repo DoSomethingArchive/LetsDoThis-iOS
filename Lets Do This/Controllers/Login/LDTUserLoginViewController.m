@@ -69,7 +69,7 @@
                                 self.passwordTextField];
 
     [self.submitButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
-    [self.submitButton disable];
+    [self.submitButton enable:NO];
     [self.passwordButton setTitle:[@"Forgot password?" uppercaseString] forState:UIControlStateNormal];
 
     [self styleView];
@@ -106,10 +106,10 @@
         }
     }
     if (enabled) {
-        [self.submitButton enable];
+        [self.submitButton enable:YES];
     }
     else {
-        [self.submitButton disable];
+        [self.submitButton enable:NO];
     }
 }
 
@@ -122,22 +122,18 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if (![self validateEmailForCandidate:self.emailTextField.text]) {
         [LDTMessage displayErrorMessageForString:@"Please enter a valid email."];
-        [self.submitButton disable];
-		
         return;
     }
-
+    [SVProgressHUD show];
     [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
-
+        [SVProgressHUD dismiss];
         // This VC is always presented within a NavVC, so kill it.
         [self dismissViewControllerAnimated:YES completion:^{
-
             LDTTabBarController *destVC = [[LDTTabBarController alloc] init];
             [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
-
         }];
-
     } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];
         [LDTMessage displayErrorMessageForError:error];
         [self.emailTextField setBorderColor:[UIColor redColor]];
@@ -163,7 +159,7 @@
 
 - (IBAction)passwordEditingChanged:(id)sender {
     if (self.passwordTextField.text.length > 5) {
-        [self.submitButton enable];
+        [self.submitButton enable:YES];
     }
 }
 

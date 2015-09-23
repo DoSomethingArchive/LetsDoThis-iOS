@@ -15,25 +15,24 @@
     self = [super initWithCoder:coder];
 	
     if (self) {
-
         [[self titleLabel] setFont:[LDTTheme fontBold]];
         self.layer.cornerRadius = 4;
-
+		[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		[self setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     }
 	
     return self;
 }
 
--(void)disable {
-    self.enabled = NO;
-    self.backgroundColor = [LDTTheme disabledGrayColor];
-    [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-}
-
--(void)enable {
-    self.enabled = YES;
-    self.backgroundColor = [LDTTheme ctaBlueColor];
-    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+-(void)enable:(BOOL)enabled {
+	if (enabled) {
+		self.backgroundColor = [LDTTheme ctaBlueColor];
+	}
+	else {
+		self.backgroundColor = [LDTTheme disabledGrayColor];
+	}
+	
+	self.enabled = enabled;
 }
 
 @end

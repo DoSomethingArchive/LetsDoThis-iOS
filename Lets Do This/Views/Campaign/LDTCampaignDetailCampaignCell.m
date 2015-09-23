@@ -28,6 +28,8 @@
 @implementation LDTCampaignDetailCampaignCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+
     [self styleView];
 
     self.campaignDetailsHeadingLabel.text = [@"Do this" uppercaseString];
@@ -48,7 +50,7 @@
     self.solutionSupportCopyLabel.font = [LDTTheme font];
     self.staticInstructionLabel.textColor = [UIColor whiteColor];
     self.staticInstructionLabel.font = [LDTTheme font];
-    [self.actionButton enable];
+    [self.actionButton enable:YES];
 
     CAShapeLayer *layer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPath];

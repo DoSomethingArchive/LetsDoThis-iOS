@@ -47,25 +47,20 @@
 
     [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
           self.user = user;
-
           [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
-
           // Save session in Keychain for when app is quit.
           [SSKeychain setPassword:user.sessionToken forService:LDTSERVER account:@"Session"];
           [SSKeychain setPassword:self.user.userID forService:LDTSERVER account:@"UserID"];
-
           [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
               self.activeMobileAppCampaigns = campaigns;
+              if (completionHandler) {
+                  completionHandler(user);
+              }
           } errorHandler:^(NSError *error) {
               if (errorHandler) {
                   errorHandler(error);
               }
           }];
-
-          if (completionHandler) {
-              completionHandler(user);
-          }
-
       } errorHandler:^(NSError *error) {
           if (errorHandler) {
               errorHandler(error);
