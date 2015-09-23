@@ -28,6 +28,8 @@
 @implementation LDTCampaignDetailCampaignCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+
     [self styleView];
 
     self.campaignDetailsHeadingLabel.text = [@"Do this" uppercaseString];
