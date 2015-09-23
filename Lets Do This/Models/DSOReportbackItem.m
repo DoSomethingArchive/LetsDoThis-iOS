@@ -13,9 +13,7 @@
 
 @property (nonatomic, strong, readwrite) DSOCampaign *campaign;
 @property (nonatomic, strong, readwrite) DSOUser *user;
-@property (nonatomic, assign, readwrite) NSInteger quantity;
 @property (nonatomic, assign, readwrite) NSInteger reportbackItemID;
-@property (nonatomic, strong, readwrite) NSString *caption;
 @property (nonatomic, strong, readwrite) NSURL *imageURL;
 
 @end
@@ -52,20 +50,6 @@
     }
 
     return self;
-}
-
-#pragma mark - DSOReportbackItem
-
-- (void)setCaption:(NSString *)caption {
-    _caption = caption;
-}
-
-- (void)setImage:(UIImage *)image {
-    _image = image;
-}
-
-- (void)setQuantity:(NSInteger)quantity {
-    _quantity = quantity;
 }
 
 @end
