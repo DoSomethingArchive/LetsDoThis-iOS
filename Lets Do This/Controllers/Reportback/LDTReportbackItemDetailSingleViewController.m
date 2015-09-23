@@ -63,7 +63,7 @@
     self.reportbackItemDetailView.reportbackItem = self.reportbackItem;
     self.reportbackItemDetailView.campaignButtonTitle = self.reportbackItem.campaign.title;
     self.reportbackItemDetailView.captionLabelText = self.reportbackItem.caption;
-    self.reportbackItemDetailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", self.reportbackItem.quantity, self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
+    self.reportbackItemDetailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.reportbackItem.quantity, self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
     self.reportbackItemDetailView.reportbackItemImageURL = self.reportbackItem.imageURL;
     self.reportbackItemDetailView.userAvatarImage = self.reportbackItem.user.photo;
     self.reportbackItemDetailView.userCountryNameLabelText = self.reportbackItem.user.countryName;
