@@ -140,7 +140,7 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
-        [self.submitButton enable:NO];
+        [SVProgressHUD show];
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode success:^(NSDictionary *response) {
 
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
@@ -156,19 +156,20 @@
                 }
                 
                 // This VC is always presented within a NavVC, so kill it.
+                [SVProgressHUD dismiss];
                 [self dismissViewControllerAnimated:YES completion:^{
                     LDTTabBarController *destVC = [[LDTTabBarController alloc] init];
                     [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
                 }];
 
             } errorHandler:^(NSError *error) {
+                [SVProgressHUD dismiss];
                 [LDTMessage displayErrorMessageForError:error];
-                [self.submitButton enable:YES];
             }];
 
         } failure:^(NSError *error) {
+            [SVProgressHUD dismiss];
             [LDTMessage displayErrorMessageForError:error];
-            [self.submitButton enable:YES];
         }];
     }
     else {
