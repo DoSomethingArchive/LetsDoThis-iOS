@@ -95,16 +95,18 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
-    [self.submitButton enable:NO];
+    [SVProgressHUD show];
     self.reportbackItem.caption = self.captionTextField.text;
     self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
+
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
+        [SVProgressHUD dismiss];
         [self dismissViewControllerAnimated:YES completion:nil];
         [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted a %@ photo for approval.", self.reportbackItem.campaign.title]];
     } errorHandler:^(NSError *error) {
         [LDTMessage setDefaultViewController:self.navigationController];
+        [SVProgressHUD dismiss];
         [LDTMessage displayErrorMessageForError:error];
-        [self.submitButton enable:YES];
     }];
 }
 
