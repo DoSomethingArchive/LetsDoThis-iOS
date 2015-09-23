@@ -33,6 +33,8 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 @implementation LDTCampaignListCampaignCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+
     [self styleView];
 }
 
