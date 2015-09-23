@@ -11,4 +11,5 @@ target 'Lets Do This' do
     pod 'TSMessages', '~> 0.9'
 	pod 'Fabric'
 	pod 'Crashlytics'
+    pod 'SVProgressHUD', '~> 1.1'
 end

@@ -173,10 +173,13 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
         [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
     }
     else {
+        [SVProgressHUD show];
         [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
+            [SVProgressHUD dismiss];
             [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", cell.campaign.title]];
             cell.actionButtonTitle = @"Prove it";
          } errorHandler:^(NSError *error) {
+             [SVProgressHUD dismiss];
              [LDTMessage displayErrorMessageForError:error];
          }];
     }

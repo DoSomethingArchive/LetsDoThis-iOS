@@ -233,13 +233,16 @@ const CGFloat kHeightExpanded = 400;
         [self.navigationController pushViewController:destVC animated:YES];
     }
     else {
+        [SVProgressHUD show];
         [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
             cell.signedUp = YES;
             cell.actionButtonTitle = @"More info";
             [self.navigationController pushViewController:destVC animated:YES];
+            [SVProgressHUD dismiss];
             [LDTMessage setDefaultViewController:self.navigationController];
             [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", cell.campaign.title]];
         } errorHandler:^(NSError *error) {
+            [SVProgressHUD dismiss];
             [LDTMessage displayErrorMessageForError:error];
         }];
     }
