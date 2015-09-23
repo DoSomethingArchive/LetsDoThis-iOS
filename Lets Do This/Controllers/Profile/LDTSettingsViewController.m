@@ -14,8 +14,13 @@
 #import "LDTUserConnectViewController.h"
 
 @interface LDTSettingsViewController()
+@property (weak, nonatomic) IBOutlet UILabel *accountHeadlingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *changePhotoLabel;
+- (IBAction)changePhotoButtonTouchUpInside:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *logoutLabel;
+@property (weak, nonatomic) IBOutlet UILabel *notificationsHeadlingLabel;
 
-@property (weak, nonatomic) IBOutlet LDTButton *logoutButton;
+@property (weak, nonatomic) IBOutlet UIButton *logoutButton;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsDetailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
@@ -48,17 +53,21 @@
 - (void)styleView {
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
 
-    [self.notificationsLabel setFont:[LDTTheme fontBold]];
+    self.accountHeadlingLabel.font = [LDTTheme fontBold];
+    self.accountHeadlingLabel.text = @"Account".uppercaseString;
+    self.notificationsHeadlingLabel.font = [LDTTheme fontBold];
+    self.notificationsHeadlingLabel.text = @"Notifications".uppercaseString;
+    self.changePhotoLabel.font = [LDTTheme font];
+    self.logoutLabel.font = [LDTTheme font];
+
+    self.notificationsLabel.font = [LDTTheme fontBold];
     self.notificationsLabel.text = @"Receive Notifications";
-    [self.notificationsDetailLabel setFont:[LDTTheme font]];
-    self.notificationsDetailLabel.text = @"Settings > Lets Do This";
+    self.notificationsDetailLabel.numberOfLines = 0;
+    self.notificationsDetailLabel.font = [LDTTheme font];
+    self.notificationsDetailLabel.text = @"You've disabled Notifications for Let's Do This. You can turn them on in the Notifications section of the Settings app.";
     [self.versionLabel setFont:[LDTTheme font]];
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
     self.versionLabel.textAlignment = NSTextAlignmentCenter;
-
-    [self.logoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.logoutButton setTitle:[@"Logout" uppercaseString] forState:UIControlStateNormal];
-    [self.logoutButton setBackgroundColor:[LDTTheme ctaBlueColor]];
 }
 
 - (void)setSwitch {
@@ -121,5 +130,7 @@
         [SVProgressHUD dismiss];
         [LDTMessage displayErrorMessageForError:error];
     }];
+}
+- (IBAction)changePhotoButtonTouchUpInside:(id)sender {
 }
 @end
