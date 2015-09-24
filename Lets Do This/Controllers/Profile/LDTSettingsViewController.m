@@ -62,22 +62,17 @@
     [self styleBackBarButton];
 
     self.accountHeadlingLabel.font = [LDTTheme fontBold];
-    self.accountHeadlingLabel.text = @"Account".uppercaseString;
     self.accountHeadlingLabel.textColor = [LDTTheme mediumGrayColor];
-    self.notificationsHeadlingLabel.font = [LDTTheme fontBold];
-    self.notificationsHeadlingLabel.text = @"Notifications".uppercaseString;
-    self.notificationsHeadlingLabel.textColor = [LDTTheme mediumGrayColor];
     self.changePhotoLabel.font = [LDTTheme font];
     self.logoutLabel.font = [LDTTheme font];
-
-    self.notificationsLabel.font = [LDTTheme fontBold];
-    self.notificationsLabel.text = @"Receive Notifications";
+    self.notificationsHeadlingLabel.font = [LDTTheme fontBold];
+    self.notificationsHeadlingLabel.textColor = [LDTTheme mediumGrayColor];
+    self.notificationsLabel.font = [LDTTheme font];
     self.notificationsDetailLabel.numberOfLines = 0;
     self.notificationsDetailLabel.font = [LDTTheme font];
 
     [self.versionLabel setFont:[LDTTheme font]];
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-    self.versionLabel.textAlignment = NSTextAlignmentCenter;
 }
 
 - (void)setSwitch {
@@ -95,9 +90,7 @@
 
 - (void)handleChangePhotoTap:(UITapGestureRecognizer *)recognizer {
     LDTUpdateAvatarViewController *destVC = [[LDTUpdateAvatarViewController alloc] initWithNibName:@"LDTUpdateAvatarView" bundle:nil];
-
     [self.navigationController pushViewController:destVC animated:YES];
-
 }
 
 - (void)handleLogoutTap:(UITapGestureRecognizer *)recognizer {
