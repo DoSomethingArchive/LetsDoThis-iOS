@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     LDTCampaignDetailCampaignSectionRowSelfReportback
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailCampaignCellDelegate, LDTCampaignDetailSelfReportbackCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (nonatomic, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) NSMutableArray *reportbackItems;
@@ -137,6 +137,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
 }
 
+- (void)configureSelfReportbackCell:(LDTCampaignDetailSelfReportbackCell *)cell {
+    cell.delegate = self;
+}
+
 -(DSOUser *)user {
 	return [DSOUserManager sharedInstance].user;
 }
@@ -188,6 +192,14 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }
 }
 
+#pragma mark - LDTCampaignDetailSelfReportbackCellDelegate
+
+- (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
+    NSString *shareMessage = [NSString stringWithFormat:@"I did %@", self.campaign.title];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage] applicationActivities:nil];
+    [self presentViewController:activityViewController animated:YES completion:nil];
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -218,6 +230,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         if ([[self user] hasCompletedCampaign:self.campaign]) {
             if (indexPath.row == LDTCampaignDetailCampaignSectionRowSelfReportback) {
                 LDTCampaignDetailSelfReportbackCell *selfReportbackCell = (LDTCampaignDetailSelfReportbackCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"SelfReportbackCell" forIndexPath:indexPath];
+                [self configureSelfReportbackCell:selfReportbackCell];
 
                 return selfReportbackCell;
             }

@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LDTCampaignDetailSelfReportbackCellDelegate;
+
 @interface LDTCampaignDetailSelfReportbackCell : UICollectionViewCell
+
+@property (weak, nonatomic) id<LDTCampaignDetailSelfReportbackCellDelegate> delegate;
+
+@end
+
+@protocol LDTCampaignDetailSelfReportbackCellDelegate <NSObject>
+
+- (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell;
 
 @end

@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet LDTReportbackItemDetailView *detailView;
 @property (weak, nonatomic) IBOutlet LDTButton *sharePhotoButton;
 
+- (IBAction)sharePhotoButtonTouchUpInside:(id)sender;
+
 @end
 
 @implementation LDTCampaignDetailSelfReportbackCell
@@ -26,4 +28,9 @@
     [self.sharePhotoButton enable:YES];
 }
 
+- (IBAction)sharePhotoButtonTouchUpInside:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickSharePhotoButtonForCell:)]) {
+        [self.delegate didClickSharePhotoButtonForCell:self];
+    }
+}
 @end
