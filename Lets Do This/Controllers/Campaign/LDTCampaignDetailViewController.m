@@ -264,6 +264,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     viewController.title = [NSString stringWithFormat:@"I did %@", self.campaign.title].uppercaseString;
     [viewController styleRightBarButton];
+    [viewController styleBackBarButton];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
