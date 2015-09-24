@@ -18,10 +18,10 @@
 
 @property (assign, nonatomic) BOOL isNotificationsEnabled;
 
-@property (weak, nonatomic) IBOutlet UILabel *accountHeadlingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *accountHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *changePhotoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *logoutLabel;
-@property (weak, nonatomic) IBOutlet UILabel *notificationsHeadlingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *notificationsHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
@@ -65,12 +65,12 @@
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     [self styleBackBarButton];
 
-    self.accountHeadlingLabel.font = [LDTTheme fontBold];
-    self.accountHeadlingLabel.textColor = [LDTTheme mediumGrayColor];
+    self.accountHeadingLabel.font = [LDTTheme fontBold];
+    self.accountHeadingLabel.textColor = [LDTTheme mediumGrayColor];
     self.changePhotoLabel.font = [LDTTheme font];
     self.logoutLabel.font = [LDTTheme font];
-    self.notificationsHeadlingLabel.font = [LDTTheme fontBold];
-    self.notificationsHeadlingLabel.textColor = [LDTTheme mediumGrayColor];
+    self.notificationsHeadingLabel.font = [LDTTheme fontBold];
+    self.notificationsHeadingLabel.textColor = [LDTTheme mediumGrayColor];
     self.notificationsLabel.font = [LDTTheme font];
     [self.versionLabel setFont:[LDTTheme font]];
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
