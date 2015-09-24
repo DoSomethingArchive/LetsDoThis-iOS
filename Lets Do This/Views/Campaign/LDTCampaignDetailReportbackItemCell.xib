@@ -28,7 +28,7 @@
             </constraints>
             <size key="customSize" width="295" height="247"/>
             <connections>
-                <outlet property="reportbackItemDetailView" destination="mYq-Np-o1q" id="F6s-PV-NqP"/>
+                <outlet property="detailView" destination="mYq-Np-o1q" id="F6s-PV-NqP"/>
             </connections>
             <point key="canvasLocation" x="422.5" y="360.5"/>
         </collectionViewCell>
