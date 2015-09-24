@@ -82,7 +82,7 @@
                                         <action selector="emailEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="HEW-0X-uDa"/>
                                     </connections>
                                 </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dxA-aT-bK7">
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password (6+ characters...make it tricky!)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dxA-aT-bK7">
                                     <rect key="frame" x="0.0" y="156" width="584" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="Ay5-af-5xt"/>

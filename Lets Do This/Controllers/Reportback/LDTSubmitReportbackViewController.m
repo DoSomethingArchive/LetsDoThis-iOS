@@ -49,7 +49,7 @@
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     self.backgroundImageView.image = self.reportbackItem.image;
     self.primaryImageView.image = self.reportbackItem.image;
-    self.captionTextField.placeholder = @"Caption your photo";
+    self.captionTextField.placeholder = @"Caption your photo (60 chars or less)";
     self.quantityTextField.placeholder = [NSString stringWithFormat:@"Number of %@ %@", self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
     self.quantityTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.submitButton setTitle:@"Upload photo".uppercaseString forState:UIControlStateNormal];
