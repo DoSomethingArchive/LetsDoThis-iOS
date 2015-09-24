@@ -12,6 +12,7 @@
 #import "LDTMessage.h"
 #import "LDTTheme.h"
 #import "LDTUserConnectViewController.h"
+#import "LDTUpdateAvatarViewController.h"
 
 @interface LDTSettingsViewController()
 @property (weak, nonatomic) IBOutlet UILabel *accountHeadlingLabel;
@@ -19,6 +20,7 @@
 - (IBAction)changePhotoButtonTouchUpInside:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *logoutLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsHeadlingLabel;
+@property (weak, nonatomic) IBOutlet UIButton *changePhotoButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *logoutButton;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsDetailLabel;
@@ -52,11 +54,16 @@
 
 - (void)styleView {
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    [self styleBackBarButton];
+    self.logoutButton.titleLabel.layer.opacity = 0;
+    self.changePhotoButton.titleLabel.layer.opacity = 0;
 
     self.accountHeadlingLabel.font = [LDTTheme fontBold];
     self.accountHeadlingLabel.text = @"Account".uppercaseString;
+    self.accountHeadlingLabel.textColor = [LDTTheme mediumGrayColor];
     self.notificationsHeadlingLabel.font = [LDTTheme fontBold];
     self.notificationsHeadlingLabel.text = @"Notifications".uppercaseString;
+    self.notificationsHeadlingLabel.textColor = [LDTTheme mediumGrayColor];
     self.changePhotoLabel.font = [LDTTheme font];
     self.logoutLabel.font = [LDTTheme font];
 
@@ -132,5 +139,9 @@
     }];
 }
 - (IBAction)changePhotoButtonTouchUpInside:(id)sender {
+    LDTUpdateAvatarViewController *destVC = [[LDTUpdateAvatarViewController alloc] initWithNibName:@"LDTUpdateAvatarView" bundle:nil];
+
+    [self.navigationController pushViewController:destVC animated:YES];
 }
+
 @end
