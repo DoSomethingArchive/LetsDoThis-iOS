@@ -14,7 +14,6 @@
 @property (nonatomic, strong, readwrite) DSOCampaign *campaign;
 @property (nonatomic, strong, readwrite) DSOUser *user;
 @property (nonatomic, assign, readwrite) NSInteger reportbackItemID;
-@property (nonatomic, strong, readwrite) NSURL *imageURL;
 
 @end
 
@@ -27,6 +26,7 @@
 
     if (self) {
         self.campaign = campaign;
+        self.user = [DSOUserManager sharedInstance].user;
     }
 
     return self;

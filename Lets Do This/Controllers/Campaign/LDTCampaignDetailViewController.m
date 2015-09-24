@@ -29,7 +29,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 @interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailCampaignCellDelegate, LDTCampaignDetailSelfReportbackCellDelegate, LDTReportbackItemDetailViewDelegate>
 
-@property (nonatomic, nonatomic) DSOCampaign *campaign;
+@property (strong, nonatomic) DSOCampaign *campaign;
+@property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
 @property (strong, nonatomic) NSMutableArray *reportbackItems;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
@@ -71,6 +72,14 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self styleView];
     [self fetchReportbackItems];
     [LDTMessage setDefaultViewController:self];
+
+    if ([[self user] hasCompletedCampaign:self.campaign]) {
+        [[DSOAPI sharedInstance] loadCurrentUserReportbackItemForCampaign:self.campaign completionHandler:^(DSOReportbackItem *reportbackItem) {
+            self.currentUserReportback = reportbackItem;
+        } errorHandler:^(NSError *error) {
+            [LDTMessage displayErrorMessageForError:error];
+        }];
+    }
 }
 
 - (void)viewDidLayoutSubviews {
