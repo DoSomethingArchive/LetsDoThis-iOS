@@ -15,7 +15,7 @@
 @property (nonatomic, assign) NSInteger quantity;
 @property (nonatomic, assign, readonly) NSInteger reportbackItemID;
 @property (nonatomic, strong) NSString *caption;
-@property (nonatomic, strong, readonly) NSURL *imageURL;
+@property (nonatomic, strong) NSURL *imageURL;
 @property (nonatomic, strong) UIImage *image;
 
 - (instancetype)initWithCampaign:(DSOCampaign *)campaign;
