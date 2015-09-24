@@ -37,10 +37,22 @@
                                         <constraint firstAttribute="height" constant="124" id="yIK-RF-FHB"/>
                                     </constraints>
                                 </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jP8-3D-Ofl">
+                                    <rect key="frame" x="238" y="13" width="124" height="124"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="124" id="ahB-Zr-MQk"/>
+                                        <constraint firstAttribute="height" constant="124" id="lzK-E1-KfA"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="changePhotoButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="6A1-TR-uWy"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstItem="jP8-3D-Ofl" firstAttribute="centerX" secondItem="F8f-9C-1gQ" secondAttribute="centerX" id="4aW-bx-uD4"/>
                                 <constraint firstAttribute="trailing" secondItem="nvl-h4-81s" secondAttribute="trailing" id="4wG-bY-tfs"/>
+                                <constraint firstItem="jP8-3D-Ofl" firstAttribute="centerY" secondItem="F8f-9C-1gQ" secondAttribute="centerY" id="8Sc-WX-8Rg"/>
                                 <constraint firstAttribute="height" constant="150" id="aoq-SJ-QDW"/>
                                 <constraint firstItem="nvl-h4-81s" firstAttribute="top" secondItem="F8f-9C-1gQ" secondAttribute="top" id="c3N-r3-1Q5"/>
                                 <constraint firstItem="nvl-h4-81s" firstAttribute="leading" secondItem="F8f-9C-1gQ" secondAttribute="leading" id="rxV-3j-21l"/>

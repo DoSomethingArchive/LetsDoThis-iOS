@@ -9,7 +9,7 @@
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTTheme.h"
 
-@interface LDTSubmitReportbackViewController()
+@interface LDTSubmitReportbackViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) DSOReportbackItem *reportbackItem;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
@@ -17,7 +17,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *captionTextField;
 @property (weak, nonatomic) IBOutlet UITextField *quantityTextField;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
+- (IBAction)changePhotoButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)quantityTextFieldEditingChanged:(id)sender;
 - (IBAction)quantityTextFieldEditingDidEnd:(id)sender;
@@ -53,6 +55,10 @@
     self.quantityTextField.placeholder = [NSString stringWithFormat:@"Number of %@ %@", self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
     self.quantityTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.submitButton setTitle:@"Upload photo".uppercaseString forState:UIControlStateNormal];
+    
+    self.imagePickerController = [[UIImagePickerController alloc] init];
+    self.imagePickerController.delegate = self;
+    self.imagePickerController.allowsEditing = YES;
 
     [self styleView];
 
@@ -94,6 +100,37 @@
     }
 }
 
+- (IBAction)changePhotoButtonTouchUpInside:(id)sender {
+    UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Choose a different photo!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+
+    UIAlertAction *cameraAlertAction;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+        }];
+    }
+    else {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            // Nada
+        }];
+    }
+    
+    UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+    }];
+    
+    UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+
+    [reportbackPhotoAlertController addAction:cameraAlertAction];
+    [reportbackPhotoAlertController addAction:photoLibraryAlertAction];
+    [reportbackPhotoAlertController addAction:cancelAlertAction];
+    [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
+}
+
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     [SVProgressHUD show];
     self.reportbackItem.caption = self.captionTextField.text;
@@ -124,6 +161,24 @@
 
 - (IBAction)quantityTextFieldEditingDidEnd:(id)sender {
     [self updateSubmitButton];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    self.reportbackItem.image = info[UIImagePickerControllerEditedImage];
+    self.backgroundImageView.image = self.reportbackItem.image;
+    self.primaryImageView.image = self.reportbackItem.image;
+}
+
+# pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    viewController.title = [NSString stringWithFormat:@"I did %@", self.reportbackItem.campaign.title].uppercaseString;
+    [viewController styleRightBarButton];
+    [viewController styleBackBarButton];
 }
 
 @end
