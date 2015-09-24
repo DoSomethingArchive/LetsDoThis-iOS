@@ -20,15 +20,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *changePhotoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *logoutLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsHeadlingLabel;
-@property (weak, nonatomic) IBOutlet UIButton *changePhotoButton;
-@property (weak, nonatomic) IBOutlet UIButton *logoutButton;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsDetailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
-
-- (IBAction)changePhotoButtonTouchUpInside:(id)sender;
-- (IBAction)logoutButtonTouchUpInside:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *changePhotoView;
+@property (weak, nonatomic) IBOutlet UIView *logoutView;
 
 @end
 
@@ -46,6 +43,11 @@
     [self setSwitch];
 
     [self styleView];
+
+    UITapGestureRecognizer *changePhotoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleChangePhotoTap:)];
+    [self.changePhotoView addGestureRecognizer:changePhotoTap];
+    UITapGestureRecognizer *logoutTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleLogoutTap:)];
+    [self.logoutView addGestureRecognizer:logoutTap];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -58,8 +60,6 @@
 - (void)styleView {
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     [self styleBackBarButton];
-    self.logoutButton.titleLabel.layer.opacity = 0;
-    self.changePhotoButton.titleLabel.layer.opacity = 0;
 
     self.accountHeadlingLabel.font = [LDTTheme fontBold];
     self.accountHeadlingLabel.text = @"Account".uppercaseString;
@@ -93,7 +93,14 @@
 
 }
 
-- (IBAction)logoutTapped:(id)sender {
+- (void)handleChangePhotoTap:(UITapGestureRecognizer *)recognizer {
+    LDTUpdateAvatarViewController *destVC = [[LDTUpdateAvatarViewController alloc] initWithNibName:@"LDTUpdateAvatarView" bundle:nil];
+
+    [self.navigationController pushViewController:destVC animated:YES];
+
+}
+
+- (void)handleLogoutTap:(UITapGestureRecognizer *)recognizer {
     [self confirmLogout];
 }
 
@@ -123,10 +130,6 @@
         [self presentViewController:view animated:YES completion:nil];
 }
 
-- (IBAction)logoutButtonTouchUpInside:(id)sender {
-    [self confirmLogout];
-}
-
 - (void)logout {
     [SVProgressHUD show];
     [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
@@ -143,10 +146,6 @@
         [LDTMessage displayErrorMessageForError:error];
     }];
 }
-- (IBAction)changePhotoButtonTouchUpInside:(id)sender {
-    LDTUpdateAvatarViewController *destVC = [[LDTUpdateAvatarViewController alloc] initWithNibName:@"LDTUpdateAvatarView" bundle:nil];
 
-    [self.navigationController pushViewController:destVC animated:YES];
-}
 
 @end
