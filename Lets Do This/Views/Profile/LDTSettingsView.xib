@@ -12,6 +12,7 @@
                 <outlet property="changePhotoView" destination="oQe-dL-E6M" id="Z41-p4-Qda"/>
                 <outlet property="logoutLabel" destination="zfw-aS-Vub" id="I6H-RR-Siw"/>
                 <outlet property="logoutView" destination="m5t-YK-XBL" id="Vm5-Ue-Am9"/>
+                <outlet property="notificationSwitchView" destination="CNd-YW-Iyu" id="0bW-wD-SjV"/>
                 <outlet property="notificationsHeadlingLabel" destination="tun-mR-gRE" id="mOD-5w-UTK"/>
                 <outlet property="notificationsLabel" destination="1Nu-TY-cY3" id="KST-qf-cU7"/>
                 <outlet property="notificationsSwitch" destination="17t-ud-SWl" id="deF-BC-c6e"/>
