@@ -178,6 +178,7 @@
     [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     viewController.title = [NSString stringWithFormat:@"I did %@", self.reportbackItem.campaign.title].uppercaseString;
     [viewController styleRightBarButton];
+    [viewController styleBackBarButton];
 }
 
 @end
