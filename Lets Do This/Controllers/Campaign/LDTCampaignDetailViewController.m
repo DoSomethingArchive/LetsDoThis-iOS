@@ -209,7 +209,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 
     if (indexPath.section == LDTCampaignDetailSectionTypeReportback) {
         LDTCampaignDetailReportbackItemCell *cell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-        [self configureReportbackItemDetailView:cell.reportbackItemDetailView forIndexPath:indexPath];
+        [self configureReportbackItemDetailView:cell.detailView forIndexPath:indexPath];
 		
         return cell;
     }
