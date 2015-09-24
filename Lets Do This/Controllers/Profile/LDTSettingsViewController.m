@@ -15,19 +15,19 @@
 #import "LDTUpdateAvatarViewController.h"
 
 @interface LDTSettingsViewController()
+
 @property (weak, nonatomic) IBOutlet UILabel *accountHeadlingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *changePhotoLabel;
-- (IBAction)changePhotoButtonTouchUpInside:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *logoutLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsHeadlingLabel;
 @property (weak, nonatomic) IBOutlet UIButton *changePhotoButton;
-
 @property (weak, nonatomic) IBOutlet UIButton *logoutButton;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsDetailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
 
+- (IBAction)changePhotoButtonTouchUpInside:(id)sender;
 - (IBAction)logoutButtonTouchUpInside:(id)sender;
 
 @end
@@ -40,8 +40,11 @@
     [super viewDidLoad];
 
     self.title = [@"Settings" uppercaseString];
+
     self.notificationsSwitch.enabled = FALSE;
+    self.notificationsDetailLabel.text = @"";
     [self setSwitch];
+
     [self styleView];
 }
 
@@ -71,7 +74,7 @@
     self.notificationsLabel.text = @"Receive Notifications";
     self.notificationsDetailLabel.numberOfLines = 0;
     self.notificationsDetailLabel.font = [LDTTheme font];
-    self.notificationsDetailLabel.text = @"You've disabled Notifications for Let's Do This. You can turn them on in the Notifications section of the Settings app.";
+
     [self.versionLabel setFont:[LDTTheme font]];
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
     self.versionLabel.textAlignment = NSTextAlignmentCenter;
@@ -81,9 +84,11 @@
     UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
     if (grantedSettings.types == UIUserNotificationTypeNone) {
         [self.notificationsSwitch setOn:NO];
+        self.notificationsDetailLabel.text = @"You've disabled Notifications for Let's Do This. You can turn them on in the Notifications section of the Settings app.";
     }
     else {
         [self.notificationsSwitch setOn:YES];
+        self.notificationsDetailLabel.text = @"You've enabled Notifications for Let's Do This. You can turn them off in the Notifications section of the Settings app.";
     }
 
 }
