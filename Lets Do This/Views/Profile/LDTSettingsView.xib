@@ -8,10 +8,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTSettingsViewController">
             <connections>
                 <outlet property="accountHeadlingLabel" destination="zZ6-bA-0iX" id="yZZ-RT-k6D"/>
-                <outlet property="changePhotoButton" destination="ESe-vS-FVa" id="r9m-5n-ZxN"/>
                 <outlet property="changePhotoLabel" destination="WAq-aZ-WOJ" id="ubc-h9-fKz"/>
-                <outlet property="logoutButton" destination="FsP-Yh-ANF" id="hCS-Y5-Yn3"/>
+                <outlet property="changePhotoView" destination="oQe-dL-E6M" id="Z41-p4-Qda"/>
                 <outlet property="logoutLabel" destination="zfw-aS-Vub" id="I6H-RR-Siw"/>
+                <outlet property="logoutView" destination="m5t-YK-XBL" id="Vm5-Ue-Am9"/>
                 <outlet property="notificationsDetailLabel" destination="Z3k-Gn-MDB" id="OMh-BE-lQW"/>
                 <outlet property="notificationsHeadlingLabel" destination="tun-mR-gRE" id="mOD-5w-UTK"/>
                 <outlet property="notificationsLabel" destination="1Nu-TY-cY3" id="KST-qf-cU7"/>
@@ -108,22 +108,11 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ESe-vS-FVa" userLabel="Change Photo Button">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                    <state key="normal" title="Change Photo button"/>
-                                    <connections>
-                                        <action selector="changePhotoButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="zkx-dd-mtR"/>
-                                    </connections>
-                                </button>
                             </subviews>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="WAq-aZ-WOJ" secondAttribute="bottom" constant="12" id="3HF-XO-9KW"/>
-                                <constraint firstAttribute="bottom" secondItem="ESe-vS-FVa" secondAttribute="bottom" id="OOD-Du-Ebi"/>
                                 <constraint firstAttribute="height" constant="44" id="QMO-fd-c52"/>
-                                <constraint firstItem="ESe-vS-FVa" firstAttribute="top" secondItem="oQe-dL-E6M" secondAttribute="top" id="X16-Ze-caz"/>
                                 <constraint firstItem="WAq-aZ-WOJ" firstAttribute="top" secondItem="oQe-dL-E6M" secondAttribute="top" constant="12" id="ZH6-ct-5Lb"/>
-                                <constraint firstAttribute="trailing" secondItem="ESe-vS-FVa" secondAttribute="trailing" id="Zuq-lw-RxQ"/>
-                                <constraint firstItem="ESe-vS-FVa" firstAttribute="leading" secondItem="oQe-dL-E6M" secondAttribute="leading" id="d63-SB-83l"/>
                                 <constraint firstItem="WAq-aZ-WOJ" firstAttribute="leading" secondItem="oQe-dL-E6M" secondAttribute="leading" constant="17" id="kG9-1O-e3w"/>
                             </constraints>
                         </view>
@@ -136,24 +125,11 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FsP-Yh-ANF">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                    <state key="normal" title="Logout button">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="logoutButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="Q56-mT-gEJ"/>
-                                    </connections>
-                                </button>
                             </subviews>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="FsP-Yh-ANF" secondAttribute="bottom" id="449-8z-dg3"/>
                                 <constraint firstAttribute="height" constant="44" id="6e6-xx-HeK"/>
                                 <constraint firstItem="zfw-aS-Vub" firstAttribute="top" secondItem="m5t-YK-XBL" secondAttribute="top" constant="12" id="Abi-Ju-UuN"/>
-                                <constraint firstItem="FsP-Yh-ANF" firstAttribute="leading" secondItem="m5t-YK-XBL" secondAttribute="leading" id="FUt-Sa-dA1"/>
                                 <constraint firstItem="zfw-aS-Vub" firstAttribute="leading" secondItem="m5t-YK-XBL" secondAttribute="leading" constant="17" id="Y6Y-6W-bq2"/>
-                                <constraint firstAttribute="trailing" secondItem="FsP-Yh-ANF" secondAttribute="trailing" id="cMJ-gG-laR"/>
-                                <constraint firstItem="FsP-Yh-ANF" firstAttribute="top" secondItem="m5t-YK-XBL" secondAttribute="top" id="fYB-zR-Yvx"/>
                                 <constraint firstAttribute="bottom" secondItem="zfw-aS-Vub" secondAttribute="bottom" constant="12" id="ffU-a4-iGy"/>
                             </constraints>
                         </view>
