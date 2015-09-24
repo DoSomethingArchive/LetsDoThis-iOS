@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTSettingsViewController">
             <connections>
                 <outlet property="accountHeadlingLabel" destination="zZ6-bA-0iX" id="yZZ-RT-k6D"/>
+                <outlet property="changePhotoButton" destination="ESe-vS-FVa" id="r9m-5n-ZxN"/>
                 <outlet property="changePhotoLabel" destination="WAq-aZ-WOJ" id="ubc-h9-fKz"/>
                 <outlet property="logoutButton" destination="FsP-Yh-ANF" id="hCS-Y5-Yn3"/>
                 <outlet property="logoutLabel" destination="zfw-aS-Vub" id="I6H-RR-Siw"/>
@@ -109,6 +110,7 @@
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ESe-vS-FVa" userLabel="Change Photo Button">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <state key="normal" title="Change Photo button"/>
                                     <connections>
                                         <action selector="changePhotoButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="zkx-dd-mtR"/>
                                     </connections>
@@ -136,7 +138,7 @@
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FsP-Yh-ANF">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                    <state key="normal">
+                                    <state key="normal" title="Logout button">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>

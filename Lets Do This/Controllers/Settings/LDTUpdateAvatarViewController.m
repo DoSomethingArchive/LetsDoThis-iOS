@@ -7,6 +7,7 @@
 //
 
 #import "LDTUpdateAvatarViewController.h"
+#import "LDTTheme.h"
 
 @interface LDTUpdateAvatarViewController ()
 
@@ -14,10 +15,20 @@
 
 @implementation LDTUpdateAvatarViewController
 
+# pragma mark - UIViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    self.title = @"Change Photo".uppercaseString;
+
+    [self styleView];
 }
 
+# pragma mark - LDTUpdateAvatarViewController
+
+- (void)styleView {
+
+}
 
 @end
