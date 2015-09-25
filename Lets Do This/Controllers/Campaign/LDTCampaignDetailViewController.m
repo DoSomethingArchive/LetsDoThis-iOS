@@ -137,7 +137,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     reportbackItemDetailView.delegate = self;
     DSOReportbackItem *reportbackItem = self.reportbackItems[indexPath.row];
     reportbackItemDetailView.reportbackItem = reportbackItem;
-    reportbackItemDetailView.campaignButtonTitle = @"";
+    reportbackItemDetailView.campaignButtonTitle = self.campaign.title;
     reportbackItemDetailView.captionLabelText = reportbackItem.caption;
     reportbackItemDetailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)reportbackItem.quantity, reportbackItem.campaign.reportbackNoun, reportbackItem.campaign.reportbackVerb];
     reportbackItemDetailView.reportbackItemImageURL = reportbackItem.imageURL;
@@ -148,7 +148,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)configureSelfReportbackCell:(LDTCampaignDetailSelfReportbackCell *)cell {
     cell.delegate = self;
-    cell.detailView.campaignButtonTitle = @"";
+    cell.detailView.campaignButtonTitle = self.campaign.title;
     cell.detailView.captionLabelText = self.currentUserReportback.caption;
     cell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.currentUserReportback.quantity, self.currentUserReportback.campaign.reportbackNoun, self.currentUserReportback.campaign.reportbackVerb];
     cell.detailView.reportbackItemImageURL = self.currentUserReportback.imageURL;
