@@ -7,12 +7,10 @@
 //
 
 #import "LDTCampaignDetailSelfReportbackCell.h"
-#import "LDTReportbackItemDetailView.h"
 #import "LDTTheme.h"
 
 @interface LDTCampaignDetailSelfReportbackCell()
 
-@property (weak, nonatomic) IBOutlet LDTReportbackItemDetailView *detailView;
 @property (weak, nonatomic) IBOutlet LDTButton *sharePhotoButton;
 
 - (IBAction)sharePhotoButtonTouchUpInside:(id)sender;
