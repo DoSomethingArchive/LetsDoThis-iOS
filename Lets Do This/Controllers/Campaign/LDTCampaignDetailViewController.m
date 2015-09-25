@@ -148,6 +148,13 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)configureSelfReportbackCell:(LDTCampaignDetailSelfReportbackCell *)cell {
     cell.delegate = self;
+    cell.detailView.campaignButtonTitle = @"";
+    cell.detailView.captionLabelText = self.currentUserReportback.caption;
+    cell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.currentUserReportback.quantity, self.currentUserReportback.campaign.reportbackNoun, self.currentUserReportback.campaign.reportbackVerb];
+    cell.detailView.reportbackItemImageURL = self.currentUserReportback.imageURL;
+    cell.detailView.userAvatarImage = self.currentUserReportback.user.photo;
+    cell.detailView.userCountryNameLabelText = self.currentUserReportback.user.countryName;
+    cell.detailView.userDisplayNameButtonTitle = self.currentUserReportback.user.displayName;
 }
 
 -(DSOUser *)user {

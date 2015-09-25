@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LDTReportbackItemDetailView.h"
 
 @protocol LDTCampaignDetailSelfReportbackCellDelegate;
 
 @interface LDTCampaignDetailSelfReportbackCell : UICollectionViewCell
 
 @property (weak, nonatomic) id<LDTCampaignDetailSelfReportbackCellDelegate> delegate;
+@property (weak, nonatomic) IBOutlet LDTReportbackItemDetailView *detailView;
 
 @end
 
