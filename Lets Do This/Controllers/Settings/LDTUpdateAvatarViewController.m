@@ -79,11 +79,14 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
+    [SVProgressHUD show];
     [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
         [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
+        [SVProgressHUD dismiss];
         [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'!" subtitle:@"You've successfully changed your profile photo."];
         NSLog(@"Successful user avatar upload: %@", responseObject);
     } errorHandler:^(NSError * error) {
+        [SVProgressHUD dismiss];
         [LDTMessage displayErrorMessageForError:error];
     }];
 }
