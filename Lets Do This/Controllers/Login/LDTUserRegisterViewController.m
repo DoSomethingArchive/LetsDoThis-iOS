@@ -18,7 +18,7 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *countryCode;
-@property (strong, nonatomic) UIImagePickerController *imagePicker;
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *avatarButton;
@@ -66,7 +66,7 @@
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
-	[super viewDidLoad];
+    [super viewDidLoad];
 
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton enable:NO];
@@ -76,9 +76,9 @@
     self.footerLabel.numberOfLines = 0;
     self.footerLabel.text = @"Creating an account means you agree to our Privacy Policy & to receive our weekly update. Message & data rates may apply. Text STOP to opt-out, HELP for help.";
 
-    self.imagePicker = [[UIImagePickerController alloc] init];
-    self.imagePicker.delegate = self;
-    self.imagePicker.allowsEditing = YES;
+    self.imagePickerController = [[UIImagePickerController alloc] init];
+    self.imagePickerController.delegate = self;
+    self.imagePickerController.allowsEditing = YES;
 
     // If we have a User, it's from Facebook.
     if (self.user) {
@@ -182,7 +182,34 @@
 }
 
 - (IBAction)avatarButtonTouchUpInside:(id)sender {
-    [self presentAvatarAlertController];
+    UIAlertController *avatarAlertController = [UIAlertController alertControllerWithTitle:@"Set your photo" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *cameraAlertAction;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+        }];
+    }
+    else {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            [avatarAlertController dismissViewControllerAnimated:YES completion:nil];
+        }];
+    }
+    
+    UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+    }];
+    
+    UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        [avatarAlertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [avatarAlertController addAction:cameraAlertAction];
+    [avatarAlertController addAction:photoLibraryAlertAction];
+    [avatarAlertController addAction:cancelAlertAction];
+    [self presentViewController:avatarAlertController animated:YES completion:nil];
 }
 
 - (IBAction)firstNameEditingDidBegin:(id)sender {
@@ -295,37 +322,6 @@
     return YES;
 }
 
-- (void)presentAvatarAlertController {
-    UIAlertController *avatarAlertController = [UIAlertController alertControllerWithTitle:@"Set your photo" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
-
-    UIAlertAction *cameraAlertAction;
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-            self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            [self presentViewController:self.imagePicker animated:YES completion:NULL];
-        }];
-    }
-    else {
-        cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-            [avatarAlertController dismissViewControllerAnimated:YES completion:nil];
-        }];
-    }
-
-    UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-        self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:self.imagePicker animated:YES completion:NULL];
-    }];
-
-    UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
-        [avatarAlertController dismissViewControllerAnimated:YES completion:nil];
-    }];
-
-    [avatarAlertController addAction:cameraAlertAction];
-    [avatarAlertController addAction:photoLibraryAlertAction];
-    [avatarAlertController addAction:cancelAlertAction];
-    [self presentViewController:avatarAlertController animated:YES completion:nil];
-}
-
 #pragma mark - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager*)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -348,8 +344,7 @@
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    self.imageView.image = chosenImage;
+    self.imageView.image = info[UIImagePickerControllerEditedImage];
     self.userDidPickAvatarPhoto = YES;
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
