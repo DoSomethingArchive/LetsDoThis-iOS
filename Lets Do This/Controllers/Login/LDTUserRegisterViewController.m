@@ -17,7 +17,6 @@
 @property (assign, nonatomic) BOOL userDidPickAvatarPhoto;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) DSOUser *user;
-@property (strong, nonatomic) NSString *avatarFilestring;
 @property (strong, nonatomic) NSString *countryCode;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
@@ -352,7 +351,6 @@
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     self.imageView.image = chosenImage;
     self.userDidPickAvatarPhoto = YES;
-    self.avatarFilestring = [UIImagePNGRepresentation(chosenImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
