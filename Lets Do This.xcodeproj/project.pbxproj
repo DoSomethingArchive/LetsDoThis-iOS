@@ -358,9 +358,9 @@
 		B2E75D7D1B87B1300015BE4A /* Reportback */ = {
 			isa = PBXGroup;
 			children = (
-				B2E75D7E1B87B1610015BE4A /* LDTReportbackItemDetailView.xib */,
 				B258EB2F1B8E548B00B298C0 /* LDTReportbackItemDetailView.h */,
 				B258EB301B8E548B00B298C0 /* LDTReportbackItemDetailView.m */,
+				B2E75D7E1B87B1610015BE4A /* LDTReportbackItemDetailView.xib */,
 				B258EB321B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib */,
 				B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */,
 			);

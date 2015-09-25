@@ -279,14 +279,17 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 #pragma mark - UICollectionViewDelegate
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat width = [[UIScreen mainScreen] bounds].size.width;
-    CGFloat height = 480;
+    CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    // Square reportback photo + header height + caption height.
+    CGFloat reportbackItemHeight = screenWidth + 36 + 70;
+
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         // @todo: Dynamic height (GH issue #320)
         CGFloat campaignCellHeight = 660;
         if ([[self user] hasCompletedCampaign:self.campaign]) {
             if (indexPath.row == LDTCampaignDetailCampaignSectionRowSelfReportback) {
-                campaignCellHeight = 600;
+                // Button height + top and bottom margins = 90
+                campaignCellHeight = reportbackItemHeight + 90;
             }
             else {
                 // Subtract height of the Prove It Button.
@@ -294,10 +297,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
             }
         }
 
-        return CGSizeMake(width, campaignCellHeight);
+        return CGSizeMake(screenWidth, campaignCellHeight);
     }
 
-    return CGSizeMake(width, height);
+    return CGSizeMake(screenWidth, reportbackItemHeight);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
