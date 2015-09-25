@@ -25,6 +25,7 @@
 @property (nonatomic, strong, readwrite) NSDictionary *campaigns;
 @property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignsDoing;
 @property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignsCompleted;
+@property (nonatomic, strong, readwrite) NSMutableArray *campaignSignups;
 
 @end
 
