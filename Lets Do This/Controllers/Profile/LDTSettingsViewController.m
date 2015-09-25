@@ -18,13 +18,20 @@
 
 @property (assign, nonatomic) BOOL isNotificationsEnabled;
 
+// Properties listed in order of their appearance in the view.
 @property (weak, nonatomic) IBOutlet UILabel *accountHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *changePhotoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *logoutLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
-@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *changeNotificationsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *changeNotificationsArrowLabel;
+@property (weak, nonatomic) IBOutlet UILabel *rateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *rateArrowLabel;
+@property (weak, nonatomic) IBOutlet UILabel *rateDisclaimerLabel;
+@property (weak, nonatomic) IBOutlet UIButton *feedbackButton;
+@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UIView *changePhotoView;
 @property (weak, nonatomic) IBOutlet UIView *logoutView;
 @property (weak, nonatomic) IBOutlet UIView *notificationSwitchView;
@@ -72,6 +79,16 @@
     self.notificationsHeadingLabel.font = [LDTTheme fontBold];
     self.notificationsHeadingLabel.textColor = [LDTTheme mediumGrayColor];
     self.notificationsLabel.font = [LDTTheme font];
+    self.changeNotificationsLabel.font = [LDTTheme font];
+    self.changeNotificationsArrowLabel.font = [LDTTheme font];
+    self.changeNotificationsArrowLabel.textColor = [LDTTheme mediumGrayColor];
+    
+    
+    self.rateLabel.font = [LDTTheme font];
+    self.rateArrowLabel.font = [LDTTheme font];
+    self.rateArrowLabel.textColor = [LDTTheme mediumGrayColor];
+    self.rateDisclaimerLabel.font = [LDTTheme font];
+    [self.feedbackButton.titleLabel setFont:[LDTTheme font]];
     [self.versionLabel setFont:[LDTTheme font]];
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 }
