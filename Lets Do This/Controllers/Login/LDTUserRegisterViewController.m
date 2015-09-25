@@ -18,7 +18,7 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *countryCode;
-@property (strong, nonatomic) UIImagePickerController *imagePicker;
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *avatarButton;
@@ -66,7 +66,7 @@
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
-	[super viewDidLoad];
+    [super viewDidLoad];
 
     [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton enable:NO];
@@ -76,9 +76,9 @@
     self.footerLabel.numberOfLines = 0;
     self.footerLabel.text = @"Creating an account means you agree to our Privacy Policy & to receive our weekly update. Message & data rates may apply. Text STOP to opt-out, HELP for help.";
 
-    self.imagePicker = [[UIImagePickerController alloc] init];
-    self.imagePicker.delegate = self;
-    self.imagePicker.allowsEditing = YES;
+    self.imagePickerController = [[UIImagePickerController alloc] init];
+    self.imagePickerController.delegate = self;
+    self.imagePickerController.allowsEditing = YES;
 
     // If we have a User, it's from Facebook.
     if (self.user) {
@@ -187,8 +187,8 @@
     UIAlertAction *cameraAlertAction;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-            self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            [self presentViewController:self.imagePicker animated:YES completion:NULL];
+            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:self.imagePickerController animated:YES completion:NULL];
         }];
     }
     else {
@@ -198,8 +198,8 @@
     }
     
     UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-        self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:self.imagePicker animated:YES completion:NULL];
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePickerController animated:YES completion:NULL];
     }];
     
     UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
