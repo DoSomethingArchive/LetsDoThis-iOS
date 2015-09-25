@@ -29,13 +29,13 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ACCOUNT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZ6-bA-0iX" userLabel="Account Heading">
-                            <rect key="frame" x="16" y="20" width="82" height="21"/>
+                            <rect key="frame" x="16" y="20" width="82" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oQe-dL-E6M" userLabel="Change Photo Container View">
-                            <rect key="frame" x="0.0" y="48" width="600" height="44"/>
+                            <rect key="frame" x="0.0" y="47" width="600" height="44"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s07-pC-Llz" userLabel="Top Border View">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
@@ -72,10 +72,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m5t-YK-XBL" userLabel="Logout Container View">
-                            <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                            <rect key="frame" x="0.0" y="91" width="600" height="44"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfw-aS-Vub">
-                                    <rect key="frame" x="16" y="12" width="54" height="20"/>
+                                    <rect key="frame" x="16" y="12" width="53.5" height="20"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -99,13 +99,13 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTIFICATIONS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tun-mR-gRE" userLabel="Notifications Heading">
-                            <rect key="frame" x="16" y="167" width="124" height="21"/>
+                            <rect key="frame" x="16" y="166" width="123.5" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CNd-YW-Iyu" userLabel="Switch Container View">
-                            <rect key="frame" x="0.0" y="190" width="600" height="45"/>
+                            <rect key="frame" x="0.0" y="189" width="600" height="45"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XBy-34-hV9" userLabel="Top Border View">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
@@ -149,7 +149,7 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFp-Li-SKL" userLabel="Version Number Label">
-                            <rect key="frame" x="0.0" y="255" width="600" height="21"/>
+                            <rect key="frame" x="0.0" y="254" width="600" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
