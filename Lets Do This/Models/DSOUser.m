@@ -101,9 +101,6 @@
             else {
                 [storedUserDefaults setObject:storedAvatarPhotoPath forKey:@"storedAvatarPhotoPath"];
                 [storedUserDefaults synchronize];
-				
-                NSString *successMessage = [NSString stringWithFormat:@"Avatar successfully stored locally at path: %@", storedAvatarPhotoPath];
-                NSLog(successMessage, nil);
             }
         }
     }
