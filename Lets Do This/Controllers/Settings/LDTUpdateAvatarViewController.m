@@ -8,6 +8,7 @@
 
 #import "LDTUpdateAvatarViewController.h"
 #import "LDTTheme.h"
+#import "LDTMessage.h"
 
 @interface LDTUpdateAvatarViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -37,6 +38,7 @@
     self.imagePicker.allowsEditing = YES;
 
     [self styleView];
+    [LDTMessage setDefaultViewController:self];
 }
 
 # pragma mark - LDTUpdateAvatarViewController
@@ -50,9 +52,9 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
-    [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
-    
     [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
+        [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
+        [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'!" subtitle:@"You've successfully changed your profile photo."];
         NSLog(@"Successful user avatar upload: %@", responseObject);
     } errorHandler:^(NSError * error) {
         [LDTMessage displayErrorMessageForError:error];
