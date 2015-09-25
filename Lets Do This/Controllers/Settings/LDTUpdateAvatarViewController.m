@@ -12,7 +12,7 @@
 
 @interface LDTUpdateAvatarViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
-@property (strong, nonatomic) UIImagePickerController *imagePicker;
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (weak, nonatomic) IBOutlet UIButton *avatarButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
@@ -33,9 +33,9 @@
     [self.submitButton setTitle:[@"Save photo" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton enable:NO];
     
-    self.imagePicker = [[UIImagePickerController alloc] init];
-    self.imagePicker.delegate = self;
-    self.imagePicker.allowsEditing = YES;
+    self.imagePickerController = [[UIImagePickerController alloc] init];
+    self.imagePickerController.delegate = self;
+    self.imagePickerController.allowsEditing = YES;
 
     [self styleView];
     [LDTMessage setDefaultViewController:self];
@@ -48,27 +48,13 @@
 }
 
 - (IBAction)avatarButtonTouchUpInside:(id)sender {
-    [self presentAvatarAlertController];
-}
-
-- (IBAction)submitButtonTouchUpInside:(id)sender {
-    [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
-        [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
-        [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'!" subtitle:@"You've successfully changed your profile photo."];
-        NSLog(@"Successful user avatar upload: %@", responseObject);
-    } errorHandler:^(NSError * error) {
-        [LDTMessage displayErrorMessageForError:error];
-    }];
-}
-
-- (void)presentAvatarAlertController {
     UIAlertController *avatarAlertController = [UIAlertController alertControllerWithTitle:@"Set your photo" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction *cameraAlertAction;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-            self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            [self presentViewController:self.imagePicker animated:YES completion:NULL];
+            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:self.imagePickerController animated:YES completion:NULL];
         }];
     }
     else {
@@ -78,8 +64,8 @@
     }
     
     UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-        self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:self.imagePicker animated:YES completion:NULL];
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePickerController animated:YES completion:NULL];
     }];
     
     UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
@@ -92,11 +78,20 @@
     [self presentViewController:avatarAlertController animated:YES completion:nil];
 }
 
+- (IBAction)submitButtonTouchUpInside:(id)sender {
+    [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
+        [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
+        [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'!" subtitle:@"You've successfully changed your profile photo."];
+        NSLog(@"Successful user avatar upload: %@", responseObject);
+    } errorHandler:^(NSError * error) {
+        [LDTMessage displayErrorMessageForError:error];
+    }];
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    self.imageView.image = chosenImage;
+    self.imageView.image = info[UIImagePickerControllerEditedImage];
     [picker dismissViewControllerAnimated:YES completion:NULL];
     [self.submitButton enable:YES];
 }
