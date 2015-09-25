@@ -36,7 +36,10 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eZt-BN-vSM" customClass="LDTButton">
-                    <rect key="frame" x="8" y="164" width="584" height="30"/>
+                    <rect key="frame" x="8" y="164" width="584" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="b49-Rr-f7L"/>
+                    </constraints>
                     <state key="normal" title="Save Photo"/>
                     <connections>
                         <action selector="submitButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="LfD-AZ-Dr7"/>
