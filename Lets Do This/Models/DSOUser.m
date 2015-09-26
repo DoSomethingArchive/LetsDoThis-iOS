@@ -25,10 +25,6 @@
 @property (nonatomic, strong, readwrite) NSDictionary *campaigns;
 @property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignsDoing;
 @property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignsCompleted;
-@property (nonatomic, strong, readwrite) NSMutableArray *campaignSignups;
-
-@property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignIdsDoing;
-@property (nonatomic, strong, readwrite) NSMutableArray *reportbackItems;
 
 @end
 
@@ -163,22 +159,29 @@
 }
 
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign {
-    for (DSOCampaign *activeCampaign in self.activeMobileAppCampaignsDoing) {
-        if (activeCampaign.campaignID == campaign.campaignID) {
+    for (DSOCampaignSignup *signup in self.campaignSignups) {
+        if (campaign.campaignID == signup.campaign.campaignID) {
+            if (signup.reportbackItem) {
+                // By doing, we mean they haven't completed it yet.
+                // So no, the user is not Doing it.
+                return NO;
+            }
             return YES;
         }
     }
-	
     return NO;
 }
 
 - (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign {
-    for (DSOCampaign *activeCampaign in self.activeMobileAppCampaignsCompleted) {
-        if (activeCampaign.campaignID == campaign.campaignID) {
-            return YES;
+    for (DSOCampaignSignup *signup in self.campaignSignups) {
+        if (campaign.campaignID == signup.campaign.campaignID) {
+            if (signup.reportbackItem) {
+                return YES;
+            }
+            // Nope, haven't completed the campaign yet
+            return NO;
         }
     }
-	
     return NO;
 }
 

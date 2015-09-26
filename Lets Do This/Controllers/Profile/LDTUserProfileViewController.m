@@ -67,7 +67,7 @@ static NSString *cellIdentifier = @"rowCell";
     [super viewDidAppear:animated];
 
     [self styleView];
-
+/*
     [[DSOAPI sharedInstance] loadUserWithUserId:self.user.userID completionHandler:^(DSOUser *user) {
         self.user = user;
         self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
@@ -78,12 +78,7 @@ static NSString *cellIdentifier = @"rowCell";
     } errorHandler:^(NSError *error) {
         [LDTMessage displayErrorMessageForError:error];
     }];
-
-    [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
-        NSLog(@"response %@", campaignSignups);
-    } errorHandler:^(NSError *error) {
-        // nada
-    }];
+ */
 }
 
 #pragma Mark - LDTUserProfileViewController
