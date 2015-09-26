@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="LDTCampaignDetailSelfReportbackCell">
+            <rect key="frame" x="0.0" y="0.0" width="390" height="216"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="390" height="216"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3vl-PM-kYg" customClass="LDTReportbackItemDetailView">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="127"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B6I-Fh-Nur" customClass="LDTButton">
+                        <rect key="frame" x="8" y="135" width="374" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="gIk-g5-wZf"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <connections>
+                            <action selector="sharePhotoButtonTouchUpInside:" destination="gTV-IL-0wX" eventType="touchUpInside" id="9oU-bF-cCR"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="B6I-Fh-Nur" firstAttribute="top" secondItem="3vl-PM-kYg" secondAttribute="bottom" constant="8" id="4sr-Bb-3Ut"/>
+                <constraint firstItem="3vl-PM-kYg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="8OX-q7-0vN"/>
+                <constraint firstItem="B6I-Fh-Nur" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="Aoo-Tj-7cr"/>
+                <constraint firstAttribute="bottom" secondItem="B6I-Fh-Nur" secondAttribute="bottom" constant="31" id="KiQ-l6-OIC"/>
+                <constraint firstAttribute="trailing" secondItem="3vl-PM-kYg" secondAttribute="trailing" id="Kse-ek-yqk"/>
+                <constraint firstItem="3vl-PM-kYg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="rc7-kV-S5r"/>
+                <constraint firstAttribute="trailing" secondItem="B6I-Fh-Nur" secondAttribute="trailing" constant="8" id="trj-YI-HmK"/>
+            </constraints>
+            <size key="customSize" width="390" height="216"/>
+            <connections>
+                <outlet property="detailView" destination="3vl-PM-kYg" id="idP-Ky-9Ol"/>
+                <outlet property="sharePhotoButton" destination="B6I-Fh-Nur" id="Gdy-2k-bBL"/>
+            </connections>
+            <point key="canvasLocation" x="378" y="346"/>
+        </collectionViewCell>
+    </objects>
+</document>

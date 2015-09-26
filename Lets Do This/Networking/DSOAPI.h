@@ -37,4 +37,6 @@
 
 - (void)loadReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
+- (void)loadCurrentUserReportbackItemForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOReportbackItem *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+
 @end
