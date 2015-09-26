@@ -27,6 +27,9 @@
 @property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignsCompleted;
 @property (nonatomic, strong, readwrite) NSMutableArray *campaignSignups;
 
+@property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignIdsDoing;
+@property (nonatomic, strong, readwrite) NSMutableArray *reportbackItems;
+
 @end
 
 @implementation DSOUser

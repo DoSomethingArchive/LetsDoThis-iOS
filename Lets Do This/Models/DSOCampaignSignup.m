@@ -21,4 +21,26 @@
     return self;
 }
 
+- (instancetype)initWithDict:(NSDictionary *)dict user:(DSOUser *)user{
+    self = [super init];
+
+    if (self) {
+        self.user = user;
+        if (dict[@"reportback_data"]) {
+            self.campaign = [[DSOCampaign alloc] initWithDict:(NSDictionary *)[dict valueForKeyPath:@"reportback_data.campaign"]];
+            NSArray *reportbackItems = [dict[@"reportback_data"] valueForKeyPath:@"reportback_items.data"];
+            NSDictionary *reportbackItemDict = reportbackItems.firstObject;
+            self.reportbackItem = [[DSOReportbackItem alloc] initWithCampaign:self.campaign];
+            self.reportbackItem.quantity = [[dict valueForKeyPath:@"reportback_data.quantity"] integerValue];
+            self.reportbackItem.caption = reportbackItemDict[@"caption"];
+            self.reportbackItem.imageURL =[NSURL URLWithString:[reportbackItemDict valueForKeyPath:@"media.uri"]];
+        }
+        else {
+            // @todo API cleanup here. should be campaign id not drupal_id
+            self.campaign = [[DSOCampaign alloc] initWithCampaignID:[dict[@"drupal_id"] integerValue]];
+        }
+    }
+
+    return self;
+}
 @end

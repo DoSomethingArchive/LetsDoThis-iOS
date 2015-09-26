@@ -78,6 +78,12 @@ static NSString *cellIdentifier = @"rowCell";
     } errorHandler:^(NSError *error) {
         [LDTMessage displayErrorMessageForError:error];
     }];
+
+    [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
+        NSLog(@"response %@", campaignSignups);
+    } errorHandler:^(NSError *error) {
+        // nada
+    }];
 }
 
 #pragma Mark - LDTUserProfileViewController
