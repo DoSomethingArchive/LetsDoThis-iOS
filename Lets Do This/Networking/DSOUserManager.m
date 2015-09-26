@@ -115,6 +115,9 @@
 
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] createSignupForCampaign:campaign completionHandler:^(NSDictionary *response) {
+
+        // @TODO Instead of querying API here, create a new DSOCampaignSignup and add to current user's campaignSignups array
+
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
             if (completionHandler) {
                 completionHandler(response);
@@ -133,6 +136,9 @@
 
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
+
+        // @TODO Instead of querying API here, update the user's DSOCampaignSignup with the new reporbtackItem;
+        
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
             if (completionHandler) {
                 completionHandler(response);
