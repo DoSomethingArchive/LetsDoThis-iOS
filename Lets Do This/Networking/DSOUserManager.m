@@ -81,6 +81,11 @@
     NSString *userID = [SSKeychain passwordForService:LDTSERVER account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
+        [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
+            self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+        } errorHandler:^(NSError *error) {
+            // nada
+        }];
         if (completionHandler) {
             completionHandler();
         }
