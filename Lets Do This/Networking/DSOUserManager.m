@@ -83,12 +83,12 @@
         self.user = user;
         [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
             self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+            if (completionHandler) {
+                completionHandler();
+            }
         } errorHandler:^(NSError *error) {
             // nada
         }];
-        if (completionHandler) {
-            completionHandler();
-        }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);
