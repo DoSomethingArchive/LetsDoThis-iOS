@@ -292,29 +292,6 @@
 
 }
 
-- (void)loadCurrentUserReportbackItemForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOReportbackItem *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld", (long)campaign.campaignID];
-
-    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        // @todo: Add sanity checks for incorrupt data.
-        NSDictionary *reportbackDict =[responseObject valueForKeyPath:@"data.reportback_data"];
-        NSArray *reportbackItems = [reportbackDict valueForKeyPath:@"reportback_items.data"];
-        NSDictionary *reportbackItemDict = reportbackItems.firstObject;
-        DSOReportbackItem *reportbackItem = [[DSOReportbackItem alloc] initWithCampaign:campaign];
-        reportbackItem.quantity = [reportbackDict valueForKeyAsInt:@"quantity" nullValue:0];
-        reportbackItem.caption = reportbackItemDict[@"caption"];
-        reportbackItem.imageURL =[NSURL URLWithString:[reportbackItemDict valueForKeyPath:@"media.uri"]];
-        if (completionHandler) {
-            completionHandler(reportbackItem);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if (errorHandler) {
-            errorHandler(error);
-        }
-        [self logError:error];
-    }];
-}
-
 - (void)logError:(NSError *)error {
     NSLog(@"logError: %@", error.localizedDescription);
 }
