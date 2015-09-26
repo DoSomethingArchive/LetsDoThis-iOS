@@ -272,6 +272,26 @@
       }];
 }
 
+- (void)loadCampaignSignupsForUser:(DSOUser *)user completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"users/_id/%@/campaigns", user.userID];
+    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSMutableArray *campaignSignups = [[NSMutableArray alloc] init];
+        for (NSDictionary *campaignSignupDict in responseObject[@"data"]) {
+            DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:campaignSignupDict user:user];
+            [campaignSignups addObject:signup];
+        }
+        if (completionHandler) {
+            completionHandler(campaignSignups);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+        [self logError:error];
+    }];
+
+}
+
 - (void)loadCurrentUserReportbackItemForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOReportbackItem *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld", (long)campaign.campaignID];
 

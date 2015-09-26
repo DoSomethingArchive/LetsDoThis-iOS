@@ -28,10 +28,19 @@
 
 @implementation DSOCampaign
 
+- (instancetype)initWithCampaignID:(NSInteger)campaignID {
+    self = [super init];
+
+    if (self) {
+        self.campaignID = campaignID;
+    }
+    return self;
+}
+
 - (instancetype)initWithDict:(NSDictionary*)values {
     self = [super init];
 
-    if(self) {
+    if (self) {
         self.campaignID = [values valueForKeyAsInt:@"id" nullValue:self.campaignID];
         self.endDate = [[values valueForKeyPath:@"mobile_app.dates"] valueForKeyAsDate:@"end" nullValue:nil];
         self.title = [values valueForKeyAsString:@"title" nullValue:self.title];

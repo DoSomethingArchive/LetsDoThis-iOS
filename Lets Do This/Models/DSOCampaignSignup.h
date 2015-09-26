@@ -15,5 +15,6 @@
 @property (strong, nonatomic) DSOReportbackItem *reportbackItem;
 
 - (instancetype)initWithCampaign:(DSOCampaign *)campaign user:(DSOUser *)user;
+- (instancetype)initWithDict:(NSDictionary *)dict user:(DSOUser *)user;
 
 @end
