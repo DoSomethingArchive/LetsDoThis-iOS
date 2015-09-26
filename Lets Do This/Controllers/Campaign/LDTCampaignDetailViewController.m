@@ -73,12 +73,13 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self fetchReportbackItems];
     [LDTMessage setDefaultViewController:self];
 
+
     if ([[self user] hasCompletedCampaign:self.campaign]) {
-        [[DSOAPI sharedInstance] loadCurrentUserReportbackItemForCampaign:self.campaign completionHandler:^(DSOReportbackItem *reportbackItem) {
-            self.currentUserReportback = reportbackItem;
-        } errorHandler:^(NSError *error) {
-            [LDTMessage displayErrorMessageForError:error];
-        }];
+        for (DSOCampaignSignup *signup in [self user].campaignSignups) {
+            if (self.campaign.campaignID == signup.campaign.campaignID) {
+                self.currentUserReportback = signup.reportbackItem;
+            }
+        }
     }
 }
 

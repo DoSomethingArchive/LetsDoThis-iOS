@@ -7,7 +7,6 @@
 //
 
 #import "DSOUser.h"
-#import "DSOCampaign.h"
 #import "NSDictionary+DSOJsonHelper.h"
 #import "NSDate+DSO.h"
 #import <SDWebImage/UIImageView+WebCache.h>
