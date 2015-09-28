@@ -55,30 +55,29 @@ static NSString *cellIdentifier = @"rowCell";
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 
-    if ([self.user.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
+    if ([self.user isLoggedInUser]) {
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
         self.navigationItem.rightBarButtonItem = settingsButton;
     }
-
-    [self styleBackBarButton];
+    else {
+        [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
+            self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+            [self.tableView reloadData];
+        } errorHandler:^(NSError *error) {
+            [LDTMessage displayErrorMessageForError:error];
+        }];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
     [self styleView];
-/*
-    [[DSOAPI sharedInstance] loadUserWithUserId:self.user.userID completionHandler:^(DSOUser *user) {
-        self.user = user;
-        self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
-        self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;
-        [self updateUserDetails];
-		
+
+    if ([self.user isLoggedInUser]) {
+        // Logged in user may have signed up or reported back since this VC was first loaded.
         [self.tableView reloadData];
-    } errorHandler:^(NSError *error) {
-        [LDTMessage displayErrorMessageForError:error];
-    }];
- */
+    }
 }
 
 #pragma Mark - LDTUserProfileViewController
@@ -87,6 +86,7 @@ static NSString *cellIdentifier = @"rowCell";
     [self.avatarImageView addCircleFrame];
     self.headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
+    [self styleBackBarButton];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
     [self.nameLabel setFont:[LDTTheme fontTitle]];
@@ -112,48 +112,25 @@ static NSString *cellIdentifier = @"rowCell";
 #pragma mark -- UITableViewDataSource
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *header = nil;
-    switch (section) {
-        case 0:
-            header = [@"Currently doing" uppercaseString];
-            break;
-        case 1:
-            header = [@"Been there, done good" uppercaseString];
-            break;
+    if ([self.user isLoggedInUser]) {
+        return @"Current: 5 days left".uppercaseString;
     }
-    return header;
+    return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger rowCount;
-    switch (section) {
-        case 0:
-            rowCount = self.campaignsDoing.count;
-            break;
-        case 1:
-            rowCount = self.campaignsCompleted.count;
-            break;
-        default:
-            rowCount = 1;
-    }
-    return rowCount;
+    return self.user.campaignSignups.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    DSOCampaign *campaign;
-	
-    if (indexPath.section == 0) {
-        campaign = self.campaignsDoing[indexPath.row];
-    }
-    else {
-        campaign = self.campaignsCompleted[indexPath.row];
-    }
-    cell.textLabel.text = [campaign.title uppercaseString];
+    DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
+    cell.textLabel.text = campaign.title;
     cell.userInteractionEnabled = YES;
     cell.textLabel.font = [LDTTheme fontBold];
 	

@@ -201,7 +201,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(DSOCampaignSignup *signup) {
             [SVProgressHUD dismiss];
             [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", cell.campaign.title]];
-            cell.actionButtonTitle = @"Prove it";
+            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
          } errorHandler:^(NSError *error) {
              [SVProgressHUD dismiss];
              [LDTMessage displayErrorMessageForError:error];
