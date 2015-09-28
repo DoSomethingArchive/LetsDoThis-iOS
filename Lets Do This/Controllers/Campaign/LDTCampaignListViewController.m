@@ -264,8 +264,10 @@ const CGFloat kHeightExpanded = 400;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-	self.selectedGroupButtonIndex = indexPath.row;
-	[self styleButtons];
+	if (self.collectionView.dragging) {
+		self.selectedGroupButtonIndex = indexPath.row;
+		[self styleButtons];
+	}
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -279,6 +281,7 @@ const CGFloat kHeightExpanded = 400;
 //    NSArray *campaigns = interestGroup[@"campaigns"];
 //	
 //    return campaigns.count;
+	
 	return self.interestGroups.allKeys.count;
 }
 
