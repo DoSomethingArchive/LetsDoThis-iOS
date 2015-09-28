@@ -21,9 +21,6 @@
 @property (nonatomic, strong, readwrite) NSString *mobile;
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) UIImage *photo;
-@property (nonatomic, strong, readwrite) NSDictionary *campaigns;
-@property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignsDoing;
-@property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignsCompleted;
 
 @end
 
@@ -53,9 +50,6 @@
                  self.photo = image;
              }];
         }
-        self.campaigns = dict[@"campaigns"];
-		
-        [self syncActiveMobileAppCampaigns];
     }
 
     return self;
@@ -66,7 +60,7 @@
 - (UIImage *)photo {
     if (!_photo) {
         // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
-        if ([self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
+        if ([self isLoggedInUser]) {
             NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"storedAvatarPhotoPath"];
             if (storedAvatarPhotoPath) {
                 _photo = [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
@@ -86,7 +80,7 @@
 - (void)setPhoto:(UIImage *)photo {
     _photo = photo;
     // If this user is the logged in user, persist her avatar photo.
-    if ([self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
+    if ([self isLoggedInUser]) {
         if (photo) {
             NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
             NSArray *storagePaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -133,27 +127,11 @@
     return @"";
 }
 
-- (void)syncActiveMobileAppCampaigns {
-    self.activeMobileAppCampaignsDoing = [[NSMutableArray alloc] init];
-    self.activeMobileAppCampaignsCompleted = [[NSMutableArray alloc] init];
-    for (NSMutableDictionary *activityDict in self.campaigns) {
-        NSInteger campaignID = [activityDict valueForKeyAsInt:@"drupal_id" nullValue:0];
-        DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:campaignID];
-        if (campaign) {
-            if ([activityDict valueForKeyAsString:@"reportback_id"]) {
-                [self.activeMobileAppCampaignsCompleted addObject:campaign];
-            }
-            else {
-                [self.activeMobileAppCampaignsDoing addObject:campaign];
-            }
-        }
-    }
-}
-
 - (NSString *)displayName {
     if (self.firstName.length > 0) {
         return self.firstName;
     }
+
     return self.userID;
 }
 

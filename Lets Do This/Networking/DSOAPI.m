@@ -196,7 +196,6 @@
                              };
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"responseObject %@", responseObject);
         if (completionHandler) {
             completionHandler(responseObject);
         }

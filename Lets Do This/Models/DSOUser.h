@@ -22,12 +22,7 @@
 @property (nonatomic, strong, readonly) NSString *email;
 @property (nonatomic, strong, readonly) NSString *mobile;
 @property (nonatomic, strong, readonly) UIImage *photo;
-// Dictionary of campaign activity data.
-@property (nonatomic, strong, readonly) NSDictionary *campaigns;
-@property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsDoing;
-@property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsCompleted;
 @property (nonatomic, strong) NSMutableArray *campaignSignups;
-
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
 - (void)setPhoto:(UIImage *)image;
