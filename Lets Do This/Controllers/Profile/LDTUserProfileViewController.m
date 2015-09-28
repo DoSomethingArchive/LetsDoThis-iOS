@@ -7,13 +7,9 @@
 //
 
 #import "LDTUserProfileViewController.h"
-#import "LDTButton.h"
 #import "LDTTheme.h"
-#import "LDTMessage.h"
-#import "LDTUserConnectViewController.h"
-#import "LDTCampaignListViewController.h"
+#import "LDTCampaignDetailViewController.h"
 #import "LDTSettingsViewController.h"
-#import "DSOCampaign.h"
 
 @interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -131,10 +127,20 @@ static NSString *cellIdentifier = @"rowCell";
     DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
     cell.textLabel.text = campaign.title;
+    cell.textLabel.textColor = [LDTTheme ctaBlueColor];
     cell.userInteractionEnabled = YES;
     cell.textLabel.font = [LDTTheme fontBold];
 	
     return cell;
 }
 
+#pragma mark -- UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
+    // @todo DRY with custom TableViewCell which will have a DSOCampaign property.
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
+    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
+    [self.navigationController pushViewController:destVC animated:YES];
+}
 @end

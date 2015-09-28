@@ -43,6 +43,7 @@
         self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Null First Name"];
         self.email = dict[@"email"];
         self.sessionToken = dict[@"session_token"];
+        self.campaignSignups = [[NSMutableArray alloc] init];
 		
         if (dict[@"photo"]) {
             self.photo = nil;
