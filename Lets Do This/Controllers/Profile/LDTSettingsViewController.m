@@ -21,20 +21,28 @@
 // Properties listed in order of their appearance in the view.
 @property (weak, nonatomic) IBOutlet UILabel *accountHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *changePhotoLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *changePhotoArrowImageView;
+
 @property (weak, nonatomic) IBOutlet UILabel *logoutLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *changeNotificationsLabel;
-@property (weak, nonatomic) IBOutlet UILabel *changeNotificationsArrowLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *changeNotificationsArrowImageView;
+
+
 @property (weak, nonatomic) IBOutlet UILabel *rateLabel;
-@property (weak, nonatomic) IBOutlet UILabel *rateArrowLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *rateArrowImageView;
+
+
 @property (weak, nonatomic) IBOutlet UILabel *rateDisclaimerLabel;
 @property (weak, nonatomic) IBOutlet UIButton *feedbackButton;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UIView *changePhotoView;
 @property (weak, nonatomic) IBOutlet UIView *logoutView;
 @property (weak, nonatomic) IBOutlet UIView *notificationSwitchView;
+
+- (IBAction)feedbackButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -74,21 +82,29 @@
 
     self.accountHeadingLabel.font = [LDTTheme fontBold];
     self.accountHeadingLabel.textColor = [LDTTheme mediumGrayColor];
-    self.changePhotoLabel.font = [LDTTheme font];
-    self.logoutLabel.font = [LDTTheme font];
+    
+    self.changePhotoLabel.font = [LDTTheme fontHeading];
+    self.changePhotoArrowImageView.image = [UIImage imageNamed:@"Arrow"];
+    
+    self.logoutLabel.font = [LDTTheme fontHeading];
+    
     self.notificationsHeadingLabel.font = [LDTTheme fontBold];
     self.notificationsHeadingLabel.textColor = [LDTTheme mediumGrayColor];
     self.notificationsLabel.font = [LDTTheme font];
-    self.changeNotificationsLabel.font = [LDTTheme font];
-    self.changeNotificationsArrowLabel.font = [LDTTheme font];
-    self.changeNotificationsArrowLabel.textColor = [LDTTheme mediumGrayColor];
     
+    self.changeNotificationsLabel.font = [LDTTheme font];
+    self.changeNotificationsArrowImageView.image = [UIImage imageNamed:@"Arrow"];
     
     self.rateLabel.font = [LDTTheme font];
-    self.rateArrowLabel.font = [LDTTheme font];
-    self.rateArrowLabel.textColor = [LDTTheme mediumGrayColor];
+    self.rateArrowImageView.image = [UIImage imageNamed:@"Arrow"];
+    
     self.rateDisclaimerLabel.font = [LDTTheme font];
+    
     [self.feedbackButton.titleLabel setFont:[LDTTheme font]];
+    self.feedbackButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    // wraps button text if multiple lines are needed on smaller screens
+    self.feedbackButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    
     [self.versionLabel setFont:[LDTTheme font]];
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 }
@@ -106,7 +122,7 @@
     else {
         alertControllerMessage = @"You've enabled Notifications for Let's Do This. You can turn them off in the Notifications section of the Settings app.";
     }
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Recieve Notifications" message:alertControllerMessage preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Receive Notifications" message:alertControllerMessage preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
         [alertController dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -141,4 +157,7 @@
     [self presentViewController:logoutAlertController animated:YES completion:nil];
 }
 
+- (IBAction)feedbackButtonTouchUpInside:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.aaronschachter.com/"]];
+}
 @end
