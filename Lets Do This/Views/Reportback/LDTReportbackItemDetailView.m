@@ -43,6 +43,10 @@
     self.userDisplayNameButton.titleLabel.font = [LDTTheme fontBold];
 }
 
+- (UIImage *)reportbackItemImage {
+    return self.reportbackItemImageView.image;
+}
+
 - (void)setCampaignButtonTitle:(NSString *)campaignButtonTitle {
     [self.campaignTitleButton setTitle:campaignButtonTitle forState:UIControlStateNormal];
 }

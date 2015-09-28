@@ -230,7 +230,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
     NSString *shareMessage = [NSString stringWithFormat:@"I did %@", self.campaign.title];
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage] applicationActivities:nil];
+    UIImage *shareImage = cell.detailView.reportbackItemImage;
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
