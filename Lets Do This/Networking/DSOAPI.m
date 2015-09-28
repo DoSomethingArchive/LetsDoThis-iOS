@@ -172,9 +172,10 @@
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:responseObject[@"data"]];
-          if (completionHandler) {
-              completionHandler(signup);
-          }
+        signup.campaign = campaign;
+        if (completionHandler) {
+            completionHandler(signup);
+        }
       } failure:^(NSURLSessionDataTask *task, NSError *error) {
           if (errorHandler) {
               errorHandler(error);

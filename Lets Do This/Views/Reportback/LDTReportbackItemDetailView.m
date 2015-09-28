@@ -55,6 +55,10 @@
     self.reportbackItemQuantityLabel.text = quantityLabelText;
 }
 
+- (void)setReportbackItemImage:(UIImage *)reportbackItemImage {
+    self.reportbackItemImageView.image = reportbackItemImage;
+}
+
 - (void)setReportbackItemImageURL:(NSURL *)reportbackItemImageURL {
     [self.reportbackItemImageView sd_setImageWithURL:reportbackItemImageURL];
 }

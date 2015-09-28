@@ -128,18 +128,15 @@
 
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
-
-        // @TODO Instead of querying API here, update the user's DSOCampaignSignup with the new reporbtackItem;
-        
-        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
-            if (completionHandler) {
-                completionHandler(response);
+        // Update the corresponding campaignSignup with the new reportbackItem.
+        for (DSOCampaignSignup *signup in self.user.campaignSignups) {
+            if (reportbackItem.campaign.campaignID == signup.campaign.campaignID) {
+                signup.reportbackItem = reportbackItem;
             }
-        } errorHandler:^(NSError *error) {
-            if (errorHandler) {
-                errorHandler(error);
-            }
-        }];
+        }
+        if (completionHandler) {
+            completionHandler(response);
+        }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);
