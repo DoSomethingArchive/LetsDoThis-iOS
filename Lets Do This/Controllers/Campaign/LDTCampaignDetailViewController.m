@@ -94,7 +94,16 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
+    // Might have just come from the Reportback Submit screen,
+    // so check for currentUserReportback
+    if ([[self user] hasCompletedCampaign:self.campaign] && !self.currentUserReportback) {
+        for (DSOCampaignSignup *signup in [self user].campaignSignups) {
+            if (self.campaign.campaignID == signup.campaign.campaignID) {
+                self.currentUserReportback = signup.reportbackItem;
+                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
+            }
+        }
+    }
 }
 
 #pragma mark - LDTCampaignDetailViewController
@@ -152,7 +161,15 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     cell.detailView.campaignButtonTitle = self.campaign.title;
     cell.detailView.captionLabelText = self.currentUserReportback.caption;
     cell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.currentUserReportback.quantity, self.campaign.reportbackNoun, self.campaign.reportbackVerb];
-    cell.detailView.reportbackItemImageURL = self.currentUserReportback.imageURL;
+
+    // If reportbackItem was just submitted, photo may be available.
+    if (self.currentUserReportback.image) {
+        cell.detailView.reportbackItemImage = self.currentUserReportback.image;
+    }
+    else {
+        cell.detailView.reportbackItemImageURL = self.currentUserReportback.imageURL;
+    }
+
     cell.detailView.userAvatarImage = self.currentUserReportback.user.photo;
     cell.detailView.userCountryNameLabelText = self.currentUserReportback.user.countryName;
     cell.detailView.userDisplayNameButtonTitle = self.currentUserReportback.user.displayName;
