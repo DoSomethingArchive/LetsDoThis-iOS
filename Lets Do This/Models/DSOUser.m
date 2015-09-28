@@ -7,7 +7,6 @@
 //
 
 #import "DSOUser.h"
-#import "DSOCampaign.h"
 #import "NSDictionary+DSOJsonHelper.h"
 #import "NSDate+DSO.h"
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -22,9 +21,6 @@
 @property (nonatomic, strong, readwrite) NSString *mobile;
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) UIImage *photo;
-@property (nonatomic, strong, readwrite) NSDictionary *campaigns;
-@property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignsDoing;
-@property (nonatomic, strong, readwrite) NSMutableArray *activeMobileAppCampaignsCompleted;
 
 @end
 
@@ -47,6 +43,7 @@
         self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Null First Name"];
         self.email = dict[@"email"];
         self.sessionToken = dict[@"session_token"];
+        self.campaignSignups = [[NSMutableArray alloc] init];
 		
         if (dict[@"photo"]) {
             self.photo = nil;
@@ -54,9 +51,6 @@
                  self.photo = image;
              }];
         }
-        self.campaigns = dict[@"campaigns"];
-		
-        [self syncActiveMobileAppCampaigns];
     }
 
     return self;
@@ -67,7 +61,7 @@
 - (UIImage *)photo {
     if (!_photo) {
         // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
-        if ([self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
+        if ([self isLoggedInUser]) {
             NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"storedAvatarPhotoPath"];
             if (storedAvatarPhotoPath) {
                 _photo = [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
@@ -87,7 +81,7 @@
 - (void)setPhoto:(UIImage *)photo {
     _photo = photo;
     // If this user is the logged in user, persist her avatar photo.
-    if ([self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
+    if ([self isLoggedInUser]) {
         if (photo) {
             NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
             NSArray *storagePaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -131,47 +125,42 @@
     return @"";
 }
 
-- (void)syncActiveMobileAppCampaigns {
-    self.activeMobileAppCampaignsDoing = [[NSMutableArray alloc] init];
-    self.activeMobileAppCampaignsCompleted = [[NSMutableArray alloc] init];
-    for (NSMutableDictionary *activityDict in self.campaigns) {
-        NSInteger campaignID = [activityDict valueForKeyAsInt:@"drupal_id" nullValue:0];
-        DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:campaignID];
-        if (campaign) {
-            if ([activityDict valueForKeyAsString:@"reportback_id"]) {
-                [self.activeMobileAppCampaignsCompleted addObject:campaign];
-            }
-            else {
-                [self.activeMobileAppCampaignsDoing addObject:campaign];
-            }
-        }
-    }
-}
-
 - (NSString *)displayName {
     if (self.firstName.length > 0) {
         return self.firstName;
     }
+
     return self.userID;
 }
 
+- (BOOL)isLoggedInUser {
+    return [self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID];
+}
+
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign {
-    for (DSOCampaign *activeCampaign in self.activeMobileAppCampaignsDoing) {
-        if (activeCampaign.campaignID == campaign.campaignID) {
+    for (DSOCampaignSignup *signup in self.campaignSignups) {
+        if (campaign.campaignID == signup.campaign.campaignID) {
+            if (signup.reportbackItem) {
+                // By doing, we mean they haven't completed it yet.
+                // So no, the user is not Doing it.
+                return NO;
+            }
             return YES;
         }
     }
-	
     return NO;
 }
 
 - (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign {
-    for (DSOCampaign *activeCampaign in self.activeMobileAppCampaignsCompleted) {
-        if (activeCampaign.campaignID == campaign.campaignID) {
-            return YES;
+    for (DSOCampaignSignup *signup in self.campaignSignups) {
+        if (campaign.campaignID == signup.campaign.campaignID) {
+            if (signup.reportbackItem) {
+                return YES;
+            }
+            // Nope, haven't completed the campaign yet
+            return NO;
         }
     }
-	
     return NO;
 }
 

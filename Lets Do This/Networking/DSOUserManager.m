@@ -81,9 +81,14 @@
     NSString *userID = [SSKeychain passwordForService:LDTSERVER account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
-        if (completionHandler) {
-            completionHandler();
-        }
+        [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
+            self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+            if (completionHandler) {
+                completionHandler();
+            }
+        } errorHandler:^(NSError *error) {
+            // nada
+        }];
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);
@@ -108,17 +113,12 @@
     }];
 }
 
-- (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] createSignupForCampaign:campaign completionHandler:^(NSDictionary *response) {
-        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
-            if (completionHandler) {
-                completionHandler(response);
-            }
-        } errorHandler:^(NSError *error) {
-            if (errorHandler) {
-                errorHandler(error);
-            }
-        }];
+- (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] createCampaignSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
+        [self.user.campaignSignups addObject:signup];
+        if (completionHandler) {
+            completionHandler(signup);
+        }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);
@@ -128,15 +128,15 @@
 
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
-        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
-            if (completionHandler) {
-                completionHandler(response);
+        // Update the corresponding campaignSignup with the new reportbackItem.
+        for (DSOCampaignSignup *signup in self.user.campaignSignups) {
+            if (reportbackItem.campaign.campaignID == signup.campaign.campaignID) {
+                signup.reportbackItem = reportbackItem;
             }
-        } errorHandler:^(NSError *error) {
-            if (errorHandler) {
-                errorHandler(error);
-            }
-        }];
+        }
+        if (completionHandler) {
+            completionHandler(response);
+        }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);
