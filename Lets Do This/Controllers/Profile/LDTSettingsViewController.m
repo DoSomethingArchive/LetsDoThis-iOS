@@ -20,27 +20,24 @@
 
 // Properties listed in order of their appearance in the view.
 @property (weak, nonatomic) IBOutlet UILabel *accountHeadingLabel;
+@property (weak, nonatomic) IBOutlet UIView *changePhotoView;
 @property (weak, nonatomic) IBOutlet UILabel *changePhotoLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *changePhotoArrowImageView;
-
+@property (weak, nonatomic) IBOutlet UIView *logoutView;
 @property (weak, nonatomic) IBOutlet UILabel *logoutLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
+@property (weak, nonatomic) IBOutlet UIView *notificationSwitchView;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
+@property (weak, nonatomic) IBOutlet UIView *changeNotificationsView;
 @property (weak, nonatomic) IBOutlet UILabel *changeNotificationsLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *changeNotificationsArrowImageView;
-
-
+@property (weak, nonatomic) IBOutlet UIView *rateView;
 @property (weak, nonatomic) IBOutlet UILabel *rateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *rateArrowImageView;
-
-
 @property (weak, nonatomic) IBOutlet UILabel *rateDisclaimerLabel;
 @property (weak, nonatomic) IBOutlet UIButton *feedbackButton;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
-@property (weak, nonatomic) IBOutlet UIView *changePhotoView;
-@property (weak, nonatomic) IBOutlet UIView *logoutView;
-@property (weak, nonatomic) IBOutlet UIView *notificationSwitchView;
 
 - (IBAction)feedbackButtonTouchUpInside:(id)sender;
 
@@ -64,6 +61,10 @@
     [self.logoutView addGestureRecognizer:logoutTap];
     UITapGestureRecognizer *notificationSwitchTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleNotificationSwitchTap:)];
     [self.notificationSwitchView addGestureRecognizer:notificationSwitchTap];
+    UITapGestureRecognizer *changeNotificationsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleChangeNotificationsTap:)];
+    [self.changeNotificationsView addGestureRecognizer:changeNotificationsTap];
+    UITapGestureRecognizer *rateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleRateTap:)];
+    [self.rateView addGestureRecognizer:rateTap];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -83,10 +84,10 @@
     self.accountHeadingLabel.font = [LDTTheme fontBold];
     self.accountHeadingLabel.textColor = [LDTTheme mediumGrayColor];
     
-    self.changePhotoLabel.font = [LDTTheme fontHeading];
+    self.changePhotoLabel.font = [LDTTheme font];
     self.changePhotoArrowImageView.image = [UIImage imageNamed:@"Arrow"];
     
-    self.logoutLabel.font = [LDTTheme fontHeading];
+    self.logoutLabel.font = [LDTTheme font];
     
     self.notificationsHeadingLabel.font = [LDTTheme fontBold];
     self.notificationsHeadingLabel.textColor = [LDTTheme mediumGrayColor];
@@ -157,6 +158,16 @@
     [self presentViewController:logoutAlertController animated:YES completion:nil];
 }
 
+- (void)handleChangeNotificationsTap:(UITapGestureRecognizer *)recognizer {
+    // load changeNotifications VC
+}
+
+// @TODO: replace link
+- (void)handleRateTap:(UITapGestureRecognizer *)recognizer {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.aaronschachter.com/"]];
+}
+
+// @TODO: replace link
 - (IBAction)feedbackButtonTouchUpInside:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.aaronschachter.com/"]];
 }
