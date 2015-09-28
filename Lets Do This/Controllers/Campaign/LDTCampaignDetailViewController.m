@@ -73,12 +73,13 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self fetchReportbackItems];
     [LDTMessage setDefaultViewController:self];
 
+
     if ([[self user] hasCompletedCampaign:self.campaign]) {
-        [[DSOAPI sharedInstance] loadCurrentUserReportbackItemForCampaign:self.campaign completionHandler:^(DSOReportbackItem *reportbackItem) {
-            self.currentUserReportback = reportbackItem;
-        } errorHandler:^(NSError *error) {
-            [LDTMessage displayErrorMessageForError:error];
-        }];
+        for (DSOCampaignSignup *signup in [self user].campaignSignups) {
+            if (self.campaign.campaignID == signup.campaign.campaignID) {
+                self.currentUserReportback = signup.reportbackItem;
+            }
+        }
     }
 }
 
@@ -93,7 +94,16 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
+    // Might have just come from the Reportback Submit screen,
+    // so check for currentUserReportback
+    if ([[self user] hasCompletedCampaign:self.campaign] && !self.currentUserReportback) {
+        for (DSOCampaignSignup *signup in [self user].campaignSignups) {
+            if (self.campaign.campaignID == signup.campaign.campaignID) {
+                self.currentUserReportback = signup.reportbackItem;
+                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
+            }
+        }
+    }
 }
 
 #pragma mark - LDTCampaignDetailViewController
@@ -150,8 +160,16 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     cell.delegate = self;
     cell.detailView.campaignButtonTitle = self.campaign.title;
     cell.detailView.captionLabelText = self.currentUserReportback.caption;
-    cell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.currentUserReportback.quantity, self.currentUserReportback.campaign.reportbackNoun, self.currentUserReportback.campaign.reportbackVerb];
-    cell.detailView.reportbackItemImageURL = self.currentUserReportback.imageURL;
+    cell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.currentUserReportback.quantity, self.campaign.reportbackNoun, self.campaign.reportbackVerb];
+
+    // If reportbackItem was just submitted, photo may be available.
+    if (self.currentUserReportback.image) {
+        cell.detailView.reportbackItemImage = self.currentUserReportback.image;
+    }
+    else {
+        cell.detailView.reportbackItemImageURL = self.currentUserReportback.imageURL;
+    }
+
     cell.detailView.userAvatarImage = self.currentUserReportback.user.photo;
     cell.detailView.userCountryNameLabelText = self.currentUserReportback.user.countryName;
     cell.detailView.userDisplayNameButtonTitle = self.currentUserReportback.user.displayName;
@@ -197,10 +215,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }
     else {
         [SVProgressHUD show];
-        [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
+        [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(DSOCampaignSignup *signup) {
             [SVProgressHUD dismiss];
             [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", cell.campaign.title]];
-            cell.actionButtonTitle = @"Prove it";
+            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
          } errorHandler:^(NSError *error) {
              [SVProgressHUD dismiss];
              [LDTMessage displayErrorMessageForError:error];
@@ -212,7 +230,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
     NSString *shareMessage = [NSString stringWithFormat:@"I did %@", self.campaign.title];
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage] applicationActivities:nil];
+    UIImage *shareImage = cell.detailView.reportbackItemImage;
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 

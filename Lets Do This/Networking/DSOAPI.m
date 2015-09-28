@@ -166,14 +166,16 @@
     }];
 }
 
-- (void)createSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)createCampaignSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)campaign.campaignID];
     NSDictionary *params = @{@"source": LDTSOURCENAME};
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-          if (completionHandler) {
-              completionHandler(responseObject);
-          }
+        DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:responseObject[@"data"]];
+        signup.campaign = campaign;
+        if (completionHandler) {
+            completionHandler(signup);
+        }
       } failure:^(NSURLSessionDataTask *task, NSError *error) {
           if (errorHandler) {
               errorHandler(error);
@@ -272,20 +274,16 @@
       }];
 }
 
-- (void)loadCurrentUserReportbackItemForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOReportbackItem *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld", (long)campaign.campaignID];
-
+- (void)loadCampaignSignupsForUser:(DSOUser *)user completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"users/_id/%@/campaigns", user.userID];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        // @todo: Add sanity checks for incorrupt data.
-        NSDictionary *reportbackDict =[responseObject valueForKeyPath:@"data.reportback_data"];
-        NSArray *reportbackItems = [reportbackDict valueForKeyPath:@"reportback_items.data"];
-        NSDictionary *reportbackItemDict = reportbackItems.firstObject;
-        DSOReportbackItem *reportbackItem = [[DSOReportbackItem alloc] initWithCampaign:campaign];
-        reportbackItem.quantity = [reportbackDict valueForKeyAsInt:@"quantity" nullValue:0];
-        reportbackItem.caption = reportbackItemDict[@"caption"];
-        reportbackItem.imageURL =[NSURL URLWithString:[reportbackItemDict valueForKeyPath:@"media.uri"]];
+        NSMutableArray *campaignSignups = [[NSMutableArray alloc] init];
+        for (NSDictionary *campaignSignupDict in responseObject[@"data"]) {
+            DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:campaignSignupDict];
+            [campaignSignups addObject:signup];
+        }
         if (completionHandler) {
-            completionHandler(reportbackItem);
+            completionHandler(campaignSignups);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         if (errorHandler) {
@@ -293,6 +291,7 @@
         }
         [self logError:error];
     }];
+
 }
 
 - (void)logError:(NSError *)error {

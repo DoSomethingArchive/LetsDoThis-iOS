@@ -234,7 +234,7 @@ const CGFloat kHeightExpanded = 400;
     }
     else {
         [SVProgressHUD show];
-        [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
+        [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(DSOCampaignSignup *signup) {
             cell.signedUp = YES;
             cell.actionButtonTitle = @"More info";
             [self.navigationController pushViewController:destVC animated:YES];

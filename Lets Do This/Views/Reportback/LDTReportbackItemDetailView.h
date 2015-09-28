@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSString *userCountryNameLabelText;
 @property (strong, nonatomic) NSString *userDisplayNameButtonTitle;
 @property (strong, nonatomic) NSURL *reportbackItemImageURL;
+@property (strong, nonatomic) UIImage *reportbackItemImage;
 @property (strong, nonatomic) UIImage *userAvatarImage;
 
 @end

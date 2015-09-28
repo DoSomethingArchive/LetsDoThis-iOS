@@ -43,6 +43,10 @@
     self.userDisplayNameButton.titleLabel.font = [LDTTheme fontBold];
 }
 
+- (UIImage *)reportbackItemImage {
+    return self.reportbackItemImageView.image;
+}
+
 - (void)setCampaignButtonTitle:(NSString *)campaignButtonTitle {
     [self.campaignTitleButton setTitle:campaignButtonTitle forState:UIControlStateNormal];
 }
@@ -53,6 +57,10 @@
 
 - (void)setQuantityLabelText:(NSString *)quantityLabelText {
     self.reportbackItemQuantityLabel.text = quantityLabelText;
+}
+
+- (void)setReportbackItemImage:(UIImage *)reportbackItemImage {
+    self.reportbackItemImageView.image = reportbackItemImage;
 }
 
 - (void)setReportbackItemImageURL:(NSURL *)reportbackItemImageURL {

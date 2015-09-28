@@ -24,6 +24,7 @@
 @property (strong, nonatomic, readonly) NSString *tagline;
 @property (strong, nonatomic, readonly) NSURL *coverImageURL;
 
+- (instancetype)initWithCampaignID:(NSInteger)campaignID;
 - (instancetype)initWithDict:(NSDictionary*)values;
 - (NSInteger)numberOfDaysLeft;
 
