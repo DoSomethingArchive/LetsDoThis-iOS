@@ -157,6 +157,10 @@
     return self.userID;
 }
 
+- (BOOL)isLoggedInUser {
+    return [self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID];
+}
+
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign {
     for (DSOCampaignSignup *signup in self.campaignSignups) {
         if (campaign.campaignID == signup.campaign.campaignID) {
