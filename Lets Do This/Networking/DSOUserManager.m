@@ -113,20 +113,12 @@
     }];
 }
 
-- (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] createSignupForCampaign:campaign completionHandler:^(NSDictionary *response) {
-
-        // @TODO Instead of querying API here, create a new DSOCampaignSignup and add to current user's campaignSignups array
-
-        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
-            if (completionHandler) {
-                completionHandler(response);
-            }
-        } errorHandler:^(NSError *error) {
-            if (errorHandler) {
-                errorHandler(error);
-            }
-        }];
+- (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] createCampaignSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
+        [self.user.campaignSignups addObject:signup];
+        if (completionHandler) {
+            completionHandler(signup);
+        }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);

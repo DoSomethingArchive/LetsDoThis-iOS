@@ -21,11 +21,10 @@
     return self;
 }
 
-- (instancetype)initWithDict:(NSDictionary *)dict user:(DSOUser *)user{
+- (instancetype)initWithDict:(NSDictionary *)dict {
     self = [super init];
 
     if (self) {
-        self.user = user;
         if (dict[@"reportback_data"]) {
             self.campaign = [[DSOCampaign alloc] initWithDict:(NSDictionary *)[dict valueForKeyPath:@"reportback_data.campaign"]];
             NSArray *reportbackItems = [dict[@"reportback_data"] valueForKeyPath:@"reportback_items.data"];

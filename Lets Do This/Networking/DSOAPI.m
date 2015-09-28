@@ -166,13 +166,14 @@
     }];
 }
 
-- (void)createSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)createCampaignSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)campaign.campaignID];
     NSDictionary *params = @{@"source": LDTSOURCENAME};
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:responseObject];
           if (completionHandler) {
-              completionHandler(responseObject);
+              completionHandler(signup);
           }
       } failure:^(NSURLSessionDataTask *task, NSError *error) {
           if (errorHandler) {
@@ -194,6 +195,7 @@
                              };
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"responseObject %@", responseObject);
         if (completionHandler) {
             completionHandler(responseObject);
         }
@@ -277,7 +279,7 @@
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSMutableArray *campaignSignups = [[NSMutableArray alloc] init];
         for (NSDictionary *campaignSignupDict in responseObject[@"data"]) {
-            DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:campaignSignupDict user:user];
+            DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:campaignSignupDict];
             [campaignSignups addObject:signup];
         }
         if (completionHandler) {
