@@ -29,9 +29,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (weak, nonatomic) IBOutlet UIView *notificationSwitchView;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
-@property (weak, nonatomic) IBOutlet UIView *changeNotificationsView;
-@property (weak, nonatomic) IBOutlet UILabel *changeNotificationsLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *changeNotificationsArrowImageView;
 @property (weak, nonatomic) IBOutlet UIView *rateView;
 @property (weak, nonatomic) IBOutlet UILabel *rateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *rateArrowImageView;
@@ -61,8 +58,6 @@
     [self.logoutView addGestureRecognizer:logoutTap];
     UITapGestureRecognizer *notificationSwitchTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleNotificationSwitchTap:)];
     [self.notificationSwitchView addGestureRecognizer:notificationSwitchTap];
-    UITapGestureRecognizer *changeNotificationsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleChangeNotificationsTap:)];
-    [self.changeNotificationsView addGestureRecognizer:changeNotificationsTap];
     UITapGestureRecognizer *rateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleRateTap:)];
     [self.rateView addGestureRecognizer:rateTap];
 }
@@ -92,9 +87,6 @@
     self.notificationsHeadingLabel.font = [LDTTheme fontBold];
     self.notificationsHeadingLabel.textColor = [LDTTheme mediumGrayColor];
     self.notificationsLabel.font = [LDTTheme font];
-    
-    self.changeNotificationsLabel.font = [LDTTheme font];
-    self.changeNotificationsArrowImageView.image = [UIImage imageNamed:@"Arrow"];
     
     self.rateLabel.font = [LDTTheme font];
     self.rateArrowImageView.image = [UIImage imageNamed:@"Arrow"];
@@ -156,10 +148,6 @@
     [logoutAlertController addAction:confirmLogoutAction];
     [logoutAlertController addAction:cancelAction];
     [self presentViewController:logoutAlertController animated:YES completion:nil];
-}
-
-- (void)handleChangeNotificationsTap:(UITapGestureRecognizer *)recognizer {
-    // load changeNotifications VC
 }
 
 // @TODO: replace link
