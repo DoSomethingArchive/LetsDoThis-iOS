@@ -34,6 +34,14 @@
 
     self.campaignDetailsHeadingLabel.text = [@"Do this" uppercaseString];
     self.staticInstructionLabel.text = @"When you’re done, submit your photo to us so you can show off and get props from your friends.";
+    self.coverImageView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    CGFloat screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
+
+    // The cell width is half the screen width minus the gap between the cells
+    // The gap should be slightly larger than the minium space between cells set for the flow layout to prevent layout and scrolling issues
+    CGFloat cellWidth = (screenWidth - 2);
+    [self.coverImageView addConstraint:[NSLayoutConstraint constraintWithItem:self.coverImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:cellWidth]];
 }
 
 - (void)styleView {

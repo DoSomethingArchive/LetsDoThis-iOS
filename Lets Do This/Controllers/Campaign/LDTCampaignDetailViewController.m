@@ -64,6 +64,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailSelfReportbackCell" bundle:nil] forCellWithReuseIdentifier:@"SelfReportbackCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
+    // Set the estimated width of the cells to half the screen width (2 columns layout)
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    CGFloat screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
+    layout.estimatedItemSize = CGSizeMake(screenWidth, 400);
 
     self.imagePickerController = [[UIImagePickerController alloc] init];
     self.imagePickerController.delegate = self;
@@ -297,6 +301,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 #pragma mark - UICollectionViewDelegate
 
+/*
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
     // Square reportback photo + header height + caption height.
@@ -321,6 +326,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
     return CGSizeMake(screenWidth, reportbackItemHeight);
 }
+ */
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section == LDTCampaignDetailSectionTypeReportback) {
