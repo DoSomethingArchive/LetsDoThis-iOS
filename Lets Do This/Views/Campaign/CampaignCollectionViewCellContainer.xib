@@ -12,20 +12,8 @@
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="440"/>
-                <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6L-sJ-xk3">
-                        <rect key="frame" x="139" y="209" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
-            <constraints>
-                <constraint firstItem="r6L-sJ-xk3" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="DZr-s3-Gth"/>
-                <constraint firstItem="r6L-sJ-xk3" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="pnJ-vv-cO2"/>
-            </constraints>
         </collectionViewCell>
     </objects>
 </document>

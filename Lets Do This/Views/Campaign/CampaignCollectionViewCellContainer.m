@@ -33,6 +33,9 @@ const CGFloat kHeightExpanded = 400;
 		[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
 		[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
 		[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
+		
+		UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+		[self.innerCollectionView setCollectionViewLayout:flowLayout];
 	}
 	
 	return self;
