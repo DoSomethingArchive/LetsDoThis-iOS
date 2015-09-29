@@ -143,15 +143,39 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
     }
 
     NSArray *statusValues = @[@"promoted", @"approved"];
+	NSInteger totalAPICallCount = statusValues.count * [self.interestGroups allKeys].count;
+	__block NSUInteger completedAPICallCount = 0;
+	NSMutableArray *errors = [[NSMutableArray alloc] initWithCapacity:totalAPICallCount];
+	
+	void (^reportBacksCompletionBlock)() = ^{
+		++completedAPICallCount;
+		
+		if (completedAPICallCount != totalAPICallCount) {
+			return;
+		}
+		
+		if(errors.count > 0) {
+			NSLog(@"%zd error[s] occurred while executing API calls.", errors.count);
+			// Pick the first error (arbitrary)
+		}
+		else {
+			NSLog(@"\n---All calls completed successfully---");
+			[self.collectionView reloadData];
+		}
+		
+	};
     for (NSString *status in statusValues) {
         for (NSNumber *key in self.interestGroups) {
             [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
                 for (DSOReportbackItem *rbItem in rbItems) {
                     [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
                 }
-                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignListSectionTypeReportback]];
+				reportBacksCompletionBlock();
             } errorHandler:^(NSError *error) {
                 [LDTMessage displayErrorMessageForError:error];
+				[errors addObject:error];
+				
+				reportBacksCompletionBlock();
             }];
         }
     }
@@ -302,8 +326,13 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 //        return reportbackItemCell;
 //    }
 	CampaignCollectionViewCellContainer *containerCell = (CampaignCollectionViewCellContainer *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
-	NSArray *colors = @[[UIColor blackColor], [UIColor blueColor], [UIColor redColor], [UIColor yellowColor]];
-	containerCell.backgroundColor = colors[indexPath.row];
+	containerCell.interestGroups = self.interestGroups;
+	containerCell.selectedInterestGroupId = [self selectedInterestGroupId];
+	containerCell.selectedIndexPath = self.selectedIndexPath;
+	
+	[containerCell.innerCollectionView reloadData];
+//	NSArray *colors = @[[UIColor blackColor], [UIColor blueColor], [UIColor redColor], [UIColor yellowColor]];
+//	containerCell.backgroundColor = colors[indexPath.row];
 	
     return containerCell;
 }
