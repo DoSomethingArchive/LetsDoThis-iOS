@@ -91,14 +91,14 @@
     self.rateLabel.font = [LDTTheme font];
     self.rateArrowImageView.image = [UIImage imageNamed:@"Arrow"];
     
-    self.rateDisclaimerLabel.font = [LDTTheme font];
+    self.rateDisclaimerLabel.font = [LDTTheme fontCaption];
     
-    [self.feedbackButton.titleLabel setFont:[LDTTheme font]];
+    [self.feedbackButton.titleLabel setFont:[LDTTheme fontCaption]];
     self.feedbackButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     // wraps button text if multiple lines are needed on smaller screens
     self.feedbackButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
-    [self.versionLabel setFont:[LDTTheme font]];
+    [self.versionLabel setFont:[LDTTheme fontCaption]];
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 }
 
@@ -126,7 +126,7 @@
 
 - (void)handleLogoutTap:(UITapGestureRecognizer *)recognizer {
     UIAlertController *logoutAlertController = [UIAlertController alertControllerWithTitle:@"Are you sure? We’ll miss you." message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *confirmLogoutAction = [UIAlertAction actionWithTitle:@"Logout" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    UIAlertAction *confirmLogoutAction = [UIAlertAction actionWithTitle:@"Log Out" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         [SVProgressHUD show];
         [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
             // This VC is always presented within the TabBarVC, so kill it.
@@ -150,13 +150,11 @@
     [self presentViewController:logoutAlertController animated:YES completion:nil];
 }
 
-// @TODO: replace link
 - (void)handleRateTap:(UITapGestureRecognizer *)recognizer {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.aaronschachter.com/"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/998995766"]];
 }
 
-// @TODO: replace link
 - (IBAction)feedbackButtonTouchUpInside:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.aaronschachter.com/"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.dosomething.org/campaigns/submit-your-idea"]];
 }
 @end
