@@ -11,6 +11,10 @@
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 
+@implementation DSIndexedCollectionView
+
+@end
+
 typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 	LDTCampaignListSectionTypeCampaign,
 	LDTCampaignListSectionTypeReportback
@@ -19,26 +23,28 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 const CGFloat kHeightCollapsed = 100;
 const CGFloat kHeightExpanded = 400;
 
-@interface CampaignCollectionViewCellContainer() <LDTCampaignListCampaignCellDelegate>
+@interface CampaignCollectionViewCellContainer() <LDTCampaignListCampaignCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @end
 
 @implementation CampaignCollectionViewCellContainer
 
--(id)initWithFrame:(CGRect)frame {
-	self = [super initWithFrame:frame];
+-(void)awakeFromNib {
+	UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+	self.innerCollectionView = [[DSIndexedCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+	[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
+	[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
+	[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
+	[self.innerCollectionView setCollectionViewLayout:flowLayout];
+	self.innerCollectionView.delegate = self;
+	self.innerCollectionView.dataSource = self;
+	[self.contentView addSubview:self.innerCollectionView];
+}
+
+-(void)layoutSubviews {
+	[super layoutSubviews];
 	
-	if (self) {
-		self = [[[NSBundle mainBundle] loadNibNamed:@"CampaignCollectionViewCellContainer" owner:self options:nil] firstObject];
-		[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
-		[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
-		[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
-		
-		UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-		[self.innerCollectionView setCollectionViewLayout:flowLayout];
-	}
-	
-	return self;
+	self.innerCollectionView.frame = self.contentView.bounds;
 }
 
 -(DSOUser *)user {
@@ -103,17 +109,46 @@ const CGFloat kHeightExpanded = 400;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
 		LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
-//	        [self configureCampaignCell:campaignCell atIndexPath:indexPath];
+	        [self configureCampaignCell:campaignCell atIndexPath:indexPath];
 
 		return campaignCell;
 	}
 	if (indexPath.section == LDTCampaignListSectionTypeReportback) {
 		LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-//	        [self configureReportbackItemCell:reportbackItemCell atIndexPath:indexPath];
+	        [self configureReportbackItemCell:reportbackItemCell atIndexPath:indexPath];
 
 		return reportbackItemCell;
 	}
 	return nil;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	
+	if (indexPath.section == LDTCampaignListSectionTypeReportback) {
+		LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
+//		LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:reportbackItemCell.reportbackItem];
+//		[self.navigationController pushViewController:destVC animated:YES];
+		
+		return;
+	}
+	
+	LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
+	[UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:0 animations:^{
+		[collectionView performBatchUpdates:^{
+			if ([self.selectedIndexPath isEqual:indexPath]) {
+				self.selectedIndexPath = nil;
+				campaignCell.expanded = NO;
+			}
+			else {
+				LDTCampaignListCampaignCell *expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];
+				self.selectedIndexPath = indexPath;
+				expandedCell.expanded = NO;
+				campaignCell.expanded = YES;
+			}
+		} completion:^(BOOL finished) {
+			[self.innerCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
+		}];
+	} completion:nil];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -147,8 +182,7 @@ const CGFloat kHeightExpanded = 400;
 	return 0.0f;
 }
 
-- (UIEdgeInsets)collectionView:
-(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     if (section == LDTCampaignListSectionTypeReportback){
         return UIEdgeInsetsMake(8.0f, 8.0f, 0, 8.0f);
     }

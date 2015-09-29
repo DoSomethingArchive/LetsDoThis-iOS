@@ -71,9 +71,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
     self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
     [self createInterestGroups];
 
-    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
-    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
-    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
 	[self.collectionView registerNib:[UINib nibWithNibName:@"CampaignCollectionViewCellContainer" bundle:nil] forCellWithReuseIdentifier:@"cellIdentifier"];
 
     [self styleView];
@@ -161,6 +158,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 		else {
 			NSLog(@"\n---All calls completed successfully---");
 			[self.collectionView reloadData];
+			CampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+			[cell.innerCollectionView reloadData];
 		}
 		
 	};
@@ -293,17 +292,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    NSDictionary *interestGroup = self.interestGroups[[self selectedInterestGroupId]];
-//    if (section == LDTCampaignListSectionTypeReportback) {
-//        NSArray *rbItems = interestGroup[@"reportbackItems"];
-//		
-//        return rbItems.count;
-//    }
-//	
-//    NSArray *campaigns = interestGroup[@"campaigns"];
-//	
-//    return campaigns.count;
-	
 	return self.interestGroups.allKeys.count;
 }
 
@@ -313,50 +301,17 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
-//        LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
-//        [self configureCampaignCell:campaignCell atIndexPath:indexPath];
-//		
-//        return campaignCell;
-//    }
-//    if (indexPath.section == LDTCampaignListSectionTypeReportback) {
-//        LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-//        [self configureReportbackItemCell:reportbackItemCell atIndexPath:indexPath];
-//		
-//        return reportbackItemCell;
-//    }
 	CampaignCollectionViewCellContainer *containerCell = (CampaignCollectionViewCellContainer *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
 	containerCell.interestGroups = self.interestGroups;
 	containerCell.selectedInterestGroupId = [self selectedInterestGroupId];
 	containerCell.selectedIndexPath = self.selectedIndexPath;
 	
 	[containerCell.innerCollectionView reloadData];
-//	NSArray *colors = @[[UIColor blackColor], [UIColor blueColor], [UIColor redColor], [UIColor yellowColor]];
-//	containerCell.backgroundColor = colors[indexPath.row];
 	
     return containerCell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    CGFloat width = [[UIScreen mainScreen] bounds].size.width;
-//    CGFloat height = kHeightCollapsed;
-//
-//    if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
-//        if ([self.selectedIndexPath isEqual:indexPath]) {
-//            height = kHeightExpanded;
-//        }
-//    }
-//
-//    if (indexPath.section == LDTCampaignListSectionTypeReportback) {
-//        // Subtract left, right, and middle gutters with width 8.
-//        width = width - 24;
-//        // Divide by half to fit 2 cells on a row.
-//        width = width / 2;
-//        // Make it a square.
-//        height = width;
-//    }
-//
-//    return CGSizeMake(width, height);
 	return self.collectionView.frame.size;
 }
 
@@ -392,36 +347,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 #pragma UICollectionViewDelegateFlowLayout
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-//    if (section == LDTCampaignListSectionTypeReportback) {
-//        return 8.0f;
-//    }
+
     return 0.0f;
 }
-
-//- (UIEdgeInsets)collectionView:
-//(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-//    if (section == LDTCampaignListSectionTypeReportback){
-//        return UIEdgeInsetsMake(8.0f, 8.0f, 0, 8.0f);
-//    }
-//    return UIEdgeInsetsMake(0, 0, 0, 0);
-//}
-//
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-//    if (section == LDTCampaignListSectionTypeReportback) {
-//        // Width is ignored here.
-//        return CGSizeMake(60.0f, 50.0f);
-//    }
-//    return CGSizeMake(0.0f, 0.0f);
-//}
-//
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-//    UICollectionReusableView *reusableView = nil;
-//    if (kind == UICollectionElementKindSectionHeader) {
-//        LDTHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
-//        headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
-//        reusableView = headerView;
-//    }
-//    return reusableView;
-//}
 
 @end
