@@ -23,8 +23,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
     LDTCampaignListSectionTypeReportback
 };
 
-const CGFloat kHeightCollapsed = 100;
-const CGFloat kHeightExpanded = 400;
+//const CGFloat kHeightCollapsed = 100;
+//const CGFloat kHeightExpanded = 400;
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate>
 
@@ -77,8 +77,6 @@ const CGFloat kHeightExpanded = 400;
 	[self.collectionView registerNib:[UINib nibWithNibName:@"CampaignCollectionViewCellContainer" bundle:nil] forCellWithReuseIdentifier:@"cellIdentifier"];
 
     [self styleView];
-	
-	
 	
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 0.0f;
@@ -151,7 +149,7 @@ const CGFloat kHeightExpanded = 400;
                 for (DSOReportbackItem *rbItem in rbItems) {
                     [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
                 }
-//                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignListSectionTypeReportback]];
+                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignListSectionTypeReportback]];
             } errorHandler:^(NSError *error) {
                 [LDTMessage displayErrorMessageForError:error];
             }];

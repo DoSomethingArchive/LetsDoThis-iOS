@@ -8,6 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CampaignCollectionViewCellContainer : UICollectionViewCell
+@interface DSIndexedCollectionView : UICollectionView
+
+@property (nonatomic, strong) NSIndexPath *indexPath;
+
+@end
+
+static NSString *CollectionViewCellIdentifier = @"CollectionViewCellIdentifier";
+
+@interface CampaignCollectionViewCellContainer : UICollectionViewCell <UICollectionViewDataSource, UICollectionViewDelegate>
+
+@property (nonatomic, strong) DSIndexedCollectionView *innerCollectionView;
+@property (strong, nonatomic) NSMutableDictionary *interestGroups;
+@property (nonatomic, strong) NSNumber *selectedInterestGroupId;
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+
+- (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath;
 
 @end
