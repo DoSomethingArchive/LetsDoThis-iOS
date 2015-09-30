@@ -19,7 +19,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="741"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="711"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NhW-LK-kVz" userLabel="User Name Button">
@@ -32,7 +32,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYz-Gq-gFn" userLabel="Campaign Title Button">
-                    <rect key="frame" x="8" y="639" width="70" height="30"/>
+                    <rect key="frame" x="8" y="639" width="70" height="35"/>
                     <state key="normal" title="Campaign">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -60,7 +60,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEZ-BR-iUW" userLabel="ReportbackItem Caption">
-                    <rect key="frame" x="8" y="677" width="584" height="21"/>
+                    <rect key="frame" x="8" y="682" width="584" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -94,6 +94,7 @@
                 <constraint firstItem="NhW-LK-kVz" firstAttribute="leading" secondItem="roJ-Pk-kPs" secondAttribute="trailing" constant="5" id="qwY-wK-x0i"/>
                 <constraint firstItem="NhW-LK-kVz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="6" id="rQQ-Df-ewl"/>
                 <constraint firstItem="uEZ-BR-iUW" firstAttribute="top" secondItem="cYz-Gq-gFn" secondAttribute="bottom" constant="8" id="u6r-OQ-g35"/>
+                <constraint firstAttribute="bottom" secondItem="uEZ-BR-iUW" secondAttribute="bottom" constant="8" id="xkV-BB-OS8"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
@@ -101,7 +102,7 @@
                     <exclude reference="7ix-qC-6fK"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="164" y="-440.5"/>
+            <point key="canvasLocation" x="164" y="-455.5"/>
         </view>
     </objects>
 </document>
