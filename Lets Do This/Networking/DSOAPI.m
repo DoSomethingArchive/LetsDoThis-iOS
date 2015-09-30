@@ -67,14 +67,14 @@
         self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
 
-        self.interestGroups = @[@{@"id" : [NSNumber numberWithInt:669],
-                                  @"name" : @"Artsy"},
-                                @{@"id" : [NSNumber numberWithInt:667],
-                                  @"name" : @"Bro"},
+        self.interestGroups = @[@{@"id" : [NSNumber numberWithInt:667],
+                                  @"name" : @"Hot"},
                                 @{@"id" : [NSNumber numberWithInt:668],
-                                  @"name" : @"Fem"},
+                                  @"name" : @"Music"},
+                                @{@"id" : [NSNumber numberWithInt:669],
+                                  @"name" : @"Crafts"},
                                 @{@"id" : [NSNumber numberWithInt:670],
-                                  @"name" : @"Social"}
+                                  @"name" : @"Sports"}
                                 ];
 
     }
