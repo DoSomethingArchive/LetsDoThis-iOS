@@ -24,6 +24,10 @@
 
     [self.sharePhotoButton setTitle:@"Share your photo".uppercaseString forState:UIControlStateNormal];
     [self.sharePhotoButton enable:YES];
+    
+    self.detailView.translatesAutoresizingMaskIntoConstraints = NO;
+    CGFloat screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
+    [self.detailView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:screenWidth]];
 }
 
 - (IBAction)sharePhotoButtonTouchUpInside:(id)sender {
