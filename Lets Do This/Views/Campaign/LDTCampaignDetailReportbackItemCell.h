@@ -12,7 +12,7 @@
 @interface LDTCampaignDetailReportbackItemCell : UICollectionViewCell
 
 // This needs to be public so its delegate can be set.
-@property (weak, nonatomic) IBOutlet LDTReportbackItemDetailView *reportbackItemDetailView;
+@property (weak, nonatomic) IBOutlet LDTReportbackItemDetailView *detailView;
 
 
 @end

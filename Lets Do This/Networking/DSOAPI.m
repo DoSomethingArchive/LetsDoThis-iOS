@@ -9,12 +9,13 @@
 
 #import "DSOAPI.h"
 #import "AFNetworkActivityLogger.h"
+#import "NSDictionary+DSOJsonHelper.h"
 #import <SSKeychain/SSKeychain.h>
 
 
 // API Constants
 #define isActivityLogging NO
-#define DSOPROTOCOL @"http"
+#define DSOPROTOCOL @"https"
 #define DSOSERVER @"staging.beta.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
 #define LDTSOURCENAME @"letsdothis_ios"
@@ -66,14 +67,14 @@
         self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
 
-        self.interestGroups = @[@{@"id" : [NSNumber numberWithInt:669],
-                                  @"name" : @"Artsy"},
-                                @{@"id" : [NSNumber numberWithInt:667],
-                                  @"name" : @"Bro"},
+        self.interestGroups = @[@{@"id" : [NSNumber numberWithInt:667],
+                                  @"name" : @"Hot"},
                                 @{@"id" : [NSNumber numberWithInt:668],
-                                  @"name" : @"Fem"},
+                                  @"name" : @"Music"},
+                                @{@"id" : [NSNumber numberWithInt:669],
+                                  @"name" : @"Crafts"},
                                 @{@"id" : [NSNumber numberWithInt:670],
-                                  @"name" : @"Social"}
+                                  @"name" : @"Sports"}
                                 ];
 
     }
@@ -104,7 +105,7 @@
                              @"first_name": firstName,
                              @"mobile": mobile,
                              @"country": countryCode,
-                             @"source": @"ios"};
+                             @"source": LDTSOURCENAME};
     
     [self POST:@"users?create_drupal_user=1" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
@@ -165,14 +166,16 @@
     }];
 }
 
-- (void)createSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)createCampaignSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)campaign.campaignID];
     NSDictionary *params = @{@"source": LDTSOURCENAME};
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-          if (completionHandler) {
-              completionHandler(responseObject);
-          }
+        DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:responseObject[@"data"]];
+        signup.campaign = campaign;
+        if (completionHandler) {
+            completionHandler(signup);
+        }
       } failure:^(NSURLSessionDataTask *task, NSError *error) {
           if (errorHandler) {
               errorHandler(error);
@@ -269,6 +272,26 @@
           }
           [self logError:error];
       }];
+}
+
+- (void)loadCampaignSignupsForUser:(DSOUser *)user completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"users/_id/%@/campaigns", user.userID];
+    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSMutableArray *campaignSignups = [[NSMutableArray alloc] init];
+        for (NSDictionary *campaignSignupDict in responseObject[@"data"]) {
+            DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:campaignSignupDict];
+            [campaignSignups addObject:signup];
+        }
+        if (completionHandler) {
+            completionHandler(campaignSignups);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+        [self logError:error];
+    }];
+
 }
 
 - (void)logError:(NSError *)error {

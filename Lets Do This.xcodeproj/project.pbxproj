@@ -22,6 +22,8 @@
 		B223AD761B7A724000D4AA40 /* DSOReportbackItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B223AD751B7A724000D4AA40 /* DSOReportbackItem.m */; };
 		B22AB7661B4EE78500BE7052 /* LDTUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22AB7651B4EE78500BE7052 /* LDTUserLoginViewController.m */; };
 		B22AB7681B4EE7BE00BE7052 /* LDTUserLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */; };
+		B2399FD41BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2399FD21BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.m */; settings = {ASSET_TAGS = (); }; };
+		B2399FD51BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2399FD31BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.xib */; settings = {ASSET_TAGS = (); }; };
 		B23E68211B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B23E681F1B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.m */; };
 		B23E68221B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B23E68201B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.xib */; };
 		B23E68261B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B23E68241B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.m */; };
@@ -31,6 +33,8 @@
 		B24FE0331BAA49CE001CAD5D /* LDTSubmitReportbackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */; };
 		B258EB311B8E548B00B298C0 /* LDTReportbackItemDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = B258EB301B8E548B00B298C0 /* LDTReportbackItemDetailView.m */; };
 		B258EB331B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B258EB321B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib */; };
+		B2629F231BAB45C800A1B5C3 /* LDTUpdateAvatarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2629F221BAB45C800A1B5C3 /* LDTUpdateAvatarViewController.m */; };
+		B2629F261BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2629F251BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib */; };
 		B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */; };
 		B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */; };
 		B27AF0E41B4F48BC00164926 /* LDTUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27AF0E31B4F48BC00164926 /* LDTUserProfileViewController.m */; };
@@ -41,6 +45,7 @@
 		B27F49ED1B6ADB93005CFC35 /* LDTCampaignDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27F49EC1B6ADB93005CFC35 /* LDTCampaignDetailViewController.m */; };
 		B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */; };
 		B28124D21BAA1FB700DF58DA /* UIViewController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124D11BAA1FB700DF58DA /* UIViewController+LDT.m */; };
+		B29A657F1BB60F0B008C0E2A /* DSOCampaignSignup.m in Sources */ = {isa = PBXBuildFile; fileRef = B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */; settings = {ASSET_TAGS = (); }; };
 		B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */; };
 		B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */; };
 		B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterView.xib */; };
@@ -104,6 +109,9 @@
 		B22AB7641B4EE78500BE7052 /* LDTUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserLoginViewController.h; path = Login/LDTUserLoginViewController.h; sourceTree = "<group>"; };
 		B22AB7651B4EE78500BE7052 /* LDTUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserLoginViewController.m; path = Login/LDTUserLoginViewController.m; sourceTree = "<group>"; };
 		B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserLoginView.xib; path = Login/LDTUserLoginView.xib; sourceTree = "<group>"; };
+		B2399FD11BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCampaignDetailSelfReportbackCell.h; path = Campaign/LDTCampaignDetailSelfReportbackCell.h; sourceTree = "<group>"; };
+		B2399FD21BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCampaignDetailSelfReportbackCell.m; path = Campaign/LDTCampaignDetailSelfReportbackCell.m; sourceTree = "<group>"; };
+		B2399FD31BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCampaignDetailSelfReportbackCell.xib; path = Campaign/LDTCampaignDetailSelfReportbackCell.xib; sourceTree = "<group>"; };
 		B23E681E1B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCampaignDetailCampaignCell.h; path = Campaign/LDTCampaignDetailCampaignCell.h; sourceTree = "<group>"; };
 		B23E681F1B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCampaignDetailCampaignCell.m; path = Campaign/LDTCampaignDetailCampaignCell.m; sourceTree = "<group>"; };
 		B23E68201B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCampaignDetailCampaignCell.xib; path = Campaign/LDTCampaignDetailCampaignCell.xib; sourceTree = "<group>"; };
@@ -118,6 +126,9 @@
 		B258EB2F1B8E548B00B298C0 /* LDTReportbackItemDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTReportbackItemDetailView.h; path = Reportback/LDTReportbackItemDetailView.h; sourceTree = "<group>"; };
 		B258EB301B8E548B00B298C0 /* LDTReportbackItemDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTReportbackItemDetailView.m; path = Reportback/LDTReportbackItemDetailView.m; sourceTree = "<group>"; };
 		B258EB321B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTReportbackItemDetailSingleView.xib; path = Reportback/LDTReportbackItemDetailSingleView.xib; sourceTree = "<group>"; };
+		B2629F211BAB45C800A1B5C3 /* LDTUpdateAvatarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUpdateAvatarViewController.h; path = Settings/LDTUpdateAvatarViewController.h; sourceTree = "<group>"; };
+		B2629F221BAB45C800A1B5C3 /* LDTUpdateAvatarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUpdateAvatarViewController.m; path = Settings/LDTUpdateAvatarViewController.m; sourceTree = "<group>"; };
+		B2629F251BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUpdateAvatarView.xib; path = Settings/LDTUpdateAvatarView.xib; sourceTree = "<group>"; };
 		B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_med.otf; path = Resources/Fonts/Brandon_med.otf; sourceTree = "<group>"; };
 		B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_bld.otf; path = Resources/Fonts/Brandon_bld.otf; sourceTree = "<group>"; };
 		B27AF0E21B4F48BC00164926 /* LDTUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserProfileViewController.h; path = Profile/LDTUserProfileViewController.h; sourceTree = "<group>"; };
@@ -133,6 +144,8 @@
 		B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+LDT.m"; sourceTree = "<group>"; };
 		B28124D01BAA1FB700DF58DA /* UIViewController+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+LDT.h"; sourceTree = "<group>"; };
 		B28124D11BAA1FB700DF58DA /* UIViewController+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+LDT.m"; sourceTree = "<group>"; };
+		B29A657D1BB60F0B008C0E2A /* DSOCampaignSignup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCampaignSignup.h; sourceTree = "<group>"; };
+		B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCampaignSignup.m; sourceTree = "<group>"; };
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserConnectView.xib; path = Login/LDTUserConnectView.xib; sourceTree = "<group>"; };
 		B2A1365C1B3CA4B100D20273 /* LDTUserConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserConnectViewController.h; path = Login/LDTUserConnectViewController.h; sourceTree = "<group>"; };
 		B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserConnectViewController.m; path = Login/LDTUserConnectViewController.m; sourceTree = "<group>"; };
@@ -225,6 +238,9 @@
 				B23E68231B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.h */,
 				B23E68241B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.m */,
 				B23E68251B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.xib */,
+				B2399FD11BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.h */,
+				B2399FD21BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.m */,
+				B2399FD31BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.xib */,
 			);
 			name = Campaign;
 			sourceTree = "<group>";
@@ -258,6 +274,26 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		B2629F201BAB459E00A1B5C3 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C2B152361ACE0BB50028C336 /* LDTSettingsViewController.h */,
+				C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */,
+				B2629F211BAB45C800A1B5C3 /* LDTUpdateAvatarViewController.h */,
+				B2629F221BAB45C800A1B5C3 /* LDTUpdateAvatarViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		B2629F241BAB45EA00A1B5C3 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B2A41A041B5DCC5300C6C1A6 /* LDTSettingsView.xib */,
+				B2629F251BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		B273A7651B459B5400CBD4E1 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,8 +308,6 @@
 			children = (
 				B27AF0E21B4F48BC00164926 /* LDTUserProfileViewController.h */,
 				B27AF0E31B4F48BC00164926 /* LDTUserProfileViewController.m */,
-				C2B152361ACE0BB50028C336 /* LDTSettingsViewController.h */,
-				C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -282,7 +316,6 @@
 			isa = PBXGroup;
 			children = (
 				B27AF0E61B4F493D00164926 /* LDTUserProfileView.xib */,
-				B2A41A041B5DCC5300C6C1A6 /* LDTSettingsView.xib */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -328,9 +361,9 @@
 		B2E75D7D1B87B1300015BE4A /* Reportback */ = {
 			isa = PBXGroup;
 			children = (
-				B2E75D7E1B87B1610015BE4A /* LDTReportbackItemDetailView.xib */,
 				B258EB2F1B8E548B00B298C0 /* LDTReportbackItemDetailView.h */,
 				B258EB301B8E548B00B298C0 /* LDTReportbackItemDetailView.m */,
+				B2E75D7E1B87B1610015BE4A /* LDTReportbackItemDetailView.xib */,
 				B258EB321B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib */,
 				B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */,
 			);
@@ -449,6 +482,7 @@
 				B22274021B587A02005C896D /* Campaign */,
 				B27AF0E11B4F487C00164926 /* Profile */,
 				B2E75D801B87B16C0015BE4A /* Reportback */,
+				B2629F201BAB459E00A1B5C3 /* Settings */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -460,6 +494,8 @@
 				C20BA2821AF3DBE400E9886F /* DSOUser.m */,
 				C20BA2771AF3DBE400E9886F /* DSOCampaign.h */,
 				C20BA2781AF3DBE400E9886F /* DSOCampaign.m */,
+				B29A657D1BB60F0B008C0E2A /* DSOCampaignSignup.h */,
+				B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */,
 				B223AD741B7A724000D4AA40 /* DSOReportbackItem.h */,
 				B223AD751B7A724000D4AA40 /* DSOReportbackItem.m */,
 			);
@@ -474,6 +510,7 @@
 				B22273FF1B58792D005C896D /* Campaign */,
 				B27AF0E51B4F490800164926 /* Profile */,
 				B2E75D7D1B87B1300015BE4A /* Reportback */,
+				B2629F241BAB45EA00A1B5C3 /* Settings */,
 				B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */,
 				B20D06D01B3A58F40053D3B6 /* LDTMessage.m */,
 				B21996AE1B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.h */,
@@ -594,12 +631,14 @@
 				B27AF0ED1B4F64D200164926 /* LDTLoadingView.xib in Resources */,
 				B27F49EA1B6ADB68005CFC35 /* LDTCampaignDetailView.xib in Resources */,
 				B21996B21B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.xib in Resources */,
+				B2629F261BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib in Resources */,
 				B2E75D7F1B87B1610015BE4A /* LDTReportbackItemDetailView.xib in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
 				B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */,
 				B258EB331B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib in Resources */,
 				B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */,
 				B22274011B5879B3005C896D /* LDTCampaignListView.xib in Resources */,
+				B2399FD51BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.xib in Resources */,
 				B23E68271B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.xib in Resources */,
 				B2DB719F1B755E6300915A18 /* LDTCampaignListReportbackItemCell.xib in Resources */,
 				B24FE0331BAA49CE001CAD5D /* LDTSubmitReportbackView.xib in Resources */,
@@ -675,9 +714,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2629F231BAB45C800A1B5C3 /* LDTUpdateAvatarViewController.m in Sources */,
 				C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */,
 				EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */,
+				B2399FD41BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.m in Sources */,
 				B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */,
+				B29A657F1BB60F0B008C0E2A /* DSOCampaignSignup.m in Sources */,
 				B22274051B587A20005C896D /* LDTCampaignListViewController.m in Sources */,
 				B28124D21BAA1FB700DF58DA /* UIViewController+LDT.m in Sources */,
 				B2A136631B3D9BC600D20273 /* LDTUserRegisterViewController.m in Sources */,
@@ -777,7 +819,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -812,7 +854,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
