@@ -33,7 +33,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         // @todo: When we're ready to test against prod, setup conditional if DEBUG.
-        _sharedInstance = [[self alloc] initWithApiKey:keysDict[@"northstarTestKey"]];
+        _sharedInstance = [[self alloc] initWithApiKey:keysDict[@"northstar"]];
     });
 
     return _sharedInstance;
