@@ -10,4 +10,6 @@
 
 @interface LDTEpicFailViewController : UIViewController
 
+- (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
+
 @end

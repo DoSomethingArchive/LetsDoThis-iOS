@@ -72,12 +72,8 @@
             [SVProgressHUD dismiss];
 
 #warning Handling connectivity loss and/or no campaigns
-
-            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithNibName:@"LDTEpicFailView" bundle:nil];
+            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
             [self.window.rootViewController presentViewController:epicFailVC animated:YES completion:nil];
-            [LDTMessage setDefaultViewController:epicFailVC];
-            [LDTMessage displayErrorMessageForError:error];
-
         }];
     }
 
