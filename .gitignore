@@ -19,3 +19,4 @@ DerivedData
 *.ipa
 *.xcuserstate
 keys.plist
+debug-keys.plist

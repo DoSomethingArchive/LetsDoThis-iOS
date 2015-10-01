@@ -12,14 +12,6 @@
 #import "NSDictionary+DSOJsonHelper.h"
 #import <SSKeychain/SSKeychain.h>
 
-
-// API Constants
-#define isActivityLogging NO
-#define DSOPROTOCOL @"https"
-#define DSOSERVER @"staging.beta.dosomething.org"
-#define LDTSERVER @"northstar-qa.dosomething.org"
-#define LDTSOURCENAME @"letsdothis_ios"
-
 @interface DSOAPI()
 
 // Stores Interest Group taxonomy terms as NSDictionaries.

@@ -9,10 +9,6 @@
 #import "DSOUserManager.h"
 #import <SSKeychain/SSKeychain.h>
 
-#define DSOPROTOCOL @"http"
-#define DSOSERVER @"staging.beta.dosomething.org"
-#define LDTSERVER @"northstar-qa.dosomething.org"
-
 @interface DSOUserManager()
 
 @property (strong, nonatomic, readwrite) DSOUser *user;
@@ -154,7 +150,7 @@
 }
 
 + (NSDictionary *)keysDict {
-    return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+    return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:KEYFILENAME ofType:@"plist"]];
 }
 
 @end
