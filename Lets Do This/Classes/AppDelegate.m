@@ -59,6 +59,12 @@
     }
     else {
         [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+            // If no campaigns returned, we can't do anything.
+            if (campaigns.count == 0) {
+                LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Whoops, something went wrong." subtitle:@"It's not you, it's us. We couldn't find any campaigns. Please check back in a few minutes."];
+                [SVProgressHUD dismiss];
+                [self.window.rootViewController presentViewController:epicFailVC animated:YES completion:nil];
+            };
             [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
             [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
                 LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
@@ -70,8 +76,6 @@
                 }];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
-
-#warning Handling connectivity loss and/or no campaigns
             LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
             [self.window.rootViewController presentViewController:epicFailVC animated:YES completion:nil];
         }];
