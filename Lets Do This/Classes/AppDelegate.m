@@ -12,8 +12,8 @@
 #import <Parse/Parse.h>
 #import "LDTLoadingViewController.h"
 #import "LDTUserConnectViewController.h"
+#import "LDTEpicFailViewController.h"
 #import "LDTTheme.h"
-#import "LDTMessage.h"
 #import "LDTTabBarController.h"
 #import "DSOUserManager.h"
 #import "TSMessageView.h"
@@ -70,9 +70,14 @@
                 }];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
-            [LDTMessage displayErrorMessageForError:error];
+
 #warning Handling connectivity loss and/or no campaigns
-            // @todo: Present a new NoConnectionViewController?
+
+            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithNibName:@"LDTEpicFailView" bundle:nil];
+            [self.window.rootViewController presentViewController:epicFailVC animated:YES completion:nil];
+            [LDTMessage setDefaultViewController:epicFailVC];
+            [LDTMessage displayErrorMessageForError:error];
+
         }];
     }
 
