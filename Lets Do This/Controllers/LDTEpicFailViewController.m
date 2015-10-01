@@ -11,18 +11,36 @@
 
 @interface LDTEpicFailViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *headlineLabel;
+@property (strong, nonatomic) NSString *detailsLabelText;
+@property (strong, nonatomic) NSString *headlineLabelText;
 @property (weak, nonatomic) IBOutlet UILabel *detailsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *headlineLabel;
+
 
 @end
 
 @implementation LDTEpicFailViewController
+
+#pragma mark - NSObject
+
+- (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle {
+    self = [super initWithNibName:@"LDTEpicFailView" bundle:nil];
+
+    if (self) {
+        self.headlineLabelText = title;
+        self.detailsLabelText = subtitle;
+    }
+
+    return self;
+}
 
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.headlineLabel.text = self.headlineLabelText;
+    self.detailsLabel.text = self.detailsLabelText;
     [self styleView];
 }
 

@@ -42,7 +42,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Something went wrong." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l9K-8n-CK5" userLabel="Details">
-                    <rect key="frame" x="8" y="296" width="584" height="21"/>
+                    <rect key="frame" x="30" y="296" width="540" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -50,13 +50,13 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="l9K-8n-CK5" secondAttribute="trailing" constant="8" id="7Zx-J0-gOs"/>
+                <constraint firstAttribute="trailing" secondItem="l9K-8n-CK5" secondAttribute="trailing" constant="30" id="7Zx-J0-gOs"/>
                 <constraint firstAttribute="trailing" secondItem="iZz-ps-FJL" secondAttribute="trailing" constant="8" id="S0Y-a9-GQZ"/>
                 <constraint firstItem="l9K-8n-CK5" firstAttribute="top" secondItem="iZz-ps-FJL" secondAttribute="bottom" constant="8" id="c0J-2K-tld"/>
                 <constraint firstItem="iZz-ps-FJL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="gOB-FU-xul"/>
                 <constraint firstItem="NHY-fD-eg9" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="166" id="n2N-qN-AeH"/>
                 <constraint firstItem="iZz-ps-FJL" firstAttribute="top" secondItem="NHY-fD-eg9" secondAttribute="bottom" constant="16" id="pC2-jx-8t6"/>
-                <constraint firstItem="l9K-8n-CK5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="zLb-N4-dQN"/>
+                <constraint firstItem="l9K-8n-CK5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="zLb-N4-dQN"/>
                 <constraint firstItem="NHY-fD-eg9" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="zee-S6-EGe"/>
             </constraints>
         </view>
