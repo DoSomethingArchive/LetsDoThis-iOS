@@ -12,6 +12,29 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
+#ifdef DEBUG
+#define DSOSERVER @"staging.beta.dosomething.org"
+#define LDTSERVER @"northstar-qa.dosomething.org"
+#define KEYFILENAME @"debug-keys"
+#endif
+
+#ifdef RELEASE
+#define DSOSERVER @"dosomething.org"
+#define LDTSERVER @"northstar.dosomething.org"
+#define KEYFILENAME @"keys"
+#endif
+
+#ifdef THOR
+#define DSOSERVER @"thor.dosomething.org"
+#define LDTSERVER @"northstar-thor.dosomething.org"
+#define KEYFILENAME @"thor-keys"
+#endif
+
+// API Constants
+#define isActivityLogging NO
+#define DSOPROTOCOL @"https"
+#define LDTSOURCENAME @"letsdothis_ios"
+
 #import "DSOUserManager.h"
 #import <SVProgressHUD.h>
 #endif

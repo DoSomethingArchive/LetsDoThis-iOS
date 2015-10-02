@@ -12,14 +12,6 @@
 #import "NSDictionary+DSOJsonHelper.h"
 #import <SSKeychain/SSKeychain.h>
 
-
-// API Constants
-#define isActivityLogging NO
-#define DSOPROTOCOL @"https"
-#define DSOSERVER @"staging.beta.dosomething.org"
-#define LDTSERVER @"northstar-qa.dosomething.org"
-#define LDTSOURCENAME @"letsdothis_ios"
-
 @interface DSOAPI()
 
 // Stores Interest Group taxonomy terms as NSDictionaries.
@@ -41,7 +33,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         // @todo: When we're ready to test against prod, setup conditional if DEBUG.
-        _sharedInstance = [[self alloc] initWithApiKey:keysDict[@"northstarTestKey"]];
+        _sharedInstance = [[self alloc] initWithApiKey:keysDict[@"northstar"]];
     });
 
     return _sharedInstance;
