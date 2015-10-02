@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTEpicFailViewController">
+            <connections>
+                <outlet property="detailsLabel" destination="l9K-8n-CK5" id="8wW-Rb-Rdz"/>
+                <outlet property="headlineLabel" destination="iZz-ps-FJL" id="40g-Bk-axc"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default Avatar" translatesAutoresizingMaskIntoConstraints="NO" id="NHY-fD-eg9">
+                    <rect key="frame" x="258" y="166" width="85" height="85"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="NHY-fD-eg9" secondAttribute="height" multiplier="1:1" id="Jnb-TY-U6F"/>
+                        <constraint firstAttribute="width" constant="110" id="O5g-Mj-dWw"/>
+                        <constraint firstAttribute="width" constant="85" id="ThB-qs-bFs"/>
+                        <constraint firstAttribute="height" constant="85" id="usZ-71-4O7"/>
+                        <constraint firstAttribute="width" constant="110" id="zIU-2v-M4L"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Jnb-TY-U6F"/>
+                            <exclude reference="O5g-Mj-dWw"/>
+                            <exclude reference="zIU-2v-M4L"/>
+                        </mask>
+                    </variation>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oh no!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iZz-ps-FJL" userLabel="Headline">
+                    <rect key="frame" x="8" y="267" width="584" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Something went wrong." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l9K-8n-CK5" userLabel="Details">
+                    <rect key="frame" x="30" y="296" width="540" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="l9K-8n-CK5" secondAttribute="trailing" constant="30" id="7Zx-J0-gOs"/>
+                <constraint firstAttribute="trailing" secondItem="iZz-ps-FJL" secondAttribute="trailing" constant="8" id="S0Y-a9-GQZ"/>
+                <constraint firstItem="l9K-8n-CK5" firstAttribute="top" secondItem="iZz-ps-FJL" secondAttribute="bottom" constant="8" id="c0J-2K-tld"/>
+                <constraint firstItem="iZz-ps-FJL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="gOB-FU-xul"/>
+                <constraint firstItem="NHY-fD-eg9" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="166" id="n2N-qN-AeH"/>
+                <constraint firstItem="iZz-ps-FJL" firstAttribute="top" secondItem="NHY-fD-eg9" secondAttribute="bottom" constant="16" id="pC2-jx-8t6"/>
+                <constraint firstItem="l9K-8n-CK5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="zLb-N4-dQN"/>
+                <constraint firstItem="NHY-fD-eg9" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="zee-S6-EGe"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="Default Avatar" width="86" height="86"/>
+    </resources>
+</document>

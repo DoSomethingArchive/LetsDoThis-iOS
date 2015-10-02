@@ -7,6 +7,7 @@
 //
 
 #import "DSOCampaignSignup.h"
+#import "NSDictionary+DSOJsonHelper.h"
 
 @implementation DSOCampaignSignup
 
@@ -36,7 +37,7 @@
         }
         else {
             // @todo API cleanup here. should be campaign id not drupal_id
-            self.campaign = [[DSOCampaign alloc] initWithCampaignID:[dict[@"drupal_id"] integerValue]];
+            self.campaign = [[DSOCampaign alloc] initWithCampaignID:[dict valueForKeyAsInt:@"drupal_id" nullValue:0]];
         }
     }
 
