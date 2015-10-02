@@ -26,8 +26,8 @@
 
 #ifdef THOR
 #define DSOSERVER @"thor.dosomething.org"
-#define LDTSERVER @"northstar.dosomething.org"
-#define KEYFILENAME @"keys"
+#define LDTSERVER @"northstar-thor.dosomething.org"
+#define KEYFILENAME @"thor-keys"
 #endif
 
 // API Constants

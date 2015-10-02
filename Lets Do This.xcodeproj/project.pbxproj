@@ -74,6 +74,7 @@
 		EA0353311BAC63BA00D2B987 /* LDTMessageDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = EA0353301BAC63BA00D2B987 /* LDTMessageDefaultDesign.json */; };
 		EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */; };
 		EA6FBC721BBDBFC1006736AC /* debug-keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA6FBC711BBDBFC1006736AC /* debug-keys.plist */; settings = {ASSET_TAGS = (); }; };
+		EADD7E5A1BBF377700807A93 /* thor-keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = EADD7E591BBF377700807A93 /* thor-keys.plist */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,6 +199,7 @@
 		EA5C9F191B694712001D3EEA /* UITextField+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+LDT.h"; sourceTree = "<group>"; };
 		EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+LDT.m"; sourceTree = "<group>"; };
 		EA6FBC711BBDBFC1006736AC /* debug-keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "debug-keys.plist"; sourceTree = "<group>"; };
+		EADD7E591BBF377700807A93 /* thor-keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "thor-keys.plist"; sourceTree = "<group>"; };
 		FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Lets Do This.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -428,6 +430,7 @@
 		C2B151EC1ACE04C30028C336 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EADD7E591BBF377700807A93 /* thor-keys.plist */,
 				C2B151ED1ACE04C30028C336 /* Info.plist */,
 				C2B151EE1ACE04C30028C336 /* main.m */,
 				C20BA28F1AF3DE0D00E9886F /* LetsDoThis.pch */,
@@ -643,6 +646,7 @@
 				B27F49EA1B6ADB68005CFC35 /* LDTCampaignDetailView.xib in Resources */,
 				B21996B21B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.xib in Resources */,
 				B2629F261BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib in Resources */,
+				EADD7E5A1BBF377700807A93 /* thor-keys.plist in Resources */,
 				B2E75D7F1B87B1610015BE4A /* LDTReportbackItemDetailView.xib in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
 				B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */,
