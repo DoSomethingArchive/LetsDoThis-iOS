@@ -16,9 +16,14 @@
 // API Constants
 #define isActivityLogging NO
 #define DSOPROTOCOL @"https"
+#define LDTSOURCENAME @"letsdothis_ios"
+#ifdef THOR
+#define DSOSERVER @"thor.dosomething.org"
+#define LDTSERVER @"northstar-thor.dosomething.org"
+#else
 #define DSOSERVER @"staging.beta.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
-#define LDTSOURCENAME @"letsdothis_ios"
+#endif
 
 @interface DSOAPI()
 
