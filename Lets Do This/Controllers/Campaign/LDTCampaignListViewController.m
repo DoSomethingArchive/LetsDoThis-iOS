@@ -71,7 +71,7 @@ const CGFloat kHeightExpanded = 400;
     self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
     [self createInterestGroups];
 
-	[self.collectionView registerNib:[UINib nibWithNibName:@"CampaignCollectionViewCellContainer" bundle:nil] forCellWithReuseIdentifier:@"cellIdentifier"];
+	[self.collectionView registerNib:[UINib nibWithNibName:@"CampaignCollectionViewCellContainer" bundle:nil] forCellWithReuseIdentifier:@"CellIdentifier"];
 
     [self styleView];
 	
@@ -158,7 +158,7 @@ const CGFloat kHeightExpanded = 400;
 		else {
 			NSLog(@"\n---All calls completed successfully---");
 			[self.collectionView reloadData];
-			CampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+			CampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 			[cell.innerCollectionView reloadData];
 		}
 		
@@ -351,12 +351,7 @@ const CGFloat kHeightExpanded = 400;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	if ([collectionView isEqual:self.collectionView]) {
-		CampaignCollectionViewCellContainer *containerCell = (CampaignCollectionViewCellContainer *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
-		containerCell.interestGroups = self.interestGroups;
-		containerCell.selectedInterestGroupId = [self selectedInterestGroupId];
-		containerCell.selectedIndexPath = self.selectedIndexPath;
-		
-		[containerCell.innerCollectionView reloadData];
+		CampaignCollectionViewCellContainer *containerCell = (CampaignCollectionViewCellContainer *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:indexPath];
 		
 		return containerCell;
 	}
