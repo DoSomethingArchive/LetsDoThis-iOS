@@ -265,6 +265,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         LDTCampaignDetailCampaignCell *campaignCell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+		[campaignCell removeNilConstraint];
         [self configureCampaignCell:campaignCell];
 
         if ([[self user] hasCompletedCampaign:self.campaign]) {
@@ -310,7 +311,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         // Set the sizingCell with campaign data to populate the xib contents.
         [self configureCampaignCell:self.sizingCampaignCell];
-        CGSize campaignCellSize = [self.sizingCampaignCell systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+        CGSize campaignCellSize = [self.sizingCampaignCell systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
         NSLog(@"campaignCellSize width = %f height = %f", campaignCellSize.width, campaignCellSize.height);
         CGFloat campaignCellHeight = campaignCellSize.height;
         if ([[self user] hasCompletedCampaign:self.campaign]) {

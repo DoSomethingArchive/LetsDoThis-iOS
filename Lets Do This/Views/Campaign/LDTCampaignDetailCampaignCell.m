@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *campaignDetailsView;
+@property (nonatomic, strong) NSLayoutConstraint *nilConstraint;
 
 - (IBAction)actionButtonTouchUpInside:(id)sender;
 
@@ -35,11 +36,20 @@
     self.campaignDetailsHeadingLabel.text = [@"Do this" uppercaseString];
     self.staticInstructionLabel.text = @"When you’re done, submit your photo to us so you can show off and get props from your friends.";
 
-    self.solutionSupportCopyLabel.translatesAutoresizingMaskIntoConstraints = NO;
-
+	self.solutionSupportCopyLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.bounds);
+	self.solutionCopyLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.bounds);
+	self.taglineLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.bounds);
+	
     CGFloat screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
     CGFloat cellWidth = (screenWidth - 10);
-    [self.solutionSupportCopyLabel addConstraint:[NSLayoutConstraint constraintWithItem:self.solutionSupportCopyLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:cellWidth]];
+	self.nilConstraint = [NSLayoutConstraint constraintWithItem:self.solutionSupportCopyLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:cellWidth];
+    [self.solutionSupportCopyLabel addConstraint:self.nilConstraint];
+}
+
+- (void)removeNilConstraint {
+	if ([self.solutionSupportCopyLabel.constraints containsObject:self.nilConstraint]) {
+		[self.solutionSupportCopyLabel removeConstraint:self.nilConstraint];
+	}
 }
 
 - (void)styleView {
@@ -84,18 +94,22 @@
 
 - (void)setSolutionCopyLabelText:(NSString *)solutionCopyLabelText {
     self.solutionCopyLabel.text = solutionCopyLabelText;
+	self.solutionCopyLabel.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 - (void)setSolutionSupportCopyLabelText:(NSString *)solutionSupportCopyLabelText {
     self.solutionSupportCopyLabel.text = solutionSupportCopyLabelText;
+	self.solutionSupportCopyLabel.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 - (void)setTaglineLabelText:(NSString *)taglineLabelText {
     self.taglineLabel.text = taglineLabelText;
+	self.taglineLabel.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 - (void)setTitleLabelText:(NSString *)titleLabelText{
     self.titleLabel.text = [titleLabelText uppercaseString];
+	self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 - (IBAction)actionButtonTouchUpInside:(id)sender {
