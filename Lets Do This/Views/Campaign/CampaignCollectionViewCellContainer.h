@@ -11,9 +11,6 @@
 @interface CampaignCollectionViewCellContainer : UICollectionViewCell
 
 @property (nonatomic, strong) UICollectionView *innerCollectionView;
-@property (strong, nonatomic) NSMutableDictionary *interestGroups;
-@property (nonatomic, strong) NSNumber *selectedInterestGroupId;
-@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 
 - (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate;
 
