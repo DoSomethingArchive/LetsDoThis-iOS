@@ -295,19 +295,17 @@ const CGFloat kHeightExpanded = 400;
 	}
 	if (self.collectionView.dragging && [cell isKindOfClass:[CampaignCollectionViewCellContainer class]]) {
 		self.selectedGroupButtonIndex = indexPath.row;
+		self.selectedIndexPath = nil;
 		[self styleButtons];
-//		[((CampaignCollectionViewCellContainer *)cell).innerCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
 	}
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
 	if	(self.collectionView.dragging && [cell isKindOfClass:[CampaignCollectionViewCellContainer class]]) {
-//		[((CampaignCollectionViewCellContainer *)cell).innerCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
 	}
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	
 	if (indexPath.section == LDTCampaignListSectionTypeReportback) {
 		LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
 		LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:reportbackItemCell.reportbackItem];
