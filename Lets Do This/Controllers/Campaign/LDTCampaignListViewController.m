@@ -23,8 +23,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
     LDTCampaignListSectionTypeReportback
 };
 
-//const CGFloat kHeightCollapsed = 100;
-//const CGFloat kHeightExpanded = 400;
+const CGFloat kHeightCollapsed = 100;
+const CGFloat kHeightExpanded = 400;
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate>
 
@@ -278,54 +278,33 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
     }
 }
 
-#pragma mark - UICollectionViewDataSource
-
--(void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-
-}
+#pragma mark - UICollectionViewDelegate
 
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+	if ([cell isKindOfClass:[CampaignCollectionViewCellContainer class]]) {
+		[(CampaignCollectionViewCellContainer *)cell setCollectionViewDataSourceDelegate:self];
+	}
 	if (self.collectionView.dragging) {
 		self.selectedGroupButtonIndex = indexPath.row;
 		[self styleButtons];
 	}
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return self.interestGroups.allKeys.count;
-}
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-//    return 2;
-	return 1;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	CampaignCollectionViewCellContainer *containerCell = (CampaignCollectionViewCellContainer *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
-	containerCell.interestGroups = self.interestGroups;
-	containerCell.selectedInterestGroupId = [self selectedInterestGroupId];
-	containerCell.selectedIndexPath = self.selectedIndexPath;
+-(void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
 	
-	[containerCell.innerCollectionView reloadData];
-	
-    return containerCell;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-	return self.collectionView.frame.size;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-
-    if (indexPath.section == LDTCampaignListSectionTypeReportback) {
-        LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
-        LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:reportbackItemCell.reportbackItem];
-        [self.navigationController pushViewController:destVC animated:YES];
+	
+	if (indexPath.section == LDTCampaignListSectionTypeReportback) {
+		LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
+		LDTReportbackItemDetailSingleViewController *destVC = [[LDTReportbackItemDetailSingleViewController alloc] initWithReportbackItem:reportbackItemCell.reportbackItem];
+		[self.navigationController pushViewController:destVC animated:YES];
 		
-        return;
-    }
-
-    LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
+		return;
+	}
+	
+	LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
 	[UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:0 animations:^{
 		[collectionView performBatchUpdates:^{
 			if ([self.selectedIndexPath isEqual:indexPath]) {
@@ -344,11 +323,128 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 	} completion:nil];
 }
 
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+	if ([collectionView isEqual:self.collectionView]) {
+		return self.interestGroups.allKeys.count;
+	}
+	NSDictionary *interestGroup = self.interestGroups[self.selectedInterestGroupId];
+	if (section == LDTCampaignListSectionTypeReportback) {
+		NSArray *rbItems = interestGroup[@"reportbackItems"];
+		
+		return rbItems.count;
+	}
+	
+	NSArray *campaigns = interestGroup[@"campaigns"];
+	
+	return campaigns.count;
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+	if ([collectionView isEqual:self.collectionView]) {
+		return 1;
+	}
+	
+	return 2;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+	if ([collectionView isEqual:self.collectionView]) {
+		CampaignCollectionViewCellContainer *containerCell = (CampaignCollectionViewCellContainer *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
+		containerCell.interestGroups = self.interestGroups;
+		containerCell.selectedInterestGroupId = [self selectedInterestGroupId];
+		containerCell.selectedIndexPath = self.selectedIndexPath;
+		
+		[containerCell.innerCollectionView reloadData];
+		
+		return containerCell;
+	}
+	else {
+		if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
+			LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+			[self configureCampaignCell:campaignCell atIndexPath:indexPath];
+			
+			return campaignCell;
+		}
+		if (indexPath.section == LDTCampaignListSectionTypeReportback) {
+			LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
+			[self configureReportbackItemCell:reportbackItemCell atIndexPath:indexPath];
+			
+			return reportbackItemCell;
+		}
+	}
+	return nil;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+	if ([collectionView isEqual:self.collectionView]) {
+		return self.collectionView.frame.size;
+	}
+	CGFloat width = self.collectionView.bounds.size.width;
+	CGFloat height = kHeightCollapsed;
+	
+	if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
+		if ([self.selectedIndexPath isEqual:indexPath]) {
+			height = kHeightExpanded;
+		}
+	}
+	
+	if (indexPath.section == LDTCampaignListSectionTypeReportback) {
+		// Subtract left, right, and middle gutters with width 8.
+		width = width - 30;
+		// Divide by half to fit 2 cells on a row.
+		width = width / 2;
+		// Make it a square.
+		height = width;
+	}
+	
+	return CGSizeMake(width, height);
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+	if (![collectionView isEqual:self.collectionView]) {
+		if (section == LDTCampaignListSectionTypeReportback){
+			return UIEdgeInsetsMake(8.0f, 8.0f, 0, 8.0f);
+		}
+	}
+	
+	return UIEdgeInsetsMake(0, 0, 0, 0);
+}
+
 #pragma UICollectionViewDelegateFlowLayout
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-
+	if (![collectionView isEqual:self.collectionView]) {
+		if (section == LDTCampaignListSectionTypeReportback) {
+			return 8.0f;
+		}
+	}
+	
     return 0.0f;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+	if ([collectionView isEqual:self.collectionView]) {
+		if (section == LDTCampaignListSectionTypeReportback) {
+			// Width is ignored here.
+			return CGSizeMake(60.0f, 50.0f);
+		}
+	}
+
+	return CGSizeMake(0.0f, 0.0f);
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+	UICollectionReusableView *reusableView = nil;
+	if ([collectionView isEqual:self.collectionView]) {
+		if (kind == UICollectionElementKindSectionHeader) {
+			LDTHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
+			headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
+			reusableView = headerView;
+		}
+	}
+	return reusableView;
 }
 
 @end
