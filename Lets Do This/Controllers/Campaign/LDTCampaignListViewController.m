@@ -249,8 +249,17 @@ const CGFloat kHeightExpanded = 400;
         self.selectedGroupButtonIndex = index;
         self.selectedIndexPath = nil;
         [self styleButtons];
-//        [self.collectionView reloadData];
+		
+		// Scroll horizontally to selected interest group--self.collectionView manages all container cells, which hold campaigns/reportbacks for each
+		// interest group
 		[self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.selectedGroupButtonIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+		
+		// To scroll each section up to the top on a button press, we have to get the container cell's inner collection view and scroll it to the top,
+		// but only if it's been displayed once, otherwise it doesn't have a cell at that indexpath and we crash
+		CampaignCollectionViewCellContainer *containerCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForItem:self.selectedGroupButtonIndex inSection:0]];
+		if (containerCell.innerCollectionView.visibleCells.count > 0) {
+			[containerCell.innerCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+		}
     }
 }
 
@@ -284,17 +293,20 @@ const CGFloat kHeightExpanded = 400;
 	if ([cell isKindOfClass:[CampaignCollectionViewCellContainer class]]) {
 		[(CampaignCollectionViewCellContainer *)cell setCollectionViewDataSourceDelegate:self];
 	}
-	if (self.collectionView.dragging) {
+	if (self.collectionView.dragging && [cell isKindOfClass:[CampaignCollectionViewCellContainer class]]) {
 		self.selectedGroupButtonIndex = indexPath.row;
 		[self styleButtons];
+//		[((CampaignCollectionViewCellContainer *)cell).innerCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
 	}
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-	
+	if	(self.collectionView.dragging && [cell isKindOfClass:[CampaignCollectionViewCellContainer class]]) {
+//		[((CampaignCollectionViewCellContainer *)cell).innerCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
+	}
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	
 	if (indexPath.section == LDTCampaignListSectionTypeReportback) {
 		LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
@@ -318,7 +330,7 @@ const CGFloat kHeightExpanded = 400;
 				campaignCell.expanded = YES;
 			}
 		} completion:^(BOOL finished) {
-			[self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
+			[collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
 		}];
 	} completion:nil];
 }

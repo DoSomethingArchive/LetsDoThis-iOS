@@ -35,6 +35,7 @@
 	self.innerCollectionView.dataSource = dataSourceDelegate;
 	self.innerCollectionView.delegate = dataSourceDelegate;
 	
+	[self.innerCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
 	[self.innerCollectionView reloadData];
 }
 
