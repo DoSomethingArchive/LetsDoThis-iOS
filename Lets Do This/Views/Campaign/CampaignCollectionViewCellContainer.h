@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-static NSString *CollectionViewCellIdentifier = @"CollectionViewCellIdentifier";
-
 @interface CampaignCollectionViewCellContainer : UICollectionViewCell
 
 @property (nonatomic, strong) UICollectionView *innerCollectionView;
