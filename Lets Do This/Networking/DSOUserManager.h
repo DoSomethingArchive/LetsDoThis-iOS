@@ -43,8 +43,4 @@
 // Returns DSOCampaign for a given Campaign id if it exists in the activeMobileAppCampaigns property.
 - (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID;
 
-// Returns the API keys stored in keys.plist.
-// @todo: Refactor to remove this method.
-+ (NSDictionary *)keysDict;
-
 @end
