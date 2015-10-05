@@ -13,3 +13,5 @@ target 'Lets Do This' do
 	pod 'Crashlytics', '3.3.1'
     pod 'SVProgressHUD', '1.1.3'
 end
+
+xcodeproj 'Lets Do This', 'Thor' => :release, 'Debug' => :debug, 'Release' => :release

@@ -86,6 +86,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C64A18B791813A4683F7BAD /* Pods-Lets Do This.thor.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.thor.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.thor.xcconfig"; sourceTree = "<group>"; };
 		481832CD7E534871B0CC8938 /* Pods-Lets Do This.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.debug.xcconfig"; sourceTree = "<group>"; };
 		569AA55C1B4085A000D8C8C9 /* InterfaceBuilderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InterfaceBuilderView.h; path = Base/InterfaceBuilderView.h; sourceTree = "<group>"; };
 		569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InterfaceBuilderView.m; path = Base/InterfaceBuilderView.m; sourceTree = "<group>"; };
@@ -547,6 +548,7 @@
 			children = (
 				481832CD7E534871B0CC8938 /* Pods-Lets Do This.debug.xcconfig */,
 				B92B81EBB03D9FF4D34E3FD9 /* Pods-Lets Do This.release.xcconfig */,
+				2C64A18B791813A4683F7BAD /* Pods-Lets Do This.thor.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -795,6 +797,73 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		B244462A1BBF439100772918 /* Thor */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "THOR=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Thor;
+		};
+		B244462B1BBF439100772918 /* Thor */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C64A18B791813A4683F7BAD /* Pods-Lets Do This.thor.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PREFIX_HEADER = "Lets Do This/LetsDoThis.pch";
+				INFOPLIST_FILE = "Lets Do This/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Thor;
+		};
+		B244462C1BBF439100772918 /* Thor */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Lets Do ThisTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lets Do This.app/Lets Do This";
+			};
+			name = Thor;
+		};
 		C2B1520D1ACE04C30028C336 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -858,6 +927,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -945,6 +1015,7 @@
 			buildConfigurations = (
 				C2B1520D1ACE04C30028C336 /* Debug */,
 				C2B1520E1ACE04C30028C336 /* Release */,
+				B244462A1BBF439100772918 /* Thor */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -954,6 +1025,7 @@
 			buildConfigurations = (
 				C2B152101ACE04C30028C336 /* Debug */,
 				C2B152111ACE04C30028C336 /* Release */,
+				B244462B1BBF439100772918 /* Thor */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -963,6 +1035,7 @@
 			buildConfigurations = (
 				C2B152131ACE04C30028C336 /* Debug */,
 				C2B152141ACE04C30028C336 /* Release */,
+				B244462C1BBF439100772918 /* Thor */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
