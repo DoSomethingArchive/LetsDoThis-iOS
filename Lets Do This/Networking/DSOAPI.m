@@ -16,9 +16,26 @@
 // API Constants
 #define isActivityLogging NO
 #define DSOPROTOCOL @"https"
+#define LDTSOURCENAME @"letsdothis_ios"
+
+#ifdef DEBUG
 #define DSOSERVER @"staging.beta.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
-#define LDTSOURCENAME @"letsdothis_ios"
+#define LDTSERVERKEYNAME @"northstarTestKey"
+#endif
+
+#ifdef RELEASE
+#define DSOSERVER @"dosomething.org"
+#define LDTSERVER @"northstar.dosomething.org"
+#define LDTSERVERKEYNAME @"northstarLiveKey"
+#endif
+
+#ifdef THOR
+#define DSOSERVER @"thor.dosomething.org"
+#define LDTSERVER @"northstar-thor.dosomething.org"
+#define LDTSERVERKEYNAME @"northstarLiveKey"
+#endif
+
 
 @interface DSOAPI()
 
@@ -28,6 +45,8 @@
 @property (nonatomic, strong) NSString *phoenixBaseURL;
 @property (nonatomic, strong) NSString *phoenixApiURL;
 
+@property (nonatomic, strong) NSString *northstarBaseURL;
+
 @end
 
 @implementation DSOAPI
@@ -36,12 +55,11 @@
 
 + (DSOAPI *)sharedInstance {
     static DSOAPI *_sharedInstance = nil;
-    NSDictionary *keysDict = [DSOUserManager keysDict];
+    NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        // @todo: When we're ready to test against prod, setup conditional if DEBUG.
-        _sharedInstance = [[self alloc] initWithApiKey:keysDict[@"northstarTestKey"]];
+        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME]];
     });
 
     return _sharedInstance;
@@ -66,6 +84,7 @@
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
         self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
+        self.northstarBaseURL = [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, LDTSERVER];
 
         self.interestGroups = @[@{@"id" : [NSNumber numberWithInt:667],
                                   @"name" : @"Hot"},
@@ -83,7 +102,7 @@
 
 #pragma mark - DSOAPI
 
-- (NSString *)phoenixBaseUrl {
+- (NSString *)phoenixBaseURL {
     return _phoenixBaseURL;
 }
 
