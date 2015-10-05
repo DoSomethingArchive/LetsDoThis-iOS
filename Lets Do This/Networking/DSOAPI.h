@@ -16,7 +16,7 @@
 
 + (DSOAPI *)sharedInstance;
 - (instancetype)initWithApiKey:(NSString *)apiKey;
-- (NSString *)phoenixBaseUrl;
+- (NSString *)phoenixBaseURL;
 - (NSString *)northstarBaseURL;
 - (NSArray *)interestGroups;
 - (void)setHTTPHeaderFieldSession:(NSString *)token;

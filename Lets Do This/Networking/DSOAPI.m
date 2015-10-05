@@ -56,12 +56,12 @@
 + (DSOAPI *)sharedInstance {
     static DSOAPI *_sharedInstance = nil;
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
-    
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME]];
     });
-    
+
     return _sharedInstance;
 }
 
@@ -102,7 +102,7 @@
 
 #pragma mark - DSOAPI
 
-- (NSString *)phoenixBaseUrl {
+- (NSString *)phoenixBaseURL {
     return _phoenixBaseURL;
 }
 

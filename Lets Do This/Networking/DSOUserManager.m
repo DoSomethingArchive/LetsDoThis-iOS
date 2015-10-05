@@ -9,10 +9,6 @@
 #import "DSOUserManager.h"
 #import <SSKeychain/SSKeychain.h>
 
-//#define DSOPROTOCOL @"http"
-//#define DSOSERVER @"staging.beta.dosomething.org"
-//#define LDTSERVER @"northstar-qa.dosomething.org"
-
 @interface DSOUserManager()
 
 @property (strong, nonatomic, readwrite) DSOUser *user;
@@ -38,7 +34,7 @@
 #pragma mark - DSOUserManager
 
 - (BOOL)userHasCachedSession {
-    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance]northstarBaseURL] account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
 	
     return sessionToken.length > 0;
 }
@@ -49,8 +45,8 @@
           self.user = user;
           [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
           // Save session in Keychain for when app is quit.
-          [SSKeychain setPassword:user.sessionToken forService:[[DSOAPI sharedInstance]northstarBaseURL] account:@"Session"];
-          [SSKeychain setPassword:self.user.userID forService:[[DSOAPI sharedInstance]northstarBaseURL] account:@"UserID"];
+          [SSKeychain setPassword:user.sessionToken forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+          [SSKeychain setPassword:self.user.userID forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
           [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
               self.activeMobileAppCampaigns = campaigns;
               if (completionHandler) {
@@ -70,7 +66,7 @@
 
 - (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
-    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance]northstarBaseURL] account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
     if (sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
@@ -78,7 +74,7 @@
 
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
-    NSString *userID = [SSKeychain passwordForService:[[DSOAPI sharedInstance]northstarBaseURL] account:@"UserID"];
+    NSString *userID = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
@@ -98,8 +94,8 @@
 
 - (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
-        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance]northstarBaseURL] account:@"Session"];
-        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance]northstarBaseURL] account:@"UserID"];
+        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
 
         self.user = nil;
 
