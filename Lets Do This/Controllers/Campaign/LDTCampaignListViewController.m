@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 };
 
 const CGFloat kHeightCollapsed = 100;
-const CGFloat kHeightExpanded = 400;
+const CGFloat kHeightExpanded = 420;
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate>
 
