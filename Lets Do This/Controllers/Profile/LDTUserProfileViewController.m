@@ -45,13 +45,12 @@ static NSString *cellIdentifier = @"rowCell";
     [super viewDidLoad];
 
     self.navigationItem.title = nil;
-
     [self styleView];
     [self updateUserDetails];
-
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 
     if ([self.user isLoggedInUser]) {
+
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
         self.navigationItem.rightBarButtonItem = settingsButton;
     }
@@ -67,10 +66,9 @@ static NSString *cellIdentifier = @"rowCell";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
     [self styleView];
-
     if ([self.user isLoggedInUser]) {
+        [self updateUserDetails];
         // Logged in user may have signed up or reported back since this VC was first loaded.
         [self.tableView reloadData];
     }
