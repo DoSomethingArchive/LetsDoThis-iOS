@@ -84,9 +84,8 @@
     if ([self isLoggedInUser]) {
         if (photo) {
             NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
-            NSArray *storagePaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *documentsDirectory = [storagePaths objectAtIndex:0];
-            NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpeg", @"stored"]];
+            NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:@"LDTStoredAvatar.jpeg"];
             NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
             
             if (![photoData writeToFile:storedAvatarPhotoPath atomically:NO]) {
@@ -97,6 +96,21 @@
                 [storedUserDefaults synchronize];
             }
         }
+    }
+}
+
+- (void)removePhoto {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"LDTStoredAvatar.jpeg"];
+    NSError *error;
+    BOOL success = [fileManager removeItemAtPath:filePath error:&error];
+    if (success) {
+        NSLog(@"Successfully deleted file: %@ ", @"LDTStoredAvatar.jpeg");
+    }
+    else
+    {
+        NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
     }
 }
 

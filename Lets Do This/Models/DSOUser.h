@@ -26,6 +26,7 @@
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
 - (void)setPhoto:(UIImage *)image;
+- (void)removePhoto;
 // Checks if the User is the logged-in User.
 - (BOOL)isLoggedInUser;
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign;

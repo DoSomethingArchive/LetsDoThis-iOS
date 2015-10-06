@@ -128,6 +128,7 @@
     UIAlertController *logoutAlertController = [UIAlertController alertControllerWithTitle:@"Are you sure? We’ll miss you." message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *confirmLogoutAction = [UIAlertAction actionWithTitle:@"Log Out" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         [SVProgressHUD show];
+        [[DSOUserManager sharedInstance].user removePhoto];
         [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
             // This VC is always presented within the TabBarVC, so kill it.
             [self dismissViewControllerAnimated:YES completion:^{
