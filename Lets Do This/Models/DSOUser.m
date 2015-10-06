@@ -13,13 +13,14 @@
 
 @interface DSOUser()
 
-@property (nonatomic, strong, readwrite) NSString *userID;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
-@property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *email;
+@property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *mobile;
+@property (nonatomic, strong, readwrite) NSString *photoNameString;
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
+@property (nonatomic, strong, readwrite) NSString *userID;
 @property (nonatomic, strong, readwrite) UIImage *photo;
 
 @end
@@ -42,6 +43,7 @@
         }
         self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Null First Name"];
         self.email = dict[@"email"];
+        self.photoNameString = @"LDTStoredAvatar.jpeg";
         self.sessionToken = dict[@"session_token"];
         self.campaignSignups = [[NSMutableArray alloc] init];
 		
@@ -85,7 +87,7 @@
         if (photo) {
             NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
             NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:@"LDTStoredAvatar.jpeg"];
+            NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:self.photoNameString];
             NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
             
             if (![photoData writeToFile:storedAvatarPhotoPath atomically:NO]) {
@@ -96,21 +98,6 @@
                 [storedUserDefaults synchronize];
             }
         }
-    }
-}
-
-- (void)removePhoto {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"LDTStoredAvatar.jpeg"];
-    NSError *error;
-    BOOL success = [fileManager removeItemAtPath:filePath error:&error];
-    if (success) {
-        NSLog(@"Successfully deleted file: %@ ", @"LDTStoredAvatar.jpeg");
-    }
-    else
-    {
-        NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
     }
 }
 

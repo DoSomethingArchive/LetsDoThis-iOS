@@ -96,6 +96,18 @@
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
         [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
         [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+        
+        // Remove stored avatar photo
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:self.user.photoNameString];
+        NSError *error;
+        if ([fileManager removeItemAtPath:filePath error:&error]) {
+            NSLog(@"Successfully deleted file: %@ ", self.user.photoNameString);
+        }
+        else {
+            NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
+        }
 
         self.user = nil;
 
