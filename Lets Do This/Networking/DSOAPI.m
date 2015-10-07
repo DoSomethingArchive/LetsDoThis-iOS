@@ -19,7 +19,7 @@
 #define LDTSOURCENAME @"letsdothis_ios"
 
 #ifdef DEBUG
-#define DSOSERVER @"staging.beta.dosomething.org"
+#define DSOSERVER @"staging.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
 #define LDTSERVERKEYNAME @"northstarTestKey"
 #endif
