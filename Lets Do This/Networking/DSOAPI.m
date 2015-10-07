@@ -89,7 +89,7 @@
 
         NSArray *interestGroupIds = @[@1300, @1301, @1302, @1303];
 #ifdef DEBUG
-        NSArray *interestGroupIds = @[@667, @668, @669, @670];
+        interestGroupIds = @[@667, @668, @669, @670];
 #endif
 
         self.interestGroups = @[@{@"id" : (NSNumber *)interestGroupIds[0],
