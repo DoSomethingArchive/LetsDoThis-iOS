@@ -9,6 +9,9 @@
 #import "DSOUserManager.h"
 #import <SSKeychain/SSKeychain.h>
 
+NSString *const avatarFileNameString = @"LDTStoredAvatar.jpeg";
+NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
+
 @interface DSOUserManager()
 
 @property (strong, nonatomic, readwrite) DSOUser *user;
@@ -96,21 +99,8 @@
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
         [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
         [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
-        
-        // Remove stored avatar photo
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:self.user.photoNameString];
-        NSError *error;
-        if ([fileManager removeItemAtPath:filePath error:&error]) {
-            NSLog(@"Successfully deleted file: %@ ", self.user.photoNameString);
-        }
-        else {
-            NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
-        }
-
+        [self deleteAvatar];
         self.user = nil;
-
         if (completionHandler) {
             completionHandler();
         }
@@ -159,6 +149,44 @@
         }
     }
     return nil;
+}
+
+#pragma mark - Avatar CRUD
+
+- (void)storeAvatar:(UIImage *)photo {
+    NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
+    NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![photoData writeToFile:storedAvatarPhotoPath atomically:NO]) {
+        NSLog((@"Failed to persist photo data to disk"));
+    }
+    else {
+        [storedUserDefaults setObject:storedAvatarPhotoPath forKey:avatarStorageKey];
+        [storedUserDefaults synchronize];
+    }
+}
+
+- (UIImage *)retrieveAvatar {
+    NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:avatarStorageKey];
+    if (storedAvatarPhotoPath) {
+        return [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
+    }
+    return nil;
+}
+
+- (void) deleteAvatar {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
+    NSError *error;
+    if ([fileManager removeItemAtPath:filePath error:&error]) {
+        NSLog(@"Successfully deleted file: %@ ", avatarFileNameString);
+    }
+    else {
+        NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
+    }
 }
 
 @end

@@ -18,7 +18,6 @@
 @property (nonatomic, strong, readwrite) NSString *email;
 @property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *mobile;
-@property (nonatomic, strong, readwrite) NSString *photoNameString;
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *userID;
 @property (nonatomic, strong, readwrite) UIImage *photo;
@@ -43,7 +42,6 @@
         }
         self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Null First Name"];
         self.email = dict[@"email"];
-        self.photoNameString = @"LDTStoredAvatar.jpeg";
         self.sessionToken = dict[@"session_token"];
         self.campaignSignups = [[NSMutableArray alloc] init];
 		
@@ -64,16 +62,16 @@
     if (!_photo) {
         // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
         if ([self isLoggedInUser]) {
-            NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"storedAvatarPhotoPath"];
-            if (storedAvatarPhotoPath) {
-                _photo = [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
+            UIImage *photo = [[DSOUserManager sharedInstance] retrieveAvatar];
+            if (photo) {
+                _photo = photo;
             }
             else {
-                return [UIImage imageNamed:@"Default Avatar"];
+                _photo = [UIImage imageNamed:@"Default Avatar"];
             }
         }
         else {
-            return [UIImage imageNamed:@"Default Avatar"];
+            _photo = [UIImage imageNamed:@"Default Avatar"];
         }
 	}
 	
@@ -82,22 +80,8 @@
 
 - (void)setPhoto:(UIImage *)photo {
     _photo = photo;
-    // If this user is the logged in user, persist her avatar photo.
     if ([self isLoggedInUser]) {
-        if (photo) {
-            NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
-            NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:self.photoNameString];
-            NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
-            
-            if (![photoData writeToFile:storedAvatarPhotoPath atomically:NO]) {
-                NSLog((@"Failed to persist photo data to disk"));
-            }
-            else {
-                [storedUserDefaults setObject:storedAvatarPhotoPath forKey:@"storedAvatarPhotoPath"];
-                [storedUserDefaults synchronize];
-            }
-        }
+        [[DSOUserManager sharedInstance] storeAvatar:photo];
     }
 }
 
