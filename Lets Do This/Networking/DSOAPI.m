@@ -19,7 +19,7 @@
 #define LDTSOURCENAME @"letsdothis_ios"
 
 #ifdef DEBUG
-#define DSOSERVER @"staging.beta.dosomething.org"
+#define DSOSERVER @"staging.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
 #define LDTSERVERKEYNAME @"northstarTestKey"
 #endif
@@ -89,7 +89,7 @@
 
         NSArray *interestGroupIds = @[@1300, @1301, @1302, @1303];
 #ifdef DEBUG
-        NSArray *interestGroupIds = @[@667, @668, @669, @670];
+        interestGroupIds = @[@667, @668, @669, @670];
 #endif
 
         self.interestGroups = @[@{@"id" : (NSNumber *)interestGroupIds[0],
