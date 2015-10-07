@@ -86,13 +86,19 @@
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
         self.northstarBaseURL = [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, LDTSERVER];
 
-        self.interestGroups = @[@{@"id" : [NSNumber numberWithInt:667],
+
+        NSArray *interestGroupIds = @[@1300, @1301, @1302, @1303];
+#ifdef DEBUG
+        NSArray *interestGroupIds = @[@667, @668, @669, @670];
+#endif
+
+        self.interestGroups = @[@{@"id" : (NSNumber *)interestGroupIds[0],
                                   @"name" : @"Hot"},
-                                @{@"id" : [NSNumber numberWithInt:668],
+                                @{@"id" : (NSNumber *)interestGroupIds[1],
                                   @"name" : @"Music"},
-                                @{@"id" : [NSNumber numberWithInt:669],
+                                @{@"id" : (NSNumber *)interestGroupIds[2],
                                   @"name" : @"Crafts"},
-                                @{@"id" : [NSNumber numberWithInt:670],
+                                @{@"id" : (NSNumber *)interestGroupIds[3],
                                   @"name" : @"Sports"}
                                 ];
 
