@@ -19,7 +19,6 @@
 @property (nonatomic, strong, readonly) NSString *email;
 @property (nonatomic, strong, readonly) NSString *firstName;
 @property (nonatomic, strong, readonly) NSString *mobile;
-@property (nonatomic, strong, readonly) NSString *photoNameString;
 @property (nonatomic, strong, readonly) NSString *sessionToken;
 @property (nonatomic, strong, readonly) NSString *userID;
 @property (nonatomic, strong, readonly) UIImage *photo;
