@@ -161,6 +161,9 @@
     if (self.passwordTextField.text.length > 5) {
         [self.submitButton enable:YES];
     }
+    else {
+        [self.submitButton enable:NO];
+    }
 }
 
 @end
