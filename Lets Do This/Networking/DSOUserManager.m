@@ -9,9 +9,8 @@
 #import "DSOUserManager.h"
 #import <SSKeychain/SSKeychain.h>
 
-#define DSOPROTOCOL @"http"
-#define DSOSERVER @"staging.beta.dosomething.org"
-#define LDTSERVER @"northstar-qa.dosomething.org"
+NSString *const avatarFileNameString = @"LDTStoredAvatar.jpeg";
+NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 @interface DSOUserManager()
 
@@ -38,7 +37,7 @@
 #pragma mark - DSOUserManager
 
 - (BOOL)userHasCachedSession {
-    NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
 	
     return sessionToken.length > 0;
 }
@@ -49,8 +48,8 @@
           self.user = user;
           [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
           // Save session in Keychain for when app is quit.
-          [SSKeychain setPassword:user.sessionToken forService:LDTSERVER account:@"Session"];
-          [SSKeychain setPassword:self.user.userID forService:LDTSERVER account:@"UserID"];
+          [SSKeychain setPassword:user.sessionToken forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+          [SSKeychain setPassword:self.user.userID forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
           [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
               self.activeMobileAppCampaigns = campaigns;
               if (completionHandler) {
@@ -70,7 +69,7 @@
 
 - (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
-    NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
     if (sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
@@ -78,7 +77,7 @@
 
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
-    NSString *userID = [SSKeychain passwordForService:LDTSERVER account:@"UserID"];
+    NSString *userID = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
@@ -98,11 +97,10 @@
 
 - (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
-        [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
-        [SSKeychain deletePasswordForService:LDTSERVER account:@"UserID"];
-
+        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+        [self deleteAvatar];
         self.user = nil;
-
         if (completionHandler) {
             completionHandler();
         }
@@ -153,8 +151,42 @@
     return nil;
 }
 
-+ (NSDictionary *)keysDict {
-    return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+#pragma mark - Avatar CRUD
+
+- (void)storeAvatar:(UIImage *)photo {
+    NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
+    NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![photoData writeToFile:storedAvatarPhotoPath atomically:NO]) {
+        NSLog((@"Failed to persist photo data to disk"));
+    }
+    else {
+        [storedUserDefaults setObject:storedAvatarPhotoPath forKey:avatarStorageKey];
+        [storedUserDefaults synchronize];
+    }
+}
+
+- (UIImage *)retrieveAvatar {
+    NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:avatarStorageKey];
+    if (storedAvatarPhotoPath) {
+        return [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
+    }
+    return nil;
+}
+
+- (void) deleteAvatar {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
+    NSError *error;
+    if ([fileManager removeItemAtPath:filePath error:&error]) {
+        NSLog(@"Successfully deleted file: %@ ", avatarFileNameString);
+    }
+    else {
+        NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
+    }
 }
 
 @end

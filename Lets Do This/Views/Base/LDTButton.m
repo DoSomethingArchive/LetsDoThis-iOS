@@ -16,7 +16,7 @@
 	
     if (self) {
         [[self titleLabel] setFont:[LDTTheme fontBold]];
-        self.layer.cornerRadius = 4;
+        self.layer.cornerRadius = 6;
 		[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 		[self setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     }

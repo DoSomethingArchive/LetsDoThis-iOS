@@ -43,8 +43,10 @@
 // Returns DSOCampaign for a given Campaign id if it exists in the activeMobileAppCampaigns property.
 - (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID;
 
-// Returns the API keys stored in keys.plist.
-// @todo: Refactor to remove this method.
-+ (NSDictionary *)keysDict;
+// Stores the user's avatar image within the filesystem. 
+- (void)storeAvatar:(UIImage *)photo;
+
+// Retrieves the user's avatar image from the filesystem. Returns nil if photo doesn't exist.
+- (UIImage *)retrieveAvatar;
 
 @end

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserConnectViewController">
             <connections>
-                <outlet property="facebookButton" destination="YsS-PC-cqO" id="L4Z-v7-jMl"/>
                 <outlet property="headerLabel" destination="Yds-sE-O3r" id="Aaz-6u-cjb"/>
                 <outlet property="loginButton" destination="Ti6-9l-PI9" id="AFH-ce-xoS"/>
                 <outlet property="registerButton" destination="oOz-tm-U29" id="AyS-F0-d8D"/>
@@ -19,7 +19,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" restorationIdentifier="label view" translatesAutoresizingMaskIntoConstraints="NO" id="VDw-TA-TiP" userLabel="Center Container View">
-                    <rect key="frame" x="165" y="184" width="270" height="233"/>
+                    <rect key="frame" x="165" y="212" width="270" height="175"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yds-sE-O3r" userLabel="Headline">
                             <rect key="frame" x="0.0" y="0.0" width="270" height="63"/>
@@ -30,67 +30,49 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hpv-Ei-E16" userLabel="Button Container View">
-                            <rect key="frame" x="30" y="85" width="210" height="148"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oOz-tm-U29" customClass="LDTButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="210" height="44"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="z83-Zj-PAW"/>
-                                    </constraints>
-                                    <state key="normal" title="Register">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="registerTapped:" destination="-1" eventType="touchUpInside" id="twi-as-1cZ"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YsS-PC-cqO" customClass="LDTButton">
-                                    <rect key="frame" x="0.0" y="52" width="210" height="44"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="Vzv-zg-Yhb"/>
-                                    </constraints>
-                                    <state key="normal" title="Facebook"/>
-                                    <connections>
-                                        <action selector="facebookButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="VvQ-2h-s2y"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ti6-9l-PI9" customClass="LDTButton">
-                                    <rect key="frame" x="0.0" y="104" width="210" height="44"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="9Zb-kj-1Ce"/>
-                                    </constraints>
-                                    <state key="normal" title="Sign in">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="loginButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="gjx-XM-rjy"/>
-                                    </connections>
-                                </button>
-                            </subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oOz-tm-U29" customClass="LDTButton">
+                            <rect key="frame" x="31" y="63" width="209" height="50"/>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="Ti6-9l-PI9" secondAttribute="bottom" id="J5T-lL-g4H"/>
-                                <constraint firstItem="oOz-tm-U29" firstAttribute="top" secondItem="hpv-Ei-E16" secondAttribute="top" id="OVt-VY-WyL"/>
-                                <constraint firstAttribute="trailing" secondItem="YsS-PC-cqO" secondAttribute="trailing" id="P5V-Ge-ZXx"/>
-                                <constraint firstItem="YsS-PC-cqO" firstAttribute="top" secondItem="oOz-tm-U29" secondAttribute="bottom" constant="8" id="XhL-qr-wjs"/>
-                                <constraint firstItem="Ti6-9l-PI9" firstAttribute="leading" secondItem="hpv-Ei-E16" secondAttribute="leading" id="ZuA-6G-zBQ"/>
-                                <constraint firstAttribute="trailing" secondItem="oOz-tm-U29" secondAttribute="trailing" id="dXC-Lk-Lm4"/>
-                                <constraint firstItem="YsS-PC-cqO" firstAttribute="leading" secondItem="hpv-Ei-E16" secondAttribute="leading" id="f5v-CW-bBE"/>
-                                <constraint firstAttribute="trailing" secondItem="Ti6-9l-PI9" secondAttribute="trailing" id="kih-HO-Ild"/>
-                                <constraint firstItem="Ti6-9l-PI9" firstAttribute="top" secondItem="YsS-PC-cqO" secondAttribute="bottom" constant="8" id="lgJ-n8-BTG"/>
-                                <constraint firstItem="oOz-tm-U29" firstAttribute="leading" secondItem="hpv-Ei-E16" secondAttribute="leading" id="sQj-U7-eNE"/>
-                                <constraint firstAttribute="width" constant="210" id="z0p-lB-fUw"/>
+                                <constraint firstAttribute="width" constant="209" id="iUa-xZ-ZJ9"/>
+                                <constraint firstAttribute="height" constant="50" id="z83-Zj-PAW"/>
                             </constraints>
-                        </view>
+                            <state key="normal" title="Register">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="registerTapped:" destination="-1" eventType="touchUpInside" id="twi-as-1cZ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ti6-9l-PI9" customClass="LDTButton">
+                            <rect key="frame" x="31" y="125" width="209" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="9Zb-kj-1Ce"/>
+                                <constraint firstAttribute="width" constant="209" id="ZM9-Og-91G"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="fvB-Mc-lFK"/>
+                            </constraints>
+                            <state key="normal" title="Sign in">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="9Zb-kj-1Ce"/>
+                                </mask>
+                            </variation>
+                            <connections>
+                                <action selector="loginButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="gjx-XM-rjy"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <constraints>
                         <constraint firstItem="Yds-sE-O3r" firstAttribute="top" secondItem="VDw-TA-TiP" secondAttribute="top" id="9dy-WQ-iRj"/>
-                        <constraint firstItem="hpv-Ei-E16" firstAttribute="top" secondItem="Yds-sE-O3r" secondAttribute="bottom" constant="22" id="TdK-aJ-7dv"/>
                         <constraint firstItem="Yds-sE-O3r" firstAttribute="leading" secondItem="VDw-TA-TiP" secondAttribute="leading" id="WaS-AV-mRx"/>
+                        <constraint firstAttribute="bottom" secondItem="Ti6-9l-PI9" secondAttribute="bottom" id="Zk6-mN-DaC"/>
+                        <constraint firstItem="oOz-tm-U29" firstAttribute="top" secondItem="Yds-sE-O3r" secondAttribute="bottom" id="czh-Fe-l35"/>
+                        <constraint firstItem="Ti6-9l-PI9" firstAttribute="top" secondItem="oOz-tm-U29" secondAttribute="bottom" constant="12" id="eXq-Io-CgN"/>
+                        <constraint firstItem="oOz-tm-U29" firstAttribute="centerX" secondItem="VDw-TA-TiP" secondAttribute="centerX" id="i3s-ke-RN5"/>
+                        <constraint firstItem="Ti6-9l-PI9" firstAttribute="centerX" secondItem="VDw-TA-TiP" secondAttribute="centerX" id="j0u-E5-Foj"/>
                         <constraint firstAttribute="width" constant="270" id="jIz-JB-6nE"/>
                         <constraint firstAttribute="trailing" secondItem="Yds-sE-O3r" secondAttribute="trailing" id="owV-zW-ESo"/>
-                        <constraint firstAttribute="centerX" secondItem="hpv-Ei-E16" secondAttribute="centerX" id="uXh-sG-SHD"/>
-                        <constraint firstAttribute="bottom" secondItem="hpv-Ei-E16" secondAttribute="bottom" id="wxE-TW-uSs"/>
                     </constraints>
                 </view>
             </subviews>

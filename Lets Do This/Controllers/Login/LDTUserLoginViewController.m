@@ -141,7 +141,7 @@
 }
 
 - (IBAction)passwordButtonTouchUpInside:(id)sender {
-    NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [[DSOAPI sharedInstance] phoenixBaseUrl]];
+    NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [[DSOAPI sharedInstance] phoenixBaseURL]];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:resetUrl]];
 }
 
@@ -160,6 +160,9 @@
 - (IBAction)passwordEditingChanged:(id)sender {
     if (self.passwordTextField.text.length > 5) {
         [self.submitButton enable:YES];
+    }
+    else {
+        [self.submitButton enable:NO];
     }
 }
 
