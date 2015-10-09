@@ -31,6 +31,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
+@property (strong, nonatomic) LDTCampaignDetailCampaignCell *sizingCampaignCell;
 @property (strong, nonatomic) NSMutableArray *reportbackItems;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
@@ -60,7 +61,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
     [self styleBackBarButton];
 
-    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
+    UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil];
+    [self.collectionView registerNib:campaignCellNib forCellWithReuseIdentifier:@"CampaignCell"];
+    self.sizingCampaignCell = [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
+
+    NSLog(@"self.sizingCampaignCell %@", self.sizingCampaignCell);
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailSelfReportbackCell" bundle:nil] forCellWithReuseIdentifier:@"SelfReportbackCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
@@ -260,6 +265,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         LDTCampaignDetailCampaignCell *campaignCell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+		[campaignCell removeNilConstraint];
         [self configureCampaignCell:campaignCell];
 
         if ([[self user] hasCompletedCampaign:self.campaign]) {
@@ -303,16 +309,15 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     CGFloat reportbackItemHeight = screenWidth + 36 + 70;
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-        // @todo: Dynamic height (GH issue #320)
-        CGFloat campaignCellHeight = 660;
+        // Set the sizingCell with campaign data to populate the xib contents.
+        [self configureCampaignCell:self.sizingCampaignCell];
+        CGSize campaignCellSize = [self.sizingCampaignCell systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        NSLog(@"campaignCellSize width = %f height = %f", campaignCellSize.width, campaignCellSize.height);
+        CGFloat campaignCellHeight = campaignCellSize.height;
         if ([[self user] hasCompletedCampaign:self.campaign]) {
             if (indexPath.row == LDTCampaignDetailCampaignSectionRowSelfReportback) {
                 // Button height + top and bottom margins = 90
                 campaignCellHeight = reportbackItemHeight + 90;
-            }
-            else {
-                // Subtract height of the Prove It Button.
-                campaignCellHeight = campaignCellHeight - 60;
             }
         }
 

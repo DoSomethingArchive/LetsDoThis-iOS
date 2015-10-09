@@ -22,6 +22,8 @@
 @property (strong, nonatomic) NSString *taglineLabelText;
 @property (strong, nonatomic) NSURL *coverImageURL;
 
+- (void)removeNilConstraint;
+
 @end
 
 @protocol LDTCampaignDetailCampaignCellDelegate <NSObject>
