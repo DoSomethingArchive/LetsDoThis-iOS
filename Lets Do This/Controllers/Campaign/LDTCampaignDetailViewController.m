@@ -73,6 +73,9 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self fetchReportbackItems];
     [LDTMessage setDefaultViewController:self];
 
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    CGFloat screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
+    layout.estimatedItemSize = CGSizeMake(screenWidth, 400);
 
     if ([[self user] hasCompletedCampaign:self.campaign]) {
         for (DSOCampaignSignup *signup in [self user].campaignSignups) {
@@ -296,31 +299,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 }
 
 #pragma mark - UICollectionViewDelegate
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    // Square reportback photo + header height + caption height.
-    CGFloat reportbackItemHeight = screenWidth + 36 + 70;
-
-    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-        // @todo: Dynamic height (GH issue #320)
-        CGFloat campaignCellHeight = 660;
-        if ([[self user] hasCompletedCampaign:self.campaign]) {
-            if (indexPath.row == LDTCampaignDetailCampaignSectionRowSelfReportback) {
-                // Button height + top and bottom margins = 90
-                campaignCellHeight = reportbackItemHeight + 90;
-            }
-            else {
-                // Subtract height of the Prove It Button.
-                campaignCellHeight = campaignCellHeight - 60;
-            }
-        }
-
-        return CGSizeMake(screenWidth, campaignCellHeight);
-    }
-
-    return CGSizeMake(screenWidth, reportbackItemHeight);
-}
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section == LDTCampaignDetailSectionTypeReportback) {

@@ -14,4 +14,12 @@
 
 @implementation LDTCampaignDetailReportbackItemCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+
+    self.detailView.translatesAutoresizingMaskIntoConstraints = NO;
+    CGFloat screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
+    [self.detailView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:screenWidth]];
+}
+
 @end
