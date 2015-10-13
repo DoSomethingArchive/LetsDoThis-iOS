@@ -27,6 +27,8 @@
 
 @implementation LDTCampaignDetailCampaignCell
 
+#pragma mark - UICollectionViewCell
+
 - (void)awakeFromNib {
     [super awakeFromNib];
 
@@ -35,6 +37,31 @@
     self.campaignDetailsHeadingLabel.text = [@"Do this" uppercaseString];
     self.staticInstructionLabel.text = @"When you’re done, submit your photo to us so you can show off and get props from your friends.";
 }
+
+- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
+    UICollectionViewLayoutAttributes *attributes = [[super preferredLayoutAttributesFittingAttributes:layoutAttributes] copy];
+
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+
+    CGRect newFrame = attributes.frame;
+    newFrame.size.width = CGRectGetWidth([UIScreen mainScreen].bounds);
+    newFrame.size.height = [self.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+    attributes.frame = newFrame;
+    return attributes;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds) - 16;
+    self.solutionCopyLabel.preferredMaxLayoutWidth = width;
+    self.solutionSupportCopyLabel.preferredMaxLayoutWidth = width;
+    self.staticInstructionLabel.preferredMaxLayoutWidth = width;
+    self.taglineLabel.preferredMaxLayoutWidth = width;
+}
+
+#pragma mark - LDTCampaignDetailCampaignCell
 
 - (void)styleView {
     self.titleLabel.font  = [LDTTheme fontTitle];
