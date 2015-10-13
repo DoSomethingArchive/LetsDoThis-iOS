@@ -12,7 +12,7 @@ target 'Lets Do This' do
 	pod 'Fabric', '1.5.1'
 	pod 'Crashlytics', '3.3.4'
   pod 'SVProgressHUD', '1.1.3'
-  pod 'Google/Analytics', '~> 1.0.7'
+  pod 'Google/Analytics', '1.0.7'
 end
 
 xcodeproj 'Lets Do This', 'Thor' => :release, 'Debug' => :debug, 'Release' => :release

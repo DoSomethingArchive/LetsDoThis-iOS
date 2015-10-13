@@ -75,7 +75,7 @@
 		EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */; };
 		EAB613001BCD6B51003605D4 /* GoogleService-Debug-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAB612FF1BCD6B51003605D4 /* GoogleService-Debug-Info.plist */; settings = {ASSET_TAGS = (); }; };
 		EAB613021BCD6BCE003605D4 /* GoogleService-Release-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAB613011BCD6BCE003605D4 /* GoogleService-Release-Info.plist */; settings = {ASSET_TAGS = (); }; };
-		EAB613041BCDA3D8003605D4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAB613031BCDA3D8003605D4 /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
+		EAB613061BCDCBB7003605D4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAB613051BCDCBB7003605D4 /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -202,7 +202,7 @@
 		EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+LDT.m"; sourceTree = "<group>"; };
 		EAB612FF1BCD6B51003605D4 /* GoogleService-Debug-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Debug-Info.plist"; sourceTree = "<group>"; };
 		EAB613011BCD6BCE003605D4 /* GoogleService-Release-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Release-Info.plist"; sourceTree = "<group>"; };
-		EAB613031BCDA3D8003605D4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EAB613051BCDCBB7003605D4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Lets Do This.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -433,13 +433,13 @@
 		C2B151EC1ACE04C30028C336 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EAB613051BCDCBB7003605D4 /* GoogleService-Info.plist */,
 				EAB613011BCD6BCE003605D4 /* GoogleService-Release-Info.plist */,
 				EAB612FF1BCD6B51003605D4 /* GoogleService-Debug-Info.plist */,
 				C2B151ED1ACE04C30028C336 /* Info.plist */,
 				C2B151EE1ACE04C30028C336 /* main.m */,
 				C20BA28F1AF3DE0D00E9886F /* LetsDoThis.pch */,
 				B20881A01B0B9B0F00E697B2 /* keys.plist */,
-				EAB613031BCDA3D8003605D4 /* GoogleService-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -659,7 +659,7 @@
 				B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */,
 				B22274011B5879B3005C896D /* LDTCampaignListView.xib in Resources */,
 				B2399FD51BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.xib in Resources */,
-				EAB613041BCDA3D8003605D4 /* GoogleService-Info.plist in Resources */,
+				EAB613061BCDCBB7003605D4 /* GoogleService-Info.plist in Resources */,
 				B23E68271B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.xib in Resources */,
 				B2DB719F1B755E6300915A18 /* LDTCampaignListReportbackItemCell.xib in Resources */,
 				B24FE0331BAA49CE001CAD5D /* LDTSubmitReportbackView.xib in Resources */,

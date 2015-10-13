@@ -30,8 +30,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:@"LDTUserConnectView"];
+    [tracker set:kGAIScreenName value:@"user-connect"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
