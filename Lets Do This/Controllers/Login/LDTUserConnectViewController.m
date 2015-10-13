@@ -11,6 +11,7 @@
 #import "LDTUserLoginViewController.h"
 #import "LDTTheme.h"
 #import "LDTButton.h"
+#import <Google/Analytics.h>
 
 @interface LDTUserConnectViewController ()
 
@@ -26,6 +27,13 @@
 @implementation LDTUserConnectViewController
 
 #pragma mark - UIVIewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"LDTUserConnectView"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
