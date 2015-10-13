@@ -21,8 +21,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *campaignDetailsView;
 
-- (IBAction)actionButtonTouchUpInside:(id)sender;
-
 @end
 
 @implementation LDTCampaignDetailCampaignCell
@@ -95,10 +93,6 @@
     self.coverImageView.layer.shadowOpacity = 0.3;
 }
 
-- (void)setActionButtonTitle:(NSString *)actionButtonTitle {
-    [self.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
-}
-
 - (void)setCoverImageURL:(NSURL *)coverImageURL {
     [self.coverImageView sd_setImageWithURL:coverImageURL];
 }
@@ -117,12 +111,6 @@
 
 - (void)setTitleLabelText:(NSString *)titleLabelText{
     self.titleLabel.text = [titleLabelText uppercaseString];
-}
-
-- (IBAction)actionButtonTouchUpInside:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickActionButtonForCell:)]) {
-        [self.delegate didClickActionButtonForCell:self];
-    }
 }
 
 @end
