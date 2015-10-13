@@ -303,8 +303,16 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     CGFloat reportbackItemHeight = screenWidth + 36 + 70;
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-        // @todo: Dynamic height (GH issue #320)
-        CGFloat campaignCellHeight = 660;
+        // Create a dummy sizing cell to determine dynamic CampaignCell height.
+        // We never display this cell, but just configure it with the campaign to return the exact the height.
+        UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil];
+        LDTCampaignDetailCampaignCell *sizingCell =  [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
+        [self configureCampaignCell:sizingCell];
+        sizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(sizingCell.frame));
+        [sizingCell setNeedsLayout];
+        [sizingCell layoutIfNeeded];
+        CGFloat campaignCellHeight = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+
         if ([[self user] hasCompletedCampaign:self.campaign]) {
             if (indexPath.row == LDTCampaignDetailCampaignSectionRowSelfReportback) {
                 // Button height + top and bottom margins = 90
