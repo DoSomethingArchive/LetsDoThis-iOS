@@ -52,9 +52,16 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
           [SSKeychain setPassword:self.user.userID forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
           [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
               self.activeMobileAppCampaigns = campaigns;
-              if (completionHandler) {
-                  completionHandler(user);
-              }
+              [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
+                  self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+                  if (completionHandler) {
+                      completionHandler(user);
+                  }
+              } errorHandler:^(NSError *error) {
+                  if (errorHandler) {
+                      errorHandler(error);
+                  }
+              }];
           } errorHandler:^(NSError *error) {
               if (errorHandler) {
                   errorHandler(error);
