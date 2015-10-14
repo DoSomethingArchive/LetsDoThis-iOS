@@ -231,9 +231,16 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 #pragma mark - LDTCampaignDetailSelfReportbackCellDelegate
 
 - (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    NSString *shareMessage = [NSString stringWithFormat:@"I did %@", self.campaign.title];
+    
+    NSString *title = self.campaign.title;
+    NSString *verb = self.campaign.reportbackVerb.lowercaseString;
+    NSString *quantity = [NSString stringWithFormat:@"%li", (long)self.currentUserReportback.quantity];
+    NSString *noun = self.campaign.reportbackNoun.lowercaseString;
+    NSString *appStoreLink = [NSString stringWithFormat:@"https://itunes.apple.com/app/id998995766"];
+    NSString *shareMessage = [NSString stringWithFormat:@"BAM. I just rocked the %@ campaign on the Let's Do this app and %@ %@ %@. Wanna do it with me? %@", title, verb, quantity, noun, appStoreLink];
     UIImage *shareImage = cell.detailView.reportbackItemImage;
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
