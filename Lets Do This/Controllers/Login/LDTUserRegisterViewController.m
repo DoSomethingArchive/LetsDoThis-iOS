@@ -72,21 +72,12 @@
     [self.submitButton enable:NO];
     [self.loginLink setTitle:@"Have a DoSomething.org account? Sign in" forState:UIControlStateNormal];
     
-//    NSMutableAttributedString *disclaimer = [[NSMutableAttributedString alloc] initWithString:@"Creating an account means you agree to our Privacy Policy & to receive our weekly update. Message & data rates may apply. Text STOP to opt-out, HELP for help." attributes:NULL];
-//    
-//    NSRange foundRange = [disclaimer rangeOfString:@"Privacy Policy"];
-//    if (foundRange.location != NSNotFound)
-//    {
-//        [disclaimer beginEditing];
-//        [disclaimer addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:1] range:foundRange];
-//        [disclaimer addAttribute:NSUnderlineColorAttributeName value:[NSColor redColor] range:foundRange];
-//        [disclaimer endEditing];
-//    }
-    
     self.footerLabel.adjustsFontSizeToFitWidth = NO;
     self.footerLabel.numberOfLines = 0;
-//    self.footerLabel.text = @"Creating an account means you agree to our Privacy Policy & to receive our weekly update. Message & data rates may apply. Text STOP to opt-out, HELP for help.";
-    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleFooterLabelTap)];
+    tapGestureRecognizer.numberOfTapsRequired = 1;
+    [self.footerLabel addGestureRecognizer:tapGestureRecognizer];
+    self.footerLabel.userInteractionEnabled = YES;
     
 
     self.imagePickerController = [[UIImagePickerController alloc] init];
@@ -223,6 +214,10 @@
     [avatarAlertController addAction:photoLibraryAlertAction];
     [avatarAlertController addAction:cancelAlertAction];
     [self presentViewController:avatarAlertController animated:YES completion:nil];
+}
+
+- (void)handleFooterLabelTap {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [NSString stringWithFormat:@"%@%@", [DSOAPI sharedInstance].phoenixBaseURL, @"about/privacy-policy"]]];
 }
 
 - (IBAction)firstNameEditingDidBegin:(id)sender {
