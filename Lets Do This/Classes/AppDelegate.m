@@ -21,6 +21,8 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
+#define isLoggingGoogleAnalytics NO
+
 @interface AppDelegate ()
 
 @end
@@ -31,7 +33,18 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 	[Fabric with:@[CrashlyticsKit]];
-	
+    
+    NSError *configureError;
+    [[GGLContext sharedInstance] configureWithError:&configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    
+    // Configure GAI options.
+    GAI *gai = [GAI sharedInstance];
+    if (isLoggingGoogleAnalytics) {
+        gai.trackUncaughtExceptions = YES;
+        gai.logger.logLevel = kGAILogLevelVerbose;
+    }
+
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;

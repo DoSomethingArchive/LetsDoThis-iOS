@@ -9,6 +9,8 @@
 #import "LDTReportbackItemDetailView.h"
 #import "LDTTheme.h"
 
+#define GASCREENNAME @"reportback-item"
+
 @interface LDTReportbackItemDetailView ()
 
 @property (weak, nonatomic) IBOutlet UIButton *campaignTitleButton;

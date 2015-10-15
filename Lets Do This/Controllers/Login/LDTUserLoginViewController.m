@@ -14,6 +14,8 @@
 #import "LDTTabBarController.h"
 #import "UITextField+LDT.h"
 
+#define GASCREENNAME @"user-login"
+
 @interface LDTUserLoginViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
@@ -48,6 +50,14 @@
 }
 
 #pragma mark - UIViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:GASCREENNAME];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
