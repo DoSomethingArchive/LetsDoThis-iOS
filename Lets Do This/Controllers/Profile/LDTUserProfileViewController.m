@@ -11,6 +11,8 @@
 #import "LDTCampaignDetailViewController.h"
 #import "LDTSettingsViewController.h"
 
+#define GASCREENNAME @"user-login"
+
 @interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *campaignsDoing;
@@ -40,6 +42,20 @@ static NSString *cellIdentifier = @"rowCell";
 }
 
 #pragma mark - UIViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    // Sends different screenname strings depending on if user is viewing her own profile or not.
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    if ([self.user isLoggedInUser]) {
+        [tracker set:kGAIScreenName value:[NSString stringWithFormat:@"%@/%@", GASCREENNAME, @"self"]];
+    }
+    else {
+        [tracker set:kGAIScreenName value:[NSString stringWithFormat:@"%@/%@", GASCREENNAME, self.user.userID]];
+    }
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

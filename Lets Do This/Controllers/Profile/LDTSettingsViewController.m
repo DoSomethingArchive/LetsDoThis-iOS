@@ -14,6 +14,8 @@
 #import "LDTUserConnectViewController.h"
 #import "LDTUpdateAvatarViewController.h"
 
+#define GASCREENNAME @"settings"
+
 @interface LDTSettingsViewController()
 
 @property (assign, nonatomic) BOOL isNotificationsEnabled;
@@ -43,6 +45,14 @@
 @implementation LDTSettingsViewController
 
 #pragma UIViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:GASCREENNAME];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

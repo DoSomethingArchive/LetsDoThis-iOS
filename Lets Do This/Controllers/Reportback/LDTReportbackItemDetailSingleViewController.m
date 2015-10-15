@@ -12,6 +12,8 @@
 #import "LDTCampaignDetailViewController.h"
 #import "LDTUserProfileViewController.h"
 
+#define GASCREENNAME @"reportback-item"
+
 @interface LDTReportbackItemDetailSingleViewController () <LDTReportbackItemDetailViewDelegate>
 
 @property (strong, nonatomic) DSOReportbackItem *reportbackItem;
@@ -34,6 +36,15 @@
 }
 
 #pragma mark - UIViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    NSString *reportbackItemStringID = [NSString stringWithFormat:@"%li", (long)self.reportbackItem.reportbackItemID];
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:[NSString stringWithFormat:@"%@/%@", GASCREENNAME, reportbackItemStringID]];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -17,7 +17,6 @@
 #import "LDTTabBarController.h"
 #import "DSOUserManager.h"
 #import "TSMessageView.h"
-#import <Google/Analytics.h>
 
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>

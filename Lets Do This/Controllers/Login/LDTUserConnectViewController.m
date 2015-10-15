@@ -13,6 +13,8 @@
 #import "LDTButton.h"
 #import <Google/Analytics.h>
 
+#define GASCREENNAME @"user-connect"
+
 @interface LDTUserConnectViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
@@ -32,7 +34,7 @@
     [super viewWillAppear:animated];
 
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:@"user-connect"];
+    [tracker set:kGAIScreenName value:GASCREENNAME];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
