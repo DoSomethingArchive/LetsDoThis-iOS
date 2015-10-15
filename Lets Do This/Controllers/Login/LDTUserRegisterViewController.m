@@ -72,9 +72,22 @@
     [self.submitButton enable:NO];
     [self.loginLink setTitle:@"Have a DoSomething.org account? Sign in" forState:UIControlStateNormal];
     
+//    NSMutableAttributedString *disclaimer = [[NSMutableAttributedString alloc] initWithString:@"Creating an account means you agree to our Privacy Policy & to receive our weekly update. Message & data rates may apply. Text STOP to opt-out, HELP for help." attributes:NULL];
+//    
+//    NSRange foundRange = [disclaimer rangeOfString:@"Privacy Policy"];
+//    if (foundRange.location != NSNotFound)
+//    {
+//        [disclaimer beginEditing];
+//        [disclaimer addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:1] range:foundRange];
+//        [disclaimer addAttribute:NSUnderlineColorAttributeName value:[NSColor redColor] range:foundRange];
+//        [disclaimer endEditing];
+//    }
+    
     self.footerLabel.adjustsFontSizeToFitWidth = NO;
     self.footerLabel.numberOfLines = 0;
-    self.footerLabel.text = @"Creating an account means you agree to our Privacy Policy & to receive our weekly update. Message & data rates may apply. Text STOP to opt-out, HELP for help.";
+//    self.footerLabel.text = @"Creating an account means you agree to our Privacy Policy & to receive our weekly update. Message & data rates may apply. Text STOP to opt-out, HELP for help.";
+    
+    
 
     self.imagePickerController = [[UIImagePickerController alloc] init];
     self.imagePickerController.delegate = self;
