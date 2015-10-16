@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -31,12 +31,14 @@
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XhN-FG-gBt" userLabel="Headline">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="21"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hON-y7-TtZ" userLabel="Select Avatar Button">
                             <rect key="frame" x="250" y="29" width="100" height="100"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="100" id="Xfx-6N-hU8"/>
                                 <constraint firstAttribute="height" constant="100" id="fJv-s0-Eg5"/>
@@ -50,6 +52,7 @@
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nkh-6g-VOu" userLabel="Avatar Image View">
                             <rect key="frame" x="250" y="29" width="100" height="100"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="100" id="nta-qi-c8g"/>
                                 <constraint firstAttribute="width" constant="100" id="pzn-S8-LOs"/>
@@ -60,6 +63,7 @@
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QjS-W9-vkE">
                                     <rect key="frame" x="0.0" y="0.0" width="584" height="44"/>
+                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="qVc-13-aZu"/>
                                     </constraints>
@@ -72,6 +76,7 @@
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mfy-Oc-Vpw">
                                     <rect key="frame" x="0.0" y="52" width="584" height="44"/>
+                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="wNI-IZ-zCO"/>
                                     </constraints>
@@ -84,6 +89,7 @@
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password (6+ characters...make it tricky!)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dxA-aT-bK7">
                                     <rect key="frame" x="0.0" y="156" width="584" height="44"/>
+                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="Ay5-af-5xt"/>
                                     </constraints>
@@ -97,6 +103,7 @@
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number (Optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CZ0-O0-iWG">
                                     <rect key="frame" x="0.0" y="104" width="584" height="44"/>
+                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="dIh-2c-kP8"/>
                                     </constraints>
@@ -108,6 +115,7 @@
                                     </connections>
                                 </textField>
                             </subviews>
+                            <animations/>
                             <constraints>
                                 <constraint firstItem="QjS-W9-vkE" firstAttribute="top" secondItem="bhL-AU-dqT" secondAttribute="top" id="53y-2r-P5K"/>
                                 <constraint firstAttribute="trailing" secondItem="Mfy-Oc-Vpw" secondAttribute="trailing" id="HAk-5r-bHy"/>
@@ -127,6 +135,7 @@
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WQo-g9-7HX" userLabel="Submit Button" customClass="LDTButton">
                             <rect key="frame" x="8" y="374" width="584" height="50"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="2VJ-5B-9qs"/>
                             </constraints>
@@ -139,6 +148,7 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ggr-KI-p8I" userLabel="Link to Login Screen" customClass="LDTButton">
                             <rect key="frame" x="277" y="432" width="47" height="30"/>
+                            <animations/>
                             <state key="normal" title="Sign In">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -146,13 +156,54 @@
                                 <action selector="loginLinkTouchUpInside:" destination="-1" eventType="touchUpInside" id="Uj6-8b-X7n"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Disclaimer Text" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cyo-DU-kOw">
-                            <rect key="frame" x="8" y="478" width="584" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cyo-DU-kOw">
+                            <rect key="frame" x="37" y="478" width="526" height="15"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="9xr-Pb-sNQ"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <attributedString key="attributedText">
+                                <fragment content="Creating an account means you agree to our ">
+                                    <attributes>
+                                        <font key="NSFont" size="13" name="ArialMT"/>
+                                        <integer key="NSLigature" value="0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="31.300000000000001" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops>
+                                                <textTab alignment="left" location="31.299999237060547">
+                                                    <options/>
+                                                </textTab>
+                                            </tabStops>
+                                        </paragraphStyle>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="Privacy Policy">
+                                    <attributes>
+                                        <font key="NSFont" size="13" name="ArialMT"/>
+                                        <integer key="NSLigature" value="0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="31.300000000000001" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops>
+                                                <textTab alignment="left" location="31.299999237060547">
+                                                    <options/>
+                                                </textTab>
+                                            </tabStops>
+                                        </paragraphStyle>
+                                        <integer key="NSUnderline" value="1"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content=" &amp; to receive our weekly update. Message &amp; data rates may apply. Text STOP to opt-out, HELP for help.">
+                                    <attributes>
+                                        <font key="NSFont" size="13" name="ArialMT"/>
+                                        <integer key="NSLigature" value="0"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="31.300000000000001" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <tabStops>
+                                                <textTab alignment="left" location="31.299999237060547">
+                                                    <options/>
+                                                </textTab>
+                                            </tabStops>
+                                        </paragraphStyle>
+                                    </attributes>
+                                </fragment>
+                            </attributedString>
                             <nil key="highlightedColor"/>
                             <variation key="default">
                                 <mask key="constraints">
@@ -166,9 +217,10 @@
                             </variation>
                         </label>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="Cyo-DU-kOw" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="8" id="6G1-Jx-8SQ"/>
+                        <constraint firstItem="Cyo-DU-kOw" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="37" id="6G1-Jx-8SQ"/>
                         <constraint firstItem="bhL-AU-dqT" firstAttribute="top" secondItem="Nkh-6g-VOu" secondAttribute="bottom" constant="29" id="BR9-Gc-kcK"/>
                         <constraint firstAttribute="centerX" secondItem="Ggr-KI-p8I" secondAttribute="centerX" id="Ce6-1x-qlH"/>
                         <constraint firstAttribute="bottom" secondItem="Cyo-DU-kOw" secondAttribute="bottom" constant="32" id="DH8-Di-M63"/>
@@ -186,7 +238,7 @@
                         <constraint firstItem="hON-y7-TtZ" firstAttribute="top" secondItem="XhN-FG-gBt" secondAttribute="bottom" constant="8" id="jgK-1D-8u6"/>
                         <constraint firstAttribute="centerX" secondItem="Cyo-DU-kOw" secondAttribute="centerX" id="juH-F7-uF9"/>
                         <constraint firstAttribute="centerX" secondItem="bhL-AU-dqT" secondAttribute="centerX" id="jyC-lk-9p2"/>
-                        <constraint firstAttribute="trailing" secondItem="Cyo-DU-kOw" secondAttribute="trailing" constant="8" id="kiq-xG-ZEk"/>
+                        <constraint firstAttribute="trailing" secondItem="Cyo-DU-kOw" secondAttribute="trailing" constant="37" id="kiq-xG-ZEk"/>
                         <constraint firstItem="XhN-FG-gBt" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" id="oSO-nM-92Y"/>
                         <constraint firstItem="XhN-FG-gBt" firstAttribute="top" secondItem="lQg-IH-mxS" secondAttribute="top" id="rqr-bL-ixx"/>
                         <constraint firstItem="WQo-g9-7HX" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="8" id="toA-aX-YsM"/>
@@ -205,6 +257,7 @@
                     </variation>
                 </scrollView>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="lQg-IH-mxS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="5Mm-ba-h3D"/>
