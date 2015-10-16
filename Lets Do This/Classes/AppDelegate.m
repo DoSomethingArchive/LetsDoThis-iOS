@@ -17,9 +17,11 @@
 #import "LDTTabBarController.h"
 #import "DSOUserManager.h"
 #import "TSMessageView.h"
-
+#import "GAI+LDT.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+
+#define isLoggingGoogleAnalytics NO
 
 @interface AppDelegate ()
 
@@ -31,8 +33,21 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 	[Fabric with:@[CrashlyticsKit]];
-	
+
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+
+    NSString *GAItrackingID = keysDict[@"googleAnalyticsLiveTrackingID"];
+#ifdef DEBUG
+    GAItrackingID = keysDict[@"googleAnalyticsTestTrackingID"];
+#elif THOR
+    GAItrackingID = keysDict[@"googleAnalyticsTestTrackingID"];
+#endif
+
+    [[GAI sharedInstance] trackerWithTrackingId:GAItrackingID];
+    if (isLoggingGoogleAnalytics) {
+        [GAI sharedInstance].trackUncaughtExceptions = YES;
+        [GAI sharedInstance].logger.logLevel = kGAILogLevelVerbose;
+    }
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
