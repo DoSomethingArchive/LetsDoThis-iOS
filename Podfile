@@ -9,7 +9,7 @@ target 'Lets Do This' do
     pod 'SDWebImage', '3.7.3'
     pod 'SSKeychain', '1.2.3'
     pod 'TSMessages', '0.9.12'
-	pod 'Fabric', '1.5.1'
+	pod 'Fabric', '1.5.5'
 	pod 'Crashlytics', '3.3.4'
     pod 'SVProgressHUD', '1.1.3'
 end
