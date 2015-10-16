@@ -9,13 +9,14 @@
 #import "LDTCampaignDetailViewController.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailCampaignCell.h"
+#import "LDTCampaignDetailActionButtonCell.h"
 #import "LDTCampaignDetailReportbackItemCell.h"
 #import "LDTCampaignDetailSelfReportbackCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTUserProfileViewController.h"
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTMessage.h"
-
+#import "GAI+LDT.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     LDTCampaignDetailSectionTypeCampaign,
@@ -24,10 +25,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     LDTCampaignDetailCampaignSectionRowCampaign,
-    LDTCampaignDetailCampaignSectionRowSelfReportback
+    LDTCampaignDetailCampaignSectionRowAction
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailCampaignCellDelegate, LDTCampaignDetailSelfReportbackCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailActionButtonCellDelegate, LDTCampaignDetailSelfReportbackCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
@@ -61,6 +62,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self styleBackBarButton];
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailActionButtonCell" bundle:nil] forCellWithReuseIdentifier:@"ActionButtonCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailSelfReportbackCell" bundle:nil] forCellWithReuseIdentifier:@"SelfReportbackCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
@@ -94,6 +96,9 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
+    // todo: Append the user's status to this string.
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld", (long)self.campaign.campaignID]];
+
     // Might have just come from the Reportback Submit screen,
     // so check for currentUserReportback
     if ([[self user] hasCompletedCampaign:self.campaign] && !self.currentUserReportback) {
@@ -126,19 +131,19 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 }
 
 - (void)configureCampaignCell:(LDTCampaignDetailCampaignCell *)cell {
-    cell.delegate = self;
     cell.campaign = self.campaign;
     cell.titleLabelText = self.campaign.title;
     cell.taglineLabelText = self.campaign.tagline;
     cell.solutionCopyLabelText = self.campaign.solutionCopy;
     cell.solutionSupportCopyLabelText = self.campaign.solutionSupportCopy;
     cell.coverImageURL = self.campaign.coverImageURL;
+}
+
+- (void)configureActionButtonCell:(LDTCampaignDetailActionButtonCell *)cell {
+    cell.delegate = self;
     NSString *actionButtonTitle = @"Stop being bored";
     if ([self.user isDoingCampaign:self.campaign]) {
         actionButtonTitle = @"Prove it";
-    }
-    else if ([self.user hasCompletedCampaign:self.campaign]) {
-        actionButtonTitle = @"Proved it";
     }
     cell.actionButtonTitle = actionButtonTitle;
 }
@@ -179,15 +184,15 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 	return [DSOUserManager sharedInstance].user;
 }
 
-#pragma mark - LDTCampaignDetailCampaignCellDelegate
+#pragma mark - LDTCampaignDetailActionButtonCellDelegate
 
-- (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
+- (void)didClickActionButtonForCell:(LDTCampaignDetailActionButtonCell *)cell {
     // Shouldn't see the actionButton if completed, but sanity check.
-    if ([self.user hasCompletedCampaign:cell.campaign]) {
+    if ([self.user hasCompletedCampaign:self.campaign]) {
         return;
     }
 
-    if ([self.user isDoingCampaign:cell.campaign]) {
+    if ([self.user isDoingCampaign:self.campaign]) {
         UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *cameraAlertAction;
         if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -215,9 +220,9 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }
     else {
         [SVProgressHUD show];
-        [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(DSOCampaignSignup *signup) {
+        [[DSOUserManager sharedInstance] signupUserForCampaign:self.campaign completionHandler:^(DSOCampaignSignup *signup) {
             [SVProgressHUD dismiss];
-            [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", cell.campaign.title]];
+            [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", self.campaign.title]];
             [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
          } errorHandler:^(NSError *error) {
              [SVProgressHUD dismiss];
@@ -229,9 +234,16 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 #pragma mark - LDTCampaignDetailSelfReportbackCellDelegate
 
 - (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    NSString *shareMessage = [NSString stringWithFormat:@"I did %@", self.campaign.title];
+    
+    NSString *title = self.campaign.title;
+    NSString *verb = self.campaign.reportbackVerb.lowercaseString;
+    NSString *quantity = [NSString stringWithFormat:@"%li", (long)self.currentUserReportback.quantity];
+    NSString *noun = self.campaign.reportbackNoun.lowercaseString;
+    NSString *appStoreLink = [NSString stringWithFormat:@"https://itunes.apple.com/app/id998995766"];
+    NSString *shareMessage = [NSString stringWithFormat:@"BAM. I just rocked the %@ campaign on the Let's Do this app and %@ %@ %@. Wanna do it with me? %@", title, verb, quantity, noun, appStoreLink];
     UIImage *shareImage = cell.detailView.reportbackItemImage;
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
@@ -242,14 +254,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
         return self.reportbackItems.count;
     }
-    else if (section == LDTCampaignDetailSectionTypeCampaign) {
-        if ([[self user] hasCompletedCampaign:self.campaign]) {
 
-            return 2;
-        }
-    }
-
-    return 1;
+    return 2;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -259,19 +265,26 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-        LDTCampaignDetailCampaignCell *campaignCell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
-        [self configureCampaignCell:campaignCell];
 
-        if ([[self user] hasCompletedCampaign:self.campaign]) {
-            if (indexPath.row == LDTCampaignDetailCampaignSectionRowSelfReportback) {
+        if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
+            LDTCampaignDetailCampaignCell *campaignCell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+            [self configureCampaignCell:campaignCell];
+            return campaignCell;
+        }
+
+        if (indexPath.row == LDTCampaignDetailCampaignSectionRowAction) {
+            if ([[self user] hasCompletedCampaign:self.campaign]) {
                 LDTCampaignDetailSelfReportbackCell *selfReportbackCell = (LDTCampaignDetailSelfReportbackCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"SelfReportbackCell" forIndexPath:indexPath];
                 [self configureSelfReportbackCell:selfReportbackCell];
-
                 return selfReportbackCell;
+            }
+            else {
+                LDTCampaignDetailActionButtonCell *actionButtonCell = (LDTCampaignDetailActionButtonCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ActionButtonCell" forIndexPath:indexPath];
+                [self configureActionButtonCell:actionButtonCell];
+                return actionButtonCell;
             }
         }
 
-        return campaignCell;
     }
 
     if (indexPath.section == LDTCampaignDetailSectionTypeReportback) {
@@ -303,20 +316,28 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     CGFloat reportbackItemHeight = screenWidth + 36 + 70;
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-        // @todo: Dynamic height (GH issue #320)
-        CGFloat campaignCellHeight = 660;
-        if ([[self user] hasCompletedCampaign:self.campaign]) {
-            if (indexPath.row == LDTCampaignDetailCampaignSectionRowSelfReportback) {
-                // Button height + top and bottom margins = 90
-                campaignCellHeight = reportbackItemHeight + 90;
+        if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
+            // Create a dummy sizing cell to determine dynamic CampaignCell height.
+            // We never display this cell, but just configure it with the campaign to return the exact the height.
+            UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil];
+            LDTCampaignDetailCampaignCell *sizingCell =  [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
+            [self configureCampaignCell:sizingCell];
+            sizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(sizingCell.frame));
+            [sizingCell setNeedsLayout];
+            [sizingCell layoutIfNeeded];
+            CGFloat campaignCellHeight = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+            return CGSizeMake(screenWidth, campaignCellHeight);
+        }
+        else {
+            if ([[self user] hasCompletedCampaign:self.campaign]) {
+                // Add 90 for the Share Photo button.
+                return CGSizeMake(screenWidth, reportbackItemHeight + 90);
             }
             else {
-                // Subtract height of the Prove It Button.
-                campaignCellHeight = campaignCellHeight - 60;
+                // Button height (50) + top and bottom margins (2 * 16) = 82
+                return CGSizeMake(screenWidth, 82);
             }
         }
-
-        return CGSizeMake(screenWidth, campaignCellHeight);
     }
 
     return CGSizeMake(screenWidth, reportbackItemHeight);

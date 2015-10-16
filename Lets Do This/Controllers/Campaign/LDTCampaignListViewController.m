@@ -16,6 +16,7 @@
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
+#import "GAI+LDT.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
     LDTCampaignListSectionTypeCampaign,
@@ -87,6 +88,8 @@ const CGFloat kHeightExpanded = 420;
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
 
     [self styleView];
+
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
 }
 
 #pragma mark - LDTCampaignListViewController
@@ -221,6 +224,7 @@ const CGFloat kHeightExpanded = 420;
         self.selectedIndexPath = nil;
         [self styleButtons];
         [self.collectionView reloadData];
+        [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
     }
 }
 
