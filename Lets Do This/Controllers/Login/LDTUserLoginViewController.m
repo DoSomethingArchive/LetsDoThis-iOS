@@ -13,6 +13,7 @@
 #import "LDTUserRegisterViewController.h"
 #import "LDTTabBarController.h"
 #import "UITextField+LDT.h"
+#import "GAI+LDT.h"
 
 @interface LDTUserLoginViewController ()
 
@@ -73,6 +74,12 @@
     [self.passwordButton setTitle:[@"Forgot password?" uppercaseString] forState:UIControlStateNormal];
 
     [self styleView];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    [[GAI sharedInstance] trackScreenView:@"user-login"];
 }
 
 #pragma mark - LDTUserLoginViewController
