@@ -16,7 +16,7 @@
 #import "LDTUserProfileViewController.h"
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTMessage.h"
-
+#import "GAI+LDT.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     LDTCampaignDetailSectionTypeCampaign,
@@ -95,6 +95,9 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
+    // todo: Append the user's status to this string.
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld", (long)self.campaign.campaignID]];
 
     // Might have just come from the Reportback Submit screen,
     // so check for currentUserReportback

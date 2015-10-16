@@ -39,6 +39,7 @@
 		B2629F261BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2629F251BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib */; };
 		B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */; };
 		B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */; };
+		B2753E391BD17C49004DDD6A /* GAI+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B2753E381BD17C49004DDD6A /* GAI+LDT.m */; settings = {ASSET_TAGS = (); }; };
 		B27AF0E41B4F48BC00164926 /* LDTUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27AF0E31B4F48BC00164926 /* LDTUserProfileViewController.m */; };
 		B27AF0E71B4F493D00164926 /* LDTUserProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27AF0E61B4F493D00164926 /* LDTUserProfileView.xib */; };
 		B27AF0EB1B4F64B200164926 /* LDTLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27AF0EA1B4F64B200164926 /* LDTLoadingViewController.m */; };
@@ -139,6 +140,8 @@
 		B2629F251BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUpdateAvatarView.xib; path = Settings/LDTUpdateAvatarView.xib; sourceTree = "<group>"; };
 		B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_med.otf; path = Resources/Fonts/Brandon_med.otf; sourceTree = "<group>"; };
 		B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_bld.otf; path = Resources/Fonts/Brandon_bld.otf; sourceTree = "<group>"; };
+		B2753E371BD17C49004DDD6A /* GAI+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GAI+LDT.h"; sourceTree = "<group>"; };
+		B2753E381BD17C49004DDD6A /* GAI+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GAI+LDT.m"; sourceTree = "<group>"; };
 		B27AF0E21B4F48BC00164926 /* LDTUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserProfileViewController.h; path = Profile/LDTUserProfileViewController.h; sourceTree = "<group>"; };
 		B27AF0E31B4F48BC00164926 /* LDTUserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserProfileViewController.m; path = Profile/LDTUserProfileViewController.m; sourceTree = "<group>"; };
 		B27AF0E61B4F493D00164926 /* LDTUserProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserProfileView.xib; path = Profile/LDTUserProfileView.xib; sourceTree = "<group>"; };
@@ -475,6 +478,8 @@
 				EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */,
 				B28124D01BAA1FB700DF58DA /* UIViewController+LDT.h */,
 				B28124D11BAA1FB700DF58DA /* UIViewController+LDT.m */,
+				B2753E371BD17C49004DDD6A /* GAI+LDT.h */,
+				B2753E381BD17C49004DDD6A /* GAI+LDT.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -772,6 +777,7 @@
 				B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */,
 				C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */,
 				B23E68261B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.m in Sources */,
+				B2753E391BD17C49004DDD6A /* GAI+LDT.m in Sources */,
 				B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */,
 				B248D5091BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m in Sources */,
 			);

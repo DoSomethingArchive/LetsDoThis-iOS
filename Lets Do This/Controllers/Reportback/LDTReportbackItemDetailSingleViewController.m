@@ -11,6 +11,7 @@
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 #import "LDTUserProfileViewController.h"
+#import "GAI+LDT.h"
 
 @interface LDTReportbackItemDetailSingleViewController () <LDTReportbackItemDetailViewDelegate>
 
@@ -50,6 +51,8 @@
     [super viewDidAppear:animated];
 
     [self styleView];
+
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"reportback-item/%ld", (long)self.reportbackItem.reportbackItemID]];
 }
 
 #pragma mark - LDTReportbackItemDetailSingleViewController

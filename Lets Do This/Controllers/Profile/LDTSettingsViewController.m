@@ -13,6 +13,7 @@
 #import "LDTTheme.h"
 #import "LDTUserConnectViewController.h"
 #import "LDTUpdateAvatarViewController.h"
+#import "GAI+LDT.h"
 
 @interface LDTSettingsViewController()
 
@@ -64,6 +65,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
+    [[GAI sharedInstance] trackScreenView:@"settings"];
 
     UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
     self.isNotificationsEnabled = (grantedSettings.types != UIUserNotificationTypeNone);

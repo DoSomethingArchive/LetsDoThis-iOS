@@ -11,6 +11,7 @@
 #import "LDTUserLoginViewController.h"
 #import "LDTTheme.h"
 #import "LDTButton.h"
+#import "GAI+LDT.h"
 
 @interface LDTUserConnectViewController ()
 
@@ -38,6 +39,12 @@
     [self.loginButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
 
     [self styleView];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    [[GAI sharedInstance] trackScreenView:@"user-connect"];
 }
 
 #pragma mark - LDTUserConnectViewController
