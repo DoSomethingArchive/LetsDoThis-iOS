@@ -11,6 +11,7 @@
 #import "LDTTabBarController.h"
 #import "LDTUserLoginViewController.h"
 #import "UITextField+LDT.h"
+#import "GAI+LDT.h"
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -119,6 +120,12 @@
     if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
         [self.locationManager requestWhenInUseAuthorization];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    [[GAI sharedInstance] trackScreenView:@"user-register"];
 }
 
 #pragma mark - LDTUserRegisterViewController
