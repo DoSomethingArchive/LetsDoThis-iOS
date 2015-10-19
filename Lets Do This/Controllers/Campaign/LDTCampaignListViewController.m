@@ -7,12 +7,10 @@
 //
 
 #import "LDTCampaignListViewController.h"
-#import "DSOAPI.h"
-#import "DSOCampaign.h"
-#import "DSOReportbackItem.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 #import "LDTReportbackItemDetailSingleViewController.h"
+#import "LDTEpicFailViewController.h"
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
@@ -69,6 +67,13 @@ const CGFloat kHeightExpanded = 420;
     self.selectedIndexPath = nil;
 
     self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
+    if (self.allCampaigns.count == 0) {
+        LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+        [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+        [self presentViewController:navVC animated:YES completion:nil];
+    };
+
     [self createInterestGroups];
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];

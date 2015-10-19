@@ -41,6 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.title = @"Let's Do This".uppercaseString;
     self.headlineLabel.text = self.headlineLabelText;
     self.detailsLabel.text = self.detailsLabelText;
     [self.submitButton setTitle:@"Try again".uppercaseString forState:UIControlStateNormal];
