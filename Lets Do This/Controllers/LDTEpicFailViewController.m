@@ -60,5 +60,9 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickSubmitButton:)]) {
+        [self.delegate didClickSubmitButton:self];
+    }
 }
+
 @end
