@@ -292,6 +292,7 @@ const CGFloat kHeightExpanded = 400;
 #pragma mark - UIScrollViewDelegate
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+	// Sets selected state of interest group buttons when user drags left or right on collection view
 	// Since we have nested collection views this method sometimes gets called when we don't need it, so check to
 	// make sure it's the scrollview we want (the container collection view)
 	if ([(UICollectionView *)scrollView isEqual:self.collectionView]) {
@@ -301,7 +302,6 @@ const CGFloat kHeightExpanded = 400;
 		if (self.selectedGroupButtonIndex != visiblePage) {
 			self.selectedGroupButtonIndex = visiblePage;
 		}
-		
 		[self styleButtons];
 	}
 }
