@@ -68,17 +68,6 @@ const BOOL isTestingForNoCampaigns = NO;
     self.selectedGroupButtonIndex = 0;
     self.selectedIndexPath = nil;
 
-//    self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
-//    if (isTestingForNoCampaigns || self.allCampaigns.count == 0) {
-//        LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
-//        epicFailVC.delegate = self;
-//        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-//        [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-//        [self presentViewController:navVC animated:YES completion:nil];
-//    };
-//
-//    [self createInterestGroups];
-
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
