@@ -8,6 +8,7 @@
 
 #import "LDTEpicFailViewController.h"
 #import "LDTTheme.h"
+#import "GAI+LDT.h"
 
 @interface LDTEpicFailViewController ()
 
@@ -49,6 +50,11 @@
     [self styleView];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [[GAI sharedInstance] trackScreenView:@"epic-fail"];
+}
 
 #pragma mark - LDTEpicFailViewController
 
