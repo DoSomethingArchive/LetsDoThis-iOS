@@ -255,7 +255,11 @@
         [termIdStrings addObject:[termId stringValue]];
     }
 
-    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app=true&term_ids=%@", self.phoenixApiURL, [termIdStrings componentsJoinedByString:@","]];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    NSString *mobileAppDateString = [dateFormat stringFromDate:[NSDate date]];
+
+    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app_date=%@&term_ids=%@", self.phoenixApiURL, mobileAppDateString, [termIdStrings componentsJoinedByString:@","]];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSMutableArray *campaigns = [[NSMutableArray alloc] init];
@@ -280,7 +284,7 @@
         [campaignIds addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];
     }
 
-    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?status=%@&campaigns=%@", self.phoenixApiURL, status,[campaignIds componentsJoinedByString:@","]];
+    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?load_user_data=TRUE&status=%@&campaigns=%@", self.phoenixApiURL, status,[campaignIds componentsJoinedByString:@","]];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSMutableArray *rbItems = [[NSMutableArray alloc] init];
