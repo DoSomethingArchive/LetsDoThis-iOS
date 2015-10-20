@@ -255,7 +255,11 @@
         [termIdStrings addObject:[termId stringValue]];
     }
 
-    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app=true&term_ids=%@", self.phoenixApiURL, [termIdStrings componentsJoinedByString:@","]];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    NSString *mobileAppDateString = [dateFormat stringFromDate:[NSDate date]];
+
+    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app_date=%@&term_ids=%@", self.phoenixApiURL, mobileAppDateString, [termIdStrings componentsJoinedByString:@","]];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSMutableArray *campaigns = [[NSMutableArray alloc] init];
