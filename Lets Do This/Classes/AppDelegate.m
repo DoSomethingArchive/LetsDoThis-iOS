@@ -52,6 +52,7 @@
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setForegroundColor:[LDTTheme ctaBlueColor]];
+    [SVProgressHUD setFont:[LDTTheme font]];
 
     [Parse setApplicationId:keysDict[@"parseApplicationId"] clientKey:keysDict[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
@@ -69,33 +70,17 @@
     [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
     if (![DSOUserManager sharedInstance].userHasCachedSession) {
-        [self displayUserConnectVC];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
+        [navVC styleNavigationBar:LDTNavigationBarStyleClear];
+        [LDTMessage setDefaultViewController:navVC];
+        [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
     }
     else {
-        [SVProgressHUD show];
-        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
-            LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
-            [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
-            [SVProgressHUD dismiss];
-        } errorHandler:^(NSError *error) {
-            [SVProgressHUD dismiss];
-            // @todo: Inspect error. If we're offline, display Epic Fail, which will need a try again.
-            NSLog(@"error %@", error);
-            // Else if server code, something's up, lets prompt to login again:
-            [self displayUserConnectVC];
-            [LDTMessage displayErrorMessageForError:error];
-        }];
+        LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
+        [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
     }
 
     return YES;
-}
-
-- (void)displayUserConnectVC {
-    [SVProgressHUD dismiss];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
-    [navVC styleNavigationBar:LDTNavigationBarStyleClear];
-    [LDTMessage setDefaultViewController:navVC];
-    [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

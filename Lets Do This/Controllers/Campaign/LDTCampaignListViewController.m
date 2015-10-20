@@ -89,33 +89,41 @@ const BOOL isTestingForNoCampaigns = NO;
     self.flowLayout.minimumInteritemSpacing = 8.0f;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
 
-    [SVProgressHUD show];
+    [SVProgressHUD showWithStatus:@"Loading actions..."];
+
     [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-        if (isTestingForNoCampaigns || campaigns.count == 0) {
-            [SVProgressHUD dismiss];
-            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
-            epicFailVC.delegate = self;
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-            [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-            [self presentViewController:navVC animated:YES completion:nil];
-        }
-        else {
-            self.allCampaigns = campaigns;
-            [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
-            [self createInterestGroups];
-            [self.collectionView reloadData];
-            [SVProgressHUD dismiss];
-        }
+        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
+        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
+            if (isTestingForNoCampaigns || campaigns.count == 0) {
+                [SVProgressHUD dismiss];
+                LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
+                epicFailVC.delegate = self;
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+                [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+                [self presentViewController:navVC animated:YES completion:nil];
+            }
+            else {
+                self.allCampaigns = campaigns;
+                [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
+                [self createInterestGroups];
+                [self.collectionView reloadData];
+                [SVProgressHUD dismiss];
+            }
+        } errorHandler:^(NSError *error) {
+            [LDTMessage displayErrorMessageForError:error];
+        }];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
 
-        // Here we don't know for sure that we're offline, could get a weird network error.
+        // Need to inspect error here to determine what error is.
+        // If something's up with the session, we'll want to logout and push to user connect.
         LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
         epicFailVC.delegate = self;
         UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
         [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
         [self presentViewController:navVC animated:YES completion:nil];
     }];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -267,22 +275,9 @@ const BOOL isTestingForNoCampaigns = NO;
 #pragma mark - LDTEpicFailSubmitButtonDelegate
 
 - (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
-    [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-        if (campaigns.count > 0) {
-            [TSMessage setDefaultViewController:self];
-            [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
-            [self.collectionView reloadData];
-            [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
-        }
-        else {
-            [TSMessage setDefaultViewController:vc];
-            [LDTMessage displayErrorMessageForString:@"There are still no actions available."];
-        }
-    }
-     errorHandler:^(NSError *error) {
-         [TSMessage setDefaultViewController:vc];
-         [LDTMessage displayErrorMessageForError:error];
-     }];
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    [self viewDidLoad];
+    return;
 }
 
 #pragma mark - LDTCampaignListCampaignCellDelegate

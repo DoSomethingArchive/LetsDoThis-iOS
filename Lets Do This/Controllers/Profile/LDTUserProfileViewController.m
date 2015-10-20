@@ -45,6 +45,9 @@ static NSString *cellIdentifier = @"rowCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (!self.user) {
+        self.user = [DSOUserManager sharedInstance].user;
+    }
     self.navigationItem.title = nil;
     [self styleView];
     [self updateUserDetails];
