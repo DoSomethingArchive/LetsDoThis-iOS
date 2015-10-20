@@ -107,8 +107,14 @@ static NSString *cellIdentifier = @"rowCell";
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if ([self.user isLoggedInUser]) {
-        return @"Current: 5 days left".uppercaseString;
+        if ([DSOUserManager sharedInstance].activeMobileAppCampaigns.count > 0) {
+            // Currently assuming all active mobile app campaigns end on same day, so doesn't matter which one we select to determine # of days left.
+            DSOCampaign *campaign = (DSOCampaign *)[DSOUserManager sharedInstance].activeMobileAppCampaigns[0];
+
+            return [NSString stringWithFormat:@"Current: %ld days left".uppercaseString, (long)[campaign numberOfDaysLeft]];
+        }
     }
+
     return nil;
 }
 
