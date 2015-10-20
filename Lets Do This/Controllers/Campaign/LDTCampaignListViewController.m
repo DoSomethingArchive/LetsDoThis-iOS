@@ -68,16 +68,16 @@ const BOOL isTestingForNoCampaigns = NO;
     self.selectedGroupButtonIndex = 0;
     self.selectedIndexPath = nil;
 
-    self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
-    if (isTestingForNoCampaigns || self.allCampaigns.count == 0) {
-        LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
-        epicFailVC.delegate = self;
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-        [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-        [self presentViewController:navVC animated:YES completion:nil];
-    };
-
-    [self createInterestGroups];
+//    self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
+//    if (isTestingForNoCampaigns || self.allCampaigns.count == 0) {
+//        LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
+//        epicFailVC.delegate = self;
+//        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+//        [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+//        [self presentViewController:navVC animated:YES completion:nil];
+//    };
+//
+//    [self createInterestGroups];
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
@@ -88,6 +88,34 @@ const BOOL isTestingForNoCampaigns = NO;
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 8.0f;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
+
+    [SVProgressHUD show];
+    [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+        if (isTestingForNoCampaigns || campaigns.count == 0) {
+            [SVProgressHUD dismiss];
+            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
+            epicFailVC.delegate = self;
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+            [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+            [self presentViewController:navVC animated:YES completion:nil];
+        }
+        else {
+            self.allCampaigns = campaigns;
+            [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
+            [self createInterestGroups];
+            [self.collectionView reloadData];
+            [SVProgressHUD dismiss];
+        }
+    } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+
+        // Here we don't know for sure that we're offline, could get a weird network error.
+        LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
+        epicFailVC.delegate = self;
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+        [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+        [self presentViewController:navVC animated:YES completion:nil];
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
