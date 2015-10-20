@@ -43,30 +43,15 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-
     [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
-          self.user = user;
-          [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
-          // Save session in Keychain for when app is quit.
-          [SSKeychain setPassword:user.sessionToken forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
-          [SSKeychain setPassword:self.user.userID forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
-          [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-              self.activeMobileAppCampaigns = campaigns;
-              [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
-                  self.user.campaignSignups = (NSMutableArray *)campaignSignups;
-                  if (completionHandler) {
-                      completionHandler(user);
-                  }
-              } errorHandler:^(NSError *error) {
-                  if (errorHandler) {
-                      errorHandler(error);
-                  }
-              }];
-          } errorHandler:^(NSError *error) {
-              if (errorHandler) {
-                  errorHandler(error);
-              }
-          }];
+        self.user = user;
+        [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
+        // Save session in Keychain for when app is quit.
+        [SSKeychain setPassword:user.sessionToken forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+        [SSKeychain setPassword:self.user.userID forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+        if (completionHandler) {
+            completionHandler(user);
+        }
       } errorHandler:^(NSError *error) {
           if (errorHandler) {
               errorHandler(error);
