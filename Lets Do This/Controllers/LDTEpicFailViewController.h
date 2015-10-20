@@ -8,8 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LDTEpicFailSubmitButtonDelegate;
+
 @interface LDTEpicFailViewController : UIViewController
 
+@property (weak, nonatomic) id<LDTEpicFailSubmitButtonDelegate> delegate;
+
 - (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
+
+@end
+
+@protocol LDTEpicFailSubmitButtonDelegate <NSObject>
+
+- (void)didClickSubmitButton:(LDTEpicFailViewController *)vc;
 
 @end

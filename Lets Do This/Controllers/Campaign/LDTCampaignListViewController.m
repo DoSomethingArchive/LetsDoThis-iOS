@@ -7,12 +7,10 @@
 //
 
 #import "LDTCampaignListViewController.h"
-#import "DSOAPI.h"
-#import "DSOCampaign.h"
-#import "DSOReportbackItem.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 #import "LDTReportbackItemDetailSingleViewController.h"
+#import "LDTEpicFailViewController.h"
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
@@ -25,8 +23,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 
 const CGFloat kHeightCollapsed = 100;
 const CGFloat kHeightExpanded = 420;
+// Flag to test for handling when API returns 0 active campaigns.
+const BOOL isTestingForNoCampaigns = NO;
 
-@interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate>
+@interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate, LDTEpicFailSubmitButtonDelegate>
 
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
@@ -69,6 +69,14 @@ const CGFloat kHeightExpanded = 420;
     self.selectedIndexPath = nil;
 
     self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
+    if (isTestingForNoCampaigns || self.allCampaigns.count == 0) {
+        LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
+        epicFailVC.delegate = self;
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+        [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+        [self presentViewController:navVC animated:YES completion:nil];
+    };
+
     [self createInterestGroups];
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
@@ -226,6 +234,27 @@ const CGFloat kHeightExpanded = 420;
         [self.collectionView reloadData];
         [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
     }
+}
+
+#pragma mark - LDTEpicFailSubmitButtonDelegate
+
+- (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
+    [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+        if (campaigns.count > 0) {
+            [TSMessage setDefaultViewController:self];
+            [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
+            [self.collectionView reloadData];
+            [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+        }
+        else {
+            [TSMessage setDefaultViewController:vc];
+            [LDTMessage displayErrorMessageForString:@"There are still no actions available."];
+        }
+    }
+     errorHandler:^(NSError *error) {
+         [TSMessage setDefaultViewController:vc];
+         [LDTMessage displayErrorMessageForError:error];
+     }];
 }
 
 #pragma mark - LDTCampaignListCampaignCellDelegate
