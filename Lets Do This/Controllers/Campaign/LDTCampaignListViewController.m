@@ -289,6 +289,23 @@ const CGFloat kHeightExpanded = 400;
     }
 }
 
+#pragma mark - UIScrollViewDelegate
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+	// Since we have nested collection views this method sometimes gets called when we don't need it, so check to
+	// make sure it's the scrollview we want (the container collection view)
+	if ([(UICollectionView *)scrollView isEqual:self.collectionView]) {
+		NSInteger numInterestGroups = self.interestGroupButtons.count;
+		CGFloat pageWidth = scrollView.contentSize.width / numInterestGroups;
+		NSInteger visiblePage = scrollView.contentOffset.x / pageWidth;
+		if (self.selectedGroupButtonIndex != visiblePage) {
+			self.selectedGroupButtonIndex = visiblePage;
+		}
+		
+		[self styleButtons];
+	}
+}
+
 #pragma mark - UICollectionViewDelegate
 
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -298,12 +315,6 @@ const CGFloat kHeightExpanded = 400;
 	if (self.collectionView.dragging && [cell isKindOfClass:[CampaignCollectionViewCellContainer class]]) {
 		self.selectedGroupButtonIndex = indexPath.row;
 		self.selectedIndexPath = nil;
-		[self styleButtons];
-	}
-}
-
--(void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-	if	(self.collectionView.dragging && [cell isKindOfClass:[CampaignCollectionViewCellContainer class]]) {
 	}
 }
 
