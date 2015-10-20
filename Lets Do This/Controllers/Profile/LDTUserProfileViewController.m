@@ -67,6 +67,7 @@ static NSString *cellIdentifier = @"rowCell";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
     [self styleView];
     
     NSString *trackingString;

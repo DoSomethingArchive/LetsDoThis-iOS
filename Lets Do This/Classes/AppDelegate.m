@@ -68,25 +68,22 @@
     
     [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
-    [SVProgressHUD show];
     if (![DSOUserManager sharedInstance].userHasCachedSession) {
         [self displayUserConnectVC];
     }
     else {
-        [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-            [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
-            [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
-                LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
-                [SVProgressHUD dismiss];
-                [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
-                } errorHandler:^(NSError *error) {
-                    [self displayUserConnectVC];
-                    [LDTMessage displayErrorMessageForError:error];
-                }];
+        [SVProgressHUD show];
+        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
+            LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
+            [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
+            [SVProgressHUD dismiss];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
-            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
-            [self.window.rootViewController presentViewController:epicFailVC animated:YES completion:nil];
+            // @todo: Inspect error. If we're offline, display Epic Fail, which will need a try again.
+            NSLog(@"error %@", error);
+            // Else if server code, something's up, lets prompt to login again:
+            [self displayUserConnectVC];
+            [LDTMessage displayErrorMessageForError:error];
         }];
     }
 
