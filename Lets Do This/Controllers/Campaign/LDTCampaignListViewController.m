@@ -134,7 +134,7 @@ const CGFloat kHeightExpanded = 420;
             if ([self.interestGroups objectForKey:termID]) {
                 NSMutableArray *campaigns = self.interestGroups[termID][@"campaigns"];
                 [campaigns addObject:campaign];
-                continue;
+                break;
             }
         }
     }
