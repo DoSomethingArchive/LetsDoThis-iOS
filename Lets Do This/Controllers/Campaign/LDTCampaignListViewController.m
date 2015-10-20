@@ -278,7 +278,7 @@ const BOOL isTestingForNoCampaigns = NO;
         [self.navigationController pushViewController:destVC animated:YES];
     }
     else {
-        [SVProgressHUD show];
+        [SVProgressHUD showWithStatus:@"Signing up..."];
         [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(DSOCampaignSignup *signup) {
             cell.signedUp = YES;
             cell.actionButtonTitle = @"More info";
@@ -288,6 +288,7 @@ const BOOL isTestingForNoCampaigns = NO;
             [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", cell.campaign.title]];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
+            [TSMessage setDefaultViewController:self];
             [LDTMessage displayErrorMessageForError:error];
         }];
     }
