@@ -251,7 +251,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == LDTCampaignDetailSectionTypeReportback) {
-
         return self.reportbackItems.count;
     }
 
@@ -263,7 +262,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
 
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
@@ -286,7 +284,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         }
 
     }
-
     if (indexPath.section == LDTCampaignDetailSectionTypeReportback) {
         LDTCampaignDetailReportbackItemCell *reportbackItemCell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         [self configureReportbackItemDetailView:reportbackItemCell.detailView forIndexPath:indexPath];
