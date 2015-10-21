@@ -1,17 +1,17 @@
 //
-//  CampaignCollectionViewCellContainer.m
+//  LDTCampaignCollectionViewCellContainer.m
 //  Lets Do This
 //
 //  Created by Evan Roth on 9/26/15.
 //  Copyright © 2015 Do Something. All rights reserved.
 //
 
-#import "CampaignCollectionViewCellContainer.h"
+#import "LDTCampaignCollectionViewCellContainer.h"
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 
-@implementation CampaignCollectionViewCellContainer
+@implementation LDTCampaignCollectionViewCellContainer
 
 -(void)awakeFromNib {
 	

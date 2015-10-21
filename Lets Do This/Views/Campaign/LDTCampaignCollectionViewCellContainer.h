@@ -1,5 +1,5 @@
 //
-//  CampaignCollectionViewCellContainer.h
+//  LDTCampaignCollectionViewCellContainer.h
 //  Lets Do This
 //
 //  Created by Evan Roth on 9/26/15.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CampaignCollectionViewCellContainer : UICollectionViewCell
+@interface LDTCampaignCollectionViewCellContainer : UICollectionViewCell
 
 @property (nonatomic, strong) UICollectionView *innerCollectionView;
 
