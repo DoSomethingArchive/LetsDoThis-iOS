@@ -14,7 +14,7 @@
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
-#import "CampaignCollectionViewCellContainer.h"
+#import "LDTCampaignCollectionViewCellContainer.h"
 #import "GAI+LDT.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
@@ -69,10 +69,7 @@ const BOOL isTestingForNoCampaigns = NO;
     self.selectedGroupButtonIndex = 0;
     self.selectedIndexPath = nil;
 
-//    self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
-//    [self createInterestGroups];
-
-	[self.collectionView registerNib:[UINib nibWithNibName:@"CampaignCollectionViewCellContainer" bundle:nil] forCellWithReuseIdentifier:@"CellIdentifier"];
+	[self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignCollectionViewCellContainer" bundle:nil] forCellWithReuseIdentifier:@"CellIdentifier"];
 
     [self styleView];
 	
@@ -197,7 +194,7 @@ const BOOL isTestingForNoCampaigns = NO;
 		else {
 			NSLog(@"\n---All calls completed successfully---");
 			[self.collectionView reloadData];
-			CampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+			LDTCampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 			[cell.innerCollectionView reloadData];
 		}
 		
@@ -297,7 +294,7 @@ const BOOL isTestingForNoCampaigns = NO;
 		
 		// To scroll each section up to the top on a button press, we have to get the container cell's inner collection view and scroll it to the top,
 		// but only if it's been displayed once, otherwise it doesn't have a cell at that indexpath and we crash
-		CampaignCollectionViewCellContainer *containerCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForItem:self.selectedGroupButtonIndex inSection:0]];
+		LDTCampaignCollectionViewCellContainer *containerCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForItem:self.selectedGroupButtonIndex inSection:0]];
 		if (containerCell.innerCollectionView.visibleCells.count > 0) {
 			[containerCell.innerCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 		}
@@ -358,10 +355,10 @@ const BOOL isTestingForNoCampaigns = NO;
 #pragma mark - UICollectionViewDelegate
 
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-	if ([cell isKindOfClass:[CampaignCollectionViewCellContainer class]]) {
-		[(CampaignCollectionViewCellContainer *)cell setCollectionViewDataSourceDelegate:self];
+	if ([cell isKindOfClass:[LDTCampaignCollectionViewCellContainer class]]) {
+		[(LDTCampaignCollectionViewCellContainer *)cell setCollectionViewDataSourceDelegate:self];
 	}
-	if (self.collectionView.dragging && [cell isKindOfClass:[CampaignCollectionViewCellContainer class]]) {
+	if (self.collectionView.dragging && [cell isKindOfClass:[LDTCampaignCollectionViewCellContainer class]]) {
 		self.selectedGroupButtonIndex = indexPath.row;
 		self.selectedIndexPath = nil;
 	}
@@ -423,7 +420,7 @@ const BOOL isTestingForNoCampaigns = NO;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	if ([collectionView isEqual:self.collectionView]) {
-		CampaignCollectionViewCellContainer *containerCell = (CampaignCollectionViewCellContainer *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:indexPath];
+		LDTCampaignCollectionViewCellContainer *containerCell = (LDTCampaignCollectionViewCellContainer *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:indexPath];
 		
 		return containerCell;
 	}
