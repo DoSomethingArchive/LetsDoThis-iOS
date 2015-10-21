@@ -69,8 +69,8 @@ const BOOL isTestingForNoCampaigns = NO;
     self.selectedGroupButtonIndex = 0;
     self.selectedIndexPath = nil;
 
-    self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
-    [self createInterestGroups];
+//    self.allCampaigns = [DSOUserManager sharedInstance].activeMobileAppCampaigns;
+//    [self createInterestGroups];
 
 	[self.collectionView registerNib:[UINib nibWithNibName:@"CampaignCollectionViewCellContainer" bundle:nil] forCellWithReuseIdentifier:@"CellIdentifier"];
 
