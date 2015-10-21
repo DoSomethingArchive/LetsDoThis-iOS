@@ -152,6 +152,10 @@
     if ([self validateForm]) {
         [SVProgressHUD show];
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode success:^(NSDictionary *response) {
+            
+            if (self.mobileTextField.text) {
+                [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"provide mobile number" label:nil value:nil];
+            }
 
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
                 
@@ -194,6 +198,8 @@
 
 - (IBAction)avatarButtonTouchUpInside:(id)sender {
     UIAlertController *avatarAlertController = [UIAlertController alertControllerWithTitle:@"Set your photo" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"tap avatar button" label:nil value:nil];
     
     UIAlertAction *cameraAlertAction;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
