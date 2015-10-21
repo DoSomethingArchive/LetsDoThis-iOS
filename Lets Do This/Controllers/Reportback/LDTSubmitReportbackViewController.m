@@ -8,6 +8,7 @@
 
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTTheme.h"
+#import "GAI+LDT.h"
 
 @interface LDTSubmitReportbackViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -75,6 +76,12 @@
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModalViewControllerAnimated:)];
     [self styleRightBarButton];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld/reportbackform", (long)self.reportbackItem.campaign.campaignID]];
 }
 
 - (void)styleView {

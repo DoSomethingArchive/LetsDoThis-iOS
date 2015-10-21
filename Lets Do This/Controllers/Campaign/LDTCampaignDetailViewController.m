@@ -95,12 +95,22 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+        
+    NSString *screenStatus;
+    if ([[self user] hasCompletedCampaign:self.campaign]) {
+        screenStatus = @"completed";
+    }
+    else if ([self.user isDoingCampaign:self.campaign]) {
+        screenStatus = @"proveit";
+    }
+    else {
+        screenStatus = @"pitch";
+    }
 
-    // todo: Append the user's status to this string.
-    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld", (long)self.campaign.campaignID]];
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld/%@", (long)self.campaign.campaignID, screenStatus]];
 
-    // Might have just come from the Reportback Submit screen,
-    // so check for currentUserReportback
+    // Enters this control flow when user submits a reportback
+    // and then is returned to the campaign detail view.
     if ([[self user] hasCompletedCampaign:self.campaign] && !self.currentUserReportback) {
         for (DSOCampaignSignup *signup in [self user].campaignSignups) {
             if (self.campaign.campaignID == signup.campaign.campaignID) {
