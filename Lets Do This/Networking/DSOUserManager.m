@@ -9,9 +9,8 @@
 #import "DSOUserManager.h"
 #import <SSKeychain/SSKeychain.h>
 
-#define DSOPROTOCOL @"http"
-#define DSOSERVER @"staging.beta.dosomething.org"
-#define LDTSERVER @"northstar-qa.dosomething.org"
+NSString *const avatarFileNameString = @"LDTStoredAvatar.jpeg";
+NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 @interface DSOUserManager()
 
@@ -38,29 +37,21 @@
 #pragma mark - DSOUserManager
 
 - (BOOL)userHasCachedSession {
-    NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
 	
     return sessionToken.length > 0;
 }
 
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-
     [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
-          self.user = user;
-          [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
-          // Save session in Keychain for when app is quit.
-          [SSKeychain setPassword:user.sessionToken forService:LDTSERVER account:@"Session"];
-          [SSKeychain setPassword:self.user.userID forService:LDTSERVER account:@"UserID"];
-          [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-              self.activeMobileAppCampaigns = campaigns;
-              if (completionHandler) {
-                  completionHandler(user);
-              }
-          } errorHandler:^(NSError *error) {
-              if (errorHandler) {
-                  errorHandler(error);
-              }
-          }];
+        self.user = user;
+        [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
+        // Save session in Keychain for when app is quit.
+        [SSKeychain setPassword:user.sessionToken forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+        [SSKeychain setPassword:self.user.userID forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+        if (completionHandler) {
+            completionHandler(user);
+        }
       } errorHandler:^(NSError *error) {
           if (errorHandler) {
               errorHandler(error);
@@ -70,7 +61,7 @@
 
 - (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
-    NSString *sessionToken = [SSKeychain passwordForService:LDTSERVER account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
     if (sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
@@ -78,12 +69,17 @@
 
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
-    NSString *userID = [SSKeychain passwordForService:LDTSERVER account:@"UserID"];
+    NSString *userID = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
-        if (completionHandler) {
-            completionHandler();
-        }
+        [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
+            self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+            if (completionHandler) {
+                completionHandler();
+            }
+        } errorHandler:^(NSError *error) {
+            // nada
+        }];
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);
@@ -93,11 +89,10 @@
 
 - (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
-        [SSKeychain deletePasswordForService:LDTSERVER account:@"Session"];
-        [SSKeychain deletePasswordForService:LDTSERVER account:@"UserID"];
-
+        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+        [self deleteAvatar];
         self.user = nil;
-
         if (completionHandler) {
             completionHandler();
         }
@@ -108,17 +103,12 @@
     }];
 }
 
-- (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] createSignupForCampaign:campaign completionHandler:^(NSDictionary *response) {
-        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
-            if (completionHandler) {
-                completionHandler(response);
-            }
-        } errorHandler:^(NSError *error) {
-            if (errorHandler) {
-                errorHandler(error);
-            }
-        }];
+- (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] createCampaignSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
+        [self.user.campaignSignups addObject:signup];
+        if (completionHandler) {
+            completionHandler(signup);
+        }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);
@@ -128,15 +118,15 @@
 
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
-        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^{
-            if (completionHandler) {
-                completionHandler(response);
+        // Update the corresponding campaignSignup with the new reportbackItem.
+        for (DSOCampaignSignup *signup in self.user.campaignSignups) {
+            if (reportbackItem.campaign.campaignID == signup.campaign.campaignID) {
+                signup.reportbackItem = reportbackItem;
             }
-        } errorHandler:^(NSError *error) {
-            if (errorHandler) {
-                errorHandler(error);
-            }
-        }];
+        }
+        if (completionHandler) {
+            completionHandler(response);
+        }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);
@@ -153,8 +143,42 @@
     return nil;
 }
 
-+ (NSDictionary *)keysDict {
-    return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+#pragma mark - Avatar CRUD
+
+- (void)storeAvatar:(UIImage *)photo {
+    NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
+    NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![photoData writeToFile:storedAvatarPhotoPath atomically:NO]) {
+        NSLog((@"Failed to persist photo data to disk"));
+    }
+    else {
+        [storedUserDefaults setObject:storedAvatarPhotoPath forKey:avatarStorageKey];
+        [storedUserDefaults synchronize];
+    }
+}
+
+- (UIImage *)retrieveAvatar {
+    NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:avatarStorageKey];
+    if (storedAvatarPhotoPath) {
+        return [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
+    }
+    return nil;
+}
+
+- (void) deleteAvatar {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
+    NSError *error;
+    if ([fileManager removeItemAtPath:filePath error:&error]) {
+        NSLog(@"Successfully deleted file: %@ ", avatarFileNameString);
+    }
+    else {
+        NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
+    }
 }
 
 @end

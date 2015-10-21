@@ -7,13 +7,10 @@
 //
 
 #import "LDTUserProfileViewController.h"
-#import "LDTButton.h"
 #import "LDTTheme.h"
-#import "LDTMessage.h"
-#import "LDTUserConnectViewController.h"
-#import "LDTCampaignListViewController.h"
+#import "LDTCampaignDetailViewController.h"
 #import "LDTSettingsViewController.h"
-#import "DSOCampaign.h"
+#import "GAI+LDT.h"
 
 @interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -48,19 +45,27 @@ static NSString *cellIdentifier = @"rowCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (!self.user) {
+        self.user = [DSOUserManager sharedInstance].user;
+    }
     self.navigationItem.title = nil;
-
     [self styleView];
     [self updateUserDetails];
-
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 
-    if ([self.user.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
+    if ([self.user isLoggedInUser]) {
+
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
         self.navigationItem.rightBarButtonItem = settingsButton;
     }
-
-    [self styleBackBarButton];
+    else {
+        [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
+            self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+            [self.tableView reloadData];
+        } errorHandler:^(NSError *error) {
+            [LDTMessage displayErrorMessageForError:error];
+        }];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -68,16 +73,18 @@ static NSString *cellIdentifier = @"rowCell";
 
     [self styleView];
 
-    [[DSOAPI sharedInstance] loadUserWithUserId:self.user.userID completionHandler:^(DSOUser *user) {
-        self.user = user;
-        self.campaignsDoing = self.user.activeMobileAppCampaignsDoing;
-        self.campaignsCompleted = self.user.activeMobileAppCampaignsCompleted;
+    NSString *trackingString;
+    if ([self.user isLoggedInUser]) {
         [self updateUserDetails];
-		
+        // Logged in user may have signed up or reported back since this VC was first loaded.
+        self.user.campaignSignups = [DSOUserManager sharedInstance].user.campaignSignups;
         [self.tableView reloadData];
-    } errorHandler:^(NSError *error) {
-        [LDTMessage displayErrorMessageForError:error];
-    }];
+        trackingString = @"self";
+    }
+    else {
+        trackingString = self.user.userID;
+    }
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"user-profile/%@", trackingString]];
 }
 
 #pragma Mark - LDTUserProfileViewController
@@ -86,6 +93,7 @@ static NSString *cellIdentifier = @"rowCell";
     [self.avatarImageView addCircleFrame];
     self.headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
+    [self styleBackBarButton];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
     [self.nameLabel setFont:[LDTTheme fontTitle]];
@@ -111,52 +119,45 @@ static NSString *cellIdentifier = @"rowCell";
 #pragma mark -- UITableViewDataSource
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *header = nil;
-    switch (section) {
-        case 0:
-            header = [@"Currently doing" uppercaseString];
-            break;
-        case 1:
-            header = [@"Been there, done good" uppercaseString];
-            break;
+    if ([self.user isLoggedInUser]) {
+        if ([DSOUserManager sharedInstance].activeMobileAppCampaigns.count > 0) {
+            // Currently assuming all active mobile app campaigns end on same day, so doesn't matter which one we select to determine # of days left.
+            DSOCampaign *campaign = (DSOCampaign *)[DSOUserManager sharedInstance].activeMobileAppCampaigns[0];
+
+            return [NSString stringWithFormat:@"Current: %ld days left".uppercaseString, (long)[campaign numberOfDaysLeft]];
+        }
     }
-    return header;
+
+    return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger rowCount;
-    switch (section) {
-        case 0:
-            rowCount = self.campaignsDoing.count;
-            break;
-        case 1:
-            rowCount = self.campaignsCompleted.count;
-            break;
-        default:
-            rowCount = 1;
-    }
-    return rowCount;
+    return self.user.campaignSignups.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    DSOCampaign *campaign;
-	
-    if (indexPath.section == 0) {
-        campaign = self.campaignsDoing[indexPath.row];
-    }
-    else {
-        campaign = self.campaignsCompleted[indexPath.row];
-    }
-    cell.textLabel.text = [campaign.title uppercaseString];
+    DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
+    cell.textLabel.text = campaign.title;
+    cell.textLabel.textColor = [LDTTheme ctaBlueColor];
     cell.userInteractionEnabled = YES;
     cell.textLabel.font = [LDTTheme fontBold];
 	
     return cell;
 }
 
+#pragma mark -- UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
+    // @todo DRY with custom TableViewCell which will have a DSOCampaign property.
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
+    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
+    [self.navigationController pushViewController:destVC animated:YES];
+}
 @end

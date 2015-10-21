@@ -15,10 +15,27 @@
 
 // API Constants
 #define isActivityLogging NO
-#define DSOPROTOCOL @"http"
-#define DSOSERVER @"staging.beta.dosomething.org"
-#define LDTSERVER @"northstar-qa.dosomething.org"
+#define DSOPROTOCOL @"https"
 #define LDTSOURCENAME @"letsdothis_ios"
+
+#ifdef DEBUG
+#define DSOSERVER @"staging.dosomething.org"
+#define LDTSERVER @"northstar-qa.dosomething.org"
+#define LDTSERVERKEYNAME @"northstarTestKey"
+#endif
+
+#ifdef RELEASE
+#define DSOSERVER @"dosomething.org"
+#define LDTSERVER @"northstar.dosomething.org"
+#define LDTSERVERKEYNAME @"northstarLiveKey"
+#endif
+
+#ifdef THOR
+#define DSOSERVER @"thor.dosomething.org"
+#define LDTSERVER @"northstar-thor.dosomething.org"
+#define LDTSERVERKEYNAME @"northstarLiveKey"
+#endif
+
 
 @interface DSOAPI()
 
@@ -28,6 +45,8 @@
 @property (nonatomic, strong) NSString *phoenixBaseURL;
 @property (nonatomic, strong) NSString *phoenixApiURL;
 
+@property (nonatomic, strong) NSString *northstarBaseURL;
+
 @end
 
 @implementation DSOAPI
@@ -36,12 +55,11 @@
 
 + (DSOAPI *)sharedInstance {
     static DSOAPI *_sharedInstance = nil;
-    NSDictionary *keysDict = [DSOUserManager keysDict];
+    NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        // @todo: When we're ready to test against prod, setup conditional if DEBUG.
-        _sharedInstance = [[self alloc] initWithApiKey:keysDict[@"northstarTestKey"]];
+        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME]];
     });
 
     return _sharedInstance;
@@ -66,15 +84,22 @@
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
         self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
+        self.northstarBaseURL = [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, LDTSERVER];
 
-        self.interestGroups = @[@{@"id" : [NSNumber numberWithInt:669],
-                                  @"name" : @"Artsy"},
-                                @{@"id" : [NSNumber numberWithInt:667],
-                                  @"name" : @"Bro"},
-                                @{@"id" : [NSNumber numberWithInt:668],
-                                  @"name" : @"Fem"},
-                                @{@"id" : [NSNumber numberWithInt:670],
-                                  @"name" : @"Social"}
+
+        NSArray *interestGroupIds = @[@1300, @1301, @1302, @1303];
+#ifdef DEBUG
+        interestGroupIds = @[@667, @668, @669, @670];
+#endif
+
+        self.interestGroups = @[@{@"id" : (NSNumber *)interestGroupIds[0],
+                                  @"name" : @"Hot"},
+                                @{@"id" : (NSNumber *)interestGroupIds[1],
+                                  @"name" : @"Music"},
+                                @{@"id" : (NSNumber *)interestGroupIds[2],
+                                  @"name" : @"Crafts"},
+                                @{@"id" : (NSNumber *)interestGroupIds[3],
+                                  @"name" : @"Sports"}
                                 ];
 
     }
@@ -83,7 +108,7 @@
 
 #pragma mark - DSOAPI
 
-- (NSString *)phoenixBaseUrl {
+- (NSString *)phoenixBaseURL {
     return _phoenixBaseURL;
 }
 
@@ -105,7 +130,7 @@
                              @"first_name": firstName,
                              @"mobile": mobile,
                              @"country": countryCode,
-                             @"source": @"ios"};
+                             @"source": LDTSOURCENAME};
     
     [self POST:@"users?create_drupal_user=1" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
@@ -166,14 +191,16 @@
     }];
 }
 
-- (void)createSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)createCampaignSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)campaign.campaignID];
     NSDictionary *params = @{@"source": LDTSOURCENAME};
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-          if (completionHandler) {
-              completionHandler(responseObject);
-          }
+        DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:responseObject[@"data"]];
+        signup.campaign = campaign;
+        if (completionHandler) {
+            completionHandler(signup);
+        }
       } failure:^(NSURLSessionDataTask *task, NSError *error) {
           if (errorHandler) {
               errorHandler(error);
@@ -228,7 +255,11 @@
         [termIdStrings addObject:[termId stringValue]];
     }
 
-    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app=true&term_ids=%@", self.phoenixApiURL, [termIdStrings componentsJoinedByString:@","]];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    NSString *mobileAppDateString = [dateFormat stringFromDate:[NSDate date]];
+
+    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app_date=%@&term_ids=%@", self.phoenixApiURL, mobileAppDateString, [termIdStrings componentsJoinedByString:@","]];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSMutableArray *campaigns = [[NSMutableArray alloc] init];
@@ -253,7 +284,7 @@
         [campaignIds addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];
     }
 
-    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?status=%@&campaigns=%@", self.phoenixApiURL, status,[campaignIds componentsJoinedByString:@","]];
+    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?load_user_data=TRUE&status=%@&campaigns=%@", self.phoenixApiURL, status,[campaignIds componentsJoinedByString:@","]];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSMutableArray *rbItems = [[NSMutableArray alloc] init];
@@ -272,20 +303,16 @@
       }];
 }
 
-- (void)loadCurrentUserReportbackItemForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOReportbackItem *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld", (long)campaign.campaignID];
-
+- (void)loadCampaignSignupsForUser:(DSOUser *)user completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"users/_id/%@/campaigns", user.userID];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        // @todo: Add sanity checks for incorrupt data.
-        NSDictionary *reportbackDict =[responseObject valueForKeyPath:@"data.reportback_data"];
-        NSArray *reportbackItems = [reportbackDict valueForKeyPath:@"reportback_items.data"];
-        NSDictionary *reportbackItemDict = reportbackItems.firstObject;
-        DSOReportbackItem *reportbackItem = [[DSOReportbackItem alloc] initWithCampaign:campaign];
-        reportbackItem.quantity = [reportbackDict valueForKeyAsInt:@"quantity" nullValue:0];
-        reportbackItem.caption = reportbackItemDict[@"caption"];
-        reportbackItem.imageURL =[NSURL URLWithString:[reportbackItemDict valueForKeyPath:@"media.uri"]];
+        NSMutableArray *campaignSignups = [[NSMutableArray alloc] init];
+        for (NSDictionary *campaignSignupDict in responseObject[@"data"]) {
+            DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:campaignSignupDict];
+            [campaignSignups addObject:signup];
+        }
         if (completionHandler) {
-            completionHandler(reportbackItem);
+            completionHandler(campaignSignups);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         if (errorHandler) {
@@ -293,6 +320,7 @@
         }
         [self logError:error];
     }];
+
 }
 
 - (void)logError:(NSError *)error {

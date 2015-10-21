@@ -10,12 +10,14 @@
 #import "DSOUser.h"
 #import "DSOCampaign.h"
 #import "DSOReportbackItem.h"
+#import "DSOCampaignSignup.h"
 
 @interface DSOAPI : AFHTTPSessionManager
 
 + (DSOAPI *)sharedInstance;
 - (instancetype)initWithApiKey:(NSString *)apiKey;
-- (NSString *)phoenixBaseUrl;
+- (NSString *)phoenixBaseURL;
+- (NSString *)northstarBaseURL;
 - (NSArray *)interestGroups;
 - (void)setHTTPHeaderFieldSession:(NSString *)token;
 
@@ -27,7 +29,7 @@
 
 - (void)postUserAvatarWithUserId:(NSString *)userID avatarImage:(UIImage *)avatarImage completionHandler:(void(^)(id))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)createSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+- (void)createCampaignSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)postReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
@@ -37,6 +39,6 @@
 
 - (void)loadReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)loadCurrentUserReportbackItemForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOReportbackItem *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+- (void)loadCampaignSignupsForUser:(DSOUser *)user completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 @end
