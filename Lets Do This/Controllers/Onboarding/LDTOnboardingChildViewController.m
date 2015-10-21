@@ -13,8 +13,10 @@
 
 @property (strong, nonatomic) NSString *headlineText;
 @property (strong, nonatomic) NSString *descriptionText;
+@property (strong, nonatomic) UIImage *primaryImage;
 @property (weak, nonatomic) IBOutlet UILabel *headlineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *primaryImageView;
 
 @end
 
@@ -22,12 +24,12 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithHeadline:(NSString *)headline description:(NSString *)description {
+- (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage {
     self = [super initWithNibName:@"LDTOnboardingChildView" bundle:nil];
-
     if (self) {
-        self.headlineText = headline;
-        self.descriptionText = description;
+        self.headlineText = headlineText;
+        self.descriptionText = descriptionText;
+        self.primaryImage = primaryImage;
     }
 
     return self;
@@ -40,6 +42,7 @@
 
     self.headlineLabel.text = self.headlineText;
     self.descriptionLabel.text = self.descriptionText;
+    self.primaryImageView.image = self.primaryImage;
 
     [self styleView];
 

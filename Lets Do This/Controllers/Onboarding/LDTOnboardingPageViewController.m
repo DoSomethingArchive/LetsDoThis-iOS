@@ -31,8 +31,8 @@
     self.pageController.dataSource = self;
     [self.pageController view].frame = [[self view] bounds];
 
-    self.firstChildViewController = [[LDTOnboardingChildViewController alloc] initWithHeadline:@"Stop being bored".uppercaseString description:@"Are you into sports? Crafting? Whatever your interests, you can do fun stuff and social good at the same time."];
-    self.secondChildViewController = [[LDTOnboardingChildViewController alloc] initWithHeadline:@"Prove it".uppercaseString description:@"Submit and share photos of yourself in action -- and see other people’s photos too. #picsoritdidnthappen"];
+    self.firstChildViewController = [[LDTOnboardingChildViewController alloc] initWithHeadlineText:@"Stop being bored".uppercaseString descriptionText:@"Are you into sports? Crafting? Whatever your interests, you can do fun stuff and social good at the same time." primaryImage:[UIImage imageNamed:@"Onboarding_StopBeingBored"]];
+    self.secondChildViewController = [[LDTOnboardingChildViewController alloc] initWithHeadlineText:@"Prove it".uppercaseString descriptionText:@"Submit and share photos of yourself in action -- and see other people’s photos too. #picsoritdidnthappen" primaryImage:[UIImage imageNamed:@"Onboarding_ProveIt"]];
     LDTUserConnectViewController *userConnectVC  = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
     self.userConnectNavigationController = [[UINavigationController alloc] initWithRootViewController:userConnectVC];
     [self.userConnectNavigationController styleNavigationBar:LDTNavigationBarStyleClear];

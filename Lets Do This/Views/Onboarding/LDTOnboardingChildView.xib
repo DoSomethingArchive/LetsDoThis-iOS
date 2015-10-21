@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="descriptionLabel" destination="Mae-xA-bti" id="W2g-Fc-V3n"/>
                 <outlet property="headlineLabel" destination="de8-WS-jKl" id="lyE-ye-MkO"/>
+                <outlet property="primaryImageView" destination="Vql-eT-pnA" id="DjO-Dp-761"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6e0-5N-JF3"/>
             </connections>
         </placeholder>
@@ -17,6 +18,9 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vql-eT-pnA">
+                    <rect key="frame" x="15" y="32" width="570" height="568"/>
+                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1oX-hs-3Xw">
                     <rect key="frame" x="0.0" y="501" width="600" height="99"/>
                     <subviews>
@@ -56,14 +60,23 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="Vql-eT-pnA" secondAttribute="bottom" id="5l4-dO-lTl"/>
+                <constraint firstItem="Vql-eT-pnA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="32" id="6Yi-4Q-VDS"/>
+                <constraint firstItem="Vql-eT-pnA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="Drg-GR-oUe"/>
                 <constraint firstAttribute="bottom" secondItem="1oX-hs-3Xw" secondAttribute="bottom" id="GxH-OD-hEv"/>
+                <constraint firstAttribute="trailing" secondItem="Vql-eT-pnA" secondAttribute="trailing" id="Se7-Dn-ydo"/>
                 <constraint firstAttribute="trailing" secondItem="1oX-hs-3Xw" secondAttribute="trailing" id="U30-Mu-XkK"/>
+                <constraint firstAttribute="trailing" secondItem="Vql-eT-pnA" secondAttribute="trailing" constant="15" id="Vd3-2U-099"/>
                 <constraint firstAttribute="trailing" secondItem="1oX-hs-3Xw" secondAttribute="trailing" id="dDS-Xd-WrN"/>
+                <constraint firstItem="Vql-eT-pnA" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="eSc-a7-cZW"/>
                 <constraint firstItem="1oX-hs-3Xw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fjX-kL-m7c"/>
+                <constraint firstItem="Vql-eT-pnA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lnJ-oQ-6da"/>
                 <constraint firstItem="1oX-hs-3Xw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="nzS-oH-o3f"/>
             </constraints>
             <variation key="default">
                 <mask key="constraints">
+                    <exclude reference="Se7-Dn-ydo"/>
+                    <exclude reference="lnJ-oQ-6da"/>
                     <exclude reference="dDS-Xd-WrN"/>
                     <exclude reference="fjX-kL-m7c"/>
                 </mask>

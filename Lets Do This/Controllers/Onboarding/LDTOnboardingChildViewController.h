@@ -10,6 +10,6 @@
 
 @interface LDTOnboardingChildViewController : UIViewController
 
-- (instancetype)initWithHeadline:(NSString *)headline description:(NSString *)description;
+- (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage;
 
 @end
