@@ -12,14 +12,16 @@
 #import <Parse/Parse.h>
 #import "LDTLoadingViewController.h"
 #import "LDTUserConnectViewController.h"
+#import "LDTEpicFailViewController.h"
 #import "LDTTheme.h"
-#import "LDTMessage.h"
 #import "LDTTabBarController.h"
 #import "DSOUserManager.h"
 #import "TSMessageView.h"
-
+#import "GAI+LDT.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+
+#define isLoggingGoogleAnalytics NO
 
 @interface AppDelegate ()
 
@@ -31,14 +33,28 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 	[Fabric with:@[CrashlyticsKit]];
-	
-    NSDictionary *keysDictionary = [DSOUserManager keysDict];
+
+    NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+
+    NSString *GAItrackingID = keysDict[@"googleAnalyticsLiveTrackingID"];
+#ifdef DEBUG
+    GAItrackingID = keysDict[@"googleAnalyticsTestTrackingID"];
+#elif THOR
+    GAItrackingID = keysDict[@"googleAnalyticsTestTrackingID"];
+#endif
+
+    [[GAI sharedInstance] trackerWithTrackingId:GAItrackingID];
+    if (isLoggingGoogleAnalytics) {
+        [GAI sharedInstance].trackUncaughtExceptions = YES;
+        [GAI sharedInstance].logger.logLevel = kGAILogLevelVerbose;
+    }
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setForegroundColor:[LDTTheme ctaBlueColor]];
+    [SVProgressHUD setFont:[LDTTheme font]];
 
-    [Parse setApplicationId:keysDictionary[@"parseApplicationId"] clientKey:keysDictionary[@"parseClientKey"]];
+    [Parse setApplicationId:keysDict[@"parseApplicationId"] clientKey:keysDict[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
                                                     UIUserNotificationTypeBadge |
                                                     UIUserNotificationTypeSound);
@@ -53,38 +69,18 @@
     
     [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
-    [SVProgressHUD show];
     if (![DSOUserManager sharedInstance].userHasCachedSession) {
-        [self displayUserConnectVC];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
+        [navVC styleNavigationBar:LDTNavigationBarStyleClear];
+        [LDTMessage setDefaultViewController:navVC];
+        [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
     }
     else {
-        [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-            [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
-            [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
-                LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
-                [SVProgressHUD dismiss];
-                [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
-                } errorHandler:^(NSError *error) {
-                    [self displayUserConnectVC];
-                    [LDTMessage displayErrorMessageForError:error];
-                }];
-        } errorHandler:^(NSError *error) {
-            [SVProgressHUD dismiss];
-            [LDTMessage displayErrorMessageForError:error];
-#warning Handling connectivity loss and/or no campaigns
-            // @todo: Present a new NoConnectionViewController?
-        }];
+        LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
+        [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
     }
 
     return YES;
-}
-
-- (void)displayUserConnectVC {
-    [SVProgressHUD dismiss];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
-    [navVC styleNavigationBar:LDTNavigationBarStyleClear];
-    [LDTMessage setDefaultViewController:navVC];
-    [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

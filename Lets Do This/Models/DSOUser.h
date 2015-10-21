@@ -13,22 +13,21 @@
 
 @interface DSOUser : NSObject
 
-@property (nonatomic, strong, readonly) NSString *userID;
-@property (nonatomic, strong, readonly) NSString *sessionToken;
 @property (nonatomic, strong, readonly) NSString *countryCode;
 @property (nonatomic, strong, readonly) NSString *countryName;
 @property (nonatomic, strong, readonly) NSString *displayName;
-@property (nonatomic, strong, readonly) NSString *firstName;
 @property (nonatomic, strong, readonly) NSString *email;
+@property (nonatomic, strong, readonly) NSString *firstName;
 @property (nonatomic, strong, readonly) NSString *mobile;
+@property (nonatomic, strong, readonly) NSString *sessionToken;
+@property (nonatomic, strong, readonly) NSString *userID;
 @property (nonatomic, strong, readonly) UIImage *photo;
-// Dictionary of campaign activity data.
-@property (nonatomic, strong, readonly) NSDictionary *campaigns;
-@property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsDoing;
-@property (nonatomic, strong, readonly) NSMutableArray *activeMobileAppCampaignsCompleted;
+@property (nonatomic, strong) NSMutableArray *campaignSignups;
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
 - (void)setPhoto:(UIImage *)image;
+// Checks if the User is the logged-in User.
+- (BOOL)isLoggedInUser;
 - (BOOL)isDoingCampaign:(DSOCampaign *)campaign;
 - (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign;
 

@@ -7,16 +7,15 @@
 //
 
 #import "LDTCampaignListViewController.h"
-#import "DSOAPI.h"
-#import "DSOCampaign.h"
-#import "DSOReportbackItem.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 #import "LDTReportbackItemDetailSingleViewController.h"
+#import "LDTEpicFailViewController.h"
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 #import "CampaignCollectionViewCellContainer.h"
+#import "GAI+LDT.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
     LDTCampaignListSectionTypeCampaign,
@@ -24,9 +23,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 };
 
 const CGFloat kHeightCollapsed = 100;
-const CGFloat kHeightExpanded = 400;
+const CGFloat kHeightExpanded = 420;
+// Flag to test for handling when API returns 0 active campaigns.
+const BOOL isTestingForNoCampaigns = NO;
 
-@interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate>
+@interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate, LDTEpicFailSubmitButtonDelegate>
 
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
@@ -82,6 +83,42 @@ const CGFloat kHeightExpanded = 400;
 	
 	self.collectionView.pagingEnabled = YES;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
+
+    [SVProgressHUD showWithStatus:@"Loading actions..."];
+
+    [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
+        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
+            if (isTestingForNoCampaigns || campaigns.count == 0) {
+                [SVProgressHUD dismiss];
+                LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
+                epicFailVC.delegate = self;
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+                [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+                [self presentViewController:navVC animated:YES completion:nil];
+            }
+            else {
+                self.allCampaigns = campaigns;
+                [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
+                [self createInterestGroups];
+                [self.collectionView reloadData];
+                [SVProgressHUD dismiss];
+            }
+        } errorHandler:^(NSError *error) {
+            [LDTMessage displayErrorMessageForError:error];
+        }];
+    } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+
+        // Need to inspect error here to determine what error is.
+        // If something's up with the session, we'll want to logout and push to user connect.
+        LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
+        epicFailVC.delegate = self;
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+        [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+        [self presentViewController:navVC animated:YES completion:nil];
+    }];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -90,6 +127,8 @@ const CGFloat kHeightExpanded = 400;
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
 
     [self styleView];
+
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
 }
 
 #pragma mark - LDTCampaignListViewController
@@ -134,7 +173,7 @@ const CGFloat kHeightExpanded = 400;
             if ([self.interestGroups objectForKey:termID]) {
                 NSMutableArray *campaigns = self.interestGroups[termID][@"campaigns"];
                 [campaigns addObject:campaign];
-                continue;
+                break;
             }
         }
     }
@@ -262,7 +301,16 @@ const CGFloat kHeightExpanded = 400;
 		if (containerCell.innerCollectionView.visibleCells.count > 0) {
 			[containerCell.innerCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 		}
+        [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
     }
+}
+
+#pragma mark - LDTEpicFailSubmitButtonDelegate
+
+- (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    [self viewDidLoad];
+    return;
 }
 
 #pragma mark - LDTCampaignListCampaignCellDelegate
@@ -274,8 +322,8 @@ const CGFloat kHeightExpanded = 400;
         [self.navigationController pushViewController:destVC animated:YES];
     }
     else {
-        [SVProgressHUD show];
-        [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(NSDictionary *response) {
+        [SVProgressHUD showWithStatus:@"Signing up..."];
+        [[DSOUserManager sharedInstance] signupUserForCampaign:cell.campaign completionHandler:^(DSOCampaignSignup *signup) {
             cell.signedUp = YES;
             cell.actionButtonTitle = @"More info";
             [self.navigationController pushViewController:destVC animated:YES];
@@ -284,6 +332,7 @@ const CGFloat kHeightExpanded = 400;
             [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", cell.campaign.title]];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
+            [TSMessage setDefaultViewController:self];
             [LDTMessage displayErrorMessageForError:error];
         }];
     }
