@@ -10,6 +10,7 @@
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 #import "LDTSettingsViewController.h"
+#import "GAI+LDT.h"
 
 @interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -67,11 +68,18 @@ static NSString *cellIdentifier = @"rowCell";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self styleView];
+    
+    NSString *trackingString;
     if ([self.user isLoggedInUser]) {
         [self updateUserDetails];
         // Logged in user may have signed up or reported back since this VC was first loaded.
         [self.tableView reloadData];
+        trackingString = @"self";
     }
+    else {
+        trackingString = self.user.userID;
+    }
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"user-profile/%@", trackingString]];
 }
 
 #pragma Mark - LDTUserProfileViewController
