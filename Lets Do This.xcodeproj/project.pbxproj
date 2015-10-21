@@ -52,6 +52,9 @@
 		B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27FD03E1BBD99FF00A44952 /* LDTEpicFailView.xib */; settings = {ASSET_TAGS = (); }; };
 		B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */; };
 		B28124D21BAA1FB700DF58DA /* UIViewController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124D11BAA1FB700DF58DA /* UIViewController+LDT.m */; };
+		B2963E071BD83CC700D2B6EE /* LDTOnboardingChildView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2963E061BD83CC700D2B6EE /* LDTOnboardingChildView.xib */; settings = {ASSET_TAGS = (); }; };
+		B2963E0A1BD83D1000D2B6EE /* LDTOnboardingChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2963E091BD83D1000D2B6EE /* LDTOnboardingChildViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B2963E0D1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2963E0C1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B29A657F1BB60F0B008C0E2A /* DSOCampaignSignup.m in Sources */ = {isa = PBXBuildFile; fileRef = B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */; settings = {ASSET_TAGS = (); }; };
 		B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */; };
 		B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */; };
@@ -163,6 +166,11 @@
 		B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+LDT.m"; sourceTree = "<group>"; };
 		B28124D01BAA1FB700DF58DA /* UIViewController+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+LDT.h"; sourceTree = "<group>"; };
 		B28124D11BAA1FB700DF58DA /* UIViewController+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+LDT.m"; sourceTree = "<group>"; };
+		B2963E061BD83CC700D2B6EE /* LDTOnboardingChildView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTOnboardingChildView.xib; path = Onboarding/LDTOnboardingChildView.xib; sourceTree = "<group>"; };
+		B2963E081BD83D1000D2B6EE /* LDTOnboardingChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTOnboardingChildViewController.h; path = Onboarding/LDTOnboardingChildViewController.h; sourceTree = "<group>"; };
+		B2963E091BD83D1000D2B6EE /* LDTOnboardingChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTOnboardingChildViewController.m; path = Onboarding/LDTOnboardingChildViewController.m; sourceTree = "<group>"; };
+		B2963E0B1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTOnboardingPageViewController.h; path = Onboarding/LDTOnboardingPageViewController.h; sourceTree = "<group>"; };
+		B2963E0C1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTOnboardingPageViewController.m; path = Onboarding/LDTOnboardingPageViewController.m; sourceTree = "<group>"; };
 		B29A657D1BB60F0B008C0E2A /* DSOCampaignSignup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCampaignSignup.h; sourceTree = "<group>"; };
 		B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCampaignSignup.m; sourceTree = "<group>"; };
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserConnectView.xib; path = Login/LDTUserConnectView.xib; sourceTree = "<group>"; };
@@ -369,6 +377,25 @@
 			name = Networking;
 			sourceTree = "<group>";
 		};
+		B2963E041BD83C7700D2B6EE /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				B2963E061BD83CC700D2B6EE /* LDTOnboardingChildView.xib */,
+			);
+			name = Onboarding;
+			sourceTree = "<group>";
+		};
+		B2963E051BD83C9600D2B6EE /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				B2963E081BD83D1000D2B6EE /* LDTOnboardingChildViewController.h */,
+				B2963E091BD83D1000D2B6EE /* LDTOnboardingChildViewController.m */,
+				B2963E0B1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.h */,
+				B2963E0C1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m */,
+			);
+			name = Onboarding;
+			sourceTree = "<group>";
+		};
 		B2E652DC1B43807000EF9D69 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -505,6 +532,7 @@
 			isa = PBXGroup;
 			children = (
 				B27AF0E81B4F647A00164926 /* Base */,
+				B2963E051BD83C9600D2B6EE /* Onboarding */,
 				C2F35F0A1AD8272C00D12FE5 /* Login */,
 				B22274021B587A02005C896D /* Campaign */,
 				B27AF0E11B4F487C00164926 /* Profile */,
@@ -535,6 +563,7 @@
 			isa = PBXGroup;
 			children = (
 				B2E652DC1B43807000EF9D69 /* Base */,
+				B2963E041BD83C7700D2B6EE /* Onboarding */,
 				B239391A1B44495400E5BCC8 /* Login */,
 				B22273FF1B58792D005C896D /* Campaign */,
 				B27AF0E51B4F490800164926 /* Profile */,
@@ -663,6 +692,7 @@
 				B27F49EA1B6ADB68005CFC35 /* LDTCampaignDetailView.xib in Resources */,
 				564F20CF1BB78EB000A97FED /* LDTCampaignCollectionViewCellContainer.xib in Resources */,
 				B21996B21B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.xib in Resources */,
+				B2963E071BD83CC700D2B6EE /* LDTOnboardingChildView.xib in Resources */,
 				B2629F261BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib in Resources */,
 				B2E75D7F1B87B1610015BE4A /* LDTReportbackItemDetailView.xib in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
@@ -749,6 +779,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2629F231BAB45C800A1B5C3 /* LDTUpdateAvatarViewController.m in Sources */,
+				B2963E0D1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m in Sources */,
 				B27FD03F1BBD99FF00A44952 /* LDTEpicFailViewController.m in Sources */,
 				C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */,
 				EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */,
@@ -789,6 +820,7 @@
 				B23E68261B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.m in Sources */,
 				B2753E391BD17C49004DDD6A /* GAI+LDT.m in Sources */,
 				B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */,
+				B2963E0A1BD83D1000D2B6EE /* LDTOnboardingChildViewController.m in Sources */,
 				B248D5091BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
