@@ -45,6 +45,9 @@ static NSString *cellIdentifier = @"rowCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (!self.user) {
+        self.user = [DSOUserManager sharedInstance].user;
+    }
     self.navigationItem.title = nil;
     [self styleView];
     [self updateUserDetails];
@@ -67,12 +70,14 @@ static NSString *cellIdentifier = @"rowCell";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
     [self styleView];
-    
+
     NSString *trackingString;
     if ([self.user isLoggedInUser]) {
         [self updateUserDetails];
         // Logged in user may have signed up or reported back since this VC was first loaded.
+        self.user.campaignSignups = [DSOUserManager sharedInstance].user.campaignSignups;
         [self.tableView reloadData];
         trackingString = @"self";
     }
