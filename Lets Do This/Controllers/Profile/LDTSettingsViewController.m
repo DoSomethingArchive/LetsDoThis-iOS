@@ -147,6 +147,8 @@
             [self.navigationController pushViewController:[[LDTUserConnectViewController alloc] init] animated:YES];
             [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
             [LDTMessage setDefaultViewController:self.navigationController];
+            UITabBarController *tabBar = (UITabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+            [tabBar setSelectedIndex:0];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
             [LDTMessage displayErrorMessageForError:error];
