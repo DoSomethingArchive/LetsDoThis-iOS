@@ -8,24 +8,19 @@
 
 #import "AppDelegate.h"
 #import "AFNetworkActivityIndicatorManager.h"
-#import "DSOAPI.h"
 #import <Parse/Parse.h>
 #import "LDTLoadingViewController.h"
 #import "LDTUserConnectViewController.h"
-#import "LDTEpicFailViewController.h"
+#import "LDTOnboardingPageViewController.h"
 #import "LDTTheme.h"
 #import "LDTTabBarController.h"
-#import "DSOUserManager.h"
 #import "TSMessageView.h"
 #import "GAI+LDT.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
 #define isLoggingGoogleAnalytics NO
-
-@interface AppDelegate ()
-
-@end
+#define isOnboardingTest NO
 
 @implementation AppDelegate
 
@@ -53,6 +48,7 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setForegroundColor:[LDTTheme ctaBlueColor]];
     [SVProgressHUD setFont:[LDTTheme font]];
+    [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
     [Parse setApplicationId:keysDict[@"parseApplicationId"] clientKey:keysDict[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
@@ -64,10 +60,15 @@
     [application registerForRemoteNotifications];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    if (isOnboardingTest) {
+        [self.window makeKeyAndVisible];
+        self.window.rootViewController = [[LDTOnboardingPageViewController alloc] init];
+
+        return YES;
+    }
+
     self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
     [self.window makeKeyAndVisible];
-    
-    [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
     if (![DSOUserManager sharedInstance].userHasCachedSession) {
         UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
