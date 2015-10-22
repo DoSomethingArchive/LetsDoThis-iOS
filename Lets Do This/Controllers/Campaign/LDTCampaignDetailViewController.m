@@ -244,7 +244,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 #pragma mark - LDTCampaignDetailSelfReportbackCellDelegate
 
 - (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:nil value:nil];
     NSString *title = self.campaign.title;
     NSString *verb = self.campaign.reportbackVerb.lowercaseString;
     NSString *quantity = [NSString stringWithFormat:@"%li", (long)self.currentUserReportback.quantity];
