@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTOnboardingChildViewController">
             <connections>
+                <outlet property="descriptionContainerView" destination="1oX-hs-3Xw" id="xHg-qk-qcP"/>
                 <outlet property="descriptionLabel" destination="Mae-xA-bti" id="W2g-Fc-V3n"/>
                 <outlet property="headlineLabel" destination="de8-WS-jKl" id="lyE-ye-MkO"/>
                 <outlet property="primaryImageView" destination="Vql-eT-pnA" id="DjO-Dp-761"/>
