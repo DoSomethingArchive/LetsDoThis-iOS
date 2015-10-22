@@ -112,8 +112,10 @@ static NSString *cellIdentifier = @"rowCell";
 
 - (IBAction)settingsTapped:(id)sender {
     LDTSettingsViewController *destVC = [[LDTSettingsViewController alloc] initWithNibName:@"LDTSettingsView" bundle:nil];
-
-    [self.navigationController pushViewController:destVC animated:YES];
+    UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
+    [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
+    [LDTMessage setDefaultViewController:destVC];
+    [self presentViewController:destNavVC animated:YES completion:nil];
 }
 
 #pragma mark -- UITableViewDataSource
