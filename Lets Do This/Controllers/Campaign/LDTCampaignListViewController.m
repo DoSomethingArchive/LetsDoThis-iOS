@@ -82,46 +82,17 @@ const BOOL isTestingForNoCampaigns = NO;
 	self.collectionView.pagingEnabled = YES;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
 
-    [SVProgressHUD showWithStatus:@"Loading actions..."];
-
-    [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
-        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
-            if (isTestingForNoCampaigns || campaigns.count == 0) {
-                [SVProgressHUD dismiss];
-                LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
-                epicFailVC.delegate = self;
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-                [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-                [self presentViewController:navVC animated:YES completion:nil];
-            }
-            else {
-                self.allCampaigns = campaigns;
-                [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
-                [self createInterestGroups];
-                [self.collectionView reloadData];
-                [SVProgressHUD dismiss];
-            }
-        } errorHandler:^(NSError *error) {
-            [LDTMessage displayErrorMessageForError:error];
-        }];
-    } errorHandler:^(NSError *error) {
-        [SVProgressHUD dismiss];
-
-        // Need to inspect error here to determine what error is.
-        // If something's up with the session, we'll want to logout and push to user connect.
-        LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
-        epicFailVC.delegate = self;
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-        [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-        [self presentViewController:navVC animated:YES completion:nil];
-    }];
-
+    if ([DSOUserManager sharedInstance].userHasCachedSession) {
+        [self loadMainFeed];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
+    if ([DSOUserManager sharedInstance].userHasCachedSession && (!self.allCampaigns || self.allCampaigns.count == 0)) {
+       [self loadMainFeed];
+    }
     self.navigationItem.title = [@"Let's Do This" uppercaseString];
 
     [self styleView];
@@ -149,6 +120,45 @@ const BOOL isTestingForNoCampaigns = NO;
             [aButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         }
     }
+}
+
+- (void)loadMainFeed {
+    [SVProgressHUD showWithStatus:@"Loading actions..."];
+
+    [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
+        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
+            if (isTestingForNoCampaigns || campaigns.count == 0) {
+                [SVProgressHUD dismiss];
+                LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
+                epicFailVC.delegate = self;
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+                [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+                [self presentViewController:navVC animated:YES completion:nil];
+            }
+            else {
+                self.allCampaigns = campaigns;
+                [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
+                [self createInterestGroups];
+                [self.collectionView reloadData];
+                [SVProgressHUD dismiss];
+            }
+        } errorHandler:^(NSError *error) {
+            [LDTMessage displayErrorMessageForError:error];
+        }];
+    } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+
+        NSLog(@"error %@", error);
+
+        // Need to inspect error here to determine what error is.
+        // If something's up with the session, we'll want to logout and push to user connect.
+        LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
+        epicFailVC.delegate = self;
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+        [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+        [self presentViewController:navVC animated:YES completion:nil];
+    }];
 }
 
 - (void)createInterestGroups {
@@ -307,7 +317,7 @@ const BOOL isTestingForNoCampaigns = NO;
 
 - (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
-    [self viewDidLoad];
+
     return;
 }
 
