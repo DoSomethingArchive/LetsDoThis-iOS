@@ -37,10 +37,10 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    //    if (![DSOUserManager sharedInstance].userHasCachedSession) {
-    if (YES) {
+    if (![DSOUserManager sharedInstance].userHasCachedSession) {
         LDTOnboardingPageViewController *onboardingVC = [[LDTOnboardingPageViewController alloc] init];
         [self presentViewController:onboardingVC animated:NO completion:nil];
+        [TSMessage setDefaultViewController:onboardingVC];
     }
 }
 
