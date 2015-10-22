@@ -9,6 +9,7 @@
 #import "LDTTabBarController.h"
 #import "LDTUserProfileViewController.h"
 #import "LDTCampaignListViewController.h"
+#import "LDTOnboardingPageViewController.h"
 #import "LDTTheme.h"
 
 @implementation LDTTabBarController
@@ -31,6 +32,16 @@
     }
 	
     return self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    //    if (![DSOUserManager sharedInstance].userHasCachedSession) {
+    if (YES) {
+        LDTOnboardingPageViewController *onboardingVC = [[LDTOnboardingPageViewController alloc] init];
+        [self presentViewController:onboardingVC animated:NO completion:nil];
+    }
 }
 
 @end
