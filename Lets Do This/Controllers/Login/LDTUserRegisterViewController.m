@@ -230,6 +230,7 @@
 }
 
 - (void)handleFooterLabelTap {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on privacy policy" label:nil value:nil];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [NSString stringWithFormat:@"%@%@", [DSOAPI sharedInstance].phoenixBaseURL, @"about/privacy-policy"]]];
 }
 

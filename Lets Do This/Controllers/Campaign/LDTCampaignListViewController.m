@@ -372,24 +372,26 @@ const BOOL isTestingForNoCampaigns = NO;
 		
 		return;
 	}
-	
-	LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	[UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:0 animations:^{
-		[collectionView performBatchUpdates:^{
-			if ([self.selectedIndexPath isEqual:indexPath]) {
-				self.selectedIndexPath = nil;
-				campaignCell.expanded = NO;
-			}
-			else {
-				LDTCampaignListCampaignCell *expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];
-				self.selectedIndexPath = indexPath;
-				expandedCell.expanded = NO;
-				campaignCell.expanded = YES;
-			}
-		} completion:^(BOOL finished) {
-			[collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
-		}];
-	} completion:nil];
+
+    LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    [UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:0 animations:^{
+        [collectionView performBatchUpdates:^{
+            if ([self.selectedIndexPath isEqual:indexPath]) {
+                self.selectedIndexPath = nil;
+                campaignCell.expanded = NO;
+                [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"collapse campaign cell" label:[NSString stringWithFormat:@"%li", (long)campaignCell.campaign.campaignID] value:nil];
+            }
+            else {
+                LDTCampaignListCampaignCell *expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];
+                self.selectedIndexPath = indexPath;
+                expandedCell.expanded = NO;
+                campaignCell.expanded = YES;
+                [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"expand campaign cell" label:[NSString stringWithFormat:@"%li", (long)campaignCell.campaign.campaignID] value:nil];
+            }
+        } completion:^(BOOL finished) {
+            [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
+        }];
+    } completion:nil];
 }
 
 #pragma mark - UICollectionViewDataSource

@@ -8,6 +8,7 @@
 
 #import "DSOUserManager.h"
 #import <SSKeychain/SSKeychain.h>
+#import "GAI+LDT.h"
 
 NSString *const avatarFileNameString = @"LDTStoredAvatar.jpeg";
 NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
@@ -106,6 +107,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] createCampaignSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
         [self.user.campaignSignups addObject:signup];
+        [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
         if (completionHandler) {
             completionHandler(signup);
         }
@@ -118,6 +120,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
+        [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)reportbackItem.campaign.campaignID] value:nil];
         // Update the corresponding campaignSignup with the new reportbackItem.
         for (DSOCampaignSignup *signup in self.user.campaignSignups) {
             if (reportbackItem.campaign.campaignID == signup.campaign.campaignID) {

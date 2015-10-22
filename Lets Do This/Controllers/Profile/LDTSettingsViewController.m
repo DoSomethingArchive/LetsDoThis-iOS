@@ -111,6 +111,7 @@
 }
 
 - (void)handleNotificationSwitchTap:(UITapGestureRecognizer *)recognizer {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on notif switch" label:nil value:nil];
     NSString *alertControllerMessage;
     if (!self.isNotificationsEnabled) {
         alertControllerMessage = @"You've disabled Notifications for Let's Do This. You can turn them on in the Notifications section of the Settings app.";
@@ -131,6 +132,7 @@
     UIAlertController *logoutAlertController = [UIAlertController alertControllerWithTitle:@"Are you sure? We’ll miss you." message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *confirmLogoutAction = [UIAlertAction actionWithTitle:@"Log Out" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         [SVProgressHUD show];
+        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"log out" label:nil value:nil];
         [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
             // This VC is always presented within the TabBarVC, so kill it.
             [self dismissViewControllerAnimated:YES completion:^{
@@ -154,10 +156,12 @@
 }
 
 - (void)handleRateTap:(UITapGestureRecognizer *)recognizer {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on review app button" label:nil value:nil];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/998995766"]];
 }
 
 - (IBAction)feedbackButtonTouchUpInside:(id)sender {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on feedback form" label:nil value:nil];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.dosomething.org/campaigns/submit-your-idea"]];
 }
 @end
