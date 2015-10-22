@@ -60,27 +60,8 @@
     [application registerForRemoteNotifications];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    if (isOnboardingTest) {
-        [self.window makeKeyAndVisible];
-        self.window.rootViewController = [[LDTOnboardingPageViewController alloc] init];
-
-        return YES;
-    }
-
-    self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
     [self.window makeKeyAndVisible];
-
-    if (![DSOUserManager sharedInstance].userHasCachedSession) {
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
-        [navVC styleNavigationBar:LDTNavigationBarStyleClear];
-        [LDTMessage setDefaultViewController:navVC];
-        [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
-    }
-    else {
-        LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
-        [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
-    }
-
+    self.window.rootViewController = [[LDTTabBarController alloc] init];
     return YES;
 }
 
