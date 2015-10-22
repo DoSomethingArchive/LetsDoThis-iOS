@@ -14,6 +14,7 @@
 
 @interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate>
 
+@property (assign, nonatomic) BOOL isCurrentUserProfile;
 @property (strong, nonatomic) NSMutableArray *campaignsDoing;
 @property (strong, nonatomic) NSMutableArray *campaignsCompleted;
 
@@ -47,7 +48,9 @@ static NSString *cellIdentifier = @"rowCell";
 
     if (!self.user) {
         self.user = [DSOUserManager sharedInstance].user;
+        self.isCurrentUserProfile = YES;
     }
+
     self.navigationItem.title = nil;
     [self styleView];
     [self updateUserDetails];
@@ -72,6 +75,11 @@ static NSString *cellIdentifier = @"rowCell";
     [super viewDidAppear:animated];
 
     [self styleView];
+
+    // If profile, check for if current user logged out and logged in as different user.
+    if (self.isCurrentUserProfile && ![self.user.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
+        self.user = [DSOUserManager sharedInstance].user;
+    }
 
     NSString *trackingString;
     if ([self.user isLoggedInUser]) {

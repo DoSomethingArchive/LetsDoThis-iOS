@@ -15,6 +15,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 @interface DSOUserManager()
 
+@property (assign, nonatomic, readwrite) BOOL isCurrentUserSync;
 @property (strong, nonatomic, readwrite) DSOUser *user;
 @property (strong, nonatomic, readwrite) NSArray *activeMobileAppCampaigns;
 
@@ -46,6 +47,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
         self.user = user;
+        self.isCurrentUserSync = NO;
+
         [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
         // Save session in Keychain for when app is quit.
         [SSKeychain setPassword:user.sessionToken forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
@@ -75,6 +78,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
         self.user = user;
         [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
             self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+            self.isCurrentUserSync = YES;
             if (completionHandler) {
                 completionHandler();
             }
@@ -94,6 +98,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
         [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
         [self deleteAvatar];
         self.user = nil;
+        self.isCurrentUserSync = NO;
         if (completionHandler) {
             completionHandler();
         }
