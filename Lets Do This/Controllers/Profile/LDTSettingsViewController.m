@@ -61,6 +61,9 @@
     [self.notificationSwitchView addGestureRecognizer:notificationSwitchTap];
     UITapGestureRecognizer *rateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleRateTap:)];
     [self.rateView addGestureRecognizer:rateTap];
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(dismissSettings:)];
+    self.navigationItem.rightBarButtonItem = rightButton;
+    [self styleRightBarButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -105,6 +108,10 @@
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 }
 
+- (void)dismissSettings:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)handleChangePhotoTap:(UITapGestureRecognizer *)recognizer {
     LDTUpdateAvatarViewController *destVC = [[LDTUpdateAvatarViewController alloc] initWithNibName:@"LDTUpdateAvatarView" bundle:nil];
     [self.navigationController pushViewController:destVC animated:YES];
@@ -131,17 +138,15 @@
 - (void)handleLogoutTap:(UITapGestureRecognizer *)recognizer {
     UIAlertController *logoutAlertController = [UIAlertController alertControllerWithTitle:@"Are you sure? We’ll miss you." message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *confirmLogoutAction = [UIAlertAction actionWithTitle:@"Log Out" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        [SVProgressHUD show];
+
         [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"log out" label:nil value:nil];
+        [SVProgressHUD showWithStatus:@"Logging out..."];
+
         [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
-            // This VC is always presented within the TabBarVC, so kill it.
-            [self dismissViewControllerAnimated:YES completion:^{
-                [SVProgressHUD dismiss];
-                UINavigationController *destVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] init]];
-                [destVC styleNavigationBar:LDTNavigationBarStyleClear];
-                [LDTMessage setDefaultViewController:destVC];
-                [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
-            }];
+            [SVProgressHUD dismiss];
+            [self.navigationController pushViewController:[[LDTUserConnectViewController alloc] init] animated:YES];
+            [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
+            [LDTMessage setDefaultViewController:self.navigationController];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
             [LDTMessage displayErrorMessageForError:error];
