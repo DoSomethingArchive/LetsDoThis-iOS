@@ -20,11 +20,7 @@
 #import <Crashlytics/Crashlytics.h>
 
 #define isLoggingGoogleAnalytics NO
-#define isOnboardingTest YES
-
-@interface AppDelegate ()
-
-@end
+#define isOnboardingTest NO
 
 @implementation AppDelegate
 
@@ -65,8 +61,9 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     if (isOnboardingTest) {
-        self.window.rootViewController = [[LDTOnboardingPageViewController alloc] init];
         [self.window makeKeyAndVisible];
+        self.window.rootViewController = [[LDTOnboardingPageViewController alloc] init];
+
         return YES;
     }
 
