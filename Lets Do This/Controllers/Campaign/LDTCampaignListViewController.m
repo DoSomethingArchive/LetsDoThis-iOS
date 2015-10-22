@@ -90,14 +90,13 @@ const BOOL isTestingForNoCampaigns = NO;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    if ([DSOUserManager sharedInstance].userHasCachedSession && (!self.allCampaigns || self.allCampaigns.count == 0)) {
-       [self loadMainFeed];
+    if ([DSOUserManager sharedInstance].userHasCachedSession) {
+        if (!self.allCampaigns || self.allCampaigns.count == 0 || ![DSOUserManager sharedInstance].isCurrentUserSync) {
+            [self loadMainFeed];
+        }
+        [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
     }
-    self.navigationItem.title = [@"Let's Do This" uppercaseString];
-
     [self styleView];
-
-    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
 }
 
 #pragma mark - LDTCampaignListViewController
@@ -148,8 +147,6 @@ const BOOL isTestingForNoCampaigns = NO;
         }];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
-
-        NSLog(@"error %@", error);
 
         // Need to inspect error here to determine what error is.
         // If something's up with the session, we'll want to logout and push to user connect.

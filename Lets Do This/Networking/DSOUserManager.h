@@ -11,6 +11,9 @@
 
 @interface DSOUserManager : NSObject
 
+// Whether the logged in user data has been synced.
+@property (assign, nonatomic, readonly) BOOL isCurrentUserSync;
+
 // Stores the authenticated user (if user has logged in).
 @property (strong, nonatomic, readonly) DSOUser *user;
 
