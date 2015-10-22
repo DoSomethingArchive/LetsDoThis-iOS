@@ -20,6 +20,7 @@
 #import <Crashlytics/Crashlytics.h>
 
 #define isLoggingGoogleAnalytics NO
+#define isOnboardingTest YES
 
 @interface AppDelegate ()
 
@@ -63,7 +64,12 @@
     [application registerForRemoteNotifications];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    self.window.rootViewController = [[LDTOnboardingPageViewController alloc] init];
+    if (isOnboardingTest) {
+        self.window.rootViewController = [[LDTOnboardingPageViewController alloc] init];
+        [self.window makeKeyAndVisible];
+        return YES;
+    }
+
     self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
     [self.window makeKeyAndVisible];
 
