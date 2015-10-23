@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
     LDTCampaignListSectionTypeReportback
 };
 
-const CGFloat kHeightCollapsed = 100;
+const CGFloat kHeightCollapsed = 150;
 const CGFloat kHeightExpanded = 420;
 // Flag to test for handling when API returns 0 active campaigns.
 const BOOL isTestingForNoCampaigns = NO;
