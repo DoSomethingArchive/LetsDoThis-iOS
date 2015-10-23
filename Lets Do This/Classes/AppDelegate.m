@@ -9,9 +9,6 @@
 #import "AppDelegate.h"
 #import "AFNetworkActivityIndicatorManager.h"
 #import <Parse/Parse.h>
-#import "LDTLoadingViewController.h"
-#import "LDTUserConnectViewController.h"
-#import "LDTOnboardingPageViewController.h"
 #import "LDTTheme.h"
 #import "LDTTabBarController.h"
 #import "TSMessageView.h"
@@ -20,7 +17,6 @@
 #import <Crashlytics/Crashlytics.h>
 
 #define isLoggingGoogleAnalytics NO
-#define isOnboardingTest NO
 
 @implementation AppDelegate
 
@@ -51,17 +47,15 @@
     [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
     [Parse setApplicationId:keysDict[@"parseApplicationId"] clientKey:keysDict[@"parseClientKey"]];
-    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
-                                                    UIUserNotificationTypeBadge |
-                                                    UIUserNotificationTypeSound);
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
-                                                                             categories:nil];
+    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];
     self.window.rootViewController = [[LDTTabBarController alloc] init];
+
     return YES;
 }
 
