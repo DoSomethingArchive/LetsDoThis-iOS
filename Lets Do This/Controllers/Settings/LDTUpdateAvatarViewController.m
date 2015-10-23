@@ -79,7 +79,7 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
-    [SVProgressHUD show];
+    [SVProgressHUD showWithStatus:@"Uploading..."];
     [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
         [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
         [SVProgressHUD dismiss];

@@ -229,7 +229,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
     }
     else {
-        [SVProgressHUD show];
+        [SVProgressHUD showWithStatus:@"Signing up..."];
         [[DSOUserManager sharedInstance] signupUserForCampaign:self.campaign completionHandler:^(DSOCampaignSignup *signup) {
             [SVProgressHUD dismiss];
             [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", self.campaign.title]];
