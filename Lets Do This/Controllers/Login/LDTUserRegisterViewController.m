@@ -168,13 +168,8 @@
                         [LDTMessage displayErrorMessageForError:error];
                     }];
                 }
-                
-                // This VC is always presented within a NavVC, so kill it.
                 [SVProgressHUD dismiss];
-                [self dismissViewControllerAnimated:YES completion:^{
-                    LDTTabBarController *destVC = [[LDTTabBarController alloc] init];
-                    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
-                }];
+                [self dismissViewControllerAnimated:YES completion:nil];
 
             } errorHandler:^(NSError *error) {
                 [SVProgressHUD dismiss];

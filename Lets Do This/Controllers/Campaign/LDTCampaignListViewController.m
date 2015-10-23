@@ -15,6 +15,7 @@
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTCampaignCollectionViewCellContainer.h"
+#import "LDTOnboardingPageViewController.h"
 #import "GAI+LDT.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
@@ -81,6 +82,46 @@ const BOOL isTestingForNoCampaigns = NO;
 	self.collectionView.pagingEnabled = YES;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
 
+    if ([DSOUserManager sharedInstance].userHasCachedSession) {
+        [self loadMainFeed];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    if ([DSOUserManager sharedInstance].userHasCachedSession) {
+        if (!self.allCampaigns || self.allCampaigns.count == 0 || ![DSOUserManager sharedInstance].isCurrentUserSync) {
+            [self loadMainFeed];
+        }
+        [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
+    }
+    [self styleView];
+}
+
+#pragma mark - LDTCampaignListViewController
+
+- (void)styleView {
+    [self.collectionView setBackgroundColor:[UIColor clearColor]];
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    [self styleButtons];
+}
+
+- (void)styleButtons {
+    for (int i = 0; i < self.interestGroupButtons.count; i++) {
+        LDTButton *aButton = self.interestGroupButtons[i];
+        if (i == self.selectedGroupButtonIndex) {
+            aButton.backgroundColor = [LDTTheme ctaBlueColor];
+            [aButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+        else {
+            aButton.backgroundColor = [UIColor whiteColor];
+            [aButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        }
+    }
+}
+
+- (void)loadMainFeed {
     [SVProgressHUD showWithStatus:@"Loading actions..."];
 
     [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
@@ -115,39 +156,6 @@ const BOOL isTestingForNoCampaigns = NO;
         [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
         [self presentViewController:navVC animated:YES completion:nil];
     }];
-
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
-    self.navigationItem.title = [@"Let's Do This" uppercaseString];
-
-    [self styleView];
-
-    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
-}
-
-#pragma mark - LDTCampaignListViewController
-
-- (void)styleView {
-    [self.collectionView setBackgroundColor:[UIColor clearColor]];
-    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
-    [self styleButtons];
-}
-
-- (void)styleButtons {
-    for (int i = 0; i < self.interestGroupButtons.count; i++) {
-        LDTButton *aButton = self.interestGroupButtons[i];
-        if (i == self.selectedGroupButtonIndex) {
-            aButton.backgroundColor = [LDTTheme ctaBlueColor];
-            [aButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        }
-        else {
-            aButton.backgroundColor = [UIColor whiteColor];
-            [aButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        }
-    }
 }
 
 - (void)createInterestGroups {
@@ -306,7 +314,7 @@ const BOOL isTestingForNoCampaigns = NO;
 
 - (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
-    [self viewDidLoad];
+
     return;
 }
 

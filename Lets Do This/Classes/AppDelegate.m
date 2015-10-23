@@ -9,9 +9,6 @@
 #import "AppDelegate.h"
 #import "AFNetworkActivityIndicatorManager.h"
 #import <Parse/Parse.h>
-#import "LDTLoadingViewController.h"
-#import "LDTUserConnectViewController.h"
-#import "LDTOnboardingPageViewController.h"
 #import "LDTTheme.h"
 #import "LDTTabBarController.h"
 #import "TSMessageView.h"
@@ -20,7 +17,6 @@
 #import <Crashlytics/Crashlytics.h>
 
 #define isLoggingGoogleAnalytics NO
-#define isOnboardingTest NO
 
 @implementation AppDelegate
 
@@ -51,35 +47,14 @@
     [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
     [Parse setApplicationId:keysDict[@"parseApplicationId"] clientKey:keysDict[@"parseClientKey"]];
-    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
-                                                    UIUserNotificationTypeBadge |
-                                                    UIUserNotificationTypeSound);
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
-                                                                             categories:nil];
+    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    if (isOnboardingTest) {
-        [self.window makeKeyAndVisible];
-        self.window.rootViewController = [[LDTOnboardingPageViewController alloc] init];
-
-        return YES;
-    }
-
-    self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
     [self.window makeKeyAndVisible];
-
-    if (![DSOUserManager sharedInstance].userHasCachedSession) {
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
-        [navVC styleNavigationBar:LDTNavigationBarStyleClear];
-        [LDTMessage setDefaultViewController:navVC];
-        [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
-    }
-    else {
-        LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
-        [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
-    }
+    self.window.rootViewController = [[LDTTabBarController alloc] init];
 
     return YES;
 }
