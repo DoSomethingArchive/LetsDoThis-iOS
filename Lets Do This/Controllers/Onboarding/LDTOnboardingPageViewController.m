@@ -11,7 +11,7 @@
 #import "LDTUserConnectViewController.h"
 #import "LDTTheme.h"
 
-@interface LDTOnboardingPageViewController () <UIPageViewControllerDataSource>
+@interface LDTOnboardingPageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 
 @property (strong, nonatomic) UIPageViewController *pageController;
 @property (strong, nonatomic) LDTOnboardingChildViewController *firstChildViewController;
@@ -29,6 +29,8 @@
 
     self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.pageController.dataSource = self;
+    self.pageController.delegate = self;
+
     [self.pageController view].frame = [[self view] bounds];
 
     self.firstChildViewController = [[LDTOnboardingChildViewController alloc] initWithHeadlineText:@"Stop being bored".uppercaseString descriptionText:@"Are you into sports? Crafting? Whatever your interests, you can do fun stuff and social good at the same time." primaryImage:[UIImage imageNamed:@"Onboarding_StopBeingBored"]];
@@ -37,17 +39,31 @@
     self.userConnectNavigationController = [[UINavigationController alloc] initWithRootViewController:userConnectVC];
     [self.userConnectNavigationController styleNavigationBar:LDTNavigationBarStyleClear];
 
-    self.pageController.view.backgroundColor = [UIColor whiteColor];
-    UIPageControl *pageControl = [UIPageControl appearance];
-    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-    pageControl.currentPageIndicatorTintColor = [LDTTheme ctaBlueColor];
-
     [self.pageController setViewControllers:@[self.firstChildViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
     [self addChildViewController:self.pageController];
     [[self view] addSubview:[self.pageController view]];
     [self.pageController didMoveToParentViewController:self];
 
+    [self stylePageController];
+    UIPageControl *pageControl = [UIPageControl appearance];
+    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    pageControl.currentPageIndicatorTintColor = [LDTTheme ctaBlueColor];
+}
 
+
+#pragma mark - LDTOnboardingPageViewController
+
+- (void)stylePageController {
+    if (self.pageController.viewControllers.count) {
+        UIColor *pageControllerBGColor;
+        if ([self.pageController.viewControllers[0] isEqual:self.userConnectNavigationController]) {
+            pageControllerBGColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
+        }
+        else {
+            pageControllerBGColor = [UIColor whiteColor];
+        }
+        self.pageController.view.backgroundColor = pageControllerBGColor;
+    }
 }
 
 #pragma mark - UIPageViewControllerDataSource
@@ -80,6 +96,10 @@
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
     return 0;
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed{
+    [self stylePageController];
 }
 
 @end
