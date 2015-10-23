@@ -139,7 +139,7 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
-    [SVProgressHUD show];
+    [SVProgressHUD showWithStatus:@"Uploading..."];
     self.reportbackItem.caption = self.captionTextField.text;
     self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
 
