@@ -77,7 +77,12 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
-            self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+            self.user.campaignSignups = [[NSMutableArray alloc] init];
+            for (DSOCampaignSignup *signup in campaignSignups) {
+                if ([self activeMobileAppCampaignWithId:signup.campaign.campaignID]) {
+                    [self.user.campaignSignups addObject:signup];
+                }
+            }
             self.isCurrentUserSync = YES;
             if (completionHandler) {
                 completionHandler();
