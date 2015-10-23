@@ -150,7 +150,7 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
-        [SVProgressHUD show];
+        [SVProgressHUD showWithStatus:@"Creating account..."];
         [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode success:^(NSDictionary *response) {
             
             if (self.mobileTextField.text) {
