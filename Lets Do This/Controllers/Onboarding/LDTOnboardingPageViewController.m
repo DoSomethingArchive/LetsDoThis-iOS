@@ -37,10 +37,17 @@
     self.userConnectNavigationController = [[UINavigationController alloc] initWithRootViewController:userConnectVC];
     [self.userConnectNavigationController styleNavigationBar:LDTNavigationBarStyleClear];
 
+    self.pageController.view.backgroundColor = [UIColor whiteColor];
+    UIPageControl *pageControl = [UIPageControl appearance];
+    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    pageControl.currentPageIndicatorTintColor = [LDTTheme ctaBlueColor];
+
     [self.pageController setViewControllers:@[self.firstChildViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
     [self addChildViewController:self.pageController];
     [[self view] addSubview:[self.pageController view]];
     [self.pageController didMoveToParentViewController:self];
+
+
 }
 
 #pragma mark - UIPageViewControllerDataSource
