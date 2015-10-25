@@ -25,6 +25,8 @@
 @property (nonatomic, assign, getter=isExpanded) BOOL expanded;
 @property (nonatomic, assign) BOOL signedUp;
 
+-(void)toggleConstraintsForCollapsedState;
+
 @end
 
 @protocol LDTCampaignListCampaignCellDelegate <NSObject>

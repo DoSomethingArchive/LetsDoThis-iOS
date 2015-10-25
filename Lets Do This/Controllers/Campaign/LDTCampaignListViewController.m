@@ -55,6 +55,20 @@ const BOOL isTestingForNoCampaigns = NO;
 
 #pragma mark - UIViewController
 
+-(instancetype)init {
+	self = [super init];
+	
+	if (self) {
+		if ([DSOUserManager sharedInstance].userHasCachedSession) {
+			if (!self.allCampaigns || self.allCampaigns.count == 0 || ![DSOUserManager sharedInstance].isCurrentUserSync) {
+				[self loadMainFeed];
+			}
+		}
+	}
+	
+	return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -81,19 +95,15 @@ const BOOL isTestingForNoCampaigns = NO;
 	
 	self.collectionView.pagingEnabled = YES;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
-
-    if ([DSOUserManager sharedInstance].userHasCachedSession) {
-        [self loadMainFeed];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
     if ([DSOUserManager sharedInstance].userHasCachedSession) {
-        if (!self.allCampaigns || self.allCampaigns.count == 0 || ![DSOUserManager sharedInstance].isCurrentUserSync) {
-            [self loadMainFeed];
-        }
+//        if (!self.allCampaigns || self.allCampaigns.count == 0 || ![DSOUserManager sharedInstance].isCurrentUserSync) {
+//            [self loadMainFeed];
+//        }
         [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
     }
     [self styleView];
@@ -125,8 +135,15 @@ const BOOL isTestingForNoCampaigns = NO;
     [SVProgressHUD showWithStatus:@"Loading actions..."];
 
     [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+		NSLog(@"loadCampaignsWithCompletionHandler");
+		NSArray *seedArray = @[@"This is some text", @"This is some more more longer text", @"This is definitely going to be the longest text ever ever ever"];
+		for (DSOCampaign *aCampaign in campaigns) {
+			int idx = arc4random()%(seedArray.count);
+			aCampaign.title = seedArray[idx];
+		}
         [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
+			NSLog(@"syncCurrentUserWithCompletionHandler");
             if (isTestingForNoCampaigns || campaigns.count == 0) {
                 [SVProgressHUD dismiss];
                 LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
@@ -139,7 +156,7 @@ const BOOL isTestingForNoCampaigns = NO;
                 self.allCampaigns = campaigns;
                 [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
                 [self createInterestGroups];
-                [self.collectionView reloadData];
+//                [self.collectionView reloadData];
                 [SVProgressHUD dismiss];
             }
         } errorHandler:^(NSError *error) {
@@ -189,6 +206,7 @@ const BOOL isTestingForNoCampaigns = NO;
 	NSMutableArray *errors = [[NSMutableArray alloc] initWithCapacity:totalAPICallCount];
 	
 	void (^reportBacksCompletionBlock)() = ^{
+		NSLog(@"completed reportback load: %lu", (unsigned long)completedAPICallCount);
 		++completedAPICallCount;
 		
 		if (completedAPICallCount != totalAPICallCount) {
@@ -209,6 +227,7 @@ const BOOL isTestingForNoCampaigns = NO;
 	};
     for (NSString *status in statusValues) {
         for (NSNumber *key in self.interestGroups) {
+			NSLog(@"loadReportbackItemsForCampaigns: %@", key);
             [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
                 for (DSOReportbackItem *rbItem in rbItems) {
                     [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
@@ -382,6 +401,7 @@ const BOOL isTestingForNoCampaigns = NO;
 	}
 
     LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
+	__block LDTCampaignListCampaignCell *expandedCell = nil;
     [UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:0 animations:^{
         [collectionView performBatchUpdates:^{
             if ([self.selectedIndexPath isEqual:indexPath]) {
@@ -390,13 +410,19 @@ const BOOL isTestingForNoCampaigns = NO;
                 [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"collapse campaign cell" label:[NSString stringWithFormat:@"%li", (long)campaignCell.campaign.campaignID] value:nil];
             }
             else {
-                LDTCampaignListCampaignCell *expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];
+                expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];
                 self.selectedIndexPath = indexPath;
                 expandedCell.expanded = NO;
                 campaignCell.expanded = YES;
                 [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"expand campaign cell" label:[NSString stringWithFormat:@"%li", (long)campaignCell.campaign.campaignID] value:nil];
             }
         } completion:^(BOOL finished) {
+			if (expandedCell) {
+				[expandedCell toggleConstraintsForCollapsedState];
+			}
+			if (!campaignCell.expanded) {
+				[campaignCell toggleConstraintsForCollapsedState];
+			}
             [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
         }];
     } completion:nil];
@@ -438,7 +464,8 @@ const BOOL isTestingForNoCampaigns = NO;
 		if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
 			LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
 			[self configureCampaignCell:campaignCell atIndexPath:indexPath];
-			
+			[campaignCell setNeedsLayout];
+			[campaignCell layoutIfNeeded];
 			return campaignCell;
 		}
 		if (indexPath.section == LDTCampaignListSectionTypeReportback) {
@@ -499,25 +526,22 @@ const BOOL isTestingForNoCampaigns = NO;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-	if ([collectionView isEqual:self.collectionView]) {
 		if (section == LDTCampaignListSectionTypeReportback) {
 			// Width is ignored here.
 			return CGSizeMake(60.0f, 50.0f);
 		}
-	}
 
 	return CGSizeMake(0.0f, 0.0f);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
 	UICollectionReusableView *reusableView = nil;
-	if ([collectionView isEqual:self.collectionView]) {
 		if (kind == UICollectionElementKindSectionHeader) {
 			LDTHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
 			headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
 			reusableView = headerView;
 		}
-	}
+	
 	return reusableView;
 }
 

@@ -25,6 +25,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleLabelTopLayoutConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleLabelCenterYConstraint;
 
 - (IBAction)actionButtonTouchUpInside:(id)sender;
 
@@ -55,19 +56,9 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     [self.imageView addGrayTint];
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-	// When we first load this cell, it's in a collapsed state. Since label height is variable based on amount of text,
-	// after we set the label's text and lay it out this method gets called. Save the constant for later use when collapse it again
-	// after expanding
-	if (!self.expanded) {
-		self.titleLabelTopLayoutConstraint.constant = CGRectGetMidY(self.bounds) - CGRectGetMidY(self.titleLabel.bounds);
-		self.collapsedTitleLabelTopLayoutConstraintConstant = self.titleLabelTopLayoutConstraint.constant;
-	}
-}
-
 - (void)setTitleLabelText:(NSString *)titleLabelText {
     self.titleLabel.text = [titleLabelText uppercaseString];
+	CGFloat label = [self.titleLabel sizeThatFits:CGSizeMake(CGRectGetWidth(self.bounds), NSIntegerMax)].height;
 }
 
 - (void)setTaglineLabelText:(NSString *)taglineLabelText {
@@ -100,6 +91,9 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 	_expanded = expanded;
 	
 	if (expanded) {
+		self.collapsedTitleLabelTopLayoutConstraintConstant = CGRectGetMinY(self.titleLabel.frame);
+		self.titleLabelCenterYConstraint.active = NO;
+		self.titleLabelTopLayoutConstraint.active = YES;
 		self.titleLabelTopLayoutConstraint.constant = CGRectGetHeight(self.imageView.bounds)-CGRectGetHeight(self.titleLabel.bounds)-10; // -10 for padding
 		self.imageViewTop.constant = kCampaignImageViewConstantExpanded;
 		self.imageViewBottom.constant = kCampaignImageViewConstantExpanded;
@@ -113,6 +107,11 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 		
 		[self layoutIfNeeded];
 	}
+}
+
+-(void)toggleConstraintsForCollapsedState {
+	self.titleLabelCenterYConstraint.active = YES;
+	self.titleLabelTopLayoutConstraint.active	= NO;
 }
 
 - (void)setSignedUp:(BOOL)isSignedUp {
