@@ -401,7 +401,6 @@ const BOOL isTestingForNoCampaigns = NO;
 	}
 
     LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	__block LDTCampaignListCampaignCell *expandedCell = nil;
     [UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:0 animations:^{
         [collectionView performBatchUpdates:^{
             if ([self.selectedIndexPath isEqual:indexPath]) {
@@ -410,19 +409,13 @@ const BOOL isTestingForNoCampaigns = NO;
                 [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"collapse campaign cell" label:[NSString stringWithFormat:@"%li", (long)campaignCell.campaign.campaignID] value:nil];
             }
             else {
-                expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];
+                LDTCampaignListCampaignCell *expandedCell = (LDTCampaignListCampaignCell *)[collectionView cellForItemAtIndexPath:self.selectedIndexPath];
                 self.selectedIndexPath = indexPath;
                 expandedCell.expanded = NO;
                 campaignCell.expanded = YES;
                 [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"expand campaign cell" label:[NSString stringWithFormat:@"%li", (long)campaignCell.campaign.campaignID] value:nil];
             }
         } completion:^(BOOL finished) {
-			if (expandedCell) {
-				[expandedCell toggleConstraintsForCollapsedState];
-			}
-			if (!campaignCell.expanded) {
-				[campaignCell toggleConstraintsForCollapsedState];
-			}
             [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
         }];
     } completion:nil];
@@ -526,21 +519,25 @@ const BOOL isTestingForNoCampaigns = NO;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+	if ([collectionView isEqual:self.collectionView]) {
 		if (section == LDTCampaignListSectionTypeReportback) {
 			// Width is ignored here.
 			return CGSizeMake(60.0f, 50.0f);
 		}
-
+	}
+	
 	return CGSizeMake(0.0f, 0.0f);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
 	UICollectionReusableView *reusableView = nil;
+	if ([collectionView isEqual:self.collectionView]) {
 		if (kind == UICollectionElementKindSectionHeader) {
 			LDTHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
 			headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
 			reusableView = headerView;
 		}
+	}
 	
 	return reusableView;
 }

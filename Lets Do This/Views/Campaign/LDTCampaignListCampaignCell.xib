@@ -20,7 +20,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ct-iF-EqI" userLabel="Campaign Title">
-                        <rect key="frame" x="8" y="190" width="369" height="20.5"/>
+                        <rect key="frame" x="8" y="32" width="369" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -117,7 +117,6 @@
                 <constraint firstItem="4Ct-iF-EqI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="ZSF-wd-D7m"/>
                 <constraint firstItem="rcw-DX-Omy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="cw8-5F-SFb"/>
                 <constraint firstItem="YLY-38-HRb" firstAttribute="top" secondItem="Gec-if-FXG" secondAttribute="top" id="jGi-ji-nBx"/>
-                <constraint firstItem="4Ct-iF-EqI" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="mrU-qy-9cW" userLabel="Title Label CenterY Constraint"/>
                 <constraint firstAttribute="trailing" secondItem="YLY-38-HRb" secondAttribute="trailing" id="pfC-BV-Xsl"/>
                 <constraint firstAttribute="bottom" secondItem="4Ct-iF-EqI" secondAttribute="bottom" constant="8" id="qlO-On-fsP"/>
                 <constraint firstItem="4Ct-iF-EqI" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="32" id="rkg-tR-MYb"/>
@@ -128,7 +127,6 @@
                 <mask key="constraints">
                     <exclude reference="s0L-zL-92e"/>
                     <exclude reference="qlO-On-fsP"/>
-                    <exclude reference="rkg-tR-MYb"/>
                 </mask>
             </variation>
             <connections>
@@ -142,7 +140,6 @@
                 <outlet property="signupIndicatorView" destination="Gec-if-FXG" id="Ajc-CY-1j6"/>
                 <outlet property="taglineLabel" destination="vEa-dR-bea" id="BVl-yC-mfz"/>
                 <outlet property="titleLabel" destination="4Ct-iF-EqI" id="dO4-rM-JHV"/>
-                <outlet property="titleLabelCenterYConstraint" destination="mrU-qy-9cW" id="lT5-5T-f1j"/>
                 <outlet property="titleLabelTopLayoutConstraint" destination="rkg-tR-MYb" id="ulH-6g-kk7"/>
             </connections>
             <point key="canvasLocation" x="378.5" y="265"/>
