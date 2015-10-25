@@ -55,23 +55,15 @@ const BOOL isTestingForNoCampaigns = NO;
 
 #pragma mark - UIViewController
 
--(instancetype)init {
-	self = [super init];
+- (void)viewDidLoad {
+    [super viewDidLoad];
 	
-	if (self) {
-		if ([DSOUserManager sharedInstance].userHasCachedSession) {
-			if (!self.allCampaigns || self.allCampaigns.count == 0 || ![DSOUserManager sharedInstance].isCurrentUserSync) {
-				[self loadMainFeed];
-			}
+	if ([DSOUserManager sharedInstance].userHasCachedSession) {
+		if (!self.allCampaigns || self.allCampaigns.count == 0 || ![DSOUserManager sharedInstance].isCurrentUserSync) {
+			[self loadMainFeed];
 		}
 	}
 	
-	return self;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
     [self styleBackBarButton];
@@ -144,8 +136,11 @@ const BOOL isTestingForNoCampaigns = NO;
         [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
 			NSLog(@"syncCurrentUserWithCompletionHandler");
+#warning is isTestingForNoCampaigns just for debugging?
+// it's set to NO as a constant, so it can't be toggled. Just wondering what its purpose is, since if campaigns.count == 0,
+// then wouldn't that be the same thing?
             if (isTestingForNoCampaigns || campaigns.count == 0) {
-                [SVProgressHUD dismiss];
+//                [SVProgressHUD dismiss];
                 LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
                 epicFailVC.delegate = self;
                 UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
@@ -156,8 +151,10 @@ const BOOL isTestingForNoCampaigns = NO;
                 self.allCampaigns = campaigns;
                 [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
                 [self createInterestGroups];
+#warning This will prevent collection view from just displaying campaigns
+// But need to figure out what the loading/display strategy should be
 //                [self.collectionView reloadData];
-                [SVProgressHUD dismiss];
+//                [SVProgressHUD dismiss];
             }
         } errorHandler:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
@@ -216,9 +213,11 @@ const BOOL isTestingForNoCampaigns = NO;
 		if(errors.count > 0) {
 			NSLog(@"%zd error[s] occurred while executing API calls.", errors.count);
 			// Pick the first error (arbitrary)
+			[SVProgressHUD dismiss];
 		}
 		else {
 			NSLog(@"\n---All calls completed successfully---");
+			[SVProgressHUD dismiss];
 			[self.collectionView reloadData];
 			LDTCampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 			[cell.innerCollectionView reloadData];
