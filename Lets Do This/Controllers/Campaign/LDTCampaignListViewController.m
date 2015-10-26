@@ -438,6 +438,9 @@ const BOOL isTestingForNoCampaigns = NO;
 		if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
 			LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
 			[self configureCampaignCell:campaignCell atIndexPath:indexPath];
+
+            [campaignCell setNeedsLayout];
+            [campaignCell layoutIfNeeded];
 			
 			return campaignCell;
 		}
