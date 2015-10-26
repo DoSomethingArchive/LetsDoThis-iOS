@@ -20,7 +20,7 @@
 @property (strong, nonatomic, readwrite) NSString *reportbackVerb;
 @property (strong, nonatomic, readwrite) NSString *solutionCopy;
 @property (strong, nonatomic, readwrite) NSString *solutionSupportCopy;
-@property (strong, nonatomic, readwrite) NSString *title;
+//@property (strong, nonatomic, readwrite) NSString *title;
 @property (strong, nonatomic, readwrite) NSString *tagline;
 @property (strong, nonatomic, readwrite) NSURL *coverImageURL;
 

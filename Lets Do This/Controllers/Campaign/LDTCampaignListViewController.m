@@ -57,7 +57,13 @@ const BOOL isTestingForNoCampaigns = NO;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+	
+	if ([DSOUserManager sharedInstance].userHasCachedSession) {
+		if (!self.allCampaigns || self.allCampaigns.count == 0 || ![DSOUserManager sharedInstance].isCurrentUserSync) {
+			[self loadMainFeed];
+		}
+	}
+	
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
     [self styleBackBarButton];
@@ -81,19 +87,15 @@ const BOOL isTestingForNoCampaigns = NO;
 	
 	self.collectionView.pagingEnabled = YES;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
-
-    if ([DSOUserManager sharedInstance].userHasCachedSession) {
-        [self loadMainFeed];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
     if ([DSOUserManager sharedInstance].userHasCachedSession) {
-        if (!self.allCampaigns || self.allCampaigns.count == 0 || ![DSOUserManager sharedInstance].isCurrentUserSync) {
-            [self loadMainFeed];
-        }
+//        if (!self.allCampaigns || self.allCampaigns.count == 0 || ![DSOUserManager sharedInstance].isCurrentUserSync) {
+//            [self loadMainFeed];
+//        }
         [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
     }
     [self styleView];
@@ -125,10 +127,20 @@ const BOOL isTestingForNoCampaigns = NO;
     [SVProgressHUD showWithStatus:@"Loading actions..."];
 
     [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+		NSLog(@"loadCampaignsWithCompletionHandler");
+		NSArray *seedArray = @[@"This is some text", @"This is some more more longer text", @"This is definitely going to be the longest text ever ever ever"];
+		for (DSOCampaign *aCampaign in campaigns) {
+			int idx = arc4random()%(seedArray.count);
+			aCampaign.title = seedArray[idx];
+		}
         [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
+			NSLog(@"syncCurrentUserWithCompletionHandler");
+#warning is isTestingForNoCampaigns just for debugging?
+// it's set to NO as a constant, so it can't be toggled. Just wondering what its purpose is, since if campaigns.count == 0,
+// then wouldn't that be the same thing?
             if (isTestingForNoCampaigns || campaigns.count == 0) {
-                [SVProgressHUD dismiss];
+//                [SVProgressHUD dismiss];
                 LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
                 epicFailVC.delegate = self;
                 UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
@@ -139,8 +151,10 @@ const BOOL isTestingForNoCampaigns = NO;
                 self.allCampaigns = campaigns;
                 [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
                 [self createInterestGroups];
-                [self.collectionView reloadData];
-                [SVProgressHUD dismiss];
+#warning This will prevent collection view from just displaying campaigns
+// But need to figure out what the loading/display strategy should be
+//                [self.collectionView reloadData];
+//                [SVProgressHUD dismiss];
             }
         } errorHandler:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
@@ -189,6 +203,7 @@ const BOOL isTestingForNoCampaigns = NO;
 	NSMutableArray *errors = [[NSMutableArray alloc] initWithCapacity:totalAPICallCount];
 	
 	void (^reportBacksCompletionBlock)() = ^{
+		NSLog(@"completed reportback load: %lu", (unsigned long)completedAPICallCount);
 		++completedAPICallCount;
 		
 		if (completedAPICallCount != totalAPICallCount) {
@@ -198,9 +213,11 @@ const BOOL isTestingForNoCampaigns = NO;
 		if(errors.count > 0) {
 			NSLog(@"%zd error[s] occurred while executing API calls.", errors.count);
 			// Pick the first error (arbitrary)
+			[SVProgressHUD dismiss];
 		}
 		else {
 			NSLog(@"\n---All calls completed successfully---");
+			[SVProgressHUD dismiss];
 			[self.collectionView reloadData];
 			LDTCampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 			[cell.innerCollectionView reloadData];
@@ -209,6 +226,7 @@ const BOOL isTestingForNoCampaigns = NO;
 	};
     for (NSString *status in statusValues) {
         for (NSNumber *key in self.interestGroups) {
+			NSLog(@"loadReportbackItemsForCampaigns: %@", key);
             [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
                 for (DSOReportbackItem *rbItem in rbItems) {
                     [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
@@ -438,7 +456,8 @@ const BOOL isTestingForNoCampaigns = NO;
 		if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
 			LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
 			[self configureCampaignCell:campaignCell atIndexPath:indexPath];
-			
+			[campaignCell setNeedsLayout];
+			[campaignCell layoutIfNeeded];
 			return campaignCell;
 		}
 		if (indexPath.section == LDTCampaignListSectionTypeReportback) {
@@ -505,7 +524,7 @@ const BOOL isTestingForNoCampaigns = NO;
 			return CGSizeMake(60.0f, 50.0f);
 		}
 	}
-
+	
 	return CGSizeMake(0.0f, 0.0f);
 }
 
@@ -518,6 +537,7 @@ const BOOL isTestingForNoCampaigns = NO;
 			reusableView = headerView;
 		}
 	}
+	
 	return reusableView;
 }
 
