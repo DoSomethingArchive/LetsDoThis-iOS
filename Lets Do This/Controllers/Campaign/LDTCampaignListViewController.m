@@ -499,25 +499,22 @@ const BOOL isTestingForNoCampaigns = NO;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-	if ([collectionView isEqual:self.collectionView]) {
 		if (section == LDTCampaignListSectionTypeReportback) {
 			// Width is ignored here.
 			return CGSizeMake(60.0f, 50.0f);
 		}
-	}
 
 	return CGSizeMake(0.0f, 0.0f);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
 	UICollectionReusableView *reusableView = nil;
-	if ([collectionView isEqual:self.collectionView]) {
 		if (kind == UICollectionElementKindSectionHeader) {
 			LDTHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
 			headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
 			reusableView = headerView;
 		}
-	}
+
 	return reusableView;
 }
 
