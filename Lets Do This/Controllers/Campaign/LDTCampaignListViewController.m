@@ -148,9 +148,16 @@ const BOOL isTestingForNoCampaigns = NO;
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
 
-        // Need to inspect error here to determine what error is.
-        // If something's up with the session, we'll want to logout and push to user connect.
-        LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
+        // @todo: Need to figure out case where we'd need to logout and push to user connect.
+        // Extract this logic into a LDTError? Refs GH #363  
+        NSInteger code = error.code;
+        LDTEpicFailViewController *epicFailVC;
+        if (code == -1009) {
+            epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
+        }
+        else {
+            epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"Looks like there was an issue with that request. We're looking into it now!"];
+        }
         epicFailVC.delegate = self;
         UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
         [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
