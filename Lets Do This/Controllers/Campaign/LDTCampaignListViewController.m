@@ -25,8 +25,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
 
 const CGFloat kHeightCollapsed = 150;
 const CGFloat kHeightExpanded = 420;
-// Flag to test for handling when API returns 0 active campaigns.
-const BOOL isTestingForNoCampaigns = NO;
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate, LDTEpicFailSubmitButtonDelegate>
 
@@ -82,9 +80,9 @@ const BOOL isTestingForNoCampaigns = NO;
 	self.collectionView.pagingEnabled = YES;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
 
-    if ([DSOUserManager sharedInstance].userHasCachedSession) {
-        [self loadMainFeed];
-    }
+//    if ([DSOUserManager sharedInstance].userHasCachedSession) {
+//        [self loadMainFeed];
+//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -125,9 +123,11 @@ const BOOL isTestingForNoCampaigns = NO;
     [SVProgressHUD showWithStatus:@"Loading actions..."];
 
     [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+        NSLog(@"loadCampaignsWithCompletionHandler");
         [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
-            if (isTestingForNoCampaigns || campaigns.count == 0) {
+            NSLog(@"syncCurrentUserWithCompletionHandler");
+            if (campaigns.count == 0) {
                 [SVProgressHUD dismiss];
                 LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
                 epicFailVC.delegate = self;
@@ -165,6 +165,7 @@ const BOOL isTestingForNoCampaigns = NO;
     }];
 }
 
+
 - (void)createInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
     for (NSDictionary *term in [DSOAPI sharedInstance].interestGroups) {
@@ -192,10 +193,13 @@ const BOOL isTestingForNoCampaigns = NO;
 
     NSArray *statusValues = @[@"promoted", @"approved"];
 	NSInteger totalAPICallCount = statusValues.count * [self.interestGroups allKeys].count;
+    NSLog(@"totalAPICallCount: %lu", (unsigned long)totalAPICallCount);
 	__block NSUInteger completedAPICallCount = 0;
+
 	NSMutableArray *errors = [[NSMutableArray alloc] initWithCapacity:totalAPICallCount];
 	
 	void (^reportBacksCompletionBlock)() = ^{
+        NSLog(@"completed reportback load: %lu", (unsigned long)completedAPICallCount);
 		++completedAPICallCount;
 		
 		if (completedAPICallCount != totalAPICallCount) {
@@ -216,6 +220,7 @@ const BOOL isTestingForNoCampaigns = NO;
 	};
     for (NSString *status in statusValues) {
         for (NSNumber *key in self.interestGroups) {
+            NSLog(@"loadReportbackItemsForCampaigns: %@ - %@", key, status);
             [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
                 for (DSOReportbackItem *rbItem in rbItems) {
                     [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
