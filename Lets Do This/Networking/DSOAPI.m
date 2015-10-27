@@ -324,7 +324,7 @@
 }
 
 - (void)logError:(NSError *)error {
-    NSLog(@"logError: %@", error.localizedDescription);
+    NSLog(@"DSOAPI error %li: %@", (long)error.code, error.localizedDescription);
 }
 
 @end
