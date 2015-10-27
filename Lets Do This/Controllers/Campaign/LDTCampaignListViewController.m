@@ -449,6 +449,9 @@ const CGFloat kHeightExpanded = 420;
 		if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
 			LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
 			[self configureCampaignCell:campaignCell atIndexPath:indexPath];
+
+            [campaignCell setNeedsLayout];
+            [campaignCell layoutIfNeeded];
 			
 			return campaignCell;
 		}
