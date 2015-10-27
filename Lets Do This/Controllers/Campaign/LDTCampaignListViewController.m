@@ -139,8 +139,6 @@ const CGFloat kHeightExpanded = 420;
                 self.allCampaigns = campaigns;
                 [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
                 [self createInterestGroups];
-                [self.collectionView reloadData];
-                [SVProgressHUD dismiss];
             }
         } errorHandler:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
@@ -212,6 +210,7 @@ const CGFloat kHeightExpanded = 420;
 		}
 		else {
 			NSLog(@"\n---All calls completed successfully---");
+            [SVProgressHUD dismiss];
 			[self.collectionView reloadData];
 			LDTCampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 			[cell.innerCollectionView reloadData];
