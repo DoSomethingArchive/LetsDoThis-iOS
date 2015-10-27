@@ -53,6 +53,9 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     self.titleLabel.textColor = [UIColor whiteColor];
     [self.actionButton enable:YES];
     [self.imageView addGrayTint];
+	
+	self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
+	self.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
 }
 
 - (void)setTitleLabelText:(NSString *)titleLabelText {
