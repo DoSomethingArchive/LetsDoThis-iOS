@@ -28,6 +28,7 @@ const CGFloat kHeightExpanded = 420;
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate, LDTEpicFailSubmitButtonDelegate>
 
+@property (assign, nonatomic) BOOL isMainFeedLoaded;
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
 @property (strong, nonatomic) NSArray *interestGroupButtons;
@@ -56,6 +57,7 @@ const CGFloat kHeightExpanded = 420;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.isMainFeedLoaded = NO;
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
     [self styleBackBarButton];
@@ -79,17 +81,13 @@ const CGFloat kHeightExpanded = 420;
 	
 	self.collectionView.pagingEnabled = YES;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
-
-//    if ([DSOUserManager sharedInstance].userHasCachedSession) {
-//        [self loadMainFeed];
-//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
     if ([DSOUserManager sharedInstance].userHasCachedSession) {
-        if (!self.allCampaigns || self.allCampaigns.count == 0 || ![DSOUserManager sharedInstance].isCurrentUserSync) {
+        if (!self.isMainFeedLoaded || ![DSOUserManager sharedInstance].isCurrentUserSync) {
             [self loadMainFeed];
         }
         [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
@@ -189,6 +187,21 @@ const CGFloat kHeightExpanded = 420;
         }
     }
 
+    // Make sure all interest groups have campaigns.
+    for (NSDictionary *term in [DSOAPI sharedInstance].interestGroups) {
+        NSMutableArray *campaignList = self.interestGroups[term[@"id"]][@"campaigns"];
+        if (campaignList.count == 0) {
+            [SVProgressHUD dismiss];
+            NSLog(@"No campaigns available for term %li", (long)[term[@"id"] intValue]);
+            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"Looks like there was an issue with that request. We're looking into it now!"];
+            epicFailVC.delegate = self;
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+            [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+            [self presentViewController:navVC animated:YES completion:nil];
+            return;
+        }
+    }
+
     NSArray *statusValues = @[@"promoted", @"approved"];
 	NSInteger totalAPICallCount = statusValues.count * [self.interestGroups allKeys].count;
     NSLog(@"totalAPICallCount: %lu", (unsigned long)totalAPICallCount);
@@ -210,6 +223,7 @@ const CGFloat kHeightExpanded = 420;
 		}
 		else {
 			NSLog(@"\n---All calls completed successfully---");
+            self.isMainFeedLoaded = YES;
             [SVProgressHUD dismiss];
 			[self.collectionView reloadData];
 			LDTCampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
