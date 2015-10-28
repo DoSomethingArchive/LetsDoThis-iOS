@@ -137,6 +137,8 @@ const CGFloat kHeightExpanded = 420;
                 self.allCampaigns = campaigns;
                 [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
                 [self createInterestGroups];
+                // Display loaded campaigns to indicate signs of life.
+                [self.collectionView reloadData];
             }
         } errorHandler:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
@@ -231,6 +233,8 @@ const CGFloat kHeightExpanded = 420;
 		}
 		
 	};
+
+    [SVProgressHUD showWithStatus:@"Loading photos..."];
     for (NSString *status in statusValues) {
         for (NSNumber *key in self.interestGroups) {
             NSLog(@"loadReportbackItemsForCampaigns: %@ - %@", key, status);
