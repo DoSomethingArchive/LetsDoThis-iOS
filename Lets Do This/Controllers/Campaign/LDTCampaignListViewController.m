@@ -31,6 +31,7 @@ const CGFloat kHeightExpanded = 420;
 @property (assign, nonatomic) BOOL isMainFeedLoaded;
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
+@property (strong, nonatomic) NSArray *interestGroupIds;
 @property (strong, nonatomic) NSArray *interestGroupButtons;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 @property (assign, nonatomic) NSInteger selectedGroupButtonIndex;
@@ -47,7 +48,6 @@ const CGFloat kHeightExpanded = 420;
 - (IBAction)thirdGroupButtonTouchUpInside:(id)sender;
 - (IBAction)fourthGroupButtonTouchUpInside:(id)sender;
 
-
 @end
 
 @implementation LDTCampaignListViewController
@@ -61,11 +61,14 @@ const CGFloat kHeightExpanded = 420;
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
     [self styleBackBarButton];
-
+    self.interestGroupIds = @[@1300, @1301, @1302, @1303];
+#ifdef DEBUG
+    self.interestGroupIds = @[@667, @668, @669, @670];
+#endif
     self.interestGroupButtons = @[self.firstGroupButton, self.secondGroupButton, self.thirdGroupButton, self.fourthGroupButton];
     for (int i = 0; i < 4; i++) {
         LDTButton *aButton = self.interestGroupButtons[i];
-        [aButton setTitle:[DSOAPI sharedInstance].interestGroups[i][@"name"] forState:UIControlStateNormal];
+        aButton.hidden = YES;
     }
     self.selectedGroupButtonIndex = 0;
     self.selectedIndexPath = nil;
@@ -137,7 +140,7 @@ const CGFloat kHeightExpanded = 420;
 - (void)loadMainFeed {
     [SVProgressHUD showWithStatus:@"Loading actions..."];
 
-    [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+    [[DSOAPI sharedInstance] loadCampaignsForTermIds:self.interestGroupIds completionHandler:^(NSArray *campaigns) {
         NSLog(@"loadCampaignsWithCompletionHandler");
         [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
@@ -163,11 +166,8 @@ const CGFloat kHeightExpanded = 420;
 
 - (void)createInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
-    for (NSDictionary *term in [DSOAPI sharedInstance].interestGroups) {
-        self.interestGroups[term[@"id"]] = @{
-                                             @"campaigns" : [[NSMutableArray alloc] init],
-                                             @"reportbackItems" : [[NSMutableArray alloc] init]
-                                             };
+    for (NSNumber *termID in self.interestGroupIds) {
+        self.interestGroups[termID] = @{@"campaigns" : [[NSMutableArray alloc] init], @"reportbackItems" : [[NSMutableArray alloc] init], @"name" : [NSMutableString stringWithCapacity:10]};
     }
 
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
@@ -179,11 +179,23 @@ const CGFloat kHeightExpanded = 420;
         for (NSDictionary *termDict in campaign.tags) {
             NSNumber *termID = [NSNumber numberWithInt:[termDict[@"id"] intValue]];
             if ([self.interestGroups objectForKey:termID]) {
+                NSMutableString *savedTermName = (NSMutableString *)self.interestGroups[termID][@"name"];
+                if (savedTermName.length == 0) {
+                    NSString *termName = termDict[@"name"];
+                    [savedTermName setString:termName.capitalizedString];
+                }
                 NSMutableArray *campaigns = self.interestGroups[termID][@"campaigns"];
                 [campaigns addObject:campaign];
                 break;
             }
         }
+    }
+
+    for (int i = 0; i < 4; i++) {
+        NSNumber *groupID = self.interestGroupIds[i];
+        LDTButton *aButton = self.interestGroupButtons[i];
+        aButton.hidden = NO;
+        [aButton setTitle:self.interestGroups[groupID][@"name"] forState:UIControlStateNormal];
     }
 
     // Make sure all interest groups have campaigns.
@@ -243,8 +255,7 @@ const CGFloat kHeightExpanded = 420;
 }
 
 - (NSNumber *)selectedInterestGroupId {
-    NSDictionary *term = [DSOAPI sharedInstance].interestGroups[self.selectedGroupButtonIndex];
-    return (NSNumber *)term[@"id"];
+    return (NSNumber *)self.interestGroupIds[self.selectedGroupButtonIndex];
 }
 
 - (void)configureCampaignCell:(LDTCampaignListCampaignCell *)cell atIndexPath:(NSIndexPath *)indexPath {
