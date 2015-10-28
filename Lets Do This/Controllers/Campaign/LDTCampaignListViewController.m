@@ -243,6 +243,7 @@ const CGFloat kHeightExpanded = 420;
     for (NSNumber *key in self.interestGroups) {
         NSLog(@"loadReportbackItemsForCampaigns: %@", key);
         [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:@"promoted,approved" completionHandler:^(NSArray *rbItems) {
+            rbItems = [DSOReportbackItem sortReportbackItemsAsPromotedFirst:rbItems];
             for (DSOReportbackItem *rbItem in rbItems) {
                 [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
             }
