@@ -8,9 +8,11 @@
 
 #import "LDTOnboardingChildViewController.h"
 #import "LDTTheme.h"
+#import "GAI+LDT.h"
 
 @interface LDTOnboardingChildViewController ()
 
+@property (strong, nonatomic) NSString *gaiScreenName;
 @property (strong, nonatomic) NSString *headlineText;
 @property (strong, nonatomic) NSString *descriptionText;
 @property (strong, nonatomic) UIImage *primaryImage;
@@ -25,12 +27,13 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage {
+- (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage gaiScreenName:(NSString *)gaiScreenName {
     self = [super initWithNibName:@"LDTOnboardingChildView" bundle:nil];
     if (self) {
         self.headlineText = headlineText;
         self.descriptionText = descriptionText;
         self.primaryImage = primaryImage;
+        self.gaiScreenName = gaiScreenName;
     }
 
     return self;
@@ -47,6 +50,12 @@
 
     [self styleView];
 
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [[GAI sharedInstance] trackScreenView:self.gaiScreenName];
 }
 
 - (void)styleView {
