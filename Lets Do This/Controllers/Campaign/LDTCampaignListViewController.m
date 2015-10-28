@@ -166,7 +166,7 @@ const CGFloat kHeightExpanded = 420;
 
 - (void)createInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
-    for (NSNumber *termID in [DSOAPI sharedInstance].interestGroupIds) {
+    for (NSNumber *termID in self.interestGroupIds) {
         self.interestGroups[termID] = @{@"campaigns" : [[NSMutableArray alloc] init], @"reportbackItems" : [[NSMutableArray alloc] init], @"name" : [NSMutableString stringWithCapacity:10]};
     }
 
@@ -192,7 +192,7 @@ const CGFloat kHeightExpanded = 420;
     }
 
     for (int i = 0; i < 4; i++) {
-        NSNumber *groupID = [DSOAPI sharedInstance].interestGroupIds[i];
+        NSNumber *groupID = self.interestGroupIds[i];
         LDTButton *aButton = self.interestGroupButtons[i];
         aButton.hidden = NO;
         [aButton setTitle:self.interestGroups[groupID][@"name"] forState:UIControlStateNormal];
@@ -255,7 +255,7 @@ const CGFloat kHeightExpanded = 420;
 }
 
 - (NSNumber *)selectedInterestGroupId {
-    return (NSNumber *)[DSOAPI sharedInstance].interestGroupIds[self.selectedGroupButtonIndex];
+    return (NSNumber *)self.interestGroupIds[self.selectedGroupButtonIndex];
 }
 
 - (void)configureCampaignCell:(LDTCampaignListCampaignCell *)cell atIndexPath:(NSIndexPath *)indexPath {
