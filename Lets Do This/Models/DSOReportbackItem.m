@@ -13,7 +13,9 @@
 
 @property (nonatomic, strong, readwrite) DSOCampaign *campaign;
 @property (nonatomic, strong, readwrite) DSOUser *user;
+@property (nonatomic, assign, readwrite) NSInteger created;
 @property (nonatomic, assign, readwrite) NSInteger reportbackItemID;
+@property (nonatomic, strong, readwrite) NSString *status;
 
 @end
 
@@ -38,7 +40,9 @@
     if (self) {
         self.reportbackItemID = [dict valueForKeyAsInt:@"id" nullValue:0];
         self.quantity = [[dict valueForKeyPath:@"reportback"] valueForKeyAsInt:@"quantity" nullValue:0];
+        self.created = [[dict valueForKeyPath:@"reportback"] valueForKeyAsInt:@"created_at" nullValue:0];
         self.caption = [dict valueForKeyAsString:@"caption"];
+        self.status = [dict valueForKeyAsString:@"status"];
         NSString *imagePath = [[dict valueForKeyPath:@"media"] valueForKeyAsString:@"uri" nullValue:nil];
         self.imageURL = [NSURL URLWithString:imagePath];
         self.user = [[DSOUser alloc] initWithDict:dict[@"user"]];
@@ -50,6 +54,13 @@
     }
 
     return self;
+}
+
++ (NSArray *)sortReportbackItemsAsPromotedFirst:(NSArray *)reportbackItems {
+    NSSortDescriptor *promotedSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"status" ascending:NO];
+    NSSortDescriptor *createdSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:NO];
+    NSArray *sortDescriptors = @[promotedSortDescriptor, createdSortDescriptor];
+    return [reportbackItems sortedArrayUsingDescriptors:sortDescriptors];
 }
 
 @end
