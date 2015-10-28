@@ -117,6 +117,23 @@ const CGFloat kHeightExpanded = 420;
     }
 }
 
+- (void)presentEpicFailForNoCampaigns {
+    [self presentEpicFailWithTitle:@"Oops! Our bad." subtitle:@"There aren’t any actions available right now--check back later!"];
+}
+
+- (void)presentEpicFailForError:(NSError *)error {
+    [self presentEpicFailWithTitle:[error readableTitle] subtitle:[error readableMessage]];
+}
+
+- (void)presentEpicFailWithTitle:(NSString *)title subtitle:(NSString *)subtitle {
+    LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:title subtitle:subtitle];
+    epicFailVC.delegate = self;
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+    [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+    [self presentViewController:navVC animated:YES completion:nil];
+    [SVProgressHUD dismiss];
+}
+
 - (void)loadMainFeed {
     [SVProgressHUD showWithStatus:@"Loading actions..."];
 
@@ -126,41 +143,23 @@ const CGFloat kHeightExpanded = 420;
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
             NSLog(@"syncCurrentUserWithCompletionHandler");
             if (campaigns.count == 0) {
-                [SVProgressHUD dismiss];
-                LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"There aren’t any actions available right now--check back later!"];
-                epicFailVC.delegate = self;
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-                [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-                [self presentViewController:navVC animated:YES completion:nil];
+                [self presentEpicFailForNoCampaigns];
             }
             else {
                 self.allCampaigns = campaigns;
                 [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
                 [self createInterestGroups];
+                // Display loaded campaigns to indicate signs of life.
+                [self.collectionView reloadData];
             }
         } errorHandler:^(NSError *error) {
-            [LDTMessage displayErrorMessageForError:error];
+            // @todo: Need to figure out case where we'd need to logout and push to user connect, if their session is borked.
+            [self presentEpicFailForError:error];
         }];
     } errorHandler:^(NSError *error) {
-        [SVProgressHUD dismiss];
-
-        // @todo: Need to figure out case where we'd need to logout and push to user connect.
-        // Extract this logic into a LDTError? Refs GH #363  
-        NSInteger code = error.code;
-        LDTEpicFailViewController *epicFailVC;
-        if (code == -1009) {
-            epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No connection." subtitle:@"Seems like the Internet is trying to cause drama."];
-        }
-        else {
-            epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"Looks like there was an issue with that request. We're looking into it now!"];
-        }
-        epicFailVC.delegate = self;
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-        [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-        [self presentViewController:navVC animated:YES completion:nil];
+        [self presentEpicFailForError:error];
     }];
 }
-
 
 - (void)createInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
@@ -188,22 +187,16 @@ const CGFloat kHeightExpanded = 420;
     }
 
     // Make sure all interest groups have campaigns.
-    for (NSDictionary *term in [DSOAPI sharedInstance].interestGroups) {
-        NSMutableArray *campaignList = self.interestGroups[term[@"id"]][@"campaigns"];
+    for (NSNumber *key in self.interestGroups) {
+        NSMutableArray *campaignList = self.interestGroups[key][@"campaigns"];
         if (campaignList.count == 0) {
-            [SVProgressHUD dismiss];
-            NSLog(@"No campaigns available for term %li", (long)[term[@"id"] intValue]);
-            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"Looks like there was an issue with that request. We're looking into it now!"];
-            epicFailVC.delegate = self;
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-            [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-            [self presentViewController:navVC animated:YES completion:nil];
+            NSLog(@"No campaigns available for term %li", (long)[key intValue]);
+            [self presentEpicFailForNoCampaigns];
             return;
         }
     }
 
-    NSArray *statusValues = @[@"promoted", @"approved"];
-	NSInteger totalAPICallCount = statusValues.count * [self.interestGroups allKeys].count;
+	NSInteger totalAPICallCount = [self.interestGroups allKeys].count;
     NSLog(@"totalAPICallCount: %lu", (unsigned long)totalAPICallCount);
 	__block NSUInteger completedAPICallCount = 0;
 
@@ -219,7 +212,8 @@ const CGFloat kHeightExpanded = 420;
 		
 		if(errors.count > 0) {
 			NSLog(@"%zd error[s] occurred while executing API calls.", errors.count);
-			// Pick the first error (arbitrary)
+            [self presentEpicFailForError:errors.firstObject];
+            return;
 		}
 		else {
 			NSLog(@"\n---All calls completed successfully---");
@@ -231,23 +225,21 @@ const CGFloat kHeightExpanded = 420;
 		}
 		
 	};
-    for (NSString *status in statusValues) {
-        for (NSNumber *key in self.interestGroups) {
-            NSLog(@"loadReportbackItemsForCampaigns: %@ - %@", key, status);
-            [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
-                for (DSOReportbackItem *rbItem in rbItems) {
-                    [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
-                }
-				reportBacksCompletionBlock();
-            } errorHandler:^(NSError *error) {
-                [LDTMessage displayErrorMessageForError:error];
-				[errors addObject:error];
-				
-				reportBacksCompletionBlock();
-            }];
-        }
-    }
 
+    [SVProgressHUD showWithStatus:@"Loading photos..."];
+    for (NSNumber *key in self.interestGroups) {
+        NSLog(@"loadReportbackItemsForCampaigns: %@", key);
+        [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:@"promoted,approved" completionHandler:^(NSArray *rbItems) {
+            rbItems = [DSOReportbackItem sortReportbackItemsAsPromotedFirst:rbItems];
+            for (DSOReportbackItem *rbItem in rbItems) {
+                [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
+            }
+            reportBacksCompletionBlock();
+        } errorHandler:^(NSError *error) {
+            [errors addObject:error];
+            reportBacksCompletionBlock();
+        }];
+    }
 }
 
 - (NSNumber *)selectedInterestGroupId {

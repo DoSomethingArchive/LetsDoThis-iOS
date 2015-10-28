@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		421774269F5DF5997622C2F9 /* libPods-Lets Do This.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */; };
-		564F20CE1BB78EB000A97FED /* LDTCampaignCollectionViewCellContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 564F20CC1BB78EB000A97FED /* LDTCampaignCollectionViewCellContainer.m */; settings = {ASSET_TAGS = (); }; };
-		564F20CF1BB78EB000A97FED /* LDTCampaignCollectionViewCellContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564F20CD1BB78EB000A97FED /* LDTCampaignCollectionViewCellContainer.xib */; settings = {ASSET_TAGS = (); }; };
+		564F20CE1BB78EB000A97FED /* LDTCampaignCollectionViewCellContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 564F20CC1BB78EB000A97FED /* LDTCampaignCollectionViewCellContainer.m */; };
+		564F20CF1BB78EB000A97FED /* LDTCampaignCollectionViewCellContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564F20CD1BB78EB000A97FED /* LDTCampaignCollectionViewCellContainer.xib */; };
 		569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */; };
 		B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20881A01B0B9B0F00E697B2 /* keys.plist */; };
 		B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B20D06D01B3A58F40053D3B6 /* LDTMessage.m */; };
@@ -24,15 +24,15 @@
 		B223AD761B7A724000D4AA40 /* DSOReportbackItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B223AD751B7A724000D4AA40 /* DSOReportbackItem.m */; };
 		B22AB7661B4EE78500BE7052 /* LDTUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22AB7651B4EE78500BE7052 /* LDTUserLoginViewController.m */; };
 		B22AB7681B4EE7BE00BE7052 /* LDTUserLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */; };
-		B2399FD41BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2399FD21BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.m */; settings = {ASSET_TAGS = (); }; };
-		B2399FD51BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2399FD31BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.xib */; settings = {ASSET_TAGS = (); }; };
+		B2399FD41BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2399FD21BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.m */; };
+		B2399FD51BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2399FD31BB4A00D00314F39 /* LDTCampaignDetailSelfReportbackCell.xib */; };
 		B23E68211B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B23E681F1B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.m */; };
 		B23E68221B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B23E68201B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.xib */; };
 		B23E68261B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B23E68241B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.m */; };
 		B23E68271B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B23E68251B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.xib */; };
 		B240DD321B73DA4D00CA6C6E /* LDTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B240DD311B73DA4D00CA6C6E /* LDTTabBarController.m */; };
-		B248D5091BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B248D5071BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m */; settings = {ASSET_TAGS = (); }; };
-		B248D50A1BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B248D5081BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib */; settings = {ASSET_TAGS = (); }; };
+		B248D5091BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B248D5071BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m */; };
+		B248D50A1BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B248D5081BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib */; };
 		B24FE0311BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FE0301BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m */; };
 		B24FE0331BAA49CE001CAD5D /* LDTSubmitReportbackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */; };
 		B258EB311B8E548B00B298C0 /* LDTReportbackItemDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = B258EB301B8E548B00B298C0 /* LDTReportbackItemDetailView.m */; };
@@ -41,24 +41,25 @@
 		B2629F261BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2629F251BAB460D00A1B5C3 /* LDTUpdateAvatarView.xib */; };
 		B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */; };
 		B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */; };
-		B2753E391BD17C49004DDD6A /* GAI+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B2753E381BD17C49004DDD6A /* GAI+LDT.m */; settings = {ASSET_TAGS = (); }; };
+		B2753E391BD17C49004DDD6A /* GAI+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B2753E381BD17C49004DDD6A /* GAI+LDT.m */; };
 		B27AF0E41B4F48BC00164926 /* LDTUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27AF0E31B4F48BC00164926 /* LDTUserProfileViewController.m */; };
 		B27AF0E71B4F493D00164926 /* LDTUserProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27AF0E61B4F493D00164926 /* LDTUserProfileView.xib */; };
 		B27F49EA1B6ADB68005CFC35 /* LDTCampaignDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27F49E91B6ADB68005CFC35 /* LDTCampaignDetailView.xib */; };
 		B27F49ED1B6ADB93005CFC35 /* LDTCampaignDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27F49EC1B6ADB93005CFC35 /* LDTCampaignDetailViewController.m */; };
-		B27FD03F1BBD99FF00A44952 /* LDTEpicFailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27FD03D1BBD99FF00A44952 /* LDTEpicFailViewController.m */; settings = {ASSET_TAGS = (); }; };
-		B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27FD03E1BBD99FF00A44952 /* LDTEpicFailView.xib */; settings = {ASSET_TAGS = (); }; };
+		B27FD03F1BBD99FF00A44952 /* LDTEpicFailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27FD03D1BBD99FF00A44952 /* LDTEpicFailViewController.m */; };
+		B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27FD03E1BBD99FF00A44952 /* LDTEpicFailView.xib */; };
 		B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */; };
 		B28124D21BAA1FB700DF58DA /* UIViewController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124D11BAA1FB700DF58DA /* UIViewController+LDT.m */; };
-		B2963E071BD83CC700D2B6EE /* LDTOnboardingChildView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2963E061BD83CC700D2B6EE /* LDTOnboardingChildView.xib */; settings = {ASSET_TAGS = (); }; };
-		B2963E0A1BD83D1000D2B6EE /* LDTOnboardingChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2963E091BD83D1000D2B6EE /* LDTOnboardingChildViewController.m */; settings = {ASSET_TAGS = (); }; };
-		B2963E0D1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2963E0C1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m */; settings = {ASSET_TAGS = (); }; };
-		B29A657F1BB60F0B008C0E2A /* DSOCampaignSignup.m in Sources */ = {isa = PBXBuildFile; fileRef = B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */; settings = {ASSET_TAGS = (); }; };
+		B2963E071BD83CC700D2B6EE /* LDTOnboardingChildView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2963E061BD83CC700D2B6EE /* LDTOnboardingChildView.xib */; };
+		B2963E0A1BD83D1000D2B6EE /* LDTOnboardingChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2963E091BD83D1000D2B6EE /* LDTOnboardingChildViewController.m */; };
+		B2963E0D1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2963E0C1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m */; };
+		B29A657F1BB60F0B008C0E2A /* DSOCampaignSignup.m in Sources */ = {isa = PBXBuildFile; fileRef = B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */; };
 		B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */; };
 		B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */; };
 		B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterView.xib */; };
 		B2A136631B3D9BC600D20273 /* LDTUserRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */; };
 		B2A41A051B5DCC5300C6C1A6 /* LDTSettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A41A041B5DCC5300C6C1A6 /* LDTSettingsView.xib */; };
+		B2C3054B1BE142AE0046CD10 /* NSError+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C3054A1BE142AE0046CD10 /* NSError+LDT.m */; };
 		B2DB71991B754E3F00915A18 /* LDTCampaignListCampaignCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2DB71971B754E3F00915A18 /* LDTCampaignListCampaignCell.m */; };
 		B2DB719A1B754E3F00915A18 /* LDTCampaignListCampaignCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DB71981B754E3F00915A18 /* LDTCampaignListCampaignCell.xib */; };
 		B2DB719E1B755E6300915A18 /* LDTCampaignListReportbackItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2DB719C1B755E6300915A18 /* LDTCampaignListReportbackItemCell.m */; };
@@ -175,6 +176,8 @@
 		B2A136611B3D9BC600D20273 /* LDTUserRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserRegisterViewController.h; path = Login/LDTUserRegisterViewController.h; sourceTree = "<group>"; };
 		B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserRegisterViewController.m; path = Login/LDTUserRegisterViewController.m; sourceTree = "<group>"; };
 		B2A41A041B5DCC5300C6C1A6 /* LDTSettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTSettingsView.xib; path = Profile/LDTSettingsView.xib; sourceTree = "<group>"; };
+		B2C305491BE142AE0046CD10 /* NSError+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+LDT.h"; sourceTree = "<group>"; };
+		B2C3054A1BE142AE0046CD10 /* NSError+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+LDT.m"; sourceTree = "<group>"; };
 		B2DB71961B754E3F00915A18 /* LDTCampaignListCampaignCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCampaignListCampaignCell.h; path = Campaign/LDTCampaignListCampaignCell.h; sourceTree = "<group>"; };
 		B2DB71971B754E3F00915A18 /* LDTCampaignListCampaignCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCampaignListCampaignCell.m; path = Campaign/LDTCampaignListCampaignCell.m; sourceTree = "<group>"; };
 		B2DB71981B754E3F00915A18 /* LDTCampaignListCampaignCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCampaignListCampaignCell.xib; path = Campaign/LDTCampaignListCampaignCell.xib; sourceTree = "<group>"; };
@@ -497,6 +500,8 @@
 				C20BA28A1AF3DCAB00E9886F /* NSDate+DSO.m */,
 				C20BA28B1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.h */,
 				C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */,
+				B2C305491BE142AE0046CD10 /* NSError+LDT.h */,
+				B2C3054A1BE142AE0046CD10 /* NSError+LDT.m */,
 				B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */,
 				B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */,
 				B28124CD1BAA0DF000DF58DA /* UINavigationController+LDT.h */,
@@ -799,6 +804,7 @@
 				B240DD321B73DA4D00CA6C6E /* LDTTabBarController.m in Sources */,
 				B21996B11B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m in Sources */,
 				B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */,
+				B2C3054B1BE142AE0046CD10 /* NSError+LDT.m in Sources */,
 				C2B152201ACE05510028C336 /* AppDelegate.m in Sources */,
 				B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */,
 				C2B151EF1ACE04C30028C336 /* main.m in Sources */,
