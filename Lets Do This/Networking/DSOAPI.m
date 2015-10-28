@@ -39,12 +39,9 @@
 
 @interface DSOAPI()
 
-// Stores Interest Group taxonomy terms as NSDictionaries.
-@property (nonatomic, strong) NSArray *interestGroups;
-
+@property (nonatomic, strong, readwrite) NSArray *interestGroupIds;
 @property (nonatomic, strong) NSString *phoenixBaseURL;
 @property (nonatomic, strong) NSString *phoenixApiURL;
-
 @property (nonatomic, strong) NSString *northstarBaseURL;
 
 @end
@@ -76,7 +73,6 @@
             [[AFNetworkActivityLogger sharedLogger] startLogging];
             [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
         }
-
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -85,23 +81,10 @@
         self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
         self.northstarBaseURL = [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, LDTSERVER];
-
-
-        NSArray *interestGroupIds = @[@1300, @1301, @1302, @1303];
+        self.interestGroupIds = @[@1300, @1301, @1302, @1303];
 #ifdef DEBUG
-        interestGroupIds = @[@667, @668, @669, @670];
+        self.interestGroupIds = @[@667, @668, @669, @670];
 #endif
-
-        self.interestGroups = @[@{@"id" : (NSNumber *)interestGroupIds[0],
-                                  @"name" : @"Hot"},
-                                @{@"id" : (NSNumber *)interestGroupIds[1],
-                                  @"name" : @"Music"},
-                                @{@"id" : (NSNumber *)interestGroupIds[2],
-                                  @"name" : @"Crafts"},
-                                @{@"id" : (NSNumber *)interestGroupIds[3],
-                                  @"name" : @"Sports"}
-                                ];
-
     }
     return self;
 }
@@ -110,10 +93,6 @@
 
 - (NSString *)phoenixBaseURL {
     return _phoenixBaseURL;
-}
-
-- (NSArray *)interestGroups {
-    return _interestGroups;
 }
 
 - (void)setHTTPHeaderFieldSession:(NSString *)token {
@@ -250,9 +229,8 @@
 
 - (void)loadCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
-    for (NSDictionary *term in self.interestGroups) {
-        NSNumber *termId = (NSNumber *)term[@"id"];
-        [termIdStrings addObject:[termId stringValue]];
+    for (NSNumber *termID in self.interestGroupIds) {
+        [termIdStrings addObject:[termID stringValue]];
     }
 
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];

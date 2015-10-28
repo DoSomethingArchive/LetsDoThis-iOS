@@ -14,11 +14,13 @@
 
 @interface DSOAPI : AFHTTPSessionManager
 
+@property (nonatomic, strong, readonly) NSArray *interestGroupIds;
+
 + (DSOAPI *)sharedInstance;
 - (instancetype)initWithApiKey:(NSString *)apiKey;
 - (NSString *)phoenixBaseURL;
 - (NSString *)northstarBaseURL;
-- (NSArray *)interestGroups;
+
 - (void)setHTTPHeaderFieldSession:(NSString *)token;
 
 - (void)createUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler;
