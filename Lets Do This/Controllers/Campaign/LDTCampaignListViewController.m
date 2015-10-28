@@ -166,7 +166,8 @@ const CGFloat kHeightExpanded = 420;
     for (NSDictionary *term in [DSOAPI sharedInstance].interestGroups) {
         self.interestGroups[term[@"id"]] = @{
                                              @"campaigns" : [[NSMutableArray alloc] init],
-                                             @"reportbackItems" : [[NSMutableArray alloc] init]
+                                             @"reportbackItems" : [[NSMutableArray alloc] init],
+                                             @"name" : [NSMutableString stringWithCapacity:10]
                                              };
     }
 
@@ -179,6 +180,11 @@ const CGFloat kHeightExpanded = 420;
         for (NSDictionary *termDict in campaign.tags) {
             NSNumber *termID = [NSNumber numberWithInt:[termDict[@"id"] intValue]];
             if ([self.interestGroups objectForKey:termID]) {
+                NSMutableString *savedTermName = (NSMutableString *)self.interestGroups[termID][@"name"];
+                if (savedTermName.length == 0) {
+                    NSString *termName = termDict[@"name"];
+                    [savedTermName setString:termName.capitalizedString];
+                }
                 NSMutableArray *campaigns = self.interestGroups[termID][@"campaigns"];
                 [campaigns addObject:campaign];
                 break;
