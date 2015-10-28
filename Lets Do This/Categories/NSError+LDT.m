@@ -7,6 +7,7 @@
 //
 
 #import "NSError+LDT.h"
+#import "NSDictionary+DSOJsonHelper.h"
 
 @implementation NSError (LDT)
 
@@ -27,10 +28,24 @@
             return @"Seems like the Internet is trying to cause drama.";
         }
     }
+    NSData *errorData = self.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+    if (errorData) {
+        NSError *error = self;
+        NSDictionary *reponseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:&error];
+        NSLog(@"responseDict %@", reponseDict);
+        NSDictionary *errorDict = reponseDict[@"error"];
+        NSInteger code = [errorDict valueForKeyAsInt:@"code" nullValue:0];
+        if (code >= 400 && code < 500) {
+            if (isTitle) {
+                return nil;
+            }
+            return [errorDict valueForKeyAsString:@"message"];
+        }
+    }
     if (isTitle) {
         return @"Oops! Our bad.";
     }
-    return @"Seems like the Internet is trying to cause drama.";
+    return @"Looks like there was an issue with that request. We're looking into it now!";
 }
 
 @end
