@@ -121,21 +121,8 @@ const CGFloat kHeightExpanded = 420;
     [self presentEpicFailWithTitle:@"Oops! Our bad." subtitle:@"There aren’t any actions available right now--check back later!"];
 }
 
-- (void)presentEpicFailGeneric {
-    [self presentEpicFailWithTitle:@"Oops! Our bad." subtitle:@"Looks like there was an issue with that request. We're looking into it now!"];
-}
-
 - (void)presentEpicFailForError:(NSError *)error {
-    NSInteger code = error.code;
-
-    // @todo: Extract this logic into a NSError category? Refs GH #363
-    if (code == -1009) {
-        [self presentEpicFailWithTitle:@"No connection." subtitle:@"Seems like the Internet is trying to cause drama."];
-    }
-    else {
-        [self presentEpicFailGeneric];
-    }
-
+    [self presentEpicFailWithTitle:[error readableTitle] subtitle:[error readableMessage]];
 }
 
 - (void)presentEpicFailWithTitle:(NSString *)title subtitle:(NSString *)subtitle {
@@ -225,7 +212,7 @@ const CGFloat kHeightExpanded = 420;
 		
 		if(errors.count > 0) {
 			NSLog(@"%zd error[s] occurred while executing API calls.", errors.count);
-            [self presentEpicFailGeneric];
+            [self presentEpicFailForError:errors.firstObject];
             return;
 		}
 		else {
