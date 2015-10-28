@@ -94,7 +94,7 @@
         self.emailTextField.text = self.user.email;
     }
     else {
-        self.headerLabel.text = @"Tell us about yourself!";
+        self.headerLabel.text = @"Let’s get to know each other.";
         self.imageView.image = [UIImage imageNamed:@"Upload Button"];
     }
 
