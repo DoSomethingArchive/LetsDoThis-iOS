@@ -146,7 +146,7 @@
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
         [SVProgressHUD dismiss];
         [self dismissViewControllerAnimated:YES completion:nil];
-        [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted a %@ photo for approval.", self.reportbackItem.campaign.title]];
+        [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.reportbackItem.campaign.title]];
     } errorHandler:^(NSError *error) {
         [LDTMessage setDefaultViewController:self.navigationController];
         [SVProgressHUD dismiss];

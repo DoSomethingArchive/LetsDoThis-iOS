@@ -127,7 +127,7 @@ const CGFloat kHeightExpanded = 420;
             NSLog(@"syncCurrentUserWithCompletionHandler");
             if (campaigns.count == 0) {
                 [SVProgressHUD dismiss];
-                LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"There's nothing here!" subtitle:@"There are no actions available right now."];
+                LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"There aren’t any actions available right now--check back later!"];
                 epicFailVC.delegate = self;
                 UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
                 [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
@@ -149,7 +149,7 @@ const CGFloat kHeightExpanded = 420;
         NSInteger code = error.code;
         LDTEpicFailViewController *epicFailVC;
         if (code == -1009) {
-            epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
+            epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No connection." subtitle:@"Seems like the Internet is trying to cause drama."];
         }
         else {
             epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"Looks like there was an issue with that request. We're looking into it now!"];
@@ -359,7 +359,7 @@ const CGFloat kHeightExpanded = 420;
             [self.navigationController pushViewController:destVC animated:YES];
             [SVProgressHUD dismiss];
             [LDTMessage setDefaultViewController:self.navigationController];
-            [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", cell.campaign.title]];
+            [LDTMessage displaySuccessMessageWithTitle:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", cell.campaign.title]];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
             [TSMessage setDefaultViewController:self];
