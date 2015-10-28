@@ -39,7 +39,6 @@
 
 @interface DSOAPI()
 
-@property (nonatomic, strong, readwrite) NSArray *interestGroupIds;
 @property (nonatomic, strong) NSString *phoenixBaseURL;
 @property (nonatomic, strong) NSString *phoenixApiURL;
 @property (nonatomic, strong) NSString *northstarBaseURL;
@@ -81,10 +80,6 @@
         self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
         self.northstarBaseURL = [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, LDTSERVER];
-        self.interestGroupIds = @[@1300, @1301, @1302, @1303];
-#ifdef DEBUG
-        self.interestGroupIds = @[@667, @668, @669, @670];
-#endif
     }
     return self;
 }
