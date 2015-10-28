@@ -204,8 +204,7 @@ const CGFloat kHeightExpanded = 420;
         }
     }
 
-    NSArray *statusValues = @[@"promoted", @"approved"];
-	NSInteger totalAPICallCount = statusValues.count * [self.interestGroups allKeys].count;
+	NSInteger totalAPICallCount = [self.interestGroups allKeys].count;
     NSLog(@"totalAPICallCount: %lu", (unsigned long)totalAPICallCount);
 	__block NSUInteger completedAPICallCount = 0;
 
@@ -221,7 +220,13 @@ const CGFloat kHeightExpanded = 420;
 		
 		if(errors.count > 0) {
 			NSLog(@"%zd error[s] occurred while executing API calls.", errors.count);
-			// Pick the first error (arbitrary)
+            [SVProgressHUD dismiss];
+            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"Looks like there was an issue with that request. We're looking into it now!"];
+            epicFailVC.delegate = self;
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+            [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+            [self presentViewController:navVC animated:YES completion:nil];
+            return;
 		}
 		else {
 			NSLog(@"\n---All calls completed successfully---");
@@ -235,21 +240,17 @@ const CGFloat kHeightExpanded = 420;
 	};
 
     [SVProgressHUD showWithStatus:@"Loading photos..."];
-    for (NSString *status in statusValues) {
-        for (NSNumber *key in self.interestGroups) {
-            NSLog(@"loadReportbackItemsForCampaigns: %@ - %@", key, status);
-            [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:status completionHandler:^(NSArray *rbItems) {
-                for (DSOReportbackItem *rbItem in rbItems) {
-                    [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
-                }
-				reportBacksCompletionBlock();
-            } errorHandler:^(NSError *error) {
-                [LDTMessage displayErrorMessageForError:error];
-				[errors addObject:error];
-				
-				reportBacksCompletionBlock();
-            }];
-        }
+    for (NSNumber *key in self.interestGroups) {
+        NSLog(@"loadReportbackItemsForCampaigns: %@", key);
+        [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:@"promoted,approved" completionHandler:^(NSArray *rbItems) {
+            for (DSOReportbackItem *rbItem in rbItems) {
+                [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
+            }
+            reportBacksCompletionBlock();
+        } errorHandler:^(NSError *error) {
+            [errors addObject:error];
+            reportBacksCompletionBlock();
+        }];
     }
 
 }
