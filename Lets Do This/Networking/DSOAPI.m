@@ -227,9 +227,9 @@
       }];
 }
 
-- (void)loadCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)loadCampaignsForTermIds:(NSArray *)termIds completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
-    for (NSNumber *termID in self.interestGroupIds) {
+    for (NSNumber *termID in termIds) {
         [termIdStrings addObject:[termID stringValue]];
     }
 

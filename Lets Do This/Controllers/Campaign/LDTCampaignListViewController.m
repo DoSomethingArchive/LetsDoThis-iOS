@@ -31,6 +31,7 @@ const CGFloat kHeightExpanded = 420;
 @property (assign, nonatomic) BOOL isMainFeedLoaded;
 @property (strong, nonatomic) NSArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
+@property (strong, nonatomic) NSArray *interestGroupIds;
 @property (strong, nonatomic) NSArray *interestGroupButtons;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 @property (assign, nonatomic) NSInteger selectedGroupButtonIndex;
@@ -60,7 +61,10 @@ const CGFloat kHeightExpanded = 420;
     self.title = @"Actions";
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
     [self styleBackBarButton];
-
+    self.interestGroupIds = @[@1300, @1301, @1302, @1303];
+#ifdef DEBUG
+    self.interestGroupIds = @[@667, @668, @669, @670];
+#endif
     self.interestGroupButtons = @[self.firstGroupButton, self.secondGroupButton, self.thirdGroupButton, self.fourthGroupButton];
     for (int i = 0; i < 4; i++) {
         LDTButton *aButton = self.interestGroupButtons[i];
@@ -136,7 +140,7 @@ const CGFloat kHeightExpanded = 420;
 - (void)loadMainFeed {
     [SVProgressHUD showWithStatus:@"Loading actions..."];
 
-    [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+    [[DSOAPI sharedInstance] loadCampaignsForTermIds:self.interestGroupIds completionHandler:^(NSArray *campaigns) {
         NSLog(@"loadCampaignsWithCompletionHandler");
         [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
