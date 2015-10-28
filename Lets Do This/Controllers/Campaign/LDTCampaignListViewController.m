@@ -117,6 +117,36 @@ const CGFloat kHeightExpanded = 420;
     }
 }
 
+- (void)presentEpicFailForNoCampaigns {
+    [self presentEpicFailWithTitle:@"Oops! Our bad." subtitle:@"There aren’t any actions available right now--check back later!"];
+}
+
+- (void)presentEpicFailGeneric {
+    [self presentEpicFailWithTitle:@"Oops! Our bad." subtitle:@"Looks like there was an issue with that request. We're looking into it now!"];
+}
+
+- (void)presentEpicFailForError:(NSError *)error {
+    NSInteger code = error.code;
+
+    // @todo: Extract this logic into a NSError category? Refs GH #363
+    if (code == -1009) {
+        [self presentEpicFailWithTitle:@"No connection." subtitle:@"Seems like the Internet is trying to cause drama."];
+    }
+    else {
+        [self presentEpicFailGeneric];
+    }
+
+}
+
+- (void)presentEpicFailWithTitle:(NSString *)title subtitle:(NSString *)subtitle {
+    LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:title subtitle:subtitle];
+    epicFailVC.delegate = self;
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+    [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+    [self presentViewController:navVC animated:YES completion:nil];
+    [SVProgressHUD dismiss];
+}
+
 - (void)loadMainFeed {
     [SVProgressHUD showWithStatus:@"Loading actions..."];
 
@@ -126,12 +156,7 @@ const CGFloat kHeightExpanded = 420;
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
             NSLog(@"syncCurrentUserWithCompletionHandler");
             if (campaigns.count == 0) {
-                [SVProgressHUD dismiss];
-                LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"There aren’t any actions available right now--check back later!"];
-                epicFailVC.delegate = self;
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-                [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-                [self presentViewController:navVC animated:YES completion:nil];
+                [self presentEpicFailForNoCampaigns];
             }
             else {
                 self.allCampaigns = campaigns;
@@ -141,28 +166,13 @@ const CGFloat kHeightExpanded = 420;
                 [self.collectionView reloadData];
             }
         } errorHandler:^(NSError *error) {
-            [LDTMessage displayErrorMessageForError:error];
+            // @todo: Need to figure out case where we'd need to logout and push to user connect, if their session is borked.
+            [self presentEpicFailForError:error];
         }];
     } errorHandler:^(NSError *error) {
-        [SVProgressHUD dismiss];
-
-        // @todo: Need to figure out case where we'd need to logout and push to user connect.
-        // Extract this logic into a LDTError? Refs GH #363  
-        NSInteger code = error.code;
-        LDTEpicFailViewController *epicFailVC;
-        if (code == -1009) {
-            epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No connection." subtitle:@"Seems like the Internet is trying to cause drama."];
-        }
-        else {
-            epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"Looks like there was an issue with that request. We're looking into it now!"];
-        }
-        epicFailVC.delegate = self;
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-        [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-        [self presentViewController:navVC animated:YES completion:nil];
+        [self presentEpicFailForError:error];
     }];
 }
-
 
 - (void)createInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
@@ -190,16 +200,11 @@ const CGFloat kHeightExpanded = 420;
     }
 
     // Make sure all interest groups have campaigns.
-    for (NSDictionary *term in [DSOAPI sharedInstance].interestGroups) {
-        NSMutableArray *campaignList = self.interestGroups[term[@"id"]][@"campaigns"];
+    for (NSNumber *key in self.interestGroups) {
+        NSMutableArray *campaignList = self.interestGroups[key][@"campaigns"];
         if (campaignList.count == 0) {
-            [SVProgressHUD dismiss];
-            NSLog(@"No campaigns available for term %li", (long)[term[@"id"] intValue]);
-            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"Looks like there was an issue with that request. We're looking into it now!"];
-            epicFailVC.delegate = self;
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-            [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-            [self presentViewController:navVC animated:YES completion:nil];
+            NSLog(@"No campaigns available for term %li", (long)[key intValue]);
+            [self presentEpicFailForNoCampaigns];
             return;
         }
     }
@@ -220,12 +225,7 @@ const CGFloat kHeightExpanded = 420;
 		
 		if(errors.count > 0) {
 			NSLog(@"%zd error[s] occurred while executing API calls.", errors.count);
-            [SVProgressHUD dismiss];
-            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Oops! Our bad." subtitle:@"Looks like there was an issue with that request. We're looking into it now!"];
-            epicFailVC.delegate = self;
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
-            [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
-            [self presentViewController:navVC animated:YES completion:nil];
+            [self presentEpicFailGeneric];
             return;
 		}
 		else {
@@ -253,7 +253,6 @@ const CGFloat kHeightExpanded = 420;
             reportBacksCompletionBlock();
         }];
     }
-
 }
 
 - (NSNumber *)selectedInterestGroupId {
