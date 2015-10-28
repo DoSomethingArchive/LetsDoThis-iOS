@@ -152,7 +152,7 @@
 }
 
 - (void)handleLogoutTap:(UITapGestureRecognizer *)recognizer {
-    UIAlertController *logoutAlertController = [UIAlertController alertControllerWithTitle:@"Are you sure? We’ll miss you." message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *logoutAlertController = [UIAlertController alertControllerWithTitle:@"No guilt here, but we’ll definitely miss you. Come back anytime, ok?" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *confirmLogoutAction = [UIAlertAction actionWithTitle:@"Log Out" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
 
         [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"log out" label:nil value:nil];

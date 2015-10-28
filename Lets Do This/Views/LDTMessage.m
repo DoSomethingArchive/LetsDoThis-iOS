@@ -17,10 +17,12 @@
 
 +(void)displayErrorMessageForError:(NSError *)error {
     NSInteger code = error.code;
+    NSString *title;
     NSString *message = error.localizedDescription;
 
     if (code == -1009) {
-        message = @"You appear to be offline.";
+        title = @"No connection.";
+        message = @"Seems like the Internet is trying to cause drama.";
     }
     NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
     if (errorData) {
@@ -28,9 +30,10 @@
         NSLog(@"responseDict %@", reponseDict);
         NSDictionary *errorDict = reponseDict[@"error"];
         code = [errorDict valueForKeyAsInt:@"code" nullValue:0];
+        title = [NSString stringWithFormat:@"O noes, error %li", (long)code];
         message = [errorDict valueForKeyAsString:@"message"];
     }
-    [TSMessage showNotificationInViewController:[TSMessage defaultViewController] title:[NSString stringWithFormat:@"O noes, error %li", (long)code] subtitle:message image:nil type:TSMessageNotificationTypeError duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
+    [TSMessage showNotificationInViewController:[TSMessage defaultViewController] title:title subtitle:message image:nil type:TSMessageNotificationTypeError duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
 }
 
 +(void)displaySuccessMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle {
