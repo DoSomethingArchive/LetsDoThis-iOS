@@ -74,7 +74,11 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (void)setImageViewImageURL:(NSURL *)imageURL {
-    [self.imageView sd_setImageWithURL:imageURL];
+    [self.imageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"Placeholder Image Loading"]completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url){
+        if (!image) {
+            [self.imageView setImage:[UIImage imageNamed:@"Placeholder Image Download Fails"]];
+        }
+    }];
 }
 
 - (void)setExpiresDaysPrefixLabelText:(NSString *)expiresDaysPrefixLabelText {
