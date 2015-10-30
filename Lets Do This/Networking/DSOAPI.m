@@ -98,7 +98,7 @@
     if (!countryCode) {
         countryCode = @"";
     }
-    
+    NSString *url = @"users?create_drupal_user=1";
     NSDictionary *params = @{@"email": email,
                              @"password": password,
                              @"first_name": firstName,
@@ -106,29 +106,30 @@
                              @"country": countryCode,
                              @"source": LDTSOURCENAME};
     
-    [self POST:@"users?create_drupal_user=1" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler(responseObject);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
             errorHandler(error);
         }
-        [self logError:error];
     }];
 }
 
 - (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-
+    NSString *url = @"login";
     NSDictionary *params = @{@"email": email,
                              @"password": password};
 
-    [self POST:@"login" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
         if (completionHandler) {
             completionHandler(user);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
             errorHandler(error);
         }
@@ -136,17 +137,18 @@
 }
 
 - (void)postUserAvatarWithUserId:(NSString *)userID avatarImage:(UIImage *)avatarImage completionHandler:(void(^)(id))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *urlPath = [NSString stringWithFormat:@"users/%@/avatar", userID];
+    NSString *url = [NSString stringWithFormat:@"users/%@/avatar", userID];
     NSData *imageData = UIImageJPEGRepresentation(avatarImage, 1.0);
     NSString *fileNameForImage = [NSString stringWithFormat:@"User_%@_ProfileImage", userID];
     
-    [self POST:urlPath parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [self POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"photo" fileName:fileNameForImage mimeType:@"image/jpeg"];
     } success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler(responseObject);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
             errorHandler(error);
         }
@@ -295,11 +297,6 @@
             errorHandler(error);
         }
     }];
-
-}
-
-- (void)logError:(NSError *)error {
-    NSLog(@"%@ error %li: %@",  NSStringFromSelector(_cmd), (long)error.code, error.localizedDescription);
 }
 
 - (void)logError:(NSError *)error methodName:(NSString *)methodName URLString:(NSString *)URLString {
