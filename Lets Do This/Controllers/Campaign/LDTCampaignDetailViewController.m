@@ -244,7 +244,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 #pragma mark - LDTCampaignDetailSelfReportbackCellDelegate
 
 - (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:nil value:nil];
     NSString *title = self.campaign.title;
     NSString *verb = self.campaign.reportbackVerb.lowercaseString;
     NSString *quantity = [NSString stringWithFormat:@"%li", (long)self.currentUserReportback.quantity];
@@ -254,6 +253,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     UIImage *shareImage = cell.detailView.reportbackItemImage;
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
+    [activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+        NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
+        NSString *activityString = activityTypeComponents[[activityTypeComponents count]-1];
+        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:activityString value:nil];
+    }];
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
