@@ -59,6 +59,7 @@ const CGFloat kHeightExpanded = 420;
 
     self.isMainFeedLoaded = NO;
     self.title = @"Actions";
+
 	self.navigationItem.title = [@"Let's Do This" uppercaseString];
     [self styleBackBarButton];
     self.interestGroupIds = @[@1300, @1301, @1302, @1303];
@@ -84,16 +85,25 @@ const CGFloat kHeightExpanded = 420;
 	
 	self.collectionView.pagingEnabled = YES;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
+
+    if ([DSOUserManager sharedInstance].userHasCachedSession) {
+        [self loadMainFeed];
+    }
+    else {
+        // Use dispatch_async to avoid "Unbalanced calls to begin/end appearance transitions for <LDTTabBarController>" warning.
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            LDTOnboardingPageViewController *onboardingVC = [[LDTOnboardingPageViewController alloc] init];
+            [self presentViewController:onboardingVC animated:YES completion:nil];
+            [TSMessage setDefaultViewController:onboardingVC];
+        });
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    if ([DSOUserManager sharedInstance].userHasCachedSession) {
-        if (!self.isMainFeedLoaded || ![DSOUserManager sharedInstance].isCurrentUserSync) {
-            [self loadMainFeed];
-        }
-        [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
+    if (self.isMainFeedLoaded) {
+       [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
     }
     [self styleView];
 }
@@ -231,6 +241,7 @@ const CGFloat kHeightExpanded = 420;
 			NSLog(@"\n---All calls completed successfully---");
             self.isMainFeedLoaded = YES;
             [SVProgressHUD dismiss];
+            [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
 			[self.collectionView reloadData];
 			LDTCampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 			[cell.innerCollectionView reloadData];
@@ -342,8 +353,7 @@ const CGFloat kHeightExpanded = 420;
 
 - (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
-
-    return;
+    [self loadMainFeed];
 }
 
 #pragma mark - LDTCampaignListCampaignCellDelegate
