@@ -32,7 +32,6 @@
     if (errorData) {
         NSError *error = self;
         NSDictionary *reponseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:&error];
-        NSLog(@"responseDict %@", reponseDict);
         NSDictionary *errorDict = reponseDict[@"error"];
         NSInteger code = [errorDict valueForKeyAsInt:@"code" nullValue:0];
         if (code >= 400 && code < 500) {
