@@ -153,7 +153,7 @@ const CGFloat kHeightExpanded = 420;
             self.allCampaigns = campaigns;
             [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
             [self createInterestGroups];
-                // Display loaded campaigns to indicate signs of life.
+            // Display loaded campaigns to indicate signs of life.
             [self.collectionView reloadData];
         } errorHandler:^(NSError *error) {
             // @todo: Need to figure out case where we'd need to logout and push to user connect, if their session is borked.
