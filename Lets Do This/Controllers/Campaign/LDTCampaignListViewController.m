@@ -142,19 +142,19 @@ const CGFloat kHeightExpanded = 420;
 
     [[DSOAPI sharedInstance] loadCampaignsForTermIds:self.interestGroupIds completionHandler:^(NSArray *campaigns) {
         NSLog(@"loadCampaignsWithCompletionHandler");
+        if (campaigns.count == 0) {
+            NSLog(@"No campaigns found.");
+            [self presentEpicFailForNoCampaigns];
+            return;
+        }
         [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
             NSLog(@"syncCurrentUserWithCompletionHandler");
-            if (campaigns.count == 0) {
-                [self presentEpicFailForNoCampaigns];
-            }
-            else {
-                self.allCampaigns = campaigns;
-                [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
-                [self createInterestGroups];
+            self.allCampaigns = campaigns;
+            [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
+            [self createInterestGroups];
                 // Display loaded campaigns to indicate signs of life.
-                [self.collectionView reloadData];
-            }
+            [self.collectionView reloadData];
         } errorHandler:^(NSError *error) {
             // @todo: Need to figure out case where we'd need to logout and push to user connect, if their session is borked.
             [self presentEpicFailForError:error];
