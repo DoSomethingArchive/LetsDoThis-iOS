@@ -124,6 +124,7 @@
 }
 
 - (void)handleChangePhotoTap:(UITapGestureRecognizer *)recognizer {
+    [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"change avatar" label:nil value:nil];
     LDTUpdateAvatarViewController *destVC = [[LDTUpdateAvatarViewController alloc] initWithNibName:@"LDTUpdateAvatarView" bundle:nil];
     [self.navigationController pushViewController:destVC animated:YES];
 }
