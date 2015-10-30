@@ -154,11 +154,13 @@
 }
 
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [self POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    NSString *url = @"logout";
+    [self POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler(responseObject);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
             errorHandler(error);
         }
@@ -176,10 +178,10 @@
             completionHandler(signup);
         }
       } failure:^(NSURLSessionDataTask *task, NSError *error) {
+          [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
           if (errorHandler) {
               errorHandler(error);
           }
-          [self logError:error];
       }];
 }
 
@@ -199,10 +201,10 @@
             completionHandler(responseObject);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
             errorHandler(error);
         }
-        [self logError:error];
     }];
 }
 
@@ -215,10 +217,10 @@
               completionHandler(user);
           }
       } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
           if (errorHandler) {
               errorHandler(error);
           }
-          [self logError:error];
       }];
 }
 
@@ -244,10 +246,10 @@
               completionHandler(campaigns);
           }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
             errorHandler(error);
         }
-        [self logError:error];
     }];
 }
 
@@ -269,10 +271,10 @@
               completionHandler(rbItems);
           }
       } failure:^(NSURLSessionDataTask *task, NSError *error) {
+          [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
           if (errorHandler) {
               errorHandler(error);
           }
-          [self logError:error];
       }];
 }
 
@@ -288,16 +290,20 @@
             completionHandler(campaignSignups);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
             errorHandler(error);
         }
-        [self logError:error];
     }];
 
 }
 
 - (void)logError:(NSError *)error {
-    NSLog(@"DSOAPI error %li: %@", (long)error.code, error.localizedDescription);
+    NSLog(@"%@ error %li: %@",  NSStringFromSelector(_cmd), (long)error.code, error.localizedDescription);
+}
+
+- (void)logError:(NSError *)error methodName:(NSString *)methodName URLString:(NSString *)URLString {
+    NSLog(@"\n*** DSOAPI ****\n\nError %li: %@\n%@\n%@ \n\n", (long)error.code, error.localizedDescription, methodName, URLString);
 }
 
 @end
