@@ -10,4 +10,6 @@
 
 @interface LDTCampaignListViewController : UIViewController
 
+- (void)loadMainFeed;
+
 @end

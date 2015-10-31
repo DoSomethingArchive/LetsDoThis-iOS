@@ -170,7 +170,8 @@
                 }
                 [SVProgressHUD dismiss];
                 [self dismissViewControllerAnimated:YES completion:nil];
-
+                LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
+                [rootVC loadMainFeed];
             } errorHandler:^(NSError *error) {
                 [SVProgressHUD dismiss];
                 [LDTMessage displayErrorMessageForError:error];

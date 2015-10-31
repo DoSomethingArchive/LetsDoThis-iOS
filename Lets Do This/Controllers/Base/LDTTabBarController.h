@@ -10,4 +10,6 @@
 
 @interface LDTTabBarController : UITabBarController
 
+-(void)loadMainFeed;
+
 @end
