@@ -12,10 +12,18 @@
 #import "LDTOnboardingPageViewController.h"
 #import "LDTTheme.h"
 
+@interface LDTTabBarController ()
+
+@property (strong, nonatomic) LDTCampaignListViewController *campaignListViewController;
+
+@end
+
 @implementation LDTTabBarController
 
+# pragma mark - NSObject
+
 - (id)init {
-    if(self = [super init]) {
+    if (self = [super init]) {
         self.tabBar.translucent = NO;
 		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:[LDTTheme fontName] size:10.0f] } forState:UIControlStateNormal];
 
@@ -24,8 +32,8 @@
         UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
 
-        LDTCampaignListViewController *campaignListVC = [[LDTCampaignListViewController alloc] init];
-        UINavigationController *campaignListNavVC = [[UINavigationController alloc] initWithRootViewController:campaignListVC];
+        self.campaignListViewController = [[LDTCampaignListViewController alloc] initWithNibName:@"LDTCampaignListView" bundle:nil];
+        UINavigationController *campaignListNavVC = [[UINavigationController alloc] initWithRootViewController:self.campaignListViewController];
         campaignListNavVC.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
 
         self.viewControllers = [NSArray arrayWithObjects:campaignListNavVC, profileNavVC, nil];
@@ -34,14 +42,10 @@
     return self;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+# pragma mark - LDTTabBarController
 
-    if (![DSOUserManager sharedInstance].userHasCachedSession) {
-        LDTOnboardingPageViewController *onboardingVC = [[LDTOnboardingPageViewController alloc] init];
-        [self presentViewController:onboardingVC animated:NO completion:nil];
-        [TSMessage setDefaultViewController:onboardingVC];
-    }
+- (void)loadMainFeed {
+    [self.campaignListViewController loadMainFeed];
 }
 
 @end
