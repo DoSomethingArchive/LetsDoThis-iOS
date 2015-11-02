@@ -17,4 +17,14 @@
     [self.defaultTracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
+- (void)trackEventWithCategory:(NSString *)category action:(NSString *)action label:(NSString *)label value:(NSNumber *)value {
+    if (!category || !action) {
+        NSLog(@"Google Analytics events must be fired with non-nil category and action parameters.");
+        return;
+    }
+    [self.defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:category action:action label:label value:value] build]];
+}
+
+
+
 @end

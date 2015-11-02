@@ -8,24 +8,15 @@
 
 #import "AppDelegate.h"
 #import "AFNetworkActivityIndicatorManager.h"
-#import "DSOAPI.h"
 #import <Parse/Parse.h>
-#import "LDTLoadingViewController.h"
-#import "LDTUserConnectViewController.h"
-#import "LDTEpicFailViewController.h"
 #import "LDTTheme.h"
 #import "LDTTabBarController.h"
-#import "DSOUserManager.h"
 #import "TSMessageView.h"
 #import "GAI+LDT.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
 #define isLoggingGoogleAnalytics NO
-
-@interface AppDelegate ()
-
-@end
 
 @implementation AppDelegate
 
@@ -52,59 +43,20 @@
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setForegroundColor:[LDTTheme ctaBlueColor]];
+    [SVProgressHUD setFont:[LDTTheme font]];
+    [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
     [Parse setApplicationId:keysDict[@"parseApplicationId"] clientKey:keysDict[@"parseClientKey"]];
-    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
-                                                    UIUserNotificationTypeBadge |
-                                                    UIUserNotificationTypeSound);
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
-                                                                             categories:nil];
+    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = [[LDTLoadingViewController alloc] initWithNibName:@"LDTLoadingView" bundle:nil];
     [self.window makeKeyAndVisible];
-    
-    [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
-
-    [SVProgressHUD show];
-    if (![DSOUserManager sharedInstance].userHasCachedSession) {
-        [self displayUserConnectVC];
-    }
-    else {
-        [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-            // If no campaigns returned, we can't do anything.
-            if (campaigns.count == 0) {
-                LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"Whoops, something went wrong." subtitle:@"It's not you, it's us. We couldn't find any campaigns. Please check back in a few minutes."];
-                [SVProgressHUD dismiss];
-                [self.window.rootViewController presentViewController:epicFailVC animated:YES completion:nil];
-            };
-            [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
-            [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
-                LDTTabBarController *tabBar = [[LDTTabBarController alloc] init];
-                [SVProgressHUD dismiss];
-                [self.window.rootViewController presentViewController:tabBar animated:YES completion:nil];
-                } errorHandler:^(NSError *error) {
-                    [self displayUserConnectVC];
-                    [LDTMessage displayErrorMessageForError:error];
-                }];
-        } errorHandler:^(NSError *error) {
-            [SVProgressHUD dismiss];
-            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:@"No network connection!" subtitle:@"We can't connect to the internet, please check your connection and try again."];
-            [self.window.rootViewController presentViewController:epicFailVC animated:YES completion:nil];
-        }];
-    }
+    self.window.rootViewController = [[LDTTabBarController alloc] init];
 
     return YES;
-}
-
-- (void)displayUserConnectVC {
-    [SVProgressHUD dismiss];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil]];
-    [navVC styleNavigationBar:LDTNavigationBarStyleClear];
-    [LDTMessage setDefaultViewController:navVC];
-    [self.window.rootViewController presentViewController:navVC animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

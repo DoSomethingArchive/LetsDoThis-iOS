@@ -95,12 +95,22 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+        
+    NSString *screenStatus;
+    if ([[self user] hasCompletedCampaign:self.campaign]) {
+        screenStatus = @"completed";
+    }
+    else if ([self.user isDoingCampaign:self.campaign]) {
+        screenStatus = @"proveit";
+    }
+    else {
+        screenStatus = @"pitch";
+    }
 
-    // todo: Append the user's status to this string.
-    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld", (long)self.campaign.campaignID]];
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld/%@", (long)self.campaign.campaignID, screenStatus]];
 
-    // Might have just come from the Reportback Submit screen,
-    // so check for currentUserReportback
+    // Enters this control flow when user submits a reportback
+    // and then is returned to the campaign detail view.
     if ([[self user] hasCompletedCampaign:self.campaign] && !self.currentUserReportback) {
         for (DSOCampaignSignup *signup in [self user].campaignSignups) {
             if (self.campaign.campaignID == signup.campaign.campaignID) {
@@ -219,10 +229,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
     }
     else {
-        [SVProgressHUD show];
+        [SVProgressHUD showWithStatus:@"Signing up..."];
         [[DSOUserManager sharedInstance] signupUserForCampaign:self.campaign completionHandler:^(DSOCampaignSignup *signup) {
             [SVProgressHUD dismiss];
-            [LDTMessage displaySuccessMessageWithTitle:@"Great!" subtitle:[NSString stringWithFormat:@"You signed up for %@!", self.campaign.title]];
+            [LDTMessage displaySuccessMessageWithTitle:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", self.campaign.title]];
             [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
          } errorHandler:^(NSError *error) {
              [SVProgressHUD dismiss];
@@ -234,13 +244,13 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 #pragma mark - LDTCampaignDetailSelfReportbackCellDelegate
 
 - (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:nil value:nil];
     NSString *title = self.campaign.title;
     NSString *verb = self.campaign.reportbackVerb.lowercaseString;
     NSString *quantity = [NSString stringWithFormat:@"%li", (long)self.currentUserReportback.quantity];
     NSString *noun = self.campaign.reportbackNoun.lowercaseString;
     NSString *appStoreLink = [NSString stringWithFormat:@"https://itunes.apple.com/app/id998995766"];
-    NSString *shareMessage = [NSString stringWithFormat:@"BAM. I just rocked the %@ campaign on the Let's Do this app and %@ %@ %@. Wanna do it with me? %@", title, verb, quantity, noun, appStoreLink];
+    NSString *shareMessage = [NSString stringWithFormat:@"BAM. I just rocked the %@ campaign on the Let's Do This app and %@ %@ %@. Wanna do it with me? %@", title, verb, quantity, noun, appStoreLink];
     UIImage *shareImage = cell.detailView.reportbackItemImage;
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
@@ -251,7 +261,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == LDTCampaignDetailSectionTypeReportback) {
-
         return self.reportbackItems.count;
     }
 
@@ -263,7 +272,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
 
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
@@ -286,7 +294,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         }
 
     }
-
     if (indexPath.section == LDTCampaignDetailSectionTypeReportback) {
         LDTCampaignDetailReportbackItemCell *reportbackItemCell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         [self configureReportbackItemDetailView:reportbackItemCell.detailView forIndexPath:indexPath];

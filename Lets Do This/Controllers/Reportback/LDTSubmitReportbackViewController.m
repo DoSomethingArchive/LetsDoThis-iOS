@@ -8,6 +8,7 @@
 
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTTheme.h"
+#import "GAI+LDT.h"
 
 @interface LDTSubmitReportbackViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -77,6 +78,12 @@
     [self styleRightBarButton];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld/reportbackform", (long)self.reportbackItem.campaign.campaignID]];
+}
+
 - (void)styleView {
     self.captionTextField.font = [LDTTheme font];
     self.quantityTextField.font = [LDTTheme font];
@@ -132,14 +139,14 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
-    [SVProgressHUD show];
+    [SVProgressHUD showWithStatus:@"Uploading..."];
     self.reportbackItem.caption = self.captionTextField.text;
     self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
 
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
         [SVProgressHUD dismiss];
         [self dismissViewControllerAnimated:YES completion:nil];
-        [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted a %@ photo for approval.", self.reportbackItem.campaign.title]];
+        [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.reportbackItem.campaign.title]];
     } errorHandler:^(NSError *error) {
         [LDTMessage setDefaultViewController:self.navigationController];
         [SVProgressHUD dismiss];

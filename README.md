@@ -9,6 +9,8 @@ Add entries for the following keys (along with their relevant values):
 * `northstarTestKey`
 * `parseApplicationId`
 * `parseClientKey`
+* `googleAnalyticsLiveTrackingID`
+* `googleAnalyticsTestTrackingID`
 
-## Worfklow
+## Workflow
 Gitflow - http://nvie.com/posts/a-successful-git-branching-model/#the-main-branches 

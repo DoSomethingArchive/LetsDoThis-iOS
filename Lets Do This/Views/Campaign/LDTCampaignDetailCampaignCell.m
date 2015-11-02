@@ -33,7 +33,7 @@
     [self styleView];
 
     self.campaignDetailsHeadingLabel.text = [@"Do this" uppercaseString];
-    self.staticInstructionLabel.text = @"When you’re done, submit your photo to us so you can show off and get props from your friends.";
+    self.staticInstructionLabel.text = @"When you’re done, submit a pic of yourself in action. #picsoritdidnthappen";
 }
 
 - (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
@@ -94,7 +94,11 @@
 }
 
 - (void)setCoverImageURL:(NSURL *)coverImageURL {
-    [self.coverImageView sd_setImageWithURL:coverImageURL];
+    [self.coverImageView sd_setImageWithURL:coverImageURL placeholderImage:[UIImage imageNamed:@"Placeholder Image Loading"]completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url){
+        if (!image) {
+            [self.coverImageView setImage:[UIImage imageNamed:@"Placeholder Image Download Fails"]];
+        }
+    }];
 }
 
 - (void)setSolutionCopyLabelText:(NSString *)solutionCopyLabelText {

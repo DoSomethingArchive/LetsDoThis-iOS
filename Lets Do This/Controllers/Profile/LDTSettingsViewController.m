@@ -30,14 +30,20 @@
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (weak, nonatomic) IBOutlet UIView *notificationSwitchView;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
+
+@property (weak, nonatomic) IBOutlet UIView *feedbackView;
+@property (weak, nonatomic) IBOutlet UILabel *feedbackHeadingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *feedbackLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *feedbackArrowImageView;
 @property (weak, nonatomic) IBOutlet UIView *rateView;
 @property (weak, nonatomic) IBOutlet UILabel *rateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *rateArrowImageView;
-@property (weak, nonatomic) IBOutlet UILabel *rateDisclaimerLabel;
-@property (weak, nonatomic) IBOutlet UIButton *feedbackButton;
+
+@property (weak, nonatomic) IBOutlet UIButton *submitIdeasButton;
+
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
-- (IBAction)feedbackButtonTouchUpInside:(id)sender;
+- (IBAction)submitIdeasButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -61,6 +67,11 @@
     [self.notificationSwitchView addGestureRecognizer:notificationSwitchTap];
     UITapGestureRecognizer *rateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleRateTap:)];
     [self.rateView addGestureRecognizer:rateTap];
+    UITapGestureRecognizer *feedbackTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleFeedbackTap:)];
+    [self.feedbackView addGestureRecognizer:feedbackTap];
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(dismissSettings:)];
+    self.navigationItem.rightBarButtonItem = rightButton;
+    [self styleRightBarButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -91,18 +102,25 @@
     self.notificationsHeadingLabel.textColor = [LDTTheme mediumGrayColor];
     self.notificationsLabel.font = [LDTTheme font];
     
+    self.feedbackHeadingLabel.font = [LDTTheme fontBold];
+    self.feedbackHeadingLabel.textColor = [LDTTheme mediumGrayColor];
+    self.feedbackLabel.font = [LDTTheme font];
+    self.feedbackArrowImageView.image = [UIImage imageNamed:@"Arrow"];
+    
     self.rateLabel.font = [LDTTheme font];
     self.rateArrowImageView.image = [UIImage imageNamed:@"Arrow"];
-    
-    self.rateDisclaimerLabel.font = [LDTTheme fontCaption];
-    
-    [self.feedbackButton.titleLabel setFont:[LDTTheme fontCaption]];
-    self.feedbackButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+
+    [self.submitIdeasButton.titleLabel setFont:[LDTTheme fontCaption]];
+    self.submitIdeasButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     // wraps button text if multiple lines are needed on smaller screens
-    self.feedbackButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.submitIdeasButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
     [self.versionLabel setFont:[LDTTheme fontCaption]];
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+}
+
+- (void)dismissSettings:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)handleChangePhotoTap:(UITapGestureRecognizer *)recognizer {
@@ -111,6 +129,7 @@
 }
 
 - (void)handleNotificationSwitchTap:(UITapGestureRecognizer *)recognizer {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on notif switch" label:nil value:nil];
     NSString *alertControllerMessage;
     if (!self.isNotificationsEnabled) {
         alertControllerMessage = @"You've disabled Notifications for Let's Do This. You can turn them on in the Notifications section of the Settings app.";
@@ -128,18 +147,19 @@
 }
 
 - (void)handleLogoutTap:(UITapGestureRecognizer *)recognizer {
-    UIAlertController *logoutAlertController = [UIAlertController alertControllerWithTitle:@"Are you sure? We’ll miss you." message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *logoutAlertController = [UIAlertController alertControllerWithTitle:@"No guilt here, but we’ll definitely miss you. Come back anytime, ok?" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *confirmLogoutAction = [UIAlertAction actionWithTitle:@"Log Out" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        [SVProgressHUD show];
+
+        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"log out" label:nil value:nil];
+        [SVProgressHUD showWithStatus:@"Logging out..."];
+
         [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
-            // This VC is always presented within the TabBarVC, so kill it.
-            [self dismissViewControllerAnimated:YES completion:^{
-                [SVProgressHUD dismiss];
-                UINavigationController *destVC = [[UINavigationController alloc] initWithRootViewController:[[LDTUserConnectViewController alloc] init]];
-                [destVC styleNavigationBar:LDTNavigationBarStyleClear];
-                [LDTMessage setDefaultViewController:destVC];
-                [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
-            }];
+            [SVProgressHUD dismiss];
+            [self.navigationController pushViewController:[[LDTUserConnectViewController alloc] init] animated:YES];
+            [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
+            [LDTMessage setDefaultViewController:self.navigationController];
+            UITabBarController *tabBar = (UITabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+            [tabBar setSelectedIndex:0];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
             [LDTMessage displayErrorMessageForError:error];
@@ -153,11 +173,18 @@
     [self presentViewController:logoutAlertController animated:YES completion:nil];
 }
 
+- (void)handleFeedbackTap:(UITapGestureRecognizer *)recognizer {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on feedback form" label:nil value:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://docs.google.com/a/dosomething.org/forms/d/1KUWQgfuoKpUXg7uuurXSgYQ3RCuxwNVSrGeb_kDRqf8/viewform?edit_requested=true"]];
+}
+
 - (void)handleRateTap:(UITapGestureRecognizer *)recognizer {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on review app button" label:nil value:nil];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/998995766"]];
 }
 
-- (IBAction)feedbackButtonTouchUpInside:(id)sender {
+- (IBAction)submitIdeasButtonTouchUpInside:(id)sender {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on ideas form" label:nil value:nil];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.dosomething.org/campaigns/submit-your-idea"]];
 }
 @end

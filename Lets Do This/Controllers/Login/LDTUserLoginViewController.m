@@ -71,7 +71,7 @@
 
     [self.submitButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
     [self.submitButton enable:NO];
-    [self.passwordButton setTitle:[@"Forgot password?" uppercaseString] forState:UIControlStateNormal];
+    [self.passwordButton setTitle:[@"Reset Password" uppercaseString] forState:UIControlStateNormal];
 
     [self styleView];
 }
@@ -131,14 +131,12 @@
         [LDTMessage displayErrorMessageForString:@"Please enter a valid email."];
         return;
     }
-    [SVProgressHUD show];
+    [SVProgressHUD showWithStatus:@"Signing in..."];
     [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
         [SVProgressHUD dismiss];
-        // This VC is always presented within a NavVC, so kill it.
-        [self dismissViewControllerAnimated:YES completion:^{
-            LDTTabBarController *destVC = [[LDTTabBarController alloc] init];
-            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:destVC animated:NO completion:nil];
-        }];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
+        [rootVC loadMainFeed];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];
@@ -149,6 +147,8 @@
 
 - (IBAction)passwordButtonTouchUpInside:(id)sender {
     NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [[DSOAPI sharedInstance] phoenixBaseURL]];
+    [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"forgot password" label:nil value:nil];
+
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:resetUrl]];
 }
 

@@ -53,21 +53,20 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     self.titleLabel.textColor = [UIColor whiteColor];
     [self.actionButton enable:YES];
     [self.imageView addGrayTint];
-}
-
-- (void)layoutSubviews {
-	[super layoutSubviews];
-	// When we first load this cell, it's in a collapsed state. Since label height is variable based on amount of text,
-	// after we set the label's text and lay it out this method gets called. Save the constant for later use when collapse it again
-	// after expanding
-	if (!self.expanded) {
-		self.titleLabelTopLayoutConstraint.constant = CGRectGetMidY(self.bounds) - CGRectGetMidY(self.titleLabel.bounds);
-		self.collapsedTitleLabelTopLayoutConstraintConstant = self.titleLabelTopLayoutConstraint.constant;
-	}
+	
+	self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
+	self.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
 }
 
 - (void)setTitleLabelText:(NSString *)titleLabelText {
     self.titleLabel.text = [titleLabelText uppercaseString];
+
+    // Get height of label after dynamic text is set, then set the constraint to center the text
+    CGFloat labelHeight = [self.titleLabel sizeThatFits:CGSizeMake(CGRectGetWidth(self.bounds), NSIntegerMax)].height;
+    self.titleLabelTopLayoutConstraint.constant = CGRectGetMidY(self.bounds) - labelHeight/2;
+
+    // Store that value to use when we animate the cell back to the collapsed state
+    self.collapsedTitleLabelTopLayoutConstraintConstant = self.titleLabelTopLayoutConstraint.constant;
 }
 
 - (void)setTaglineLabelText:(NSString *)taglineLabelText {
@@ -75,7 +74,11 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (void)setImageViewImageURL:(NSURL *)imageURL {
-    [self.imageView sd_setImageWithURL:imageURL];
+    [self.imageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"Placeholder Image Loading"]completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url){
+        if (!image) {
+            [self.imageView setImage:[UIImage imageNamed:@"Placeholder Image Download Fails"]];
+        }
+    }];
 }
 
 - (void)setExpiresDaysPrefixLabelText:(NSString *)expiresDaysPrefixLabelText {

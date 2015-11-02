@@ -8,12 +8,14 @@
 
 #import "DSOUserManager.h"
 #import <SSKeychain/SSKeychain.h>
+#import "GAI+LDT.h"
 
 NSString *const avatarFileNameString = @"LDTStoredAvatar.jpeg";
 NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 @interface DSOUserManager()
 
+@property (assign, nonatomic, readwrite) BOOL isCurrentUserSync;
 @property (strong, nonatomic, readwrite) DSOUser *user;
 @property (strong, nonatomic, readwrite) NSArray *activeMobileAppCampaigns;
 
@@ -43,30 +45,17 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-
     [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
-          self.user = user;
-          [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
-          // Save session in Keychain for when app is quit.
-          [SSKeychain setPassword:user.sessionToken forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
-          [SSKeychain setPassword:self.user.userID forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
-          [[DSOAPI sharedInstance] loadCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-              self.activeMobileAppCampaigns = campaigns;
-              [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
-                  self.user.campaignSignups = (NSMutableArray *)campaignSignups;
-                  if (completionHandler) {
-                      completionHandler(user);
-                  }
-              } errorHandler:^(NSError *error) {
-                  if (errorHandler) {
-                      errorHandler(error);
-                  }
-              }];
-          } errorHandler:^(NSError *error) {
-              if (errorHandler) {
-                  errorHandler(error);
-              }
-          }];
+        self.user = user;
+        self.isCurrentUserSync = NO;
+
+        [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
+        // Save session in Keychain for when app is quit.
+        [SSKeychain setPassword:user.sessionToken forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+        [SSKeychain setPassword:self.user.userID forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+        if (completionHandler) {
+            completionHandler(user);
+        }
       } errorHandler:^(NSError *error) {
           if (errorHandler) {
               errorHandler(error);
@@ -88,7 +77,13 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
-            self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+            self.user.campaignSignups = [[NSMutableArray alloc] init];
+            for (DSOCampaignSignup *signup in campaignSignups) {
+                if ([self activeMobileAppCampaignWithId:signup.campaign.campaignID]) {
+                    [self.user.campaignSignups addObject:signup];
+                }
+            }
+            self.isCurrentUserSync = YES;
             if (completionHandler) {
                 completionHandler();
             }
@@ -108,6 +103,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
         [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
         [self deleteAvatar];
         self.user = nil;
+        self.isCurrentUserSync = NO;
         if (completionHandler) {
             completionHandler();
         }
@@ -121,6 +117,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] createCampaignSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
         [self.user.campaignSignups addObject:signup];
+        [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
         if (completionHandler) {
             completionHandler(signup);
         }
@@ -133,6 +130,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
+        [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)reportbackItem.campaign.campaignID] value:nil];
         // Update the corresponding campaignSignup with the new reportbackItem.
         for (DSOCampaignSignup *signup in self.user.campaignSignups) {
             if (reportbackItem.campaign.campaignID == signup.campaign.campaignID) {

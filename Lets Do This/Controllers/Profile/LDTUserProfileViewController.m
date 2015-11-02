@@ -10,9 +10,11 @@
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 #import "LDTSettingsViewController.h"
+#import "GAI+LDT.h"
 
 @interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate>
 
+@property (assign, nonatomic) BOOL isCurrentUserProfile;
 @property (strong, nonatomic) NSMutableArray *campaignsDoing;
 @property (strong, nonatomic) NSMutableArray *campaignsCompleted;
 
@@ -44,6 +46,11 @@ static NSString *cellIdentifier = @"rowCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (!self.user) {
+        self.user = [DSOUserManager sharedInstance].user;
+        self.isCurrentUserProfile = YES;
+    }
+
     self.navigationItem.title = nil;
     [self styleView];
     [self updateUserDetails];
@@ -66,12 +73,26 @@ static NSString *cellIdentifier = @"rowCell";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
     [self styleView];
+
+    // If profile, check for if current user logged out and logged in as different user.
+    if (self.isCurrentUserProfile && ![self.user.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
+        self.user = [DSOUserManager sharedInstance].user;
+    }
+
+    NSString *trackingString;
     if ([self.user isLoggedInUser]) {
         [self updateUserDetails];
         // Logged in user may have signed up or reported back since this VC was first loaded.
+        self.user.campaignSignups = [DSOUserManager sharedInstance].user.campaignSignups;
         [self.tableView reloadData];
+        trackingString = @"self";
     }
+    else {
+        trackingString = self.user.userID;
+    }
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"user-profile/%@", trackingString]];
 }
 
 #pragma Mark - LDTUserProfileViewController
@@ -99,16 +120,24 @@ static NSString *cellIdentifier = @"rowCell";
 
 - (IBAction)settingsTapped:(id)sender {
     LDTSettingsViewController *destVC = [[LDTSettingsViewController alloc] initWithNibName:@"LDTSettingsView" bundle:nil];
-
-    [self.navigationController pushViewController:destVC animated:YES];
+    UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
+    [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
+    [LDTMessage setDefaultViewController:destVC];
+    [self presentViewController:destNavVC animated:YES completion:nil];
 }
 
 #pragma mark -- UITableViewDataSource
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if ([self.user isLoggedInUser]) {
-        return @"Current: 5 days left".uppercaseString;
+        if ([DSOUserManager sharedInstance].activeMobileAppCampaigns.count > 0) {
+            // Currently assuming all active mobile app campaigns end on same day, so doesn't matter which one we select to determine # of days left.
+            DSOCampaign *campaign = (DSOCampaign *)[DSOUserManager sharedInstance].activeMobileAppCampaigns[0];
+
+            return [NSString stringWithFormat:@"Current: %ld days left".uppercaseString, (long)[campaign numberOfDaysLeft]];
+        }
     }
+
     return nil;
 }
 

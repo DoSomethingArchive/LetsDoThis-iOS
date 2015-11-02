@@ -18,7 +18,11 @@
 @implementation LDTCampaignListReportbackItemCell
 
 - (void)setReportbackItemImageURL:(NSURL *)reportbackItemImageURL {
-    [self.imageView sd_setImageWithURL:reportbackItemImageURL];
+    [self.imageView sd_setImageWithURL:reportbackItemImageURL placeholderImage:[UIImage imageNamed:@"Placeholder Image Loading"]completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url){
+        if (!image) {
+            [self.imageView setImage:[UIImage imageNamed:@"Placeholder Image Download Fails"]];
+        }
+    }];
 }
 
 @end
