@@ -48,8 +48,13 @@
     UIPageControl *pageControl = [UIPageControl appearance];
     pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
     pageControl.currentPageIndicatorTintColor = [LDTTheme ctaBlueColor];
+
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
 #pragma mark - LDTOnboardingPageViewController
 
