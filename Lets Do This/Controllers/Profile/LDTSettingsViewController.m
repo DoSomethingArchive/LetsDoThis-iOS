@@ -35,11 +35,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *feedbackHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *feedbackLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *feedbackArrowImageView;
-
 @property (weak, nonatomic) IBOutlet UIView *rateView;
 @property (weak, nonatomic) IBOutlet UILabel *rateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *rateArrowImageView;
-@property (weak, nonatomic) IBOutlet UILabel *rateDisclaimerLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *submitIdeasButton;
 
@@ -108,13 +106,10 @@
     self.feedbackHeadingLabel.textColor = [LDTTheme mediumGrayColor];
     self.feedbackLabel.font = [LDTTheme font];
     self.feedbackArrowImageView.image = [UIImage imageNamed:@"Arrow"];
-
     
     self.rateLabel.font = [LDTTheme font];
     self.rateArrowImageView.image = [UIImage imageNamed:@"Arrow"];
-    
-    self.rateDisclaimerLabel.font = [LDTTheme fontCaption];
-    
+
     [self.submitIdeasButton.titleLabel setFont:[LDTTheme fontCaption]];
     self.submitIdeasButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     // wraps button text if multiple lines are needed on smaller screens
