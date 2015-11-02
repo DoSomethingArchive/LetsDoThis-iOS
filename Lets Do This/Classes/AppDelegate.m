@@ -23,8 +23,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-	[Fabric with:@[CrashlyticsKit]];
-
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
 
     NSString *GAItrackingID = keysDict[@"googleAnalyticsLiveTrackingID"];
@@ -33,12 +31,13 @@
 #elif THOR
     GAItrackingID = keysDict[@"googleAnalyticsTestTrackingID"];
 #endif
-
     [[GAI sharedInstance] trackerWithTrackingId:GAItrackingID];
     if (isLoggingGoogleAnalytics) {
         [GAI sharedInstance].trackUncaughtExceptions = YES;
         [GAI sharedInstance].logger.logLevel = kGAILogLevelVerbose;
     }
+    [Fabric with:@[[Crashlytics startWithAPIKey:keysDict[@"fabricApiKey"]]]];
+
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
