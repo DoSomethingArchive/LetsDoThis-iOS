@@ -94,7 +94,11 @@
 }
 
 - (void)setCoverImageURL:(NSURL *)coverImageURL {
-    [self.coverImageView sd_setImageWithURL:coverImageURL];
+    [self.coverImageView sd_setImageWithURL:coverImageURL placeholderImage:[UIImage imageNamed:@"Placeholder Image Loading"]completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url){
+        if (!image) {
+            [self.coverImageView setImage:[UIImage imageNamed:@"Placeholder Image Download Fails"]];
+        }
+    }];
 }
 
 - (void)setSolutionCopyLabelText:(NSString *)solutionCopyLabelText {

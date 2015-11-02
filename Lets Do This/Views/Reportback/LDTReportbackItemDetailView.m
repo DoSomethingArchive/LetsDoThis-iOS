@@ -64,7 +64,11 @@
 }
 
 - (void)setReportbackItemImageURL:(NSURL *)reportbackItemImageURL {
-    [self.reportbackItemImageView sd_setImageWithURL:reportbackItemImageURL];
+    [self.reportbackItemImageView sd_setImageWithURL:reportbackItemImageURL placeholderImage:[UIImage imageNamed:@"Placeholder Image Loading"]completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url){
+        if (!image) {
+            [self.reportbackItemImageView setImage:[UIImage imageNamed:@"Placeholder Image Download Fails"]];
+        }
+    }];
 }
 
 - (void)setUserAvatarImage:(UIImage *)userAvatarImage {
