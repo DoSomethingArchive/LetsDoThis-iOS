@@ -51,7 +51,7 @@
         return NO;
     }
 	
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9-]+[.]{1}[A-Za-z0-9-]{2,6}([.]{1}[A-Za-z0-9-]{1,6}){0,9}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
 	
     return [emailTest evaluateWithObject:candidate];
