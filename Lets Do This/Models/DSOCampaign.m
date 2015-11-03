@@ -12,6 +12,7 @@
 
 @interface DSOCampaign ()
 
+@property (assign, nonatomic, readwrite) BOOL isCoverImageDarkBackground;
 @property (strong, nonatomic, readwrite) NSArray *tags;
 @property (strong, nonatomic, readwrite) NSDate *endDate;
 @property (assign, nonatomic, readwrite) NSInteger campaignID;
@@ -46,6 +47,7 @@
         self.title = [values valueForKeyAsString:@"title" nullValue:self.title];
         self.tagline = [values valueForKeyAsString:@"tagline" nullValue:self.tagline];
         self.coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:self.coverImage];
+        self.isCoverImageDarkBackground = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsBool:@"dark_background" nullValue:NO];
         self.reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
         self.reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
 
