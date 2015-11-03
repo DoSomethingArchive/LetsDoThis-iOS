@@ -75,7 +75,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self fetchReportbackItems];
     [LDTMessage setDefaultViewController:self];
 
-
     if ([[self user] hasCompletedCampaign:self.campaign]) {
         for (DSOCampaignSignup *signup in [self user].campaignSignups) {
             if (self.campaign.campaignID == signup.campaign.campaignID) {
@@ -125,7 +124,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)styleView {
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
-    self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
+    if (self.campaign.isCoverImageDarkBackground) {
+         self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    }
+    else {
+         self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
+    }
 }
 
 - (void)fetchReportbackItems {
