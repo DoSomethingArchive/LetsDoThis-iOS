@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -22,8 +22,14 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="741"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NhW-LK-kVz" userLabel="User Name Button">
-                    <rect key="frame" x="63" y="6" width="33" height="30"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Msq-pA-qPX" userLabel="ReportbackItem Image">
+                    <rect key="frame" x="0.0" y="33" width="600" height="600"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Msq-pA-qPX" secondAttribute="height" multiplier="1:1" id="aDt-iZ-Rb5"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NhW-LK-kVz" userLabel="User Name Button">
+                    <rect key="frame" x="63" y="6" width="421" height="28"/>
                     <state key="normal" title="User">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -40,12 +46,6 @@
                         <action selector="campaignTitleButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="PqF-tH-VA2"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Msq-pA-qPX" userLabel="ReportbackItem Image">
-                    <rect key="frame" x="0.0" y="33" width="600" height="600"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="Msq-pA-qPX" secondAttribute="height" multiplier="1:1" id="aDt-iZ-Rb5"/>
-                    </constraints>
-                </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="roJ-Pk-kPs" userLabel="User Avatar Image">
                     <rect key="frame" x="8" y="8" width="50" height="50"/>
                     <constraints>
@@ -53,12 +53,6 @@
                         <constraint firstAttribute="width" constant="50" id="cCJ-8F-uCk"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CountryName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4AL-Sc-b9W" userLabel="User Country Name">
-                    <rect key="frame" x="485" y="15" width="107" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEZ-BR-iUW" userLabel="ReportbackItem Caption">
                     <rect key="frame" x="8" y="677" width="584" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -74,13 +68,30 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CountryName" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4AL-Sc-b9W" userLabel="User Country Name">
+                    <rect key="frame" x="492" y="15" width="100" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="EqQ-bI-tav"/>
+                        <constraint firstAttribute="height" constant="100" id="toa-OK-deD"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="toa-OK-deD"/>
+                        </mask>
+                    </variation>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="Msq-pA-qPX" firstAttribute="top" secondItem="NhW-LK-kVz" secondAttribute="bottom" constant="-1" id="13n-Q6-ZBN"/>
                 <constraint firstAttribute="trailing" secondItem="4AL-Sc-b9W" secondAttribute="trailing" constant="8" id="4Xp-1s-iKw"/>
                 <constraint firstAttribute="bottom" secondItem="Msq-pA-qPX" secondAttribute="bottom" constant="50" id="7ix-qC-6fK"/>
                 <constraint firstItem="oiQ-oe-SbM" firstAttribute="top" secondItem="Msq-pA-qPX" secondAttribute="bottom" constant="6" id="9nV-yB-rbN"/>
                 <constraint firstAttribute="trailing" secondItem="Msq-pA-qPX" secondAttribute="trailing" id="BmI-7u-DhA"/>
+                <constraint firstItem="4AL-Sc-b9W" firstAttribute="leading" secondItem="NhW-LK-kVz" secondAttribute="trailing" constant="8" id="FiJ-k2-gAb"/>
                 <constraint firstItem="cYz-Gq-gFn" firstAttribute="top" secondItem="Msq-pA-qPX" secondAttribute="bottom" constant="6" id="GUu-3H-eoj"/>
                 <constraint firstItem="uEZ-BR-iUW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="O5j-hw-STq"/>
                 <constraint firstItem="cYz-Gq-gFn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="PSF-kz-kls"/>
@@ -94,6 +105,7 @@
                 <constraint firstItem="NhW-LK-kVz" firstAttribute="leading" secondItem="roJ-Pk-kPs" secondAttribute="trailing" constant="5" id="qwY-wK-x0i"/>
                 <constraint firstItem="NhW-LK-kVz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="6" id="rQQ-Df-ewl"/>
                 <constraint firstItem="uEZ-BR-iUW" firstAttribute="top" secondItem="cYz-Gq-gFn" secondAttribute="bottom" constant="8" id="u6r-OQ-g35"/>
+                <constraint firstItem="4AL-Sc-b9W" firstAttribute="bottom" secondItem="NhW-LK-kVz" secondAttribute="bottom" constant="-4" id="wVn-tl-BdR"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
@@ -101,7 +113,7 @@
                     <exclude reference="7ix-qC-6fK"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="164" y="-440.5"/>
+            <point key="canvasLocation" x="267" y="-428.5"/>
         </view>
     </objects>
 </document>
