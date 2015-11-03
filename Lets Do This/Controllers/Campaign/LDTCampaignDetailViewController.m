@@ -207,6 +207,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         UIAlertAction *cameraAlertAction;
         if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
             cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"camera" value:nil];
                 self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
                 [self presentViewController:self.imagePickerController animated:YES completion:NULL];
             }];
@@ -217,6 +218,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
             }];
         }
         UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"gallery" value:nil];
             self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             [self presentViewController:self.imagePickerController animated:YES completion:NULL];
         }];
@@ -244,7 +246,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 #pragma mark - LDTCampaignDetailSelfReportbackCellDelegate
 
 - (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:nil value:nil];
     NSString *title = self.campaign.title;
     NSString *verb = self.campaign.reportbackVerb.lowercaseString;
     NSString *quantity = [NSString stringWithFormat:@"%li", (long)self.currentUserReportback.quantity];
@@ -254,6 +255,13 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     UIImage *shareImage = cell.detailView.reportbackItemImage;
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
+    [activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+        // activityType is the reverse-DNS string rep. of the activity chosen, i.e. "com.apple.UIKit.activity.Facebook"
+        NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
+        // retrieves and later lowercases end of activityType, i.e. "facebook"
+        NSString *activityString = activityTypeComponents[[activityTypeComponents count]-1];
+        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:activityString.lowercaseString value:nil];
+    }];
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
