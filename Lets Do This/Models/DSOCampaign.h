@@ -13,6 +13,7 @@
 
 @interface DSOCampaign : NSObject
 
+@property (assign, nonatomic, readonly) BOOL isCoverImageDarkBackground;
 @property (strong, nonatomic, readonly) NSArray *tags;
 @property (assign, nonatomic, readonly) NSInteger campaignID;
 @property (strong, nonatomic, readonly) NSString *coverImage;
