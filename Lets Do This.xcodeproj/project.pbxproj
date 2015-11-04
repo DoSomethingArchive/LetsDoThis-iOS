@@ -52,7 +52,6 @@
 		B28124D21BAA1FB700DF58DA /* UIViewController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124D11BAA1FB700DF58DA /* UIViewController+LDT.m */; };
 		B2963E071BD83CC700D2B6EE /* LDTOnboardingChildView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2963E061BD83CC700D2B6EE /* LDTOnboardingChildView.xib */; };
 		B2963E0A1BD83D1000D2B6EE /* LDTOnboardingChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2963E091BD83D1000D2B6EE /* LDTOnboardingChildViewController.m */; };
-		B2963E0D1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2963E0C1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m */; };
 		B29A657F1BB60F0B008C0E2A /* DSOCampaignSignup.m in Sources */ = {isa = PBXBuildFile; fileRef = B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */; };
 		B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */; };
 		B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */; };
@@ -165,8 +164,6 @@
 		B2963E061BD83CC700D2B6EE /* LDTOnboardingChildView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTOnboardingChildView.xib; path = Onboarding/LDTOnboardingChildView.xib; sourceTree = "<group>"; };
 		B2963E081BD83D1000D2B6EE /* LDTOnboardingChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTOnboardingChildViewController.h; path = Onboarding/LDTOnboardingChildViewController.h; sourceTree = "<group>"; };
 		B2963E091BD83D1000D2B6EE /* LDTOnboardingChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTOnboardingChildViewController.m; path = Onboarding/LDTOnboardingChildViewController.m; sourceTree = "<group>"; };
-		B2963E0B1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTOnboardingPageViewController.h; path = Onboarding/LDTOnboardingPageViewController.h; sourceTree = "<group>"; };
-		B2963E0C1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTOnboardingPageViewController.m; path = Onboarding/LDTOnboardingPageViewController.m; sourceTree = "<group>"; };
 		B29A657D1BB60F0B008C0E2A /* DSOCampaignSignup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCampaignSignup.h; sourceTree = "<group>"; };
 		B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCampaignSignup.m; sourceTree = "<group>"; };
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserConnectView.xib; path = Login/LDTUserConnectView.xib; sourceTree = "<group>"; };
@@ -386,8 +383,6 @@
 			children = (
 				B2963E081BD83D1000D2B6EE /* LDTOnboardingChildViewController.h */,
 				B2963E091BD83D1000D2B6EE /* LDTOnboardingChildViewController.m */,
-				B2963E0B1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.h */,
-				B2963E0C1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -791,7 +786,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2629F231BAB45C800A1B5C3 /* LDTUpdateAvatarViewController.m in Sources */,
-				B2963E0D1BD83E4E00D2B6EE /* LDTOnboardingPageViewController.m in Sources */,
 				B27FD03F1BBD99FF00A44952 /* LDTEpicFailViewController.m in Sources */,
 				C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */,
 				EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */,

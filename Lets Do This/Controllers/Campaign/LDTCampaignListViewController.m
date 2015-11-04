@@ -15,7 +15,8 @@
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTCampaignCollectionViewCellContainer.h"
-#import "LDTOnboardingPageViewController.h"
+#import "LDTOnboardingChildViewController.h"
+#import "LDTUserConnectViewController.h"
 #import "GAI+LDT.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
@@ -92,9 +93,16 @@ const CGFloat kHeightExpanded = 420;
     else {
         // Use dispatch_async to avoid "Unbalanced calls to begin/end appearance transitions for <LDTTabBarController>" warning.
         dispatch_async(dispatch_get_main_queue(), ^(void){
-            LDTOnboardingPageViewController *onboardingVC = [[LDTOnboardingPageViewController alloc] init];
-            [self presentViewController:onboardingVC animated:YES completion:nil];
-            [TSMessage setDefaultViewController:onboardingVC];
+            LDTUserConnectViewController *userConnectVC  = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+
+            // @todo: Only display if no NSUserDefaults exist for didFinishOnboarding
+            LDTOnboardingChildViewController *secondOnboardingVC = [[LDTOnboardingChildViewController alloc] initWithHeadlineText:@"Prove it".uppercaseString descriptionText:@"Submit and share photos of yourself in action -- and see other people’s photos too. #picsoritdidnthappen" primaryImage:[UIImage imageNamed:@"Onboarding_ProveIt"] gaiScreenName:@"onboarding-second" nextViewController:userConnectVC isFirstChild:NO];
+            LDTOnboardingChildViewController *firstOnboardingVC =[[LDTOnboardingChildViewController alloc] initWithHeadlineText:@"Stop being bored".uppercaseString descriptionText:@"Are you into sports? Crafting? Whatever your interests, you can do fun stuff and social good at the same time." primaryImage:[UIImage imageNamed:@"Onboarding_StopBeingBored"] gaiScreenName:@"onboarding-first" nextViewController:secondOnboardingVC isFirstChild:YES];
+
+            UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:firstOnboardingVC];
+            [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
+            [self presentViewController:destNavVC animated:YES completion:nil];
+            [TSMessage setDefaultViewController:destNavVC];
         });
     }
 }

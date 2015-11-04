@@ -12,14 +12,22 @@
 
 @interface LDTOnboardingChildViewController ()
 
+@property (assign, nonatomic) BOOL isFirstChild;
 @property (strong, nonatomic) NSString *gaiScreenName;
 @property (strong, nonatomic) NSString *headlineText;
 @property (strong, nonatomic) NSString *descriptionText;
+@property (weak, nonatomic) IBOutlet UIButton *nextButton;
+@property (weak, nonatomic) IBOutlet UIButton *prevButton;
 @property (strong, nonatomic) UIImage *primaryImage;
+@property (strong, nonatomic) UIViewController *nextViewController;
+
 @property (weak, nonatomic) IBOutlet UILabel *headlineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *primaryImageView;
 @property (weak, nonatomic) IBOutlet UIView *descriptionContainerView;
+
+- (IBAction)nextButtonTouchUpInside:(id)sender;
+- (IBAction)prevButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -27,13 +35,15 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage gaiScreenName:(NSString *)gaiScreenName {
+- (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage gaiScreenName:(NSString *)gaiScreenName nextViewController:(UIViewController *)nextViewController isFirstChild:(BOOL)isFirstChild{
     self = [super initWithNibName:@"LDTOnboardingChildView" bundle:nil];
     if (self) {
         self.headlineText = headlineText;
         self.descriptionText = descriptionText;
         self.primaryImage = primaryImage;
         self.gaiScreenName = gaiScreenName;
+        self.nextViewController = nextViewController;
+        self.isFirstChild = isFirstChild;
     }
 
     return self;
@@ -47,6 +57,13 @@
     self.headlineLabel.text = self.headlineText;
     self.descriptionLabel.text = self.descriptionText;
     self.primaryImageView.image = self.primaryImage;
+    self.navigationItem.hidesBackButton = YES;
+    if (self.isFirstChild) {
+        self.prevButton.hidden = YES;
+    }
+    else {
+        self.prevButton.transform = CGAffineTransformMakeRotation(M_PI);
+    }
 
     [self styleView];
 
@@ -68,4 +85,10 @@
     self.descriptionContainerView.layer.shadowOpacity = 0.2;
 }
 
+- (IBAction)prevButtonTouchUpInside:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+- (IBAction)nextButtonTouchUpInside:(id)sender {
+    [self.navigationController pushViewController:self.nextViewController animated:YES];
+}
 @end
