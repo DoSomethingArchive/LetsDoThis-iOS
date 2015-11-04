@@ -1,5 +1,5 @@
 //
-//  LDTOnboardingChildViewController.h
+//  LDTOnboardingPageViewController.h
 //  Lets Do This
 //
 //  Created by Aaron Schachter on 10/21/15.
