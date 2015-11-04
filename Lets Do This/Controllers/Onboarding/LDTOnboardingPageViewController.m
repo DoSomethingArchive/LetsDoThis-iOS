@@ -7,104 +7,88 @@
 //
 
 #import "LDTOnboardingPageViewController.h"
-#import "LDTOnboardingChildViewController.h"
-#import "LDTUserConnectViewController.h"
 #import "LDTTheme.h"
+#import "GAI+LDT.h"
 
-@interface LDTOnboardingPageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
+@interface LDTOnboardingPageViewController ()
 
-@property (strong, nonatomic) UIPageViewController *pageController;
-@property (strong, nonatomic) LDTOnboardingChildViewController *firstChildViewController;
-@property (strong, nonatomic) LDTOnboardingChildViewController *secondChildViewController;
-@property (strong, nonatomic) UINavigationController *userConnectNavigationController;
+@property (assign, nonatomic) BOOL isFirstPage;
+@property (strong, nonatomic) NSString *gaiScreenName;
+@property (strong, nonatomic) NSString *headlineText;
+@property (strong, nonatomic) NSString *descriptionText;
+@property (weak, nonatomic) IBOutlet UIButton *nextButton;
+@property (weak, nonatomic) IBOutlet UIButton *prevButton;
+@property (strong, nonatomic) UIImage *primaryImage;
+@property (strong, nonatomic) UIViewController *nextViewController;
+
+@property (weak, nonatomic) IBOutlet UILabel *headlineLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *primaryImageView;
+@property (weak, nonatomic) IBOutlet UIView *descriptionContainerView;
+
+- (IBAction)nextButtonTouchUpInside:(id)sender;
+- (IBAction)prevButtonTouchUpInside:(id)sender;
 
 @end
 
 @implementation LDTOnboardingPageViewController
+
+#pragma mark - NSObject
+
+- (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage gaiScreenName:(NSString *)gaiScreenName nextViewController:(UIViewController *)nextViewController isFirstPage:(BOOL)isFirstPage{
+    self = [super initWithNibName:@"LDTOnboardingPageView" bundle:nil];
+    if (self) {
+        self.headlineText = headlineText;
+        self.descriptionText = descriptionText;
+        self.primaryImage = primaryImage;
+        self.gaiScreenName = gaiScreenName;
+        self.nextViewController = nextViewController;
+        self.isFirstPage = isFirstPage;
+    }
+
+    return self;
+}
 
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageController.dataSource = self;
-    self.pageController.delegate = self;
-
-    [self.pageController view].frame = [[self view] bounds];
-
-    self.firstChildViewController = [[LDTOnboardingChildViewController alloc] initWithHeadlineText:@"Stop being bored".uppercaseString descriptionText:@"Are you into sports? Crafting? Whatever your interests, you can do fun stuff and social good at the same time." primaryImage:[UIImage imageNamed:@"Onboarding_StopBeingBored"] gaiScreenName:@"onboarding-first"];
-    self.secondChildViewController = [[LDTOnboardingChildViewController alloc] initWithHeadlineText:@"Prove it".uppercaseString descriptionText:@"Submit and share photos of yourself in action -- and see other people’s photos too. #picsoritdidnthappen" primaryImage:[UIImage imageNamed:@"Onboarding_ProveIt"] gaiScreenName:@"onboarding-second"];
-    LDTUserConnectViewController *userConnectVC  = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
-    self.userConnectNavigationController = [[UINavigationController alloc] initWithRootViewController:userConnectVC];
-    [self.userConnectNavigationController styleNavigationBar:LDTNavigationBarStyleClear];
-
-    [self.pageController setViewControllers:@[self.firstChildViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
-    [self addChildViewController:self.pageController];
-    [[self view] addSubview:[self.pageController view]];
-    [self.pageController didMoveToParentViewController:self];
-
-    [self stylePageController];
-    UIPageControl *pageControl = [UIPageControl appearance];
-    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-    pageControl.currentPageIndicatorTintColor = [LDTTheme ctaBlueColor];
-
-    [self setNeedsStatusBarAppearanceUpdate];
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
-
-#pragma mark - LDTOnboardingPageViewController
-
-- (void)stylePageController {
-    if (self.pageController.viewControllers.count) {
-        UIColor *pageControllerBGColor;
-        if ([self.pageController.viewControllers[0] isEqual:self.userConnectNavigationController]) {
-            pageControllerBGColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
-        }
-        else {
-            pageControllerBGColor = [UIColor whiteColor];
-        }
-        self.pageController.view.backgroundColor = pageControllerBGColor;
+    self.headlineLabel.text = self.headlineText;
+    self.descriptionLabel.text = self.descriptionText;
+    self.primaryImageView.image = self.primaryImage;
+    self.navigationItem.hidesBackButton = YES;
+    if (self.isFirstPage) {
+        self.prevButton.hidden = YES;
     }
-}
-
-#pragma mark - UIPageViewControllerDataSource
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
-      viewControllerBeforeViewController:(UIViewController *)viewController {
-    if ([viewController isEqual:self.secondChildViewController]) {
-        return self.firstChildViewController;
+    else {
+        self.prevButton.transform = CGAffineTransformMakeRotation(M_PI);
     }
-    if ([viewController isEqual:self.userConnectNavigationController]) {
-        return self.secondChildViewController;
-    }
-    return nil;
+
+    [self styleView];
+
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
-       viewControllerAfterViewController:(UIViewController *)viewController {
-    if ([viewController isEqual:self.firstChildViewController]) {
-        return self.secondChildViewController;
-    }
-    if ([viewController isEqual:self.secondChildViewController]) {
-        return self.userConnectNavigationController;
-    }
-    return nil;
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [[GAI sharedInstance] trackScreenView:self.gaiScreenName];
 }
 
-- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
-    return 3;
+- (void)styleView {
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
+    self.headlineLabel.font = [LDTTheme fontHeadingBold];
+    self.descriptionLabel.font = [LDTTheme font];
+    self.descriptionContainerView.layer.masksToBounds = NO;
+    self.descriptionContainerView.layer.shadowOffset = CGSizeMake(0, -3);
+    self.descriptionContainerView.layer.shadowRadius = 0.7f;
+    self.descriptionContainerView.layer.shadowOpacity = 0.2;
 }
 
-- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
-    return 0;
+- (IBAction)prevButtonTouchUpInside:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
-
-- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed{
-    [self stylePageController];
+- (IBAction)nextButtonTouchUpInside:(id)sender {
+    [self.navigationController pushViewController:self.nextViewController animated:YES];
 }
-
 @end
