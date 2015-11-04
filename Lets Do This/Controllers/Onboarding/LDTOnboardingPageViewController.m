@@ -6,11 +6,11 @@
 //  Copyright © 2015 Do Something. All rights reserved.
 //
 
-#import "LDTOnboardingChildViewController.h"
+#import "LDTOnboardingPageViewController.h"
 #import "LDTTheme.h"
 #import "GAI+LDT.h"
 
-@interface LDTOnboardingChildViewController ()
+@interface LDTOnboardingPageViewController ()
 
 @property (assign, nonatomic) BOOL isFirstChild;
 @property (strong, nonatomic) NSString *gaiScreenName;
@@ -31,12 +31,12 @@
 
 @end
 
-@implementation LDTOnboardingChildViewController
+@implementation LDTOnboardingPageViewController
 
 #pragma mark - NSObject
 
 - (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage gaiScreenName:(NSString *)gaiScreenName nextViewController:(UIViewController *)nextViewController isFirstChild:(BOOL)isFirstChild{
-    self = [super initWithNibName:@"LDTOnboardingChildView" bundle:nil];
+    self = [super initWithNibName:@"LDTOnboardingPageView" bundle:nil];
     if (self) {
         self.headlineText = headlineText;
         self.descriptionText = descriptionText;

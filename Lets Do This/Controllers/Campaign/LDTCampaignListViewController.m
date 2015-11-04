@@ -15,7 +15,7 @@
 #import "LDTCampaignListReportbackItemCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTCampaignCollectionViewCellContainer.h"
-#import "LDTOnboardingChildViewController.h"
+#import "LDTOnboardingPageViewController.h"
 #import "LDTUserConnectViewController.h"
 #import "GAI+LDT.h"
 
@@ -97,8 +97,8 @@ const CGFloat kHeightExpanded = 420;
             UINavigationController *destNavVC;
 
             if (![[NSUserDefaults standardUserDefaults] boolForKey:@"hasCompletedOnboarding"]) {
-                LDTOnboardingChildViewController *secondOnboardingVC = [[LDTOnboardingChildViewController alloc] initWithHeadlineText:@"Prove it".uppercaseString descriptionText:@"Submit and share photos of yourself in action -- and see other people’s photos too. #picsoritdidnthappen" primaryImage:[UIImage imageNamed:@"Onboarding_ProveIt"] gaiScreenName:@"onboarding-second" nextViewController:userConnectVC isFirstChild:NO];
-                LDTOnboardingChildViewController *firstOnboardingVC =[[LDTOnboardingChildViewController alloc] initWithHeadlineText:@"Stop being bored".uppercaseString descriptionText:@"Are you into sports? Crafting? Whatever your interests, you can do fun stuff and social good at the same time." primaryImage:[UIImage imageNamed:@"Onboarding_StopBeingBored"] gaiScreenName:@"onboarding-first" nextViewController:secondOnboardingVC isFirstChild:YES];
+                LDTOnboardingPageViewController *secondOnboardingVC = [[LDTOnboardingPageViewController alloc] initWithHeadlineText:@"Prove it".uppercaseString descriptionText:@"Submit and share photos of yourself in action -- and see other people’s photos too. #picsoritdidnthappen" primaryImage:[UIImage imageNamed:@"Onboarding_ProveIt"] gaiScreenName:@"onboarding-second" nextViewController:userConnectVC isFirstChild:NO];
+                LDTOnboardingPageViewController *firstOnboardingVC =[[LDTOnboardingPageViewController alloc] initWithHeadlineText:@"Stop being bored".uppercaseString descriptionText:@"Are you into sports? Crafting? Whatever your interests, you can do fun stuff and social good at the same time." primaryImage:[UIImage imageNamed:@"Onboarding_StopBeingBored"] gaiScreenName:@"onboarding-first" nextViewController:secondOnboardingVC isFirstChild:YES];
                 destNavVC = [[UINavigationController alloc] initWithRootViewController:firstOnboardingVC];
             }
             else {

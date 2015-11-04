@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTOnboardingChildViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTOnboardingPageViewController">
             <connections>
                 <outlet property="descriptionContainerView" destination="1oX-hs-3Xw" id="xHg-qk-qcP"/>
                 <outlet property="descriptionLabel" destination="Mae-xA-bti" id="W2g-Fc-V3n"/>
