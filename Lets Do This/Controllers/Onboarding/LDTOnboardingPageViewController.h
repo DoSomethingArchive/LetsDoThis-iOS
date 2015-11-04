@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LDTOnboardingChildViewController : UIViewController
+@interface LDTOnboardingPageViewController : UIViewController
 
 - (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage gaiScreenName:(NSString *)gaiScreenName nextViewController:(UIViewController *)nextViewController isFirstChild:(BOOL)isFirstChild;
 
