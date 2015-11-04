@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTOnboardingChildViewController">
@@ -10,6 +10,8 @@
                 <outlet property="descriptionContainerView" destination="1oX-hs-3Xw" id="xHg-qk-qcP"/>
                 <outlet property="descriptionLabel" destination="Mae-xA-bti" id="W2g-Fc-V3n"/>
                 <outlet property="headlineLabel" destination="de8-WS-jKl" id="lyE-ye-MkO"/>
+                <outlet property="nextButton" destination="DYW-vZ-DqR" id="5M8-PR-Tmx"/>
+                <outlet property="prevButton" destination="gnF-MZ-DsQ" id="Hhj-7G-Noh"/>
                 <outlet property="primaryImageView" destination="Vql-eT-pnA" id="DjO-Dp-761"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6e0-5N-JF3"/>
             </connections>
@@ -28,28 +30,53 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Headline" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="de8-WS-jKl">
                             <rect key="frame" x="266" y="23" width="68" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mae-xA-bti">
-                            <rect key="frame" x="165" y="52" width="270" height="21"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="270" id="N7A-mD-Zbp"/>
-                            </constraints>
+                            <rect key="frame" x="54" y="52" width="492" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnF-MZ-DsQ" userLabel="Prev Button">
+                            <rect key="frame" x="8" y="35" width="30" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="30" id="Dzz-gz-ph5"/>
+                                <constraint firstAttribute="height" constant="30" id="eHX-m4-1ja"/>
+                            </constraints>
+                            <state key="normal" image="Arrow"/>
+                            <connections>
+                                <action selector="prevButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="kac-ys-2Ku"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DYW-vZ-DqR" userLabel="Next Button">
+                            <rect key="frame" x="562" y="35" width="30" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="30" id="0LL-ez-Jdx"/>
+                                <constraint firstAttribute="height" constant="30" id="Rhk-z0-i6B"/>
+                            </constraints>
+                            <state key="normal" image="Arrow"/>
+                            <connections>
+                                <action selector="nextButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="fdM-5U-Vcl"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="Mae-xA-bti" firstAttribute="top" secondItem="de8-WS-jKl" secondAttribute="bottom" constant="8" id="0w1-J4-aSL"/>
+                        <constraint firstItem="Mae-xA-bti" firstAttribute="leading" secondItem="gnF-MZ-DsQ" secondAttribute="trailing" constant="16" id="4ei-K3-XtV"/>
+                        <constraint firstItem="DYW-vZ-DqR" firstAttribute="leading" secondItem="Mae-xA-bti" secondAttribute="trailing" constant="16" id="8mS-Ka-qZu"/>
                         <constraint firstItem="Mae-xA-bti" firstAttribute="leading" secondItem="1oX-hs-3Xw" secondAttribute="leading" id="Aew-Gx-rWx"/>
+                        <constraint firstAttribute="trailing" secondItem="DYW-vZ-DqR" secondAttribute="trailing" constant="8" id="F8G-V0-TEz"/>
                         <constraint firstItem="de8-WS-jKl" firstAttribute="centerX" secondItem="1oX-hs-3Xw" secondAttribute="centerX" id="GJX-Z9-hQ6"/>
                         <constraint firstAttribute="bottom" secondItem="Mae-xA-bti" secondAttribute="bottom" constant="26" id="Qnz-0o-gBA"/>
+                        <constraint firstItem="DYW-vZ-DqR" firstAttribute="centerY" secondItem="1oX-hs-3Xw" secondAttribute="centerY" id="SGm-Rg-6Rc"/>
                         <constraint firstItem="Mae-xA-bti" firstAttribute="centerX" secondItem="1oX-hs-3Xw" secondAttribute="centerX" id="URh-ZV-sdU"/>
                         <constraint firstAttribute="trailing" secondItem="Mae-xA-bti" secondAttribute="trailing" id="WG5-ch-TMx"/>
+                        <constraint firstItem="gnF-MZ-DsQ" firstAttribute="leading" secondItem="1oX-hs-3Xw" secondAttribute="leading" constant="8" id="nN9-l7-ESi"/>
                         <constraint firstItem="de8-WS-jKl" firstAttribute="top" secondItem="1oX-hs-3Xw" secondAttribute="top" constant="23" id="oS8-Ni-vB2"/>
+                        <constraint firstItem="gnF-MZ-DsQ" firstAttribute="centerY" secondItem="1oX-hs-3Xw" secondAttribute="centerY" id="sO9-Hp-Zes"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
@@ -63,6 +90,7 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Vql-eT-pnA" secondAttribute="bottom" id="5l4-dO-lTl"/>
                 <constraint firstItem="Vql-eT-pnA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="32" id="6Yi-4Q-VDS"/>
+                <constraint firstItem="1oX-hs-3Xw" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="85Z-Gu-dI5"/>
                 <constraint firstItem="Vql-eT-pnA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="Drg-GR-oUe"/>
                 <constraint firstAttribute="bottom" secondItem="1oX-hs-3Xw" secondAttribute="bottom" id="GxH-OD-hEv"/>
                 <constraint firstAttribute="trailing" secondItem="Vql-eT-pnA" secondAttribute="trailing" id="Se7-Dn-ydo"/>
@@ -84,4 +112,7 @@
             </variation>
         </view>
     </objects>
+    <resources>
+        <image name="Arrow" width="16" height="25"/>
+    </resources>
 </document>

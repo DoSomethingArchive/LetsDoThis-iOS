@@ -9,7 +9,6 @@
 #import "LDTTabBarController.h"
 #import "LDTUserProfileViewController.h"
 #import "LDTCampaignListViewController.h"
-#import "LDTOnboardingPageViewController.h"
 #import "LDTTheme.h"
 
 @interface LDTTabBarController ()
