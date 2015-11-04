@@ -12,7 +12,7 @@
 
 @interface LDTOnboardingPageViewController ()
 
-@property (assign, nonatomic) BOOL isFirstChild;
+@property (assign, nonatomic) BOOL isFirstPage;
 @property (strong, nonatomic) NSString *gaiScreenName;
 @property (strong, nonatomic) NSString *headlineText;
 @property (strong, nonatomic) NSString *descriptionText;
@@ -35,7 +35,7 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage gaiScreenName:(NSString *)gaiScreenName nextViewController:(UIViewController *)nextViewController isFirstChild:(BOOL)isFirstChild{
+- (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage gaiScreenName:(NSString *)gaiScreenName nextViewController:(UIViewController *)nextViewController isFirstPage:(BOOL)isFirstPage{
     self = [super initWithNibName:@"LDTOnboardingPageView" bundle:nil];
     if (self) {
         self.headlineText = headlineText;
@@ -43,7 +43,7 @@
         self.primaryImage = primaryImage;
         self.gaiScreenName = gaiScreenName;
         self.nextViewController = nextViewController;
-        self.isFirstChild = isFirstChild;
+        self.isFirstPage = isFirstPage;
     }
 
     return self;
@@ -58,7 +58,7 @@
     self.descriptionLabel.text = self.descriptionText;
     self.primaryImageView.image = self.primaryImage;
     self.navigationItem.hidesBackButton = YES;
-    if (self.isFirstChild) {
+    if (self.isFirstPage) {
         self.prevButton.hidden = YES;
     }
     else {
