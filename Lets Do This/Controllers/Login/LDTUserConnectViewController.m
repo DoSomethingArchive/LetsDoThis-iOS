@@ -31,6 +31,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"hasCompletedOnboarding"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasCompletedOnboarding"];
+    }
+
     self.navigationItem.hidesBackButton = YES;
     [self styleBackBarButton];
     
