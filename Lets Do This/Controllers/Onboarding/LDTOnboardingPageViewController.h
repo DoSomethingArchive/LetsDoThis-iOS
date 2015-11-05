@@ -10,4 +10,6 @@
 
 @interface LDTOnboardingPageViewController : UIViewController
 
+- (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage gaiScreenName:(NSString *)gaiScreenName nextViewController:(UIViewController *)nextViewController isFirstPage:(BOOL)isFirstPage;
+
 @end

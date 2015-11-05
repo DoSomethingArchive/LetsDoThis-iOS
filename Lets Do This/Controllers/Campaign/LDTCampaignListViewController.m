@@ -16,6 +16,7 @@
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTCampaignCollectionViewCellContainer.h"
 #import "LDTOnboardingPageViewController.h"
+#import "LDTUserConnectViewController.h"
 #import "GAI+LDT.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
@@ -88,14 +89,6 @@ const CGFloat kHeightExpanded = 420;
 
     if ([DSOUserManager sharedInstance].userHasCachedSession) {
         [self loadMainFeed];
-    }
-    else {
-        // Use dispatch_async to avoid "Unbalanced calls to begin/end appearance transitions for <LDTTabBarController>" warning.
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            LDTOnboardingPageViewController *onboardingVC = [[LDTOnboardingPageViewController alloc] init];
-            [self presentViewController:onboardingVC animated:YES completion:nil];
-            [TSMessage setDefaultViewController:onboardingVC];
-        });
     }
 }
 
