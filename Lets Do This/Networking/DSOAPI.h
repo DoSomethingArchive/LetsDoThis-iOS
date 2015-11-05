@@ -16,7 +16,7 @@
 
 + (DSOAPI *)sharedInstance;
 
-- (instancetype)initWithApiKey:(NSString *)apiKey;
+- (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId;
 
 - (NSString *)phoenixBaseURL;
 
