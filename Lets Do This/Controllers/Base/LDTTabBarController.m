@@ -9,6 +9,8 @@
 #import "LDTTabBarController.h"
 #import "LDTUserProfileViewController.h"
 #import "LDTCampaignListViewController.h"
+#import "LDTOnboardingPageViewController.h"
+#import "LDTUserConnectViewController.h"
 #import "LDTTheme.h"
 
 @interface LDTTabBarController ()
@@ -39,6 +41,27 @@
     }
 	
     return self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+
+    if (![DSOUserManager sharedInstance].userHasCachedSession) {
+        LDTUserConnectViewController *userConnectVC  = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+        UINavigationController *destNavVC;
+
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"hasCompletedOnboarding"]) {
+            LDTOnboardingPageViewController *secondOnboardingVC = [[LDTOnboardingPageViewController alloc] initWithHeadlineText:@"Prove it".uppercaseString descriptionText:@"Submit and share photos of yourself in action -- and see other people’s photos too. #picsoritdidnthappen" primaryImage:[UIImage imageNamed:@"Onboarding_ProveIt"] gaiScreenName:@"onboarding-second" nextViewController:userConnectVC isFirstPage:NO];
+            LDTOnboardingPageViewController *firstOnboardingVC =[[LDTOnboardingPageViewController alloc] initWithHeadlineText:@"Stop being bored".uppercaseString descriptionText:@"Are you into sports? Crafting? Whatever your interests, you can do fun stuff and social good at the same time." primaryImage:[UIImage imageNamed:@"Onboarding_StopBeingBored"] gaiScreenName:@"onboarding-first" nextViewController:secondOnboardingVC isFirstPage:YES];
+            destNavVC = [[UINavigationController alloc] initWithRootViewController:firstOnboardingVC];
+        }
+        else {
+            destNavVC = [[UINavigationController alloc] initWithRootViewController:userConnectVC];
+        }
+        [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
+        [self presentViewController:destNavVC animated:YES completion:nil];
+        [TSMessage setDefaultViewController:destNavVC];
+    }
 }
 
 # pragma mark - LDTTabBarController
