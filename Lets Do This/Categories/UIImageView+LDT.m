@@ -21,7 +21,7 @@
     CALayer *sublayer = [CALayer layer];
     sublayer.backgroundColor = [UIColor blackColor].CGColor;
     sublayer.opacity = 0.3;
-    sublayer.frame = self.frame;
+    sublayer.frame = [UIApplication sharedApplication].windows.firstObject.frame;
     [self.layer addSublayer:sublayer];
 }
 
