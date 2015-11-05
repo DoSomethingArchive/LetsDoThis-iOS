@@ -78,6 +78,7 @@
 		C2B152201ACE05510028C336 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B152181ACE05510028C336 /* AppDelegate.m */; };
 		C2B152381ACE0BB50028C336 /* LDTSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */; };
 		EA0353311BAC63BA00D2B987 /* LDTMessageDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = EA0353301BAC63BA00D2B987 /* LDTMessageDefaultDesign.json */; };
+		EA5165AE1BEA8F1D00E4705F /* LDTBaseViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5165AD1BEA8F1D00E4705F /* LDTBaseViewControllerTests.m */; };
 		EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */; };
 /* End PBXBuildFile section */
 
@@ -211,6 +212,7 @@
 		C2B152361ACE0BB50028C336 /* LDTSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTSettingsViewController.h; path = Profile/LDTSettingsViewController.h; sourceTree = "<group>"; };
 		C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTSettingsViewController.m; path = Profile/LDTSettingsViewController.m; sourceTree = "<group>"; };
 		EA0353301BAC63BA00D2B987 /* LDTMessageDefaultDesign.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LDTMessageDefaultDesign.json; sourceTree = "<group>"; };
+		EA5165AD1BEA8F1D00E4705F /* LDTBaseViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTBaseViewControllerTests.m; sourceTree = "<group>"; };
 		EA5C9F191B694712001D3EEA /* UITextField+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+LDT.h"; sourceTree = "<group>"; };
 		EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+LDT.m"; sourceTree = "<group>"; };
 		FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Lets Do This.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -476,6 +478,7 @@
 			children = (
 				C2B1520B1ACE04C30028C336 /* Lets_Do_ThisTests.m */,
 				C2B152091ACE04C30028C336 /* Supporting Files */,
+				EA5165AD1BEA8F1D00E4705F /* LDTBaseViewControllerTests.m */,
 			);
 			path = "Lets Do ThisTests";
 			sourceTree = "<group>";
@@ -835,6 +838,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5165AE1BEA8F1D00E4705F /* LDTBaseViewControllerTests.m in Sources */,
 				C2B1520C1ACE04C30028C336 /* Lets_Do_ThisTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

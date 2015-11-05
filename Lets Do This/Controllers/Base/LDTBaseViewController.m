@@ -1,5 +1,5 @@
 //
-//  LDTBaseUserLoginViewController.m
+//  LDTBaseUserViewController.m
 //  Lets Do This
 //
 //  Created by Aaron Schachter on 7/9/15.
@@ -34,7 +34,7 @@
     [self startListeningForNotifications];
 }
 
-#pragma mark - LDTBaseUserLoginViewController
+#pragma mark - LDTBaseViewController
 
 - (void)startListeningForNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
