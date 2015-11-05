@@ -55,7 +55,7 @@
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME]];
+        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME] applicationId:keysDict[@"dsApplicationId"]];
     });
 
     return _sharedInstance;
@@ -63,7 +63,7 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithApiKey:(NSString *)apiKey {
+- (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId {
     NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/v1/", DSOPROTOCOL, LDTSERVER]];
     self = [super initWithBaseURL:baseURL];
 
@@ -75,7 +75,7 @@
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [self.requestSerializer setValue:@"ios" forHTTPHeaderField:@"X-DS-Application-Id"];
+        [self.requestSerializer setValue:applicationId forHTTPHeaderField:@"X-DS-Application-Id"];
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
         self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
         self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
