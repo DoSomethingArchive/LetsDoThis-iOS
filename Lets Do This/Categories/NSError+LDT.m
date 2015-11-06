@@ -28,6 +28,14 @@
             return @"Seems like the Internet is trying to cause drama.";
         }
     }
+    else if (self.code == -1001) {
+        if (isTitle) {
+            return @"The request timed out.";
+        }
+        else {
+            return @"Seems like the Internet is trying to cause drama.";
+        }
+    }
     NSData *errorData = self.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
     if (errorData) {
         NSError *error = self;
