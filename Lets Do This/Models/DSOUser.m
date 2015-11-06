@@ -40,7 +40,7 @@
         if ([dict objectForKey:@"country"]) {
             self.countryCode = dict[@"country"];
         }
-        self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Null First Name"];
+        self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Doer"];
         self.email = dict[@"email"];
         self.sessionToken = dict[@"session_token"];
         self.campaignSignups = [[NSMutableArray alloc] init];
