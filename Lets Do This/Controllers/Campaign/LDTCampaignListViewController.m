@@ -156,8 +156,10 @@ const CGFloat kHeightExpanded = 420;
             self.allCampaigns = campaigns;
             [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
             [self createInterestGroups];
+			
             // Display loaded campaigns to indicate signs of life.
-            [self.collectionView reloadData];
+            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignListSectionTypeCampaign]];
+			[SVProgressHUD dismiss];
         } errorHandler:^(NSError *error) {
             // @todo: Need to figure out case where we'd need to logout and push to user connect, if their session is borked.
             [self presentEpicFailForError:error];
@@ -210,15 +212,17 @@ const CGFloat kHeightExpanded = 420;
             return;
         }
     }
+}
 
+-(void)loadReportbacksForCampaigns:(NSArray *)campaigns {
 	NSInteger totalAPICallCount = [self.interestGroups allKeys].count;
-    NSLog(@"totalAPICallCount: %lu", (unsigned long)totalAPICallCount);
+	NSLog(@"totalAPICallCount: %lu", (unsigned long)totalAPICallCount);
 	__block NSUInteger completedAPICallCount = 0;
-
+	
 	NSMutableArray *errors = [[NSMutableArray alloc] initWithCapacity:totalAPICallCount];
 	
 	void (^reportBacksCompletionBlock)() = ^{
-        NSLog(@"completed reportback load: %lu", (unsigned long)completedAPICallCount);
+		NSLog(@"completed reportback load: %lu", (unsigned long)completedAPICallCount);
 		++completedAPICallCount;
 		
 		if (completedAPICallCount != totalAPICallCount) {
@@ -227,35 +231,36 @@ const CGFloat kHeightExpanded = 420;
 		
 		if(errors.count > 0) {
 			NSLog(@"%zd error[s] occurred while executing API calls.", errors.count);
-            [self presentEpicFailForError:errors.firstObject];
-            return;
+			[self presentEpicFailForError:errors.firstObject];
+			return;
 		}
 		else {
 			NSLog(@"\n---All calls completed successfully---");
-            self.isMainFeedLoaded = YES;
-            [SVProgressHUD dismiss];
-            [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
+			self.isMainFeedLoaded = YES;
+			[SVProgressHUD dismiss];
+			[[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
 			[self.collectionView reloadData];
 			LDTCampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 			[cell.innerCollectionView reloadData];
 		}
 		
 	};
-
-    [SVProgressHUD showWithStatus:@"Loading photos..."];
-    for (NSNumber *key in self.interestGroups) {
-        NSLog(@"loadReportbackItemsForCampaigns: %@", key);
-        [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:self.interestGroups[key][@"campaigns"] status:@"promoted,approved" completionHandler:^(NSArray *rbItems) {
-            rbItems = [DSOReportbackItem sortReportbackItemsAsPromotedFirst:rbItems];
-            for (DSOReportbackItem *rbItem in rbItems) {
-                [self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
-            }
-            reportBacksCompletionBlock();
-        } errorHandler:^(NSError *error) {
-            [errors addObject:error];
-            reportBacksCompletionBlock();
-        }];
-    }
+	
+	[SVProgressHUD showWithStatus:@"Loading photos..."];
+	for (NSNumber *key in self.interestGroups) {
+		NSLog(@"loadReportbackItemsForCampaigns: %@", key);
+		NSArray *reportbacksCampaigns = self.interestGroups[key][@"campaigns"];
+		[[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:reportbacksCampaigns status:@"promoted,approved" completionHandler:^(NSArray *rbItems) {
+			rbItems = [DSOReportbackItem sortReportbackItemsAsPromotedFirst:rbItems];
+			for (DSOReportbackItem *rbItem in rbItems) {
+				[self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
+			}
+			reportBacksCompletionBlock();
+		} errorHandler:^(NSError *error) {
+			[errors addObject:error];
+			reportBacksCompletionBlock();
+		}];
+	}
 }
 
 - (NSNumber *)selectedInterestGroupId {
@@ -476,6 +481,10 @@ const CGFloat kHeightExpanded = 420;
 			return campaignCell;
 		}
 		if (indexPath.section == LDTCampaignListSectionTypeReportback) {
+			NSArray *reportbackItems = self.interestGroups[[self selectedInterestGroupId]][@"reportbackItems"];
+			if (reportbackItems.count > 0) {
+
+			}
 			LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
 			[self configureReportbackItemCell:reportbackItemCell atIndexPath:indexPath];
 			
