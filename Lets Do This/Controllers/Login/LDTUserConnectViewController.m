@@ -55,6 +55,7 @@
 
 - (void)styleView {
     self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
+    [self.navigationController addCustomStatusBarView:YES];
     self.headerLabel.font = [LDTTheme font];
     self.headerLabel.textColor = [UIColor whiteColor];
 	self.registerButton.backgroundColor = [LDTTheme ctaBlueColor];

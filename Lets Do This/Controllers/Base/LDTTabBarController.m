@@ -32,10 +32,12 @@
         profileVC.title = @"Me";
         UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
+        [profileNavVC addCustomStatusBarView:NO];
 
         self.campaignListViewController = [[LDTCampaignListViewController alloc] initWithNibName:@"LDTCampaignListView" bundle:nil];
         UINavigationController *campaignListNavVC = [[UINavigationController alloc] initWithRootViewController:self.campaignListViewController];
         campaignListNavVC.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
+        [campaignListNavVC addCustomStatusBarView:NO];
 
         self.viewControllers = [NSArray arrayWithObjects:campaignListNavVC, profileNavVC, nil];
     }
