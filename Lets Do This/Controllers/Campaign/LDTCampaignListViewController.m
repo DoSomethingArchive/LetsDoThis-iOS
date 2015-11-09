@@ -386,17 +386,13 @@ const CGFloat kHeightExpanded = 420;
 
 #pragma mark - UIScrollViewDelegate
 
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-	// Sets selected state of interest group buttons when user drags left or right on collection view
-	// Since we have nested collection views this method sometimes gets called when we don't need it, so check to
-	// make sure it's the scrollview we want (the container collection view)
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
 	if ([(UICollectionView *)scrollView isEqual:self.collectionView]) {
 		NSInteger numInterestGroups = self.interestGroupButtons.count;
 		CGFloat pageWidth = scrollView.contentSize.width / numInterestGroups;
-		NSInteger visiblePage = scrollView.contentOffset.x / pageWidth;
-		if (self.selectedGroupButtonIndex != visiblePage) {
-			self.selectedGroupButtonIndex = visiblePage;
-		}
+		NSInteger visiblePage = roundf(targetContentOffset->x / pageWidth);
+		self.selectedGroupButtonIndex = visiblePage;
+		
 		[self styleButtons];
 		[self loadReportbacks];
 	}
