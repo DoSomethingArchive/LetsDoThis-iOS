@@ -24,6 +24,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignListSectionType) {
     LDTCampaignListSectionTypeReportback
 };
 
+// Load error type used in conjunction with the epic fail controller
+typedef NS_ENUM(NSInteger, LDTLoadError) {
+	LDTLoadErrorCampaign,
+	LDTLoadErrorReportback
+};
+
 const CGFloat kHeightCollapsed = 150;
 const CGFloat kHeightExpanded = 420;
 
@@ -43,6 +49,8 @@ const CGFloat kHeightExpanded = 420;
 @property (weak, nonatomic) IBOutlet LDTButton *thirdGroupButton;
 @property (weak, nonatomic) IBOutlet LDTButton *fourthGroupButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, strong) NSDictionary *buttonInterestGroupsDict; // Mapping of button indexes to interest groups
+@property (nonatomic, assign) LDTLoadError loadErrorType; // Indicates whether load failed for campaigns or reportbacks
 
 - (IBAction)firstGroupButtonTouchUpInside:(id)sender;
 - (IBAction)secondGroupButtonTouchUpInside:(id)sender;
@@ -68,10 +76,16 @@ const CGFloat kHeightExpanded = 420;
     self.interestGroupIds = @[@667, @668, @669, @670];
 #endif
     self.interestGroupButtons = @[self.firstGroupButton, self.secondGroupButton, self.thirdGroupButton, self.fourthGroupButton];
+	
+	NSMutableDictionary *tempDict = [NSMutableDictionary dictionary];
     for (int i = 0; i < 4; i++) {
         LDTButton *aButton = self.interestGroupButtons[i];
         aButton.hidden = YES;
+		[tempDict setObject:self.interestGroupIds[i] forKey:@(i)];
     }
+	// Set the interest group ID to the button index position so we have a way to load reportbacks for the button index selected
+	self.buttonInterestGroupsDict = [NSDictionary dictionaryWithDictionary:tempDict];
+	
     self.selectedGroupButtonIndex = 0;
     self.selectedIndexPath = nil;
 
@@ -158,13 +172,17 @@ const CGFloat kHeightExpanded = 420;
             [self createInterestGroups];
 			
             // Display loaded campaigns to indicate signs of life.
-            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignListSectionTypeCampaign]];
+			[self.collectionView reloadData];
 			[SVProgressHUD dismiss];
+			
+			[self loadReportbacks];
         } errorHandler:^(NSError *error) {
             // @todo: Need to figure out case where we'd need to logout and push to user connect, if their session is borked.
+			self.loadErrorType = LDTLoadErrorCampaign;
             [self presentEpicFailForError:error];
         }];
     } errorHandler:^(NSError *error) {
+		self.loadErrorType = LDTLoadErrorCampaign;
         [self presentEpicFailForError:error];
     }];
 }
@@ -214,53 +232,36 @@ const CGFloat kHeightExpanded = 420;
     }
 }
 
--(void)loadReportbacksForCampaigns:(NSArray *)campaigns {
-	NSInteger totalAPICallCount = [self.interestGroups allKeys].count;
-	NSLog(@"totalAPICallCount: %lu", (unsigned long)totalAPICallCount);
-	__block NSUInteger completedAPICallCount = 0;
+-(void)loadReportbacks {
+	// Get the campaigns that we need to load for the currently selected button index.
+	NSInteger interestGroupToLoad = [self.buttonInterestGroupsDict[@(self.selectedGroupButtonIndex)] integerValue];
+	NSDictionary *interestGroupIdDict = self.interestGroups[@(interestGroupToLoad)];
+	NSArray *campaignsToLoad = interestGroupIdDict[@"campaigns"];
+	NSArray *rbItems = self.interestGroups[@(interestGroupToLoad)][@"reportbackItems"];
 	
-	NSMutableArray *errors = [[NSMutableArray alloc] initWithCapacity:totalAPICallCount];
-	
-	void (^reportBacksCompletionBlock)() = ^{
-		NSLog(@"completed reportback load: %lu", (unsigned long)completedAPICallCount);
-		++completedAPICallCount;
-		
-		if (completedAPICallCount != totalAPICallCount) {
-			return;
-		}
-		
-		if(errors.count > 0) {
-			NSLog(@"%zd error[s] occurred while executing API calls.", errors.count);
-			[self presentEpicFailForError:errors.firstObject];
-			return;
-		}
-		else {
-			NSLog(@"\n---All calls completed successfully---");
-			self.isMainFeedLoaded = YES;
-			[SVProgressHUD dismiss];
-			[[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
-			[self.collectionView reloadData];
-			LDTCampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-			[cell.innerCollectionView reloadData];
-		}
-		
-	};
-	
-	[SVProgressHUD showWithStatus:@"Loading photos..."];
-	for (NSNumber *key in self.interestGroups) {
-		NSLog(@"loadReportbackItemsForCampaigns: %@", key);
-		NSArray *reportbacksCampaigns = self.interestGroups[key][@"campaigns"];
-		[[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:reportbacksCampaigns status:@"promoted,approved" completionHandler:^(NSArray *rbItems) {
-			rbItems = [DSOReportbackItem sortReportbackItemsAsPromotedFirst:rbItems];
-			for (DSOReportbackItem *rbItem in rbItems) {
-				[self.interestGroups[key][@"reportbackItems"] addObject:rbItem];
-			}
-			reportBacksCompletionBlock();
-		} errorHandler:^(NSError *error) {
-			[errors addObject:error];
-			reportBacksCompletionBlock();
-		}];
+	// If we already have reportbacks for the button selected, just return. Currently assuming we would never have 0 reportbacks for all 3 campaigns
+	if (rbItems.count > 0) {
+		return;
 	}
+	[SVProgressHUD showWithStatus:@"Loading photos..."];
+	NSLog(@"loadReportbackItemsForCampaigns: %lu", interestGroupToLoad);
+
+	[[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:campaignsToLoad status:@"promoted,approved" completionHandler:^(NSArray *rbItems) {
+		rbItems = [DSOReportbackItem sortReportbackItemsAsPromotedFirst:rbItems];
+		for (DSOReportbackItem *rbItem in rbItems) {
+			[self.interestGroups[@(interestGroupToLoad)][@"reportbackItems"] addObject:rbItem];
+		}
+		self.isMainFeedLoaded = YES;
+		[SVProgressHUD dismiss];
+		[[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
+		[self.collectionView reloadData];
+		LDTCampaignCollectionViewCellContainer *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+		[cell.innerCollectionView reloadData];
+	} errorHandler:^(NSError *error) {
+		self.loadErrorType = LDTLoadErrorReportback;
+		
+		[self presentEpicFailForError:error];
+	}];
 }
 
 - (NSNumber *)selectedInterestGroupId {
@@ -345,13 +346,17 @@ const CGFloat kHeightExpanded = 420;
 		}
         [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
     }
+	
+	[self loadReportbacks];
 }
 
 #pragma mark - LDTEpicFailSubmitButtonDelegate
 
 - (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
-    [self loadMainFeed];
+	
+	// If last load error was for the campaigns, reload them; otherwise, reload the reportbacks
+	(self.loadErrorType == LDTLoadErrorCampaign) ? [self loadMainFeed] : [self loadReportbacks];
 }
 
 #pragma mark - LDTCampaignListCampaignCellDelegate
@@ -393,6 +398,7 @@ const CGFloat kHeightExpanded = 420;
 			self.selectedGroupButtonIndex = visiblePage;
 		}
 		[self styleButtons];
+		[self loadReportbacks];
 	}
 }
 
@@ -481,10 +487,6 @@ const CGFloat kHeightExpanded = 420;
 			return campaignCell;
 		}
 		if (indexPath.section == LDTCampaignListSectionTypeReportback) {
-			NSArray *reportbackItems = self.interestGroups[[self selectedInterestGroupId]][@"reportbackItems"];
-			if (reportbackItems.count > 0) {
-
-			}
 			LDTCampaignListReportbackItemCell *reportbackItemCell = (LDTCampaignListReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
 			[self configureReportbackItemCell:reportbackItemCell atIndexPath:indexPath];
 			
