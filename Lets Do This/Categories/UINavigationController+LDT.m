@@ -33,4 +33,18 @@
 
 }
 
+- (void)addCustomStatusBarView:(BOOL)isFullBackground {
+    UIImage *image;
+    if (isFullBackground) {
+        image = [UIImage imageNamed:@"Full Background"];
+    }
+    else {
+        image = [UIImage imageNamed:@"Header Background"];
+    }
+    UIView *addStatusBar = [[UIView alloc] init];
+    addStatusBar.frame = CGRectMake(0, -20, CGRectGetWidth(self.view.bounds), 20);
+    addStatusBar.backgroundColor = [UIColor colorWithPatternImage:image];
+    [self.navigationBar addSubview:addStatusBar];
+}
+
 @end

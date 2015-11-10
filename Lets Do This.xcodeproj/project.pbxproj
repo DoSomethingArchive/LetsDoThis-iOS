@@ -608,7 +608,7 @@
 				C2B151E71ACE04C30028C336 /* Resources */,
 				57A97D3FE5F4843F35259D92 /* Copy Pods Resources */,
 				568131DF1B730BA700FF9854 /* ShellScript */,
-				FEEEE8BC7F64C11F943BCA5A /* Embed Pods Frameworks */,
+				4235F3E4912DA954769AFE43 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -735,6 +735,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		4235F3E4912DA954769AFE43 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		568131DF1B730BA700FF9854 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -746,7 +761,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/Fabric.framework/run\" b5c3db6ecd3573a1a4c204ec71cae7498f676ddb e605234b0a5c7a6271829f1fd3ac9718f8d3b37404f523a1a30088ac53f3e94f";
+			shellScript = "\"${PODS_ROOT}/Fabric/Fabric.framework/run\" `defaults read \"$PWD\"/Lets\\ Do\\ This/keys.plist fabricApiKey` `defaults read \"$PWD\"/Lets\\ Do\\ This/keys.plist fabricBuildSecret`";
 		};
 		57A97D3FE5F4843F35259D92 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -761,21 +776,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FEEEE8BC7F64C11F943BCA5A /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

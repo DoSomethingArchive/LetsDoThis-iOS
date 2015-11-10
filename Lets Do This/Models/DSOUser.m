@@ -35,12 +35,12 @@
         self.userID = dict[@"_id"];
         // Hack to hotfix inconsistent API id property: https://github.com/DoSomething/LetsDoThis-iOS/issues/340
         if (!self.userID) {
-            self.userID = [dict valueForKeyAsString:@"id" nullValue:@"Null ID"];
+            self.userID = [dict valueForKeyAsString:@"id" nullValue:@"null-id"];
         }
         if ([dict objectForKey:@"country"]) {
             self.countryCode = dict[@"country"];
         }
-        self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Null First Name"];
+        self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Doer"];
         self.email = dict[@"email"];
         self.sessionToken = dict[@"session_token"];
         self.campaignSignups = [[NSMutableArray alloc] init];

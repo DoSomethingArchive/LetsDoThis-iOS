@@ -87,9 +87,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
 
-    CGRect rect = self.navigationController.navigationBar.frame;
-    float y = -rect.origin.y;
-    self.collectionView.contentInset = UIEdgeInsetsMake(y,0,0,0);
+    self.collectionView.contentInset = UIEdgeInsetsMake(0,0,0,0);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -124,12 +122,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)styleView {
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
-    if (self.campaign.isCoverImageDarkBackground) {
-         self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
-    }
-    else {
-         self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
-    }
 }
 
 - (void)fetchReportbackItems {

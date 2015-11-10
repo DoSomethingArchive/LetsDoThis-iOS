@@ -17,4 +17,6 @@ typedef NS_ENUM(NSInteger, LDTNavigationBarStyle) {
 
 - (void)styleNavigationBar:(LDTNavigationBarStyle)style;
 
+- (void)addCustomStatusBarView:(BOOL)isFullBackground;
+
 @end

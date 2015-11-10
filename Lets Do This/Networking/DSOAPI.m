@@ -74,6 +74,7 @@
         }
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];
+        self.requestSerializer.timeoutInterval = 30;
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [self.requestSerializer setValue:applicationId forHTTPHeaderField:@"X-DS-Application-Id"];
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
@@ -261,7 +262,7 @@
         [campaignIds addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];
     }
 
-    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?load_user=TRUE&status=%@&campaigns=%@", self.phoenixApiURL, status,[campaignIds componentsJoinedByString:@","]];
+    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?load_user=true&status=%@&campaigns=%@", self.phoenixApiURL, status,[campaignIds componentsJoinedByString:@","]];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSMutableArray *rbItems = [[NSMutableArray alloc] init];
