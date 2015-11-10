@@ -131,6 +131,7 @@
         [LDTMessage displayErrorMessageForString:@"Please enter a valid email."];
         return;
     }
+    [self.view endEditing:YES];
     [SVProgressHUD showWithStatus:@"Signing in..."];
     [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
         [SVProgressHUD dismiss];
