@@ -34,6 +34,9 @@
 // Fetches the current user from API and updates the user property. Called when user is first logged in, when app opens with a saved session, or when user posts Campaign activity (signup/reportback).
 - (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
+// Gets the campaignSignups for given user for all activeMobileAppCampaigns.
+- (void)loadActiveMobileAppCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+
 // Logs out the user and deletes the saved session tokens. Called when User logs out from Settings screen.
 - (void)endSessionWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 

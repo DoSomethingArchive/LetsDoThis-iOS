@@ -62,8 +62,7 @@ static NSString *cellIdentifier = @"rowCell";
         self.navigationItem.rightBarButtonItem = settingsButton;
     }
     else {
-        [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
-            self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+        [[DSOUserManager sharedInstance] loadActiveMobileAppCampaignSignupsForUser:self.user completionHandler:^{
             [self.tableView reloadData];
         } errorHandler:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];

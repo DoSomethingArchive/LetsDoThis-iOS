@@ -74,22 +74,35 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
     NSString *userID = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
-        [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
-            self.user.campaignSignups = [[NSMutableArray alloc] init];
-            for (DSOCampaignSignup *signup in campaignSignups) {
-                if ([self activeMobileAppCampaignWithId:signup.campaign.campaignID]) {
-                    [self.user.campaignSignups addObject:signup];
-                }
-            }
+        [self loadActiveMobileAppCampaignSignupsForUser:self.user completionHandler:^{
             self.isCurrentUserSync = YES;
             if (completionHandler) {
                 completionHandler();
             }
         } errorHandler:^(NSError *error) {
-            // nada
+            errorHandler(error);
         }];
+    } errorHandler:^(NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
+- (void)loadActiveMobileAppCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] loadCampaignSignupsForUser:user completionHandler:^(NSArray *campaignSignups) {
+        user.campaignSignups = [[NSMutableArray alloc] init];
+        for (DSOCampaignSignup *signup in campaignSignups) {
+            if ([self activeMobileAppCampaignWithId:signup.campaign.campaignID]) {
+                [user.campaignSignups addObject:signup];
+            }
+        }
+        if (completionHandler) {
+            completionHandler();
+        }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);
