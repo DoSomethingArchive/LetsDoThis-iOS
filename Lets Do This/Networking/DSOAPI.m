@@ -262,7 +262,7 @@
         [campaignIds addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];
     }
 
-    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?load_user=TRUE&status=%@&campaigns=%@", self.phoenixApiURL, status,[campaignIds componentsJoinedByString:@","]];
+    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?load_user=true&status=%@&campaigns=%@", self.phoenixApiURL, status,[campaignIds componentsJoinedByString:@","]];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSMutableArray *rbItems = [[NSMutableArray alloc] init];

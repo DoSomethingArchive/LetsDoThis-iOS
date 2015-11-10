@@ -35,7 +35,7 @@
         self.userID = dict[@"_id"];
         // Hack to hotfix inconsistent API id property: https://github.com/DoSomething/LetsDoThis-iOS/issues/340
         if (!self.userID) {
-            self.userID = [dict valueForKeyAsString:@"id" nullValue:@"Null ID"];
+            self.userID = [dict valueForKeyAsString:@"id" nullValue:@"null-id"];
         }
         if ([dict objectForKey:@"country"]) {
             self.countryCode = dict[@"country"];
