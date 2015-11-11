@@ -169,10 +169,12 @@
                         [LDTMessage displayErrorMessageForError:error];
                     }];
                 }
-                [SVProgressHUD dismiss];
-                [self dismissViewControllerAnimated:YES completion:nil];
-                LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
-                [rootVC loadMainFeed];
+                if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
+                    LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
+                    [rootVC dismissViewControllerAnimated:YES completion:^{
+                        [rootVC loadMainFeed];
+                    }];
+                }
             } errorHandler:^(NSError *error) {
                 [SVProgressHUD dismiss];
                 [LDTMessage displayErrorMessageForError:error];

@@ -16,6 +16,7 @@
 @interface LDTTabBarController ()
 
 @property (strong, nonatomic) LDTCampaignListViewController *campaignListViewController;
+@property (strong, nonatomic) UINavigationController *campaignListNavigationController;
 
 @end
 
@@ -35,11 +36,11 @@
         [profileNavVC addCustomStatusBarView:NO];
 
         self.campaignListViewController = [[LDTCampaignListViewController alloc] initWithNibName:@"LDTCampaignListView" bundle:nil];
-        UINavigationController *campaignListNavVC = [[UINavigationController alloc] initWithRootViewController:self.campaignListViewController];
-        campaignListNavVC.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
-        [campaignListNavVC addCustomStatusBarView:NO];
+        self.campaignListNavigationController = [[UINavigationController alloc] initWithRootViewController:self.campaignListViewController];
+        self.campaignListNavigationController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
+        [self.campaignListNavigationController addCustomStatusBarView:NO];
 
-        self.viewControllers = [NSArray arrayWithObjects:campaignListNavVC, profileNavVC, nil];
+        self.viewControllers = [NSArray arrayWithObjects:self.campaignListNavigationController, profileNavVC, nil];
     }
 	
     return self;
@@ -69,6 +70,7 @@
 # pragma mark - LDTTabBarController
 
 - (void)loadMainFeed {
+    [self.campaignListNavigationController popToRootViewControllerAnimated:YES];
     [self.campaignListViewController loadMainFeed];
 }
 

@@ -135,9 +135,12 @@
     [SVProgressHUD showWithStatus:@"Signing in..."];
     [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
         [SVProgressHUD dismiss];
-        [self dismissViewControllerAnimated:YES completion:nil];
-        LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
-        [rootVC loadMainFeed];
+        if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
+            LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
+            [rootVC dismissViewControllerAnimated:YES completion:^{
+                [rootVC loadMainFeed];
+            }];
+        }
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];

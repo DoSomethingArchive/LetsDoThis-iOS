@@ -10,6 +10,7 @@
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 #import "LDTSettingsViewController.h"
+#import "LDTTabBarController.h"
 #import "GAI+LDT.h"
 
 @interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -122,7 +123,8 @@ static NSString *cellIdentifier = @"rowCell";
     UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
     [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
     [LDTMessage setDefaultViewController:destVC];
-    [self presentViewController:destNavVC animated:YES completion:nil];
+    LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    [tabBar presentViewController:destNavVC animated:YES completion:nil];
 }
 
 #pragma mark -- UITableViewDataSource
