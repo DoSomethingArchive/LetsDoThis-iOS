@@ -21,6 +21,7 @@
 @property (strong, nonatomic, readwrite) NSString *reportbackVerb;
 @property (strong, nonatomic, readwrite) NSString *solutionCopy;
 @property (strong, nonatomic, readwrite) NSString *solutionSupportCopy;
+@property (strong, nonatomic, readwrite) NSString *status;
 @property (strong, nonatomic, readwrite) NSString *title;
 @property (strong, nonatomic, readwrite) NSString *tagline;
 @property (strong, nonatomic, readwrite) NSURL *coverImageURL;
@@ -45,6 +46,7 @@
         self.campaignID = [values valueForKeyAsInt:@"id" nullValue:self.campaignID];
         self.endDate = [[values valueForKeyPath:@"mobile_app.dates"] valueForKeyAsDate:@"end" nullValue:nil];
         self.title = [values valueForKeyAsString:@"title" nullValue:self.title];
+        self.status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
         self.tagline = [values valueForKeyAsString:@"tagline" nullValue:self.tagline];
         self.coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:self.coverImage];
         self.isCoverImageDarkBackground = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsBool:@"dark_background" nullValue:NO];

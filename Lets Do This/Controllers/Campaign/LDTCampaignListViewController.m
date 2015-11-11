@@ -36,7 +36,7 @@ const CGFloat kHeightExpanded = 420;
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate, LDTEpicFailSubmitButtonDelegate>
 
 @property (assign, nonatomic) BOOL isMainFeedLoaded;
-@property (strong, nonatomic) NSArray *allCampaigns;
+@property (strong, nonatomic) NSMutableArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
 @property (strong, nonatomic) NSArray *interestGroupIds;
 @property (strong, nonatomic) NSArray *interestGroupButtons;
@@ -164,11 +164,19 @@ const CGFloat kHeightExpanded = 420;
             [self presentEpicFailForNoCampaigns];
             return;
         }
-        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
+        self.allCampaigns = [[NSMutableArray alloc] init];
+        for (DSOCampaign *campaign in campaigns) {
+            if ([campaign.status isEqual:@"active"]) {
+                [self.allCampaigns addObject:campaign];
+            }
+            else {
+                NSLog(@"Not displaying Campaign ID %li, its status is set to %@.", (long)campaign.campaignID, campaign.status);
+            }
+        }
+
+        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:self.allCampaigns];
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
             NSLog(@"syncCurrentUserWithCompletionHandler");
-            self.allCampaigns = campaigns;
-            [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
             [self createInterestGroups];
 			
             // Display loaded campaigns to indicate signs of life.
