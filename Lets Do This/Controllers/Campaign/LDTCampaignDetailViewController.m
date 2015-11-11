@@ -391,7 +391,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     reportbackItem.image = info[UIImagePickerControllerEditedImage];
     LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithReportbackItem:reportbackItem];
     UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
-    [self.navigationController presentViewController:destNavVC animated:YES completion:nil];
+    [[[[[UIApplication sharedApplication] delegate] window] rootViewController] presentViewController:destNavVC animated:YES completion:nil];
 }
 
 @end
