@@ -85,9 +85,6 @@ const CGFloat kHeightExpanded = 420;
     }
 	// Set the interest group ID to the button index position so we have a way to load reportbacks for the button index selected
 	self.buttonInterestGroupsDict = [NSDictionary dictionaryWithDictionary:tempDict];
-	
-    self.selectedGroupButtonIndex = 0;
-    self.selectedIndexPath = nil;
 
 	[self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignCollectionViewCellContainer" bundle:nil] forCellWithReuseIdentifier:@"CellIdentifier"];
 
@@ -156,6 +153,9 @@ const CGFloat kHeightExpanded = 420;
 
 - (void)loadMainFeed {
     [SVProgressHUD showWithStatus:@"Loading actions..."];
+
+    self.selectedGroupButtonIndex = 0;
+    self.selectedIndexPath = nil;
 
     [[DSOAPI sharedInstance] loadCampaignsForTermIds:self.interestGroupIds completionHandler:^(NSArray *campaigns) {
         NSLog(@"loadCampaignsWithCompletionHandler");
@@ -252,6 +252,7 @@ const CGFloat kHeightExpanded = 420;
 			[self.interestGroups[@(interestGroupToLoad)][@"reportbackItems"] addObject:rbItem];
 		}
 		self.isMainFeedLoaded = YES;
+        [self styleButtons];
 		[SVProgressHUD dismiss];
 		[[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
 		[self.collectionView reloadData];
