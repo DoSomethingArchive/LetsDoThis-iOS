@@ -76,6 +76,8 @@
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModalViewControllerAnimated:)];
     [self styleRightBarButton];
+    
+    [self.captionTextField becomeFirstResponder];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
