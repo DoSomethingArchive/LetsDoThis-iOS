@@ -112,11 +112,16 @@ const CGFloat kHeightExpanded = 420;
     [self styleView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+}
+
 #pragma mark - LDTCampaignListViewController
 
 - (void)styleView {
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
-    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     [self styleButtons];
 }
 

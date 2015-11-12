@@ -46,6 +46,12 @@
     return self;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Full Background"]];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
 

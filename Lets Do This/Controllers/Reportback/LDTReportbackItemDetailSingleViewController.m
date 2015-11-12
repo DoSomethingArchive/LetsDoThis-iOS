@@ -43,23 +43,20 @@
     [self styleBackBarButton];
 
     [self configureReportbackItemDetailView];
+}
 
-    [self styleView];
+- (void)viewWillAppear:(BOOL)animated {
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
-    [self styleView];
 
     [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"reportback-item/%ld", (long)self.reportbackItem.reportbackItemID]];
 }
 
 #pragma mark - LDTReportbackItemDetailSingleViewController
 
-- (void)styleView {
-    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
-}
 
 - (void)configureReportbackItemDetailView {
     self.reportbackItemDetailView.delegate = self;

@@ -71,7 +71,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     self.imagePickerController.delegate = self;
     self.imagePickerController.allowsEditing = YES;
 
-    [self styleView];
     [self fetchReportbackItems];
     [LDTMessage setDefaultViewController:self];
 
@@ -88,6 +87,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [super viewDidLayoutSubviews];
 
     self.collectionView.contentInset = UIEdgeInsetsMake(0,0,0,0);
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -119,10 +124,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 }
 
 #pragma mark - LDTCampaignDetailViewController
-
-- (void)styleView {
-    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
-}
 
 - (void)fetchReportbackItems {
     NSArray *statusValues = @[@"promoted", @"approved"];
