@@ -71,6 +71,12 @@ static NSString *cellIdentifier = @"rowCell";
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
@@ -100,7 +106,6 @@ static NSString *cellIdentifier = @"rowCell";
 - (void)styleView {
     [self.avatarImageView addCircleFrame];
     self.headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
-    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
     [self styleBackBarButton];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
