@@ -71,7 +71,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     self.flowLayout.minimumInteritemSpacing = 0.0f;
     self.flowLayout.minimumLineSpacing = 0.0f;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
-    
+
     self.imagePickerController = [[UIImagePickerController alloc] init];
     self.imagePickerController.delegate = self;
     self.imagePickerController.allowsEditing = YES;
@@ -102,7 +102,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-        
+
+    self.navigationController.hidesBarsOnSwipe = YES;
+    [self.navigationController.barHideOnSwipeGestureRecognizer addTarget:self action:@selector(handleSwipeGestureRecognizer:)];
+
     NSString *screenStatus;
     if ([[self user] hasCompletedCampaign:self.campaign]) {
         screenStatus = @"completed";
@@ -128,11 +131,21 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    // Without this, iOS kindly changes toolbar to UIStatusBarStyleDefault when we scroll and hide the navigationBar (because we set self.navigationController.hidesBarsOnSwipe to YES).
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - LDTCampaignDetailViewController
 
 - (void)styleView {
     [self styleBackBarButton];
     self.collectionView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Full Background"]];
+}
+
+- (void)handleSwipeGestureRecognizer:(UISwipeGestureRecognizer *)recognizer {
+    // @see -(UIStatusBarStyle)preferredStatusBarStyle.
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)fetchReportbackItems {

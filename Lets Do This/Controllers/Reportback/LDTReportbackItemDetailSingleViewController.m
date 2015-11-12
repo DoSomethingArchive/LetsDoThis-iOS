@@ -52,6 +52,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
+    self.navigationController.hidesBarsOnSwipe = NO;
     [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"reportback-item/%ld", (long)self.reportbackItem.reportbackItemID]];
 }
 
