@@ -8,6 +8,7 @@
 
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTTheme.h"
+#import "LDTTabBarController.h"
 #import "GAI+LDT.h"
 
 @interface LDTSubmitReportbackViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -150,9 +151,11 @@
     self.reportbackItem.caption = self.captionTextField.text;
     self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
 
+    LDTTabBarController *rootVC = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
         [SVProgressHUD dismiss];
-        [[[[[UIApplication sharedApplication] delegate] window] rootViewController] dismissViewControllerAnimated:YES completion:^{
+        [LDTMessage setDefaultViewController:rootVC];
+        [rootVC dismissViewControllerAnimated:YES completion:^{
             [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.reportbackItem.campaign.title]];
         }];
 
