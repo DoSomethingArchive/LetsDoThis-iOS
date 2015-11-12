@@ -121,7 +121,7 @@ const CGFloat kHeightExpanded = 420;
 #pragma mark - LDTCampaignListViewController
 
 - (void)styleView {
-    [self.collectionView setBackgroundColor:[UIColor clearColor]];
+    self.collectionView.backgroundColor = [UIColor whiteColor];
     [self styleButtons];
 }
 
