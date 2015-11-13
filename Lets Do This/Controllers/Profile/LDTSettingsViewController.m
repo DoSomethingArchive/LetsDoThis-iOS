@@ -188,6 +188,6 @@
 
 - (IBAction)submitIdeasButtonTouchUpInside:(id)sender {
     [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on ideas form" label:nil value:nil];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.dosomething.org/campaigns/submit-your-idea"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.dosomething.org/about/submit-your-campaign-idea"]];
 }
 @end
