@@ -75,6 +75,7 @@ static NSString *cellIdentifier = @"rowCell";
     [super viewWillAppear:animated];
 
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

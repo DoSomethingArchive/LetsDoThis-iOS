@@ -116,6 +116,7 @@ const CGFloat kHeightExpanded = 420;
     [super viewWillAppear:animated];
 
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 #pragma mark - LDTCampaignListViewController
