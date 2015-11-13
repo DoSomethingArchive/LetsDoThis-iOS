@@ -9,6 +9,7 @@
 #import "DSOUserManager.h"
 #import <SSKeychain/SSKeychain.h>
 #import "GAI+LDT.h"
+#import <Crashlytics/Crashlytics.h>
 
 NSString *const avatarFileNameString = @"LDTStoredAvatar.jpeg";
 NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
@@ -37,6 +38,16 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 #pragma mark - DSOUserManager
+
+- (void)setUser:(DSOUser *)user {
+    _user = user;
+    if (user) {
+        [[Crashlytics sharedInstance] setUserIdentifier:user.userID];
+    }
+    else {
+        [[Crashlytics sharedInstance] setUserIdentifier:nil];
+    }
+}
 
 - (BOOL)userHasCachedSession {
     NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
