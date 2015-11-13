@@ -17,7 +17,7 @@
     self.layer.borderColor = [UIColor whiteColor].CGColor;
 }
 
-- (void)addGrayTint {
+- (void)addGrayTintForFullScreenWidthImageView {
     CALayer *sublayer = [CALayer layer];
     sublayer.backgroundColor = [UIColor blackColor].CGColor;
     sublayer.opacity = 0.3;
