@@ -83,7 +83,7 @@
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointMake(0,0)];
     [path addLineToPoint:CGPointMake(0, 26)];
-    [path addLineToPoint:CGPointMake(self.campaignDetailsView.frame.size.width, 0)];
+    [path addLineToPoint:CGPointMake(CGRectGetWidth([UIScreen mainScreen].bounds), 0)];
     [path closePath];
     layer.path = path.CGPath;
     layer.fillColor = [UIColor whiteColor].CGColor;
