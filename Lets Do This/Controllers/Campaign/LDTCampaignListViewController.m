@@ -51,6 +51,7 @@ const CGFloat kHeightExpanded = 420;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) NSDictionary *buttonInterestGroupsDict; // Mapping of button indexes to interest groups
 @property (nonatomic, assign) LDTLoadError loadErrorType; // Indicates whether load failed for campaigns or reportbacks
+@property (nonatomic, strong) NSMutableDictionary *cellStateDict; // Manage expanded indexpath(s)
 
 - (IBAction)firstGroupButtonTouchUpInside:(id)sender;
 - (IBAction)secondGroupButtonTouchUpInside:(id)sender;
@@ -76,6 +77,7 @@ const CGFloat kHeightExpanded = 420;
     self.interestGroupIds = @[@667, @668, @669, @670];
 #endif
     self.interestGroupButtons = @[self.firstGroupButton, self.secondGroupButton, self.thirdGroupButton, self.fourthGroupButton];
+	self.cellStateDict = [NSMutableDictionary dictionary];
 	
 	NSMutableDictionary *tempDict = [NSMutableDictionary dictionary];
     for (int i = 0; i < 4; i++) {
@@ -288,6 +290,9 @@ const CGFloat kHeightExpanded = 420;
 	if (!self.selectedIndexPath && cell.isExpanded) {
 		cell.expanded = NO;
 	}
+	if ([self.cellStateDict[@"expandedIndexPath"] isEqual:indexPath]) {
+		cell.expanded = YES;
+	}
     NSArray *campaigns = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
     DSOCampaign *campaign = (DSOCampaign *)campaigns[indexPath.row];
     cell.campaign = campaign;
@@ -352,6 +357,7 @@ const CGFloat kHeightExpanded = 420;
 		// Scroll horizontally to selected interest group--self.collectionView manages all container cells, which hold campaigns/reportbacks for each
 		// interest group
 		[self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.selectedGroupButtonIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+		[self.cellStateDict removeObjectForKey:@"expandedIndexPath"];
 		
 		// To scroll each section up to the top on a button press, we have to get the container cell's inner collection view and scroll it to the top,
 		// but only if it's been displayed once, otherwise it doesn't have a cell at that indexpath and we crash
@@ -439,6 +445,7 @@ const CGFloat kHeightExpanded = 420;
         [collectionView performBatchUpdates:^{
             if ([self.selectedIndexPath isEqual:indexPath]) {
                 self.selectedIndexPath = nil;
+				[self.cellStateDict removeObjectForKey:@"expandedIndexPath"];
                 campaignCell.expanded = NO;
                 [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"collapse campaign cell" label:[NSString stringWithFormat:@"%li", (long)campaignCell.campaign.campaignID] value:nil];
             }
@@ -447,6 +454,7 @@ const CGFloat kHeightExpanded = 420;
                 self.selectedIndexPath = indexPath;
                 expandedCell.expanded = NO;
                 campaignCell.expanded = YES;
+				self.cellStateDict[@"expandedIndexPath"] = indexPath;
                 [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"expand campaign cell" label:[NSString stringWithFormat:@"%li", (long)campaignCell.campaign.campaignID] value:nil];
             }
         } completion:^(BOOL finished) {
