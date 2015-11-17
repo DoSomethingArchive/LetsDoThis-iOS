@@ -61,12 +61,14 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 - (void)setTitleLabelText:(NSString *)titleLabelText {
     self.titleLabel.text = [titleLabelText uppercaseString];
 
-    // Get height of label after dynamic text is set, then set the constraint to center the text
-    CGFloat labelHeight = [self.titleLabel sizeThatFits:CGSizeMake(CGRectGetWidth(self.bounds), NSIntegerMax)].height;
-    self.titleLabelTopLayoutConstraint.constant = CGRectGetMidY(self.bounds) - labelHeight/2;
-
-    // Store that value to use when we animate the cell back to the collapsed state
-    self.collapsedTitleLabelTopLayoutConstraintConstant = self.titleLabelTopLayoutConstraint.constant;
+	if (!self.expanded) {
+		// Get height of label after dynamic text is set, then set the constraint to center the text
+		CGFloat labelHeight = [self.titleLabel sizeThatFits:CGSizeMake(CGRectGetWidth(self.bounds), NSIntegerMax)].height;
+		self.titleLabelTopLayoutConstraint.constant = CGRectGetMidY(self.bounds) - labelHeight/2;
+		
+		// Store that value to use when we animate the cell back to the collapsed state
+		self.collapsedTitleLabelTopLayoutConstraintConstant = self.titleLabelTopLayoutConstraint.constant;
+	}
 }
 
 - (void)setTaglineLabelText:(NSString *)taglineLabelText {
