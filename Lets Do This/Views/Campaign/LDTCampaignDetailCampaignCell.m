@@ -52,11 +52,13 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
 
+    // Subtract 16 for left/right margins of 8.
     CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds) - 16;
     self.solutionCopyLabel.preferredMaxLayoutWidth = width;
     self.solutionSupportCopyLabel.preferredMaxLayoutWidth = width;
     self.staticInstructionLabel.preferredMaxLayoutWidth = width;
-    self.taglineLabel.preferredMaxLayoutWidth = width;
+    // Subtract 42 for left/right margins of 21.
+    self.taglineLabel.preferredMaxLayoutWidth = CGRectGetWidth([UIScreen mainScreen].bounds) - 42;
 }
 
 #pragma mark - LDTCampaignDetailCampaignCell
