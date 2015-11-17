@@ -288,6 +288,9 @@ const CGFloat kHeightExpanded = 420;
 	if (!self.selectedIndexPath && cell.isExpanded) {
 		cell.expanded = NO;
 	}
+    else if ([self.selectedIndexPath isEqual:indexPath]) {
+        cell.expanded = YES;
+    }
     NSArray *campaigns = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
     DSOCampaign *campaign = (DSOCampaign *)campaigns[indexPath.row];
     cell.campaign = campaign;
