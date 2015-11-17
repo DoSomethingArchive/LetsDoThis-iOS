@@ -210,11 +210,14 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
     NSError *error;
-    if ([fileManager removeItemAtPath:filePath error:&error]) {
-        NSLog(@"Successfully deleted file: %@ ", avatarFileNameString);
-    }
-    else {
-        NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
+    
+    if ([fileManager fileExistsAtPath:filePath]) {
+        if ([fileManager removeItemAtPath:filePath error:&error]) {
+            NSLog(@"Successfully deleted file: %@ ", avatarFileNameString);
+        }
+        else {
+            NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
+        }
     }
 }
 
