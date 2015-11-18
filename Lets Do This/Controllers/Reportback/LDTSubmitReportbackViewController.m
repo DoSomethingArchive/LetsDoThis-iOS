@@ -154,15 +154,13 @@
     LDTTabBarController *rootVC = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
         [SVProgressHUD dismiss];
-        [LDTMessage setDefaultViewController:rootVC];
         [rootVC dismissViewControllerAnimated:YES completion:^{
             [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.reportbackItem.campaign.title]];
         }];
 
     } errorHandler:^(NSError *error) {
-        [LDTMessage setDefaultViewController:self.navigationController];
         [SVProgressHUD dismiss];
-        [LDTMessage displayErrorMessageForError:error];
+        [LDTMessage displayErrorMessageForError:error viewController:self];
     }];
 }
 

@@ -11,15 +11,19 @@
 
 @implementation LDTMessage
 
-+(void)displayErrorMessageForString:(NSString *)title {
++ (void)displayErrorMessageForString:(NSString *)title {
     [TSMessage showNotificationInViewController:[TSMessage defaultViewController] title:title subtitle:nil image:nil type:TSMessageNotificationTypeError duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
 }
 
-+(void)displayErrorMessageForError:(NSError *)error {
-    [TSMessage showNotificationInViewController:[TSMessage defaultViewController] title:[error readableTitle] subtitle:[error readableMessage] image:nil type:TSMessageNotificationTypeError duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
++ (void)displayErrorMessageForError:(NSError *)error {
+    [self displayErrorMessageForError:error viewController:[TSMessage defaultViewController]];
 }
 
-+(void)displaySuccessMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle {
++ (void)displayErrorMessageForError:(NSError *)error viewController:(UIViewController *)viewController {
+    [TSMessage showNotificationInViewController:viewController title:[error readableTitle] subtitle:[error readableMessage] image:nil type:TSMessageNotificationTypeError duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
+}
+
++ (void)displaySuccessMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle {
     [TSMessage showNotificationInViewController:[TSMessage defaultViewController] title:title subtitle:subtitle image:nil type:TSMessageNotificationTypeSuccess duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
 
 }

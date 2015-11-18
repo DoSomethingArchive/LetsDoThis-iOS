@@ -10,8 +10,9 @@
 
 @interface LDTMessage : TSMessage
 
-+(void)displayErrorMessageForString:(NSString *)title;
-+(void)displayErrorMessageForError:(NSError *)error;
-+(void)displaySuccessMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
++ (void)displayErrorMessageForString:(NSString *)title;
++ (void)displayErrorMessageForError:(NSError *)error;
++ (void)displayErrorMessageForError:(NSError *)error viewController:(UIViewController *)viewController;
++ (void)displaySuccessMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
 
 @end
