@@ -12,7 +12,7 @@
 
 + (void)displayErrorMessageWithTitle:(NSString *)title;
 + (void)displayErrorMessageForError:(NSError *)error;
-+ (void)displayErrorMessageForError:(NSError *)error viewController:(UIViewController *)viewController;
++ (void)displayErrorMessageInViewController:(UIViewController *)viewController error:(NSError *)error;
 + (void)displaySuccessMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
 + (void)displaySuccessMessageInViewController:(UIViewController *)viewController title:(NSString *)title subtitle:(NSString *)subtitle;
 @end

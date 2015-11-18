@@ -16,10 +16,10 @@
 }
 
 + (void)displayErrorMessageForError:(NSError *)error {
-    [self displayErrorMessageForError:error viewController:[TSMessage defaultViewController]];
+    [self displayErrorMessageInViewController:[TSMessage defaultViewController] error:error];
 }
 
-+ (void)displayErrorMessageForError:(NSError *)error viewController:(UIViewController *)viewController {
++ (void)displayErrorMessageInViewController:(UIViewController *)viewController error:(NSError *)error {
     [TSMessage showNotificationInViewController:viewController title:[error readableTitle] subtitle:[error readableMessage] image:nil type:TSMessageNotificationTypeError duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
 }
 

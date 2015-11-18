@@ -160,7 +160,7 @@
 
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
-        [LDTMessage displayErrorMessageForError:error viewController:self];
+        [LDTMessage displayErrorMessageInViewController:self error:error];
     }];
 }
 
