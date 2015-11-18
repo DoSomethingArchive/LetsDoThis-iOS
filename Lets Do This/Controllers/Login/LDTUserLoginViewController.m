@@ -128,7 +128,7 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if (![self validateEmailForCandidate:self.emailTextField.text]) {
-        [LDTMessage displayErrorMessageForString:@"Please enter a valid email."];
+        [LDTMessage displayErrorMessageWithTitle:@"Please enter a valid email."];
         return;
     }
     [self.view endEditing:YES];

@@ -315,7 +315,7 @@
     }
     if (errorMessages.count > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
-        [LDTMessage displayErrorMessageForString:errorMessage];
+        [LDTMessage displayErrorMessageWithTitle:errorMessage];
         return NO;
     }
     return YES;
