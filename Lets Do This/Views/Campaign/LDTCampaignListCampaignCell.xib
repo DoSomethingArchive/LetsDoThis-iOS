@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -36,7 +36,7 @@
                         <rect key="frame" x="0.0" y="242" width="385" height="158"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEa-dR-bea" userLabel="Campaign Tagline">
-                                <rect key="frame" x="8" y="16" width="369" height="21"/>
+                                <rect key="frame" x="21" y="16" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -93,8 +93,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="D5G-Kr-aLa" firstAttribute="top" secondItem="vEa-dR-bea" secondAttribute="bottom" constant="16" id="DCM-TH-Ls5"/>
-                            <constraint firstItem="vEa-dR-bea" firstAttribute="leading" secondItem="rcw-DX-Omy" secondAttribute="leading" constant="8" id="Ex3-iC-1aV"/>
-                            <constraint firstAttribute="trailing" secondItem="vEa-dR-bea" secondAttribute="trailing" constant="8" id="Gb4-2Y-Xxh"/>
+                            <constraint firstItem="vEa-dR-bea" firstAttribute="leading" secondItem="rcw-DX-Omy" secondAttribute="leading" constant="21" id="Ex3-iC-1aV"/>
+                            <constraint firstAttribute="trailing" secondItem="vEa-dR-bea" secondAttribute="trailing" constant="21" id="Gb4-2Y-Xxh"/>
                             <constraint firstAttribute="trailing" secondItem="D5G-Kr-aLa" secondAttribute="trailing" constant="8" id="Hsz-p7-JNi"/>
                             <constraint firstAttribute="height" constant="158" id="P2i-IF-zNH"/>
                             <constraint firstItem="vEa-dR-bea" firstAttribute="top" secondItem="rcw-DX-Omy" secondAttribute="top" constant="16" id="eep-p8-Gtj"/>
