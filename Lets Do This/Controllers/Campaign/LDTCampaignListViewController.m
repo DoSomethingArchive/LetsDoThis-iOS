@@ -392,11 +392,9 @@ const CGFloat kHeightExpanded = 420;
             cell.actionButtonTitle = @"More info";
             [self.navigationController pushViewController:destVC animated:YES];
             [SVProgressHUD dismiss];
-            [LDTMessage setDefaultViewController:self.navigationController];
             [LDTMessage displaySuccessMessageWithTitle:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", cell.campaign.title]];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
-            [TSMessage setDefaultViewController:self];
             [LDTMessage displayErrorMessageForError:error];
         }];
     }
