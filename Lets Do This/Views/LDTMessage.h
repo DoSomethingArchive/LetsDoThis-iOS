@@ -14,5 +14,5 @@
 + (void)displayErrorMessageForError:(NSError *)error;
 + (void)displayErrorMessageForError:(NSError *)error viewController:(UIViewController *)viewController;
 + (void)displaySuccessMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
-
++ (void)displaySuccessMessageInViewController:(UIViewController *)viewController title:(NSString *)title subtitle:(NSString *)subtitle;
 @end

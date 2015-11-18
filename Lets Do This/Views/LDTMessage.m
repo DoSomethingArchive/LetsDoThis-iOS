@@ -24,8 +24,12 @@
 }
 
 + (void)displaySuccessMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle {
-    [TSMessage showNotificationInViewController:[TSMessage defaultViewController] title:title subtitle:subtitle image:nil type:TSMessageNotificationTypeSuccess duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
+    [self displaySuccessMessageInViewController:[TSMessage defaultViewController] title:title subtitle:subtitle];
 
+}
+
++ (void)displaySuccessMessageInViewController:(UIViewController *)viewController title:(NSString *)title subtitle:(NSString *)subtitle {
+    [TSMessage showNotificationInViewController:[TSMessage defaultViewController] title:title subtitle:subtitle image:nil type:TSMessageNotificationTypeSuccess duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
 }
 
 @end
