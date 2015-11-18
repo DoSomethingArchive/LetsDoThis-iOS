@@ -128,7 +128,7 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if (![self validateEmailForCandidate:self.emailTextField.text]) {
-        [LDTMessage displayErrorMessageWithTitle:@"Please enter a valid email."];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Please enter a valid email."];
         return;
     }
     [self.view endEditing:YES];
@@ -144,7 +144,7 @@
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];
-        [LDTMessage displayErrorMessageForError:error];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
         [self.emailTextField setBorderColor:[UIColor redColor]];
     }];
 }

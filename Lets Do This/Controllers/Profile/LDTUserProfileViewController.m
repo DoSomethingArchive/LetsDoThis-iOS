@@ -128,7 +128,6 @@ static NSString *cellIdentifier = @"rowCell";
     LDTSettingsViewController *destVC = [[LDTSettingsViewController alloc] initWithNibName:@"LDTSettingsView" bundle:nil];
     UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
     [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
-    [LDTMessage setDefaultViewController:destVC];
     LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [tabBar presentViewController:destNavVC animated:YES completion:nil];
 }
