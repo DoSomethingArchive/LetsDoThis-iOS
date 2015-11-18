@@ -319,8 +319,8 @@ const CGFloat kHeightExpanded = 420;
 
 - (void)configureReportbackItemCell:(LDTCampaignListReportbackItemCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     NSArray *reportbackItems = self.interestGroups[[self selectedInterestGroupId]][@"reportbackItems"];
-    DSOReportbackItem *reportbackItem = (DSOReportbackItem *)reportbackItems[indexPath.row];
-	if (reportbackItem) {
+	if (reportbackItems.count > indexPath.row) {
+		DSOReportbackItem *reportbackItem = (DSOReportbackItem *)reportbackItems[indexPath.row];
 		cell.reportbackItem = reportbackItem;
 		cell.reportbackItemImageURL = reportbackItem.imageURL;
 	}
