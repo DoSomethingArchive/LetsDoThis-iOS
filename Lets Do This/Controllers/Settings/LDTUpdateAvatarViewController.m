@@ -38,7 +38,6 @@
     self.imagePickerController.allowsEditing = YES;
 
     [self styleView];
-    [LDTMessage setDefaultViewController:self];
 }
 
 # pragma mark - LDTUpdateAvatarViewController
@@ -82,8 +81,9 @@
     [SVProgressHUD showWithStatus:@"Uploading..."];
     [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
         [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
+        [self.navigationController popViewControllerAnimated:YES];
         [SVProgressHUD dismiss];
-        [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'." subtitle:@"You've successfully changed your profile photo."];
+        [LDTMessage displaySuccessMessageInViewController:self.navigationController title:@"Hey good lookin'." subtitle:@"You've successfully changed your profile photo."];
         NSLog(@"Successful user avatar upload: %@", responseObject);
     } errorHandler:^(NSError * error) {
         [SVProgressHUD dismiss];

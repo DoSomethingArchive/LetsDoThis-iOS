@@ -77,7 +77,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     self.imagePickerController.allowsEditing = YES;
 
     [self fetchReportbackItems];
-    [LDTMessage setDefaultViewController:self];
 
     if ([[self user] hasCompletedCampaign:self.campaign]) {
         for (DSOCampaignSignup *signup in [self user].campaignSignups) {

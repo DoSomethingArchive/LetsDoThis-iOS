@@ -166,7 +166,7 @@
                     [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
                         NSLog(@"Successful user avatar upload: %@", responseObject);
                     } errorHandler:^(NSError * error) {
-                        [LDTMessage displayErrorMessageForError:error];
+                        NSLog(@"Unsuccessful user avatar upload: %@", error.localizedDescription);
                     }];
                 }
                 if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
@@ -177,12 +177,12 @@
                 }
             } errorHandler:^(NSError *error) {
                 [SVProgressHUD dismiss];
-                [LDTMessage displayErrorMessageForError:error];
+                [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
             }];
 
         } failure:^(NSError *error) {
             [SVProgressHUD dismiss];
-            [LDTMessage displayErrorMessageForError:error];
+            [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
         }];
     }
     else {
@@ -315,7 +315,7 @@
     }
     if (errorMessages.count > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
-        [LDTMessage displayErrorMessageForString:errorMessage];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage];
         return NO;
     }
     return YES;

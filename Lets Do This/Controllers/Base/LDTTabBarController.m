@@ -67,7 +67,6 @@
         }
         [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
         [self presentViewController:destNavVC animated:YES completion:nil];
-        [TSMessage setDefaultViewController:destNavVC];
     }
 }
 

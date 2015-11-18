@@ -159,7 +159,6 @@
             [SVProgressHUD dismiss];
             [self.navigationController pushViewController:[[LDTUserConnectViewController alloc] init] animated:YES];
             [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
-            [LDTMessage setDefaultViewController:self.navigationController];
             // Now that tabBar is hidden, select the first tab, so it will be the first tab selected upon next login.
             LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
             [tabBar setSelectedIndex:0];
