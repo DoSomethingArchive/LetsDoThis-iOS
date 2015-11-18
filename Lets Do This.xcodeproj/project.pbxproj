@@ -208,8 +208,8 @@
 		C2B1520B1ACE04C30028C336 /* Lets_Do_ThisTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Lets_Do_ThisTests.m; sourceTree = "<group>"; };
 		C2B152171ACE05510028C336 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C2B152181ACE05510028C336 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C2B152361ACE0BB50028C336 /* LDTSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTSettingsViewController.h; path = Profile/LDTSettingsViewController.h; sourceTree = "<group>"; };
-		C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTSettingsViewController.m; path = Profile/LDTSettingsViewController.m; sourceTree = "<group>"; };
+		C2B152361ACE0BB50028C336 /* LDTSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTSettingsViewController.h; path = Settings/LDTSettingsViewController.h; sourceTree = "<group>"; };
+		C2B152371ACE0BB50028C336 /* LDTSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTSettingsViewController.m; path = Settings/LDTSettingsViewController.m; sourceTree = "<group>"; };
 		EA0353301BAC63BA00D2B987 /* LDTMessageDefaultDesign.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LDTMessageDefaultDesign.json; sourceTree = "<group>"; };
 		EA5C9F191B694712001D3EEA /* UITextField+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+LDT.h"; sourceTree = "<group>"; };
 		EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+LDT.m"; sourceTree = "<group>"; };
