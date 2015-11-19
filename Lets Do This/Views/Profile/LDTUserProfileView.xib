@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserProfileViewController">
@@ -10,6 +11,7 @@
                 <outlet property="headerView" destination="PsE-uh-AxY" id="oKI-hs-1o3"/>
                 <outlet property="nameLabel" destination="O39-w4-qp5" id="rUF-79-a3D"/>
                 <outlet property="tableView" destination="dZd-rn-Ulf" id="Qf6-js-ieG"/>
+                <outlet property="uploadAvatarButton" destination="fef-pX-RO2" id="nct-Qc-nWn"/>
                 <outlet property="view" destination="iN0-l3-epB" id="try-AF-3Wj"/>
             </connections>
         </placeholder>
@@ -21,8 +23,17 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PsE-uh-AxY" userLabel="Header View">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="174"/>
                     <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fef-pX-RO2" userLabel="Upload Avatar Button">
+                            <rect key="frame" x="263" y="44" width="75" height="75"/>
+                            <animations/>
+                            <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="uploadAvatarButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="Dal-Pe-BY2"/>
+                            </connections>
+                        </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZTn-ki-kwg" userLabel="User Avatar">
                             <rect key="frame" x="263" y="44" width="75" height="75"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="75" id="m7Q-I7-WIq"/>
                                 <constraint firstAttribute="width" constant="75" id="nwk-rj-PI3"/>
@@ -30,23 +41,30 @@
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O39-w4-qp5" userLabel="User Display Name">
                             <rect key="frame" x="8" y="129" width="584" height="21"/>
+                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="O39-w4-qp5" secondAttribute="trailing" constant="8" id="7pr-3Z-Bz8"/>
                         <constraint firstAttribute="bottom" secondItem="O39-w4-qp5" secondAttribute="bottom" constant="24" id="D49-3e-zH4"/>
                         <constraint firstAttribute="centerX" secondItem="ZTn-ki-kwg" secondAttribute="centerX" id="L2z-D9-cT1"/>
                         <constraint firstItem="O39-w4-qp5" firstAttribute="leading" secondItem="PsE-uh-AxY" secondAttribute="leading" constant="8" id="QfD-Mf-UlP"/>
+                        <constraint firstItem="fef-pX-RO2" firstAttribute="height" secondItem="ZTn-ki-kwg" secondAttribute="height" id="T9T-YQ-njh"/>
+                        <constraint firstItem="fef-pX-RO2" firstAttribute="width" secondItem="ZTn-ki-kwg" secondAttribute="width" id="jwa-kV-s2d"/>
                         <constraint firstItem="O39-w4-qp5" firstAttribute="top" secondItem="ZTn-ki-kwg" secondAttribute="bottom" constant="10" id="nDz-o0-WeS"/>
+                        <constraint firstItem="fef-pX-RO2" firstAttribute="centerX" secondItem="ZTn-ki-kwg" secondAttribute="centerX" id="sI5-XW-fMX"/>
                         <constraint firstItem="ZTn-ki-kwg" firstAttribute="top" secondItem="PsE-uh-AxY" secondAttribute="top" constant="44" id="tZM-WZ-DmY"/>
+                        <constraint firstItem="fef-pX-RO2" firstAttribute="centerY" secondItem="ZTn-ki-kwg" secondAttribute="centerY" id="xqS-1e-W7B"/>
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dZd-rn-Ulf" userLabel="Campaigns TableView">
                     <rect key="frame" x="0.0" y="174" width="600" height="426"/>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="l2t-DZ-Chh"/>
@@ -54,6 +72,7 @@
                     </connections>
                 </tableView>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="PsE-uh-AxY" secondAttribute="trailing" id="7cd-Vf-cwM"/>
