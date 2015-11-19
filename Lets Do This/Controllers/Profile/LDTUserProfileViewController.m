@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UIButton *uploadAvatarButton;
+
 - (IBAction)uploadAvatarButtonTouchUpInside:(id)sender;
 
 @end

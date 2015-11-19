@@ -21,9 +21,7 @@
 
 // Properties listed in order of their appearance in the view.
 @property (weak, nonatomic) IBOutlet UILabel *accountHeadingLabel;
-// @todo: Remove changePhotoView UIView outlet
-@property (weak, nonatomic) IBOutlet UIView *changePhotoView;
-@property (weak, nonatomic) IBOutlet UILabel *changePhotoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *loggedInEmailLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *logoutView;
 @property (weak, nonatomic) IBOutlet UILabel *logoutLabel;
@@ -92,9 +90,8 @@
     self.accountHeadingLabel.font = [LDTTheme fontBold];
     self.accountHeadingLabel.textColor = [LDTTheme mediumGrayColor];
 
-    // @todo: Rename changePhotoLabel
-    self.changePhotoLabel.font = [LDTTheme font];
-    self.changePhotoLabel.text = [NSString stringWithFormat:@"Logged in as %@", [DSOUserManager sharedInstance].user.email];
+    self.loggedInEmailLabel.font = [LDTTheme font];
+    self.loggedInEmailLabel.text = [NSString stringWithFormat:@"Logged in as %@", [DSOUserManager sharedInstance].user.email];
     
     self.logoutLabel.font = [LDTTheme font];
     
