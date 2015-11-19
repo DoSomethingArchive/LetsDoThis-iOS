@@ -123,19 +123,15 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 - (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
-        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
-        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
-        [self deleteAvatar];
-        self.user = nil;
-        self.isCurrentUserSync = NO;
+        [self deleteCurrentUser];
         if (completionHandler) {
             completionHandler();
         }
     } errorHandler:^(NSError *error) {
-        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
-        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
-        [self deleteAvatar];
-        self.user = nil;
+        // Only perform logout tasks if error is NOT a lack of connectivity.
+        if (error.code != -1009) {
+            [self deleteCurrentUser];
+        }
         if (errorHandler) {
             errorHandler(error);
         }
@@ -173,6 +169,14 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
             errorHandler(error);
         }
     }];
+}
+
+- (void)deleteCurrentUser {
+    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+    [self deleteAvatar];
+    self.user = nil;
+    self.isCurrentUserSync = NO;
 }
 
 - (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID {
