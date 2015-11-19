@@ -12,7 +12,6 @@
 #import "LDTMessage.h"
 #import "LDTTheme.h"
 #import "LDTUserConnectViewController.h"
-#import "LDTUpdateAvatarViewController.h"
 #import "LDTTabBarController.h"
 #import "GAI+LDT.h"
 
