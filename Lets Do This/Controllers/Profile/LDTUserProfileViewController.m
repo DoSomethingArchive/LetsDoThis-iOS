@@ -139,6 +139,7 @@ static NSString *cellIdentifier = @"rowCell";
 }
 
 - (IBAction)uploadAvatarButtonTouchUpInside:(id)sender {
+    [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"change avatar" label:nil value:nil];
     UIAlertController *avatarAlertController = [UIAlertController alertControllerWithTitle:@"Set your photo" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
 
     UIAlertAction *cameraAlertAction;

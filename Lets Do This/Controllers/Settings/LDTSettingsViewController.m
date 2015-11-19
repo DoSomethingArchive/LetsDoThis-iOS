@@ -22,9 +22,10 @@
 
 // Properties listed in order of their appearance in the view.
 @property (weak, nonatomic) IBOutlet UILabel *accountHeadingLabel;
+// @todo: Remove changePhotoView UIView outlet
 @property (weak, nonatomic) IBOutlet UIView *changePhotoView;
 @property (weak, nonatomic) IBOutlet UILabel *changePhotoLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *changePhotoArrowImageView;
+
 @property (weak, nonatomic) IBOutlet UIView *logoutView;
 @property (weak, nonatomic) IBOutlet UILabel *logoutLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsHeadingLabel;
@@ -60,8 +61,6 @@
 
     [self styleView];
 
-    UITapGestureRecognizer *changePhotoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleChangePhotoTap:)];
-    [self.changePhotoView addGestureRecognizer:changePhotoTap];
     UITapGestureRecognizer *logoutTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleLogoutTap:)];
     [self.logoutView addGestureRecognizer:logoutTap];
     UITapGestureRecognizer *notificationSwitchTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleNotificationSwitchTap:)];
@@ -93,9 +92,10 @@
 
     self.accountHeadingLabel.font = [LDTTheme fontBold];
     self.accountHeadingLabel.textColor = [LDTTheme mediumGrayColor];
-    
+
+    // @todo: Rename changePhotoLabel
     self.changePhotoLabel.font = [LDTTheme font];
-    self.changePhotoArrowImageView.image = [UIImage imageNamed:@"Arrow"];
+    self.changePhotoLabel.text = [NSString stringWithFormat:@"Logged in as %@", [DSOUserManager sharedInstance].user.email];
     
     self.logoutLabel.font = [LDTTheme font];
     
@@ -124,11 +124,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)handleChangePhotoTap:(UITapGestureRecognizer *)recognizer {
-    [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"change avatar" label:nil value:nil];
-    LDTUpdateAvatarViewController *destVC = [[LDTUpdateAvatarViewController alloc] initWithNibName:@"LDTUpdateAvatarView" bundle:nil];
-    [self.navigationController pushViewController:destVC animated:YES];
-}
 
 - (void)handleNotificationSwitchTap:(UITapGestureRecognizer *)recognizer {
     [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on notif switch" label:nil value:nil];
