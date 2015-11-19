@@ -163,8 +163,14 @@
             LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
             [tabBar setSelectedIndex:0];
         } errorHandler:^(NSError *error) {
+            // Performs normal logout functionality even if we are presented with an error.
             [SVProgressHUD dismiss];
             [LDTMessage displayErrorMessageForError:error];
+            [self.navigationController pushViewController:[[LDTUserConnectViewController alloc] init] animated:YES];
+            [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
+            [LDTMessage setDefaultViewController:self.navigationController];
+            LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+            [tabBar setSelectedIndex:0];
         }];
     }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {

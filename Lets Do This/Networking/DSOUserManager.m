@@ -132,6 +132,10 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
             completionHandler();
         }
     } errorHandler:^(NSError *error) {
+        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+        [self deleteAvatar];
+        self.user = nil;
         if (errorHandler) {
             errorHandler(error);
         }
