@@ -99,7 +99,6 @@ static NSString *cellIdentifier = @"rowCell";
     if ([self.user isLoggedInUser]) {
         [self updateUserDetails];
         // Logged in user may have signed up or reported back since this VC was first loaded.
-        self.user.campaignSignups = [DSOUserManager sharedInstance].user.campaignSignups;
         [self.tableView reloadData];
         trackingString = @"self";
     }

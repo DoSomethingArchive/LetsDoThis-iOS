@@ -13,6 +13,7 @@
 
 @interface DSOUser()
 
+@property (nonatomic, strong, readwrite) NSMutableArray *mutableCampaignSignups;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *email;
@@ -43,7 +44,7 @@
         self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Doer"];
         self.email = dict[@"email"];
         self.sessionToken = dict[@"session_token"];
-        self.campaignSignups = [[NSMutableArray alloc] init];
+        self.mutableCampaignSignups = [[NSMutableArray alloc] init];
 		
         if (dict[@"photo"]) {
             self.photo = nil;
@@ -76,6 +77,14 @@
 	}
 	
 	return _photo;
+}
+
+- (NSArray *)campaignSignups {
+    return [self.mutableCampaignSignups copy];
+}
+
+- (void)removeAllCampaignSignups {
+    [self.mutableCampaignSignups removeAllObjects];
 }
 
 - (void)setPhoto:(UIImage *)photo {
@@ -116,6 +125,10 @@
     }
 
     return self.userID;
+}
+
+- (void)addCampaignSignup:(DSOCampaignSignup *)campaignSignup {
+    [self.mutableCampaignSignups addObject:campaignSignup];
 }
 
 - (BOOL)isLoggedInUser {
