@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+@class DSOUser;
+@class DSOReportbackItem;
+
 @interface DSOCampaignSignup : NSObject
 
 @property (strong, nonatomic) DSOCampaign *campaign;

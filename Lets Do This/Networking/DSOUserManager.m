@@ -102,10 +102,10 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 - (void)loadActiveMobileAppCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] loadCampaignSignupsForUser:user completionHandler:^(NSArray *campaignSignups) {
-        user.campaignSignups = [[NSMutableArray alloc] init];
+        [user removeAllCampaignSignups];
         for (DSOCampaignSignup *signup in campaignSignups) {
             if ([self activeMobileAppCampaignWithId:signup.campaign.campaignID]) {
-                [user.campaignSignups addObject:signup];
+                [user addCampaignSignup:signup];
             }
         }
         if (completionHandler) {
@@ -137,7 +137,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] createCampaignSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
-        [self.user.campaignSignups addObject:signup];
+        [self.user addCampaignSignup:signup];
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
         if (completionHandler) {
             completionHandler(signup);
