@@ -157,7 +157,7 @@
                 [self pushUserConnectViewController];
             }
             else {
-                [LDTMessage displayErrorMessageForError:error];
+                [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
             }
         }];
     }];
