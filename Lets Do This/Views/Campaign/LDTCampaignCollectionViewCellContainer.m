@@ -23,6 +23,7 @@
 	[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
 
 	[self.contentView addSubview:self.innerCollectionView];
+    self.innerCollectionView.backgroundColor = [UIColor whiteColor];
 }
 
 -(void)layoutSubviews {

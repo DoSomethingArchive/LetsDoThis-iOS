@@ -8,6 +8,7 @@
 
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTTheme.h"
+#import "LDTTabBarController.h"
 #import "GAI+LDT.h"
 
 @interface LDTSubmitReportbackViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -50,8 +51,8 @@
 
     self.title = [NSString stringWithFormat:@"I did %@", self.reportbackItem.campaign.title].uppercaseString;
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
-    self.backgroundImageView.image = self.reportbackItem.image;
     self.primaryImageView.image = self.reportbackItem.image;
+    self.captionTextField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
     self.captionTextField.placeholder = @"Caption your photo (60 chars or less)";
     self.quantityTextField.placeholder = [NSString stringWithFormat:@"Number of %@ %@", self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
     self.quantityTextField.keyboardType = UIKeyboardTypeNumberPad;
@@ -76,6 +77,8 @@
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModalViewControllerAnimated:)];
     [self styleRightBarButton];
+    
+    [self.captionTextField becomeFirstResponder];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -92,6 +95,10 @@
     backgroundImageMaskLayer.opacity = 0.5;
     backgroundImageMaskLayer.frame = self.backgroundImageView.frame;
     [self.backgroundImageView.layer addSublayer:backgroundImageMaskLayer];
+    self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.backgroundImageView.layer.masksToBounds = YES;
+    self.backgroundImageView.image = self.reportbackItem.image;
+    
     self.primaryImageView.layer.masksToBounds = YES;
     self.primaryImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.primaryImageView.layer.borderWidth = 1;
@@ -144,10 +151,14 @@
     self.reportbackItem.caption = self.captionTextField.text;
     self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
 
+    LDTTabBarController *rootVC = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
         [SVProgressHUD dismiss];
-        [self dismissViewControllerAnimated:YES completion:nil];
-        [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.reportbackItem.campaign.title]];
+        [LDTMessage setDefaultViewController:rootVC];
+        [rootVC dismissViewControllerAnimated:YES completion:^{
+            [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.reportbackItem.campaign.title]];
+        }];
+
     } errorHandler:^(NSError *error) {
         [LDTMessage setDefaultViewController:self.navigationController];
         [SVProgressHUD dismiss];

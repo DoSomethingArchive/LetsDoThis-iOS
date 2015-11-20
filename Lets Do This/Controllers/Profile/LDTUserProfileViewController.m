@@ -10,6 +10,7 @@
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 #import "LDTSettingsViewController.h"
+#import "LDTTabBarController.h"
 #import "GAI+LDT.h"
 
 @interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -62,13 +63,19 @@ static NSString *cellIdentifier = @"rowCell";
         self.navigationItem.rightBarButtonItem = settingsButton;
     }
     else {
-        [[DSOAPI sharedInstance] loadCampaignSignupsForUser:self.user completionHandler:^(NSArray *campaignSignups) {
-            self.user.campaignSignups = (NSMutableArray *)campaignSignups;
+        [[DSOUserManager sharedInstance] loadActiveMobileAppCampaignSignupsForUser:self.user completionHandler:^{
             [self.tableView reloadData];
         } errorHandler:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
         }];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -100,7 +107,6 @@ static NSString *cellIdentifier = @"rowCell";
 - (void)styleView {
     [self.avatarImageView addCircleFrame];
     self.headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
-    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
     [self styleBackBarButton];
 
     self.nameLabel.text = [self.nameLabel.text uppercaseString];
@@ -123,7 +129,8 @@ static NSString *cellIdentifier = @"rowCell";
     UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
     [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
     [LDTMessage setDefaultViewController:destVC];
-    [self presentViewController:destNavVC animated:YES completion:nil];
+    LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    [tabBar presentViewController:destNavVC animated:YES completion:nil];
 }
 
 #pragma mark -- UITableViewDataSource

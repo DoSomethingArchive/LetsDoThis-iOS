@@ -13,6 +13,7 @@
 #import "LDTTheme.h"
 #import "LDTUserConnectViewController.h"
 #import "LDTUpdateAvatarViewController.h"
+#import "LDTTabBarController.h"
 #import "GAI+LDT.h"
 
 @interface LDTSettingsViewController()
@@ -159,7 +160,8 @@
             [self.navigationController pushViewController:[[LDTUserConnectViewController alloc] init] animated:YES];
             [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
             [LDTMessage setDefaultViewController:self.navigationController];
-            UITabBarController *tabBar = (UITabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+            // Now that tabBar is hidden, select the first tab, so it will be the first tab selected upon next login.
+            LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
             [tabBar setSelectedIndex:0];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
@@ -186,6 +188,6 @@
 
 - (IBAction)submitIdeasButtonTouchUpInside:(id)sender {
     [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on ideas form" label:nil value:nil];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.dosomething.org/campaigns/submit-your-idea"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.dosomething.org/about/submit-your-campaign-idea"]];
 }
 @end

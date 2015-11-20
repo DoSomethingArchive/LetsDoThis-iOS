@@ -21,7 +21,6 @@
     if (style == LDTNavigationBarStyleNormal) {
         [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"Header Background"] forBarMetrics:UIBarMetricsDefault];
         self.navigationBar.translucent = NO;
-        self.navigationBar.barStyle = UIStatusBarStyleLightContent;
     }
     else if (style == LDTNavigationBarStyleClear) {
         [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];

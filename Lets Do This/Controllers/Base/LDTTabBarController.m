@@ -16,6 +16,7 @@
 @interface LDTTabBarController ()
 
 @property (strong, nonatomic) LDTCampaignListViewController *campaignListViewController;
+@property (strong, nonatomic) UINavigationController *campaignListNavigationController;
 
 @end
 
@@ -32,17 +33,21 @@
         profileVC.title = @"Me";
         UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
-        [profileNavVC addCustomStatusBarView:NO];
 
         self.campaignListViewController = [[LDTCampaignListViewController alloc] initWithNibName:@"LDTCampaignListView" bundle:nil];
-        UINavigationController *campaignListNavVC = [[UINavigationController alloc] initWithRootViewController:self.campaignListViewController];
-        campaignListNavVC.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
-        [campaignListNavVC addCustomStatusBarView:NO];
+        self.campaignListNavigationController = [[UINavigationController alloc] initWithRootViewController:self.campaignListViewController];
+        self.campaignListNavigationController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
 
-        self.viewControllers = [NSArray arrayWithObjects:campaignListNavVC, profileNavVC, nil];
+        self.viewControllers = [NSArray arrayWithObjects:self.campaignListNavigationController, profileNavVC, nil];
     }
 	
     return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Full Background"]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -69,6 +74,7 @@
 # pragma mark - LDTTabBarController
 
 - (void)loadMainFeed {
+    [self.campaignListNavigationController popToRootViewControllerAnimated:YES];
     [self.campaignListViewController loadMainFeed];
 }
 

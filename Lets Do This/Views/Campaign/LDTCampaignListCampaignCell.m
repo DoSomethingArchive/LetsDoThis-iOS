@@ -52,7 +52,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     
     self.titleLabel.textColor = [UIColor whiteColor];
     [self.actionButton enable:YES];
-    [self.imageView addGrayTint];
+    [self.imageView addGrayTintForFullScreenWidthImageView];
 	
 	self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
 	self.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;

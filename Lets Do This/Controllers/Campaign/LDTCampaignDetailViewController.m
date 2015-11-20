@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
 @property (strong, nonatomic) NSMutableArray *reportbackItems;
+@property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -59,19 +60,22 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self styleBackBarButton];
+    [self styleView];
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailActionButtonCell" bundle:nil] forCellWithReuseIdentifier:@"ActionButtonCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailSelfReportbackCell" bundle:nil] forCellWithReuseIdentifier:@"SelfReportbackCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
+    self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    self.flowLayout.minimumInteritemSpacing = 0.0f;
+    self.flowLayout.minimumLineSpacing = 0.0f;
+    [self.collectionView setCollectionViewLayout:self.flowLayout];
 
     self.imagePickerController = [[UIImagePickerController alloc] init];
     self.imagePickerController.delegate = self;
     self.imagePickerController.allowsEditing = YES;
 
-    [self styleView];
     [self fetchReportbackItems];
     [LDTMessage setDefaultViewController:self];
 
@@ -90,9 +94,18 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     self.collectionView.contentInset = UIEdgeInsetsMake(0,0,0,0);
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-        
+
+    self.navigationController.hidesBarsOnSwipe = YES;
+    [self.navigationController.barHideOnSwipeGestureRecognizer addTarget:self action:@selector(handleSwipeGestureRecognizer:)];
+
     NSString *screenStatus;
     if ([[self user] hasCompletedCampaign:self.campaign]) {
         screenStatus = @"completed";
@@ -118,10 +131,21 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    // Without this, iOS kindly changes toolbar to UIStatusBarStyleDefault when we scroll and hide the navigationBar (because we set self.navigationController.hidesBarsOnSwipe to YES).
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - LDTCampaignDetailViewController
 
 - (void)styleView {
-    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
+    [self styleBackBarButton];
+    self.collectionView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Full Background"]];
+}
+
+- (void)handleSwipeGestureRecognizer:(UISwipeGestureRecognizer *)recognizer {
+    // @see -(UIStatusBarStyle)preferredStatusBarStyle.
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)fetchReportbackItems {
@@ -391,7 +415,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     reportbackItem.image = info[UIImagePickerControllerEditedImage];
     LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithReportbackItem:reportbackItem];
     UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
-    [self.navigationController presentViewController:destNavVC animated:YES completion:nil];
+    [[[[[UIApplication sharedApplication] delegate] window] rootViewController] presentViewController:destNavVC animated:YES completion:nil];
 }
 
 @end

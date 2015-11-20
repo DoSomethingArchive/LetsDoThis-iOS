@@ -36,7 +36,7 @@ const CGFloat kHeightExpanded = 420;
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate, LDTEpicFailSubmitButtonDelegate>
 
 @property (assign, nonatomic) BOOL isMainFeedLoaded;
-@property (strong, nonatomic) NSArray *allCampaigns;
+@property (strong, nonatomic) NSMutableArray *allCampaigns;
 @property (strong, nonatomic) NSArray *allReportbackItems;
 @property (strong, nonatomic) NSArray *interestGroupIds;
 @property (strong, nonatomic) NSArray *interestGroupButtons;
@@ -85,9 +85,6 @@ const CGFloat kHeightExpanded = 420;
     }
 	// Set the interest group ID to the button index position so we have a way to load reportbacks for the button index selected
 	self.buttonInterestGroupsDict = [NSDictionary dictionaryWithDictionary:tempDict];
-	
-    self.selectedGroupButtonIndex = 0;
-    self.selectedIndexPath = nil;
 
 	[self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignCollectionViewCellContainer" bundle:nil] forCellWithReuseIdentifier:@"CellIdentifier"];
 
@@ -115,11 +112,17 @@ const CGFloat kHeightExpanded = 420;
     [self styleView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
 #pragma mark - LDTCampaignListViewController
 
 - (void)styleView {
-    [self.collectionView setBackgroundColor:[UIColor clearColor]];
-    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    self.collectionView.backgroundColor = [UIColor whiteColor];
     [self styleButtons];
 }
 
@@ -157,6 +160,9 @@ const CGFloat kHeightExpanded = 420;
 - (void)loadMainFeed {
     [SVProgressHUD showWithStatus:@"Loading actions..."];
 
+    self.selectedGroupButtonIndex = 0;
+    self.selectedIndexPath = nil;
+
     [[DSOAPI sharedInstance] loadCampaignsForTermIds:self.interestGroupIds completionHandler:^(NSArray *campaigns) {
         NSLog(@"loadCampaignsWithCompletionHandler");
         if (campaigns.count == 0) {
@@ -164,11 +170,19 @@ const CGFloat kHeightExpanded = 420;
             [self presentEpicFailForNoCampaigns];
             return;
         }
-        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
+        self.allCampaigns = [[NSMutableArray alloc] init];
+        for (DSOCampaign *campaign in campaigns) {
+            if ([campaign.status isEqual:@"active"]) {
+                [self.allCampaigns addObject:campaign];
+            }
+            else {
+                NSLog(@"Not displaying Campaign ID %li, its status is set to %@.", (long)campaign.campaignID, campaign.status);
+            }
+        }
+
+        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:self.allCampaigns];
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
             NSLog(@"syncCurrentUserWithCompletionHandler");
-            self.allCampaigns = campaigns;
-            [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:campaigns];
             [self createInterestGroups];
 			
             // Display loaded campaigns to indicate signs of life.
@@ -252,6 +266,7 @@ const CGFloat kHeightExpanded = 420;
 			[self.interestGroups[@(interestGroupToLoad)][@"reportbackItems"] addObject:rbItem];
 		}
 		self.isMainFeedLoaded = YES;
+        [self styleButtons];
 		[SVProgressHUD dismiss];
 		[[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"taxonomy-term/%@", [self selectedInterestGroupId]]];
 		[self.collectionView reloadData];
