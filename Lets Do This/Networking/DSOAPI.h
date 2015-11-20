@@ -14,13 +14,13 @@
 
 @interface DSOAPI : AFHTTPSessionManager
 
+@property (nonatomic, strong, readonly) NSString *phoenixBaseURL;
+@property (nonatomic, strong, readonly) NSString *phoenixApiURL;
+@property (nonatomic, strong, readonly) NSString *northstarBaseURL;
+
 + (DSOAPI *)sharedInstance;
 
 - (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId;
-
-- (NSString *)phoenixBaseURL;
-
-- (NSString *)northstarBaseURL;
 
 - (void)setHTTPHeaderFieldSession:(NSString *)token;
 

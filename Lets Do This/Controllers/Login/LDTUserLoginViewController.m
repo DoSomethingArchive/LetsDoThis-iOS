@@ -150,7 +150,7 @@
 }
 
 - (IBAction)passwordButtonTouchUpInside:(id)sender {
-    NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [[DSOAPI sharedInstance] phoenixBaseURL]];
+    NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [DSOAPI sharedInstance].phoenixBaseURL];
     [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"forgot password" label:nil value:nil];
 
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:resetUrl]];
