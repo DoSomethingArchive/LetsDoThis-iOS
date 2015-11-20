@@ -148,14 +148,17 @@
 
         [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
             [SVProgressHUD dismiss];
-            [self.navigationController pushViewController:[[LDTUserConnectViewController alloc] init] animated:YES];
-            [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
-            // Now that tabBar is hidden, select the first tab, so it will be the first tab selected upon next login.
-            LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-            [tabBar setSelectedIndex:0];
+            [self pushUserConnectViewController];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
-            [LDTMessage displayErrorMessageForError:error];
+            // Performs normal logout functionality even if we are presented with an error,
+            // but only if error is not a lack of connectivity. 
+            if (error.code != -1009) {
+                [self pushUserConnectViewController];
+            }
+            else {
+                [LDTMessage displayErrorMessageForError:error];
+            }
         }];
     }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
@@ -164,6 +167,14 @@
     [logoutAlertController addAction:confirmLogoutAction];
     [logoutAlertController addAction:cancelAction];
     [self presentViewController:logoutAlertController animated:YES completion:nil];
+}
+
+- (void)pushUserConnectViewController {
+    [self.navigationController pushViewController:[[LDTUserConnectViewController alloc] init] animated:YES];
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
+    // Now that tabBar is hidden, select the first tab, so it will be the first tab selected upon next login.
+    LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    [tabBar setSelectedIndex:0];
 }
 
 - (void)handleFeedbackTap:(UITapGestureRecognizer *)recognizer {
