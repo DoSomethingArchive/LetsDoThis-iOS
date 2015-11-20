@@ -39,9 +39,9 @@
 
 @interface DSOAPI()
 
-@property (nonatomic, strong) NSString *phoenixBaseURL;
-@property (nonatomic, strong) NSString *phoenixApiURL;
-@property (nonatomic, strong) NSString *northstarBaseURL;
+@property (nonatomic, strong, readwrite) NSString *phoenixBaseURL;
+@property (nonatomic, strong, readwrite) NSString *phoenixApiURL;
+@property (nonatomic, strong, readwrite) NSString *northstarBaseURL;
 
 @end
 
@@ -86,10 +86,6 @@
 }
 
 #pragma mark - DSOAPI
-
-- (NSString *)phoenixBaseURL {
-    return _phoenixBaseURL;
-}
 
 - (void)setHTTPHeaderFieldSession:(NSString *)token {
     [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
@@ -193,7 +189,7 @@
     NSDictionary *params = @{
                              @"quantity": [NSNumber numberWithInteger:reportbackItem.quantity],
                              @"caption": reportbackItem.caption,
-                             // why_participated is a required property on server-side that we currently don't collect in the app, so set to empty.
+                             // why_participated is a required property on server-side that we currently don't collect in the app.
                              @"why_participated": reportbackItem.caption,
                              @"source": LDTSOURCENAME,
                              @"file": [UIImagePNGRepresentation(reportbackItem.image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]
