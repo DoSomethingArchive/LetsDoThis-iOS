@@ -15,4 +15,5 @@
 #import "DSOUserManager.h"
 #import "NSError+LDT.h"
 #import <SVProgressHUD.h>
+#import <NewRelicAgent/NewRelic.h>
 #endif

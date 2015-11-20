@@ -24,6 +24,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+    
+    [NewRelicAgent startWithApplicationToken:keysDict[@"newRelicAppToken"]];
 
     NSString *GAItrackingID = keysDict[@"googleAnalyticsLiveTrackingID"];
 #ifdef DEBUG

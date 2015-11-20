@@ -601,6 +601,7 @@
 				57A97D3FE5F4843F35259D92 /* Copy Pods Resources */,
 				568131DF1B730BA700FF9854 /* ShellScript */,
 				4235F3E4912DA954769AFE43 /* Embed Pods Frameworks */,
+				EA1F559F1BFF7D0D00AD98D8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -743,7 +744,7 @@
 		};
 		568131DF1B730BA700FF9854 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -768,6 +769,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		EA1F559F1BFF7D0D00AD98D8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\nNEWRELICAPPTOKEN=`defaults read \"$PWD\"/Lets\\ Do\\ This/keys.plist newRelicAppToken`\n\n/bin/sh \"${SCRIPT}\" \"${NEWRELICAPPTOKEN}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
