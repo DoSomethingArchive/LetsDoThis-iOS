@@ -89,7 +89,7 @@
 
 - (void)setPhoto:(UIImage *)photo {
     _photo = photo;
-    if ([self isLoggedInUser]) {
+    if ([self isLoggedInUser] && photo) {
         [[DSOUserManager sharedInstance] storeAvatar:photo];
     }
 }
