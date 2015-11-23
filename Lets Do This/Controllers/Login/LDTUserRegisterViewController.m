@@ -58,7 +58,7 @@
     self = [super initWithNibName:@"LDTUserRegisterView" bundle:nil];
 
     if (self) {
-        self.user = user;
+        _user = user;
     }
     
     return self;

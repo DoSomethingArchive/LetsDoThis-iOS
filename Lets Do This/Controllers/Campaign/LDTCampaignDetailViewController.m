@@ -48,8 +48,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     self = [super initWithNibName:@"LDTCampaignDetailView" bundle:nil];
 
     if (self) {
-        self.campaign = campaign;
-        self.reportbackItems = [[NSMutableArray alloc] init];
+        _campaign = campaign;
+        _reportbackItems = [[NSMutableArray alloc] init];
     }
 
     return self;
