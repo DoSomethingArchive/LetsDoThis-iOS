@@ -47,14 +47,23 @@
         self.imageURL = [NSURL URLWithString:imagePath];
         self.user = [[DSOUser alloc] initWithDict:dict[@"user"]];
         NSInteger campaignID = [[dict valueForKeyPath:@"campaign.id"] intValue];
-        // @todo: If an active DSOCampaign doesn't exist, use the dictionary to create a DSOCampaign to expose the Campaign Title
-		
-#warning Could self.campaign ever be nil?
-        self.campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:campaignID];
+        NSString *campaignTitle = [dict[@"campaign"] valueForKeyAsString:@"title" nullValue:nil];
+        _campaign = [[DSOCampaign alloc] initWithCampaignID:campaignID title:campaignTitle];
     }
 
     return self;
 }
+
+- (DSOCampaign *)campaign {
+    // Return fully loaded DSOCampaign if activeMobileAppCampaign.
+    DSOCampaign *activeMobileAppCampaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:_campaign.campaignID];
+    if (activeMobileAppCampaign) {
+        return activeMobileAppCampaign;
+    }
+    return _campaign;
+}
+
+#pragma mark - DSOReportbackItem
 
 + (NSArray *)sortReportbackItemsAsPromotedFirst:(NSArray *)reportbackItems {
     NSSortDescriptor *promotedSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"status" ascending:NO];
