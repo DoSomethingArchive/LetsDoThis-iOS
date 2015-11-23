@@ -30,11 +30,12 @@
 
 @implementation DSOCampaign
 
-- (instancetype)initWithCampaignID:(NSInteger)campaignID {
+- (instancetype)initWithCampaignID:(NSInteger)campaignID title:(id)title {
     self = [super init];
 
     if (self) {
-        self.campaignID = campaignID;
+        _campaignID = campaignID;
+        _title = title;
     }
     return self;
 }
