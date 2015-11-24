@@ -12,25 +12,24 @@
 #import "LDTSettingsViewController.h"
 #import "LDTTabBarController.h"
 #import "GAI+LDT.h"
+#import "LDTProfileHeaderTableViewCell.h"
+#import "LDTProfileCampaignTableViewCell.h"
 
-@interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+@interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate>
 
 @property (assign, nonatomic) BOOL isCurrentUserProfile;
 @property (strong, nonatomic) NSMutableArray *campaignsDoing;
 @property (strong, nonatomic) NSMutableArray *campaignsCompleted;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
-
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *headerView;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-@property (weak, nonatomic) IBOutlet UIButton *uploadAvatarButton;
-
-- (IBAction)uploadAvatarButtonTouchUpInside:(id)sender;
 
 @end
 
-static NSString *cellIdentifier = @"rowCell";
+typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
+    LDTProfileSectionTypeHeader,
+    LDTProfileSectionTypeCampaign
+};
 
 @implementation LDTUserProfileViewController
 
@@ -58,8 +57,11 @@ static NSString *cellIdentifier = @"rowCell";
 
     self.navigationItem.title = nil;
     [self styleView];
-    [self updateUserDetails];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
+
+    [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileHeaderTableViewCell" bundle:nil] forCellReuseIdentifier:@"headerCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileCampaignTableViewCell" bundle:nil] forCellReuseIdentifier:@"campaignCell"];
+    self.tableView.estimatedRowHeight = 100.0;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
 
     if ([self.user isLoggedInUser]) {
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
@@ -69,7 +71,6 @@ static NSString *cellIdentifier = @"rowCell";
         self.imagePickerController.allowsEditing = YES;
     }
     else {
-        self.uploadAvatarButton.enabled = NO;
         [[DSOUserManager sharedInstance] loadActiveMobileAppCampaignSignupsForUser:self.user completionHandler:^{
             [self.tableView reloadData];
         } errorHandler:^(NSError *error) {
@@ -97,7 +98,6 @@ static NSString *cellIdentifier = @"rowCell";
 
     NSString *trackingString;
     if ([self.user isLoggedInUser]) {
-        [self updateUserDetails];
         // Logged in user may have signed up or reported back since this VC was first loaded.
         [self.tableView reloadData];
         trackingString = @"self";
@@ -108,26 +108,23 @@ static NSString *cellIdentifier = @"rowCell";
     [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"user-profile/%@", trackingString]];
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
+    self.tableView.contentInset = UIEdgeInsetsMake(0,0,0,0);
+}
+
 #pragma Mark - LDTUserProfileViewController
 
 - (void)styleView {
-    [self.avatarImageView addCircleFrame];
-    self.headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
+    self.tableView.backgroundColor = UIColor.clearColor;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self styleBackBarButton];
-
-    self.nameLabel.text = self.nameLabel.text.uppercaseString;
-    [self.nameLabel setFont:LDTTheme.fontTitle];
-    [self.nameLabel setTextColor:UIColor.whiteColor];
-    self.nameLabel.textAlignment = NSTextAlignmentCenter;
 
     // Stolen from http://stackoverflow.com/questions/19802336/ios-7-changing-font-size-for-uitableview-section-headers
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setFont:LDTTheme.fontBold];
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextAlignment:NSTextAlignmentCenter];
-}
-
-- (void)updateUserDetails {
-    self.nameLabel.text = [self.user displayName].uppercaseString;
-    self.avatarImageView.image = self.user.photo;
 }
 
 - (IBAction)settingsTapped:(id)sender {
@@ -138,7 +135,10 @@ static NSString *cellIdentifier = @"rowCell";
     [tabBar presentViewController:destNavVC animated:YES completion:nil];
 }
 
-- (IBAction)uploadAvatarButtonTouchUpInside:(id)sender {
+- (void)didClickUserAvatarButtonForCell:(LDTProfileHeaderTableViewCell *)cell {
+    if (!self.isCurrentUserProfile) {
+        return;
+    }
     [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"change avatar" label:nil value:nil];
     UIAlertController *avatarAlertController = [UIAlertController alertControllerWithTitle:@"Set your photo" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
 
@@ -170,6 +170,18 @@ static NSString *cellIdentifier = @"rowCell";
     [self presentViewController:avatarAlertController animated:YES completion:nil];
 }
 
+- (void)configureHeaderCell:(LDTProfileHeaderTableViewCell *)headerCell {
+    headerCell.delegate = self;
+    headerCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    headerCell.userAvatarImage = self.user.photo;
+    headerCell.userCountryNameText = self.user.countryName.uppercaseString;
+    headerCell.userDisplayNameText = self.user.displayName.uppercaseString;
+}
+
+- (void)configureCampaignCell:(LDTProfileCampaignTableViewCell *)campaignCell campaign:(DSOCampaign *)campaign{
+    campaignCell.campaignTitleText = campaign.title;
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -178,7 +190,8 @@ static NSString *cellIdentifier = @"rowCell";
         [SVProgressHUD showWithStatus:@"Uploading..."];
         [[DSOAPI sharedInstance] postUserAvatarWithUserId:self.user.userID avatarImage:selectedImage completionHandler:^(id responseObject) {
             self.user.photo = selectedImage;
-            self.avatarImageView.image = selectedImage;
+            // @todo: Could only refresh first section, not entire tableView.
+            [self.tableView reloadData];
             [SVProgressHUD dismiss];
             [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'." subtitle:@"You've successfully changed your profile photo."];
             NSLog(@"Successful user avatar upload: %@", responseObject);
@@ -205,41 +218,52 @@ static NSString *cellIdentifier = @"rowCell";
 #pragma mark -- UITableViewDataSource
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if ([self.user isLoggedInUser]) {
-        if ([DSOUserManager sharedInstance].activeMobileAppCampaigns.count > 0) {
-            // Currently assuming all active mobile app campaigns end on same day, so doesn't matter which one we select to determine # of days left.
-            DSOCampaign *campaign = (DSOCampaign *)[DSOUserManager sharedInstance].activeMobileAppCampaigns[0];
+    if (section == LDTProfileSectionTypeCampaign) {
+        if ([self.user isLoggedInUser]) {
+            if ([DSOUserManager sharedInstance].activeMobileAppCampaigns.count > 0) {
+                // Currently assuming all active mobile app campaigns end on same day, so doesn't matter which one we select to determine # of days left.
+                DSOCampaign *campaign = (DSOCampaign *)[DSOUserManager sharedInstance].activeMobileAppCampaigns[0];
 
-            return [NSString stringWithFormat:@"Current: %ld days left".uppercaseString, (long)campaign.numberOfDaysLeft];
+                return [NSString stringWithFormat:@"Current: %ld days left".uppercaseString, (long)campaign.numberOfDaysLeft];
+            }
         }
     }
+
 
     return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == LDTProfileSectionTypeHeader) {
+        return 1;
+    }
     return self.user.campaignSignups.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (indexPath.section == LDTProfileSectionTypeHeader) {
+        LDTProfileHeaderTableViewCell *headerCell = [tableView dequeueReusableCellWithIdentifier:@"headerCell"];
+        [self configureHeaderCell:headerCell];
+        return headerCell;
+    }
+
     DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
-    cell.textLabel.text = campaign.title;
-    cell.textLabel.textColor = LDTTheme.ctaBlueColor;
-    cell.userInteractionEnabled = YES;
-    cell.textLabel.font = LDTTheme.fontBold;
-	
-    return cell;
+    LDTProfileCampaignTableViewCell *campaignCell = [tableView dequeueReusableCellWithIdentifier:@"campaignCell"];
+    [self configureCampaignCell:campaignCell campaign:campaign];
+    return campaignCell;
 }
 
 #pragma mark -- UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == LDTProfileSectionTypeHeader) {
+        return;
+    }
     DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
     // @todo DRY with custom TableViewCell which will have a DSOCampaign property.
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
