@@ -17,45 +17,27 @@ const CGFloat kFontSizeTitle = 24.0f;
 @implementation LDTTheme
 
 +(UIColor *)ctaBlueColor {
-    return [UIColor colorWithRed:0
-                           green:174.0f/255.0f
-                            blue:238.0f/255.0f
-                           alpha:1.0f];
+    return [UIColor colorWithRed:0 green:174.0f/255.0f blue:238.0f/255.0f alpha:1.0f];
 }
 
 +(UIColor *)disabledGrayColor {
-    return [UIColor colorWithRed:178.0f/255.0f
-                           green:178.0f/255.0f
-                            blue:178.0f/255.0f
-                           alpha:1.0f];
+    return [UIColor colorWithRed:178.0f/255.0f green:178.0f/255.0f blue:178.0f/255.0f alpha:1.0f];
 }
 
 +(UIColor *)facebookBlueColor {
-    return [UIColor colorWithRed:65.0f/255.0f
-                           green:94.0f/255.0f
-                            blue:169.0f/255.0f
-                           alpha:1.0f];
+    return [UIColor colorWithRed:65.0f/255.0f green:94.0f/255.0f blue:169.0f/255.0f alpha:1.0f];
 }
 
 +(UIColor *)lightGrayColor {
-    return [UIColor colorWithRed:248.0f/255.0f
-                           green:248.0f/255.0f
-                            blue:246.0f/255.0f
-                           alpha:1.0f];
+    return [UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:246.0f/255.0f alpha:1.0f];
 }
 
 +(UIColor *)mediumGrayColor {
-    return [UIColor colorWithRed:155.0f/255.0f
-                           green:155.0f/255.0f
-                            blue:155.0f/255.0f
-                           alpha:1.0f];
+    return [UIColor colorWithRed:155.0f/255.0f green:155.0f/255.0f blue:155.0f/255.0f alpha:1.0f];
 }
 
 +(UIColor *)orangeColor {
-    return [UIColor colorWithRed:255.0f/255.0f
-                           green:166.0f/255.0f
-                            blue:0.0f/255.0f
-                           alpha:1.0f];
+    return [UIColor colorWithRed:255.0f/255.0f green:166.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
 }
 
 +(UIFont *)font {
