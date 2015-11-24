@@ -39,7 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = [self.reportbackItem.campaign.title uppercaseString];
+    self.title = self.reportbackItem.campaign.title.uppercaseString;
     [self styleBackBarButton];
 
     [self configureReportbackItemDetailView];

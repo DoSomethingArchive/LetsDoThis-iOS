@@ -39,18 +39,18 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (void)styleView {
-    self.titleLabel.font = [LDTTheme fontTitle];
-    self.taglineLabel.font = [LDTTheme font];
+    self.titleLabel.font = LDTTheme.fontTitle;
+    self.taglineLabel.font = LDTTheme.font;
 
-    self.expiresPrefixLabel.font = [LDTTheme fontBold];
-    self.expiresPrefixLabel.textColor = [UIColor grayColor];
+    self.expiresPrefixLabel.font = LDTTheme.fontBold;
+    self.expiresPrefixLabel.textColor = UIColor.grayColor;
     self.expiresPrefixLabel.textAlignment = NSTextAlignmentRight;
 
-    self.expiresSuffixLabel.font = [LDTTheme fontBold];
-    self.expiresSuffixLabel.textColor = [UIColor blackColor];
+    self.expiresSuffixLabel.font = LDTTheme.fontBold;
+    self.expiresSuffixLabel.textColor = UIColor.blackColor;
     self.expiresSuffixLabel.textAlignment = NSTextAlignmentLeft;
     
-    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.textColor = UIColor.whiteColor;
     [self.actionButton enable:YES];
     [self.imageView addGrayTintForFullScreenWidthImageView];
 	
@@ -59,7 +59,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (void)setTitleLabelText:(NSString *)titleLabelText {
-    self.titleLabel.text = [titleLabelText uppercaseString];
+    self.titleLabel.text = titleLabelText.uppercaseString;
 
     if (!self.expanded) {
         // Get height of label after dynamic text is set, then set the constraint to center the text
@@ -85,15 +85,15 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (void)setExpiresDaysPrefixLabelText:(NSString *)expiresDaysPrefixLabelText {
-    self.expiresPrefixLabel.text = [expiresDaysPrefixLabelText uppercaseString];
+    self.expiresPrefixLabel.text = expiresDaysPrefixLabelText.uppercaseString;
 }
 
 - (void)setExpiresDaysSuffixLabelText:(NSString *)expiresDaysSuffixLabelText {
-     self.expiresSuffixLabel.text = [expiresDaysSuffixLabelText uppercaseString];
+     self.expiresSuffixLabel.text = expiresDaysSuffixLabelText.uppercaseString;
 }
 
 - (void)setActionButtonTitle:(NSString *)actionButtonTitle {
-    [self.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
+    [self.actionButton setTitle:actionButtonTitle.uppercaseString forState:UIControlStateNormal];
 }
 
 - (IBAction)actionButtonTouchUpInside:(id)sender {
@@ -126,7 +126,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
         self.signupIndicatorView.backgroundColor = [UIColor colorWithRed:141.0f/255.0f green:196.0f/255.0f blue:85.0f/255.0f alpha:1.0f];
     }
     else {
-        self.signupIndicatorView.backgroundColor = [UIColor clearColor];
+        self.signupIndicatorView.backgroundColor = UIColor.clearColor;
     }
 }
 @end

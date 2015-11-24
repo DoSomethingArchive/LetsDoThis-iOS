@@ -34,13 +34,13 @@
 
 - (void)styleView {
     [self.userAvatarImageView addCircleFrame];
-    self.campaignTitleButton.titleLabel.font = [LDTTheme fontBold];
-    self.reportbackItemCaptionLabel.font = [LDTTheme font];
-    self.reportbackItemQuantityLabel.font = [LDTTheme fontCaptionBold];
-    self.reportbackItemQuantityLabel.textColor = [LDTTheme mediumGrayColor];
-    self.userCountryNameLabel.font = [LDTTheme fontCaption];
-    self.userCountryNameLabel.textColor = [LDTTheme mediumGrayColor];
-    self.userDisplayNameButton.titleLabel.font = [LDTTheme fontBold];
+    self.campaignTitleButton.titleLabel.font = LDTTheme.fontBold;
+    self.reportbackItemCaptionLabel.font = LDTTheme.font;
+    self.reportbackItemQuantityLabel.font = LDTTheme.fontCaptionBold;
+    self.reportbackItemQuantityLabel.textColor = LDTTheme.mediumGrayColor;
+    self.userCountryNameLabel.font = LDTTheme.fontCaption;
+    self.userCountryNameLabel.textColor = LDTTheme.mediumGrayColor;
+    self.userDisplayNameButton.titleLabel.font = LDTTheme.fontBold;
 }
 
 - (UIImage *)reportbackItemImage {
@@ -76,11 +76,11 @@
 }
 
 - (void)setUserCountryNameLabelText:(NSString *)userCountryNameLabelText {
-    self.userCountryNameLabel.text = [userCountryNameLabelText uppercaseString];
+    self.userCountryNameLabel.text = userCountryNameLabelText.uppercaseString;
 }
 
 - (void)setUserDisplayNameButtonTitle:(NSString *)userDisplayNameButtonTitle {
-    [self.userDisplayNameButton setTitle:[userDisplayNameButtonTitle uppercaseString] forState:UIControlStateNormal];
+    [self.userDisplayNameButton setTitle:userDisplayNameButtonTitle.uppercaseString forState:UIControlStateNormal];
 }
 
 - (IBAction)campaignTitleButtonTouchUpInside:(id)sender {

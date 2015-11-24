@@ -77,9 +77,9 @@
 }
 
 - (void)styleView {
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
-    self.headlineLabel.font = [LDTTheme fontHeadingBold];
-    self.descriptionLabel.font = [LDTTheme font];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:LDTTheme.fullBackgroundImage];
+    self.headlineLabel.font = LDTTheme.fontHeadingBold;
+    self.descriptionLabel.font = LDTTheme.font;
     self.descriptionContainerView.layer.masksToBounds = NO;
     self.descriptionContainerView.layer.shadowOffset = CGSizeMake(0, -3);
     self.descriptionContainerView.layer.shadowRadius = 0.7f;

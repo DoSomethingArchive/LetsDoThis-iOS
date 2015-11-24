@@ -24,7 +24,7 @@
 }
 
 - (void)setActionButtonTitle:(NSString *)actionButtonTitle {
-    [self.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
+    [self.actionButton setTitle:actionButtonTitle.uppercaseString forState:UIControlStateNormal];
 }
 
 - (IBAction)actionButtonTouchUpInside:(id)sender {

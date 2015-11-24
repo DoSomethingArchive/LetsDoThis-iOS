@@ -17,13 +17,13 @@
 	
 	UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
 	self.innerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
-	self.innerCollectionView.backgroundColor = [UIColor clearColor];
+	self.innerCollectionView.backgroundColor = UIColor.clearColor;
 	[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
 	[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
 	[self.innerCollectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
 
 	[self.contentView addSubview:self.innerCollectionView];
-    self.innerCollectionView.backgroundColor = [UIColor whiteColor];
+    self.innerCollectionView.backgroundColor = UIColor.whiteColor;
 }
 
 -(void)layoutSubviews {

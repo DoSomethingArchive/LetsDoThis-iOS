@@ -14,8 +14,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
 
-    self.titleLabel.font = [LDTTheme fontHeadingBold];
-    self.backgroundColor = [LDTTheme lightGrayColor];
+    self.titleLabel.font = LDTTheme.fontHeadingBold;
+    self.backgroundColor = LDTTheme.lightGrayColor;
 }
 
 @end

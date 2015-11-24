@@ -69,7 +69,7 @@ const CGFloat kHeightExpanded = 420;
     self.isMainFeedLoaded = NO;
     self.title = @"Actions";
 
-	self.navigationItem.title = [@"Let's Do This" uppercaseString];
+	self.navigationItem.title = @"Let's Do This".uppercaseString;
     [self styleBackBarButton];
     self.interestGroupIds = @[@1300, @1301, @1302, @1303];
 #ifdef DEBUG
@@ -122,7 +122,7 @@ const CGFloat kHeightExpanded = 420;
 #pragma mark - LDTCampaignListViewController
 
 - (void)styleView {
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = UIColor.whiteColor;
     [self styleButtons];
 }
 
@@ -130,12 +130,12 @@ const CGFloat kHeightExpanded = 420;
     for (int i = 0; i < self.interestGroupButtons.count; i++) {
         LDTButton *aButton = self.interestGroupButtons[i];
         if (i == self.selectedGroupButtonIndex) {
-            aButton.backgroundColor = [LDTTheme ctaBlueColor];
-            [aButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            aButton.backgroundColor = LDTTheme.ctaBlueColor;
+            [aButton setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
         }
         else {
-            aButton.backgroundColor = [UIColor whiteColor];
-            [aButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            aButton.backgroundColor = UIColor.whiteColor;
+            [aButton setTitleColor:UIColor.grayColor forState:UIControlStateNormal];
         }
     }
 }
@@ -568,7 +568,7 @@ const CGFloat kHeightExpanded = 420;
 	UICollectionReusableView *reusableView = nil;
 		if (kind == UICollectionElementKindSectionHeader) {
 			LDTHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
-			headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
+			headerView.titleLabel.text = @"Who's doing it now".uppercaseString;
 			reusableView = headerView;
 		}
 

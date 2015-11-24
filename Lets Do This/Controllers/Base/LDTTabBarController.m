@@ -29,7 +29,7 @@
     if (self = [super init]) {
 
         self.tabBar.translucent = NO;
-		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:[LDTTheme fontName] size:10.0f] } forState:UIControlStateNormal];
+		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:LDTTheme.fontName size:10.0f] } forState:UIControlStateNormal];
 
         LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
         profileVC.title = @"Me";

@@ -69,9 +69,9 @@
     self.textFieldsRequired = @[self.emailTextField,
                                 self.passwordTextField];
 
-    [self.submitButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
+    [self.submitButton setTitle:@"Sign in".uppercaseString forState:UIControlStateNormal];
     [self.submitButton enable:NO];
-    [self.passwordButton setTitle:[@"Reset Password" uppercaseString] forState:UIControlStateNormal];
+    [self.passwordButton setTitle:@"Reset Password".uppercaseString forState:UIControlStateNormal];
 
     [self styleView];
 }
@@ -85,20 +85,20 @@
 #pragma mark - LDTUserLoginViewController
 
 - (void)styleView {
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:LDTTheme.fullBackgroundImage];
 
-    UIFont *font = [LDTTheme font];
+    UIFont *font = LDTTheme.font;
     self.headerLabel.font = font;
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
-    self.headerLabel.textColor = [UIColor whiteColor];
+    self.headerLabel.textColor = UIColor.whiteColor;
     for (UITextField *aTextField in self.textFields) {
         aTextField.font = font;
     }
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     self.passwordTextField.secureTextEntry = YES;
-    self.passwordButton.backgroundColor = [UIColor whiteColor];
-    [self.passwordButton setTitleColor:[LDTTheme ctaBlueColor] forState:UIControlStateNormal];
-    [self.registerLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.passwordButton.backgroundColor = UIColor.whiteColor;
+    [self.passwordButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
+    [self.registerLink setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
 }
 
 -(void)updateSubmitButton {
@@ -145,7 +145,7 @@
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];
         [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
-        [self.emailTextField setBorderColor:[UIColor redColor]];
+        [self.emailTextField setBorderColor:UIColor.redColor];
     }];
 }
 
@@ -157,7 +157,7 @@
 }
 
 - (IBAction)emailEditingDidBegin:(id)sender {
-    [self.emailTextField setBorderColor:[UIColor clearColor]];
+    [self.emailTextField setBorderColor:UIColor.clearColor];
 }
 
 - (IBAction)emailEditingDidEnd:(id)sender {

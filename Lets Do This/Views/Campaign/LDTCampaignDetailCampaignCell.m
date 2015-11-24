@@ -32,7 +32,7 @@
 
     [self styleView];
 
-    self.campaignDetailsHeadingLabel.text = [@"Do this" uppercaseString];
+    self.campaignDetailsHeadingLabel.text = @"Do this".uppercaseString;
     self.staticInstructionLabel.text = @"When you’re done, submit a pic of yourself in action. #picsoritdidnthappen";
 }
 
@@ -64,19 +64,19 @@
 #pragma mark - LDTCampaignDetailCampaignCell
 
 - (void)styleView {
-    self.titleLabel.font  = [LDTTheme fontTitle];
-    self.titleLabel.textColor = [UIColor whiteColor];
-    self.taglineLabel.font = [LDTTheme font];
+    self.titleLabel.font  = LDTTheme.fontTitle;
+    self.titleLabel.textColor = UIColor.whiteColor;
+    self.taglineLabel.font = LDTTheme.font;
     [self.coverImageView addGrayTintForFullScreenWidthImageView];
-    self.campaignDetailsView.backgroundColor = [LDTTheme orangeColor];
-    self.campaignDetailsHeadingLabel.font = [LDTTheme fontHeadingBold];
-    self.campaignDetailsHeadingLabel.textColor = [UIColor whiteColor];
-    self.solutionCopyLabel.textColor = [UIColor whiteColor];
-    self.solutionCopyLabel.font = [LDTTheme font];
-    self.solutionSupportCopyLabel.textColor = [UIColor whiteColor];
-    self.solutionSupportCopyLabel.font = [LDTTheme font];
-    self.staticInstructionLabel.textColor = [UIColor whiteColor];
-    self.staticInstructionLabel.font = [LDTTheme font];
+    self.campaignDetailsView.backgroundColor = LDTTheme.orangeColor;
+    self.campaignDetailsHeadingLabel.font = LDTTheme.fontHeadingBold;
+    self.campaignDetailsHeadingLabel.textColor = UIColor.whiteColor;
+    self.solutionCopyLabel.textColor = UIColor.whiteColor;
+    self.solutionCopyLabel.font = LDTTheme.font;
+    self.solutionSupportCopyLabel.textColor = UIColor.whiteColor;
+    self.solutionSupportCopyLabel.font = LDTTheme.font;
+    self.staticInstructionLabel.textColor = UIColor.whiteColor;
+    self.staticInstructionLabel.font = LDTTheme.font;
     [self.actionButton enable:YES];
 
     CAShapeLayer *layer = [CAShapeLayer layer];
@@ -86,7 +86,7 @@
     [path addLineToPoint:CGPointMake(CGRectGetWidth([UIScreen mainScreen].bounds), 0)];
     [path closePath];
     layer.path = path.CGPath;
-    layer.fillColor = [UIColor whiteColor].CGColor;
+    layer.fillColor = UIColor.whiteColor.CGColor;
     [self.campaignDetailsView.layer addSublayer:layer];
 
     self.coverImageView.layer.masksToBounds = NO;
@@ -116,7 +116,7 @@
 }
 
 - (void)setTitleLabelText:(NSString *)titleLabelText{
-    self.titleLabel.text = [titleLabelText uppercaseString];
+    self.titleLabel.text = titleLabelText.uppercaseString;
 }
 
 @end

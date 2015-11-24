@@ -43,8 +43,8 @@
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
-    [SVProgressHUD setForegroundColor:[LDTTheme ctaBlueColor]];
-    [SVProgressHUD setFont:[LDTTheme font]];
+    [SVProgressHUD setForegroundColor:LDTTheme.ctaBlueColor];
+    [SVProgressHUD setFont:LDTTheme.font];
     [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
     [Parse setApplicationId:keysDict[@"parseApplicationId"] clientKey:keysDict[@"parseClientKey"]];

@@ -115,18 +115,18 @@ static NSString *cellIdentifier = @"rowCell";
     self.headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
     [self styleBackBarButton];
 
-    self.nameLabel.text = [self.nameLabel.text uppercaseString];
-    [self.nameLabel setFont:[LDTTheme fontTitle]];
-    [self.nameLabel setTextColor:[UIColor whiteColor]];
+    self.nameLabel.text = self.nameLabel.text.uppercaseString;
+    [self.nameLabel setFont:LDTTheme.fontTitle];
+    [self.nameLabel setTextColor:UIColor.whiteColor];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
 
     // Stolen from http://stackoverflow.com/questions/19802336/ios-7-changing-font-size-for-uitableview-section-headers
-    [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setFont:[LDTTheme fontBold]];
+    [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setFont:LDTTheme.fontBold];
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextAlignment:NSTextAlignmentCenter];
 }
 
 - (void)updateUserDetails {
-    self.nameLabel.text = [[self.user displayName] uppercaseString];
+    self.nameLabel.text = [self.user displayName].uppercaseString;
     self.avatarImageView.image = self.user.photo;
 }
 
@@ -230,9 +230,9 @@ static NSString *cellIdentifier = @"rowCell";
     DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
     cell.textLabel.text = campaign.title;
-    cell.textLabel.textColor = [LDTTheme ctaBlueColor];
+    cell.textLabel.textColor = LDTTheme.ctaBlueColor;
     cell.userInteractionEnabled = YES;
-    cell.textLabel.font = [LDTTheme fontBold];
+    cell.textLabel.font = LDTTheme.fontBold;
 	
     return cell;
 }
