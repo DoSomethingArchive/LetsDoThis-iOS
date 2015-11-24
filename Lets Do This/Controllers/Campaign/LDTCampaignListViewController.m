@@ -122,7 +122,7 @@ const CGFloat kHeightExpanded = 420;
 #pragma mark - LDTCampaignListViewController
 
 - (void)styleView {
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = UIColor.whiteColor;
     [self styleButtons];
 }
 
@@ -130,12 +130,12 @@ const CGFloat kHeightExpanded = 420;
     for (int i = 0; i < self.interestGroupButtons.count; i++) {
         LDTButton *aButton = self.interestGroupButtons[i];
         if (i == self.selectedGroupButtonIndex) {
-            aButton.backgroundColor = [LDTTheme ctaBlueColor];
-            [aButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            aButton.backgroundColor = LDTTheme.ctaBlueColor;
+            [aButton setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
         }
         else {
-            aButton.backgroundColor = [UIColor whiteColor];
-            [aButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            aButton.backgroundColor = UIColor.whiteColor;
+            [aButton setTitleColor:UIColor.grayColor forState:UIControlStateNormal];
         }
     }
 }

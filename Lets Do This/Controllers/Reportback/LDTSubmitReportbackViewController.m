@@ -88,10 +88,10 @@
 }
 
 - (void)styleView {
-    self.captionTextField.font = [LDTTheme font];
-    self.quantityTextField.font = [LDTTheme font];
+    self.captionTextField.font = LDTTheme.font;
+    self.quantityTextField.font = LDTTheme.font;
     CALayer *backgroundImageMaskLayer = [CALayer layer];
-    backgroundImageMaskLayer.backgroundColor = [UIColor blackColor].CGColor;
+    backgroundImageMaskLayer.backgroundColor = UIColor.blackColor.CGColor;
     backgroundImageMaskLayer.opacity = 0.5;
     backgroundImageMaskLayer.frame = self.backgroundImageView.frame;
     [self.backgroundImageView.layer addSublayer:backgroundImageMaskLayer];
@@ -100,7 +100,7 @@
     self.backgroundImageView.image = self.reportbackItem.image;
     
     self.primaryImageView.layer.masksToBounds = YES;
-    self.primaryImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.primaryImageView.layer.borderColor = UIColor.whiteColor.CGColor;
     self.primaryImageView.layer.borderWidth = 1;
     [self.submitButton enable:NO];
 }

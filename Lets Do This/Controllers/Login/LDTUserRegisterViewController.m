@@ -131,21 +131,21 @@
 #pragma mark - LDTUserRegisterViewController
 
 - (void)styleView {
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:LDTTheme.fullBackgroundImage];
     [self.imageView addCircleFrame];
     for (UITextField *aTextField in self.textFields) {
-        aTextField.font = [LDTTheme font];
+        aTextField.font = LDTTheme.font;
     }
     [self.firstNameTextField setKeyboardType:UIKeyboardTypeNamePhonePad];
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     [self.mobileTextField setKeyboardType:UIKeyboardTypeNumberPad];
-    self.footerLabel.font = [LDTTheme font];
+    self.footerLabel.font = LDTTheme.font;
     self.footerLabel.textAlignment = NSTextAlignmentCenter;
-    self.footerLabel.textColor = [UIColor whiteColor];
-    self.headerLabel.font = [LDTTheme font];
+    self.footerLabel.textColor = UIColor.whiteColor;
+    self.headerLabel.font = LDTTheme.font;
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
-    self.headerLabel.textColor = [UIColor whiteColor];
-    [self.loginLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.headerLabel.textColor = UIColor.whiteColor;
+    [self.loginLink setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
@@ -234,19 +234,19 @@
 }
 
 - (IBAction)firstNameEditingDidBegin:(id)sender {
-    [self.firstNameTextField setBorderColor:[UIColor clearColor]];
+    [self.firstNameTextField setBorderColor:UIColor.clearColor];
 }
 
 - (IBAction)emailEditingDidBegin:(id)sender {
-    [self.emailTextField setBorderColor:[UIColor clearColor]];
+    [self.emailTextField setBorderColor:UIColor.clearColor];
 }
 
 - (IBAction)mobileEditingDidBegin:(id)sender {
-    [self.mobileTextField setBorderColor:[UIColor clearColor]];
+    [self.mobileTextField setBorderColor:UIColor.clearColor];
 }
 
 - (IBAction)passwordEditingDidBegin:(id)sender {
-    [self.passwordTextField setBorderColor:[UIColor clearColor]];
+    [self.passwordTextField setBorderColor:UIColor.clearColor];
 }
 
 - (IBAction)firstNameEditingDidEnd:(id)sender {
@@ -298,19 +298,19 @@
     NSMutableArray *errorMessages = [[NSMutableArray alloc] init];;
 
     if (![self validateName:self.firstNameTextField.text]) {
-        [self.firstNameTextField setBorderColor:[UIColor redColor]];
+        [self.firstNameTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"We need your first name."];
     }
     if (![self validateEmailForCandidate:self.emailTextField.text]) {
-        [self.emailTextField setBorderColor:[UIColor redColor]];
+        [self.emailTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"We need a valid email."];
     }
     if (![self validateMobile:self.mobileTextField.text]) {
-        [self.mobileTextField setBorderColor:[UIColor redColor]];
+        [self.mobileTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"Enter a valid telephone number."];
     }
     if (![self validatePassword:self.passwordTextField.text]) {
-        [self.passwordTextField setBorderColor:[UIColor redColor]];
+        [self.passwordTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"Password must be 6+ characters."];
     }
     if (errorMessages.count > 0) {

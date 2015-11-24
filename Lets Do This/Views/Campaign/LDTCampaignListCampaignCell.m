@@ -39,18 +39,18 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (void)styleView {
-    self.titleLabel.font = [LDTTheme fontTitle];
-    self.taglineLabel.font = [LDTTheme font];
+    self.titleLabel.font = LDTTheme.fontTitle;
+    self.taglineLabel.font = LDTTheme.font;
 
-    self.expiresPrefixLabel.font = [LDTTheme fontBold];
-    self.expiresPrefixLabel.textColor = [UIColor grayColor];
+    self.expiresPrefixLabel.font = LDTTheme.fontBold;
+    self.expiresPrefixLabel.textColor = UIColor.grayColor;
     self.expiresPrefixLabel.textAlignment = NSTextAlignmentRight;
 
-    self.expiresSuffixLabel.font = [LDTTheme fontBold];
-    self.expiresSuffixLabel.textColor = [UIColor blackColor];
+    self.expiresSuffixLabel.font = LDTTheme.fontBold;
+    self.expiresSuffixLabel.textColor = UIColor.blackColor;
     self.expiresSuffixLabel.textAlignment = NSTextAlignmentLeft;
     
-    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.textColor = UIColor.whiteColor;
     [self.actionButton enable:YES];
     [self.imageView addGrayTintForFullScreenWidthImageView];
 	
@@ -126,7 +126,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
         self.signupIndicatorView.backgroundColor = [UIColor colorWithRed:141.0f/255.0f green:196.0f/255.0f blue:85.0f/255.0f alpha:1.0f];
     }
     else {
-        self.signupIndicatorView.backgroundColor = [UIColor clearColor];
+        self.signupIndicatorView.backgroundColor = UIColor.clearColor;
     }
 }
 @end

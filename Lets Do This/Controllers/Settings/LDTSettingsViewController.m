@@ -87,32 +87,32 @@
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     [self styleBackBarButton];
 
-    self.accountHeadingLabel.font = [LDTTheme fontBold];
-    self.accountHeadingLabel.textColor = [LDTTheme mediumGrayColor];
+    self.accountHeadingLabel.font = LDTTheme.fontBold;
+    self.accountHeadingLabel.textColor = LDTTheme.mediumGrayColor;
 
-    self.loggedInEmailLabel.font = [LDTTheme font];
+    self.loggedInEmailLabel.font = LDTTheme.font;
     self.loggedInEmailLabel.text = [NSString stringWithFormat:@"Logged in as %@", [DSOUserManager sharedInstance].user.email];
     
-    self.logoutLabel.font = [LDTTheme font];
+    self.logoutLabel.font = LDTTheme.font;
     
-    self.notificationsHeadingLabel.font = [LDTTheme fontBold];
-    self.notificationsHeadingLabel.textColor = [LDTTheme mediumGrayColor];
-    self.notificationsLabel.font = [LDTTheme font];
+    self.notificationsHeadingLabel.font = LDTTheme.fontBold;
+    self.notificationsHeadingLabel.textColor = LDTTheme.mediumGrayColor;
+    self.notificationsLabel.font = LDTTheme.font;
     
-    self.feedbackHeadingLabel.font = [LDTTheme fontBold];
-    self.feedbackHeadingLabel.textColor = [LDTTheme mediumGrayColor];
-    self.feedbackLabel.font = [LDTTheme font];
+    self.feedbackHeadingLabel.font = LDTTheme.fontBold;
+    self.feedbackHeadingLabel.textColor = LDTTheme.mediumGrayColor;
+    self.feedbackLabel.font = LDTTheme.font;
     self.feedbackArrowImageView.image = [UIImage imageNamed:@"Arrow"];
     
-    self.rateLabel.font = [LDTTheme font];
+    self.rateLabel.font = LDTTheme.font;
     self.rateArrowImageView.image = [UIImage imageNamed:@"Arrow"];
 
-    [self.submitIdeasButton.titleLabel setFont:[LDTTheme fontCaption]];
+    [self.submitIdeasButton.titleLabel setFont:LDTTheme.fontCaption];
     self.submitIdeasButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     // wraps button text if multiple lines are needed on smaller screens
     self.submitIdeasButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
-    [self.versionLabel setFont:[LDTTheme fontCaption]];
+    [self.versionLabel setFont:LDTTheme.fontCaption];
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 }
 

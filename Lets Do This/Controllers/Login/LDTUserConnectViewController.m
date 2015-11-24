@@ -54,14 +54,14 @@
 #pragma mark - LDTUserConnectViewController
 
 - (void)styleView {
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:LDTTheme.fullBackgroundImage];
     [self.navigationController addCustomStatusBarView:YES];
-    self.headerLabel.font = [LDTTheme font];
-    self.headerLabel.textColor = [UIColor whiteColor];
-	self.registerButton.backgroundColor = [LDTTheme ctaBlueColor];
-    [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.loginButton.backgroundColor = [UIColor whiteColor];
-    [self.loginButton setTitleColor:[LDTTheme ctaBlueColor] forState:UIControlStateNormal];
+    self.headerLabel.font = LDTTheme.font;
+    self.headerLabel.textColor = UIColor.whiteColor;
+	self.registerButton.backgroundColor = LDTTheme.ctaBlueColor;
+    [self.registerButton setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+    self.loginButton.backgroundColor = UIColor.whiteColor;
+    [self.loginButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
 }
 
 - (IBAction)registerTapped:(id)sender {
