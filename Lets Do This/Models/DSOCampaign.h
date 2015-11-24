@@ -16,6 +16,7 @@
 @property (assign, nonatomic, readonly) BOOL isCoverImageDarkBackground;
 @property (strong, nonatomic, readonly) NSArray *tags;
 @property (assign, nonatomic, readonly) NSInteger campaignID;
+@property (assign, nonatomic, readonly) NSInteger numberOfDaysLeft;
 @property (strong, nonatomic, readonly) NSString *coverImage;
 @property (strong, nonatomic, readonly) NSString *solutionCopy;
 @property (strong, nonatomic, readonly) NSString *solutionSupportCopy;
@@ -28,6 +29,5 @@
 
 - (instancetype)initWithCampaignID:(NSInteger)campaignID title:(NSString *)title;
 - (instancetype)initWithDict:(NSDictionary*)values;
-- (NSInteger)numberOfDaysLeft;
 
 @end

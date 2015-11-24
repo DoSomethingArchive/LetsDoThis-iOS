@@ -210,7 +210,7 @@ static NSString *cellIdentifier = @"rowCell";
             // Currently assuming all active mobile app campaigns end on same day, so doesn't matter which one we select to determine # of days left.
             DSOCampaign *campaign = (DSOCampaign *)[DSOUserManager sharedInstance].activeMobileAppCampaigns[0];
 
-            return [NSString stringWithFormat:@"Current: %ld days left".uppercaseString, (long)[campaign numberOfDaysLeft]];
+            return [NSString stringWithFormat:@"Current: %ld days left".uppercaseString, (long)campaign.numberOfDaysLeft];
         }
     }
 
