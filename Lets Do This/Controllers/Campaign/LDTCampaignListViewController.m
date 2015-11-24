@@ -69,7 +69,7 @@ const CGFloat kHeightExpanded = 420;
     self.isMainFeedLoaded = NO;
     self.title = @"Actions";
 
-	self.navigationItem.title = [@"Let's Do This" uppercaseString];
+	self.navigationItem.title = @"Let's Do This".uppercaseString;
     [self styleBackBarButton];
     self.interestGroupIds = @[@1300, @1301, @1302, @1303];
 #ifdef DEBUG
@@ -568,7 +568,7 @@ const CGFloat kHeightExpanded = 420;
 	UICollectionReusableView *reusableView = nil;
 		if (kind == UICollectionElementKindSectionHeader) {
 			LDTHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
-			headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
+			headerView.titleLabel.text = @"Who's doing it now".uppercaseString;
 			reusableView = headerView;
 		}
 

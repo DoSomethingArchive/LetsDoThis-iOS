@@ -69,9 +69,9 @@
     self.textFieldsRequired = @[self.emailTextField,
                                 self.passwordTextField];
 
-    [self.submitButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
+    [self.submitButton setTitle:@"Sign in".uppercaseString forState:UIControlStateNormal];
     [self.submitButton enable:NO];
-    [self.passwordButton setTitle:[@"Reset Password" uppercaseString] forState:UIControlStateNormal];
+    [self.passwordButton setTitle:@"Reset Password".uppercaseString forState:UIControlStateNormal];
 
     [self styleView];
 }

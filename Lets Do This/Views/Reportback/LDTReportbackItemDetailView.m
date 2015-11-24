@@ -76,11 +76,11 @@
 }
 
 - (void)setUserCountryNameLabelText:(NSString *)userCountryNameLabelText {
-    self.userCountryNameLabel.text = [userCountryNameLabelText uppercaseString];
+    self.userCountryNameLabel.text = userCountryNameLabelText.uppercaseString;
 }
 
 - (void)setUserDisplayNameButtonTitle:(NSString *)userDisplayNameButtonTitle {
-    [self.userDisplayNameButton setTitle:[userDisplayNameButtonTitle uppercaseString] forState:UIControlStateNormal];
+    [self.userDisplayNameButton setTitle:userDisplayNameButtonTitle.uppercaseString forState:UIControlStateNormal];
 }
 
 - (IBAction)campaignTitleButtonTouchUpInside:(id)sender {

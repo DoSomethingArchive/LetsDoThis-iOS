@@ -39,8 +39,8 @@
     [self styleBackBarButton];
     
     self.headerLabel.text = @"Let’s make this official. Register an account \nto find un-boring stuff to do with your friends.";
-    [self.registerButton setTitle:[@"Register" uppercaseString] forState:UIControlStateNormal];
-    [self.loginButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
+    [self.registerButton setTitle:@"Register".uppercaseString forState:UIControlStateNormal];
+    [self.loginButton setTitle:@"Sign in".uppercaseString forState:UIControlStateNormal];
 
     [self styleView];
 }

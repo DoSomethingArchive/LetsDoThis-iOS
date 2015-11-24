@@ -69,7 +69,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
+    [self.submitButton setTitle:@"Create account".uppercaseString forState:UIControlStateNormal];
     [self.submitButton enable:NO];
     [self.loginLink setTitle:@"Have a DoSomething.org account? Sign in" forState:UIControlStateNormal];
     

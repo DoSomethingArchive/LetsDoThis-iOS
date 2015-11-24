@@ -335,7 +335,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     UICollectionReusableView *reusableView = nil;
     if (kind == UICollectionElementKindSectionHeader) {
         LDTHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
-        headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
+        headerView.titleLabel.text = @"Who's doing it now".uppercaseString;
         reusableView = headerView;
     }
 

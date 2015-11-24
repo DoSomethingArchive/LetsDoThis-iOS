@@ -32,7 +32,7 @@
 
     [self styleView];
 
-    self.campaignDetailsHeadingLabel.text = [@"Do this" uppercaseString];
+    self.campaignDetailsHeadingLabel.text = @"Do this".uppercaseString;
     self.staticInstructionLabel.text = @"When you’re done, submit a pic of yourself in action. #picsoritdidnthappen";
 }
 
@@ -116,7 +116,7 @@
 }
 
 - (void)setTitleLabelText:(NSString *)titleLabelText{
-    self.titleLabel.text = [titleLabelText uppercaseString];
+    self.titleLabel.text = titleLabelText.uppercaseString;
 }
 
 @end

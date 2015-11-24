@@ -59,7 +59,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (void)setTitleLabelText:(NSString *)titleLabelText {
-    self.titleLabel.text = [titleLabelText uppercaseString];
+    self.titleLabel.text = titleLabelText.uppercaseString;
 
     if (!self.expanded) {
         // Get height of label after dynamic text is set, then set the constraint to center the text
@@ -85,15 +85,15 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 }
 
 - (void)setExpiresDaysPrefixLabelText:(NSString *)expiresDaysPrefixLabelText {
-    self.expiresPrefixLabel.text = [expiresDaysPrefixLabelText uppercaseString];
+    self.expiresPrefixLabel.text = expiresDaysPrefixLabelText.uppercaseString;
 }
 
 - (void)setExpiresDaysSuffixLabelText:(NSString *)expiresDaysSuffixLabelText {
-     self.expiresSuffixLabel.text = [expiresDaysSuffixLabelText uppercaseString];
+     self.expiresSuffixLabel.text = expiresDaysSuffixLabelText.uppercaseString;
 }
 
 - (void)setActionButtonTitle:(NSString *)actionButtonTitle {
-    [self.actionButton setTitle:[actionButtonTitle uppercaseString] forState:UIControlStateNormal];
+    [self.actionButton setTitle:actionButtonTitle.uppercaseString forState:UIControlStateNormal];
 }
 
 - (IBAction)actionButtonTouchUpInside:(id)sender {

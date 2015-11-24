@@ -115,7 +115,7 @@ static NSString *cellIdentifier = @"rowCell";
     self.headerView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
     [self styleBackBarButton];
 
-    self.nameLabel.text = [self.nameLabel.text uppercaseString];
+    self.nameLabel.text = self.nameLabel.text.uppercaseString;
     [self.nameLabel setFont:[LDTTheme fontTitle]];
     [self.nameLabel setTextColor:[UIColor whiteColor]];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
@@ -126,7 +126,7 @@ static NSString *cellIdentifier = @"rowCell";
 }
 
 - (void)updateUserDetails {
-    self.nameLabel.text = [[self.user displayName] uppercaseString];
+    self.nameLabel.text = [self.user displayName].uppercaseString;
     self.avatarImageView.image = self.user.photo;
 }
 

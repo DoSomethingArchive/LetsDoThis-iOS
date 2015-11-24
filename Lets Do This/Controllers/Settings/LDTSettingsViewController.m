@@ -53,7 +53,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = [@"Settings" uppercaseString];
+    self.title = @"Settings".uppercaseString;
     self.notificationsSwitch.enabled = FALSE;
 
     [self styleView];
