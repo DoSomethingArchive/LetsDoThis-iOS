@@ -278,7 +278,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         // activityType is the reverse-DNS string rep. of the activity chosen, i.e. "com.apple.UIKit.activity.Facebook"
         NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
         // retrieves and later lowercases end of activityType, i.e. "facebook"
-        NSString *activityString = activityTypeComponents[[activityTypeComponents count]-1];
+        NSString *activityString = activityTypeComponents[activityTypeComponents.count-1];
         [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:activityString.lowercaseString value:nil];
     }];
     [self presentViewController:activityViewController animated:YES completion:nil];
