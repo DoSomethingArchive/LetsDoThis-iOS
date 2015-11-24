@@ -28,7 +28,7 @@
     self = [super initWithNibName:@"LDTReportbackItemDetailSingleView" bundle:nil];
 
     if (self) {
-        self.reportbackItem = reportbackItem;
+        _reportbackItem = reportbackItem;
     }
 
     return self;

@@ -44,32 +44,26 @@
     self = [super init];
 
     if (self) {
-        self.campaignID = [values valueForKeyAsInt:@"id" nullValue:self.campaignID];
-        self.endDate = [[values valueForKeyPath:@"mobile_app.dates"] valueForKeyAsDate:@"end" nullValue:nil];
-        self.title = [values valueForKeyAsString:@"title" nullValue:self.title];
-        self.status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
-        self.tagline = [values valueForKeyAsString:@"tagline" nullValue:self.tagline];
-        self.coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:self.coverImage];
-        self.isCoverImageDarkBackground = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsBool:@"dark_background" nullValue:NO];
-        self.reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
-        self.reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
-
-        // @todo: This actually doesn't return the nullValue but blank
-        self.solutionCopy = [[values valueForKeyPath:@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:@"Placeholder solution copy"];
-
-        self.solutionSupportCopy = @"Placeholder solution copy";
+        _campaignID = [values valueForKeyAsInt:@"id" nullValue:0];
+        _endDate = [[values valueForKeyPath:@"mobile_app.dates"] valueForKeyAsDate:@"end" nullValue:nil];
+        _title = [values valueForKeyAsString:@"title" nullValue:nil];
+        _status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
+        _tagline = [values valueForKeyAsString:@"tagline" nullValue:nil];
+        _coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:nil];
+        _isCoverImageDarkBackground = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsBool:@"dark_background" nullValue:NO];
+        _reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
+        _reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
+        _solutionCopy = [[values valueForKeyPath:@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:nil];
         if ([values[@"solutions"] objectForKey:@"support_copy"]) {
             // Might be string: see https://github.com/DoSomething/phoenix/issues/5069
             if ([[values[@"solutions"] objectForKey:@"support_copy"] isKindOfClass:[NSString class]]) {
-                self.solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy"];
+                _solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy"];
             }
             else {
-                // @todo: Same here
-                self.solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw" nullValue:@"Placeholder solution support copy"];
+                _solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw" nullValue:nil];
             }
         }
-
-        self.tags = values[@"tags"];
+        _tags = values[@"tags"];
     }
 	
     return self;

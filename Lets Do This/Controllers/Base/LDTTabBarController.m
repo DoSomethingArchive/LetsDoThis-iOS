@@ -25,7 +25,9 @@
 # pragma mark - NSObject
 
 - (id)init {
+
     if (self = [super init]) {
+
         self.tabBar.translucent = NO;
 		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:[LDTTheme fontName] size:10.0f] } forState:UIControlStateNormal];
 
@@ -34,11 +36,11 @@
         UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
 
-        self.campaignListViewController = [[LDTCampaignListViewController alloc] initWithNibName:@"LDTCampaignListView" bundle:nil];
-        self.campaignListNavigationController = [[UINavigationController alloc] initWithRootViewController:self.campaignListViewController];
-        self.campaignListNavigationController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
+        _campaignListViewController = [[LDTCampaignListViewController alloc] initWithNibName:@"LDTCampaignListView" bundle:nil];
+        _campaignListNavigationController = [[UINavigationController alloc] initWithRootViewController:self.campaignListViewController];
+        _campaignListNavigationController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
 
-        self.viewControllers = [NSArray arrayWithObjects:self.campaignListNavigationController, profileNavVC, nil];
+        self.viewControllers = [NSArray arrayWithObjects:_campaignListNavigationController, profileNavVC, nil];
     }
 	
     return self;

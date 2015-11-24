@@ -33,23 +33,22 @@
     self = [super init];
 
     if (self) {
-        self.userID = dict[@"_id"];
+        _userID = dict[@"_id"];
         // Hack to hotfix inconsistent API id property: https://github.com/DoSomething/LetsDoThis-iOS/issues/340
-        if (!self.userID) {
-            self.userID = [dict valueForKeyAsString:@"id" nullValue:@"null-id"];
+        if (!_userID) {
+            _userID = [dict valueForKeyAsString:@"id" nullValue:@"null-id"];
         }
         if ([dict objectForKey:@"country"]) {
-            self.countryCode = dict[@"country"];
+            _countryCode = dict[@"country"];
         }
-        self.firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Doer"];
-        self.email = dict[@"email"];
-        self.sessionToken = dict[@"session_token"];
-        self.mutableCampaignSignups = [[NSMutableArray alloc] init];
+        _firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Doer"];
+        _email = dict[@"email"];
+        _sessionToken = dict[@"session_token"];
+        _mutableCampaignSignups = [[NSMutableArray alloc] init];
 		
         if (dict[@"photo"]) {
-            self.photo = nil;
             [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
-                 self.photo = image;
+                 _photo = image;
              }];
         }
     }

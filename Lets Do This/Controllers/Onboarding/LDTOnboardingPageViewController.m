@@ -37,13 +37,14 @@
 
 - (instancetype)initWithHeadlineText:(NSString *)headlineText descriptionText:(NSString *)descriptionText primaryImage:(UIImage *)primaryImage gaiScreenName:(NSString *)gaiScreenName nextViewController:(UIViewController *)nextViewController isFirstPage:(BOOL)isFirstPage{
     self = [super initWithNibName:@"LDTOnboardingPageView" bundle:nil];
+
     if (self) {
-        self.headlineText = headlineText;
-        self.descriptionText = descriptionText;
-        self.primaryImage = primaryImage;
-        self.gaiScreenName = gaiScreenName;
-        self.nextViewController = nextViewController;
-        self.isFirstPage = isFirstPage;
+        _headlineText = headlineText;
+        _descriptionText = descriptionText;
+        _primaryImage = primaryImage;
+        _gaiScreenName = gaiScreenName;
+        _nextViewController = nextViewController;
+        _isFirstPage = isFirstPage;
     }
 
     return self;

@@ -40,7 +40,7 @@ static NSString *cellIdentifier = @"rowCell";
     self = [super initWithNibName:@"LDTUserProfileView" bundle:nil];
 
     if (self) {
-        self.user = user;
+        _user = user;
     }
 
     return self;

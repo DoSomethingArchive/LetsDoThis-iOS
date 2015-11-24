@@ -30,8 +30,8 @@
     self = [super initWithNibName:@"LDTEpicFailView" bundle:nil];
 
     if (self) {
-        self.headlineLabelText = title;
-        self.detailsLabelText = subtitle;
+        _headlineLabelText = title;
+        _detailsLabelText = subtitle;
     }
 
     return self;
