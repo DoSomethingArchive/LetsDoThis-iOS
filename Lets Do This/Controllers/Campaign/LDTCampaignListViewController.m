@@ -258,7 +258,7 @@ const CGFloat kHeightExpanded = 420;
 		return;
 	}
 	[SVProgressHUD showWithStatus:@"Loading photos..."];
-	NSLog(@"loadReportbackItemsForCampaigns: %lu", interestGroupToLoad);
+	NSLog(@"loadReportbackItemsForCampaigns: %lu", (long)interestGroupToLoad);
 
 	[[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:campaignsToLoad status:@"promoted,approved" completionHandler:^(NSArray *rbItems) {
 		rbItems = [DSOReportbackItem sortReportbackItemsAsPromotedFirst:rbItems];

@@ -108,7 +108,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
                 [user addCampaignSignup:signup];
             }
             else {
-                NSLog(@"Filtering signup for inactive campaign %li.", signup.campaign.campaignID);
+                NSLog(@"Filtering signup for inactive campaign %li.", (long)signup.campaign.campaignID);
             }
         }
         if (completionHandler) {
