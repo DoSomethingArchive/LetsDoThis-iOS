@@ -10,6 +10,7 @@
 
 @interface LDTProfileCampaignTableViewCell : UITableViewCell
 
+@property (strong, nonatomic) NSString *campaignTaglineText;
 @property (strong, nonatomic) NSString *campaignTitleText;
 
 @end

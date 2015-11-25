@@ -14,6 +14,7 @@
 #import "GAI+LDT.h"
 #import "LDTProfileHeaderTableViewCell.h"
 #import "LDTProfileCampaignTableViewCell.h"
+#import "LDTProfileReportbackItemTableViewCell.h"
 #import "LDTProfileNoSignupsTableViewCell.h"
 
 @interface LDTProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate>
@@ -65,6 +66,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileHeaderTableViewCell" bundle:nil] forCellReuseIdentifier:@"headerCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileCampaignTableViewCell" bundle:nil] forCellReuseIdentifier:@"campaignCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileReportbackItemTableViewCell" bundle:nil] forCellReuseIdentifier:@"reportbackItemCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileNoSignupsTableViewCell" bundle:nil] forCellReuseIdentifier:@"noSignupsCell"];
     self.tableView.estimatedRowHeight = 100.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
@@ -203,6 +205,19 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 
 - (void)configureCampaignCell:(LDTProfileCampaignTableViewCell *)campaignCell campaign:(DSOCampaign *)campaign{
     campaignCell.campaignTitleText = campaign.title;
+    campaignCell.campaignTaglineText = campaign.tagline;
+}
+
+- (void)configureReportbackItemCell:(LDTProfileReportbackItemTableViewCell *)reportbackItemCell indexPath:(NSIndexPath *)indexPath{
+    DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
+    DSOReportbackItem *reportbackItem = signup.reportbackItem;
+    reportbackItemCell.detailView.campaignButtonTitle = reportbackItem.campaign.title;
+    reportbackItemCell.detailView.reportbackItemImageURL = reportbackItem.imageURL;
+    reportbackItemCell.detailView.userAvatarImage = self.user.photo;
+    reportbackItemCell.detailView.userCountryNameLabelText = self.user.countryName;
+    reportbackItemCell.detailView.userDisplayNameButtonTitle = self.user.displayName;
+    reportbackItemCell.detailView.captionLabelText = reportbackItem.caption;
+    reportbackItemCell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)reportbackItem.quantity, reportbackItem.campaign.reportbackNoun, reportbackItem.campaign.reportbackVerb];
 }
 
 - (void)configureNoSignupsCell:(LDTProfileNoSignupsTableViewCell *)noSignupsCell {
@@ -298,6 +313,11 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     }
 
     DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
+    if (signup.reportbackItem) {
+        LDTProfileReportbackItemTableViewCell *reportbackItemCell = [tableView dequeueReusableCellWithIdentifier:@"reportbackItemCell"];
+        [self configureReportbackItemCell:reportbackItemCell indexPath:indexPath];
+        return reportbackItemCell;
+    }
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
     LDTProfileCampaignTableViewCell *campaignCell = [tableView dequeueReusableCellWithIdentifier:@"campaignCell"];
     [self configureCampaignCell:campaignCell campaign:campaign];
@@ -319,10 +339,20 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 
 - (CGFloat)tableView:(UITableView *)tableView
 heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == LDTProfileSectionTypeCampaign && self.isProfileLoaded && self.user.campaignSignups.count == 0) {
-        // Render noSignupsCell as full height of remaining tableView.
-        // @todo: Real math here, this is a guestimate.
-        return self.tableView.bounds.size.height - 180;
+    if (indexPath.section == LDTProfileSectionTypeCampaign) {
+        if (self.isProfileLoaded && self.user.campaignSignups.count == 0) {
+            // Render noSignupsCell as full height of remaining tableView.
+            // @todo: Real math here, this is a guestimate.
+            return self.tableView.bounds.size.height - 180;
+        }
+        else {
+            DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
+            if (signup.reportbackItem) {
+                // UITableViewAutomaticDimension not working with the LDTReportbackItemDetailView :(
+                // Square reportback photo + header height + caption height + cell margin betw.
+                return [[UIScreen mainScreen] bounds].size.width + 36 + 70 + 8;
+            }
+        }
     }
     return UITableViewAutomaticDimension;
 }
