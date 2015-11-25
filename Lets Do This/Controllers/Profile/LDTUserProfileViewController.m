@@ -103,6 +103,9 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 
     [self styleView];
 
+    self.navigationController.hidesBarsOnSwipe = YES;
+    [self.navigationController.barHideOnSwipeGestureRecognizer addTarget:self action:@selector(handleSwipeGestureRecognizer:)];
+
     // If profile, check for if current user logged out and logged in as different user.
     if (self.isCurrentUserProfile && ![self.user.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
         self.user = [DSOUserManager sharedInstance].user;
@@ -126,6 +129,10 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     self.tableView.contentInset = UIEdgeInsetsMake(0,0,0,0);
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma Mark - LDTUserProfileViewController
 
 - (void)styleView {
@@ -137,6 +144,10 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     // Stolen from http://stackoverflow.com/questions/19802336/ios-7-changing-font-size-for-uitableview-section-headers
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setFont:LDTTheme.fontBold];
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextAlignment:NSTextAlignmentCenter];
+}
+
+- (void)handleSwipeGestureRecognizer:(UISwipeGestureRecognizer *)recognizer {
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (IBAction)settingsTapped:(id)sender {
