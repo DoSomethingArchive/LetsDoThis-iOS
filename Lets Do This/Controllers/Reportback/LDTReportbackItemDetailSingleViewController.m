@@ -10,7 +10,7 @@
 #import "LDTReportbackItemDetailView.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
-#import "LDTUserProfileViewController.h"
+#import "LDTProfileViewController.h"
 #import "GAI+LDT.h"
 
 @interface LDTReportbackItemDetailSingleViewController () <LDTReportbackItemDetailViewDelegate>
@@ -80,7 +80,7 @@
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
-    LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:self.reportbackItem.user];
+    LDTProfileViewController *destVC = [[LDTProfileViewController alloc] initWithUser:self.reportbackItem.user];
 	
     [self.navigationController pushViewController:destVC animated:YES];
 }

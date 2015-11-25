@@ -13,7 +13,7 @@
 #import "LDTCampaignDetailReportbackItemCell.h"
 #import "LDTCampaignDetailSelfReportbackCell.h"
 #import "LDTHeaderCollectionReusableView.h"
-#import "LDTUserProfileViewController.h"
+#import "LDTProfileViewController.h"
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTMessage.h"
 #import "GAI+LDT.h"
@@ -393,7 +393,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
-    LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:reportbackItemDetailView.reportbackItem.user];
+    LDTProfileViewController *destVC = [[LDTProfileViewController alloc] initWithUser:reportbackItemDetailView.reportbackItem.user];
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
