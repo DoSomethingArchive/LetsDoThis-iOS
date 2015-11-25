@@ -16,14 +16,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Campaign Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Zf-Of-AZw">
-                        <rect key="frame" x="16" y="16" width="288" height="21"/>
+                        <rect key="frame" x="8" y="16" width="304" height="21"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ocD-KF-lW6">
-                        <rect key="frame" x="16" y="45" width="288" height="38"/>
+                        <rect key="frame" x="8" y="45" width="304" height="38"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -41,12 +41,12 @@
                 <animations/>
                 <constraints>
                     <constraint firstAttribute="bottomMargin" secondItem="ocD-KF-lW6" secondAttribute="bottom" constant="8" id="IeK-5T-j40"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="ocD-KF-lW6" secondAttribute="trailing" constant="8" id="Uaa-Lg-yZN"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="ocD-KF-lW6" secondAttribute="trailing" id="Uaa-Lg-yZN"/>
                     <constraint firstItem="7Zf-Of-AZw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="8" id="cTS-g7-15J"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="7Zf-Of-AZw" secondAttribute="trailing" constant="8" id="jtI-fJ-osw"/>
-                    <constraint firstItem="ocD-KF-lW6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="mha-LD-LGO"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="7Zf-Of-AZw" secondAttribute="trailing" id="jtI-fJ-osw"/>
+                    <constraint firstItem="ocD-KF-lW6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="mha-LD-LGO"/>
                     <constraint firstItem="ocD-KF-lW6" firstAttribute="top" secondItem="7Zf-Of-AZw" secondAttribute="bottom" constant="8" id="qvo-o3-CEQ"/>
-                    <constraint firstItem="7Zf-Of-AZw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="wTa-bO-lkg"/>
+                    <constraint firstItem="7Zf-Of-AZw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="wTa-bO-lkg"/>
                     <constraint firstAttribute="bottomMargin" secondItem="7Zf-Of-AZw" secondAttribute="bottom" constant="8" id="zCK-Il-VdI"/>
                 </constraints>
                 <variation key="default">

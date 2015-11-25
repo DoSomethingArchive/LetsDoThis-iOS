@@ -35,12 +35,14 @@
 - (void)styleView {
     [self.userAvatarImageView addCircleFrame];
     self.campaignTitleButton.titleLabel.font = LDTTheme.fontBold;
+    [self.campaignTitleButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
     self.reportbackItemCaptionLabel.font = LDTTheme.font;
     self.reportbackItemQuantityLabel.font = LDTTheme.fontCaptionBold;
     self.reportbackItemQuantityLabel.textColor = LDTTheme.mediumGrayColor;
     self.userCountryNameLabel.font = LDTTheme.fontCaption;
     self.userCountryNameLabel.textColor = LDTTheme.mediumGrayColor;
     self.userDisplayNameButton.titleLabel.font = LDTTheme.fontBold;
+    [self.userDisplayNameButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
 }
 
 - (UIImage *)reportbackItemImage {
