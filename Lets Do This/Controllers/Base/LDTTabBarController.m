@@ -7,7 +7,7 @@
 //
 
 #import "LDTTabBarController.h"
-#import "LDTUserProfileViewController.h"
+#import "LDTProfileViewController.h"
 #import "LDTCampaignListViewController.h"
 #import "LDTOnboardingPageViewController.h"
 #import "LDTUserConnectViewController.h"
@@ -31,7 +31,7 @@
         self.tabBar.translucent = NO;
 		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:LDTTheme.fontName size:10.0f] } forState:UIControlStateNormal];
 
-        LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
+        LDTProfileViewController *profileVC = [[LDTProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
         profileVC.title = @"Me";
         UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];

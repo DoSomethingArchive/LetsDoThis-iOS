@@ -1,12 +1,12 @@
 //
-//  LDTUserProfileViewController.m
+//  LDTProfileViewController.m
 //  Lets Do This
 //
 //  Created by Aaron Schachter on 7/9/15.
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import "LDTUserProfileViewController.h"
+#import "LDTProfileViewController.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 #import "LDTSettingsViewController.h"
@@ -16,7 +16,7 @@
 #import "LDTProfileCampaignTableViewCell.h"
 #import "LDTProfileNoSignupsTableViewCell.h"
 
-@interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate>
+@interface LDTProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate>
 
 @property (assign, nonatomic) BOOL isCurrentUserProfile;
 @property (assign, nonatomic) BOOL isProfileLoaded;
@@ -32,12 +32,12 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     LDTProfileSectionTypeCampaign
 };
 
-@implementation LDTUserProfileViewController
+@implementation LDTProfileViewController
 
 #pragma mark - NSObject
 
 -(instancetype)initWithUser:(DSOUser *)user {
-    self = [super initWithNibName:@"LDTUserProfileView" bundle:nil];
+    self = [super initWithNibName:@"LDTProfileView" bundle:nil];
 
     if (self) {
         _user = user;

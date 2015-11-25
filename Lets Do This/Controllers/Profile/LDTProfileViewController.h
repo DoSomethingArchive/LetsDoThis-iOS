@@ -1,5 +1,5 @@
 //
-//  LDTUserProfileViewController.h
+//  LDTProfileViewController.h
 //  Lets Do This
 //
 //  Created by Aaron Schachter on 7/9/15.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DSOUser.h"
 
-@interface LDTUserProfileViewController : UIViewController
+@interface LDTProfileViewController : UIViewController
 
 @property (strong, nonatomic) DSOUser *user;
 
