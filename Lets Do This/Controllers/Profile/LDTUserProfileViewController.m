@@ -14,11 +14,12 @@
 #import "GAI+LDT.h"
 #import "LDTProfileHeaderTableViewCell.h"
 #import "LDTProfileCampaignTableViewCell.h"
-
+#import "LDTProfileNoSignupsTableViewCell.h"
 
 @interface LDTUserProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate>
 
 @property (assign, nonatomic) BOOL isCurrentUserProfile;
+@property (assign, nonatomic) BOOL isProfileLoaded;
 @property (strong, nonatomic) NSMutableArray *campaignsDoing;
 @property (strong, nonatomic) NSMutableArray *campaignsCompleted;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
@@ -53,6 +54,10 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     if (!self.user) {
         self.user = [DSOUserManager sharedInstance].user;
         self.isCurrentUserProfile = YES;
+        self.isProfileLoaded = YES;
+    }
+    else {
+        self.isProfileLoaded = NO;
     }
 
     self.navigationItem.title = nil;
@@ -60,6 +65,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileHeaderTableViewCell" bundle:nil] forCellReuseIdentifier:@"headerCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileCampaignTableViewCell" bundle:nil] forCellReuseIdentifier:@"campaignCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileNoSignupsTableViewCell" bundle:nil] forCellReuseIdentifier:@"noSignupsCell"];
     self.tableView.estimatedRowHeight = 100.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 
@@ -71,9 +77,15 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
         self.imagePickerController.allowsEditing = YES;
     }
     else {
+        [SVProgressHUD showWithStatus:@"Loading profile..."];
+
         [[DSOUserManager sharedInstance] loadActiveMobileAppCampaignSignupsForUser:self.user completionHandler:^{
+            [SVProgressHUD dismiss];
+            self.isProfileLoaded = YES;
             [self.tableView reloadData];
         } errorHandler:^(NSError *error) {
+            [SVProgressHUD dismiss];
+            // @todo: Push to epic fail.
             [LDTMessage displayErrorMessageForError:error];
         }];
     }
@@ -182,6 +194,17 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     campaignCell.campaignTitleText = campaign.title;
 }
 
+- (void)configureNoSignupsCell:(LDTProfileNoSignupsTableViewCell *)noSignupsCell {
+    if (self.user.isLoggedInUser) {
+        noSignupsCell.titleLabelText = @"You aren't doing anything right now!";
+        noSignupsCell.subtitleLabelText = @"We have 12 fresh ideas every month, check them out in the Actions tab.";
+    }
+    else {
+        noSignupsCell.titleLabelText = @"Oops, our bad.";
+        noSignupsCell.subtitleLabelText = @"There was a problem with that request.";
+    }
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -237,7 +260,14 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     if (section == LDTProfileSectionTypeHeader) {
         return 1;
     }
-    return self.user.campaignSignups.count;
+    if (self.isProfileLoaded) {
+        if (self.user.campaignSignups.count > 0) {
+            return self.user.campaignSignups.count;
+        }
+        return 1;
+    }
+
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -249,6 +279,11 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
         LDTProfileHeaderTableViewCell *headerCell = [tableView dequeueReusableCellWithIdentifier:@"headerCell"];
         [self configureHeaderCell:headerCell];
         return headerCell;
+    }
+    if (self.user.campaignSignups.count == 0) {
+        LDTProfileNoSignupsTableViewCell *noSignupsCell = [tableView dequeueReusableCellWithIdentifier:@"noSignupsCell"];
+        [self configureNoSignupsCell:noSignupsCell];
+        return noSignupsCell;
     }
 
     DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
@@ -269,6 +304,16 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
     LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
     [self.navigationController pushViewController:destVC animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView
+heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == LDTProfileSectionTypeCampaign && self.isProfileLoaded && self.user.campaignSignups.count == 0) {
+        // Render noSignupsCell as full height of remaining tableView.
+        // @todo: Real math here, this is a guestimate.
+        return self.tableView.bounds.size.height - 180;
+    }
+    return UITableViewAutomaticDimension;
 }
 
 @end
