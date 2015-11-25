@@ -8,34 +8,64 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="68" id="KGk-i7-Jjw" customClass="LDTProfileCampaignTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="100" id="KGk-i7-Jjw" customClass="LDTProfileCampaignTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="67"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Campaign Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Zf-Of-AZw">
-                        <rect key="frame" x="16" y="16" width="288" height="35"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Campaign Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Zf-Of-AZw">
+                        <rect key="frame" x="16" y="16" width="288" height="21"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ocD-KF-lW6">
+                        <rect key="frame" x="16" y="45" width="288" height="38"/>
+                        <animations/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s5G-8t-fpb" userLabel="Bottom border">
+                        <rect key="frame" x="0.0" y="97" width="320" height="2"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="2" id="XV5-lD-HdE"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <animations/>
                 <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="ocD-KF-lW6" secondAttribute="bottom" constant="8" id="IeK-5T-j40"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="ocD-KF-lW6" secondAttribute="trailing" constant="8" id="Uaa-Lg-yZN"/>
                     <constraint firstItem="7Zf-Of-AZw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="8" id="cTS-g7-15J"/>
                     <constraint firstAttribute="trailingMargin" secondItem="7Zf-Of-AZw" secondAttribute="trailing" constant="8" id="jtI-fJ-osw"/>
+                    <constraint firstItem="ocD-KF-lW6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="mha-LD-LGO"/>
+                    <constraint firstItem="ocD-KF-lW6" firstAttribute="top" secondItem="7Zf-Of-AZw" secondAttribute="bottom" constant="8" id="qvo-o3-CEQ"/>
                     <constraint firstItem="7Zf-Of-AZw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="wTa-bO-lkg"/>
                     <constraint firstAttribute="bottomMargin" secondItem="7Zf-Of-AZw" secondAttribute="bottom" constant="8" id="zCK-Il-VdI"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="zCK-Il-VdI"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <animations/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="s5G-8t-fpb" secondAttribute="bottom" constant="1" id="55F-oV-eOl"/>
+                <constraint firstAttribute="trailing" secondItem="s5G-8t-fpb" secondAttribute="trailing" id="59i-AT-hzl"/>
+                <constraint firstItem="s5G-8t-fpb" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" id="nys-qX-FA2"/>
+            </constraints>
             <connections>
+                <outlet property="campaignTaglineLabel" destination="ocD-KF-lW6" id="K0O-1P-ZLU"/>
                 <outlet property="campaignTitleLabel" destination="7Zf-Of-AZw" id="zuS-Dl-tB2"/>
             </connections>
-            <point key="canvasLocation" x="224" y="260"/>
+            <point key="canvasLocation" x="197" y="256"/>
         </tableViewCell>
     </objects>
 </document>

@@ -12,6 +12,7 @@
 @interface LDTProfileCampaignTableViewCell ()
 
 @property (weak, nonatomic) IBOutlet UILabel *campaignTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *campaignTaglineLabel;
 
 @end
 
@@ -27,6 +28,12 @@
 
 - (void)styleView {
     self.campaignTitleLabel.font = LDTTheme.fontBold;
+    self.campaignTitleLabel.textColor = LDTTheme.ctaBlueColor;
+    self.campaignTaglineLabel.font = LDTTheme.font;
+}
+
+- (void)setCampaignTaglineText:(NSString *)campaignTaglineText {
+    self.campaignTaglineLabel.text = campaignTaglineText;
 }
 
 - (void)setCampaignTitleText:(NSString *)campaignTitleText {

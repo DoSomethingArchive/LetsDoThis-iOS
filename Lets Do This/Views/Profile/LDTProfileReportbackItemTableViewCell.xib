@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,20 +15,33 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g5b-Un-pwL" customClass="LDTReportbackItemDetailView">
-                        <rect key="frame" x="8" y="8" width="290" height="180"/>
+                        <rect key="frame" x="0.0" y="0.0" width="306" height="187"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V4X-Ss-tvx" userLabel="Bottom border">
+                        <rect key="frame" x="0.0" y="195" width="306" height="2"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="2" id="aUi-qy-aBa"/>
+                        </constraints>
                     </view>
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstItem="g5b-Un-pwL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="JT4-rc-Qzb"/>
-                    <constraint firstItem="g5b-Un-pwL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="f4O-Dz-ZNa"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="g5b-Un-pwL" secondAttribute="bottom" id="oPw-4W-52l"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="g5b-Un-pwL" secondAttribute="trailing" id="vT4-j2-zMJ"/>
+                    <constraint firstItem="V4X-Ss-tvx" firstAttribute="top" secondItem="g5b-Un-pwL" secondAttribute="bottom" constant="8" id="vYo-wA-PQk"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="V4X-Ss-tvx" secondAttribute="bottom" id="2RS-mR-2qI"/>
+                <constraint firstItem="g5b-Un-pwL" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" id="88X-7j-WIF"/>
+                <constraint firstAttribute="trailing" secondItem="g5b-Un-pwL" secondAttribute="trailing" id="Fpe-dr-YO7"/>
+                <constraint firstAttribute="trailing" secondItem="V4X-Ss-tvx" secondAttribute="trailing" id="OPE-gP-Ncj"/>
+                <constraint firstItem="g5b-Un-pwL" firstAttribute="top" secondItem="KGk-i7-Jjw" secondAttribute="top" id="cht-7G-GM5"/>
+                <constraint firstItem="V4X-Ss-tvx" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" id="cli-Cc-5c9"/>
+            </constraints>
             <connections>
                 <outlet property="detailView" destination="g5b-Un-pwL" id="mVn-PY-VHe"/>
             </connections>

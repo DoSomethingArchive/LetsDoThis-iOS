@@ -205,6 +205,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 
 - (void)configureCampaignCell:(LDTProfileCampaignTableViewCell *)campaignCell campaign:(DSOCampaign *)campaign{
     campaignCell.campaignTitleText = campaign.title;
+    campaignCell.campaignTaglineText = campaign.tagline;
 }
 
 - (void)configureReportbackItemCell:(LDTProfileReportbackItemTableViewCell *)reportbackItemCell indexPath:(NSIndexPath *)indexPath{
@@ -348,8 +349,8 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
             DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
             if (signup.reportbackItem) {
                 // UITableViewAutomaticDimension not working with the LDTReportbackItemDetailView :(
-                // Square reportback photo + header height + caption height.
-                return [[UIScreen mainScreen] bounds].size.width + 36 + 70;
+                // Square reportback photo + header height + caption height + cell margin betw.
+                return [[UIScreen mainScreen] bounds].size.width + 36 + 70 + 8;
             }
         }
     }
