@@ -212,7 +212,20 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
     DSOReportbackItem *reportbackItem = signup.reportbackItem;
     reportbackItemCell.detailView.campaignButtonTitle = reportbackItem.campaign.title;
-    reportbackItemCell.detailView.reportbackItemImageURL = reportbackItem.imageURL;
+
+    BOOL isNewReportbackItem = NO;
+    if (self.isCurrentUserProfile) {
+        // If reportback was just submitted, we'll have an image property set.
+        if (reportbackItem.image) {
+            // Display the image we have in memory (its imageURL hasnt been set yet) -- refs GH issue #669
+            reportbackItemCell.detailView.reportbackItemImage = reportbackItem.image;
+            isNewReportbackItem = YES;
+        }
+    }
+    if (!isNewReportbackItem) {
+        reportbackItemCell.detailView.reportbackItemImageURL = reportbackItem.imageURL;
+    }
+
     reportbackItemCell.detailView.userAvatarImage = self.user.photo;
     reportbackItemCell.detailView.userCountryNameLabelText = self.user.countryName;
     reportbackItemCell.detailView.userDisplayNameButtonTitle = self.user.displayName;
