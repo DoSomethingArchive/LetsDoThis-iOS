@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if (!self.user) {
+    if ([self.user isLoggedInUser] || !self.user) {
         self.user = [DSOUserManager sharedInstance].user;
         self.isCurrentUserProfile = YES;
         self.isProfileLoaded = YES;
@@ -71,7 +71,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     self.tableView.estimatedRowHeight = 100.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 
-    if ([self.user isLoggedInUser]) {
+    if (self.isCurrentUserProfile) {
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
         self.navigationItem.rightBarButtonItem = settingsButton;
         self.imagePickerController = [[UIImagePickerController alloc] init];
@@ -108,14 +108,14 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     self.navigationController.hidesBarsOnSwipe = YES;
     [self.navigationController.barHideOnSwipeGestureRecognizer addTarget:self action:@selector(handleSwipeGestureRecognizer:)];
 
-    // If profile, check for if current user logged out and logged in as different user.
-    if (self.isCurrentUserProfile && ![self.user.userID isEqualToString:[DSOUserManager sharedInstance].user.userID]) {
+    // Check for scenario where user may have logged out and then logged in as a different user.
+    if (self.isCurrentUserProfile && ![self.user isLoggedInUser]) {
         self.user = [DSOUserManager sharedInstance].user;
     }
 
     NSString *trackingString;
-    if ([self.user isLoggedInUser]) {
-        // Logged in user may have signed up or reported back since this VC was first loaded.
+    if (self.isCurrentUserProfile) {
+        // Logged in user may have signed up, reported back, or logged in as a different user since this VC was first loaded.
         [self.tableView reloadData];
         trackingString = @"self";
     }
@@ -281,7 +281,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == LDTProfileSectionTypeCampaign) {
-        if ([self.user isLoggedInUser]) {
+        if (self.isCurrentUserProfile) {
             if ([DSOUserManager sharedInstance].activeMobileAppCampaigns.count > 0) {
                 // Currently assuming all active mobile app campaigns end on same day, so doesn't matter which one we select to determine # of days left.
                 DSOCampaign *campaign = (DSOCampaign *)[DSOUserManager sharedInstance].activeMobileAppCampaigns[0];
