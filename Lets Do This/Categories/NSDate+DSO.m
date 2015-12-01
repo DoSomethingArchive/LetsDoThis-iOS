@@ -24,6 +24,8 @@ static NSDateFormatter *_toDateFormatter;
     return [_fromDateFormatter dateFromString:dateString];
 }
 
+// Currently this method only works with strings that include a
+// timezone, and specifically in this format: “2011-02-01T10:57:55-08:00”.
 + (NSDate *)dateFromISO8601String:(NSString *)dateString {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
