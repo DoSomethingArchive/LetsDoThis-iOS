@@ -29,6 +29,7 @@
     if (self = [super init]) {
 
         self.tabBar.translucent = NO;
+        self.tabBar.tintColor = LDTTheme.ctaBlueColor;
 		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:LDTTheme.fontName size:10.0f] } forState:UIControlStateNormal];
 
         LDTProfileViewController *profileVC = [[LDTProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
