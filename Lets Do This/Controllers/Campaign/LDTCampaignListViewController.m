@@ -183,13 +183,12 @@ const CGFloat kHeightExpanded = 420;
         [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:self.allCampaigns];
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
             NSLog(@"syncCurrentUserWithCompletionHandler");
-            [self createInterestGroups];
-			
-            // Display loaded campaigns to indicate signs of life.
-			[self.collectionView reloadData];
-			[SVProgressHUD dismiss];
-			
-			[self loadReportbacks];
+            if ([self loadInterestGroups]) {
+                // Displays loaded campaigns to indicate signs of life.
+                [self.collectionView reloadData];
+                [SVProgressHUD dismiss];
+                [self loadReportbacks];
+            }
         } errorHandler:^(NSError *error) {
             // @todo: Need to figure out case where we'd need to logout and push to user connect, if their session is borked.
 			self.loadErrorType = LDTLoadErrorCampaign;
@@ -201,7 +200,7 @@ const CGFloat kHeightExpanded = 420;
     }];
 }
 
-- (void)createInterestGroups {
+- (BOOL)loadInterestGroups {
     self.interestGroups = [[NSMutableDictionary alloc] init];
     for (NSNumber *termID in self.interestGroupIds) {
         self.interestGroups[termID] = @{@"campaigns" : [[NSMutableArray alloc] init], @"reportbackItems" : [[NSMutableArray alloc] init], @"name" : [NSMutableString stringWithCapacity:10]};
@@ -241,9 +240,10 @@ const CGFloat kHeightExpanded = 420;
         if (campaignList.count == 0) {
             NSLog(@"No campaigns available for term %li", (long)[key intValue]);
             [self presentEpicFailForNoCampaigns];
-            return;
+            return NO;
         }
     }
+    return YES;
 }
 
 -(void)loadReportbacks {
