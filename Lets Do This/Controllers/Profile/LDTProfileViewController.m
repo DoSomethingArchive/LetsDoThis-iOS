@@ -17,7 +17,7 @@
 #import "LDTProfileReportbackItemTableViewCell.h"
 #import "LDTProfileNoSignupsTableViewCell.h"
 
-@interface LDTProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate, LDTProfileCampaignTableViewCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (assign, nonatomic) BOOL isCurrentUserProfile;
 @property (assign, nonatomic) BOOL isProfileLoaded;
@@ -204,9 +204,10 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 }
 
 - (void)configureCampaignCell:(LDTProfileCampaignTableViewCell *)campaignCell campaign:(DSOCampaign *)campaign{
-    // @todo: Fix up campaignCell
-    // campaignCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    campaignCell.campaignTitleText = campaign.title;
+    campaignCell.delegate = self;
+    campaignCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    campaignCell.campaign = campaign;
+    campaignCell.campaignTitleButtonTitle = campaign.title;
     campaignCell.campaignTaglineText = campaign.tagline;
 }
 
@@ -253,6 +254,13 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
         noSignupsCell.titleLabelText = @"Oops, our bad.";
         noSignupsCell.subtitleLabelText = @"There was a problem with that request.";
     }
+}
+
+# pragma mark - LDTProfileCampaignTableViewCellDelegate
+
+- (void)didClickCampaignTitleButtonForCell:(LDTProfileCampaignTableViewCell *)cell {
+    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:cell.campaign];
+    [self.navigationController pushViewController:destVC animated:YES];
 }
 
 # pragma mark - LDTReportbackItemDetailViewDelegate
@@ -369,10 +377,14 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
         [self configureReportbackItemCell:reportbackItemCell indexPath:indexPath];
         return reportbackItemCell;
     }
-    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
-    LDTProfileCampaignTableViewCell *campaignCell = [tableView dequeueReusableCellWithIdentifier:@"campaignCell"];
-    [self configureCampaignCell:campaignCell campaign:campaign];
-    return campaignCell;
+    else {
+        DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
+        LDTProfileCampaignTableViewCell *campaignCell = [tableView dequeueReusableCellWithIdentifier:@"campaignCell"];
+        [self configureCampaignCell:campaignCell campaign:campaign];
+        return campaignCell;
+    }
+    return nil;
+
 }
 
 #pragma mark -- UITableViewDelegate
