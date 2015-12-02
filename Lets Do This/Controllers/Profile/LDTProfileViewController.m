@@ -216,6 +216,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     BOOL isNewReportbackItem = NO;
     if (self.isCurrentUserProfile) {
         reportbackItemCell.detailView.displayShareButton = YES;
+        reportbackItemCell.detailView.shareButtonTitle = @"Share your photo".uppercaseString;
         // If reportback was just submitted, we'll have an image property set.
         if (reportbackItem.image) {
             // Display the image we have in memory (its imageURL hasnt been set yet) -- refs GH issue #669

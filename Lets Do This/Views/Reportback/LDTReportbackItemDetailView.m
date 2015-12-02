@@ -95,6 +95,10 @@
     }];
 }
 
+- (void)setShareButtonTitle:(NSString *)shareButtonTitle {
+    [self.shareButton setTitle:shareButtonTitle forState:UIControlStateNormal];
+}
+
 - (void)setUserAvatarImage:(UIImage *)userAvatarImage {
     self.userAvatarImageView.image = userAvatarImage;
 }

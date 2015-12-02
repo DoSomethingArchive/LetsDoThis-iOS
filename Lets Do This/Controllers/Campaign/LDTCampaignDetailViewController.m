@@ -192,6 +192,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (void)configureSelfReportbackCell:(LDTCampaignDetailReportbackItemCell *)cell {
     cell.detailView.delegate = self;
     cell.detailView.displayShareButton = YES;
+    cell.detailView.shareButtonTitle = @"Share your photo".uppercaseString;
     cell.detailView.campaignButtonTitle = self.campaign.title;
     cell.detailView.captionLabelText = self.currentUserReportback.caption;
     cell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.currentUserReportback.quantity, self.campaign.reportbackNoun, self.campaign.reportbackVerb];

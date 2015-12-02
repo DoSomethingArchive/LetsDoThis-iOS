@@ -20,6 +20,7 @@
 @property (strong, nonatomic) NSString *campaignButtonTitle;
 @property (strong, nonatomic) NSString *captionLabelText;
 @property (strong, nonatomic) NSString *quantityLabelText;
+@property (strong, nonatomic) NSString *shareButtonTitle;
 @property (strong, nonatomic) NSString *userCountryNameLabelText;
 @property (strong, nonatomic) NSString *userDisplayNameButtonTitle;
 @property (strong, nonatomic) NSURL *reportbackItemImageURL;
