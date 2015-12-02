@@ -67,7 +67,7 @@
         self.shareButtonHeightConstraint.constant = 0;
     }
     else {
-        self.shareButtonBottomConstraint.constant = 8;
+        self.shareButtonBottomConstraint.constant = 16;
         self.shareButtonHeightConstraint.constant = 50;
     }
 }
