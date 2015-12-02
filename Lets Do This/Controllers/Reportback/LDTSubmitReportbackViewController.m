@@ -106,7 +106,8 @@
 }
 
 - (void)updateSubmitButton {
-    if (self.captionTextField.text.length > 0 && self.captionTextField.text.length < 61 && self.quantityTextField.text.length > 0 && self.quantityTextField.text.intValue > 0) {
+    long long oneGreaterThanLargest32BitNumber = 2147483648;
+    if (self.captionTextField.text.length > 0 && self.captionTextField.text.length < 61 && self.quantityTextField.text.length > 0 && self.quantityTextField.text.longLongValue > 0 && self.quantityTextField.text.longLongValue < oneGreaterThanLargest32BitNumber) {
         [self.submitButton enable:YES];
     }
     else {
