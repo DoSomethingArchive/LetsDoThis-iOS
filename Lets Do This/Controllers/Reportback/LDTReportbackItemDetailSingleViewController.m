@@ -57,7 +57,7 @@
 }
 
 - (void)viewDidLayoutSubviews {
-    // Avoids centered Caption UILabel http://stackoverflow.com/a/1054681/1470725
+    // Prevents vertically centered Caption UILabel http://stackoverflow.com/a/1054681/1470725
     [self.reportbackItemDetailView sizeForDetailSingleView];
 }
 
