@@ -11,7 +11,6 @@
 #import "LDTCampaignDetailCampaignCell.h"
 #import "LDTCampaignDetailActionButtonCell.h"
 #import "LDTCampaignDetailReportbackItemCell.h"
-#import "LDTCampaignDetailSelfReportbackCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTProfileViewController.h"
 #import "LDTSubmitReportbackViewController.h"
@@ -28,7 +27,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     LDTCampaignDetailCampaignSectionRowAction
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailActionButtonCellDelegate, LDTCampaignDetailSelfReportbackCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailActionButtonCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
@@ -65,7 +64,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailActionButtonCell" bundle:nil] forCellWithReuseIdentifier:@"ActionButtonCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
-    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailSelfReportbackCell" bundle:nil] forCellWithReuseIdentifier:@"SelfReportbackCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 0.0f;
@@ -191,8 +189,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
 }
 
-- (void)configureSelfReportbackCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    cell.delegate = self;
+- (void)configureSelfReportbackCell:(LDTCampaignDetailReportbackItemCell *)cell {
     cell.detailView.delegate = self;
     cell.detailView.campaignButtonTitle = self.campaign.title;
     cell.detailView.captionLabelText = self.currentUserReportback.caption;
@@ -264,28 +261,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }
 }
 
-#pragma mark - LDTCampaignDetailSelfReportbackCellDelegate
-
-- (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    NSString *title = self.campaign.title;
-    NSString *verb = self.campaign.reportbackVerb.lowercaseString;
-    NSString *quantity = [NSString stringWithFormat:@"%li", (long)self.currentUserReportback.quantity];
-    NSString *noun = self.campaign.reportbackNoun.lowercaseString;
-    NSString *appStoreLink = [NSString stringWithFormat:@"https://itunes.apple.com/app/id998995766"];
-    NSString *shareMessage = [NSString stringWithFormat:@"BAM. I just rocked the %@ campaign on the Let's Do This app and %@ %@ %@. Wanna do it with me? %@", title, verb, quantity, noun, appStoreLink];
-    UIImage *shareImage = cell.detailView.reportbackItemImage;
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
-    activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
-    [activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-        // activityType is the reverse-DNS string rep. of the activity chosen, i.e. "com.apple.UIKit.activity.Facebook"
-        NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
-        // retrieves and later lowercases end of activityType, i.e. "facebook"
-        NSString *activityString = activityTypeComponents[activityTypeComponents.count-1];
-        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:activityString.lowercaseString value:nil];
-    }];
-    [self presentViewController:activityViewController animated:YES completion:nil];
-}
-
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -311,7 +286,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowAction) {
             if ([[self user] hasCompletedCampaign:self.campaign]) {
-                LDTCampaignDetailSelfReportbackCell *selfReportbackCell = (LDTCampaignDetailSelfReportbackCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"SelfReportbackCell" forIndexPath:indexPath];
+                LDTCampaignDetailReportbackItemCell *selfReportbackCell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
                 [self configureSelfReportbackCell:selfReportbackCell];
                 return selfReportbackCell;
             }
@@ -395,7 +370,23 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 }
 
 - (void)didClickShareButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
-    NSLog(@"Tappy");
+    NSString *title = self.campaign.title;
+    NSString *verb = self.campaign.reportbackVerb.lowercaseString;
+    NSString *quantity = [NSString stringWithFormat:@"%li", (long)self.currentUserReportback.quantity];
+    NSString *noun = self.campaign.reportbackNoun.lowercaseString;
+    NSString *appStoreLink = [NSString stringWithFormat:@"https://itunes.apple.com/app/id998995766"];
+    NSString *shareMessage = [NSString stringWithFormat:@"BAM. I just rocked the %@ campaign on the Let's Do This app and %@ %@ %@. Wanna do it with me? %@", title, verb, quantity, noun, appStoreLink];
+    UIImage *shareImage = reportbackItemDetailView.reportbackItemImage;
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
+    [activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+        // activityType is the reverse-DNS string rep. of the activity chosen, i.e. "com.apple.UIKit.activity.Facebook"
+        NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
+        // retrieves and later lowercases end of activityType, i.e. "facebook"
+        NSString *activityString = activityTypeComponents[activityTypeComponents.count-1];
+        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:activityString.lowercaseString value:nil];
+    }];
+    [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
