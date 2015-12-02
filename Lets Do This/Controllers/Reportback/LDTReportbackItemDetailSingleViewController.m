@@ -57,9 +57,8 @@
 }
 
 - (void)viewDidLayoutSubviews {
-    // Calls the sizeToFit within the ReportbackItemDetailView to avoid centered UILabel (http://stackoverflow.com/q/1054558/1470725)
-    // @todo: Clean this up, no need to configure entire cell again.
-    [self configureReportbackItemDetailView];
+    // Avoids centered Caption UILabel http://stackoverflow.com/a/1054681/1470725
+    [self.reportbackItemDetailView sizeForDetailSingleView];
 }
 
 #pragma mark - LDTReportbackItemDetailSingleViewController

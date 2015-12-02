@@ -68,7 +68,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileCampaignTableViewCell" bundle:nil] forCellReuseIdentifier:@"campaignCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileReportbackItemTableViewCell" bundle:nil] forCellReuseIdentifier:@"reportbackItemCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileNoSignupsTableViewCell" bundle:nil] forCellReuseIdentifier:@"noSignupsCell"];
-    self.tableView.estimatedRowHeight = 100.0;
+    self.tableView.estimatedRowHeight = 400.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 
     if (self.isCurrentUserProfile) {
@@ -361,18 +361,6 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
             // Render noSignupsCell as full height of remaining tableView.
             // @todo: Real math here, this is a guestimate.
             return self.tableView.bounds.size.height - 180;
-        }
-        else {
-            DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
-            if (signup.reportbackItem) {
-                // UITableViewAutomaticDimension not working with the LDTReportbackItemDetailView :(
-                // Square reportback photo + header height + caption height + cell margin betw.
-                CGFloat rowHeight = [[UIScreen mainScreen] bounds].size.width + 36 + 70 + 8;
-                if (self.isCurrentUserProfile) {
-                    rowHeight += 66;
-                }
-                return rowHeight;
-            }
         }
     }
     return UITableViewAutomaticDimension;

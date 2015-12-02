@@ -56,12 +56,19 @@
     return self.reportbackItemImageView.image;
 }
 
+- (void)sizeForDetailSingleView {
+    [self.reportbackItemCaptionLabel sizeToFit];
+}
+
 - (void)setDisplayShareButton:(BOOL)displayShareButton {
     _displayShareButton = displayShareButton;
     if (!_displayShareButton) {
         self.shareButtonBottomConstraint.constant = 0;
         self.shareButtonHeightConstraint.constant = 0;
-        [self.reportbackItemCaptionLabel sizeToFit];
+    }
+    else {
+        self.shareButtonBottomConstraint.constant = 8;
+        self.shareButtonHeightConstraint.constant = 50;
     }
 }
 - (void)setCampaignButtonTitle:(NSString *)campaignButtonTitle {

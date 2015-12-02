@@ -191,6 +191,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)configureSelfReportbackCell:(LDTCampaignDetailReportbackItemCell *)cell {
     cell.detailView.delegate = self;
+    cell.detailView.displayShareButton = YES;
     cell.detailView.campaignButtonTitle = self.campaign.title;
     cell.detailView.captionLabelText = self.currentUserReportback.caption;
     cell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.currentUserReportback.quantity, self.campaign.reportbackNoun, self.campaign.reportbackVerb];
@@ -324,7 +325,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
     // Square reportback photo + header height + caption height.
-    CGFloat reportbackItemHeight = screenWidth + 36 + 70;
+    CGFloat reportbackItemHeight = screenWidth + 36 + 70 + 8;
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
@@ -341,10 +342,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         }
         else {
             if ([[self user] hasCompletedCampaign:self.campaign]) {
-                // Add 90 for the Share Photo button.
-                return CGSizeMake(screenWidth, reportbackItemHeight + 90);
+                // Add 66 for the Share Photo button.
+                return CGSizeMake(screenWidth, reportbackItemHeight + 66);
             }
             else {
+                // Action Button cell:
                 // Button height (50) + top and bottom margins (2 * 16) = 82
                 return CGSizeMake(screenWidth, 82);
             }

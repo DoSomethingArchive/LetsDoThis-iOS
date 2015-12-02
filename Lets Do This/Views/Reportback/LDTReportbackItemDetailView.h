@@ -26,6 +26,8 @@
 @property (strong, nonatomic) UIImage *reportbackItemImage;
 @property (strong, nonatomic) UIImage *userAvatarImage;
 
+- (void)sizeForDetailSingleView;
+
 @end
 
 @protocol LDTReportbackItemDetailViewDelegate <NSObject>
