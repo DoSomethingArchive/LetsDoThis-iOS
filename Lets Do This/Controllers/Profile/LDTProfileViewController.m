@@ -17,7 +17,7 @@
 #import "LDTProfileReportbackItemTableViewCell.h"
 #import "LDTProfileNoSignupsTableViewCell.h"
 
-@interface LDTProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate>
+@interface LDTProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (assign, nonatomic) BOOL isCurrentUserProfile;
 @property (assign, nonatomic) BOOL isProfileLoaded;
@@ -204,13 +204,19 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 }
 
 - (void)configureCampaignCell:(LDTProfileCampaignTableViewCell *)campaignCell campaign:(DSOCampaign *)campaign{
+    // @todo: Fix up campaignCell
+    // campaignCell.selectionStyle = UITableViewCellSelectionStyleNone;
     campaignCell.campaignTitleText = campaign.title;
     campaignCell.campaignTaglineText = campaign.tagline;
 }
 
 - (void)configureReportbackItemCell:(LDTProfileReportbackItemTableViewCell *)reportbackItemCell indexPath:(NSIndexPath *)indexPath{
+    reportbackItemCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    reportbackItemCell.detailView.delegate = self;
+
     DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
     DSOReportbackItem *reportbackItem = signup.reportbackItem;
+    reportbackItemCell.detailView.reportbackItem = reportbackItem;
     reportbackItemCell.detailView.campaignButtonTitle = reportbackItem.campaign.title;
 
     BOOL isNewReportbackItem = NO;
@@ -248,6 +254,33 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
         noSignupsCell.subtitleLabelText = @"There was a problem with that request.";
     }
 }
+
+# pragma mark - LDTReportbackItemDetailViewDelegate
+
+- (void)didClickCampaignTitleButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:reportbackItemDetailView.reportbackItem.campaign];
+    [self.navigationController pushViewController:destVC animated:YES];
+}
+
+- (void)didClickShareButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+    NSString *shareMessage = @"Holy shiz";
+    UIImage *shareImage = reportbackItemDetailView.reportbackItemImage;
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
+    [activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+        // activityType is the reverse-DNS string rep. of the activity chosen, i.e. "com.apple.UIKit.activity.Facebook"
+        NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
+        // retrieves and later lowercases end of activityType, i.e. "facebook"
+        NSString *activityString = activityTypeComponents[activityTypeComponents.count-1];
+        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:activityString.lowercaseString value:nil];
+    }];
+    [self presentViewController:activityViewController animated:YES completion:nil];
+}
+
+- (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+    return;
+}
+
 
 #pragma mark - UIImagePickerControllerDelegate
 
@@ -343,17 +376,6 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 }
 
 #pragma mark -- UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == LDTProfileSectionTypeHeader) {
-        return;
-    }
-    DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
-    // @todo DRY with custom TableViewCell which will have a DSOCampaign property.
-    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
-    LDTCampaignDetailViewController *destVC = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
-    [self.navigationController pushViewController:destVC animated:YES];
-}
 
 - (CGFloat)tableView:(UITableView *)tableView
 heightForRowAtIndexPath:(NSIndexPath *)indexPath {
