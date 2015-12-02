@@ -56,11 +56,18 @@
     [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"reportback-item/%ld", (long)self.reportbackItem.reportbackItemID]];
 }
 
+- (void)viewDidLayoutSubviews {
+    // Calls the sizeToFit within the ReportbackItemDetailView to avoid centered UILabel (http://stackoverflow.com/q/1054558/1470725)
+    // @todo: Clean this up, no need to configure entire cell again.
+    [self configureReportbackItemDetailView];
+}
+
 #pragma mark - LDTReportbackItemDetailSingleViewController
 
 
 - (void)configureReportbackItemDetailView {
     self.reportbackItemDetailView.delegate = self;
+    self.reportbackItemDetailView.displayShareButton = NO;
     self.reportbackItemDetailView.reportbackItem = self.reportbackItem;
     self.reportbackItemDetailView.campaignButtonTitle = self.reportbackItem.campaign.title;
     self.reportbackItemDetailView.captionLabelText = self.reportbackItem.caption;

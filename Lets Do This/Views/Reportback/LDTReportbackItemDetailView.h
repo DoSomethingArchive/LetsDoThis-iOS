@@ -15,6 +15,7 @@
 
 @property (weak, nonatomic) id<LDTReportbackItemDetailViewDelegate> delegate;
 
+@property (assign, nonatomic) BOOL displayShareButton;
 @property (strong, nonatomic) DSOReportbackItem *reportbackItem;
 @property (strong, nonatomic) NSString *campaignButtonTitle;
 @property (strong, nonatomic) NSString *captionLabelText;

@@ -18,9 +18,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *userCountryNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *reportbackItemCaptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *reportbackItemQuantityLabel;
+@property (weak, nonatomic) IBOutlet LDTButton *shareButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *shareButtonBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *shareButtonHeightConstraint;
 
 - (IBAction)campaignTitleButtonTouchUpInside:(id)sender;
 - (IBAction)userNameButtonTouchUpInside:(id)sender;
+- (IBAction)shareButtonTouchUpInside:(id)sender;
+
 
 @end
 
@@ -30,9 +35,11 @@
     [super awakeFromNib];
 
     [self styleView];
+
 }
 
 - (void)styleView {
+    [self.shareButton enable:YES];
     [self.userAvatarImageView addCircleFrame];
     self.campaignTitleButton.titleLabel.font = LDTTheme.fontBold;
     [self.campaignTitleButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
@@ -49,6 +56,14 @@
     return self.reportbackItemImageView.image;
 }
 
+- (void)setDisplayShareButton:(BOOL)displayShareButton {
+    _displayShareButton = displayShareButton;
+    if (!_displayShareButton) {
+        self.shareButtonBottomConstraint.constant = 0;
+        self.shareButtonHeightConstraint.constant = 0;
+        [self.reportbackItemCaptionLabel sizeToFit];
+    }
+}
 - (void)setCampaignButtonTitle:(NSString *)campaignButtonTitle {
     [self.campaignTitleButton setTitle:campaignButtonTitle forState:UIControlStateNormal];
 }
@@ -95,6 +110,9 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(didClickUserNameButtonForReportbackItemDetailView:)]) {
         [self.delegate didClickUserNameButtonForReportbackItemDetailView:self];
     }
+}
+
+- (IBAction)shareButtonTouchUpInside:(id)sender {
 }
 
 @end

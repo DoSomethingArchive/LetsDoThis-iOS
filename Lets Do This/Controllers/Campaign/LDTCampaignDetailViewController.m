@@ -180,6 +180,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (void)configureReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView forIndexPath:(NSIndexPath *)indexPath {
     reportbackItemDetailView.delegate = self;
     DSOReportbackItem *reportbackItem = self.reportbackItems[indexPath.row];
+    reportbackItemDetailView.displayShareButton = NO;
     reportbackItemDetailView.reportbackItem = reportbackItem;
     reportbackItemDetailView.campaignButtonTitle = self.campaign.title;
     reportbackItemDetailView.captionLabelText = reportbackItem.caption;

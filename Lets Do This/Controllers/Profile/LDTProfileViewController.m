@@ -215,12 +215,16 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 
     BOOL isNewReportbackItem = NO;
     if (self.isCurrentUserProfile) {
+        reportbackItemCell.detailView.displayShareButton = YES;
         // If reportback was just submitted, we'll have an image property set.
         if (reportbackItem.image) {
             // Display the image we have in memory (its imageURL hasnt been set yet) -- refs GH issue #669
             reportbackItemCell.detailView.reportbackItemImage = reportbackItem.image;
             isNewReportbackItem = YES;
         }
+    }
+    else {
+        reportbackItemCell.detailView.displayShareButton = NO;
     }
     if (!isNewReportbackItem) {
         reportbackItemCell.detailView.reportbackItemImageURL = reportbackItem.imageURL;
@@ -363,7 +367,11 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
             if (signup.reportbackItem) {
                 // UITableViewAutomaticDimension not working with the LDTReportbackItemDetailView :(
                 // Square reportback photo + header height + caption height + cell margin betw.
-                return [[UIScreen mainScreen] bounds].size.width + 36 + 70 + 8;
+                CGFloat rowHeight = [[UIScreen mainScreen] bounds].size.width + 36 + 70 + 8;
+                if (self.isCurrentUserProfile) {
+                    rowHeight += 66;
+                }
+                return rowHeight;
             }
         }
     }
