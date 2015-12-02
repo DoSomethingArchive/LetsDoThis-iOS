@@ -37,6 +37,7 @@
 		B240DD321B73DA4D00CA6C6E /* LDTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B240DD311B73DA4D00CA6C6E /* LDTTabBarController.m */; };
 		B248D5091BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B248D5071BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m */; };
 		B248D50A1BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B248D5081BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib */; };
+		B24D53051C0F71040090C8EC /* LDTActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24D53041C0F71040090C8EC /* LDTActivityViewController.m */; };
 		B24FE0311BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FE0301BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m */; };
 		B24FE0331BAA49CE001CAD5D /* LDTSubmitReportbackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */; };
 		B258EB311B8E548B00B298C0 /* LDTReportbackItemDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = B258EB301B8E548B00B298C0 /* LDTReportbackItemDetailView.m */; };
@@ -146,6 +147,8 @@
 		B248D5061BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCampaignDetailActionButtonCell.h; path = Campaign/LDTCampaignDetailActionButtonCell.h; sourceTree = "<group>"; };
 		B248D5071BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCampaignDetailActionButtonCell.m; path = Campaign/LDTCampaignDetailActionButtonCell.m; sourceTree = "<group>"; };
 		B248D5081BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCampaignDetailActionButtonCell.xib; path = Campaign/LDTCampaignDetailActionButtonCell.xib; sourceTree = "<group>"; };
+		B24D53031C0F71040090C8EC /* LDTActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTActivityViewController.h; sourceTree = "<group>"; };
+		B24D53041C0F71040090C8EC /* LDTActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTActivityViewController.m; sourceTree = "<group>"; };
 		B24FE02F1BAA49AA001CAD5D /* LDTSubmitReportbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTSubmitReportbackViewController.h; path = Reportback/LDTSubmitReportbackViewController.h; sourceTree = "<group>"; };
 		B24FE0301BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTSubmitReportbackViewController.m; path = Reportback/LDTSubmitReportbackViewController.m; sourceTree = "<group>"; };
 		B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTSubmitReportbackView.xib; path = Reportback/LDTSubmitReportbackView.xib; sourceTree = "<group>"; };
@@ -551,6 +554,8 @@
 				B2629F201BAB459E00A1B5C3 /* Settings */,
 				B27FD03C1BBD99FF00A44952 /* LDTEpicFailViewController.h */,
 				B27FD03D1BBD99FF00A44952 /* LDTEpicFailViewController.m */,
+				B24D53031C0F71040090C8EC /* LDTActivityViewController.h */,
+				B24D53041C0F71040090C8EC /* LDTActivityViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -820,6 +825,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B24D53051C0F71040090C8EC /* LDTActivityViewController.m in Sources */,
 				B27FD03F1BBD99FF00A44952 /* LDTEpicFailViewController.m in Sources */,
 				C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */,
 				EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */,

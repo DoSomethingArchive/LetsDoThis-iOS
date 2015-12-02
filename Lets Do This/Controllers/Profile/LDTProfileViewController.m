@@ -16,6 +16,7 @@
 #import "LDTProfileCampaignTableViewCell.h"
 #import "LDTProfileReportbackItemTableViewCell.h"
 #import "LDTProfileNoSignupsTableViewCell.h"
+#import "LDTActivityViewController.h"
 
 @interface LDTProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate, LDTProfileCampaignTableViewCellDelegate, LDTReportbackItemDetailViewDelegate>
 
@@ -271,18 +272,8 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 }
 
 - (void)didClickShareButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
-    NSString *shareMessage = @"Holy shiz";
-    UIImage *shareImage = reportbackItemDetailView.reportbackItemImage;
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
-    activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
-    [activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-        // activityType is the reverse-DNS string rep. of the activity chosen, i.e. "com.apple.UIKit.activity.Facebook"
-        NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
-        // retrieves and later lowercases end of activityType, i.e. "facebook"
-        NSString *activityString = activityTypeComponents[activityTypeComponents.count-1];
-        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:activityString.lowercaseString value:nil];
-    }];
-    [self presentViewController:activityViewController animated:YES completion:nil];
+    LDTActivityViewController *sharePhotoActivityViewController = [[LDTActivityViewController alloc] initWithReportbackItem:reportbackItemDetailView.reportbackItem image:reportbackItemDetailView.reportbackItemImage];
+    [self presentViewController:sharePhotoActivityViewController animated:YES completion:nil];
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {

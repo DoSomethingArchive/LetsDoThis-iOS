@@ -14,7 +14,7 @@
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTProfileViewController.h"
 #import "LDTSubmitReportbackViewController.h"
-#import "LDTMessage.h"
+#import "LDTActivityViewController.h"
 #import "GAI+LDT.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
@@ -373,23 +373,9 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 }
 
 - (void)didClickShareButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
-    NSString *title = self.campaign.title;
-    NSString *verb = self.campaign.reportbackVerb.lowercaseString;
-    NSString *quantity = [NSString stringWithFormat:@"%li", (long)self.currentUserReportback.quantity];
-    NSString *noun = self.campaign.reportbackNoun.lowercaseString;
-    NSString *appStoreLink = [NSString stringWithFormat:@"https://itunes.apple.com/app/id998995766"];
-    NSString *shareMessage = [NSString stringWithFormat:@"BAM. I just rocked the %@ campaign on the Let's Do This app and %@ %@ %@. Wanna do it with me? %@", title, verb, quantity, noun, appStoreLink];
-    UIImage *shareImage = reportbackItemDetailView.reportbackItemImage;
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
-    activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
-    [activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-        // activityType is the reverse-DNS string rep. of the activity chosen, i.e. "com.apple.UIKit.activity.Facebook"
-        NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
-        // retrieves and later lowercases end of activityType, i.e. "facebook"
-        NSString *activityString = activityTypeComponents[activityTypeComponents.count-1];
-        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:activityString.lowercaseString value:nil];
-    }];
-    [self presentViewController:activityViewController animated:YES completion:nil];
+
+    LDTActivityViewController *sharePhotoActivityViewController = [[LDTActivityViewController alloc] initWithReportbackItem:reportbackItemDetailView.reportbackItem image:reportbackItemDetailView.reportbackItemImage];
+    [self presentViewController:sharePhotoActivityViewController animated:YES completion:nil];
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
