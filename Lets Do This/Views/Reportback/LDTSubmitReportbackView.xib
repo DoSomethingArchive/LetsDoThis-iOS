@@ -75,6 +75,7 @@
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="captionTextFieldEditingChanged:" destination="-1" eventType="editingChanged" id="Mdm-3a-o57"/>
+                                        <action selector="captionTextFieldEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="56g-Ek-uht"/>
                                         <action selector="captionTextFieldEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="oml-KD-67w"/>
                                     </connections>
                                 </textField>
@@ -85,6 +86,7 @@
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="quantityTextFieldEditingChanged:" destination="-1" eventType="editingChanged" id="ht6-pZ-PPT"/>
+                                        <action selector="quantityTextFieldEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="47u-ly-jbF"/>
                                         <action selector="quantityTextFieldEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="sFY-4U-8Oh"/>
                                     </connections>
                                 </textField>

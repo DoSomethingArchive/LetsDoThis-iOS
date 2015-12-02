@@ -9,6 +9,7 @@
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTTheme.h"
 #import "LDTTabBarController.h"
+#import "UITextField+LDT.h"
 #import "GAI+LDT.h"
 
 @interface LDTSubmitReportbackViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -106,13 +107,37 @@
 }
 
 - (void)updateSubmitButton {
-    long long oneGreaterThanLargest32BitNumber = 2147483648;
-    if (self.captionTextField.text.length > 0 && self.captionTextField.text.length < 61 && self.quantityTextField.text.length > 0 && self.quantityTextField.text.longLongValue > 0 && self.quantityTextField.text.longLongValue < oneGreaterThanLargest32BitNumber) {
+    if (self.captionTextField.text.length > 0 && self.quantityTextField.text.length > 0) {
         [self.submitButton enable:YES];
     }
     else {
         [self.submitButton enable:NO];
     }
+}
+
+- (BOOL)validateForm {
+    NSMutableArray *errorMessages = [[NSMutableArray alloc] init];
+    long long oneGreaterThanLargest32BitNumber = 2147483648;
+    long long quantityValue = self.quantityTextField.text.longLongValue;
+    
+    if (self.captionTextField.text.length > 60) {
+        [self.captionTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"Your caption needs to be 60 characters or less."];
+    }
+    if (quantityValue <= 0) {
+        [self.quantityTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"We need a positive number quantity."];
+    }
+    if (quantityValue > oneGreaterThanLargest32BitNumber) {
+        [self.quantityTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"Hmm, that's a big number. Let's try bringing it back down to Earth. :)"];
+    }
+    if (errorMessages.count > 0) {
+        NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage];
+        return NO;
+    }
+    return YES;
 }
 
 - (IBAction)changePhotoButtonTouchUpInside:(id)sender {
@@ -147,22 +172,28 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
-    [self.view endEditing:YES];
-    [SVProgressHUD showWithStatus:@"Uploading..."];
-    self.reportbackItem.caption = self.captionTextField.text;
-    self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
-
-    LDTTabBarController *rootVC = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
-        [SVProgressHUD dismiss];
-        [rootVC dismissViewControllerAnimated:YES completion:^{
-            [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.reportbackItem.campaign.title]];
+    if ([self validateForm]) {
+        [self.view endEditing:YES];
+        [SVProgressHUD showWithStatus:@"Uploading..."];
+        self.reportbackItem.caption = self.captionTextField.text;
+        self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
+        
+        LDTTabBarController *rootVC = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
+            [SVProgressHUD dismiss];
+            [rootVC dismissViewControllerAnimated:YES completion:^{
+                [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.reportbackItem.campaign.title]];
+            }];
+            
+        } errorHandler:^(NSError *error) {
+            [SVProgressHUD dismiss];
+            [LDTMessage displayErrorMessageInViewController:self error:error];
         }];
+    }
+    else {
+        [self.submitButton enable:NO];
+    }
 
-    } errorHandler:^(NSError *error) {
-        [SVProgressHUD dismiss];
-        [LDTMessage displayErrorMessageInViewController:self error:error];
-    }];
 }
 
 - (IBAction)quantityTextFieldEditingChanged:(id)sender {
@@ -171,6 +202,14 @@
 
 - (IBAction)captionTextFieldEditingChanged:(id)sender {
     [self updateSubmitButton];
+}
+
+- (IBAction)captionTextFieldEditingDidBegin:(id)sender {
+    [self.captionTextField setBorderColor:UIColor.clearColor];
+}
+
+- (IBAction)quantityTextFieldEditingDidBegin:(id)sender {
+    [self.quantityTextField setBorderColor:UIColor.clearColor];
 }
 
 - (IBAction)captionTextFieldEditingDidEnd:(id)sender {

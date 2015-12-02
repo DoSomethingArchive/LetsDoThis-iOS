@@ -295,7 +295,7 @@
 }
 
 - (BOOL)validateForm {
-    NSMutableArray *errorMessages = [[NSMutableArray alloc] init];;
+    NSMutableArray *errorMessages = [[NSMutableArray alloc] init];
 
     if (![self validateName:self.firstNameTextField.text]) {
         [self.firstNameTextField setBorderColor:UIColor.redColor];
