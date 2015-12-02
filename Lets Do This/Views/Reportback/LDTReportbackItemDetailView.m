@@ -113,6 +113,9 @@
 }
 
 - (IBAction)shareButtonTouchUpInside:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickShareButtonForReportbackItemDetailView:)]) {
+        [self.delegate didClickShareButtonForReportbackItemDetailView:self];
+    }
 }
 
 @end

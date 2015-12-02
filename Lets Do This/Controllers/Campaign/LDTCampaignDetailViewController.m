@@ -193,6 +193,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)configureSelfReportbackCell:(LDTCampaignDetailSelfReportbackCell *)cell {
     cell.delegate = self;
+    cell.detailView.delegate = self;
     cell.detailView.campaignButtonTitle = self.campaign.title;
     cell.detailView.captionLabelText = self.currentUserReportback.caption;
     cell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.currentUserReportback.quantity, self.campaign.reportbackNoun, self.campaign.reportbackVerb];
@@ -391,6 +392,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)didClickCampaignTitleButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
     return;
+}
+
+- (void)didClickShareButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+    NSLog(@"Tappy");
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
