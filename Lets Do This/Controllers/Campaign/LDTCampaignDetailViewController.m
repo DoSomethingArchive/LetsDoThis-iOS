@@ -11,11 +11,10 @@
 #import "LDTCampaignDetailCampaignCell.h"
 #import "LDTCampaignDetailActionButtonCell.h"
 #import "LDTCampaignDetailReportbackItemCell.h"
-#import "LDTCampaignDetailSelfReportbackCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTProfileViewController.h"
 #import "LDTSubmitReportbackViewController.h"
-#import "LDTMessage.h"
+#import "LDTActivityViewController.h"
 #import "GAI+LDT.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
@@ -28,7 +27,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     LDTCampaignDetailCampaignSectionRowAction
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailActionButtonCellDelegate, LDTCampaignDetailSelfReportbackCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailActionButtonCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
@@ -65,7 +64,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailActionButtonCell" bundle:nil] forCellWithReuseIdentifier:@"ActionButtonCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
-    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailSelfReportbackCell" bundle:nil] forCellWithReuseIdentifier:@"SelfReportbackCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 0.0f;
@@ -180,6 +178,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (void)configureReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView forIndexPath:(NSIndexPath *)indexPath {
     reportbackItemDetailView.delegate = self;
     DSOReportbackItem *reportbackItem = self.reportbackItems[indexPath.row];
+    reportbackItemDetailView.displayShareButton = NO;
     reportbackItemDetailView.reportbackItem = reportbackItem;
     reportbackItemDetailView.campaignButtonTitle = self.campaign.title;
     reportbackItemDetailView.captionLabelText = reportbackItem.caption;
@@ -190,8 +189,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
 }
 
-- (void)configureSelfReportbackCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    cell.delegate = self;
+- (void)configureSelfReportbackCell:(LDTCampaignDetailReportbackItemCell *)cell {
+    cell.detailView.delegate = self;
+    cell.detailView.displayShareButton = YES;
+    cell.detailView.shareButtonTitle = @"Share your photo".uppercaseString;
     cell.detailView.campaignButtonTitle = self.campaign.title;
     cell.detailView.captionLabelText = self.currentUserReportback.caption;
     cell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.currentUserReportback.quantity, self.campaign.reportbackNoun, self.campaign.reportbackVerb];
@@ -262,28 +263,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }
 }
 
-#pragma mark - LDTCampaignDetailSelfReportbackCellDelegate
-
-- (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    NSString *title = self.campaign.title;
-    NSString *verb = self.campaign.reportbackVerb.lowercaseString;
-    NSString *quantity = [NSString stringWithFormat:@"%li", (long)self.currentUserReportback.quantity];
-    NSString *noun = self.campaign.reportbackNoun.lowercaseString;
-    NSString *appStoreLink = [NSString stringWithFormat:@"https://itunes.apple.com/app/id998995766"];
-    NSString *shareMessage = [NSString stringWithFormat:@"BAM. I just rocked the %@ campaign on the Let's Do This app and %@ %@ %@. Wanna do it with me? %@", title, verb, quantity, noun, appStoreLink];
-    UIImage *shareImage = cell.detailView.reportbackItemImage;
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
-    activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
-    [activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-        // activityType is the reverse-DNS string rep. of the activity chosen, i.e. "com.apple.UIKit.activity.Facebook"
-        NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
-        // retrieves and later lowercases end of activityType, i.e. "facebook"
-        NSString *activityString = activityTypeComponents[activityTypeComponents.count-1];
-        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:activityString.lowercaseString value:nil];
-    }];
-    [self presentViewController:activityViewController animated:YES completion:nil];
-}
-
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -309,7 +288,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowAction) {
             if ([[self user] hasCompletedCampaign:self.campaign]) {
-                LDTCampaignDetailSelfReportbackCell *selfReportbackCell = (LDTCampaignDetailSelfReportbackCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"SelfReportbackCell" forIndexPath:indexPath];
+                LDTCampaignDetailReportbackItemCell *selfReportbackCell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
                 [self configureSelfReportbackCell:selfReportbackCell];
                 return selfReportbackCell;
             }
@@ -347,7 +326,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
     // Square reportback photo + header height + caption height.
-    CGFloat reportbackItemHeight = screenWidth + 36 + 70;
+    CGFloat reportbackItemHeight = screenWidth + 36 + 70 + 8;
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
@@ -364,10 +343,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         }
         else {
             if ([[self user] hasCompletedCampaign:self.campaign]) {
-                // Add 90 for the Share Photo button.
-                return CGSizeMake(screenWidth, reportbackItemHeight + 90);
+                // Add 66 for the Share Photo button.
+                return CGSizeMake(screenWidth, reportbackItemHeight + 66);
             }
             else {
+                // Action Button cell:
                 // Button height (50) + top and bottom margins (2 * 16) = 82
                 return CGSizeMake(screenWidth, 82);
             }
@@ -390,6 +370,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)didClickCampaignTitleButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
     return;
+}
+
+- (void)didClickShareButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+
+    LDTActivityViewController *sharePhotoActivityViewController = [[LDTActivityViewController alloc] initWithReportbackItem:reportbackItemDetailView.reportbackItem image:reportbackItemDetailView.reportbackItemImage];
+    [self presentViewController:sharePhotoActivityViewController animated:YES completion:nil];
 }
 
 - (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {

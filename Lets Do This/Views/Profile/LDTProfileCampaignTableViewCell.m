@@ -11,8 +11,10 @@
 
 @interface LDTProfileCampaignTableViewCell ()
 
-@property (weak, nonatomic) IBOutlet UILabel *campaignTitleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *campaignTitleButton;
 @property (weak, nonatomic) IBOutlet UILabel *campaignTaglineLabel;
+
+- (IBAction)campaignTitleButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -27,17 +29,24 @@
 #pragma mark - LDTProfileCampaignTableViewCell
 
 - (void)styleView {
-    self.campaignTitleLabel.font = LDTTheme.fontBold;
-    self.campaignTitleLabel.textColor = LDTTheme.ctaBlueColor;
+    self.campaignTitleButton.titleLabel.font = LDTTheme.fontBold;
+    [self.campaignTitleButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
     self.campaignTaglineLabel.font = LDTTheme.font;
+}
+
+- (void)setCampaignTitleButtonTitle:(NSString *)campaignTitleButtonTitle {
+    [self.campaignTitleButton setTitle:campaignTitleButtonTitle forState:UIControlStateNormal];
+
 }
 
 - (void)setCampaignTaglineText:(NSString *)campaignTaglineText {
     self.campaignTaglineLabel.text = campaignTaglineText;
 }
 
-- (void)setCampaignTitleText:(NSString *)campaignTitleText {
-    self.campaignTitleLabel.text = campaignTitleText;
+- (IBAction)campaignTitleButtonTouchUpInside:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickCampaignTitleButtonForCell:)]) {
+        [self.delegate didClickCampaignTitleButtonForCell:self];
+    }
 }
 
 @end

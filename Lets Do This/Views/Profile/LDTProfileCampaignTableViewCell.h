@@ -8,9 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LDTProfileCampaignTableViewCellDelegate;
+
 @interface LDTProfileCampaignTableViewCell : UITableViewCell
 
+@property (weak, nonatomic) id<LDTProfileCampaignTableViewCellDelegate> delegate;
+@property (strong, nonatomic) DSOCampaign *campaign;
+@property (strong, nonatomic) NSString *campaignTitleButtonTitle;
 @property (strong, nonatomic) NSString *campaignTaglineText;
-@property (strong, nonatomic) NSString *campaignTitleText;
+
+@end
+
+@protocol LDTProfileCampaignTableViewCellDelegate <NSObject>
+
+@required
+- (void)didClickCampaignTitleButtonForCell:(LDTProfileCampaignTableViewCell *)cell;
 
 @end

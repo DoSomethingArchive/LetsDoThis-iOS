@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -15,33 +16,31 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g5b-Un-pwL" customClass="LDTReportbackItemDetailView">
-                        <rect key="frame" x="0.0" y="0.0" width="306" height="187"/>
+                        <rect key="frame" x="0.0" y="8" width="306" height="180"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V4X-Ss-tvx" userLabel="Bottom border">
-                        <rect key="frame" x="0.0" y="195" width="306" height="2"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A3K-AB-UwO" userLabel="Bottom border">
+                        <rect key="frame" x="0.0" y="186" width="306" height="2"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="2" id="aUi-qy-aBa"/>
+                            <constraint firstAttribute="height" constant="2" id="NDP-cs-n7l"/>
                         </constraints>
                     </view>
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstItem="V4X-Ss-tvx" firstAttribute="top" secondItem="g5b-Un-pwL" secondAttribute="bottom" constant="8" id="vYo-wA-PQk"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="A3K-AB-UwO" secondAttribute="bottom" id="3xi-l1-C5t"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="A3K-AB-UwO" secondAttribute="trailing" constant="-8" id="JV3-lE-3Wu"/>
+                    <constraint firstItem="A3K-AB-UwO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-8" id="dfQ-4L-HYs"/>
+                    <constraint firstItem="g5b-Un-pwL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="e2M-xr-9my"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="g5b-Un-pwL" secondAttribute="bottom" id="f4c-9Y-y6N"/>
+                    <constraint firstItem="g5b-Un-pwL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-8" id="lFI-je-I9j"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="g5b-Un-pwL" secondAttribute="trailing" constant="-8" id="zRA-z4-RzC"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
-            <constraints>
-                <constraint firstAttribute="bottom" secondItem="V4X-Ss-tvx" secondAttribute="bottom" id="2RS-mR-2qI"/>
-                <constraint firstItem="g5b-Un-pwL" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" id="88X-7j-WIF"/>
-                <constraint firstAttribute="trailing" secondItem="g5b-Un-pwL" secondAttribute="trailing" id="Fpe-dr-YO7"/>
-                <constraint firstAttribute="trailing" secondItem="V4X-Ss-tvx" secondAttribute="trailing" id="OPE-gP-Ncj"/>
-                <constraint firstItem="g5b-Un-pwL" firstAttribute="top" secondItem="KGk-i7-Jjw" secondAttribute="top" id="cht-7G-GM5"/>
-                <constraint firstItem="V4X-Ss-tvx" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" id="cli-Cc-5c9"/>
-            </constraints>
             <connections>
                 <outlet property="detailView" destination="g5b-Un-pwL" id="mVn-PY-VHe"/>
             </connections>
