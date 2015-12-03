@@ -37,11 +37,7 @@
     [self styleView];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
-    NSLog(@"layoutSubviews");
-
+- (void)setPreferredMaxLayoutWidth {
     CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds) - 16;
     self.reportbackItemCaptionLabel.preferredMaxLayoutWidth = width;
     self.reportbackItemQuantityLabel.preferredMaxLayoutWidth = width / 3;

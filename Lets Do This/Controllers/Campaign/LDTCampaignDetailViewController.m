@@ -216,6 +216,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (CGSize)reportbackItemCellSizeForIndexPath:(NSIndexPath *)indexPath {
 
     [self configureReportbackItemCell:self.reportbackItemSizingCell forIndexPath:indexPath];
+
+    // Attempt with bounds (per https://github.com/honghaoz/Dynamic-Collection-View-Cell-With-Auto-Layout-Demo)
+//    self.reportbackItemSizingCell.bounds = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(self.reportbackItemSizingCell.bounds));
+//    self.reportbackItemSizingCell.contentView.bounds = self.reportbackItemSizingCell.bounds;
+
+    // Attempt with frame:
     self.reportbackItemSizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(self.reportbackItemSizingCell.frame));
 //    self.reportbackItemSizingCell.contentView.frame = self.reportbackItemSizingCell.frame;
     NSLog(@"sizingCell height beforeLayoutIfNeeded %f", CGRectGetHeight(self.reportbackItemSizingCell.frame));
@@ -339,6 +345,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 #pragma mark - UICollectionViewDelegate
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"sizeForItemAtIndexPath %@", indexPath);
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
@@ -367,9 +374,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
             }
         }
     }
-    CGSize size = [self reportbackItemCellSizeForIndexPath:indexPath];
-    NSLog(@"reportback row %li height %f", indexPath.row, size.height);
-    return size;
+    if (indexPath.section == LDTCampaignDetailSectionTypeReportback) {
+        CGSize size = [self reportbackItemCellSizeForIndexPath:indexPath];
+        NSLog(@"reportback row %li height %f", indexPath.row, size.height);
+        return size;
+    }
+    return CGSizeMake(0, 0);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
