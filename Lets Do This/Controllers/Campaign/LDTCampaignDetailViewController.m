@@ -31,6 +31,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
+@property (strong, nonatomic) LDTCampaignDetailReportbackItemCell *reportbackItemSizingCell;
 @property (strong, nonatomic) NSMutableArray *reportbackItems;
 @property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
@@ -69,6 +70,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     self.flowLayout.minimumInteritemSpacing = 0.0f;
     self.flowLayout.minimumLineSpacing = 0.0f;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
+    UINib *reportbackItemCellNib = [UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil];
+    self.reportbackItemSizingCell = [[reportbackItemCellNib instantiateWithOwner:nil options:nil] firstObject];
 
     self.imagePickerController = [[UIImagePickerController alloc] init];
     self.imagePickerController.delegate = self;
@@ -209,6 +212,19 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
 }
 
+
+- (CGSize)reportbackItemCellSizeForIndexPath:(NSIndexPath *)indexPath {
+
+    [self configureReportbackItemCell:self.reportbackItemSizingCell forIndexPath:indexPath];
+    self.reportbackItemSizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(self.reportbackItemSizingCell.frame));
+//    self.reportbackItemSizingCell.contentView.frame = self.reportbackItemSizingCell.frame;
+    NSLog(@"sizingCell height beforeLayoutIfNeeded %f", CGRectGetHeight(self.reportbackItemSizingCell.frame));
+    [self.reportbackItemSizingCell setNeedsLayout];
+    [self.reportbackItemSizingCell layoutIfNeeded];
+    CGFloat reportbackItemHeight = [self.reportbackItemSizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+    return CGSizeMake([[UIScreen mainScreen] bounds].size.width, reportbackItemHeight);
+}
+
 -(DSOUser *)user {
 	return [DSOUserManager sharedInstance].user;
 }
@@ -324,8 +340,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    // Square reportback photo + header height + caption height.
-    CGFloat reportbackItemHeight = screenWidth + 36 + 70 + 8;
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
@@ -342,8 +356,9 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         }
         else {
             if ([[self user] hasCompletedCampaign:self.campaign]) {
-                // Add 66 for the Share Photo button.
-                return CGSizeMake(screenWidth, reportbackItemHeight + 66);
+                CGSize size = [self reportbackItemCellSizeForIndexPath:indexPath];
+                NSLog(@"self reportback height %f", size.height);
+                return size;
             }
             else {
                 // Action Button cell:
@@ -352,8 +367,9 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
             }
         }
     }
-
-    return CGSizeMake(screenWidth, reportbackItemHeight);
+    CGSize size = [self reportbackItemCellSizeForIndexPath:indexPath];
+    NSLog(@"reportback row %li height %f", indexPath.row, size.height);
+    return size;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
