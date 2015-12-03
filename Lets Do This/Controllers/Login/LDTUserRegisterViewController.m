@@ -12,6 +12,7 @@
 #import "LDTUserLoginViewController.h"
 #import "UITextField+LDT.h"
 #import "GAI+LDT.h"
+#import "NSString+RemoveEmoji.h"
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -297,6 +298,8 @@
 - (BOOL)validateForm {
     NSMutableArray *errorMessages = [[NSMutableArray alloc] init];
 
+    // add new validation here for [self.captionTextField.text isIncludingEmoji]
+    
     if (![self validateName:self.firstNameTextField.text]) {
         [self.firstNameTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"We need your first name."];

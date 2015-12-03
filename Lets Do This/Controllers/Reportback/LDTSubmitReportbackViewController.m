@@ -11,6 +11,7 @@
 #import "LDTTabBarController.h"
 #import "UITextField+LDT.h"
 #import "GAI+LDT.h"
+#import "NSString+RemoveEmoji.h"
 
 @interface LDTSubmitReportbackViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -124,13 +125,17 @@
         [self.captionTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"Your caption needs to be 60 characters or less."];
     }
+    if ([self.captionTextField.text isIncludingEmoji]) {
+        [self.captionTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"No emoji in the caption, please."];
+    }
     if (quantityValue <= 0) {
         [self.quantityTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"We need a positive number quantity."];
     }
     if (quantityValue > oneGreaterThanLargest32BitNumber) {
         [self.quantityTextField setBorderColor:UIColor.redColor];
-        [errorMessages addObject:@"Hmm, that's a big number. Let's try bringing it back down to Earth. :)"];
+        [errorMessages addObject:@"Hmm, that's a big number. Let's try bringing it back down to Earth."];
     }
     if (errorMessages.count > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
