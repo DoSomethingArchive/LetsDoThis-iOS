@@ -70,8 +70,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     self.flowLayout.minimumInteritemSpacing = 0.0f;
     self.flowLayout.minimumLineSpacing = 0.0f;
     [self.collectionView setCollectionViewLayout:self.flowLayout];
-    UINib *reportbackItemCellNib = [UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil];
-    self.reportbackItemSizingCell = [[reportbackItemCellNib instantiateWithOwner:nil options:nil] firstObject];
+
 
     self.imagePickerController = [[UIImagePickerController alloc] init];
     self.imagePickerController.delegate = self;
@@ -179,6 +178,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 }
 
 - (void)configureReportbackItemCell:(LDTCampaignDetailReportbackItemCell *)reportbackItemCell forIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"reportbackItemCellSizeForIndexPath:%@", indexPath);
     LDTReportbackItemDetailView *reportbackItemDetailView = reportbackItemCell.detailView;
     reportbackItemDetailView.delegate = self;
     DSOReportbackItem *reportbackItem;
@@ -188,6 +188,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         reportbackItem = self.currentUserReportback;
         reportbackItemDetailView.displayShareButton = YES;
+        NSLog(@"displayShareButton YES");
         reportbackItemDetailView.shareButtonTitle = @"Share your photo".uppercaseString;
         // If reportbackItem was just submitted, photo may be available.
         if (reportbackItem.image) {
@@ -196,6 +197,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         }
     }
     else {
+        NSLog(@"displayShareButton NO");
         reportbackItem = self.reportbackItems[indexPath.row];
         reportbackItemDetailView.displayShareButton = NO;
     }
@@ -214,7 +216,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 
 - (CGSize)reportbackItemCellSizeForIndexPath:(NSIndexPath *)indexPath {
-
+    UINib *reportbackItemCellNib = [UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil];
+    self.reportbackItemSizingCell = [[reportbackItemCellNib instantiateWithOwner:nil options:nil] firstObject];
     [self configureReportbackItemCell:self.reportbackItemSizingCell forIndexPath:indexPath];
 
     // Attempt with bounds (per https://github.com/honghaoz/Dynamic-Collection-View-Cell-With-Auto-Layout-Demo)
