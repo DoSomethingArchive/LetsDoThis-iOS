@@ -175,39 +175,38 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     cell.actionButtonTitle = actionButtonTitle;
 }
 
-- (void)configureReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView forIndexPath:(NSIndexPath *)indexPath {
+- (void)configureReportbackItemCell:(LDTCampaignDetailReportbackItemCell *)reportbackItemCell forIndexPath:(NSIndexPath *)indexPath {
+    LDTReportbackItemDetailView *reportbackItemDetailView = reportbackItemCell.detailView;
     reportbackItemDetailView.delegate = self;
-    DSOReportbackItem *reportbackItem = self.reportbackItems[indexPath.row];
-    reportbackItemDetailView.displayShareButton = NO;
+    DSOReportbackItem *reportbackItem;
+
+    BOOL localImageExists = NO;
+    // Self Reportback:
+    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
+        reportbackItem = self.currentUserReportback;
+        reportbackItemDetailView.displayShareButton = YES;
+        reportbackItemDetailView.shareButtonTitle = @"Share your photo".uppercaseString;
+        // If reportbackItem was just submitted, photo may be available.
+        if (reportbackItem.image) {
+            localImageExists = YES;
+            reportbackItemDetailView.reportbackItemImage = self.currentUserReportback.image;
+        }
+    }
+    else {
+        reportbackItem = self.reportbackItems[indexPath.row];
+        reportbackItemDetailView.displayShareButton = NO;
+    }
+
     reportbackItemDetailView.reportbackItem = reportbackItem;
+    if (!localImageExists) {
+        reportbackItemDetailView.reportbackItemImageURL = reportbackItem.imageURL;
+    }
     reportbackItemDetailView.campaignButtonTitle = self.campaign.title;
     reportbackItemDetailView.captionLabelText = reportbackItem.caption;
     reportbackItemDetailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)reportbackItem.quantity, reportbackItem.campaign.reportbackNoun, reportbackItem.campaign.reportbackVerb];
-    reportbackItemDetailView.reportbackItemImageURL = reportbackItem.imageURL;
     reportbackItemDetailView.userAvatarImage = reportbackItem.user.photo;
     reportbackItemDetailView.userCountryNameLabelText = reportbackItem.user.countryName;
     reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
-}
-
-- (void)configureSelfReportbackCell:(LDTCampaignDetailReportbackItemCell *)cell {
-    cell.detailView.delegate = self;
-    cell.detailView.displayShareButton = YES;
-    cell.detailView.shareButtonTitle = @"Share your photo".uppercaseString;
-    cell.detailView.campaignButtonTitle = self.campaign.title;
-    cell.detailView.captionLabelText = self.currentUserReportback.caption;
-    cell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.currentUserReportback.quantity, self.campaign.reportbackNoun, self.campaign.reportbackVerb];
-
-    // If reportbackItem was just submitted, photo may be available.
-    if (self.currentUserReportback.image) {
-        cell.detailView.reportbackItemImage = self.currentUserReportback.image;
-    }
-    else {
-        cell.detailView.reportbackItemImageURL = self.currentUserReportback.imageURL;
-    }
-
-    cell.detailView.userAvatarImage = self.currentUserReportback.user.photo;
-    cell.detailView.userCountryNameLabelText = self.currentUserReportback.user.countryName;
-    cell.detailView.userDisplayNameButtonTitle = self.currentUserReportback.user.displayName;
 }
 
 -(DSOUser *)user {
@@ -289,7 +288,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowAction) {
             if ([[self user] hasCompletedCampaign:self.campaign]) {
                 LDTCampaignDetailReportbackItemCell *selfReportbackCell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-                [self configureSelfReportbackCell:selfReportbackCell];
+                [self configureReportbackItemCell:selfReportbackCell forIndexPath:indexPath];
                 return selfReportbackCell;
             }
             else {
@@ -302,7 +301,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }
     if (indexPath.section == LDTCampaignDetailSectionTypeReportback) {
         LDTCampaignDetailReportbackItemCell *reportbackItemCell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-        [self configureReportbackItemDetailView:reportbackItemCell.detailView forIndexPath:indexPath];
+        [self configureReportbackItemCell:reportbackItemCell forIndexPath:indexPath];
 		
         return reportbackItemCell;
     }
