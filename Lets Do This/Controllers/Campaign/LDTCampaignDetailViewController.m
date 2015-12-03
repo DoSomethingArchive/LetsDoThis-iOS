@@ -91,6 +91,19 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     self.collectionView.contentInset = UIEdgeInsetsMake(0,0,0,0);
 }
 
+// Attempts fix for the item width must be less than the width of the UICollectionView minus the section insets left and right values, minus the content insets left and right values
+//
+//- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+//    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+//
+//    [self.collectionView.collectionViewLayout invalidateLayout];
+//}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    self.flowLayout.estimatedItemSize = CGSizeMake(CGRectGetWidth(self.collectionView.bounds), 400);
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
@@ -322,39 +335,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 #pragma mark - UICollectionViewDelegate
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    // Square reportback photo + header height + caption height.
-    CGFloat reportbackItemHeight = screenWidth + 36 + 70 + 8;
 
-    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-        if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
-            // Create a dummy sizing cell to determine dynamic CampaignCell height.
-            // We never display this cell, but just configure it with the campaign to return the exact the height.
-            UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil];
-            LDTCampaignDetailCampaignCell *sizingCell =  [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
-            [self configureCampaignCell:sizingCell];
-            sizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(sizingCell.frame));
-            [sizingCell setNeedsLayout];
-            [sizingCell layoutIfNeeded];
-            CGFloat campaignCellHeight = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-            return CGSizeMake(screenWidth, campaignCellHeight);
-        }
-        else {
-            if ([[self user] hasCompletedCampaign:self.campaign]) {
-                // Add 66 for the Share Photo button.
-                return CGSizeMake(screenWidth, reportbackItemHeight + 66);
-            }
-            else {
-                // Action Button cell:
-                // Button height (50) + top and bottom margins (2 * 16) = 82
-                return CGSizeMake(screenWidth, 82);
-            }
-        }
-    }
-
-    return CGSizeMake(screenWidth, reportbackItemHeight);
-}
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section == LDTCampaignDetailSectionTypeReportback) {
