@@ -34,6 +34,11 @@
 
     self.campaignDetailsHeadingLabel.text = @"Do this".uppercaseString;
     self.staticInstructionLabel.text = @"When you’re done, submit a pic of yourself in action. #picsoritdidnthappen";
+    [self addConstraintToUILabel:self.solutionCopyLabel];
+    [self addConstraintToUILabel:self.solutionSupportCopyLabel];
+    [self addConstraintToUILabel:self.staticInstructionLabel];
+    [self addConstraintToUILabel:self.taglineLabel];
+
 }
 
 - (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
@@ -49,17 +54,24 @@
     return attributes;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//
+//    // Subtract 16 for left/right margins of 8.
+//    CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds) - 16;
+//    self.solutionCopyLabel.preferredMaxLayoutWidth = width;
+//    self.solutionSupportCopyLabel.preferredMaxLayoutWidth = width;
+//    self.staticInstructionLabel.preferredMaxLayoutWidth = width;
+//    // Subtract 42 for left/right margins of 21.
+//    self.taglineLabel.preferredMaxLayoutWidth = CGRectGetWidth([UIScreen mainScreen].bounds) - 42;
+//}
 
-    // Subtract 16 for left/right margins of 8.
-    CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds) - 16;
-    self.solutionCopyLabel.preferredMaxLayoutWidth = width;
-    self.solutionSupportCopyLabel.preferredMaxLayoutWidth = width;
-    self.staticInstructionLabel.preferredMaxLayoutWidth = width;
-    // Subtract 42 for left/right margins of 21.
-    self.taglineLabel.preferredMaxLayoutWidth = CGRectGetWidth([UIScreen mainScreen].bounds) - 42;
+-(void)addConstraintToUILabel:(UILabel *)label {
+   CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds) - 16;
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    [label addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:width]];
 }
+
 
 #pragma mark - LDTCampaignDetailCampaignCell
 
