@@ -25,7 +25,6 @@
 @property (assign, nonatomic) BOOL quantityTextIsValid;
 @property (assign, nonatomic) BOOL captionTextIsValid;
 
-
 - (IBAction)changePhotoButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)quantityTextFieldEditingChanged:(id)sender;
@@ -194,7 +193,7 @@
     [SVProgressHUD showWithStatus:@"Uploading..."];
     self.reportbackItem.caption = self.captionTextField.text;
     self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
-        
+
     LDTTabBarController *rootVC = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
         [SVProgressHUD dismiss];
