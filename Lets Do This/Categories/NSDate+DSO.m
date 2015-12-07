@@ -13,17 +13,6 @@ static NSDateFormatter *_toDateFormatter;
 
 @implementation NSDate (DSO)
 
-+ (NSDate *)dateFromISOString:(NSString *)dateString {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _fromDateFormatter = [[NSDateFormatter alloc] init];
-        _fromDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-        _fromDateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
-    });
-
-    return [_fromDateFormatter dateFromString:dateString];
-}
-
 // Currently this method only works with strings that include a
 // timezone, and specifically in this format: “2011-02-01T10:57:55-08:00”.
 + (NSDate *)dateFromISO8601String:(NSString *)dateString {
@@ -36,17 +25,6 @@ static NSDateFormatter *_toDateFormatter;
     });
 
     return [_fromDateFormatter dateFromString:dateString];
-}
-
-- (NSString *)ISOString {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _toDateFormatter = [[NSDateFormatter alloc] init];
-        _toDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-        _toDateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
-    });
-
-    return [_toDateFormatter stringFromDate:self];
 }
 
 @end
