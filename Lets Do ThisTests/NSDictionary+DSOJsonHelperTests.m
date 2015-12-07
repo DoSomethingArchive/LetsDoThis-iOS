@@ -59,16 +59,6 @@
     XCTAssertNotEqual([self.campaignJSONData valueForKeyAsInt:@"id" nullValue:0], 101);
 }
 
-- (void)testValueForKeyAsDouble {
-    double doubleNumber = [[NSNumber numberWithDouble:111111111111111] doubleValue];
-    XCTAssertEqual([self.campaignJSONData valueForKeyAsDouble:@"doubleNumber" nullValue:0], doubleNumber);
-}
-
-- (void)testFalseValueForKeyAsDouble {
-    double doubleNumber = [[NSNumber numberWithDouble:2222222222222222] doubleValue];
-    XCTAssertNotEqual([self.campaignJSONData valueForKeyAsDouble:@"doubleNumber" nullValue:0], doubleNumber);
-}
-
 - (void)testValueForKeyAsBool {
     XCTAssertEqual([self.campaignJSONData valueForKeyAsBool:@"staff_pick" nullValue:false], true);
 }
