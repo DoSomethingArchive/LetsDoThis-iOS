@@ -276,7 +276,7 @@
 - (void)updateCreateAccountButton {
     BOOL enabled = NO;
     
-    if (self.passwordTextField.text.length > 5) {
+    if ([self validatePassword:self.passwordTextField.text]) {
         for (UITextField *aTextField in self.textFieldsRequired) {
             if (aTextField.text.length > 0) {
                 enabled = YES;
