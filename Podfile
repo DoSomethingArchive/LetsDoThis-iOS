@@ -14,6 +14,7 @@ target 'Lets Do This' do
     pod 'SVProgressHUD', '1.1.3'
     pod 'GoogleAnalytics', '3.13.0'
     pod 'NewRelicAgent', '5.3.4'
+    pod 'NSString+RemoveEmoji', '0.1.0'
 end
 
 xcodeproj 'Lets Do This', 'Thor' => :release, 'Debug' => :debug, 'Release' => :release

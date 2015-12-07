@@ -12,6 +12,7 @@
 #import "LDTUserLoginViewController.h"
 #import "UITextField+LDT.h"
 #import "GAI+LDT.h"
+#import "NSString+RemoveEmoji.h"
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -295,24 +296,42 @@
 }
 
 - (BOOL)validateForm {
-    NSMutableArray *errorMessages = [[NSMutableArray alloc] init];;
-
-    if (![self validateName:self.firstNameTextField.text]) {
+    NSMutableArray *errorMessages = [[NSMutableArray alloc] init];
+    
+    // Emoji presence check and other validations placed in if/else if blocks
+    // so user won't receive two redundant error messages.
+    if ([self.firstNameTextField.text isIncludingEmoji]) {
+        [self.firstNameTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"No emoji allowed in your name."];
+    }
+    else if (![self validateName:self.firstNameTextField.text]) {
         [self.firstNameTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"We need your first name."];
     }
-    if (![self validateEmailForCandidate:self.emailTextField.text]) {
+    
+    if ([self.emailTextField.text isIncludingEmoji]) {
+        [self.emailTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"No emoji allowed in your email."];
+    }
+    else if (![self validateEmailForCandidate:self.emailTextField.text]) {
         [self.emailTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"We need a valid email."];
     }
+    
     if (![self validateMobile:self.mobileTextField.text]) {
         [self.mobileTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"Enter a valid telephone number."];
     }
-    if (![self validatePassword:self.passwordTextField.text]) {
+    
+    if ([self.passwordTextField.text isIncludingEmoji]) {
+        [self.passwordTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"No emoji allowed in your password."];
+    }
+    else if (![self validatePassword:self.passwordTextField.text]) {
         [self.passwordTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"Password must be 6+ characters."];
     }
+    
     if (errorMessages.count > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
         [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage];

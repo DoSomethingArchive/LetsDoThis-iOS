@@ -75,7 +75,7 @@
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="captionTextFieldEditingChanged:" destination="-1" eventType="editingChanged" id="Mdm-3a-o57"/>
-                                        <action selector="captionTextFieldEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="oml-KD-67w"/>
+                                        <action selector="captionTextFieldEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="56g-Ek-uht"/>
                                     </connections>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Number of nouns verbed" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z5z-3H-aUv" userLabel="Quantity Text Field">
@@ -85,7 +85,7 @@
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="quantityTextFieldEditingChanged:" destination="-1" eventType="editingChanged" id="ht6-pZ-PPT"/>
-                                        <action selector="quantityTextFieldEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="sFY-4U-8Oh"/>
+                                        <action selector="quantityTextFieldEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="47u-ly-jbF"/>
                                     </connections>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g7X-Cr-BiL" userLabel="Submit Button" customClass="LDTButton">
