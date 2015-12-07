@@ -14,7 +14,6 @@
 - (NSString *)valueForKeyAsString:(NSString *)key;
 - (NSString *)valueForKeyAsString:(NSString *)key nullValue:(NSString *)nullValue;
 - (NSInteger)valueForKeyAsInt:(NSString *)key nullValue:(NSInteger)nullValue;
-- (double)valueForKeyAsDouble:(NSString *)key nullValue:(double)nullValue;
 - (BOOL)valueForKeyAsBool:(NSString *)key nullValue:(BOOL)nullValue;
 - (NSDate *)valueForKeyAsDate:(NSString *)key nullValue:(NSDate *)nullValue;
 
@@ -26,7 +25,6 @@
 - (NSString *)valueForKeyAsString:(NSString *)key;
 - (NSString *)valueForKeyAsString:(NSString *)key nullValue:(NSString *)nullValue;
 - (NSInteger)valueForKeyAsInt:(NSString *)key nullValue:(NSInteger)nullValue;
-- (double)valueForKeyAsDouble:(NSString *)key nullValue:(double)nullValue;
 - (BOOL)valueForKeyAsBool:(NSString *)key nullValue:(BOOL)nullValue;
 - (NSDate *)valueForKeyAsDate:(NSString *)key nullValue:(NSDate *)nullValue;
 
