@@ -14,8 +14,6 @@
     By having LDTUserLoginViewController, LDTUserRegisterViewController, and others subclass this controller, we're able to keep separate all of the text field logic from other business logic, as well as help keep text field logic DRY.
 */
 
-#import <UIKit/UIKit.h>
-
 @interface LDTBaseViewController : UIViewController<UITextFieldDelegate>
 
 @property (strong, nonatomic) NSArray *textFields;

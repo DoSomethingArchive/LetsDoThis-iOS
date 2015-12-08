@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "DSOAPI.h"
 
 @interface DSOUserManager : NSObject
