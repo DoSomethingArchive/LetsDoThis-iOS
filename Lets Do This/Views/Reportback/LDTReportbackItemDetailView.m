@@ -35,7 +35,13 @@
     [super awakeFromNib];
 
     [self styleView];
+    [self addConstraintToUILabel:self.reportbackItemCaptionLabel];
+}
 
+-(void)addConstraintToUILabel:(UILabel *)label {
+    CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds) - 16;
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    [label addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:width]];
 }
 
 - (void)styleView {
