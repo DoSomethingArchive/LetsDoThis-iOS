@@ -6,8 +6,6 @@
 //  Copyright © 2015 Do Something. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 @interface LDTProfileNoSignupsTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) NSString *subtitleLabelText;

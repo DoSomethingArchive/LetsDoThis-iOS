@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 typedef NS_ENUM(NSInteger, LDTNavigationBarStyle) {
     LDTNavigationBarStyleNormal,
     LDTNavigationBarStyleClear

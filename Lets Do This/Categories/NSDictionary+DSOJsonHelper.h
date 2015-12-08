@@ -6,8 +6,6 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-
 @interface NSDictionary (DSOJsonHelper)
 
 - (id)valueForJSONKey:(NSString *)key;

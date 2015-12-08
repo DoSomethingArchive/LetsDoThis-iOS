@@ -6,8 +6,6 @@
 //  Copyright © 2015 Do Something. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 @protocol LDTProfileCampaignTableViewCellDelegate;
 
 @interface LDTProfileCampaignTableViewCell : UITableViewCell

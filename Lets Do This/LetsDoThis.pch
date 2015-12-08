@@ -12,6 +12,10 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
+// Removing the Foundation and UIKit headers from here does not break the app; they're imported somewhere else. (Perhaps through Cocoapods?)
+// @TODO: determine where and how the Foundation and UIKit headers are being imported from elsewhere.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "DSOUserManager.h"
 #import "NSError+LDT.h"
 #import <SVProgressHUD.h>

@@ -6,7 +6,6 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "DSOCampaign.h"
 
 @class DSOCampaignSignup;
