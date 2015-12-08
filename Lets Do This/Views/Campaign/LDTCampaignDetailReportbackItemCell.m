@@ -14,4 +14,8 @@
 
 @implementation LDTCampaignDetailReportbackItemCell
 
+- (CGSize)preferredLayoutSizeFittingSize:(CGSize)targetSize {
+    return [self.detailView preferredLayoutSizeFittingSize:targetSize];
+}
+
 @end

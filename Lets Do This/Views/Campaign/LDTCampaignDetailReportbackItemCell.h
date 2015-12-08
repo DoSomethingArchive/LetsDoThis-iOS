@@ -14,5 +14,7 @@
 // This needs to be public so its delegate can be set.
 @property (weak, nonatomic) IBOutlet LDTReportbackItemDetailView *detailView;
 
+// See http://stackoverflow.com/a/26349770/1470725
+- (CGSize)preferredLayoutSizeFittingSize:(CGSize)targetSize;
 
 @end
