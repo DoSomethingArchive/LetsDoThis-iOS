@@ -266,7 +266,7 @@
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logged in as example@dosomething.org" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WAq-aZ-WOJ" userLabel="Logged In Email Label">
-                                    <rect key="frame" x="16" y="12" width="312" height="20"/>
+                                    <rect key="frame" x="16" y="12" width="568" height="20"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -289,6 +289,7 @@
                                 <constraint firstAttribute="height" constant="44" id="QMO-fd-c52"/>
                                 <constraint firstItem="WAq-aZ-WOJ" firstAttribute="top" secondItem="oQe-dL-E6M" secondAttribute="top" constant="12" id="ZH6-ct-5Lb"/>
                                 <constraint firstAttribute="bottom" secondItem="0fQ-gC-eIh" secondAttribute="bottom" id="aky-HZ-m1m"/>
+                                <constraint firstAttribute="trailing" secondItem="WAq-aZ-WOJ" secondAttribute="trailing" constant="16" id="bMw-Z8-J2B"/>
                                 <constraint firstItem="s07-pC-Llz" firstAttribute="leading" secondItem="oQe-dL-E6M" secondAttribute="leading" id="bSK-Kp-7tT"/>
                                 <constraint firstAttribute="trailing" secondItem="0fQ-gC-eIh" secondAttribute="trailing" id="hML-jg-DfN"/>
                                 <constraint firstItem="WAq-aZ-WOJ" firstAttribute="leading" secondItem="oQe-dL-E6M" secondAttribute="leading" constant="16" id="kG9-1O-e3w"/>
