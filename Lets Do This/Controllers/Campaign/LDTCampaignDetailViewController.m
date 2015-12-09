@@ -345,8 +345,18 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
             // Pitch view (user hasn't signed up or completed):
             if (![[self user] isDoingCampaign:self.campaign] && ![[self user] hasCompletedCampaign:self.campaign]) {
-                // same value as kHeightExpanded in ListVC, except we need a lil more room
-                return CGSizeMake(CGRectGetWidth(self.collectionView.bounds), 440);
+                UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil];
+                LDTCampaignListCampaignCell *sizingCell =  [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
+                [self configureCampaignPitchCell:sizingCell];
+                sizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(sizingCell.frame));
+                NSLog(@"sizingCell.frame.height %f", CGRectGetHeight(sizingCell.frame));
+                [sizingCell setNeedsLayout];
+                [sizingCell layoutIfNeeded];
+                // This is returning 0
+//                CGFloat campaignCellHeight = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+//                NSLog(@"campaignCellHeight %f", campaignCellHeight);
+                CGFloat campaignCellHeight = CGRectGetHeight(sizingCell.frame);
+                return CGSizeMake(screenWidth, campaignCellHeight);
             }
 
             // Create a dummy sizing cell to determine dynamic CampaignCell height.

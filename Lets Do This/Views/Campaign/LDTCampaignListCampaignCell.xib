@@ -30,7 +30,6 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gec-if-FXG" userLabel="Signup Indicator View">
                         <rect key="frame" x="0.0" y="0.0" width="8" height="400"/>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="8" id="dgE-ab-Byo"/>
                         </constraints>
