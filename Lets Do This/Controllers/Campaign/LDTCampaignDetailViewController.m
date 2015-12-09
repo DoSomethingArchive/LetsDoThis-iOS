@@ -11,6 +11,7 @@
 #import "LDTCampaignDetailCampaignCell.h"
 #import "LDTCampaignDetailActionButtonCell.h"
 #import "LDTCampaignDetailReportbackItemCell.h"
+#import "LDTCampaignListCampaignCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTProfileViewController.h"
 #import "LDTSubmitReportbackViewController.h"
@@ -62,6 +63,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self styleView];
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignPitchCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailActionButtonCell" bundle:nil] forCellWithReuseIdentifier:@"ActionButtonCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
@@ -165,6 +167,24 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     cell.solutionSupportCopyLabelText = self.campaign.solutionSupportCopy;
     cell.coverImageURL = self.campaign.coverImageURL;
 }
+
+- (void)configureCampaignPitchCell:(LDTCampaignListCampaignCell *)cell {
+    cell.campaign = self.campaign;
+    cell.expanded = YES;
+    cell.titleLabelText = self.campaign.title;
+    cell.taglineLabelText = self.campaign.tagline;
+    cell.imageViewImageURL = self.campaign.coverImageURL;
+    cell.actionButtonTitle = @"Stop being bored".uppercaseString;
+    NSString *expiresPrefixString = @"";
+    NSString *expiresSuffixString = @"";
+    if (self.campaign.numberOfDaysLeft > 0) {
+        expiresSuffixString = [NSString stringWithFormat:@"%li Days", (long)[self.campaign numberOfDaysLeft]];
+        expiresPrefixString = @"Expires in";
+    }
+    cell.expiresDaysPrefixLabelText = expiresPrefixString;
+    cell.expiresDaysSuffixLabelText = expiresSuffixString;
+}
+
 
 - (void)configureActionButtonCell:(LDTCampaignDetailActionButtonCell *)cell {
     cell.delegate = self;
@@ -280,9 +300,17 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
 
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
-            LDTCampaignDetailCampaignCell *campaignCell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
-            [self configureCampaignCell:campaignCell];
-            return campaignCell;
+            if ([[self user] isDoingCampaign:self.campaign]) {
+                LDTCampaignDetailCampaignCell *campaignCell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+                [self configureCampaignCell:campaignCell];
+                return campaignCell;
+            }
+            else {
+                LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignPitchCell" forIndexPath:indexPath];
+                [self configureCampaignPitchCell:campaignCell];
+                return campaignCell;
+            }
+
         }
 
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowAction) {
@@ -329,6 +357,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
+            if (![[self user] isDoingCampaign:self.campaign]) {
+                // same value as kHeightExpanded in ListVC, except we need a lil more room
+                return CGSizeMake(CGRectGetWidth(self.collectionView.bounds), 440);
+            }
+
             // Create a dummy sizing cell to determine dynamic CampaignCell height.
             // We never display this cell, but just configure it with the campaign to return the exact the height.
             UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil];
