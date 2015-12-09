@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     LDTCampaignDetailCampaignSectionRowAction
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailActionButtonCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignListCampaignCellDelegate, LDTCampaignListCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
@@ -170,6 +170,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)configureCampaignPitchCell:(LDTCampaignListCampaignCell *)cell {
     cell.campaign = self.campaign;
+    cell.delegate = self;
     cell.expanded = YES;
     cell.titleLabelText = self.campaign.title;
     cell.taglineLabelText = self.campaign.tagline;
@@ -233,8 +234,23 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 	return [DSOUserManager sharedInstance].user;
 }
 
+#pragma mark - LDTCampaignListCampaignCellDelegate
+
+- (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell {
+    [SVProgressHUD showWithStatus:@"Signing up..."];
+    [[DSOUserManager sharedInstance] signupUserForCampaign:self.campaign completionHandler:^(DSOCampaignSignup *signup) {
+        [SVProgressHUD dismiss];
+        [LDTMessage displaySuccessMessageWithTitle:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", self.campaign.title]];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
+    } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        [LDTMessage displayErrorMessageForError:error];
+    }];
+}
+
 #pragma mark - LDTCampaignDetailActionButtonCellDelegate
 
+/*
 - (void)didClickActionButtonForCell:(LDTCampaignDetailActionButtonCell *)cell {
     // Shouldn't see the actionButton if completed, but sanity check.
     if ([self.user hasCompletedCampaign:self.campaign]) {
@@ -269,18 +285,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         [reportbackPhotoAlertController addAction:cancelAlertAction];
         [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
     }
-    else {
-        [SVProgressHUD showWithStatus:@"Signing up..."];
-        [[DSOUserManager sharedInstance] signupUserForCampaign:self.campaign completionHandler:^(DSOCampaignSignup *signup) {
-            [SVProgressHUD dismiss];
-            [LDTMessage displaySuccessMessageWithTitle:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", self.campaign.title]];
-            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
-         } errorHandler:^(NSError *error) {
-             [SVProgressHUD dismiss];
-             [LDTMessage displayErrorMessageForError:error];
-         }];
-    }
 }
+ */
 
 #pragma mark - UICollectionViewDataSource
 
@@ -288,8 +294,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     if (section == LDTCampaignDetailSectionTypeReportback) {
         return self.reportbackItems.count;
     }
-
-    return 2;
+    if ([[self user] hasCompletedCampaign:self.campaign]) {
+        // Campaign Detail + Self Reportback
+        return 2;
+    }
+    return 1;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
