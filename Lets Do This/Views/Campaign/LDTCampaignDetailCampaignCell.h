@@ -6,13 +6,25 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
+@protocol LDTCampaignDetailCampaignCellDelegate;
+
 @interface LDTCampaignDetailCampaignCell : UICollectionViewCell
 
+@property (weak, nonatomic) id<LDTCampaignDetailCampaignCellDelegate> delegate;
+
+@property (assign, nonatomic) BOOL displaySubmitReportbackButton;
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) NSString *solutionCopyLabelText;
 @property (strong, nonatomic) NSString *solutionSupportCopyLabelText;
 @property (strong, nonatomic) NSString *titleLabelText;
 @property (strong, nonatomic) NSString *taglineLabelText;
 @property (strong, nonatomic) NSURL *coverImageURL;
+
+@end
+
+@protocol LDTCampaignDetailCampaignCellDelegate <NSObject>
+
+@required
+- (void)didClickSubmitReportbackButtonForCell:(LDTCampaignDetailCampaignCell *)cell;
 
 @end

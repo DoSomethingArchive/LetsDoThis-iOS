@@ -35,8 +35,6 @@
 		B23E68261B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B23E68241B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.m */; };
 		B23E68271B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B23E68251B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.xib */; };
 		B240DD321B73DA4D00CA6C6E /* LDTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B240DD311B73DA4D00CA6C6E /* LDTTabBarController.m */; };
-		B248D5091BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B248D5071BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m */; };
-		B248D50A1BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B248D5081BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib */; };
 		B24D53051C0F71040090C8EC /* LDTActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24D53041C0F71040090C8EC /* LDTActivityViewController.m */; };
 		B24FE0311BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FE0301BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m */; };
 		B24FE0331BAA49CE001CAD5D /* LDTSubmitReportbackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */; };
@@ -145,9 +143,6 @@
 		B23E68251B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCampaignDetailReportbackItemCell.xib; path = Campaign/LDTCampaignDetailReportbackItemCell.xib; sourceTree = "<group>"; };
 		B240DD301B73DA4D00CA6C6E /* LDTTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTTabBarController.h; path = Base/LDTTabBarController.h; sourceTree = "<group>"; };
 		B240DD311B73DA4D00CA6C6E /* LDTTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTTabBarController.m; path = Base/LDTTabBarController.m; sourceTree = "<group>"; };
-		B248D5061BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCampaignDetailActionButtonCell.h; path = Campaign/LDTCampaignDetailActionButtonCell.h; sourceTree = "<group>"; };
-		B248D5071BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCampaignDetailActionButtonCell.m; path = Campaign/LDTCampaignDetailActionButtonCell.m; sourceTree = "<group>"; };
-		B248D5081BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCampaignDetailActionButtonCell.xib; path = Campaign/LDTCampaignDetailActionButtonCell.xib; sourceTree = "<group>"; };
 		B24D53031C0F71040090C8EC /* LDTActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTActivityViewController.h; sourceTree = "<group>"; };
 		B24D53041C0F71040090C8EC /* LDTActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTActivityViewController.m; sourceTree = "<group>"; };
 		B24FE02F1BAA49AA001CAD5D /* LDTSubmitReportbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTSubmitReportbackViewController.h; path = Reportback/LDTSubmitReportbackViewController.h; sourceTree = "<group>"; };
@@ -274,9 +269,6 @@
 				B23E681E1B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.h */,
 				B23E681F1B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.m */,
 				B23E68201B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.xib */,
-				B248D5061BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.h */,
-				B248D5071BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m */,
-				B248D5081BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib */,
 				B23E68231B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.h */,
 				B23E68241B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.m */,
 				B23E68251B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.xib */,
@@ -718,7 +710,6 @@
 				B2E75D7F1B87B1610015BE4A /* LDTReportbackItemDetailView.xib in Resources */,
 				B2000DDC1C06471900197004 /* LDTProfileReportbackItemTableViewCell.xib in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
-				B248D50A1BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.xib in Resources */,
 				B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */,
 				B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */,
 				B258EB331B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib in Resources */,
@@ -873,7 +864,6 @@
 				B2753E391BD17C49004DDD6A /* GAI+LDT.m in Sources */,
 				B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */,
 				B2963E0A1BD83D1000D2B6EE /* LDTOnboardingPageViewController.m in Sources */,
-				B248D5091BCDC1100029DF60 /* LDTCampaignDetailActionButtonCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

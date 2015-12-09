@@ -129,4 +129,32 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
         self.signupIndicatorView.backgroundColor = UIColor.clearColor;
     }
 }
+
+- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
+    UICollectionViewLayoutAttributes *attributes = [[super preferredLayoutAttributesFittingAttributes:layoutAttributes] copy];
+
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+
+    CGRect newFrame = attributes.frame;
+    newFrame.size.width = CGRectGetWidth([UIScreen mainScreen].bounds);
+    newFrame.size.height = [self.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+    attributes.frame = newFrame;
+    return attributes;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    // Subtract 16 for left/right margins of 8.
+    CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds) - 16;
+    self.titleLabel.preferredMaxLayoutWidth = width;
+    // Subtract 42 for left/right margins of 21.
+    self.taglineLabel.preferredMaxLayoutWidth = CGRectGetWidth([UIScreen mainScreen].bounds) - 42;
+    // Hardcoded values in xib
+    self.expiresPrefixLabel.preferredMaxLayoutWidth = 95;
+    self.expiresSuffixLabel.preferredMaxLayoutWidth = 69;
+    [super layoutSubviews];
+}
+
 @end
