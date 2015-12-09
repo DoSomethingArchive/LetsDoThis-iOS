@@ -11,7 +11,6 @@
 
 @interface LDTCampaignDetailCampaignCell ()
 
-@property (weak, nonatomic) IBOutlet LDTButton *actionButton;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UILabel *campaignDetailsHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *solutionCopyLabel;
@@ -20,6 +19,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *campaignDetailsView;
+@property (weak, nonatomic) IBOutlet LDTButton *submitReportbackButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *submitReportbackButtonTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *submitReportbackButtonBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *submitReportbackButtonHeightConstraint;
+
+- (IBAction)submitReportbackButtonTouchUpInside:(id)sender;
 
 @end
 
@@ -77,7 +82,7 @@
     self.solutionSupportCopyLabel.font = LDTTheme.font;
     self.staticInstructionLabel.textColor = UIColor.whiteColor;
     self.staticInstructionLabel.font = LDTTheme.font;
-    [self.actionButton enable:YES];
+    [self.submitReportbackButton enable:YES];
 
     CAShapeLayer *layer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -103,6 +108,25 @@
     }];
 }
 
+- (void)setDisplaySubmitReportbackButton:(BOOL)displaySubmitReportbackButton {
+    _displaySubmitReportbackButton = displaySubmitReportbackButton;
+    if (displaySubmitReportbackButton) {
+        // @todo: Create public SubmitReportbackButtonTitle property.
+        [self.submitReportbackButton setTitle:@"Prove it".uppercaseString forState:UIControlStateNormal];
+        self.submitReportbackButtonBottomConstraint.constant = 16;
+        self.submitReportbackButtonTopConstraint.constant = 16;
+        self.submitReportbackButtonHeightConstraint.constant = 50;
+        self.submitReportbackButton.hidden = NO;
+    }
+    else {
+        self.submitReportbackButtonBottomConstraint.constant = 0;
+        self.submitReportbackButtonTopConstraint.constant = 0;
+        self.submitReportbackButtonHeightConstraint.constant = 0;
+        self.submitReportbackButton.hidden = YES;
+    }
+    
+}
+
 - (void)setSolutionCopyLabelText:(NSString *)solutionCopyLabelText {
     self.solutionCopyLabel.text = solutionCopyLabelText;
 }
@@ -119,4 +143,11 @@
     self.titleLabel.text = titleLabelText.uppercaseString;
 }
 
+- (IBAction)submitReportbackButtonTouchUpInside:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickSubmitReportbackButtonForCell:)]) {
+        [self.delegate didClickSubmitReportbackButtonForCell:self];
+    }
+}
+
 @end
+

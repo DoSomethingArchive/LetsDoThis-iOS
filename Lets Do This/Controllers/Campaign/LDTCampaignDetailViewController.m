@@ -9,7 +9,6 @@
 #import "LDTCampaignDetailViewController.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailCampaignCell.h"
-#import "LDTCampaignDetailActionButtonCell.h"
 #import "LDTCampaignDetailReportbackItemCell.h"
 #import "LDTCampaignListCampaignCell.h"
 #import "LDTHeaderCollectionReusableView.h"
@@ -25,10 +24,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     LDTCampaignDetailCampaignSectionRowCampaign,
-    LDTCampaignDetailCampaignSectionRowAction
+    LDTCampaignDetailCampaignSectionRowSelfReportback
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignListCampaignCellDelegate, LDTCampaignListCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignListCampaignCellDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
@@ -161,11 +160,18 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (void)configureCampaignCell:(LDTCampaignDetailCampaignCell *)cell {
     cell.campaign = self.campaign;
+    cell.delegate = self;
     cell.titleLabelText = self.campaign.title;
     cell.taglineLabelText = self.campaign.tagline;
     cell.solutionCopyLabelText = self.campaign.solutionCopy;
     cell.solutionSupportCopyLabelText = self.campaign.solutionSupportCopy;
     cell.coverImageURL = self.campaign.coverImageURL;
+    if ([[self user] hasCompletedCampaign:self.campaign]) {
+        cell.displaySubmitReportbackButton = NO;
+    }
+    else {
+        cell.displaySubmitReportbackButton = YES;
+    }
 }
 
 - (void)configureCampaignPitchCell:(LDTCampaignListCampaignCell *)cell {
@@ -184,16 +190,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }
     cell.expiresDaysPrefixLabelText = expiresPrefixString;
     cell.expiresDaysSuffixLabelText = expiresSuffixString;
-}
-
-
-- (void)configureActionButtonCell:(LDTCampaignDetailActionButtonCell *)cell {
-    cell.delegate = self;
-    NSString *actionButtonTitle = @"Stop being bored";
-    if ([self.user isDoingCampaign:self.campaign]) {
-        actionButtonTitle = @"Prove it";
-    }
-    cell.actionButtonTitle = actionButtonTitle;
 }
 
 - (void)configureReportbackItemCell:(LDTCampaignDetailReportbackItemCell *)reportbackItemCell forIndexPath:(NSIndexPath *)indexPath {
@@ -248,45 +244,36 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }];
 }
 
-#pragma mark - LDTCampaignDetailActionButtonCellDelegate
+#pragma mark - LDTCampaignDetailCampaignCellDelegate
 
-/*
-- (void)didClickActionButtonForCell:(LDTCampaignDetailActionButtonCell *)cell {
-    // Shouldn't see the actionButton if completed, but sanity check.
-    if ([self.user hasCompletedCampaign:self.campaign]) {
-        return;
-    }
-
-    if ([self.user isDoingCampaign:self.campaign]) {
-        UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *cameraAlertAction;
-        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"camera" value:nil];
-                self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-                [self presentViewController:self.imagePickerController animated:YES completion:NULL];
-            }];
-        }
-        else {
-            cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                // Nada
-            }];
-        }
-        UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-            [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"gallery" value:nil];
-            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+- (void)didClickSubmitReportbackButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
+    UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cameraAlertAction;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"camera" value:nil];
+            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
             [self presentViewController:self.imagePickerController animated:YES completion:NULL];
         }];
-        UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
-            [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [reportbackPhotoAlertController addAction:cameraAlertAction];
-        [reportbackPhotoAlertController addAction:photoLibraryAlertAction];
-        [reportbackPhotoAlertController addAction:cancelAlertAction];
-        [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
     }
+    else {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            // Nada
+        }];
+    }
+    UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"gallery" value:nil];
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+    }];
+    UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [reportbackPhotoAlertController addAction:cameraAlertAction];
+    [reportbackPhotoAlertController addAction:photoLibraryAlertAction];
+    [reportbackPhotoAlertController addAction:cancelAlertAction];
+    [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
 }
- */
 
 #pragma mark - UICollectionViewDataSource
 
@@ -307,9 +294,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
-            if ([[self user] isDoingCampaign:self.campaign]) {
+            if ([[self user] isDoingCampaign:self.campaign] || [[self user] hasCompletedCampaign:self.campaign]) {
                 LDTCampaignDetailCampaignCell *campaignCell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
                 [self configureCampaignCell:campaignCell];
                 return campaignCell;
@@ -319,27 +305,18 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
                 [self configureCampaignPitchCell:campaignCell];
                 return campaignCell;
             }
-
         }
-
-        if (indexPath.row == LDTCampaignDetailCampaignSectionRowAction) {
+        else if (indexPath.row == LDTCampaignDetailCampaignSectionRowSelfReportback) {
             if ([[self user] hasCompletedCampaign:self.campaign]) {
                 LDTCampaignDetailReportbackItemCell *selfReportbackCell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
                 [self configureReportbackItemCell:selfReportbackCell forIndexPath:indexPath];
                 return selfReportbackCell;
             }
-            else {
-                LDTCampaignDetailActionButtonCell *actionButtonCell = (LDTCampaignDetailActionButtonCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ActionButtonCell" forIndexPath:indexPath];
-                [self configureActionButtonCell:actionButtonCell];
-                return actionButtonCell;
-            }
         }
-
     }
     if (indexPath.section == LDTCampaignDetailSectionTypeReportback) {
         LDTCampaignDetailReportbackItemCell *reportbackItemCell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
         [self configureReportbackItemCell:reportbackItemCell forIndexPath:indexPath];
-		
         return reportbackItemCell;
     }
 
@@ -366,7 +343,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
-            if (![[self user] isDoingCampaign:self.campaign]) {
+            // Pitch view (user hasn't signed up or completed):
+            if (![[self user] isDoingCampaign:self.campaign] && ![[self user] hasCompletedCampaign:self.campaign]) {
                 // same value as kHeightExpanded in ListVC, except we need a lil more room
                 return CGSizeMake(CGRectGetWidth(self.collectionView.bounds), 440);
             }
