@@ -402,4 +402,25 @@
     [viewController styleRightBarButton];
 }
 
+# pragma mark - UITextFieldControllerDelegate
+
+// If user changes chars in a text field--and that field is the emailTextField--restrict chars from showing up, and display an error message.
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([textField isEqual:self.emailTextField]){
+        // Prevents crashing undo bug: http://stackoverflow.com/questions/433337/set-the-maximum-character-length-of-a-uitextfield
+        if (range.length + range.location > textField.text.length) {
+            return NO;
+        }
+        NSUInteger newLength = [textField.text length] + [string length] - range.length;
+        if (newLength > 60) {
+            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Your email can't be longer than 60 characters."];
+            return NO;
+        }
+        else {
+            return YES;
+        }
+    }
+    return YES;
+}
+
 @end
