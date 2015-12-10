@@ -34,13 +34,13 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     [super awakeFromNib];
 
     [self styleView];
+    self.actionButton.hidden = YES;
 }
 
 - (void)styleView {
     self.titleLabel.font = LDTTheme.fontTitle;
     self.taglineLabel.font = LDTTheme.font;;
     self.titleLabel.textColor = UIColor.whiteColor;
-    [self.actionButton enable:YES];
     [self.imageView addGrayTintForFullScreenWidthImageView];
 	
 	self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
@@ -90,13 +90,16 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 		self.titleLabelTopLayoutConstraint.constant = CGRectGetHeight(self.imageView.bounds)-CGRectGetHeight(self.titleLabel.bounds)-10; // -10 for padding
 		self.imageViewTop.constant = kCampaignImageViewConstantExpanded;
 		self.imageViewBottom.constant = kCampaignImageViewConstantExpanded;
-		
+		[self.actionButton enable:YES];
+        self.actionButton.hidden = NO;
+
 		[self layoutIfNeeded];
 	}
 	else {
 		self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
 		self.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
 		self.titleLabelTopLayoutConstraint.constant = self.collapsedTitleLabelTopLayoutConstraintConstant;
+        self.actionButton.hidden = YES;
 		
 		[self layoutIfNeeded];
 	}

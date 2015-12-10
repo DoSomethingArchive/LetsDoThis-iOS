@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, LDTLoadError) {
 };
 
 const CGFloat kHeightCollapsed = 150;
-const CGFloat kHeightExpanded = 382;
+const CGFloat kHeightExpanded = 400;
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate, LDTEpicFailSubmitButtonDelegate>
 
