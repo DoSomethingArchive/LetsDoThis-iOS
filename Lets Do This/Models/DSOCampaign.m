@@ -45,7 +45,6 @@
 
     if (self) {
         _campaignID = [values valueForKeyAsInt:@"id" nullValue:0];
-        _endDate = [[values valueForKeyPath:@"mobile_app.dates"] valueForKeyAsDate:@"end" nullValue:nil];
         _title = [values valueForKeyAsString:@"title" nullValue:nil];
         _status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
         _tagline = [values valueForKeyAsString:@"tagline" nullValue:nil];
@@ -71,21 +70,6 @@
 
 - (NSURL *)coverImageURL {
     return [NSURL URLWithString:self.coverImage];
-}
-
-- (NSInteger)numberOfDaysLeft {
-    if (!self.endDate) {
-        return 0;
-    }
-	
-    NSCalendar *c = [NSCalendar currentCalendar];
-    NSDate *today = [NSDate date];
-    NSDateComponents *components = [c components:NSCalendarUnitDay fromDate:today toDate:self.endDate options:0];
-
-    if (components.day > 0) {
-        return components.day;
-    }
-    return 0;
 }
 
 @end
