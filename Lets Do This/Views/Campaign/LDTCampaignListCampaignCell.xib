@@ -8,10 +8,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="LDTCampaignListCampaignCell">
-            <rect key="frame" x="0.0" y="0.0" width="385" height="400"/>
+            <rect key="frame" x="0.0" y="0.0" width="385" height="361"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="385" height="400"/>
+                <rect key="frame" x="0.0" y="0.0" width="385" height="361"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YLY-38-HRb" userLabel="Campaign Image">
                         <rect key="frame" x="0.0" y="0.0" width="385" height="242"/>
@@ -35,7 +35,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rcw-DX-Omy" userLabel="Action Container View">
-                        <rect key="frame" x="0.0" y="242" width="385" height="158"/>
+                        <rect key="frame" x="0.0" y="242" width="385" height="119"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEa-dR-bea" userLabel="Campaign Tagline">
                                 <rect key="frame" x="21" y="16" width="343" height="21"/>
@@ -65,7 +65,7 @@
                             <constraint firstItem="vEa-dR-bea" firstAttribute="leading" secondItem="rcw-DX-Omy" secondAttribute="leading" constant="21" id="Ex3-iC-1aV"/>
                             <constraint firstAttribute="trailing" secondItem="vEa-dR-bea" secondAttribute="trailing" constant="21" id="Gb4-2Y-Xxh"/>
                             <constraint firstAttribute="trailing" secondItem="D5G-Kr-aLa" secondAttribute="trailing" constant="8" id="Hsz-p7-JNi"/>
-                            <constraint firstAttribute="height" constant="158" id="P2i-IF-zNH"/>
+                            <constraint firstAttribute="bottom" secondItem="D5G-Kr-aLa" secondAttribute="bottom" constant="16" id="bpD-f1-oCi"/>
                             <constraint firstItem="vEa-dR-bea" firstAttribute="top" secondItem="rcw-DX-Omy" secondAttribute="top" constant="16" id="eep-p8-Gtj"/>
                             <constraint firstItem="D5G-Kr-aLa" firstAttribute="leading" secondItem="rcw-DX-Omy" secondAttribute="leading" constant="8" id="rjk-3x-f5A"/>
                         </constraints>
@@ -91,7 +91,7 @@
                 <constraint firstItem="4Ct-iF-EqI" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="32" id="rkg-tR-MYb"/>
                 <constraint firstItem="YLY-38-HRb" firstAttribute="height" secondItem="Gec-if-FXG" secondAttribute="height" id="s0L-zL-92e"/>
             </constraints>
-            <size key="customSize" width="385" height="400"/>
+            <size key="customSize" width="385" height="361"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="s0L-zL-92e"/>
@@ -109,7 +109,7 @@
                 <outlet property="titleLabel" destination="4Ct-iF-EqI" id="dO4-rM-JHV"/>
                 <outlet property="titleLabelTopLayoutConstraint" destination="rkg-tR-MYb" id="ulH-6g-kk7"/>
             </connections>
-            <point key="canvasLocation" x="378.5" y="265"/>
+            <point key="canvasLocation" x="382.5" y="220.5"/>
         </collectionViewCell>
     </objects>
 </document>
