@@ -182,14 +182,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     cell.taglineLabelText = self.campaign.tagline;
     cell.imageViewImageURL = self.campaign.coverImageURL;
     cell.actionButtonTitle = @"Stop being bored".uppercaseString;
-    NSString *expiresPrefixString = @"";
-    NSString *expiresSuffixString = @"";
-    if (self.campaign.numberOfDaysLeft > 0) {
-        expiresSuffixString = [NSString stringWithFormat:@"%li Days", (long)[self.campaign numberOfDaysLeft]];
-        expiresPrefixString = @"Expires in";
-    }
-    cell.expiresDaysPrefixLabelText = expiresPrefixString;
-    cell.expiresDaysSuffixLabelText = expiresSuffixString;
 }
 
 - (void)configureReportbackItemCell:(LDTCampaignDetailReportbackItemCell *)reportbackItemCell forIndexPath:(NSIndexPath *)indexPath {
