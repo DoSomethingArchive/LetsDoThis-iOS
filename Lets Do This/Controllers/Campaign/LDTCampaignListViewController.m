@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, LDTLoadError) {
 };
 
 const CGFloat kHeightCollapsed = 150;
-const CGFloat kHeightExpanded = 420;
+const CGFloat kHeightExpanded = 382;
 
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate, LDTEpicFailSubmitButtonDelegate>
 
@@ -306,15 +306,6 @@ const CGFloat kHeightExpanded = 420;
         cell.actionButtonTitle = @"Do this now";
         cell.signedUp = NO;
     }
-
-    NSString *expiresPrefixString = @"";
-    NSString *expiresSuffixString = @"";
-    if (campaign.numberOfDaysLeft > 0) {
-        expiresSuffixString = [NSString stringWithFormat:@"%li Days", (long)[campaign numberOfDaysLeft]];
-        expiresPrefixString = @"Expires in";
-    }
-    cell.expiresDaysPrefixLabelText = expiresPrefixString;
-    cell.expiresDaysSuffixLabelText = expiresSuffixString;
 }
 
 - (void)configureReportbackItemCell:(LDTCampaignListReportbackItemCell *)cell atIndexPath:(NSIndexPath *)indexPath {

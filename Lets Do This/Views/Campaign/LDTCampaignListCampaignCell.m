@@ -16,8 +16,6 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 @property (nonatomic, assign) CGFloat collapsedTitleLabelTopLayoutConstraintConstant;
 @property (weak, nonatomic) IBOutlet LDTButton *actionButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UILabel *expiresPrefixLabel;
-@property (weak, nonatomic) IBOutlet UILabel *expiresSuffixLabel;
 @property (weak, nonatomic) IBOutlet UILabel *taglineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *actionView;
@@ -40,16 +38,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 
 - (void)styleView {
     self.titleLabel.font = LDTTheme.fontTitle;
-    self.taglineLabel.font = LDTTheme.font;
-
-    self.expiresPrefixLabel.font = LDTTheme.fontBold;
-    self.expiresPrefixLabel.textColor = UIColor.grayColor;
-    self.expiresPrefixLabel.textAlignment = NSTextAlignmentRight;
-
-    self.expiresSuffixLabel.font = LDTTheme.fontBold;
-    self.expiresSuffixLabel.textColor = UIColor.blackColor;
-    self.expiresSuffixLabel.textAlignment = NSTextAlignmentLeft;
-    
+    self.taglineLabel.font = LDTTheme.font;;
     self.titleLabel.textColor = UIColor.whiteColor;
     [self.actionButton enable:YES];
     [self.imageView addGrayTintForFullScreenWidthImageView];
@@ -82,14 +71,6 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
             [self.imageView setImage:[UIImage imageNamed:@"Placeholder Image Download Fails"]];
         }
     }];
-}
-
-- (void)setExpiresDaysPrefixLabelText:(NSString *)expiresDaysPrefixLabelText {
-    self.expiresPrefixLabel.text = expiresDaysPrefixLabelText.uppercaseString;
-}
-
-- (void)setExpiresDaysSuffixLabelText:(NSString *)expiresDaysSuffixLabelText {
-     self.expiresSuffixLabel.text = expiresDaysSuffixLabelText.uppercaseString;
 }
 
 - (void)setActionButtonTitle:(NSString *)actionButtonTitle {
@@ -151,9 +132,7 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     self.titleLabel.preferredMaxLayoutWidth = width;
     // Subtract 42 for left/right margins of 21.
     self.taglineLabel.preferredMaxLayoutWidth = CGRectGetWidth([UIScreen mainScreen].bounds) - 42;
-    // Hardcoded values in xib
-    self.expiresPrefixLabel.preferredMaxLayoutWidth = 95;
-    self.expiresSuffixLabel.preferredMaxLayoutWidth = 69;
+
     [super layoutSubviews];
 }
 

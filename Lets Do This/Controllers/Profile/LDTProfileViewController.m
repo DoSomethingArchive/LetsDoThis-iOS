@@ -143,10 +143,6 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     self.tableView.backgroundColor = UIColor.clearColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self styleBackBarButton];
-
-    // Stolen from http://stackoverflow.com/questions/19802336/ios-7-changing-font-size-for-uitableview-section-headers
-    [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setFont:LDTTheme.fontBold];
-    [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextAlignment:NSTextAlignmentCenter];
 }
 
 - (void)handleSwipeGestureRecognizer:(UISwipeGestureRecognizer *)recognizer {
@@ -315,22 +311,6 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 }
 
 #pragma mark -- UITableViewDataSource
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == LDTProfileSectionTypeCampaign) {
-        if (self.isCurrentUserProfile) {
-            if ([DSOUserManager sharedInstance].activeMobileAppCampaigns.count > 0) {
-                // Currently assuming all active mobile app campaigns end on same day, so doesn't matter which one we select to determine # of days left.
-                DSOCampaign *campaign = (DSOCampaign *)[DSOUserManager sharedInstance].activeMobileAppCampaigns[0];
-
-                return [NSString stringWithFormat:@"Current: %ld days left".uppercaseString, (long)campaign.numberOfDaysLeft];
-            }
-        }
-    }
-
-
-    return nil;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == LDTProfileSectionTypeHeader) {
