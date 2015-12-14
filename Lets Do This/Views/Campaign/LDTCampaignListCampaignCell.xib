@@ -28,7 +28,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gec-if-FXG" userLabel="Signup Indicator View">
-                        <rect key="frame" x="0.0" y="0.0" width="8" height="400"/>
+                        <rect key="frame" x="0.0" y="0.0" width="8" height="242"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="8" id="dgE-ab-Byo"/>
@@ -79,7 +79,7 @@
                 <constraint firstItem="YLY-38-HRb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="E0W-T1-ySj"/>
                 <constraint firstAttribute="trailing" secondItem="rcw-DX-Omy" secondAttribute="trailing" id="Fpi-jV-LHi"/>
                 <constraint firstItem="Gec-if-FXG" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="JTj-R3-fys"/>
-                <constraint firstItem="YLY-38-HRb" firstAttribute="bottom" secondItem="Gec-if-FXG" secondAttribute="bottom" constant="-158" id="MPW-P0-qG7"/>
+                <constraint firstItem="YLY-38-HRb" firstAttribute="bottom" secondItem="Gec-if-FXG" secondAttribute="bottom" id="MPW-P0-qG7"/>
                 <constraint firstItem="rcw-DX-Omy" firstAttribute="top" secondItem="YLY-38-HRb" secondAttribute="bottom" id="Rmg-UZ-qQD"/>
                 <constraint firstAttribute="trailing" secondItem="4Ct-iF-EqI" secondAttribute="trailing" constant="8" id="Y5T-wc-J5D"/>
                 <constraint firstItem="4Ct-iF-EqI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="ZSF-wd-D7m"/>
