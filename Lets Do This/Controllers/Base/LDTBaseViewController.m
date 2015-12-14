@@ -1,5 +1,5 @@
 //
-//  LDTBaseUserLoginViewController.m
+//  LDTBaseViewController.m
 //  Lets Do This
 //
 //  Created by Aaron Schachter on 7/9/15.
