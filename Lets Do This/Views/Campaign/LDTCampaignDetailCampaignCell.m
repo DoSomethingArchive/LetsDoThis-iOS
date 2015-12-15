@@ -41,19 +41,6 @@
     self.staticInstructionLabel.text = @"When you’re done, submit a pic of yourself in action. #picsoritdidnthappen";
 }
 
-- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
-    UICollectionViewLayoutAttributes *attributes = [[super preferredLayoutAttributesFittingAttributes:layoutAttributes] copy];
-
-    [self setNeedsLayout];
-    [self layoutIfNeeded];
-
-    CGRect newFrame = attributes.frame;
-    newFrame.size.width = CGRectGetWidth([UIScreen mainScreen].bounds);
-    newFrame.size.height = [self.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-    attributes.frame = newFrame;
-    return attributes;
-}
-
 - (void)layoutSubviews {
     [super layoutSubviews];
 
