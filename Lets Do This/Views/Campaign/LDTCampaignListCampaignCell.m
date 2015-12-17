@@ -23,6 +23,11 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleLabelTopLayoutConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *taglineTop;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *actionButtonHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *actionButtonTop;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *actionButtonBottom;
 
 - (IBAction)actionButtonTouchUpInside:(id)sender;
 
@@ -34,13 +39,14 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     [super awakeFromNib];
 
     [self styleView];
+    // Collapse by default to keep actionButton hidden.
+    self.expanded = NO;
 }
 
 - (void)styleView {
     self.titleLabel.font = LDTTheme.fontTitle;
     self.taglineLabel.font = LDTTheme.font;;
     self.titleLabel.textColor = UIColor.whiteColor;
-    [self.actionButton enable:YES];
     [self.imageView addGrayTintForFullScreenWidthImageView];
 	
 	self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
@@ -90,13 +96,29 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
 		self.titleLabelTopLayoutConstraint.constant = CGRectGetHeight(self.imageView.bounds)-CGRectGetHeight(self.titleLabel.bounds)-10; // -10 for padding
 		self.imageViewTop.constant = kCampaignImageViewConstantExpanded;
 		self.imageViewBottom.constant = kCampaignImageViewConstantExpanded;
-		
+        self.imageViewHeight.constant = 242;
+        self.actionButtonHeight.constant = 50;
+        self.actionButtonTop.constant = 16;
+        self.actionButtonBottom.constant = 16;
+		[self.actionButton enable:YES];
+        self.actionButton.hidden = NO;
+        self.taglineTop.constant = 16;
+        self.taglineLabel.hidden = NO;
+
 		[self layoutIfNeeded];
 	}
 	else {
 		self.imageViewTop.constant = kCampaignImageViewConstantCollapsed;
 		self.imageViewBottom.constant = kCampaignImageViewConstantCollapsed;
+        // Desired height is 150, but need 25 with the imageView constant.
+        self.imageViewHeight.constant = 175;
 		self.titleLabelTopLayoutConstraint.constant = self.collapsedTitleLabelTopLayoutConstraintConstant;
+        self.actionButton.hidden = YES;
+        self.actionButtonHeight.constant = 0;
+        self.actionButtonTop.constant = 0;
+        self.actionButtonBottom.constant = 0;
+        self.taglineTop.constant = 0;
+        self.taglineLabel.hidden = YES;
 		
 		[self layoutIfNeeded];
 	}
@@ -109,19 +131,6 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     else {
         self.signupIndicatorView.backgroundColor = UIColor.clearColor;
     }
-}
-
-- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
-    UICollectionViewLayoutAttributes *attributes = [[super preferredLayoutAttributesFittingAttributes:layoutAttributes] copy];
-
-    [self setNeedsLayout];
-    [self layoutIfNeeded];
-
-    CGRect newFrame = attributes.frame;
-    newFrame.size.width = CGRectGetWidth([UIScreen mainScreen].bounds);
-    newFrame.size.height = [self.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-    attributes.frame = newFrame;
-    return attributes;
 }
 
 - (void)layoutSubviews {

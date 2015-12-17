@@ -341,13 +341,9 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
                 LDTCampaignListCampaignCell *sizingCell =  [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
                 [self configureCampaignPitchCell:sizingCell];
                 sizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(sizingCell.frame));
-                NSLog(@"sizingCell.frame.height %f", CGRectGetHeight(sizingCell.frame));
                 [sizingCell setNeedsLayout];
                 [sizingCell layoutIfNeeded];
-                // This is returning 0
-//                CGFloat campaignCellHeight = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-//                NSLog(@"campaignCellHeight %f", campaignCellHeight);
-                CGFloat campaignCellHeight = CGRectGetHeight(sizingCell.frame);
+                CGFloat campaignCellHeight = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
                 return CGSizeMake(screenWidth, campaignCellHeight);
             }
 

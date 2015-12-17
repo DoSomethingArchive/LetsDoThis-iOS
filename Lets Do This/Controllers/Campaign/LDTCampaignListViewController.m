@@ -30,13 +30,11 @@ typedef NS_ENUM(NSInteger, LDTLoadError) {
 	LDTLoadErrorReportback
 };
 
-const CGFloat kHeightCollapsed = 150;
-const CGFloat kHeightExpanded = 382;
-
 @interface LDTCampaignListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, LDTCampaignListCampaignCellDelegate, LDTEpicFailSubmitButtonDelegate>
 
 @property (assign, nonatomic) BOOL isMainFeedLoaded;
 @property (strong, nonatomic) NSMutableArray *allCampaigns;
+@property (strong, nonatomic) NSMutableDictionary *campaignSizingCells;
 @property (strong, nonatomic) NSArray *allReportbackItems;
 @property (strong, nonatomic) NSArray *interestGroupIds;
 @property (strong, nonatomic) NSArray *interestGroupButtons;
@@ -171,9 +169,14 @@ const CGFloat kHeightExpanded = 382;
             return;
         }
         self.allCampaigns = [[NSMutableArray alloc] init];
+        self.campaignSizingCells = [[NSMutableDictionary alloc] init];
         for (DSOCampaign *campaign in campaigns) {
             if ([campaign.status isEqual:@"active"]) {
                 [self.allCampaigns addObject:campaign];
+                UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil];
+                LDTCampaignListCampaignCell *sizingCell = [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
+                NSNumber *campaignID = [NSNumber numberWithInteger:campaign.campaignID];
+                self.campaignSizingCells[campaignID] = sizingCell;
             }
             else {
                 NSLog(@"Not displaying Campaign ID %li, its status is set to %@.", (long)campaign.campaignID, campaign.status);
@@ -285,6 +288,7 @@ const CGFloat kHeightExpanded = 382;
 
 - (void)configureCampaignCell:(LDTCampaignListCampaignCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     cell.delegate = self;
+
 	if (!self.selectedIndexPath && cell.isExpanded) {
 		cell.expanded = NO;
 	}
@@ -306,6 +310,19 @@ const CGFloat kHeightExpanded = 382;
         cell.actionButtonTitle = @"Do this now";
         cell.signedUp = NO;
     }
+}
+
+- (LDTCampaignListCampaignCell *)campaignSizingCellAtIndexPath:(NSIndexPath *)indexPath isExpanded:(BOOL)isExpanded {
+    NSArray *campaigns = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
+    DSOCampaign *campaign = (DSOCampaign *)campaigns[indexPath.row];
+    NSNumber *campaignID = [NSNumber numberWithInteger:campaign.campaignID];
+    LDTCampaignListCampaignCell *cell = self.campaignSizingCells[campaignID];
+    cell.campaign = campaign;
+    cell.titleLabelText = campaign.title;
+    cell.taglineLabelText = campaign.tagline;
+    cell.imageViewImageURL = campaign.coverImageURL;
+    cell.expanded = isExpanded;
+    return cell;
 }
 
 - (void)configureReportbackItemCell:(LDTCampaignListReportbackItemCell *)cell atIndexPath:(NSIndexPath *)indexPath {
@@ -504,24 +521,32 @@ const CGFloat kHeightExpanded = 382;
 		return self.collectionView.frame.size;
 	}
 	CGFloat width = self.collectionView.bounds.size.width;
-	CGFloat height = kHeightCollapsed;
+    CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
 	
 	if (indexPath.section == LDTCampaignListSectionTypeCampaign) {
+        BOOL isExpanded;
 		if ([self.selectedIndexPath isEqual:indexPath]) {
-			height = kHeightExpanded;
+            isExpanded = YES;
 		}
-	}
-	
+        else {
+            isExpanded = NO;
+        }
+        LDTCampaignListCampaignCell *sizingCell = [self campaignSizingCellAtIndexPath:indexPath isExpanded:isExpanded];
+        sizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(sizingCell.frame));
+        [sizingCell setNeedsLayout];
+        [sizingCell layoutIfNeeded];
+        CGFloat campaignCellHeight = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+        return CGSizeMake(screenWidth, campaignCellHeight);
+    }
+
 	if (indexPath.section == LDTCampaignListSectionTypeReportback) {
 		// Subtract left, right, and middle gutters with width 8.
 		width = width - 30;
 		// Divide by half to fit 2 cells on a row.
 		width = width / 2;
-		// Make it a square.
-		height = width;
 	}
 	
-	return CGSizeMake(width, height);
+	return CGSizeMake(width, width);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
