@@ -133,19 +133,6 @@ const CGFloat kCampaignImageViewConstantExpanded = 0;
     }
 }
 
-- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
-    UICollectionViewLayoutAttributes *attributes = [[super preferredLayoutAttributesFittingAttributes:layoutAttributes] copy];
-
-    [self setNeedsLayout];
-    [self layoutIfNeeded];
-
-    CGRect newFrame = attributes.frame;
-    newFrame.size.width = CGRectGetWidth([UIScreen mainScreen].bounds);
-    newFrame.size.height = [self.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-    attributes.frame = newFrame;
-    return attributes;
-}
-
 - (void)layoutSubviews {
     [super layoutSubviews];
 
