@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -15,21 +15,18 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YLY-38-HRb" userLabel="Campaign Image">
                         <rect key="frame" x="0.0" y="0.0" width="385" height="242"/>
-                        <animations/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="242" id="9iE-zQ-Mqv"/>
+                            <constraint firstAttribute="height" priority="750" constant="999" id="9iE-zQ-Mqv"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ct-iF-EqI" userLabel="Campaign Title">
                         <rect key="frame" x="8" y="32" width="369" height="21"/>
-                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gec-if-FXG" userLabel="Signup Indicator View">
                         <rect key="frame" x="0.0" y="0.0" width="8" height="242"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="8" id="dgE-ab-Byo"/>
                         </constraints>
@@ -39,14 +36,12 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEa-dR-bea" userLabel="Campaign Tagline">
                                 <rect key="frame" x="21" y="16" width="343" height="21"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D5G-Kr-aLa" userLabel="Action Button" customClass="LDTButton">
                                 <rect key="frame" x="8" y="53" width="369" height="50"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="vfe-nB-oVK"/>
                                 </constraints>
@@ -58,7 +53,6 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <animations/>
                         <constraints>
                             <constraint firstItem="D5G-Kr-aLa" firstAttribute="top" secondItem="vEa-dR-bea" secondAttribute="bottom" constant="16" id="DCM-TH-Ls5"/>
                             <constraint firstItem="vEa-dR-bea" firstAttribute="leading" secondItem="rcw-DX-Omy" secondAttribute="leading" constant="21" id="Ex3-iC-1aV"/>
@@ -70,10 +64,8 @@
                         </constraints>
                     </view>
                 </subviews>
-                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
-            <animations/>
             <constraints>
                 <constraint firstItem="YLY-38-HRb" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="5Ak-wS-aSM"/>
                 <constraint firstItem="YLY-38-HRb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="E0W-T1-ySj"/>
