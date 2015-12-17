@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, LDTLoadError) {
 
 @property (assign, nonatomic) BOOL isMainFeedLoaded;
 @property (strong, nonatomic) NSMutableArray *allCampaigns;
+@property (strong, nonatomic) NSMutableDictionary *campaignSizingCells;
 @property (strong, nonatomic) NSArray *allReportbackItems;
 @property (strong, nonatomic) NSArray *interestGroupIds;
 @property (strong, nonatomic) NSArray *interestGroupButtons;
@@ -168,9 +169,14 @@ typedef NS_ENUM(NSInteger, LDTLoadError) {
             return;
         }
         self.allCampaigns = [[NSMutableArray alloc] init];
+        self.campaignSizingCells = [[NSMutableDictionary alloc] init];
         for (DSOCampaign *campaign in campaigns) {
             if ([campaign.status isEqual:@"active"]) {
                 [self.allCampaigns addObject:campaign];
+                UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil];
+                LDTCampaignListCampaignCell *sizingCell = [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
+                NSNumber *campaignID = [NSNumber numberWithInteger:campaign.campaignID];
+                self.campaignSizingCells[campaignID] = sizingCell;
             }
             else {
                 NSLog(@"Not displaying Campaign ID %li, its status is set to %@.", (long)campaign.campaignID, campaign.status);
@@ -306,14 +312,17 @@ typedef NS_ENUM(NSInteger, LDTLoadError) {
     }
 }
 
-- (void)configureCampaignSizingCell:(LDTCampaignListCampaignCell *)cell atIndexPath:(NSIndexPath *)indexPath isExpanded:(BOOL)isExpanded {
-    cell.expanded = isExpanded;
+- (LDTCampaignListCampaignCell *)campaignSizingCellAtIndexPath:(NSIndexPath *)indexPath isExpanded:(BOOL)isExpanded {
     NSArray *campaigns = self.interestGroups[[self selectedInterestGroupId]][@"campaigns"];
     DSOCampaign *campaign = (DSOCampaign *)campaigns[indexPath.row];
+    NSNumber *campaignID = [NSNumber numberWithInteger:campaign.campaignID];
+    LDTCampaignListCampaignCell *cell = self.campaignSizingCells[campaignID];
     cell.campaign = campaign;
     cell.titleLabelText = campaign.title;
     cell.taglineLabelText = campaign.tagline;
     cell.imageViewImageURL = campaign.coverImageURL;
+    cell.expanded = isExpanded;
+    return cell;
 }
 
 - (void)configureReportbackItemCell:(LDTCampaignListReportbackItemCell *)cell atIndexPath:(NSIndexPath *)indexPath {
@@ -522,9 +531,7 @@ typedef NS_ENUM(NSInteger, LDTLoadError) {
         else {
             isExpanded = NO;
         }
-        UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil];
-        LDTCampaignListCampaignCell *sizingCell =  [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
-        [self configureCampaignSizingCell:sizingCell atIndexPath:indexPath isExpanded:isExpanded];
+        LDTCampaignListCampaignCell *sizingCell = [self campaignSizingCellAtIndexPath:indexPath isExpanded:isExpanded];
         sizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(sizingCell.frame));
         [sizingCell setNeedsLayout];
         [sizingCell layoutIfNeeded];
