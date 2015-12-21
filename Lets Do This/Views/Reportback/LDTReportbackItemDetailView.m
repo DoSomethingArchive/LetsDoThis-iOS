@@ -35,7 +35,13 @@
     [super awakeFromNib];
 
     [self styleView];
+}
 
+- (void)setPreferredMaxLayoutWidth {
+    CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds) - 16;
+    self.reportbackItemCaptionLabel.preferredMaxLayoutWidth = width;
+    self.reportbackItemQuantityLabel.preferredMaxLayoutWidth = width / 3;
+    self.userCountryNameLabel.preferredMaxLayoutWidth = 100;
 }
 
 - (void)styleView {

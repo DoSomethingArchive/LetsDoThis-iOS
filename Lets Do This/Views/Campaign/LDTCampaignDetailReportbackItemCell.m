@@ -14,4 +14,11 @@
 
 @implementation LDTCampaignDetailReportbackItemCell
 
+-(void)layoutSubviews {
+    [super layoutSubviews];
+
+    NSLog(@"layoutSubviews");
+    [self.detailView setPreferredMaxLayoutWidth];
+}
+
 @end

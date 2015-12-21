@@ -26,6 +26,7 @@
 @property (strong, nonatomic) UIImage *reportbackItemImage;
 @property (strong, nonatomic) UIImage *userAvatarImage;
 
+- (void)setPreferredMaxLayoutWidth;
 - (void)sizeForDetailSingleView;
 
 @end
