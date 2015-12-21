@@ -89,7 +89,7 @@
                             <constraint firstItem="Wux-hK-art" firstAttribute="top" secondItem="jAl-nc-WCh" secondAttribute="top" constant="41" identifier="headingTop" id="spp-hp-cK5"/>
                         </constraints>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sq-x9-XyP" customClass="LDTButton">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sq-x9-XyP" userLabel="Action Button" customClass="LDTButton">
                         <rect key="frame" x="8" y="501" width="369" height="50"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="bjh-IU-c9b"/>

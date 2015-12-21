@@ -13,7 +13,7 @@
 @property (weak, nonatomic) id<LDTCampaignDetailCampaignCellDelegate> delegate;
 
 @property (nonatomic, assign) BOOL displayCampaignDetailsView;
-@property (assign, nonatomic) BOOL displaySubmitReportbackButton;
+@property (assign, nonatomic) BOOL displayActionButton;
 @property (strong, nonatomic) DSOCampaign *campaign;
 
 @property (strong, nonatomic) NSString *actionButtonLabelText;
@@ -30,6 +30,6 @@
 @protocol LDTCampaignDetailCampaignCellDelegate <NSObject>
 
 @required
-- (void)didClickSubmitReportbackButtonForCell:(LDTCampaignDetailCampaignCell *)cell;
+- (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell;
 
 @end

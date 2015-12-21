@@ -85,11 +85,14 @@
     self.staticInstructionLabel.font = LDTTheme.font;
     [self.submitReportbackButton enable:YES];
 
-
     self.coverImageView.layer.masksToBounds = NO;
     self.coverImageView.layer.shadowOffset = CGSizeMake(0, 5);
     self.coverImageView.layer.shadowRadius = 0.8f;
     self.coverImageView.layer.shadowOpacity = 0.3;
+}
+
+- (void)setActionButtonLabelText:(NSString *)actionButtonLabelText {
+    [self.submitReportbackButton setTitle:actionButtonLabelText forState:UIControlStateNormal];
 }
 
 - (void)setCampaignDetailsHeadingLabelText:(NSString *)campaignDetailsHeadingLabelText {
@@ -130,11 +133,9 @@
     }
 }
 
-- (void)setDisplaySubmitReportbackButton:(BOOL)displaySubmitReportbackButton {
-    _displaySubmitReportbackButton = displaySubmitReportbackButton;
-    if (displaySubmitReportbackButton) {
-        // @todo: Create public SubmitReportbackButtonTitle property.
-        [self.submitReportbackButton setTitle:@"Prove it".uppercaseString forState:UIControlStateNormal];
+- (void)setDisplayActionButton:(BOOL)displayActionButton {
+    _displayActionButton = displayActionButton;
+    if (displayActionButton) {
         self.submitReportbackButtonBottomConstraint.constant = 16;
         self.submitReportbackButtonTopConstraint.constant = 16;
         self.submitReportbackButtonHeightConstraint.constant = 50;
@@ -146,7 +147,6 @@
         self.submitReportbackButtonHeightConstraint.constant = 0;
         self.submitReportbackButton.hidden = YES;
     }
-    
 }
 
 - (void)setSolutionCopyLabelText:(NSString *)solutionCopyLabelText {
@@ -170,8 +170,8 @@
 }
 
 - (IBAction)submitReportbackButtonTouchUpInside:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickSubmitReportbackButtonForCell:)]) {
-        [self.delegate didClickSubmitReportbackButtonForCell:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickActionButtonForCell:)]) {
+        [self.delegate didClickActionButtonForCell:self];
     }
 }
 

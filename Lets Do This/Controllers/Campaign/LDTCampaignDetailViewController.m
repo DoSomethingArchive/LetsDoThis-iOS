@@ -172,17 +172,18 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     cell.staticInstructionLabelText = @"When you’re done, submit a pic of yourself in action. #picsoritdidnthappen";
 
     if ([[self user] hasCompletedCampaign:self.campaign]) {
-        cell.displaySubmitReportbackButton = NO;
+        cell.displayActionButton = NO;
         cell.displayCampaignDetailsView = YES;
     }
     else {
         if ([[self user] isDoingCampaign:self.campaign]) {
-            cell.displaySubmitReportbackButton = YES;
+            cell.displayActionButton = YES;
+            cell.actionButtonLabelText = @"Prove it".uppercaseString;
             cell.displayCampaignDetailsView = YES;
         }
         else {
-            // @todo: Rename this property, since it's the Signup button now
-            cell.displaySubmitReportbackButton = YES;
+            cell.displayActionButton = YES;
+            cell.actionButtonLabelText = @"Do this now".uppercaseString;
             cell.displayCampaignDetailsView = NO;
         }
     }
@@ -229,7 +230,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 #pragma mark - LDTCampaignListCampaignCellDelegate
 
 
-- (void)didClickSubmitReportbackButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
+- (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
 
     if (![[self user] isDoingCampaign:self.campaign]) {
         [SVProgressHUD showWithStatus:@"Signing up..."];
