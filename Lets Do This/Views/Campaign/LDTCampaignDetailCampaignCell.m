@@ -95,6 +95,24 @@
     }];
 }
 
+- (void)setDisplayCampaignDetailsView:(BOOL)displayCampaignDetailsView {
+    _displayCampaignDetailsView = displayCampaignDetailsView;
+    if (!_displayCampaignDetailsView) {
+        self.campaignDetailsHeadingLabel.text = @"";
+        self.solutionCopyLabel.text = @"";
+        self.solutionSupportCopyLabel.text = @"";
+        self.staticInstructionLabel.text = @"";
+        self.campaignDetailsView.hidden = YES;
+    }
+    else {
+        self.campaignDetailsHeadingLabel.hidden = NO;
+        self.solutionCopyLabel.hidden = NO;
+        self.solutionSupportCopyLabel.hidden = NO;
+        self.staticInstructionLabel.hidden = NO;
+        self.campaignDetailsView.hidden = NO;
+    }
+}
+
 - (void)setDisplaySubmitReportbackButton:(BOOL)displaySubmitReportbackButton {
     _displaySubmitReportbackButton = displaySubmitReportbackButton;
     if (displaySubmitReportbackButton) {

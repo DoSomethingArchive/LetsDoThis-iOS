@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) id<LDTCampaignDetailCampaignCellDelegate> delegate;
 
+@property (nonatomic, assign) BOOL displayCampaignDetailsView;
 @property (assign, nonatomic) BOOL displaySubmitReportbackButton;
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) NSString *solutionCopyLabelText;

@@ -10,7 +10,6 @@
 #import "LDTTheme.h"
 #import "LDTCampaignDetailCampaignCell.h"
 #import "LDTCampaignDetailReportbackItemCell.h"
-#import "LDTCampaignListCampaignCell.h"
 #import "LDTHeaderCollectionReusableView.h"
 #import "LDTProfileViewController.h"
 #import "LDTSubmitReportbackViewController.h"
@@ -27,10 +26,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     LDTCampaignDetailCampaignSectionRowSelfReportback
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignListCampaignCellDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
 
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
+@property (strong, nonatomic) LDTCampaignDetailCampaignCell *campaignSizingCell;
 @property (strong, nonatomic) NSMutableArray *reportbackItems;
 @property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
@@ -62,10 +62,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self styleView];
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
-    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignPitchCell"];
-    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailActionButtonCell" bundle:nil] forCellWithReuseIdentifier:@"ActionButtonCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
+    // Create a dummy sizing cell to determine dynamic CampaignCell height.
+    UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil];
+    self.campaignSizingCell = [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
+
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 0.0f;
     self.flowLayout.minimumLineSpacing = 0.0f;
@@ -166,22 +168,22 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     cell.solutionCopyLabelText = self.campaign.solutionCopy;
     cell.solutionSupportCopyLabelText = self.campaign.solutionSupportCopy;
     cell.coverImageURL = self.campaign.coverImageURL;
+
     if ([[self user] hasCompletedCampaign:self.campaign]) {
         cell.displaySubmitReportbackButton = NO;
+        cell.displayCampaignDetailsView = YES;
     }
     else {
-        cell.displaySubmitReportbackButton = YES;
+        if ([[self user] isDoingCampaign:self.campaign]) {
+            cell.displaySubmitReportbackButton = YES;
+            cell.displayCampaignDetailsView = YES;
+        }
+        else {
+            // @todo: Rename this property, since it's the Signup button now
+            cell.displaySubmitReportbackButton = YES;
+            cell.displayCampaignDetailsView = NO;
+        }
     }
-}
-
-- (void)configureCampaignPitchCell:(LDTCampaignListCampaignCell *)cell {
-    cell.campaign = self.campaign;
-    cell.delegate = self;
-    cell.expanded = YES;
-    cell.titleLabelText = self.campaign.title;
-    cell.taglineLabelText = self.campaign.tagline;
-    cell.imageViewImageURL = self.campaign.coverImageURL;
-    cell.actionButtonTitle = @"Stop being bored".uppercaseString;
 }
 
 - (void)configureReportbackItemCell:(LDTCampaignDetailReportbackItemCell *)reportbackItemCell forIndexPath:(NSIndexPath *)indexPath {
@@ -224,21 +226,22 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 #pragma mark - LDTCampaignListCampaignCellDelegate
 
-- (void)didClickActionButtonForCell:(LDTCampaignListCampaignCell *)cell {
-    [SVProgressHUD showWithStatus:@"Signing up..."];
-    [[DSOUserManager sharedInstance] signupUserForCampaign:self.campaign completionHandler:^(DSOCampaignSignup *signup) {
-        [SVProgressHUD dismiss];
-        [LDTMessage displaySuccessMessageWithTitle:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", self.campaign.title]];
-        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
-    } errorHandler:^(NSError *error) {
-        [SVProgressHUD dismiss];
-        [LDTMessage displayErrorMessageForError:error];
-    }];
-}
-
-#pragma mark - LDTCampaignDetailCampaignCellDelegate
 
 - (void)didClickSubmitReportbackButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
+
+    if (![[self user] isDoingCampaign:self.campaign]) {
+        [SVProgressHUD showWithStatus:@"Signing up..."];
+        [[DSOUserManager sharedInstance] signupUserForCampaign:self.campaign completionHandler:^(DSOCampaignSignup *signup) {
+            [SVProgressHUD dismiss];
+            [LDTMessage displaySuccessMessageWithTitle:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", self.campaign.title]];
+            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
+        } errorHandler:^(NSError *error) {
+            [SVProgressHUD dismiss];
+            [LDTMessage displayErrorMessageForError:error];
+        }];
+        return;
+    }
+
     UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *cameraAlertAction;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -287,16 +290,10 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
-            if ([[self user] isDoingCampaign:self.campaign] || [[self user] hasCompletedCampaign:self.campaign]) {
-                LDTCampaignDetailCampaignCell *campaignCell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
-                [self configureCampaignCell:campaignCell];
-                return campaignCell;
-            }
-            else {
-                LDTCampaignListCampaignCell *campaignCell = (LDTCampaignListCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignPitchCell" forIndexPath:indexPath];
-                [self configureCampaignPitchCell:campaignCell];
-                return campaignCell;
-            }
+
+            LDTCampaignDetailCampaignCell *campaignCell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
+            [self configureCampaignCell:campaignCell];
+            return campaignCell;
         }
         else if (indexPath.row == LDTCampaignDetailCampaignSectionRowSelfReportback) {
             if ([[self user] hasCompletedCampaign:self.campaign]) {
@@ -335,31 +332,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
-            // Pitch view (user hasn't signed up or completed):
-            if (![[self user] isDoingCampaign:self.campaign] && ![[self user] hasCompletedCampaign:self.campaign]) {
-                UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignListCampaignCell" bundle:nil];
-                LDTCampaignListCampaignCell *sizingCell =  [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
-                [self configureCampaignPitchCell:sizingCell];
-                sizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(sizingCell.frame));
-                NSLog(@"sizingCell.frame.height %f", CGRectGetHeight(sizingCell.frame));
-                [sizingCell setNeedsLayout];
-                [sizingCell layoutIfNeeded];
-                // This is returning 0
-//                CGFloat campaignCellHeight = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-//                NSLog(@"campaignCellHeight %f", campaignCellHeight);
-                CGFloat campaignCellHeight = CGRectGetHeight(sizingCell.frame);
-                return CGSizeMake(screenWidth, campaignCellHeight);
-            }
-
-            // Create a dummy sizing cell to determine dynamic CampaignCell height.
-            // We never display this cell, but just configure it with the campaign to return the exact the height.
-            UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil];
-            LDTCampaignDetailCampaignCell *sizingCell =  [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
-            [self configureCampaignCell:sizingCell];
-            sizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(sizingCell.frame));
-            [sizingCell setNeedsLayout];
-            [sizingCell layoutIfNeeded];
-            CGFloat campaignCellHeight = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+            [self configureCampaignCell:self.campaignSizingCell];
+            self.campaignSizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(self.campaignSizingCell.frame));
+            [self.campaignSizingCell setNeedsLayout];
+            [self.campaignSizingCell layoutIfNeeded];
+            CGFloat campaignCellHeight = [self.campaignSizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
             return CGSizeMake(screenWidth, campaignCellHeight);
         }
         else {
