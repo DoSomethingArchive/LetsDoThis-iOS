@@ -47,12 +47,6 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jAl-nc-WCh" userLabel="Do It Container View">
                         <rect key="frame" x="0.0" y="287" width="385" height="198"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="998" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Do It" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wux-hK-art" userLabel="Do It Headline">
-                                <rect key="frame" x="8" y="41" width="369" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="996" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Solution Copy" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Es-nC-OvU">
                                 <rect key="frame" x="8" y="80" width="369" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -71,6 +65,12 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="998" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Do It" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wux-hK-art" userLabel="Do It Headline">
+                                <rect key="frame" x="8" y="41" width="369" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -79,14 +79,14 @@
                             <constraint firstItem="GEn-tp-NCH" firstAttribute="leading" secondItem="jAl-nc-WCh" secondAttribute="leading" constant="8" id="Vf6-2t-0mu"/>
                             <constraint firstItem="2EF-2e-0yi" firstAttribute="leading" secondItem="jAl-nc-WCh" secondAttribute="leading" constant="8" id="Xgd-Px-DHc"/>
                             <constraint firstAttribute="trailing" secondItem="4Es-nC-OvU" secondAttribute="trailing" constant="8" id="YP0-y1-W9f"/>
-                            <constraint firstItem="4Es-nC-OvU" firstAttribute="top" secondItem="Wux-hK-art" secondAttribute="bottom" constant="18" id="aHT-xc-8tL"/>
+                            <constraint firstItem="4Es-nC-OvU" firstAttribute="top" secondItem="Wux-hK-art" secondAttribute="bottom" constant="18" identifier="solutionCopyTop" id="aHT-xc-8tL"/>
                             <constraint firstAttribute="trailing" secondItem="2EF-2e-0yi" secondAttribute="trailing" constant="8" id="b7U-p9-wIL"/>
                             <constraint firstItem="4Es-nC-OvU" firstAttribute="leading" secondItem="jAl-nc-WCh" secondAttribute="leading" constant="8" id="bvR-94-cP7"/>
                             <constraint firstAttribute="trailing" secondItem="GEn-tp-NCH" secondAttribute="trailing" constant="8" id="fTH-XX-WbX"/>
-                            <constraint firstItem="2EF-2e-0yi" firstAttribute="top" secondItem="4Es-nC-OvU" secondAttribute="bottom" constant="18" id="geB-jW-LYf"/>
-                            <constraint firstItem="GEn-tp-NCH" firstAttribute="top" secondItem="2EF-2e-0yi" secondAttribute="bottom" constant="18" id="k5O-fU-OUg"/>
-                            <constraint firstAttribute="bottom" secondItem="GEn-tp-NCH" secondAttribute="bottom" constant="12" id="lb3-RT-54y"/>
-                            <constraint firstItem="Wux-hK-art" firstAttribute="top" secondItem="jAl-nc-WCh" secondAttribute="top" constant="41" id="spp-hp-cK5"/>
+                            <constraint firstItem="2EF-2e-0yi" firstAttribute="top" secondItem="4Es-nC-OvU" secondAttribute="bottom" constant="18" identifier="solutionSupportTop" id="geB-jW-LYf"/>
+                            <constraint firstItem="GEn-tp-NCH" firstAttribute="top" secondItem="2EF-2e-0yi" secondAttribute="bottom" constant="18" identifier="staticInstructionTop" id="k5O-fU-OUg"/>
+                            <constraint firstAttribute="bottom" secondItem="GEn-tp-NCH" secondAttribute="bottom" constant="12" identifier="staticInstructionBottom" id="lb3-RT-54y"/>
+                            <constraint firstItem="Wux-hK-art" firstAttribute="top" secondItem="jAl-nc-WCh" secondAttribute="top" constant="41" identifier="headingTop" id="spp-hp-cK5"/>
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sq-x9-XyP" customClass="LDTButton">

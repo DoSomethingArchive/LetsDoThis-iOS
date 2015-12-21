@@ -11,6 +11,8 @@
 
 @interface LDTCampaignDetailCampaignCell ()
 
+@property (strong, nonatomic) CAShapeLayer *diagonalShapeLayer;
+
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UILabel *campaignDetailsHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *solutionCopyLabel;
@@ -41,6 +43,16 @@
     [super awakeFromNib];
 
     [self styleView];
+
+    self.diagonalShapeLayer = [CAShapeLayer layer];
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0,0)];
+    [path addLineToPoint:CGPointMake(0, 26)];
+    [path addLineToPoint:CGPointMake(CGRectGetWidth([UIScreen mainScreen].bounds), 0)];
+    [path closePath];
+    self.diagonalShapeLayer.path = path.CGPath;
+    self.diagonalShapeLayer.fillColor = UIColor.whiteColor.CGColor;
+    [self.campaignDetailsView.layer addSublayer:self.diagonalShapeLayer];
 }
 
 - (void)layoutSubviews {
@@ -95,32 +107,26 @@
 - (void)setDisplayCampaignDetailsView:(BOOL)displayCampaignDetailsView {
     _displayCampaignDetailsView = displayCampaignDetailsView;
     if (!_displayCampaignDetailsView) {
+        self.diagonalShapeLayer.hidden = YES;
         // Hack to avoid UILabels preventing  campaignDetailsView from fully collapsing.
         self.campaignDetailsHeadingLabel.text = @"";
-        self.campaignDetailsHeadlineTopConstraint.constant = 0;
         self.solutionCopyLabel.text = @"";
-        self.solutionCopyLabelTopConstraint.constant = 0;
         self.solutionSupportCopyLabel.text = @"";
-        self.solutionSupportCopyLabelTopConstraint.constant = 0;
         self.staticInstructionLabel.text = @"";
+        self.campaignDetailsHeadlineTopConstraint.constant = 0;
+        self.solutionCopyLabelTopConstraint.constant = 0;
+        self.solutionSupportCopyLabelTopConstraint.constant = 0;
         self.staticInstructionLabelTopConstraint.constant = 0;
         self.staticInstructionLabelBottomConstraint.constant = 0;
     }
     else {
+        self.diagonalShapeLayer.hidden = NO;
         self.campaignDetailsHeadlineTopConstraint.constant = 41;
         self.solutionCopyLabelTopConstraint.constant = 18;
         self.solutionSupportCopyLabelTopConstraint.constant = 18;
         self.staticInstructionLabelTopConstraint.constant = 18;
         self.staticInstructionLabelBottomConstraint.constant = 12;
-        CAShapeLayer *layer = [CAShapeLayer layer];
-        UIBezierPath *path = [UIBezierPath bezierPath];
-        [path moveToPoint:CGPointMake(0,0)];
-        [path addLineToPoint:CGPointMake(0, 26)];
-        [path addLineToPoint:CGPointMake(CGRectGetWidth([UIScreen mainScreen].bounds), 0)];
-        [path closePath];
-        layer.path = path.CGPath;
-        layer.fillColor = UIColor.whiteColor.CGColor;
-        [self.campaignDetailsView.layer addSublayer:layer];
+
     }
 }
 
