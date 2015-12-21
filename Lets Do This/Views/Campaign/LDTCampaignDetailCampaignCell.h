@@ -15,8 +15,12 @@
 @property (nonatomic, assign) BOOL displayCampaignDetailsView;
 @property (assign, nonatomic) BOOL displaySubmitReportbackButton;
 @property (strong, nonatomic) DSOCampaign *campaign;
+
+@property (strong, nonatomic) NSString *actionButtonLabelText;
+@property (strong, nonatomic) NSString *campaignDetailsHeadingLabelText;
 @property (strong, nonatomic) NSString *solutionCopyLabelText;
 @property (strong, nonatomic) NSString *solutionSupportCopyLabelText;
+@property (strong, nonatomic) NSString *staticInstructionLabelText;
 @property (strong, nonatomic) NSString *titleLabelText;
 @property (strong, nonatomic) NSString *taglineLabelText;
 @property (strong, nonatomic) NSURL *coverImageURL;

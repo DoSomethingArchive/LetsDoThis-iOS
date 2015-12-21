@@ -168,6 +168,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     cell.solutionCopyLabelText = self.campaign.solutionCopy;
     cell.solutionSupportCopyLabelText = self.campaign.solutionSupportCopy;
     cell.coverImageURL = self.campaign.coverImageURL;
+    cell.campaignDetailsHeadingLabelText = @"Do this".uppercaseString;
+    cell.staticInstructionLabelText = @"When you’re done, submit a pic of yourself in action. #picsoritdidnthappen";
 
     if ([[self user] hasCompletedCampaign:self.campaign]) {
         cell.displaySubmitReportbackButton = NO;

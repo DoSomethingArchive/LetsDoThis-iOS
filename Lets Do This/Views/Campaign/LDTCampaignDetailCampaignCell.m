@@ -23,6 +23,11 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *submitReportbackButtonTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *submitReportbackButtonBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *submitReportbackButtonHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *campaignDetailsHeadlineTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *solutionSupportCopyLabelTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *solutionCopyLabelTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *staticInstructionLabelTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *staticInstructionLabelBottomConstraint;
 
 - (IBAction)submitReportbackButtonTouchUpInside:(id)sender;
 
@@ -36,9 +41,6 @@
     [super awakeFromNib];
 
     [self styleView];
-
-    self.campaignDetailsHeadingLabel.text = @"Do this".uppercaseString;
-    self.staticInstructionLabel.text = @"When you’re done, submit a pic of yourself in action. #picsoritdidnthappen";
 }
 
 - (void)layoutSubviews {
@@ -71,20 +73,15 @@
     self.staticInstructionLabel.font = LDTTheme.font;
     [self.submitReportbackButton enable:YES];
 
-    CAShapeLayer *layer = [CAShapeLayer layer];
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:CGPointMake(0,0)];
-    [path addLineToPoint:CGPointMake(0, 26)];
-    [path addLineToPoint:CGPointMake(CGRectGetWidth([UIScreen mainScreen].bounds), 0)];
-    [path closePath];
-    layer.path = path.CGPath;
-    layer.fillColor = UIColor.whiteColor.CGColor;
-    [self.campaignDetailsView.layer addSublayer:layer];
 
     self.coverImageView.layer.masksToBounds = NO;
     self.coverImageView.layer.shadowOffset = CGSizeMake(0, 5);
     self.coverImageView.layer.shadowRadius = 0.8f;
     self.coverImageView.layer.shadowOpacity = 0.3;
+}
+
+- (void)setCampaignDetailsHeadingLabelText:(NSString *)campaignDetailsHeadingLabelText {
+    self.campaignDetailsHeadingLabel.text = campaignDetailsHeadingLabelText;
 }
 
 - (void)setCoverImageURL:(NSURL *)coverImageURL {
@@ -98,18 +95,32 @@
 - (void)setDisplayCampaignDetailsView:(BOOL)displayCampaignDetailsView {
     _displayCampaignDetailsView = displayCampaignDetailsView;
     if (!_displayCampaignDetailsView) {
+        // Hack to avoid UILabels preventing  campaignDetailsView from fully collapsing.
         self.campaignDetailsHeadingLabel.text = @"";
+        self.campaignDetailsHeadlineTopConstraint.constant = 0;
         self.solutionCopyLabel.text = @"";
+        self.solutionCopyLabelTopConstraint.constant = 0;
         self.solutionSupportCopyLabel.text = @"";
+        self.solutionSupportCopyLabelTopConstraint.constant = 0;
         self.staticInstructionLabel.text = @"";
-        self.campaignDetailsView.hidden = YES;
+        self.staticInstructionLabelTopConstraint.constant = 0;
+        self.staticInstructionLabelBottomConstraint.constant = 0;
     }
     else {
-        self.campaignDetailsHeadingLabel.hidden = NO;
-        self.solutionCopyLabel.hidden = NO;
-        self.solutionSupportCopyLabel.hidden = NO;
-        self.staticInstructionLabel.hidden = NO;
-        self.campaignDetailsView.hidden = NO;
+        self.campaignDetailsHeadlineTopConstraint.constant = 41;
+        self.solutionCopyLabelTopConstraint.constant = 18;
+        self.solutionSupportCopyLabelTopConstraint.constant = 18;
+        self.staticInstructionLabelTopConstraint.constant = 18;
+        self.staticInstructionLabelBottomConstraint.constant = 12;
+        CAShapeLayer *layer = [CAShapeLayer layer];
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        [path moveToPoint:CGPointMake(0,0)];
+        [path addLineToPoint:CGPointMake(0, 26)];
+        [path addLineToPoint:CGPointMake(CGRectGetWidth([UIScreen mainScreen].bounds), 0)];
+        [path closePath];
+        layer.path = path.CGPath;
+        layer.fillColor = UIColor.whiteColor.CGColor;
+        [self.campaignDetailsView.layer addSublayer:layer];
     }
 }
 
@@ -138,6 +149,10 @@
 
 - (void)setSolutionSupportCopyLabelText:(NSString *)solutionSupportCopyLabelText {
     self.solutionSupportCopyLabel.text = solutionSupportCopyLabelText;
+}
+
+- (void)setStaticInstructionLabelText:(NSString *)staticInstructionLabelText {
+    self.staticInstructionLabel.text = staticInstructionLabelText;
 }
 
 - (void)setTaglineLabelText:(NSString *)taglineLabelText {

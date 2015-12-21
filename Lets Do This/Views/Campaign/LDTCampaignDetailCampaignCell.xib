@@ -127,11 +127,16 @@
             </variation>
             <connections>
                 <outlet property="campaignDetailsHeadingLabel" destination="Wux-hK-art" id="pkY-Ae-6qR"/>
+                <outlet property="campaignDetailsHeadlineTopConstraint" destination="spp-hp-cK5" id="z5A-WY-lRw"/>
                 <outlet property="campaignDetailsView" destination="jAl-nc-WCh" id="dRP-Ih-jSy"/>
                 <outlet property="coverImageView" destination="SPy-df-4JQ" id="DSJ-E6-E2J"/>
                 <outlet property="solutionCopyLabel" destination="4Es-nC-OvU" id="Ddt-ol-KAI"/>
+                <outlet property="solutionCopyLabelTopConstraint" destination="aHT-xc-8tL" id="IaB-Dk-ONV"/>
                 <outlet property="solutionSupportCopyLabel" destination="2EF-2e-0yi" id="T8D-bW-T4r"/>
+                <outlet property="solutionSupportCopyLabelTopConstraint" destination="geB-jW-LYf" id="8eT-64-FMn"/>
                 <outlet property="staticInstructionLabel" destination="GEn-tp-NCH" id="xyU-Pp-9JC"/>
+                <outlet property="staticInstructionLabelBottomConstraint" destination="lb3-RT-54y" id="Bye-5N-hef"/>
+                <outlet property="staticInstructionLabelTopConstraint" destination="k5O-fU-OUg" id="vPS-yy-fQL"/>
                 <outlet property="submitReportbackButton" destination="9sq-x9-XyP" id="7Co-Jo-DoW"/>
                 <outlet property="submitReportbackButtonBottomConstraint" destination="eXa-aM-Xuw" id="oBK-Sz-Mji"/>
                 <outlet property="submitReportbackButtonHeightConstraint" destination="bjh-IU-c9b" id="b0L-hl-FSm"/>
