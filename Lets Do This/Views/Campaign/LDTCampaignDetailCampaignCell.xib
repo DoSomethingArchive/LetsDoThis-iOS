@@ -54,13 +54,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="995" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Static Instructions" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GEn-tp-NCH">
-                                <rect key="frame" x="8" y="158" width="369" height="28"/>
+                                <rect key="frame" x="8" y="165" width="369" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="996" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Solution Support Copy" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2EF-2e-0yi">
-                                <rect key="frame" x="8" y="119" width="369" height="21"/>
+                                <rect key="frame" x="8" y="126" width="369" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -83,7 +83,7 @@
                             <constraint firstAttribute="trailing" secondItem="2EF-2e-0yi" secondAttribute="trailing" constant="8" id="b7U-p9-wIL"/>
                             <constraint firstItem="4Es-nC-OvU" firstAttribute="leading" secondItem="jAl-nc-WCh" secondAttribute="leading" constant="8" id="bvR-94-cP7"/>
                             <constraint firstAttribute="trailing" secondItem="GEn-tp-NCH" secondAttribute="trailing" constant="8" id="fTH-XX-WbX"/>
-                            <constraint firstItem="2EF-2e-0yi" firstAttribute="top" secondItem="4Es-nC-OvU" secondAttribute="bottom" constant="18" identifier="solutionSupportTop" id="geB-jW-LYf"/>
+                            <constraint firstItem="2EF-2e-0yi" firstAttribute="top" secondItem="4Es-nC-OvU" secondAttribute="bottom" priority="750" constant="18" identifier="solutionSupportTop" id="geB-jW-LYf"/>
                             <constraint firstItem="GEn-tp-NCH" firstAttribute="top" secondItem="2EF-2e-0yi" secondAttribute="bottom" constant="18" identifier="staticInstructionTop" id="k5O-fU-OUg"/>
                             <constraint firstAttribute="bottom" secondItem="GEn-tp-NCH" secondAttribute="bottom" constant="12" identifier="staticInstructionBottom" id="lb3-RT-54y"/>
                             <constraint firstItem="Wux-hK-art" firstAttribute="top" secondItem="jAl-nc-WCh" secondAttribute="top" constant="41" identifier="headingTop" id="spp-hp-cK5"/>
