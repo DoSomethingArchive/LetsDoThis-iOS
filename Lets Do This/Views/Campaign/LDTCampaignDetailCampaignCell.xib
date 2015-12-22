@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -18,17 +18,14 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SPy-df-4JQ" userLabel="Campaign Image">
                                 <rect key="frame" x="0.0" y="0.0" width="385" height="242"/>
-                                <animations/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xzc-iv-ilv" userLabel="Campaign Title">
                                 <rect key="frame" x="21" y="210" width="343" height="21"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="SPy-df-4JQ" firstAttribute="top" secondItem="3QF-fG-65U" secondAttribute="top" id="3hw-se-aEQ"/>
@@ -43,7 +40,6 @@
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="999" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Tagline" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AS3-o6-YFe">
                         <rect key="frame" x="21" y="258" width="343" height="21"/>
-                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -51,36 +47,31 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jAl-nc-WCh" userLabel="Do It Container View">
                         <rect key="frame" x="0.0" y="287" width="385" height="198"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="998" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Do It" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wux-hK-art" userLabel="Do It Headline">
-                                <rect key="frame" x="8" y="41" width="369" height="21"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="996" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Solution Copy" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Es-nC-OvU">
                                 <rect key="frame" x="8" y="80" width="369" height="21"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="995" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Static Instructions" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GEn-tp-NCH">
-                                <rect key="frame" x="8" y="158" width="369" height="28"/>
-                                <animations/>
+                                <rect key="frame" x="8" y="165" width="369" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="996" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Solution Support Copy" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2EF-2e-0yi">
-                                <rect key="frame" x="8" y="119" width="369" height="21"/>
-                                <animations/>
+                                <rect key="frame" x="8" y="126" width="369" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="998" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Do It" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wux-hK-art" userLabel="Do It Headline">
+                                <rect key="frame" x="8" y="41" width="369" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Wux-hK-art" secondAttribute="trailing" constant="8" id="5Iq-PK-V6P"/>
@@ -88,19 +79,18 @@
                             <constraint firstItem="GEn-tp-NCH" firstAttribute="leading" secondItem="jAl-nc-WCh" secondAttribute="leading" constant="8" id="Vf6-2t-0mu"/>
                             <constraint firstItem="2EF-2e-0yi" firstAttribute="leading" secondItem="jAl-nc-WCh" secondAttribute="leading" constant="8" id="Xgd-Px-DHc"/>
                             <constraint firstAttribute="trailing" secondItem="4Es-nC-OvU" secondAttribute="trailing" constant="8" id="YP0-y1-W9f"/>
-                            <constraint firstItem="4Es-nC-OvU" firstAttribute="top" secondItem="Wux-hK-art" secondAttribute="bottom" constant="18" id="aHT-xc-8tL"/>
+                            <constraint firstItem="4Es-nC-OvU" firstAttribute="top" secondItem="Wux-hK-art" secondAttribute="bottom" constant="18" identifier="solutionCopyTop" id="aHT-xc-8tL"/>
                             <constraint firstAttribute="trailing" secondItem="2EF-2e-0yi" secondAttribute="trailing" constant="8" id="b7U-p9-wIL"/>
                             <constraint firstItem="4Es-nC-OvU" firstAttribute="leading" secondItem="jAl-nc-WCh" secondAttribute="leading" constant="8" id="bvR-94-cP7"/>
                             <constraint firstAttribute="trailing" secondItem="GEn-tp-NCH" secondAttribute="trailing" constant="8" id="fTH-XX-WbX"/>
-                            <constraint firstItem="2EF-2e-0yi" firstAttribute="top" secondItem="4Es-nC-OvU" secondAttribute="bottom" constant="18" id="geB-jW-LYf"/>
-                            <constraint firstItem="GEn-tp-NCH" firstAttribute="top" secondItem="2EF-2e-0yi" secondAttribute="bottom" constant="18" id="k5O-fU-OUg"/>
-                            <constraint firstAttribute="bottom" secondItem="GEn-tp-NCH" secondAttribute="bottom" constant="12" id="lb3-RT-54y"/>
-                            <constraint firstItem="Wux-hK-art" firstAttribute="top" secondItem="jAl-nc-WCh" secondAttribute="top" constant="41" id="spp-hp-cK5"/>
+                            <constraint firstItem="2EF-2e-0yi" firstAttribute="top" secondItem="4Es-nC-OvU" secondAttribute="bottom" priority="750" constant="18" identifier="solutionSupportTop" id="geB-jW-LYf"/>
+                            <constraint firstItem="GEn-tp-NCH" firstAttribute="top" secondItem="2EF-2e-0yi" secondAttribute="bottom" constant="18" identifier="staticInstructionTop" id="k5O-fU-OUg"/>
+                            <constraint firstAttribute="bottom" secondItem="GEn-tp-NCH" secondAttribute="bottom" constant="12" identifier="staticInstructionBottom" id="lb3-RT-54y"/>
+                            <constraint firstItem="Wux-hK-art" firstAttribute="top" secondItem="jAl-nc-WCh" secondAttribute="top" constant="41" identifier="headingTop" id="spp-hp-cK5"/>
                         </constraints>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sq-x9-XyP" customClass="LDTButton">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sq-x9-XyP" userLabel="Action Button" customClass="LDTButton">
                         <rect key="frame" x="8" y="501" width="369" height="50"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="bjh-IU-c9b"/>
                         </constraints>
@@ -110,10 +100,8 @@
                         </connections>
                     </button>
                 </subviews>
-                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="AS3-o6-YFe" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="21" id="00i-E4-fPE"/>
@@ -139,11 +127,16 @@
             </variation>
             <connections>
                 <outlet property="campaignDetailsHeadingLabel" destination="Wux-hK-art" id="pkY-Ae-6qR"/>
+                <outlet property="campaignDetailsHeadlineTopConstraint" destination="spp-hp-cK5" id="z5A-WY-lRw"/>
                 <outlet property="campaignDetailsView" destination="jAl-nc-WCh" id="dRP-Ih-jSy"/>
                 <outlet property="coverImageView" destination="SPy-df-4JQ" id="DSJ-E6-E2J"/>
                 <outlet property="solutionCopyLabel" destination="4Es-nC-OvU" id="Ddt-ol-KAI"/>
+                <outlet property="solutionCopyLabelTopConstraint" destination="aHT-xc-8tL" id="IaB-Dk-ONV"/>
                 <outlet property="solutionSupportCopyLabel" destination="2EF-2e-0yi" id="T8D-bW-T4r"/>
+                <outlet property="solutionSupportCopyLabelTopConstraint" destination="geB-jW-LYf" id="8eT-64-FMn"/>
                 <outlet property="staticInstructionLabel" destination="GEn-tp-NCH" id="xyU-Pp-9JC"/>
+                <outlet property="staticInstructionLabelBottomConstraint" destination="lb3-RT-54y" id="Bye-5N-hef"/>
+                <outlet property="staticInstructionLabelTopConstraint" destination="k5O-fU-OUg" id="vPS-yy-fQL"/>
                 <outlet property="submitReportbackButton" destination="9sq-x9-XyP" id="7Co-Jo-DoW"/>
                 <outlet property="submitReportbackButtonBottomConstraint" destination="eXa-aM-Xuw" id="oBK-Sz-Mji"/>
                 <outlet property="submitReportbackButtonHeightConstraint" destination="bjh-IU-c9b" id="b0L-hl-FSm"/>
