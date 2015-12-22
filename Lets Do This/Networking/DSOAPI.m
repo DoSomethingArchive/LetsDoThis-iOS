@@ -101,6 +101,7 @@
                              @"first_name": firstName,
                              @"mobile": mobile,
                              @"country": countryCode,
+                             @"parse_installation_ids": [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"],
                              @"source": LDTSOURCENAME};
     
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -122,10 +123,47 @@
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
+        // iterate through the strings stored in the parse_installation_id. if the parse_installation_id id isn't equal to that saved in local storage, make a PUT call to update user with the one saved locally.
+        BOOL idIsStoredInNorthstar = NO;
+        for (int i = 0; i < user.parseInstallationIds.count; i++) {
+            if ([user.parseInstallationIds[i] isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"]]) {
+                idIsStoredInNorthstar = YES;
+            }
+        }
+        if (!idIsStoredInNorthstar) {
+            [self updateUserProfileWithUserId:user.userID existingParseApplicationIDArray:nil newParseApplicationID:[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"] completionHandler:^(id responseObject) {
+                NSLog(@"parse_installation_ids field updated for user: %@", responseObject);
+            } errorHandler:^(NSError *error) {
+                [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
+            }];
+        }
         if (completionHandler) {
             completionHandler(user);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
+- (void)updateUserProfileWithUserId:(NSString *)userID existingParseApplicationIDArray:(NSArray *)existingParseApplicationIDArray newParseApplicationID:(NSString *)newParseApplicationID completionHandler:(void(^)(id))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
+    NSMutableArray *uploadArray;
+    if (existingParseApplicationIDArray) {
+        uploadArray = [NSMutableArray arrayWithArray:existingParseApplicationIDArray];
+    }
+    else {
+        uploadArray = [[NSMutableArray alloc] init];
+    }
+    [uploadArray addObject:newParseApplicationID];
+    NSDictionary *JSONObject = [NSDictionary dictionaryWithObjectsAndKeys:uploadArray, @"parse_installation_ids", nil];
+    [self PUT:url parameters:JSONObject success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        if (completionHandler) {
+            completionHandler(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
         [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
             errorHandler(error);
@@ -153,7 +191,10 @@
 }
 
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = @"logout";
+    // Including the deviceToken in the query param removes the parse installation id
+    // associated with this session from the user's profile on northstar.
+    NSString *url = [NSString stringWithFormat:@"logout?%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"]];
+
     [self POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler(responseObject);
