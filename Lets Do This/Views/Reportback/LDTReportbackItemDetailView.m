@@ -34,8 +34,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
 
+    [self setPreferredMaxLayoutWidthForLabels];
     [self styleView];
-
 }
 
 - (void)styleView {
@@ -127,6 +127,41 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(didClickShareButtonForReportbackItemDetailView:)]) {
         [self.delegate didClickShareButtonForReportbackItemDetailView:self];
     }
+}
+
+- (void)setPreferredMaxLayoutWidthForLabels {
+    CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds);
+    NSLog(@"setPreferredMaxLayoutWidthForLabels width %f", width);
+    self.reportbackItemCaptionLabel.preferredMaxLayoutWidth = width - 16;
+    self.reportbackItemQuantityLabel.preferredMaxLayoutWidth = width / 3;
+    self.userCountryNameLabel.preferredMaxLayoutWidth = 100;
+}
+
+- (CGSize)preferredLayoutSizeFittingSize:(CGSize)targetSize {
+    CGRect originalFrame = self.frame;
+
+    // step1: set the detailView.frame to use our target width
+    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, targetSize.width, targetSize.height);
+    NSLog(@"targetSize.width %f", targetSize.width);
+
+    // step2: layout the cell
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+// Setting this to the desired width always results in the extra caption vertical padding. If we set it to just bounds.size.width like the SO thread suggests, we get vertical padding for first few rows but usually we eventually get the correct padding too.
+//    self.reportbackItemCaptionLabel.preferredMaxLayoutWidth = targetSize.width - 16;
+    self.reportbackItemCaptionLabel.preferredMaxLayoutWidth = self.reportbackItemCaptionLabel.bounds.size.width;
+    NSLog(@"reportbackItemCaptionLabel.preferredMaxLayoutWidth %f: ", self.reportbackItemCaptionLabel.preferredMaxLayoutWidth);
+    self.reportbackItemQuantityLabel.preferredMaxLayoutWidth = self.reportbackItemQuantityLabel.bounds.size.width;
+    self.userCountryNameLabel.preferredMaxLayoutWidth = self.userCountryNameLabel.bounds.size.width;
+
+    // step3: compute how tall the cell needs to be
+    CGSize computedSize = [self systemLayoutSizeFittingSize:targetSize];
+    CGSize newSize = CGSizeMake(targetSize.width, computedSize.height);
+    NSLog(@"computedSize.height %f", computedSize.height);
+    self.frame = originalFrame;
+    [self setPreferredMaxLayoutWidthForLabels];
+
+    return newSize;
 }
 
 @end

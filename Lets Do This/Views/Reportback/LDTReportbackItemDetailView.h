@@ -26,6 +26,7 @@
 @property (strong, nonatomic) UIImage *reportbackItemImage;
 @property (strong, nonatomic) UIImage *userAvatarImage;
 
+- (CGSize)preferredLayoutSizeFittingSize:(CGSize)targetSize;
 - (void)sizeForDetailSingleView;
 
 @end

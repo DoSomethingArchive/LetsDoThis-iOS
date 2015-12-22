@@ -223,6 +223,15 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
 }
 
+- (CGSize)reportbackItemCellSizeForIndexPath:(NSIndexPath *)indexPath {
+    UINib *reportbackItemCellNib = [UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil];
+    LDTCampaignDetailReportbackItemCell *sizingCell = [[reportbackItemCellNib instantiateWithOwner:nil options:nil] firstObject];
+    [self configureReportbackItemCell:sizingCell forIndexPath:indexPath];
+    CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds);
+    CGSize targetSize = CGSizeMake(width, 0);
+    return [sizingCell preferredLayoutSizeFittingSize:targetSize];
+}
+
 -(DSOUser *)user {
 	return [DSOUserManager sharedInstance].user;
 }
@@ -330,8 +339,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    // Square reportback photo + header height + caption height.
-    CGFloat reportbackItemHeight = screenWidth + 36 + 70 + 8;
 
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
@@ -344,8 +351,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         }
         else {
             if ([[self user] hasCompletedCampaign:self.campaign]) {
-                // Add 66 for the Share Photo button.
-                return CGSizeMake(screenWidth, reportbackItemHeight + 66);
+                return [self reportbackItemCellSizeForIndexPath:indexPath];
             }
             else {
                 // Action Button cell:
@@ -355,7 +361,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
         }
     }
 
-    return CGSizeMake(screenWidth, reportbackItemHeight);
+    return [self reportbackItemCellSizeForIndexPath:indexPath];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
