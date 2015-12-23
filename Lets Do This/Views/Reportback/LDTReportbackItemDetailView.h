@@ -26,6 +26,7 @@
 @property (strong, nonatomic) UIImage *reportbackItemImage;
 @property (strong, nonatomic) UIImage *userAvatarImage;
 
+- (CGFloat)heightForWidth:(CGFloat)width;
 - (void)sizeForDetailSingleView;
 
 @end
