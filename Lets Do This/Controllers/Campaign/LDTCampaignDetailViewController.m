@@ -15,6 +15,7 @@
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTActivityViewController.h"
 #import "GAI+LDT.h"
+#import "LDTEpicFailViewController.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     LDTCampaignDetailSectionTypeCampaign,
@@ -26,8 +27,9 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     LDTCampaignDetailCampaignSectionRowSelfReportback
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate, LDTEpicFailSubmitButtonDelegate>
 
+@property (assign, nonatomic) BOOL reportbackItemsLoaded;
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
 @property (strong, nonatomic) LDTCampaignDetailCampaignCell *campaignSizingCell;
@@ -81,7 +83,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     self.imagePickerController.delegate = self;
     self.imagePickerController.allowsEditing = YES;
 
-    [self fetchReportbackItems];
+    [self loadReportbackItems];
 
     if ([[self user] hasCompletedCampaign:self.campaign]) {
         for (DSOCampaignSignup *signup in [self user].campaignSignups) {
@@ -152,16 +154,34 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
-- (void)fetchReportbackItems {
-    NSArray *statusValues = @[@"promoted", @"approved"];
-    for (NSString *status in statusValues) {
-        [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:@[self.campaign] status:status completionHandler:^(NSArray *rbItems) {
-            [self.reportbackItems addObjectsFromArray:rbItems];
-            [self.collectionView reloadData];
-        } errorHandler:^(NSError *error) {
+- (void)loadReportbackItems {
+    self.reportbackItemsLoaded = NO;
+    [SVProgressHUD showWithStatus:@"Loading photos..."];
+
+    [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:@[self.campaign] status:@"promoted,approved" completionHandler:^(NSArray *rbItems) {
+        self.reportbackItemsLoaded = YES;
+        rbItems = [DSOReportbackItem sortReportbackItemsAsPromotedFirst:rbItems];
+        [self.reportbackItems addObjectsFromArray:rbItems];
+        [self.collectionView reloadData];
+        [SVProgressHUD dismiss];
+    } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        // No connection or timeout:
+        if (error.code == -1001 || error.code == -1009) {
+            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:[error readableTitle] subtitle:[error readableMessage]];
+            epicFailVC.delegate = self;
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+            [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+            [self presentViewController:navVC animated:YES completion:nil];
+        }
+        else {
+            [SVProgressHUD dismiss];
+            // @todo: Present EpicFail for internal errors with back button?
+            // Refs (GH #664)
             [LDTMessage displayErrorMessageForError:error];
-        }];
-    }
+        }
+
+    }];
 }
 
 - (void)configureCampaignCell:(LDTCampaignDetailCampaignCell *)cell {
@@ -276,6 +296,15 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [reportbackPhotoAlertController addAction:cancelAlertAction];
     [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
 }
+
+#pragma mark - LDTEpicFailSubmitButtonDelegate
+
+- (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+
+    [self loadReportbackItems];
+}
+
 
 #pragma mark - UICollectionViewDataSource
 
