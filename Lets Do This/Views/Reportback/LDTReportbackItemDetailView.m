@@ -56,10 +56,6 @@
     return self.reportbackItemImageView.image;
 }
 
-- (void)sizeForDetailSingleView {
-    [self.reportbackItemCaptionLabel sizeToFit];
-}
-
 - (void)setDisplayShareButton:(BOOL)displayShareButton {
     _displayShareButton = displayShareButton;
     if (!_displayShareButton) {
@@ -127,6 +123,24 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(didClickShareButtonForReportbackItemDetailView:)]) {
         [self.delegate didClickShareButtonForReportbackItemDetailView:self];
     }
+}
+
+
+- (CGFloat)heightForWidth:(CGFloat)width {
+    // Reportback image should be square, so start with the width for rendering the image height.
+    // UserName button is 34 + 6 top constraint - 1 bottom constraint.
+    CGFloat height = width + 39;
+    // Campaign title button has a height constraint of 22 + top/bottom constraints of 8.
+    height += 22 + 8 + 8;
+    // Calculate captionSize height + bottom constraint of 8
+    CGRect captionSize = [self.reportbackItemCaptionLabel.text  boundingRectWithSize:CGSizeMake(width, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.reportbackItemCaptionLabel.font} context:nil];
+    height += captionSize.size.height + 8;
+    if (self.displayShareButton) {
+        // Share Button height is 50 + bottom constraint of 16
+        height += 50 + 16;
+    }
+
+    return height;
 }
 
 @end

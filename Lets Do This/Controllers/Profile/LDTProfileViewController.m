@@ -22,6 +22,7 @@
 
 @property (assign, nonatomic) BOOL isCurrentUserProfile;
 @property (assign, nonatomic) BOOL isProfileLoaded;
+@property (strong, nonatomic) LDTProfileReportbackItemTableViewCell *reportbackItemSizingCell;
 @property (strong, nonatomic) NSMutableArray *campaignsDoing;
 @property (strong, nonatomic) NSMutableArray *campaignsCompleted;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
@@ -69,6 +70,9 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileCampaignTableViewCell" bundle:nil] forCellReuseIdentifier:@"campaignCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileReportbackItemTableViewCell" bundle:nil] forCellReuseIdentifier:@"reportbackItemCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileNoSignupsTableViewCell" bundle:nil] forCellReuseIdentifier:@"noSignupsCell"];
+    UINib *reportbackItemCellNib = [UINib nibWithNibName:@"LDTProfileReportbackItemTableViewCell" bundle:nil];
+    self.reportbackItemSizingCell = [[reportbackItemCellNib instantiateWithOwner:nil options:nil] firstObject];
+
     self.tableView.estimatedRowHeight = 400.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 
@@ -360,13 +364,19 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 
 #pragma mark -- UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView
-heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == LDTProfileSectionTypeCampaign) {
         if (self.isProfileLoaded && self.user.campaignSignups.count == 0) {
             // Render noSignupsCell as full height of remaining tableView.
             // @todo: Real math here, this is a guestimate.
             return self.tableView.bounds.size.height - 180;
+        }
+        DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
+        if (signup.reportbackItem) {
+            [self configureReportbackItemCell:self.reportbackItemSizingCell indexPath:indexPath];
+            CGFloat detailViewHeight = [self.reportbackItemSizingCell.detailView heightForWidth:self.tableView.frame.size.width];
+            // Add bottom padding / border UIView:
+            return detailViewHeight + 16;
         }
     }
     return UITableViewAutomaticDimension;

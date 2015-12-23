@@ -31,6 +31,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
 @property (strong, nonatomic) LDTCampaignDetailCampaignCell *campaignSizingCell;
+@property (strong, nonatomic) LDTCampaignDetailReportbackItemCell *reportbackItemSizingCell;
 @property (strong, nonatomic) NSMutableArray *reportbackItems;
 @property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
@@ -64,9 +65,12 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
-    // Create a dummy sizing cell to determine dynamic CampaignCell height.
+
+    // Create dummy sizing cells to determine dynamic  heights.
     UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil];
     self.campaignSizingCell = [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
+    UINib *reportbackItemCellNib = [UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil];
+    self.reportbackItemSizingCell = [[reportbackItemCellNib instantiateWithOwner:nil options:nil] firstObject];
 
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 0.0f;
@@ -152,8 +156,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     NSArray *statusValues = @[@"promoted", @"approved"];
     for (NSString *status in statusValues) {
         [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:@[self.campaign] status:status completionHandler:^(NSArray *rbItems) {
-		[self.reportbackItems addObjectsFromArray:rbItems];
-        [self.collectionView reloadData];
+            [self.reportbackItems addObjectsFromArray:rbItems];
+            [self.collectionView reloadData];
         } errorHandler:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
         }];
@@ -330,31 +334,17 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    // Square reportback photo + header height + caption height.
-    CGFloat reportbackItemHeight = screenWidth + 36 + 70 + 8;
-
-    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-        if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
-            [self configureCampaignCell:self.campaignSizingCell];
-            self.campaignSizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(self.campaignSizingCell.frame));
-            [self.campaignSizingCell setNeedsLayout];
-            [self.campaignSizingCell layoutIfNeeded];
-            CGFloat campaignCellHeight = [self.campaignSizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-            return CGSizeMake(screenWidth, campaignCellHeight);
-        }
-        else {
-            if ([[self user] hasCompletedCampaign:self.campaign]) {
-                // Add 66 for the Share Photo button.
-                return CGSizeMake(screenWidth, reportbackItemHeight + 66);
-            }
-            else {
-                // Action Button cell:
-                // Button height (50) + top and bottom margins (2 * 16) = 82
-                return CGSizeMake(screenWidth, 82);
-            }
-        }
+    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign && indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
+        [self configureCampaignCell:self.campaignSizingCell];
+        self.campaignSizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(self.campaignSizingCell.frame));
+        [self.campaignSizingCell setNeedsLayout];
+        [self.campaignSizingCell layoutIfNeeded];
+        CGFloat campaignCellHeight = [self.campaignSizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+        return CGSizeMake(screenWidth, campaignCellHeight);
     }
 
+    [self configureReportbackItemCell:self.reportbackItemSizingCell forIndexPath:indexPath];
+    CGFloat reportbackItemHeight = [self.reportbackItemSizingCell.detailView heightForWidth:screenWidth];
     return CGSizeMake(screenWidth, reportbackItemHeight);
 }
 

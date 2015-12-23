@@ -26,7 +26,8 @@
 @property (strong, nonatomic) UIImage *reportbackItemImage;
 @property (strong, nonatomic) UIImage *userAvatarImage;
 
-- (void)sizeForDetailSingleView;
+// Returns the height to render the configured ReportbackItemDetailView for the given width, based on values the IBOutlets have been configured for.
+- (CGFloat)heightForWidth:(CGFloat)width;
 
 @end
 
