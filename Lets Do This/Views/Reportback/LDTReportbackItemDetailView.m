@@ -120,8 +120,8 @@
 }
 
 - (IBAction)userNameButtonTouchUpInside:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickUserNameButtonForReportbackItemDetailView:)]) {
-        [self.delegate didClickUserNameButtonForReportbackItemDetailView:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickOnReportbackItemUserForReportbackItemDetailView:)]) {
+        [self.delegate didClickOnReportbackItemUserForReportbackItemDetailView:self];
     }
 }
 
