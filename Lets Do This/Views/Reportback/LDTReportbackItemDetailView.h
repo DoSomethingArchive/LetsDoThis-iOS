@@ -36,7 +36,7 @@
 @required
 - (void)didClickCampaignTitleButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView;
 
-- (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView;
+- (void)didClickOnReportbackItemUserForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView;
 
 @optional
 - (void)didClickShareButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView;

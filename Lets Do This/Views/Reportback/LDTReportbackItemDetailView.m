@@ -36,6 +36,8 @@
 
     [self styleView];
 
+    UITapGestureRecognizer *userAvatarTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleUserAvatarTap:)];
+    [self.userAvatarImageView addGestureRecognizer:userAvatarTap];
 }
 
 - (void)styleView {
@@ -103,6 +105,10 @@
     self.userCountryNameLabel.text = userCountryNameLabelText.uppercaseString;
 }
 
+- (void)handleUserAvatarTap:(UITapGestureRecognizer *)recognizer {
+    [self userNameButtonTouchUpInside:recognizer];
+}
+
 - (void)setUserDisplayNameButtonTitle:(NSString *)userDisplayNameButtonTitle {
     [self.userDisplayNameButton setTitle:userDisplayNameButtonTitle.uppercaseString forState:UIControlStateNormal];
 }
@@ -114,8 +120,8 @@
 }
 
 - (IBAction)userNameButtonTouchUpInside:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickUserNameButtonForReportbackItemDetailView:)]) {
-        [self.delegate didClickUserNameButtonForReportbackItemDetailView:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickOnReportbackItemUserForReportbackItemDetailView:)]) {
+        [self.delegate didClickOnReportbackItemUserForReportbackItemDetailView:self];
     }
 }
 

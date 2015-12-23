@@ -369,7 +369,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self presentViewController:sharePhotoActivityViewController animated:YES completion:nil];
 }
 
-- (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+- (void)didClickOnReportbackItemUserForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
     LDTProfileViewController *destVC = [[LDTProfileViewController alloc] initWithUser:reportbackItemDetailView.reportbackItem.user];
     [self.navigationController pushViewController:destVC animated:YES];
 }

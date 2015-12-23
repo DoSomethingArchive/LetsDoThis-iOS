@@ -276,7 +276,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     [self presentViewController:sharePhotoActivityViewController animated:YES completion:nil];
 }
 
-- (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+- (void)didClickOnReportbackItemUserForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
     return;
 }
 

@@ -80,7 +80,7 @@
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
-- (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+- (void)didClickOnReportbackItemUserForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
     LDTProfileViewController *destVC = [[LDTProfileViewController alloc] initWithUser:self.reportbackItem.user];
 	
     [self.navigationController pushViewController:destVC animated:YES];
