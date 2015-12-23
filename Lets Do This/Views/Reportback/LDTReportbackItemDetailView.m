@@ -36,6 +36,8 @@
 
     [self styleView];
 
+    UITapGestureRecognizer *userAvatarTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleUserAvatarTap:)];
+    [self.userAvatarImageView addGestureRecognizer:userAvatarTap];
 }
 
 - (void)styleView {
@@ -101,6 +103,10 @@
 
 - (void)setUserCountryNameLabelText:(NSString *)userCountryNameLabelText {
     self.userCountryNameLabel.text = userCountryNameLabelText.uppercaseString;
+}
+
+- (void)handleUserAvatarTap:(UITapGestureRecognizer *)recognizer {
+    [self userNameButtonTouchUpInside:recognizer];
 }
 
 - (void)setUserDisplayNameButtonTitle:(NSString *)userDisplayNameButtonTitle {
