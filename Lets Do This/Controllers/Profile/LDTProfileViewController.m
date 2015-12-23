@@ -17,8 +17,9 @@
 #import "LDTProfileReportbackItemTableViewCell.h"
 #import "LDTProfileNoSignupsTableViewCell.h"
 #import "LDTActivityViewController.h"
+#import "LDTEpicFailViewController.h"
 
-@interface LDTProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate, LDTProfileCampaignTableViewCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate, LDTProfileCampaignTableViewCellDelegate, LDTReportbackItemDetailViewDelegate, LDTEpicFailSubmitButtonDelegate>
 
 @property (assign, nonatomic) BOOL isCurrentUserProfile;
 @property (assign, nonatomic) BOOL isProfileLoaded;
@@ -85,17 +86,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
         self.imagePickerController.allowsEditing = YES;
     }
     else {
-        [SVProgressHUD showWithStatus:@"Loading profile..."];
-
-        [[DSOUserManager sharedInstance] loadActiveMobileAppCampaignSignupsForUser:self.user completionHandler:^{
-            [SVProgressHUD dismiss];
-            self.isProfileLoaded = YES;
-            [self.tableView reloadData];
-        } errorHandler:^(NSError *error) {
-            [SVProgressHUD dismiss];
-            // @todo: Push to epic fail.
-            [LDTMessage displayErrorMessageForError:error];
-        }];
+        [self loadUserProfile];
     }
 }
 
@@ -148,6 +139,32 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     self.tableView.backgroundColor = UIColor.clearColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self styleBackBarButton];
+}
+
+- (void)loadUserProfile {
+    [SVProgressHUD showWithStatus:@"Loading profile..."];
+
+    [[DSOUserManager sharedInstance] loadActiveMobileAppCampaignSignupsForUser:self.user completionHandler:^{
+        [SVProgressHUD dismiss];
+        self.isProfileLoaded = YES;
+        [self.tableView reloadData];
+    } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        // No connection or timeout:
+        if (error.code == -1001 || error.code == -1009) {
+            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:[error readableTitle] subtitle:[error readableMessage]];
+            epicFailVC.delegate = self;
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+            [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+            [self presentViewController:navVC animated:YES completion:nil];
+        }
+        else {
+            // @todo: Render specific EpicFail cell instead of NoSignups (GH #620)
+            // See -tableView:cellForRowAtIndexPath:
+            self.isProfileLoaded = YES;
+            [self.tableView reloadData];
+        }
+    }];
 }
 
 - (void)handleSwipeGestureRecognizer:(UISwipeGestureRecognizer *)recognizer {
@@ -281,6 +298,13 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     return;
 }
 
+#pragma mark - LDTEpicFailSubmitButtonDelegate
+
+- (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+
+    [self loadUserProfile];
+}
 
 #pragma mark - UIImagePickerControllerDelegate
 
@@ -341,6 +365,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
         [self configureHeaderCell:headerCell];
         return headerCell;
     }
+    // @todo: If this isn't currentUserProfile and we're viewing someone's profile -- there must be an error, we wouldn't get to their profile unless they had reported back. This would probably be better as an EpicFail cell instead of the noSignupsCell (GH #620)
     if (self.user.campaignSignups.count == 0) {
         LDTProfileNoSignupsTableViewCell *noSignupsCell = [tableView dequeueReusableCellWithIdentifier:@"noSignupsCell"];
         [self configureNoSignupsCell:noSignupsCell];
