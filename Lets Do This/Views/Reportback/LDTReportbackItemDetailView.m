@@ -56,10 +56,6 @@
     return self.reportbackItemImageView.image;
 }
 
-- (void)sizeForDetailSingleView {
-    [self.reportbackItemCaptionLabel sizeToFit];
-}
-
 - (void)setDisplayShareButton:(BOOL)displayShareButton {
     _displayShareButton = displayShareButton;
     if (!_displayShareButton) {
