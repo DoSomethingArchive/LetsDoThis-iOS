@@ -70,6 +70,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileCampaignTableViewCell" bundle:nil] forCellReuseIdentifier:@"campaignCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileReportbackItemTableViewCell" bundle:nil] forCellReuseIdentifier:@"reportbackItemCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTProfileNoSignupsTableViewCell" bundle:nil] forCellReuseIdentifier:@"noSignupsCell"];
+
     UINib *reportbackItemCellNib = [UINib nibWithNibName:@"LDTProfileReportbackItemTableViewCell" bundle:nil];
     self.reportbackItemSizingCell = [[reportbackItemCellNib instantiateWithOwner:nil options:nil] firstObject];
 
@@ -367,9 +368,15 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == LDTProfileSectionTypeCampaign) {
         if (self.isProfileLoaded && self.user.campaignSignups.count == 0) {
-            // Render noSignupsCell as full height of remaining tableView.
-            // @todo: Real math here, this is a guestimate.
-            return self.tableView.bounds.size.height - 180;
+            // Create a sizing profileHeader cell to get its height.
+            UINib *profileHeaderCellNib = [UINib nibWithNibName:@"LDTProfileHeaderTableViewCell" bundle:nil];
+            LDTProfileHeaderTableViewCell *profileHeaderSizingCell = [[profileHeaderCellNib instantiateWithOwner:nil options:nil] firstObject];
+            [self configureHeaderCell:profileHeaderSizingCell];
+            profileHeaderSizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), CGRectGetHeight(profileHeaderSizingCell.frame));
+            [profileHeaderSizingCell setNeedsLayout];
+            [profileHeaderSizingCell layoutIfNeeded];
+            CGFloat profileHeaderHeight = [profileHeaderSizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+            return self.tableView.bounds.size.height - profileHeaderHeight;
         }
         DSOCampaignSignup *signup = self.user.campaignSignups[indexPath.row];
         if (signup.reportbackItem) {
