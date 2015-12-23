@@ -156,8 +156,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     NSArray *statusValues = @[@"promoted", @"approved"];
     for (NSString *status in statusValues) {
         [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:@[self.campaign] status:status completionHandler:^(NSArray *rbItems) {
-		[self.reportbackItems addObjectsFromArray:rbItems];
-        [self.collectionView reloadData];
+            [self.reportbackItems addObjectsFromArray:rbItems];
+            [self.collectionView reloadData];
         } errorHandler:^(NSError *error) {
             [LDTMessage displayErrorMessageForError:error];
         }];
@@ -334,19 +334,17 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-        if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
-            [self configureCampaignCell:self.campaignSizingCell];
-            self.campaignSizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(self.campaignSizingCell.frame));
-            [self.campaignSizingCell setNeedsLayout];
-            [self.campaignSizingCell layoutIfNeeded];
-            CGFloat campaignCellHeight = [self.campaignSizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-            return CGSizeMake(screenWidth, campaignCellHeight);
-        }
+    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign && indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
+        [self configureCampaignCell:self.campaignSizingCell];
+        self.campaignSizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(self.campaignSizingCell.frame));
+        [self.campaignSizingCell setNeedsLayout];
+        [self.campaignSizingCell layoutIfNeeded];
+        CGFloat campaignCellHeight = [self.campaignSizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+        return CGSizeMake(screenWidth, campaignCellHeight);
     }
+
     [self configureReportbackItemCell:self.reportbackItemSizingCell forIndexPath:indexPath];
     CGFloat reportbackItemHeight = [self.reportbackItemSizingCell.detailView heightForWidth:screenWidth];
-
     return CGSizeMake(screenWidth, reportbackItemHeight);
 }
 
