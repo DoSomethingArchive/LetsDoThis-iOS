@@ -20,6 +20,9 @@
 		B21107381C04E94E00282619 /* LDTProfileCampaignTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B21107361C04E94E00282619 /* LDTProfileCampaignTableViewCell.m */; };
 		B21107391C04E94E00282619 /* LDTProfileCampaignTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21107371C04E94E00282619 /* LDTProfileCampaignTableViewCell.xib */; };
 		B21126271B618038009128E7 /* DSOUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B21126261B618038009128E7 /* DSOUserManager.m */; };
+		B211C4181C3AEE4700A94E64 /* DSOCause.m in Sources */ = {isa = PBXBuildFile; fileRef = B211C4171C3AEE4700A94E64 /* DSOCause.m */; };
+		B211C41E1C3AF4EF00A94E64 /* LDTCauseListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B211C41D1C3AF4EF00A94E64 /* LDTCauseListView.xib */; };
+		B211C4221C3AF54800A94E64 /* LDTCauseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B211C4211C3AF54800A94E64 /* LDTCauseListViewController.m */; };
 		B212C2621B4ED6F300376BB1 /* LDTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B212C2611B4ED6F300376BB1 /* LDTBaseViewController.m */; };
 		B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */; };
 		B21996B11B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B21996AF1B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m */; };
@@ -118,6 +121,11 @@
 		B21107371C04E94E00282619 /* LDTProfileCampaignTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTProfileCampaignTableViewCell.xib; path = Profile/LDTProfileCampaignTableViewCell.xib; sourceTree = "<group>"; };
 		B21126251B618038009128E7 /* DSOUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOUserManager.h; path = Networking/DSOUserManager.h; sourceTree = "<group>"; };
 		B21126261B618038009128E7 /* DSOUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOUserManager.m; path = Networking/DSOUserManager.m; sourceTree = "<group>"; };
+		B211C4161C3AEE4700A94E64 /* DSOCause.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCause.h; sourceTree = "<group>"; };
+		B211C4171C3AEE4700A94E64 /* DSOCause.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCause.m; sourceTree = "<group>"; };
+		B211C41D1C3AF4EF00A94E64 /* LDTCauseListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCauseListView.xib; path = Cause/LDTCauseListView.xib; sourceTree = "<group>"; };
+		B211C4201C3AF54800A94E64 /* LDTCauseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCauseListViewController.h; path = "Lets Do This/Cause/LDTCauseListViewController.h"; sourceTree = SOURCE_ROOT; };
+		B211C4211C3AF54800A94E64 /* LDTCauseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCauseListViewController.m; path = "Lets Do This/Cause/LDTCauseListViewController.m"; sourceTree = SOURCE_ROOT; };
 		B212C2601B4ED6F300376BB1 /* LDTBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTBaseViewController.h; path = Base/LDTBaseViewController.h; sourceTree = "<group>"; };
 		B212C2611B4ED6F300376BB1 /* LDTBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseViewController.m; path = Base/LDTBaseViewController.m; sourceTree = "<group>"; };
 		B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+LDT.h"; sourceTree = "<group>"; };
@@ -253,6 +261,24 @@
 				FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B211C41C1C3AF4AA00A94E64 /* Cause */ = {
+			isa = PBXGroup;
+			children = (
+				B211C4201C3AF54800A94E64 /* LDTCauseListViewController.h */,
+				B211C4211C3AF54800A94E64 /* LDTCauseListViewController.m */,
+			);
+			name = Cause;
+			path = ../Views;
+			sourceTree = "<group>";
+		};
+		B211C41F1C3AF52000A94E64 /* Cause */ = {
+			isa = PBXGroup;
+			children = (
+				B211C41D1C3AF4EF00A94E64 /* LDTCauseListView.xib */,
+			);
+			name = Cause;
 			sourceTree = "<group>";
 		};
 		B22273FF1B58792D005C896D /* Campaign */ = {
@@ -543,6 +569,7 @@
 				B27AF0E81B4F647A00164926 /* Base */,
 				B2963E051BD83C9600D2B6EE /* Onboarding */,
 				C2F35F0A1AD8272C00D12FE5 /* Login */,
+				B211C41C1C3AF4AA00A94E64 /* Cause */,
 				B22274021B587A02005C896D /* Campaign */,
 				B27AF0E11B4F487C00164926 /* Profile */,
 				B2E75D801B87B16C0015BE4A /* Reportback */,
@@ -566,6 +593,8 @@
 				B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */,
 				B223AD741B7A724000D4AA40 /* DSOReportbackItem.h */,
 				B223AD751B7A724000D4AA40 /* DSOReportbackItem.m */,
+				B211C4161C3AEE4700A94E64 /* DSOCause.h */,
+				B211C4171C3AEE4700A94E64 /* DSOCause.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -576,6 +605,7 @@
 				B2E652DC1B43807000EF9D69 /* Base */,
 				B2963E041BD83C7700D2B6EE /* Onboarding */,
 				B239391A1B44495400E5BCC8 /* Login */,
+				B211C41F1C3AF52000A94E64 /* Cause */,
 				B22273FF1B58792D005C896D /* Campaign */,
 				B27AF0E51B4F490800164926 /* Profile */,
 				B2E75D7D1B87B1300015BE4A /* Reportback */,
@@ -712,6 +742,7 @@
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
 				B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */,
 				B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */,
+				B211C41E1C3AF4EF00A94E64 /* LDTCauseListView.xib in Resources */,
 				B258EB331B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib in Resources */,
 				B21107391C04E94E00282619 /* LDTProfileCampaignTableViewCell.xib in Resources */,
 				B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */,
@@ -825,6 +856,7 @@
 				EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */,
 				B2C1ADA51C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.m in Sources */,
 				B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */,
+				B211C4181C3AEE4700A94E64 /* DSOCause.m in Sources */,
 				B29A657F1BB60F0B008C0E2A /* DSOCampaignSignup.m in Sources */,
 				B22274051B587A20005C896D /* LDTCampaignListViewController.m in Sources */,
 				564F20CE1BB78EB000A97FED /* LDTCampaignCollectionViewCellContainer.m in Sources */,
@@ -857,6 +889,7 @@
 				B21126271B618038009128E7 /* DSOUserManager.m in Sources */,
 				B21107331C04CFBF00282619 /* LDTProfileHeaderTableViewCell.m in Sources */,
 				569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */,
+				B211C4221C3AF54800A94E64 /* LDTCauseListViewController.m in Sources */,
 				B2E652DF1B4380AD00EF9D69 /* LDTTheme.m in Sources */,
 				B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */,
 				C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */,

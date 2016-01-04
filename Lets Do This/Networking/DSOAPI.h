@@ -11,6 +11,7 @@
 #import "DSOCampaign.h"
 #import "DSOReportbackItem.h"
 #import "DSOCampaignSignup.h"
+#import "DSOCause.h"
 
 @interface DSOAPI : AFHTTPSessionManager
 
@@ -43,5 +44,7 @@
 - (void)loadReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)loadCampaignSignupsForUser:(DSOUser *)user completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+
+- (void)loadCausesWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 @end

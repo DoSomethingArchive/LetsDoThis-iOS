@@ -296,6 +296,27 @@
     }];
 }
 
+- (void)loadCausesWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"%@terms?vid=2", self.phoenixApiURL];
+
+    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSMutableArray *causes = [[NSMutableArray alloc] init];
+        // @todo: Once API is cleaned up, we'll want to loop through a responseObject["data"] instead of responseObject.
+        // @see https://github.com/DoSomething/LetsDoThis-iOS/issues/713#issuecomment-168758395
+        for (NSDictionary* causeDict in responseObject) {
+            [causes addObject:[[DSOCause alloc] initWithDict:causeDict]];
+        }
+        if (completionHandler) {
+            completionHandler(causes);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
 - (void)logError:(NSError *)error methodName:(NSString *)methodName URLString:(NSString *)URLString {
     NSLog(@"\n*** DSOAPI ****\n\nError %li: %@\n%@\n%@ \n\n", (long)error.code, error.localizedDescription, methodName, URLString);
 }
