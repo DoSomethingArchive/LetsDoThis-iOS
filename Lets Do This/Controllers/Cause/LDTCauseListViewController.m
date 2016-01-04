@@ -8,6 +8,7 @@
 
 #import "LDTCauseListViewController.h"
 #import "LDTTheme.h"
+#import "LDTCauseDetailViewController.h"
 
 @interface LDTCauseListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -24,10 +25,35 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self styleView];
+
     self.title = @"Actions";
     self.navigationItem.title = @"Let's Do This".uppercaseString;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
 
+    [self loadCauses];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    self.navigationController.hidesBarsOnSwipe = NO;
+}
+
+#pragma mark - LDTCauseListViewController
+
+- (void)styleView {
+    [self styleBackBarButton];
+}
+
+- (void)loadCauses {
     [SVProgressHUD showWithStatus:@"Loading causes..."];
 
     [[DSOAPI sharedInstance] loadCausesWithCompletionHandler:^(NSArray *causes) {
@@ -37,13 +63,6 @@
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
     }];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
@@ -64,6 +83,14 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return cell;
+}
+
+#pragma mark -- UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    DSOCause *cause = self.causes[indexPath.row];
+    LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
+    [self.navigationController pushViewController:causeDetailViewController animated:YES];
 }
 
 @end
