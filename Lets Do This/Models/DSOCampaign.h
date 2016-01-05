@@ -7,10 +7,12 @@
 //
 
 @class DSOCampaign;
+@class DSOCause;
 
 @interface DSOCampaign : NSObject
 
 @property (assign, nonatomic, readonly) BOOL isCoverImageDarkBackground;
+@property (assign, nonatomic, readonly) DSOCause *cause;
 @property (strong, nonatomic, readonly) NSArray *tags;
 @property (assign, nonatomic, readonly) NSInteger campaignID;
 @property (strong, nonatomic, readonly) NSString *coverImage;

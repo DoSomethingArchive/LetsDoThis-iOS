@@ -223,6 +223,26 @@
       }];
 }
 
+- (void)loadAllCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"%@campaigns?count=200", self.phoenixApiURL];
+
+    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSMutableArray *campaigns = [[NSMutableArray alloc] init];
+        for (NSDictionary* campaignDict in responseObject[@"data"]) {
+            DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
+            [campaigns addObject:campaign];
+        }
+        if (completionHandler) {
+            completionHandler(campaigns);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
 - (void)loadCampaignsForTermIds:(NSArray *)termIds completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
     for (NSNumber *termID in termIds) {
@@ -287,6 +307,27 @@
         }
         if (completionHandler) {
             completionHandler(campaignSignups);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
+- (void)loadCausesWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"%@terms?vid=2", self.phoenixApiURL];
+
+    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSMutableArray *causes = [[NSMutableArray alloc] init];
+        // @todo: Once API is cleaned up, we'll want to loop through a responseObject["data"] instead of responseObject.
+        // @see https://github.com/DoSomething/LetsDoThis-iOS/issues/713#issuecomment-168758395
+        for (NSDictionary* causeDict in responseObject) {
+            [causes addObject:[[DSOCause alloc] initWithDict:causeDict]];
+        }
+        if (completionHandler) {
+            completionHandler(causes);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];

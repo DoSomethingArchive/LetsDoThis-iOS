@@ -8,17 +8,10 @@
 
 #import "LDTTabBarController.h"
 #import "LDTProfileViewController.h"
-#import "LDTCampaignListViewController.h"
 #import "LDTOnboardingPageViewController.h"
 #import "LDTUserConnectViewController.h"
+#import "LDTCauseListViewController.h"
 #import "LDTTheme.h"
-
-@interface LDTTabBarController ()
-
-@property (strong, nonatomic) LDTCampaignListViewController *campaignListViewController;
-@property (strong, nonatomic) UINavigationController *campaignListNavigationController;
-
-@end
 
 @implementation LDTTabBarController
 
@@ -37,11 +30,10 @@
         UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
 
-        _campaignListViewController = [[LDTCampaignListViewController alloc] initWithNibName:@"LDTCampaignListView" bundle:nil];
-        _campaignListNavigationController = [[UINavigationController alloc] initWithRootViewController:self.campaignListViewController];
-        _campaignListNavigationController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
-
-        self.viewControllers = [NSArray arrayWithObjects:_campaignListNavigationController, profileNavVC, nil];
+        LDTCauseListViewController *causeListViewController = [[LDTCauseListViewController alloc] initWithNibName:@"LDTCauseListView" bundle:nil];
+        causeListViewController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
+        UINavigationController *causeListNavigationController = [[UINavigationController alloc] initWithRootViewController:causeListViewController];
+        self.viewControllers = [NSArray arrayWithObjects:causeListNavigationController, profileNavVC, nil];
     }
 	
     return self;
@@ -73,11 +65,13 @@
     }
 }
 
-# pragma mark - LDTTabBarController
+#pragma mark - LDTTabBarController
 
-- (void)loadMainFeed {
-    [self.campaignListNavigationController popToRootViewControllerAnimated:YES];
-    [self.campaignListViewController loadMainFeed];
+- (void)loadCurrentUserAndCampaigns {
+    UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
+    [initialVC popToRootViewControllerAnimated:YES];
+    LDTCauseListViewController *causeListViewController = (LDTCauseListViewController *)initialVC.topViewController;
+    [causeListViewController loadCurrentUserAndCampaigns];
 }
 
 @end

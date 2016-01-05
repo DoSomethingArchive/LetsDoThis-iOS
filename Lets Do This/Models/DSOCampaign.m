@@ -13,6 +13,7 @@
 @interface DSOCampaign ()
 
 @property (assign, nonatomic, readwrite) BOOL isCoverImageDarkBackground;
+@property (strong, nonatomic, readwrite) DSOCause *cause;
 @property (strong, nonatomic, readwrite) NSArray *tags;
 @property (strong, nonatomic, readwrite) NSDate *endDate;
 @property (assign, nonatomic, readwrite) NSInteger campaignID;
@@ -47,6 +48,8 @@
         _campaignID = [values valueForKeyAsInt:@"id" nullValue:0];
         _title = [values valueForKeyAsString:@"title" nullValue:nil];
         _status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
+        NSDictionary *causeDict = [values valueForKeyPath:@"causes.primary"];
+        _cause = [[DSOCause alloc] initWithDict:causeDict];
         _tagline = [values valueForKeyAsString:@"tagline" nullValue:nil];
         _coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:nil];
         _isCoverImageDarkBackground = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsBool:@"dark_background" nullValue:NO];
