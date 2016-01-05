@@ -10,4 +10,6 @@
 
 @interface LDTCauseListViewController : UIViewController
 
+- (void)loadCurrentUserAndCampaigns;
+
 @end

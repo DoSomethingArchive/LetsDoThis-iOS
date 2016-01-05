@@ -8,6 +8,6 @@
 
 @interface LDTTabBarController : UITabBarController
 
--(void)loadMainFeed;
+-(void)loadCurrentUserAndCampaigns;
 
 @end

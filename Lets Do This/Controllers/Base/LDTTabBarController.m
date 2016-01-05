@@ -65,4 +65,13 @@
     }
 }
 
+#pragma mark - LDTTabBarController
+
+- (void)loadCurrentUserAndCampaigns {
+    UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
+    [initialVC popToRootViewControllerAnimated:YES];
+    LDTCauseListViewController *causeListViewController = (LDTCauseListViewController *)initialVC.topViewController;
+    [causeListViewController loadCurrentUserAndCampaigns];
+}
+
 @end

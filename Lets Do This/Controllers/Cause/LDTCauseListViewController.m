@@ -32,7 +32,9 @@
     self.navigationItem.title = @"Let's Do This".uppercaseString;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
 
-    [self loadCauses];
+    if ([DSOUserManager sharedInstance].userHasCachedSession) {
+        [self loadCurrentUserAndCampaigns];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -54,8 +56,8 @@
     [self styleBackBarButton];
 }
 
-- (void)loadCauses {
-    [SVProgressHUD showWithStatus:@"Loading causes..."];
+- (void)loadCurrentUserAndCampaigns {
+    [SVProgressHUD showWithStatus:@"Loading actions..."];
 
     [[DSOAPI sharedInstance] loadCausesWithCompletionHandler:^(NSArray *causes) {
         self.causes = causes;
@@ -66,8 +68,6 @@
 }
 
 - (void)loadCampaigns {
-    [SVProgressHUD showWithStatus:@"Loading actions..."];
-
     [[DSOAPI sharedInstance] loadAllCampaignsWithCompletionHandler:^(NSArray *campaigns) {
         NSLog(@"loadAllCampaignsWithCompletionHandler");
         if (campaigns.count == 0) {
