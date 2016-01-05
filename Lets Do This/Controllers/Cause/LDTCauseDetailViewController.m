@@ -13,7 +13,6 @@
 @interface LDTCauseDetailViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) DSOCause *cause;
-@property (strong, nonatomic) NSArray *activeCampaigns;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -28,7 +27,6 @@
 
     if (self) {
         _cause = cause;
-        _activeCampaigns = [[NSArray alloc] init];
     }
 
     return self;
@@ -42,7 +40,6 @@
     [self styleView];
     self.title = self.cause.title.uppercaseString;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
-    [self loadActiveCampaigns];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -64,22 +61,10 @@
     [self styleBackBarButton];
 }
 
-- (void)loadActiveCampaigns {
-    [SVProgressHUD showWithStatus:@"Loading actions..."];
-
-    [[DSOAPI sharedInstance] loadCampaignsForCause:self.cause completionHandler:^(NSArray *campaigns) {
-        self.activeCampaigns = campaigns;
-        [SVProgressHUD dismiss];
-        [self.tableView reloadData];
-    } errorHandler:^(NSError *error) {
-        [SVProgressHUD dismiss];
-    }];
-}
-
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.activeCampaigns.count;
+    return self.cause.activeCampaigns.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -88,7 +73,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rowCell"];
-    DSOCampaign *campaign = self.activeCampaigns[indexPath.row];
+    DSOCampaign *campaign = self.cause.activeCampaigns[indexPath.row];
     cell.textLabel.text = campaign.title;
     cell.textLabel.font = LDTTheme.fontBold;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -99,7 +84,7 @@
 #pragma mark -- UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    DSOCampaign *campaign = self.activeCampaigns[indexPath.row];
+    DSOCampaign *campaign = self.cause.activeCampaigns[indexPath.row];
     LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
     [self.navigationController pushViewController:campaignDetailViewController animated:YES];
 }

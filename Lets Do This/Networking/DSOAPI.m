@@ -223,8 +223,8 @@
       }];
 }
 
-- (void)loadCampaignsForCause:(DSOCause *)cause completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?term_ids=%li", self.phoenixApiURL, (long)cause.causeID];
+- (void)loadAllCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"%@campaigns?count=200", self.phoenixApiURL];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSMutableArray *campaigns = [[NSMutableArray alloc] init];

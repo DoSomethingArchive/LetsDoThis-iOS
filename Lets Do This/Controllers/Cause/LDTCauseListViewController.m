@@ -13,6 +13,7 @@
 @interface LDTCauseListViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) NSArray *causes;
+@property (strong, nonatomic) NSMutableArray *allCampaigns;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -58,11 +59,65 @@
 
     [[DSOAPI sharedInstance] loadCausesWithCompletionHandler:^(NSArray *causes) {
         self.causes = causes;
-        [SVProgressHUD dismiss];
-        [self.tableView reloadData];
+        [self loadCampaigns];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
     }];
+}
+
+- (void)loadCampaigns {
+    [SVProgressHUD showWithStatus:@"Loading actions..."];
+
+    [[DSOAPI sharedInstance] loadAllCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+        NSLog(@"loadAllCampaignsWithCompletionHandler");
+        if (campaigns.count == 0) {
+            NSLog(@"No campaigns found.");
+            // @todo Epic Fail
+            return;
+        }
+        self.allCampaigns = [[NSMutableArray alloc] init];
+        for (DSOCampaign *campaign in campaigns) {
+            if ([campaign.status isEqual:@"active"]) {
+                [self.allCampaigns addObject:campaign];
+                if (campaign.cause) {
+                    NSNumber *causeID = [NSNumber numberWithInteger:campaign.cause.causeID];
+                    if ([causeID intValue] > 0) {
+                        DSOCause *cause = [self causeWithID:causeID];
+                        [cause addActiveCampaign:campaign];
+                    }
+                    else {
+                        NSLog(@"Filtering Campaign %li: cause == %@.", (long)campaign.campaignID, causeID);
+                    }
+                }
+            }
+            else {
+                NSLog(@"Filtering Campaign %li: status == %@.", (long)campaign.campaignID, campaign.status);
+            }
+        }
+
+        // Ideally this gets moved out of here and into AppDelegate, so when we change the initialVC we aren't loading campaigns there.
+        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:self.allCampaigns];
+        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
+            NSLog(@"syncCurrentUserWithCompletionHandler");
+            [SVProgressHUD dismiss];
+            [self.tableView reloadData];
+        } errorHandler:^(NSError *error) {
+            // @todo: Need to figure out case where we'd need to logout and push to user connect, if their session is borked.
+            [SVProgressHUD dismiss];
+        }];
+    } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        // @todo: Epic Fail
+    }];
+}
+
+- (DSOCause *)causeWithID:(NSNumber *)causeID {
+    for (DSOCause *cause in self.causes) {
+        if (cause.causeID == causeID.intValue) {
+            return cause;
+        }
+    }
+    return nil;
 }
 
 #pragma mark - UITableViewDataSource
