@@ -9,6 +9,7 @@
 #import "LDTCauseDetailViewController.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
+#import "LDTCauseDetailCampaignCell.h"
 
 @interface LDTCauseDetailViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -39,7 +40,9 @@
 
     [self styleView];
     self.title = self.cause.title.uppercaseString;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"LDTCauseDetailCampaignCell" bundle:nil] forCellReuseIdentifier:@"campaignCell"];
+    self.tableView.estimatedRowHeight = 150.0f;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -59,6 +62,16 @@
 
 - (void)styleView {
     [self styleBackBarButton];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Full Background"]];
+    self.tableView.backgroundColor = UIColor.clearColor;
+}
+
+- (void)configureCampaignCell:(LDTCauseDetailCampaignCell *)campaignCell indexPath:(NSIndexPath *)indexPath {
+    DSOCampaign *campaign = self.cause.activeCampaigns[indexPath.row];
+    campaignCell.campaign = campaign;
+    campaignCell.campaignTitleLabelText = campaign.title.uppercaseString;
+    campaignCell.campaignCoverImageViewImageURL = campaign.coverImageURL;
+    campaignCell.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 #pragma mark - UITableViewDataSource
@@ -72,21 +85,22 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rowCell"];
-    DSOCampaign *campaign = self.cause.activeCampaigns[indexPath.row];
-    cell.textLabel.text = campaign.title;
-    cell.textLabel.font = LDTTheme.fontBold;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    LDTCauseDetailCampaignCell *campaignCell = [tableView dequeueReusableCellWithIdentifier:@"campaignCell"];
+    [self configureCampaignCell:campaignCell indexPath:indexPath];
 
-    return cell;
+    return campaignCell;
 }
 
 #pragma mark -- UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    DSOCampaign *campaign = self.cause.activeCampaigns[indexPath.row];
-    LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
+    LDTCauseDetailCampaignCell *campaignCell = [self.tableView cellForRowAtIndexPath:indexPath];
+    LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaignCell.campaign];
     [self.navigationController pushViewController:campaignDetailViewController animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewAutomaticDimension;
 }
 
 @end
