@@ -138,8 +138,11 @@
     CGFloat height = width + 39;
     // Campaign title button has a height constraint of 22 + top/bottom constraints of 8.
     height += 22 + 8 + 8;
-    // Calculate captionSize height + bottom constraint of 8
-    CGRect captionSize = [self.reportbackItemCaptionLabel.text  boundingRectWithSize:CGSizeMake(width, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.reportbackItemCaptionLabel.font} context:nil];
+    // Subtract reportbackItemCaptionLabel left and right padding of 8 for width of caption, with obscene height to encompass the longest values.
+    CGSize captionBoundingRectSize = CGSizeMake(width - 16, 500);
+    // Calculate reportbackItemCaptionLabel height.
+    CGRect captionSize = [self.reportbackItemCaptionLabel.text  boundingRectWithSize:captionBoundingRectSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.reportbackItemCaptionLabel.font} context:nil];
+    //  Add our caption's height + bottom constraint of 8
     height += captionSize.size.height + 8;
     if (self.displayShareButton) {
         // Share Button height is 50 + bottom constraint of 16
