@@ -67,6 +67,7 @@
 
 #pragma mark - LDTTabBarController
 
+// @todo: Reload current user (don't need to reload activeCampaigns).
 - (void)loadCurrentUserAndCampaigns {
     UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
     [initialVC popToRootViewControllerAnimated:YES];

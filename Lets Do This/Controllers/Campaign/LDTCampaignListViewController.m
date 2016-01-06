@@ -180,7 +180,9 @@ const CGFloat kHeightExpanded = 382;
             }
         }
 
-        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:self.allCampaigns];
+        // This code is all moving into DSOUserManager - (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:errorHandler: and we're about to delete this class entirely soon
+        /*
+        [[DSOUserManager sharedInstance] setActiveCampaigns:self.allCampaigns];
         [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
             NSLog(@"syncCurrentUserWithCompletionHandler");
             if ([self loadInterestGroups]) {
@@ -194,6 +196,7 @@ const CGFloat kHeightExpanded = 382;
 			self.loadErrorType = LDTLoadErrorCampaign;
             [self presentEpicFailForError:error];
         }];
+         */
     } errorHandler:^(NSError *error) {
 		self.loadErrorType = LDTLoadErrorCampaign;
         [self presentEpicFailForError:error];

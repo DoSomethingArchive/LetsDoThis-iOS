@@ -13,7 +13,6 @@
 @interface LDTCauseListViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) NSArray *causes;
-@property (strong, nonatomic) NSMutableArray *allCampaigns;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -33,7 +32,13 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
 
     if ([DSOUserManager sharedInstance].userHasCachedSession) {
-        [self loadCurrentUserAndCampaigns];
+        // We load the current user and active campaigns here because it's the initial view controller that loads in the app.
+        // @todo: Move this into AppDelegate or the TabBarController to avoid needing to move around if/when the initial VC changes.
+        [[DSOUserManager sharedInstance] loadCurrentUserAndActiveCampaignsWithCompletionHander:^(NSArray *activeCampaigns) {
+            [self loadCausesWithActiveCampaigns:activeCampaigns];
+        } errorHandler:^(NSError *error) {
+            [SVProgressHUD dismiss];
+        }];
     }
 }
 
@@ -56,59 +61,29 @@
     [self styleBackBarButton];
 }
 
-- (void)loadCurrentUserAndCampaigns {
-    [SVProgressHUD showWithStatus:@"Loading actions..."];
-
+- (void)loadCausesWithActiveCampaigns:(NSArray *)activeCampaigns {
     [[DSOAPI sharedInstance] loadCausesWithCompletionHandler:^(NSArray *causes) {
         self.causes = causes;
-        [self loadCampaigns];
+        [self setCauseActiveCampaigns:activeCampaigns];
+        [self.tableView reloadData];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
     }];
 }
 
-- (void)loadCampaigns {
-    [[DSOAPI sharedInstance] loadAllCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-        NSLog(@"loadAllCampaignsWithCompletionHandler");
-        if (campaigns.count == 0) {
-            NSLog(@"No campaigns found.");
-            // @todo Epic Fail
-            return;
-        }
-        self.allCampaigns = [[NSMutableArray alloc] init];
-        for (DSOCampaign *campaign in campaigns) {
-            if ([campaign.status isEqual:@"active"]) {
-                [self.allCampaigns addObject:campaign];
-                if (campaign.cause) {
-                    NSNumber *causeID = [NSNumber numberWithInteger:campaign.cause.causeID];
-                    if ([causeID intValue] > 0) {
-                        DSOCause *cause = [self causeWithID:causeID];
-                        [cause addActiveCampaign:campaign];
-                    }
-                    else {
-                        NSLog(@"Filtering Campaign %li: cause == %@.", (long)campaign.campaignID, causeID);
-                    }
-                }
+- (void)setCauseActiveCampaigns:(NSArray *)allActiveCampaigns {
+    for (DSOCampaign *campaign in allActiveCampaigns) {
+        if (campaign.cause) {
+            NSNumber *causeID = [NSNumber numberWithInteger:campaign.cause.causeID];
+            if ([causeID intValue] > 0) {
+                DSOCause *cause = [self causeWithID:causeID];
+                [cause addActiveCampaign:campaign];
             }
             else {
-                NSLog(@"Filtering Campaign %li: status == %@.", (long)campaign.campaignID, campaign.status);
+                NSLog(@"Filtering Campaign %li: cause == %@.", (long)campaign.campaignID, causeID);
             }
         }
-
-        // Ideally this gets moved out of here and into AppDelegate, so when we change the initialVC we aren't loading campaigns there.
-        [[DSOUserManager sharedInstance] setActiveMobileAppCampaigns:self.allCampaigns];
-        [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
-            NSLog(@"syncCurrentUserWithCompletionHandler");
-            [SVProgressHUD dismiss];
-            [self.tableView reloadData];
-        } errorHandler:^(NSError *error) {
-            // @todo: Need to figure out case where we'd need to logout and push to user connect, if their session is borked.
-            [SVProgressHUD dismiss];
-        }];
-    } errorHandler:^(NSError *error) {
-        [SVProgressHUD dismiss];
-        // @todo: Epic Fail
-    }];
+    }
 }
 
 - (DSOCause *)causeWithID:(NSNumber *)causeID {

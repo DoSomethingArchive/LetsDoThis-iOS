@@ -55,10 +55,10 @@
 }
 
 - (DSOCampaign *)campaign {
-    // Return fully loaded DSOCampaign if activeMobileAppCampaign.
-    DSOCampaign *activeMobileAppCampaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:_campaign.campaignID];
-    if (activeMobileAppCampaign) {
-        return activeMobileAppCampaign;
+    // Return fully loaded DSOCampaign if its an activeCampaign.
+    DSOCampaign *activeCampaign = [[DSOUserManager sharedInstance] activeCampaignWithId:_campaign.campaignID];
+    if (activeCampaign) {
+        return activeCampaign;
     }
     return _campaign;
 }

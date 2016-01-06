@@ -144,7 +144,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 - (void)loadUserProfile {
     [SVProgressHUD showWithStatus:@"Loading profile..."];
 
-    [[DSOUserManager sharedInstance] loadActiveMobileAppCampaignSignupsForUser:self.user completionHandler:^{
+    [[DSOUserManager sharedInstance] loadActiveCampaignSignupsForUser:self.user completionHandler:^{
         [SVProgressHUD dismiss];
         self.isProfileLoaded = YES;
         [self.tableView reloadData];
@@ -379,7 +379,7 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
         return reportbackItemCell;
     }
     else {
-        DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:signup.campaign.campaignID];
+        DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:signup.campaign.campaignID];
         LDTProfileCampaignTableViewCell *campaignCell = [tableView dequeueReusableCellWithIdentifier:@"campaignCell"];
         [self configureCampaignCell:campaignCell campaign:campaign];
         return campaignCell;
