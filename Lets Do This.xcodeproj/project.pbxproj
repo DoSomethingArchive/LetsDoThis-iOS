@@ -75,6 +75,8 @@
 		B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E652E11B43822600EF9D69 /* LDTButton.m */; };
 		B2E75D7F1B87B1610015BE4A /* LDTReportbackItemDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E75D7E1B87B1610015BE4A /* LDTReportbackItemDetailView.xib */; };
 		B2E75D831B87B1920015BE4A /* LDTReportbackItemDetailSingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E75D821B87B1920015BE4A /* LDTReportbackItemDetailSingleViewController.m */; };
+		B2FF62C71C3CA2800003DBFE /* LDTCauseDetailCampaignCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF62C51C3CA2800003DBFE /* LDTCauseDetailCampaignCell.m */; };
+		B2FF62C81C3CA2800003DBFE /* LDTCauseDetailCampaignCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2FF62C61C3CA2800003DBFE /* LDTCauseDetailCampaignCell.xib */; };
 		C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2781AF3DBE400E9886F /* DSOCampaign.m */; };
 		C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2821AF3DBE400E9886F /* DSOUser.m */; };
 		C20BA28D1AF3DCAB00E9886F /* NSDate+DSO.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA28A1AF3DCAB00E9886F /* NSDate+DSO.m */; };
@@ -211,6 +213,9 @@
 		B2E75D7E1B87B1610015BE4A /* LDTReportbackItemDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTReportbackItemDetailView.xib; path = Reportback/LDTReportbackItemDetailView.xib; sourceTree = "<group>"; };
 		B2E75D811B87B1920015BE4A /* LDTReportbackItemDetailSingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTReportbackItemDetailSingleViewController.h; path = Reportback/LDTReportbackItemDetailSingleViewController.h; sourceTree = "<group>"; };
 		B2E75D821B87B1920015BE4A /* LDTReportbackItemDetailSingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTReportbackItemDetailSingleViewController.m; path = Reportback/LDTReportbackItemDetailSingleViewController.m; sourceTree = "<group>"; };
+		B2FF62C41C3CA2800003DBFE /* LDTCauseDetailCampaignCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCauseDetailCampaignCell.h; path = Cause/LDTCauseDetailCampaignCell.h; sourceTree = "<group>"; };
+		B2FF62C51C3CA2800003DBFE /* LDTCauseDetailCampaignCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCauseDetailCampaignCell.m; path = Cause/LDTCauseDetailCampaignCell.m; sourceTree = "<group>"; };
+		B2FF62C61C3CA2800003DBFE /* LDTCauseDetailCampaignCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCauseDetailCampaignCell.xib; path = Cause/LDTCauseDetailCampaignCell.xib; sourceTree = "<group>"; };
 		B92B81EBB03D9FF4D34E3FD9 /* Pods-Lets Do This.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.release.xcconfig"; sourceTree = "<group>"; };
 		C20BA2771AF3DBE400E9886F /* DSOCampaign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCampaign.h; sourceTree = "<group>"; };
 		C20BA2781AF3DBE400E9886F /* DSOCampaign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCampaign.m; sourceTree = "<group>"; };
@@ -285,6 +290,9 @@
 			children = (
 				B211C41D1C3AF4EF00A94E64 /* LDTCauseListView.xib */,
 				B24B269D1C3B353E0039D76D /* LDTCauseDetailView.xib */,
+				B2FF62C41C3CA2800003DBFE /* LDTCauseDetailCampaignCell.h */,
+				B2FF62C51C3CA2800003DBFE /* LDTCauseDetailCampaignCell.m */,
+				B2FF62C61C3CA2800003DBFE /* LDTCauseDetailCampaignCell.xib */,
 			);
 			name = Cause;
 			sourceTree = "<group>";
@@ -701,6 +709,7 @@
 		C2B151E11ACE04C30028C336 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = LDT;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Do Something";
 				TargetAttributes = {
@@ -749,6 +758,7 @@
 				B2000DDC1C06471900197004 /* LDTProfileReportbackItemTableViewCell.xib in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
 				B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */,
+				B2FF62C81C3CA2800003DBFE /* LDTCauseDetailCampaignCell.xib in Resources */,
 				B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */,
 				B211C41E1C3AF4EF00A94E64 /* LDTCauseListView.xib in Resources */,
 				B258EB331B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib in Resources */,
@@ -866,6 +876,7 @@
 				EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */,
 				B2C1ADA51C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.m in Sources */,
 				B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */,
+				B2FF62C71C3CA2800003DBFE /* LDTCauseDetailCampaignCell.m in Sources */,
 				B211C4181C3AEE4700A94E64 /* DSOCause.m in Sources */,
 				B29A657F1BB60F0B008C0E2A /* DSOCampaignSignup.m in Sources */,
 				B22274051B587A20005C896D /* LDTCampaignListViewController.m in Sources */,
