@@ -32,9 +32,9 @@
 #pragma mark - Accessors
 
 - (void)setCampaignCoverImageViewImageURL:(NSURL *)campaignCoverImageViewImageURL {
-    [self.campaignCoverImageView sd_setImageWithURL:campaignCoverImageViewImageURL placeholderImage:[UIImage imageNamed:@"Placeholder Image Loading"]completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url){
+    [self.campaignCoverImageView sd_setImageWithURL:campaignCoverImageViewImageURL placeholderImage:[UIImage imageNamed:@"Placeholder Image Loading"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url){
         if (!image) {
-            [self.imageView setImage:[UIImage imageNamed:@"Placeholder Image Download Fails"]];
+            [self.campaignCoverImageView setImage:[UIImage imageNamed:@"Placeholder Image Download Fails"]];
         }
     }];
 }
