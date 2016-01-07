@@ -8,6 +8,6 @@
 
 @interface LDTTabBarController : UITabBarController
 
--(void)loadCurrentUserAndCampaigns;
+-(void)reloadCurrentUser;
 
 @end

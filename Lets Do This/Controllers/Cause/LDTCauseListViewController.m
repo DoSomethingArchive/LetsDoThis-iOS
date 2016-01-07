@@ -30,16 +30,7 @@
     self.title = @"Actions";
     self.navigationItem.title = @"Let's Do This".uppercaseString;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
-
-    if ([DSOUserManager sharedInstance].userHasCachedSession) {
-        // We load the current user and active campaigns here because it's the initial view controller that loads in the app.
-        // @todo: Move this into AppDelegate or the TabBarController to avoid needing to move around if/when the initial VC changes.
-        [[DSOUserManager sharedInstance] loadCurrentUserAndActiveCampaignsWithCompletionHander:^(NSArray *activeCampaigns) {
-            [self loadCausesWithActiveCampaigns:activeCampaigns];
-        } errorHandler:^(NSError *error) {
-            [SVProgressHUD dismiss];
-        }];
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedNotification:) name:@"activeCampaignsLoaded" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -93,6 +84,31 @@
         }
     }
     return nil;
+}
+
+- (void)receivedNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"activeCampaignsLoaded"]) {
+        [[DSOAPI sharedInstance] loadCausesWithCompletionHandler:^(NSArray *causes) {
+            self.causes = causes;
+            for (DSOCampaign *campaign in [DSOUserManager sharedInstance].activeCampaigns) {
+                if (campaign.cause) {
+                    NSNumber *causeID = [NSNumber numberWithInteger:campaign.cause.causeID];
+                    if ([causeID intValue] > 0) {
+                        DSOCause *cause = [self causeWithID:causeID];
+                        [cause addActiveCampaign:campaign];
+                    }
+                    else {
+                        NSLog(@"Filtering Campaign %li: cause == %@.", (long)campaign.campaignID, causeID);
+                    }
+                }
+            }
+            [self.tableView reloadData];
+        } errorHandler:^(NSError *error) {
+            [SVProgressHUD dismiss];
+        }];
+    } else if ([[notification name] isEqualToString:@"Not Found"]) {
+        NSLog(@"epic fail");
+    }
 }
 
 #pragma mark - UITableViewDataSource
