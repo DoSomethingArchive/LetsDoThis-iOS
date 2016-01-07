@@ -79,7 +79,7 @@
 - (void)reloadCurrentUser {
     UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
     [initialVC popToRootViewControllerAnimated:YES];
-    [[DSOUserManager sharedInstance] syncCurrentUserWithCompletionHandler:^ {
+    [[DSOUserManager sharedInstance] startSessionWithCompletionHandler:^ {
         NSLog(@"syncCurrentUserWithCompletionHandler");
     } errorHandler:^(NSError *error) {
         NSLog(@"error %@", error.localizedDescription);

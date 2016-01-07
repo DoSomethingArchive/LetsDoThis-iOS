@@ -22,7 +22,8 @@
 // Posts login request to the API with given email and password, and saves session tokens to remain authenticated upon future app usage.
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Use saved session to set relevant DSOAPI headers and loads the current user's campaignSignups.
+- (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 // Returns whether an authenticated user session has been saved.
 - (BOOL)userHasCachedSession;

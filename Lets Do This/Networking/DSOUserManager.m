@@ -17,7 +17,6 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 @interface DSOUserManager()
 
 @property (strong, nonatomic, readwrite) DSOUser *user;
-@property (strong, nonatomic, readwrite) NSArray *activeCampaigns;
 @property (strong, nonatomic) NSMutableArray *mutableActiveCampaigns;
 
 @end
@@ -79,7 +78,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
       }];
 }
 
-- (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
     NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
     if (sessionToken.length == 0) {
@@ -211,7 +210,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
             }
         }
 
-        [self syncCurrentUserWithCompletionHandler:^ {
+        [self startSessionWithCompletionHandler:^ {
             NSLog(@"syncCurrentUserWithCompletionHandler");
             [SVProgressHUD dismiss];
             if (completionHandler) {
