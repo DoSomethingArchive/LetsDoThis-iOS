@@ -173,6 +173,7 @@
                 if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
                     LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
                     [rootVC dismissViewControllerAnimated:YES completion:^{
+                        [SVProgressHUD dismiss];
                         [rootVC reloadCurrentUser];
                     }];
                 }
