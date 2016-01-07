@@ -173,7 +173,7 @@
                 if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
                     LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
                     [rootVC dismissViewControllerAnimated:YES completion:^{
-                        [rootVC loadCurrentUserAndCampaigns];
+                        [rootVC reloadCurrentUser];
                     }];
                 }
             } errorHandler:^(NSError *error) {

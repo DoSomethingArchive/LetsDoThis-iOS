@@ -63,15 +63,27 @@
         [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
         [self presentViewController:destNavVC animated:YES completion:nil];
     }
+    else {
+        if ([DSOUserManager sharedInstance].activeCampaigns.count == 0) {
+            [[DSOUserManager sharedInstance] loadCurrentUserAndActiveCampaignsWithCompletionHander:^(NSArray *activeCampaigns) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"activeCampaignsLoaded" object:self];
+            } errorHandler:^(NSError *error) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"epicFail" object:self];
+            }];
+        }
+    }
 }
 
 #pragma mark - LDTTabBarController
 
-- (void)loadCurrentUserAndCampaigns {
+- (void)reloadCurrentUser {
     UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
     [initialVC popToRootViewControllerAnimated:YES];
-    LDTCauseListViewController *causeListViewController = (LDTCauseListViewController *)initialVC.topViewController;
-    [causeListViewController loadCurrentUserAndCampaigns];
+    [[DSOUserManager sharedInstance] startSessionWithCompletionHandler:^ {
+        NSLog(@"syncCurrentUserWithCompletionHandler");
+    } errorHandler:^(NSError *error) {
+        NSLog(@"error %@", error.localizedDescription);
+    }];
 }
 
 @end
