@@ -52,29 +52,26 @@
     [self styleBackBarButton];
 }
 
-- (void)loadCausesWithActiveCampaigns:(NSArray *)activeCampaigns {
+- (void)loadCauses {
     [[DSOAPI sharedInstance] loadCausesWithCompletionHandler:^(NSArray *causes) {
         self.causes = causes;
-        [self setCauseActiveCampaigns:activeCampaigns];
+        NSArray *activeCampaigns = [DSOUserManager sharedInstance].activeCampaigns;
+        for (DSOCampaign *campaign in activeCampaigns) {
+            if (campaign.cause) {
+                NSNumber *causeID = [NSNumber numberWithInteger:campaign.cause.causeID];
+                if ([causeID intValue] > 0) {
+                    DSOCause *cause = [self causeWithID:causeID];
+                    [cause addActiveCampaign:campaign];
+                }
+                else {
+                    NSLog(@"Filtering Campaign %li: cause == %@.", (long)campaign.campaignID, causeID);
+                }
+            }
+        }
         [self.tableView reloadData];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
     }];
-}
-
-- (void)setCauseActiveCampaigns:(NSArray *)allActiveCampaigns {
-    for (DSOCampaign *campaign in allActiveCampaigns) {
-        if (campaign.cause) {
-            NSNumber *causeID = [NSNumber numberWithInteger:campaign.cause.causeID];
-            if ([causeID intValue] > 0) {
-                DSOCause *cause = [self causeWithID:causeID];
-                [cause addActiveCampaign:campaign];
-            }
-            else {
-                NSLog(@"Filtering Campaign %li: cause == %@.", (long)campaign.campaignID, causeID);
-            }
-        }
-    }
 }
 
 - (DSOCause *)causeWithID:(NSNumber *)causeID {
@@ -88,24 +85,7 @@
 
 - (void)receivedNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"activeCampaignsLoaded"]) {
-        [[DSOAPI sharedInstance] loadCausesWithCompletionHandler:^(NSArray *causes) {
-            self.causes = causes;
-            for (DSOCampaign *campaign in [DSOUserManager sharedInstance].activeCampaigns) {
-                if (campaign.cause) {
-                    NSNumber *causeID = [NSNumber numberWithInteger:campaign.cause.causeID];
-                    if ([causeID intValue] > 0) {
-                        DSOCause *cause = [self causeWithID:causeID];
-                        [cause addActiveCampaign:campaign];
-                    }
-                    else {
-                        NSLog(@"Filtering Campaign %li: cause == %@.", (long)campaign.campaignID, causeID);
-                    }
-                }
-            }
-            [self.tableView reloadData];
-        } errorHandler:^(NSError *error) {
-            [SVProgressHUD dismiss];
-        }];
+        [self loadCauses];
     } else if ([[notification name] isEqualToString:@"Not Found"]) {
         NSLog(@"epic fail");
     }
