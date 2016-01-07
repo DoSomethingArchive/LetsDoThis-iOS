@@ -50,6 +50,8 @@
 
 - (void)styleView {
     [self styleBackBarButton];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Full Background"]];
+    self.tableView.backgroundColor = UIColor.clearColor;
 }
 
 - (void)loadCauses {
