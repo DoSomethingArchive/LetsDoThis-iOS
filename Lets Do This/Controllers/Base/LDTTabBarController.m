@@ -11,7 +11,12 @@
 #import "LDTOnboardingPageViewController.h"
 #import "LDTUserConnectViewController.h"
 #import "LDTCauseListViewController.h"
+#import "LDTEpicFailViewController.h"
 #import "LDTTheme.h"
+
+@interface LDTTabBarController () <LDTEpicFailSubmitButtonDelegate>
+
+@end
 
 @implementation LDTTabBarController
 
@@ -69,6 +74,7 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"activeCampaignsLoaded" object:self];
             } errorHandler:^(NSError *error) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"epicFail" object:self];
+                [self presentEpicFailForError:error];
             }];
         }
     }
@@ -82,8 +88,18 @@
     [[DSOUserManager sharedInstance] startSessionWithCompletionHandler:^ {
         NSLog(@"syncCurrentUserWithCompletionHandler");
     } errorHandler:^(NSError *error) {
-        NSLog(@"error %@", error.localizedDescription);
+        [self presentEpicFailForError:error];
     }];
+}
+
+- (void)presentEpicFailForError:(NSError *)error {
+    LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:error.readableTitle subtitle:error.readableMessage];
+    epicFailVC.delegate = self;
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+    [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+    [self presentViewController:navVC animated:YES completion:nil];
+    // @TODO: cleanup - this is dismissing the SVProgressHUD called dfrom DSOUserManager
+    [SVProgressHUD dismiss];
 }
 
 @end
