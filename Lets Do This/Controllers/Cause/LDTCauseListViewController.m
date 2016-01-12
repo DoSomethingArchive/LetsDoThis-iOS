@@ -44,6 +44,11 @@
     [super viewDidAppear:animated];
 
     self.navigationController.hidesBarsOnSwipe = NO;
+    // @todo: Not this?
+    // -(void)receivedNotification: is no longer being called, so something needs to be fixed (or remove all notifications in general)
+    if (self.causes.count == 0 && [DSOUserManager sharedInstance].activeCampaigns.count > 0) {
+        [self loadCauses];
+    }
 }
 
 #pragma mark - LDTCauseListViewController
@@ -55,6 +60,7 @@
 }
 
 - (void)loadCauses {
+    [SVProgressHUD showWithStatus:@"Loading..."];
     [[DSOAPI sharedInstance] loadCausesWithCompletionHandler:^(NSArray *causes) {
         self.causes = causes;
         NSArray *activeCampaigns = [DSOUserManager sharedInstance].activeCampaigns;
@@ -70,6 +76,7 @@
                 }
             }
         }
+        [SVProgressHUD dismiss];
         [self.tableView reloadData];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
@@ -87,6 +94,7 @@
 
 - (void)receivedNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"activeCampaignsLoaded"]) {
+        NSLog(@"Received notification");
         [self loadCauses];
     } else if ([[notification name] isEqualToString:@"Not Found"]) {
         NSLog(@"epic fail");
