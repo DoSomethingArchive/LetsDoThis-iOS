@@ -7,6 +7,7 @@
 //
 
 #import "LDTTabBarController.h"
+#import "LDTNewsFeedViewController.h"
 #import "LDTProfileViewController.h"
 #import "LDTOnboardingPageViewController.h"
 #import "LDTUserConnectViewController.h"
@@ -30,6 +31,10 @@
         self.tabBar.tintColor = LDTTheme.ctaBlueColor;
 		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:LDTTheme.fontName size:10.0f] } forState:UIControlStateNormal];
 
+        LDTNewsFeedViewController *newsFeedViewController = [[LDTNewsFeedViewController alloc] initWithNibName:@"LDTNewsFeedView" bundle:nil];
+        newsFeedViewController.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
+        UINavigationController *newsFeedNavigationController = [[UINavigationController alloc] initWithRootViewController:newsFeedViewController];
+
         LDTProfileViewController *profileVC = [[LDTProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
         profileVC.title = @"Me";
         UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
@@ -38,7 +43,8 @@
         LDTCauseListViewController *causeListViewController = [[LDTCauseListViewController alloc] initWithNibName:@"LDTCauseListView" bundle:nil];
         causeListViewController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
         UINavigationController *causeListNavigationController = [[UINavigationController alloc] initWithRootViewController:causeListViewController];
-        self.viewControllers = [NSArray arrayWithObjects:causeListNavigationController, profileNavVC, nil];
+
+        self.viewControllers = [NSArray arrayWithObjects:newsFeedNavigationController, causeListNavigationController, profileNavVC, nil];
     }
 	
     return self;

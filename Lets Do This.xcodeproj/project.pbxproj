@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		421774269F5DF5997622C2F9 /* libPods-Lets Do This.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */; };
 		569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */; };
+		79E2E28707E3FB3559C51480 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD686577156AB49815812E2 /* libPods.a */; };
 		B2000DDB1C06471900197004 /* LDTProfileReportbackItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2000DD91C06471900197004 /* LDTProfileReportbackItemTableViewCell.m */; };
 		B2000DDC1C06471900197004 /* LDTProfileReportbackItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2000DDA1C06471900197004 /* LDTProfileReportbackItemTableViewCell.xib */; };
 		B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20881A01B0B9B0F00E697B2 /* keys.plist */; };
@@ -60,6 +61,9 @@
 		B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterView.xib */; };
 		B2A136631B3D9BC600D20273 /* LDTUserRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */; };
 		B2A41A051B5DCC5300C6C1A6 /* LDTSettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A41A041B5DCC5300C6C1A6 /* LDTSettingsView.xib */; };
+		B2BB8F151C457C8B000EA5CA /* LDTNewsFeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BB8F141C457C8B000EA5CA /* LDTNewsFeedView.xib */; };
+		B2BB8F191C457CEC000EA5CA /* LDTNewsFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BB8F181C457CEC000EA5CA /* LDTNewsFeedViewController.m */; };
+		B2BB8F1D1C457D90000EA5CA /* LDTReactView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BB8F1C1C457D90000EA5CA /* LDTReactView.m */; };
 		B2C1ADA51C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C1ADA31C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.m */; };
 		B2C1ADA61C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C1ADA41C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.xib */; };
 		B2C3054B1BE142AE0046CD10 /* NSError+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C3054A1BE142AE0046CD10 /* NSError+LDT.m */; };
@@ -100,6 +104,7 @@
 		481832CD7E534871B0CC8938 /* Pods-Lets Do This.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.debug.xcconfig"; sourceTree = "<group>"; };
 		569AA55C1B4085A000D8C8C9 /* InterfaceBuilderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InterfaceBuilderView.h; path = Base/InterfaceBuilderView.h; sourceTree = "<group>"; };
 		569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InterfaceBuilderView.m; path = Base/InterfaceBuilderView.m; sourceTree = "<group>"; };
+		8FD686577156AB49815812E2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2000DD81C06471900197004 /* LDTProfileReportbackItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTProfileReportbackItemTableViewCell.h; path = Profile/LDTProfileReportbackItemTableViewCell.h; sourceTree = "<group>"; };
 		B2000DD91C06471900197004 /* LDTProfileReportbackItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTProfileReportbackItemTableViewCell.m; path = Profile/LDTProfileReportbackItemTableViewCell.m; sourceTree = "<group>"; };
 		B2000DDA1C06471900197004 /* LDTProfileReportbackItemTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTProfileReportbackItemTableViewCell.xib; path = Profile/LDTProfileReportbackItemTableViewCell.xib; sourceTree = "<group>"; };
@@ -181,6 +186,11 @@
 		B2A136611B3D9BC600D20273 /* LDTUserRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserRegisterViewController.h; path = Login/LDTUserRegisterViewController.h; sourceTree = "<group>"; };
 		B2A136621B3D9BC600D20273 /* LDTUserRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserRegisterViewController.m; path = Login/LDTUserRegisterViewController.m; sourceTree = "<group>"; };
 		B2A41A041B5DCC5300C6C1A6 /* LDTSettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTSettingsView.xib; path = Settings/LDTSettingsView.xib; sourceTree = "<group>"; };
+		B2BB8F141C457C8B000EA5CA /* LDTNewsFeedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTNewsFeedView.xib; path = News/LDTNewsFeedView.xib; sourceTree = "<group>"; };
+		B2BB8F171C457CEC000EA5CA /* LDTNewsFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTNewsFeedViewController.h; path = News/LDTNewsFeedViewController.h; sourceTree = "<group>"; };
+		B2BB8F181C457CEC000EA5CA /* LDTNewsFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTNewsFeedViewController.m; path = News/LDTNewsFeedViewController.m; sourceTree = "<group>"; };
+		B2BB8F1B1C457D90000EA5CA /* LDTReactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTReactView.h; path = Base/LDTReactView.h; sourceTree = "<group>"; };
+		B2BB8F1C1C457D90000EA5CA /* LDTReactView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTReactView.m; path = Base/LDTReactView.m; sourceTree = "<group>"; };
 		B2C1ADA21C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTProfileNoSignupsTableViewCell.h; path = Profile/LDTProfileNoSignupsTableViewCell.h; sourceTree = "<group>"; };
 		B2C1ADA31C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTProfileNoSignupsTableViewCell.m; path = Profile/LDTProfileNoSignupsTableViewCell.m; sourceTree = "<group>"; };
 		B2C1ADA41C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTProfileNoSignupsTableViewCell.xib; path = Profile/LDTProfileNoSignupsTableViewCell.xib; sourceTree = "<group>"; };
@@ -232,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				421774269F5DF5997622C2F9 /* libPods-Lets Do This.a in Frameworks */,
+				79E2E28707E3FB3559C51480 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */,
+				8FD686577156AB49815812E2 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -412,6 +424,23 @@
 			name = Onboarding;
 			sourceTree = "<group>";
 		};
+		B2BB8F161C457C92000EA5CA /* News */ = {
+			isa = PBXGroup;
+			children = (
+				B2BB8F141C457C8B000EA5CA /* LDTNewsFeedView.xib */,
+			);
+			name = News;
+			sourceTree = "<group>";
+		};
+		B2BB8F1A1C457CF3000EA5CA /* News */ = {
+			isa = PBXGroup;
+			children = (
+				B2BB8F171C457CEC000EA5CA /* LDTNewsFeedViewController.h */,
+				B2BB8F181C457CEC000EA5CA /* LDTNewsFeedViewController.m */,
+			);
+			name = News;
+			sourceTree = "<group>";
+		};
 		B2E652DC1B43807000EF9D69 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +450,8 @@
 				B2E652DE1B4380AD00EF9D69 /* LDTTheme.m */,
 				B2E652E01B43822600EF9D69 /* LDTButton.h */,
 				B2E652E11B43822600EF9D69 /* LDTButton.m */,
+				B2BB8F1B1C457D90000EA5CA /* LDTReactView.h */,
+				B2BB8F1C1C457D90000EA5CA /* LDTReactView.m */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -555,6 +586,7 @@
 				C2F35F0A1AD8272C00D12FE5 /* Login */,
 				B211C41C1C3AF4AA00A94E64 /* Cause */,
 				B22274021B587A02005C896D /* Campaign */,
+				B2BB8F1A1C457CF3000EA5CA /* News */,
 				B27AF0E11B4F487C00164926 /* Profile */,
 				B2E75D801B87B16C0015BE4A /* Reportback */,
 				B2629F201BAB459E00A1B5C3 /* Settings */,
@@ -591,6 +623,7 @@
 				B239391A1B44495400E5BCC8 /* Login */,
 				B211C41F1C3AF52000A94E64 /* Cause */,
 				B22273FF1B58792D005C896D /* Campaign */,
+				B2BB8F161C457C92000EA5CA /* News */,
 				B27AF0E51B4F490800164926 /* Profile */,
 				B2E75D7D1B87B1300015BE4A /* Reportback */,
 				B2629F241BAB45EA00A1B5C3 /* Settings */,
@@ -723,6 +756,7 @@
 				B2963E071BD83CC700D2B6EE /* LDTOnboardingPageView.xib in Resources */,
 				B2E75D7F1B87B1610015BE4A /* LDTReportbackItemDetailView.xib in Resources */,
 				B2000DDC1C06471900197004 /* LDTProfileReportbackItemTableViewCell.xib in Resources */,
+				B2BB8F151C457C8B000EA5CA /* LDTNewsFeedView.xib in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
 				B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */,
 				B2FF62C81C3CA2800003DBFE /* LDTCauseDetailCampaignCell.xib in Resources */,
@@ -782,7 +816,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		568131DF1B730BA700FF9854 /* ShellScript */ = {
@@ -833,6 +867,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2BB8F191C457CEC000EA5CA /* LDTNewsFeedViewController.m in Sources */,
 				B24B269C1C3B34F30039D76D /* LDTCauseDetailViewController.m in Sources */,
 				B24D53051C0F71040090C8EC /* LDTActivityViewController.m in Sources */,
 				B27FD03F1BBD99FF00A44952 /* LDTEpicFailViewController.m in Sources */,
@@ -863,6 +898,7 @@
 				B21996B11B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m in Sources */,
 				B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */,
 				B2C3054B1BE142AE0046CD10 /* NSError+LDT.m in Sources */,
+				B2BB8F1D1C457D90000EA5CA /* LDTReactView.m in Sources */,
 				C2B152201ACE05510028C336 /* AppDelegate.m in Sources */,
 				B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */,
 				C2B151EF1ACE04C30028C336 /* main.m in Sources */,

@@ -18,3 +18,11 @@ target 'Lets Do This' do
 end
 
 xcodeproj 'Lets Do This', 'Thor' => :release, 'Debug' => :debug, 'Release' => :release
+
+pod 'React', :path => './node_modules/react-native', :subspecs => [
+'Core',
+'RCTImage',
+'RCTNetwork',
+'RCTText',
+'RCTWebSocket',
+]
