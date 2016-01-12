@@ -14,7 +14,7 @@ import React, {
 } from 'react-native';
 
 
-var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
+var REQUEST_URL = 'http://dev-ltd-news.pantheon.io/?json=1';
 
 var NewsStoryBox = React.createClass({
   getInitialState: function() {
@@ -33,7 +33,7 @@ var NewsStoryBox = React.createClass({
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
+          dataSource: this.state.dataSource.cloneWithRows(responseData.posts),
           loaded: true,
         });
       })
@@ -47,7 +47,7 @@ var NewsStoryBox = React.createClass({
     return (
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={this.renderMovie}
+        renderRow={this.renderNewsStory}
         style={styles.listView}
       />
     );
@@ -56,21 +56,21 @@ var NewsStoryBox = React.createClass({
     return (
       <View style={styles.container}>
         <Text>
-          Loading movies...
+          Loading news...
         </Text>
       </View>
     );
   },
-  renderMovie: function(movie) {
+  renderNewsStory: function(newsStory) {
     return (
       <View style={styles.container}>
         <Image
-          source={{uri: movie.posters.thumbnail}}
+          source={{uri: newsStory.attachments[0].url}}
           style={styles.thumbnail}
         />
         <View style={styles.rightContainer}>
-          <Text style={styles.title}>{movie.title}</Text>
-          <Text style={styles.year}>{movie.year}</Text>
+          <Text style={styles.title}>{newsStory.title}</Text>
+          <Text style={styles.year}>{newsStory.custom_fields.subtitle}</Text>
         </View>
       </View>
     );

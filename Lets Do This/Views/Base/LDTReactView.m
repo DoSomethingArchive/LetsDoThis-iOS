@@ -18,7 +18,11 @@
     NSURL *jsCodeLocation = [NSURL URLWithString:urlString];
     RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsStoryBox" initialProperties:nil launchOptions:nil];
     [self addSubview:rootView];
-    rootView.frame = self.bounds;
+    // This is from tutorial, but the width is set to 600.
+    // rootView.frame = self.bounds;
+    // Hardcode to screenWidth instead, for now
+    CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    rootView.frame = CGRectMake(0, 0, screenWidth, self.bounds.size.height);
 }
 
 @end
