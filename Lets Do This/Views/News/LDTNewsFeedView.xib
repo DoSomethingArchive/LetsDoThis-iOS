@@ -17,14 +17,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rbA-hG-kBk" customClass="LDTReactView">
-                    <rect key="frame" x="20" y="0.0" width="560" height="600"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="rbA-hG-kBk" secondAttribute="trailing" constant="20" id="Eor-QF-JhU"/>
-                <constraint firstItem="rbA-hG-kBk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="JGo-We-mFC"/>
+                <constraint firstAttribute="trailing" secondItem="rbA-hG-kBk" secondAttribute="trailing" id="Eor-QF-JhU"/>
+                <constraint firstItem="rbA-hG-kBk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JGo-We-mFC"/>
                 <constraint firstAttribute="bottom" secondItem="rbA-hG-kBk" secondAttribute="bottom" id="aZn-e9-v76"/>
                 <constraint firstItem="rbA-hG-kBk" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="t99-Ug-izA"/>
             </constraints>
