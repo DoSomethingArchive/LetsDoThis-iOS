@@ -21,8 +21,16 @@
     // @todo: Add a build step to compile main.jsbundle
 //    jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
+    NSString *newsURLPrefix = @"live";
+#ifdef DEBUG
+    newsURLPrefix = @"dev";
+#endif
+
+    NSString *newsURLString = [NSString stringWithFormat:@"http://%@-ltd-news.pantheon.io/?json=1", newsURLPrefix];
+     NSDictionary *props = @{@"url" : newsURLString};
+
     // @todo: Pass moduleName as parameter to custom init?
-    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsStoryBox" initialProperties:nil launchOptions:nil];
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsStoryBox" initialProperties:props launchOptions:nil];
     [self addSubview:rootView];
     // This is from tutorial, but the width is set to 600.
     // rootView.frame = self.bounds;

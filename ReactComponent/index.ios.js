@@ -31,7 +31,7 @@ var NewsStoryBox = React.createClass({
     this.fetchData();
   },
   fetchData: function() {
-    fetch(REQUEST_URL)
+    fetch(this.props.url)
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
