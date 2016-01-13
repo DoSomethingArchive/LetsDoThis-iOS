@@ -51,14 +51,18 @@
 
 - (void)presentCampaignDetailViewControllerForCampaignId:(NSInteger)campaignID {
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
-    if (!campaign) {
-        NSLog(@"No campaign with id %li", (long)campaignID);
-        return;
-    }
+
     // Without this trickery, the ReactView won't push to the Campaign Detail VC, even though this method gets called.
     // http://stackoverflow.com/a/29762965/1470725
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
     UINavigationController *navigationController = keyWindow.rootViewController.childViewControllers[0];
+
+    if (!campaign) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Editorial error: invalid campaign ID."];
+        });
+        return;
+    }
     LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
     dispatch_async(dispatch_get_main_queue(), ^{
         [navigationController pushViewController:campaignDetailViewController animated:YES];
