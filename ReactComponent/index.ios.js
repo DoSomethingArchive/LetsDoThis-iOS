@@ -73,12 +73,15 @@ var NewsStoryBox = React.createClass({
         <View style={styles.rightContainer}>
           <Text style={styles.title}>{newsStory.title.toUpperCase()}</Text>
           <Text style={styles.year}>{newsStory.custom_fields.subtitle}</Text>
-          <TouchableHighlight onPress={this._onPressButton}>
-            <Text style={styles.title}>{TAKE_ACTION_TEXT.toUpperCase()}</Text>
+          <TouchableHighlight onPress={this.ctaButtonPressed.bind(this)} style={styles.button} underlayColor='#3731A9'>
+            <Text style={styles.buttonText}>{TAKE_ACTION_TEXT.toUpperCase()}</Text>
           </TouchableHighlight>
         </View>
       </View>
     );
+  },
+  ctaButtonPressed: function() {
+    console.log('Hello mate');
   },
 });
 
@@ -108,6 +111,22 @@ const styles = StyleSheet.create({
   listView: {
     paddingTop: 20,
     backgroundColor: '#F5FCFF',
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center',
+    fontFamily: 'BrandonGrotesque-Bold',
+  },
+  button: {
+    height: 50,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#3731A9',
+    borderColor: '#FFF',
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   },
 });
 
