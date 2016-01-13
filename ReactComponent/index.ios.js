@@ -10,11 +10,13 @@ import React, {
   StyleSheet,
   Text,
   Image,
+  TouchableHighlight,
   View
 } from 'react-native';
 
 
 var REQUEST_URL = 'http://dev-ltd-news.pantheon.io/?json=1';
+var TAKE_ACTION_TEXT = 'Take action';
 
 var NewsStoryBox = React.createClass({
   getInitialState: function() {
@@ -55,7 +57,7 @@ var NewsStoryBox = React.createClass({
   renderLoadingView: function() {
     return (
       <View style={styles.container}>
-        <Text>
+        <Text style={styles.year}>>
           Loading news...
         </Text>
       </View>
@@ -69,8 +71,11 @@ var NewsStoryBox = React.createClass({
           style={styles.thumbnail}
         />
         <View style={styles.rightContainer}>
-          <Text style={styles.title}>{newsStory.title}</Text>
+          <Text style={styles.title}>{newsStory.title.toUpperCase()}</Text>
           <Text style={styles.year}>{newsStory.custom_fields.subtitle}</Text>
+          <TouchableHighlight onPress={this._onPressButton}>
+            <Text style={styles.title}>{TAKE_ACTION_TEXT.toUpperCase()}</Text>
+          </TouchableHighlight>
         </View>
       </View>
     );
@@ -95,8 +100,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     marginBottom: 8,
+    fontFamily: 'BrandonGrotesque-Bold',
   },
   year: {
+    fontFamily: 'Brandon Grotesque',
   },
   listView: {
     paddingTop: 20,
