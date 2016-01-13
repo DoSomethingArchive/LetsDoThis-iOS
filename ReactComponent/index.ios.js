@@ -57,7 +57,7 @@ var NewsStoryBox = React.createClass({
   renderLoadingView: function() {
     return (
       <View style={styles.container}>
-        <Text style={styles.year}>>
+        <Text style={styles.year}>
           Loading news...
         </Text>
       </View>
@@ -66,22 +66,24 @@ var NewsStoryBox = React.createClass({
   renderNewsStory: function(newsStory) {
     return (
       <View style={styles.container}>
-        <Image
+        <View style={styles.newsStory}>
+          <Image
           source={{uri: newsStory.attachments[0].url}}
           style={styles.thumbnail}
-        />
-        <View style={styles.rightContainer}>
+          />
           <Text style={styles.title}>{newsStory.title.toUpperCase()}</Text>
           <Text style={styles.year}>{newsStory.custom_fields.subtitle}</Text>
-          <TouchableHighlight onPress={this.ctaButtonPressed.bind(this)} style={styles.button} underlayColor='#3731A9'>
+          <TouchableHighlight onPress={this.ctaButtonPressed.bind(this, newsStory)} style={styles.button} underlayColor='#3731A9'>
             <Text style={styles.buttonText}>{TAKE_ACTION_TEXT.toUpperCase()}</Text>
           </TouchableHighlight>
         </View>
       </View>
     );
   },
-  ctaButtonPressed: function() {
-    console.log('Hello mate');
+  ctaButtonPressed: function(newsStory) {
+    var campaignID = newsStory.custom_fields.campaign_id[0];
+    var NewsFeedVC = require('react-native').NativeModules.LDTNewsFeedViewController;
+    NewsFeedVC.presentCampaign(campaignID);
   },
 });
 
@@ -91,14 +93,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#EEE',
   },
   thumbnail: {
-    width: 53,
-    height: 81,
+    height: 100,
   },
-  rightContainer: {
+  newsStory: {
     flex: 1,
+    margin: 16,
+    backgroundColor: '#FFF',
+    borderColor: '#ccc',
+    borderWidth: 1,
   },
   title: {
     fontSize: 20,
