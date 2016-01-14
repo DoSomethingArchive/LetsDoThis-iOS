@@ -73,7 +73,7 @@
 
     if (!campaign) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Editorial error: invalid campaign ID."];
+            [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Our bad. That's an invalid campaign ID :("];
         });
         return;
     }
