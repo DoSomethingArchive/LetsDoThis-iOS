@@ -31,7 +31,7 @@
         self.tabBar.tintColor = LDTTheme.ctaBlueColor;
 		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:LDTTheme.fontName size:10.0f] } forState:UIControlStateNormal];
 
-        LDTNewsFeedViewController *newsFeedViewController = [[LDTNewsFeedViewController alloc] initWithNibName:@"LDTNewsFeedView" bundle:nil];
+        LDTNewsFeedViewController *newsFeedViewController = [[LDTNewsFeedViewController alloc] init];
         newsFeedViewController.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
         UINavigationController *newsFeedNavigationController = [[UINavigationController alloc] initWithRootViewController:newsFeedViewController];
 

@@ -8,13 +8,11 @@
 
 #import "LDTNewsFeedViewController.h"
 #import "LDTTheme.h"
-#import "LDTReactView.h"
 #import <RCTBridgeModule.h>
+#import <RCTRootView.h>
 #import "LDTCampaignDetailViewController.h"
 
 @interface LDTNewsFeedViewController () <RCTBridgeModule>
-
-@property (weak, nonatomic) IBOutlet LDTReactView *reactView;
 
 @end
 
@@ -27,6 +25,22 @@
 
     self.title = @"News";
     self.navigationItem.title = @"Let's Do This".uppercaseString;
+
+    // @todo: Move jsCodeLocation and this logic into AppDelegate as a public property
+    NSURL *jsCodeLocation;
+    // Use this for local development:
+    NSString *urlString = @"http://localhost:8081/index.ios.bundle";
+    jsCodeLocation = [NSURL URLWithString:urlString];
+
+    NSString *newsURLPrefix = @"live";
+#ifdef DEBUG
+    newsURLPrefix = @"dev";
+#endif
+
+    NSString *newsURLString = [NSString stringWithFormat:@"http://%@-ltd-news.pantheon.io/?json=1", newsURLPrefix];
+    NSDictionary *props = @{@"url" : newsURLString};
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsStoryBox" initialProperties:props launchOptions:nil];
+    self.view = rootView;
     [self styleView];
 }
 
@@ -52,7 +66,7 @@
 - (void)presentCampaignDetailViewControllerForCampaignId:(NSInteger)campaignID {
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
 
-    // Without this trickery, the ReactView won't push to the Campaign Detail VC, even though this method gets called.
+    // Without this trickery, the ReactView won't push to the Campaign Detail VC, even though this method gets called (will output NSLog calls, etc).
     // http://stackoverflow.com/a/29762965/1470725
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
     UINavigationController *navigationController = keyWindow.rootViewController.childViewControllers[0];
