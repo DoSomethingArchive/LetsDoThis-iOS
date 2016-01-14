@@ -421,13 +421,6 @@
 			name = Onboarding;
 			sourceTree = "<group>";
 		};
-		B2BB8F161C457C92000EA5CA /* News */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = News;
-			sourceTree = "<group>";
-		};
 		B2BB8F1A1C457CF3000EA5CA /* News */ = {
 			isa = PBXGroup;
 			children = (
@@ -618,7 +611,6 @@
 				B239391A1B44495400E5BCC8 /* Login */,
 				B211C41F1C3AF52000A94E64 /* Cause */,
 				B22273FF1B58792D005C896D /* Campaign */,
-				B2BB8F161C457C92000EA5CA /* News */,
 				B27AF0E51B4F490800164926 /* Profile */,
 				B2E75D7D1B87B1300015BE4A /* Reportback */,
 				B2629F241BAB45EA00A1B5C3 /* Settings */,
