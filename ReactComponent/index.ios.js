@@ -83,6 +83,20 @@ var NewsFeedView = React.createClass({
       imgBackground = <Text style={styles.title}>{post.title.toUpperCase()}</Text>;
     }
 
+    var linkToArticle;
+    if (typeof post.custom_fields.full_article_url !== 'undefined'
+        && typeof post.custom_fields.full_article_url[0] !== 'undefined'
+        && post.custom_fields.full_article_url[0]) {
+        linkToArticle = <Text
+            onPress={this.fullArticlePressed.bind(this, post.custom_fields.full_article_url[0])}
+            style={styles.articleLink}>
+            Read the full article
+          </Text>;
+    }
+    else {
+      linkToArticle = null;
+    }
+
     return(
       <View style={styles.postContainer}>
         <View style={styles.postHeader}>
@@ -100,11 +114,7 @@ var NewsFeedView = React.createClass({
           <View style={styles.summaryItem}>
             <Text style={styles.summaryText}>* {post.custom_fields.summary_3}</Text>
           </View>
-          <Text
-            onPress={this.fullArticlePressed.bind(this, post.custom_fields.full_article_url)}
-            style={styles.articleLink}>
-            Read the full article
-          </Text>
+          {linkToArticle}
         </View>
         <TouchableHighlight onPress={this.ctaButtonPressed.bind(this, post)} style={styles.btn}>
           <Text style={styles.btnText}>{TAKE_ACTION_TEXT.toUpperCase()}</Text>
