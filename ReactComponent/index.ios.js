@@ -5,6 +5,7 @@
 'use strict';
 import React, {
   AppRegistry,
+  ActivityIndicatorIOS,
   ListView,
   Component,
   StyleSheet,
@@ -49,90 +50,160 @@ var NewsFeedView = React.createClass({
     return (
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={this.renderNewsStory}
+        renderRow={this.renderPost}
         style={styles.listView}
       />
     );
   },
   renderLoadingView: function() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.year}>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
+        <Text style={styles.subtitle}>
           Loading news...
         </Text>
       </View>
     );
   },
-  renderNewsStory: function(newsStory) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.newsStory}>
-          <Image
-          source={{uri: newsStory.attachments[0].url}}
-          style={styles.thumbnail}
-          />
-          <Text style={styles.title}>{newsStory.title.toUpperCase()}</Text>
-          <Text style={styles.year}>{newsStory.custom_fields.subtitle}</Text>
-          <TouchableHighlight onPress={this.ctaButtonPressed.bind(this, newsStory)} style={styles.button} underlayColor='#3731A9'>
-            <Text style={styles.buttonText}>{TAKE_ACTION_TEXT.toUpperCase()}</Text>
-          </TouchableHighlight>
+  renderPost: function(post) {
+    var imgBackground;
+    if (typeof post !== 'undefined'
+        && typeof post.attachments[0] !== 'undefined'
+        && typeof post.attachments[0].images !== 'undefined'
+        && typeof post.attachments[0].images.full !== 'undefined') {
+        imgBackground = <Image
+          style={{flex: 1, height: 128, alignItems: 'stretch'}}
+          source={{uri: post.attachments[0].images.full.url}}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{post.title.toUpperCase()}</Text>
+            </View>
+          </Image>;
+    }
+    else {
+      imgBackground = <Text style={styles.title}>{post.title.toUpperCase()}</Text>;
+    }
+
+    return(
+      <View style={styles.postContainer}>
+        <View style={styles.postHeader}>
+          <Text style={styles.date}>{post.date}</Text>
         </View>
+        {imgBackground}
+        <View style={styles.postBody}>
+          <Text style={styles.subtitle}>{post.custom_fields.subtitle}</Text>
+          <View style={styles.summaryItem}>
+            <Text style={styles.summaryText}>* {post.custom_fields.summary_1}</Text>
+          </View>
+          <View style={styles.summaryItem}>
+            <Text style={styles.summaryText}>* {post.custom_fields.summary_2}</Text>
+          </View>
+          <View style={styles.summaryItem}>
+            <Text style={styles.summaryText}>* {post.custom_fields.summary_3}</Text>
+          </View>
+          <Text
+            onPress={this.fullArticlePressed.bind(this, post.custom_fields.full_article_url)}
+            style={styles.articleLink}>
+            Read the full article
+          </Text>
+        </View>
+        <TouchableHighlight onPress={this.ctaButtonPressed.bind(this, post)} style={styles.btn}>
+          <Text style={styles.btnText}>{TAKE_ACTION_TEXT.toUpperCase()}</Text>
+        </TouchableHighlight>
       </View>
     );
   },
-  ctaButtonPressed: function(newsStory) {
-    var campaignID = newsStory.custom_fields.campaign_id[0];
+  ctaButtonPressed: function(post) {
+    var campaignID = post.custom_fields.campaign_id[0];
     var NewsFeedViewController = require('react-native').NativeModules.LDTNewsFeedViewController;
     NewsFeedViewController.presentCampaign(campaignID);
   },
+  fullArticlePressed: function(url) {
+    console.log(url);
+  },
 });
 
-const styles = StyleSheet.create({
-  container: {
+var styles = React.StyleSheet.create({
+  postBody: {
+    padding: 10,
+  },
+  postContainer: {
+    backgroundColor: '#ffffff',
+    marginTop: 10
+  },
+  loadingContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#EEE',
   },
-  thumbnail: {
-    height: 100,
+  postHeader: {
+    backgroundColor: '#00e4c8',
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+    padding: 4,
   },
-  newsStory: {
-    flex: 1,
-    margin: 16,
-    backgroundColor: '#FFF',
-    borderColor: '#ccc',
-    borderWidth: 1,
+  postHeaderText: {
+    color: '#ffffff',
   },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
+  articleLink: {
+    color: '#3932A9',
     fontFamily: 'BrandonGrotesque-Bold',
   },
-  year: {
+  btn: {
+    backgroundColor: '#3932A9',
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+    paddingBottom: 10,
+    paddingTop: 10,
+  },
+  btnText: {
+    color: '#ffffff',
+    fontFamily: 'Brandon Grotesque',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  date: {
+    color: '#ffffff',
     fontFamily: 'Brandon Grotesque',
   },
   listView: {
-    paddingTop: 20,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#eeeeee',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
   },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center',
+  subtitle: {
+    color: '#454545',
     fontFamily: 'BrandonGrotesque-Bold',
+    fontSize: 16,
   },
-  button: {
-    height: 50,
+  summaryItem: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#3731A9',
-    borderColor: '#FFF',
-    marginBottom: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
+    marginBottom: 8,
+    marginTop: 8,
+  },
+  summaryText: {
+    flex: 1,
+    flexDirection: 'column',
+    fontFamily: 'Brandon Grotesque',
+    marginLeft: 4,
+  },
+  title: {
+    color: '#ffffff',
+    flex: 1,
+    flexDirection: 'column',
+    fontFamily: 'BrandonGrotesque-Bold',
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  titleContainer: {
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    padding: 20,
   },
 });
-
 AppRegistry.registerComponent('NewsFeedView', () => NewsFeedView);
