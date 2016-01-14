@@ -8,6 +8,7 @@
 
 #import "LDTNewsFeedViewController.h"
 #import "LDTTheme.h"
+#import "AppDelegate.h"
 #import <RCTBridgeModule.h>
 #import <RCTRootView.h>
 #import "LDTCampaignDetailViewController.h"
@@ -25,17 +26,11 @@
 
     self.navigationItem.title = @"Let's Do This".uppercaseString;
 
-    // @todo: Move jsCodeLocation and this logic into AppDelegate as a public property
-    NSURL *jsCodeLocation;
-    // Use this for local development:
-    NSString *urlString = @"http://localhost:8081/index.ios.bundle";
-    jsCodeLocation = [NSURL URLWithString:urlString];
-
+    NSURL *jsCodeLocation = ((AppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
     NSString *newsURLPrefix = @"live";
 #ifdef DEBUG
     newsURLPrefix = @"dev";
 #endif
-
     NSString *newsURLString = [NSString stringWithFormat:@"http://%@-ltd-news.pantheon.io/?json=1", newsURLPrefix];
     NSDictionary *props = @{@"url" : newsURLString};
     RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsFeedView" initialProperties:props launchOptions:nil];

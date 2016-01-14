@@ -8,6 +8,7 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+@property (strong, nonatomic, readonly) NSURL *jsCodeLocation;
 @property (strong, nonatomic) UIWindow *window;
 
 @end
