@@ -18,7 +18,7 @@ import React, {
 var REQUEST_URL = 'http://dev-ltd-news.pantheon.io/?json=1';
 var TAKE_ACTION_TEXT = 'Take action';
 
-var NewsStoryBox = React.createClass({
+var NewsFeedView = React.createClass({
   getInitialState: function() {
     return {
       dataSource: new ListView.DataSource({
@@ -82,8 +82,8 @@ var NewsStoryBox = React.createClass({
   },
   ctaButtonPressed: function(newsStory) {
     var campaignID = newsStory.custom_fields.campaign_id[0];
-    var NewsFeedVC = require('react-native').NativeModules.LDTNewsFeedViewController;
-    NewsFeedVC.presentCampaign(campaignID);
+    var NewsFeedViewController = require('react-native').NativeModules.LDTNewsFeedViewController;
+    NewsFeedViewController.presentCampaign(campaignID);
   },
 });
 
@@ -135,4 +135,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('NewsStoryBox', () => NewsStoryBox);
+AppRegistry.registerComponent('NewsFeedView', () => NewsFeedView);

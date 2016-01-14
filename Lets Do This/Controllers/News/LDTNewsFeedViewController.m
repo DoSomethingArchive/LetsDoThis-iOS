@@ -23,7 +23,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = @"News";
     self.navigationItem.title = @"Let's Do This".uppercaseString;
 
     // @todo: Move jsCodeLocation and this logic into AppDelegate as a public property
@@ -39,7 +38,7 @@
 
     NSString *newsURLString = [NSString stringWithFormat:@"http://%@-ltd-news.pantheon.io/?json=1", newsURLPrefix];
     NSDictionary *props = @{@"url" : newsURLString};
-    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsStoryBox" initialProperties:props launchOptions:nil];
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsFeedView" initialProperties:props launchOptions:nil];
     self.view = rootView;
     [self styleView];
 }

@@ -33,6 +33,7 @@
 
         LDTNewsFeedViewController *newsFeedViewController = [[LDTNewsFeedViewController alloc] init];
         newsFeedViewController.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
+        newsFeedViewController.title = @"News";
         UINavigationController *newsFeedNavigationController = [[UINavigationController alloc] initWithRootViewController:newsFeedViewController];
 
         LDTProfileViewController *profileVC = [[LDTProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
@@ -42,6 +43,7 @@
 
         LDTCauseListViewController *causeListViewController = [[LDTCauseListViewController alloc] initWithNibName:@"LDTCauseListView" bundle:nil];
         causeListViewController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
+        causeListViewController.title = @"Actions";
         UINavigationController *causeListNavigationController = [[UINavigationController alloc] initWithRootViewController:causeListViewController];
 
         self.viewControllers = [NSArray arrayWithObjects:newsFeedNavigationController, causeListNavigationController, profileNavVC, nil];
