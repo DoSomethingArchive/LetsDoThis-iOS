@@ -96,7 +96,7 @@
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     self.passwordTextField.secureTextEntry = YES;
     self.passwordButton.backgroundColor = UIColor.whiteColor;
-    [self.passwordButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
+    [self.passwordButton setTitleColor:LDTTheme.magentaColor forState:UIControlStateNormal];
     [self.registerLink setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
 }
 
@@ -112,7 +112,7 @@
         }
     }
     if (enabled) {
-        [self.submitButton enable:YES];
+        [self.submitButton enable:YES backgroundColor:LDTTheme.magentaColor];
     }
     else {
         [self.submitButton enable:NO];
@@ -169,7 +169,7 @@
 
 - (IBAction)passwordEditingChanged:(id)sender {
     if (self.passwordTextField.text.length > 5) {
-        [self.submitButton enable:YES];
+        [self.submitButton enable:YES backgroundColor:LDTTheme.magentaColor];
     }
     else {
         [self.submitButton enable:NO];

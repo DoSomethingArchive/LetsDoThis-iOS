@@ -289,7 +289,7 @@
         }
     }
     if (enabled) {
-        [self.submitButton enable:YES];
+        [self.submitButton enable:YES backgroundColor:LDTTheme.magentaColor];
     }
     else {
         [self.submitButton enable:NO];

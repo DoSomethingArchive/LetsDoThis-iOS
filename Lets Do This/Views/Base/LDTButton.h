@@ -10,4 +10,6 @@
 
 -(void)enable:(BOOL)enabled;
 
+-(void)enable:(BOOL)enabled backgroundColor:(UIColor *)backgroundColor;
+
 @end
