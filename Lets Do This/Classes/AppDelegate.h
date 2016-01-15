@@ -10,6 +10,7 @@
 
 @property (strong, nonatomic, readonly) NSURL *jsCodeLocation;
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UIView *statusBarBackgroundView;
 
 @end
 
