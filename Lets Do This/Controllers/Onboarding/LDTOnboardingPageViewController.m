@@ -77,7 +77,7 @@
 }
 
 - (void)styleView {
-    self.view.backgroundColor = [UIColor colorWithPatternImage:LDTTheme.fullBackgroundImage];
+    self.view.backgroundColor = LDTTheme.ctaBlueColor;
     self.headlineLabel.font = LDTTheme.fontHeadingBold;
     self.descriptionLabel.font = LDTTheme.font;
     self.descriptionContainerView.layer.masksToBounds = NO;
