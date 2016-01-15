@@ -1,7 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 import React, {
   AppRegistry,
@@ -15,8 +11,6 @@ import React, {
   View
 } from 'react-native';
 
-
-var REQUEST_URL = 'http://dev-ltd-news.pantheon.io/?json=1';
 var TAKE_ACTION_TEXT = 'Take action';
 
 var NewsFeedView = React.createClass({

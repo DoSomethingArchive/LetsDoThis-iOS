@@ -1290,12 +1290,6 @@ __d('letsdothis-ios/ReactComponent/index.ios.js',function(global, require, modul
 
 
 
-
-
-
-
-
-var REQUEST_URL='http://dev-ltd-news.pantheon.io/?json=1';
 var TAKE_ACTION_TEXT='Take action';
 
 var NewsFeedView=_reactNative2.default.createClass({displayName:'NewsFeedView',
