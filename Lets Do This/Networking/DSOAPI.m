@@ -25,7 +25,7 @@
 #endif
 
 #ifdef RELEASE
-#define DSOSERVER @"dosomething.org"
+#define DSOSERVER @"www.dosomething.org"
 #define LDTSERVER @"northstar.dosomething.org"
 #define LDTSERVERKEYNAME @"northstarLiveKey"
 #endif
