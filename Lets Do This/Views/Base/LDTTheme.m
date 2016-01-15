@@ -84,8 +84,4 @@ const CGFloat kFontSizeTitle = 24.0f;
     return @"BrandonGrotesque-Bold";
 }
 
-+(UIImage *)fullBackgroundImage {
-    return [UIImage imageNamed:@"Full Background"];
-}
-
 @end
