@@ -86,6 +86,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
         return;
     }
 
+    // @todo: Once Northstar API supports it, actively check for whether or saved session is valid before trying to start.
+    // @see https://github.com/DoSomething/northstar/issues/186
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
     NSString *userID = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
@@ -127,16 +129,23 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     }];
 }
 
+- (void)endSession {
+    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+    [self deleteAvatar];
+    self.user = nil;
+}
+
 - (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
-        [self deleteCurrentUser];
+        [self endSession];
         if (completionHandler) {
             completionHandler();
         }
     } errorHandler:^(NSError *error) {
         // Only perform logout tasks if error is NOT a lack of connectivity.
         if (error.code != -1009) {
-            [self deleteCurrentUser];
+            [self endSession];
         }
         if (errorHandler) {
             errorHandler(error);
@@ -175,13 +184,6 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
             errorHandler(error);
         }
     }];
-}
-
-- (void)deleteCurrentUser {
-    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
-    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
-    [self deleteAvatar];
-    self.user = nil;
 }
 
 - (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID {

@@ -62,20 +62,19 @@
     [super viewDidAppear:YES];
 
     if (![DSOUserManager sharedInstance].userHasCachedSession) {
-        LDTUserConnectViewController *userConnectVC  = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
-        UINavigationController *destNavVC;
-
         if (![[NSUserDefaults standardUserDefaults] boolForKey:@"hasCompletedOnboarding"]) {
+            LDTUserConnectViewController *userConnectVC  = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
             LDTOnboardingPageViewController *secondOnboardingVC = [[LDTOnboardingPageViewController alloc] initWithHeadlineText:@"Prove it".uppercaseString descriptionText:@"Submit and share photos of yourself in action -- and see other people’s photos too. #picsoritdidnthappen" primaryImage:[UIImage imageNamed:@"Onboarding_ProveIt"] gaiScreenName:@"onboarding-second" nextViewController:userConnectVC isFirstPage:NO];
             LDTOnboardingPageViewController *firstOnboardingVC =[[LDTOnboardingPageViewController alloc] initWithHeadlineText:@"Stop being bored".uppercaseString descriptionText:@"Are you into sports? Crafting? Whatever your interests, you can do fun stuff and social good at the same time." primaryImage:[UIImage imageNamed:@"Onboarding_StopBeingBored"] gaiScreenName:@"onboarding-first" nextViewController:secondOnboardingVC isFirstPage:YES];
-            destNavVC = [[UINavigationController alloc] initWithRootViewController:firstOnboardingVC];
+            UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:firstOnboardingVC];
+            [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
+            destNavVC.navigationBar.barStyle = UIStatusBarStyleLightContent;
+            [self presentViewController:destNavVC animated:YES completion:nil];
         }
         else {
-            destNavVC = [[UINavigationController alloc] initWithRootViewController:userConnectVC];
+            [self presentUserConnectViewController];
         }
-        [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
-        destNavVC.navigationBar.barStyle = UIStatusBarStyleLightContent;
-        [self presentViewController:destNavVC animated:YES completion:nil];
+;
     }
     else {
         if ([DSOUserManager sharedInstance].activeCampaigns.count == 0) {
@@ -83,7 +82,16 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"activeCampaignsLoaded" object:self];
             } errorHandler:^(NSError *error) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"epicFail" object:self];
-                [self presentEpicFailForError:error];
+                // If we receieve HTTP 401 error:
+                if (error.code == -1011) {
+                    // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, therefore just use endSession.
+                    [[DSOUserManager sharedInstance] endSession];
+                    [self presentUserConnectViewController];
+                }
+                else {
+                    [self presentEpicFailForError:error];
+                }
+
             }];
         }
     }
@@ -109,6 +117,14 @@
     [self presentViewController:navVC animated:YES completion:nil];
     // @TODO: cleanup - this is dismissing the SVProgressHUD called dfrom DSOUserManager
     [SVProgressHUD dismiss];
+}
+
+- (void)presentUserConnectViewController {
+    LDTUserConnectViewController *userConnectVC  = [[LDTUserConnectViewController alloc] initWithNibName:@"LDTUserConnectView" bundle:nil];
+    UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:userConnectVC];
+    [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
+    destNavVC.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    [self presentViewController:destNavVC animated:YES completion:nil];
 }
 
 @end
