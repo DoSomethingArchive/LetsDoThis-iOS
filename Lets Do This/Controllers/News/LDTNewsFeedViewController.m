@@ -12,12 +12,16 @@
 #import <RCTBridgeModule.h>
 #import <RCTRootView.h>
 #import "LDTCampaignDetailViewController.h"
+#import "LDTNewsArticleViewController.h"
+#import "LDTTabBarController.h"
 
 @interface LDTNewsFeedViewController () <RCTBridgeModule>
 
 @end
 
 @implementation LDTNewsFeedViewController
+
+RCT_EXPORT_MODULE();
 
 #pragma mark - UIViewController
 
@@ -69,6 +73,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Our bad. That's an invalid campaign ID :("];
         });
+            [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Our bad. That's an invalid campaign ID :("];
         return;
     }
     LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
@@ -77,14 +82,29 @@
     });
 }
 
-#pragma mark - RCTBridgeModule
-
-+ (NSString *)moduleName {
-    return NSStringFromClass(self.class);
+- (void)presentNewsArticleWithUrlString:(NSString *)urlString {
+    LDTNewsArticleViewController *articleViewController = [[LDTNewsArticleViewController alloc] initWithArticleUrlString:urlString];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:articleViewController];
+    LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [tabBar presentViewController:navigationController animated:YES completion:nil];
+    });
 }
 
-RCT_EXPORT_METHOD(presentCampaign:(NSString *)campaignID) {
+#pragma mark - RCTBridgeModule
+
+RCT_EXPORT_METHOD(presentCampaignWithCampaignID:(NSString *)campaignID) {
     [self presentCampaignDetailViewControllerForCampaignId:campaignID.integerValue];
+}
+
+RCT_EXPORT_METHOD(presentFullArticleWithUrlString:(NSString *)urlString) {
+    [self presentNewsArticleWithUrlString:urlString];
+}
+
+// Adding this hoping to get rid of all the trickery but it doesn't seem to do anything.
+// @see https://facebook.github.io/react-native/docs/native-modules-ios.html#threading
+- (dispatch_queue_t)methodQueue {
+    return dispatch_get_main_queue();
 }
 
 @end

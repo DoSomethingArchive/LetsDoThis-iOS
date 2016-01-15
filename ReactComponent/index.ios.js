@@ -125,10 +125,11 @@ var NewsFeedView = React.createClass({
   ctaButtonPressed: function(post) {
     var campaignID = post.custom_fields.campaign_id[0];
     var NewsFeedViewController = require('react-native').NativeModules.LDTNewsFeedViewController;
-    NewsFeedViewController.presentCampaign(campaignID);
+    NewsFeedViewController.presentCampaignWithCampaignID(campaignID);
   },
   fullArticlePressed: function(url) {
-    console.log(url);
+    var NewsFeedViewController = require('react-native').NativeModules.LDTNewsFeedViewController;
+    NewsFeedViewController.presentFullArticleWithUrlString(url);
   },
 });
 
@@ -169,7 +170,7 @@ var styles = React.StyleSheet.create({
   },
   btnText: {
     color: '#ffffff',
-    fontFamily: 'Brandon Grotesque',
+    fontFamily: 'BrandonGrotesque-Bold',
     fontSize: 16,
     textAlign: 'center',
   },
