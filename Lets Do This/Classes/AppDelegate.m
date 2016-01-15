@@ -56,12 +56,13 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
-    // Use this for local development:
-    NSString *urlString = @"http://localhost:8081/index.ios.bundle";
-    self.jsCodeLocation = [NSURL URLWithString:urlString];
-    // Commented out for local development.
-    // @todo: Add a build step to compile main.jsbundle
-//    self.jsCodeLocation = [[NSBundle mainBundle URLForResource:@"main" withExtension:@"jsbundle"];
+    // Uncomment this for local development:
+//    NSString *urlString = @"http://localhost:8081/index.ios.bundle";
+//    self.jsCodeLocation = [NSURL URLWithString:urlString];
+
+    // Keep this uncommented for distribution builds.
+    // @todo: Add a build step to compile main.jsbundle (we're manually doing this in terminal to rebuild)
+    self.jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];

@@ -1294,10 +1294,11 @@ __d('letsdothis-ios/ReactComponent/index.ios.js',function(global, require, modul
 
 
 
+
 var REQUEST_URL='http://dev-ltd-news.pantheon.io/?json=1';
 var TAKE_ACTION_TEXT='Take action';
 
-var NewsStoryBox=_reactNative2.default.createClass({displayName:'NewsStoryBox',
+var NewsFeedView=_reactNative2.default.createClass({displayName:'NewsFeedView',
 getInitialState:function(){
 return {
 dataSource:new _reactNative.ListView.DataSource({
@@ -1310,7 +1311,7 @@ componentDidMount:function(){
 this.fetchData();},
 
 fetchData:function(){var _this=this;
-fetch(REQUEST_URL).
+fetch(this.props.url).
 then(function(response){return response.json();}).
 then(function(responseData){
 _this.setState({
@@ -1328,93 +1329,174 @@ return this.renderLoadingView();}
 return (
 _reactNative2.default.createElement(_reactNative.ListView,{
 dataSource:this.state.dataSource,
-renderRow:this.renderNewsStory,
+renderRow:this.renderPost,
 style:styles.listView}));},
 
 
 
 renderLoadingView:function(){
 return (
-_reactNative2.default.createElement(_reactNative.View,{style:styles.container},
-_reactNative2.default.createElement(_reactNative.Text,{style:styles.year},'Loading news...')));},
+_reactNative2.default.createElement(_reactNative.View,{style:styles.loadingContainer},
+_reactNative2.default.createElement(_reactNative.ActivityIndicatorIOS,{animating:this.state.animating,style:[{height:80}],size:'small'}),
+_reactNative2.default.createElement(_reactNative.Text,{style:styles.subtitle},'Loading news...')));},
 
 
 
 
 
-renderNewsStory:function(newsStory){
+renderPost:function(post){
+var imgBackground;
+if(typeof post!=='undefined'&&
+typeof post.attachments[0]!=='undefined'&&
+typeof post.attachments[0].images!=='undefined'&&
+typeof post.attachments[0].images.full!=='undefined'){
+imgBackground=_reactNative2.default.createElement(_reactNative.Image,{
+style:{flex:1,height:128,alignItems:'stretch'},
+source:{uri:post.attachments[0].images.full.url}},
+_reactNative2.default.createElement(_reactNative.View,{style:styles.titleContainer},
+_reactNative2.default.createElement(_reactNative.Text,{style:styles.title},post.title.toUpperCase())));}else 
+
+
+
+{
+imgBackground=_reactNative2.default.createElement(_reactNative.Text,{style:styles.title},post.title.toUpperCase());}
+
+
+var linkToArticle;
+if(typeof post.custom_fields.full_article_url!=='undefined'&&
+typeof post.custom_fields.full_article_url[0]!=='undefined'&&
+post.custom_fields.full_article_url[0]){
+linkToArticle=_reactNative2.default.createElement(_reactNative.Text,{
+onPress:this.fullArticlePressed.bind(this,post.custom_fields.full_article_url[0]),
+style:styles.articleLink},'Read the full article');}else 
+
+
+
+{
+linkToArticle=null;}
+
+
 return (
-_reactNative2.default.createElement(_reactNative.View,{style:styles.container},
-_reactNative2.default.createElement(_reactNative.View,{style:styles.newsStory},
-_reactNative2.default.createElement(_reactNative.Image,{
-source:{uri:newsStory.attachments[0].url},
-style:styles.thumbnail}),
+_reactNative2.default.createElement(_reactNative.View,{style:styles.postContainer},
+_reactNative2.default.createElement(_reactNative.View,{style:styles.postHeader},
+_reactNative2.default.createElement(_reactNative.Text,{style:styles.date},post.date)),
 
-_reactNative2.default.createElement(_reactNative.Text,{style:styles.title},newsStory.title.toUpperCase()),
-_reactNative2.default.createElement(_reactNative.Text,{style:styles.year},newsStory.custom_fields.subtitle),
-_reactNative2.default.createElement(_reactNative.TouchableHighlight,{onPress:this.ctaButtonPressed.bind(this,newsStory),style:styles.button,underlayColor:'#3731A9'},
-_reactNative2.default.createElement(_reactNative.Text,{style:styles.buttonText},TAKE_ACTION_TEXT.toUpperCase())))));},
+imgBackground,
+_reactNative2.default.createElement(_reactNative.View,{style:styles.postBody},
+_reactNative2.default.createElement(_reactNative.Text,{style:styles.subtitle},post.custom_fields.subtitle),
+_reactNative2.default.createElement(_reactNative.View,{style:styles.summaryItem},
+_reactNative2.default.createElement(_reactNative.Text,{style:styles.summaryText},'* ',post.custom_fields.summary_1)),
+
+_reactNative2.default.createElement(_reactNative.View,{style:styles.summaryItem},
+_reactNative2.default.createElement(_reactNative.Text,{style:styles.summaryText},'* ',post.custom_fields.summary_2)),
+
+_reactNative2.default.createElement(_reactNative.View,{style:styles.summaryItem},
+_reactNative2.default.createElement(_reactNative.Text,{style:styles.summaryText},'* ',post.custom_fields.summary_3)),
+
+linkToArticle),
+
+_reactNative2.default.createElement(_reactNative.TouchableHighlight,{onPress:this.ctaButtonPressed.bind(this,post),style:styles.btn},
+_reactNative2.default.createElement(_reactNative.Text,{style:styles.btnText},TAKE_ACTION_TEXT.toUpperCase()))));},
 
 
 
 
+ctaButtonPressed:function(post){
+var campaignID=post.custom_fields.campaign_id[0];
+var NewsFeedViewController=require('react-native/Libraries/react-native/react-native.js').NativeModules.LDTNewsFeedViewController;
+NewsFeedViewController.presentCampaignWithCampaignID(campaignID);},
 
-ctaButtonPressed:function(newsStory){
-var campaignID=newsStory.custom_fields.campaign_id[0];
-var NewsFeedVC=require('react-native/Libraries/react-native/react-native.js').NativeModules.LDTNewsFeedViewController;
-NewsFeedVC.presentCampaign(campaignID);}});
+fullArticlePressed:function(url){
+var NewsFeedViewController=require('react-native/Libraries/react-native/react-native.js').NativeModules.LDTNewsFeedViewController;
+NewsFeedViewController.presentFullArticleWithUrlString(url);}});
 
 
 
-var styles=_reactNative.StyleSheet.create({
-container:{
+var styles=_reactNative2.default.StyleSheet.create({
+postBody:{
+padding:10},
+
+postContainer:{
+backgroundColor:'#ffffff',
+marginTop:10},
+
+loadingContainer:{
 flex:1,
 flexDirection:'row',
 justifyContent:'center',
 alignItems:'center',
 backgroundColor:'#EEE'},
 
-thumbnail:{
-height:100},
+postHeader:{
+backgroundColor:'#00e4c8',
+borderTopLeftRadius:4,
+borderTopRightRadius:4,
+padding:4},
 
-newsStory:{
-flex:1,
-margin:16,
-backgroundColor:'#FFF',
-borderColor:'#ccc',
-borderWidth:1},
+postHeaderText:{
+color:'#ffffff'},
 
-title:{
-fontSize:20,
-marginBottom:8,
+articleLink:{
+color:'#3932A9',
 fontFamily:'BrandonGrotesque-Bold'},
 
-year:{
+btn:{
+backgroundColor:'#3932A9',
+borderBottomLeftRadius:4,
+borderBottomRightRadius:4,
+paddingBottom:10,
+paddingTop:10},
+
+btnText:{
+color:'#ffffff',
+fontFamily:'BrandonGrotesque-Bold',
+fontSize:16,
+textAlign:'center'},
+
+date:{
+color:'#ffffff',
 fontFamily:'Brandon Grotesque'},
 
 listView:{
-paddingTop:20,
-backgroundColor:'#F5FCFF'},
+backgroundColor:'#eeeeee',
+paddingLeft:10,
+paddingRight:10,
+paddingBottom:10},
 
-buttonText:{
-fontSize:18,
-color:'white',
-alignSelf:'center',
-fontFamily:'BrandonGrotesque-Bold'},
+subtitle:{
+color:'#454545',
+fontFamily:'BrandonGrotesque-Bold',
+fontSize:16},
 
-button:{
-height:50,
+summaryItem:{
 flex:1,
 flexDirection:'row',
-backgroundColor:'#3731A9',
-borderColor:'#FFF',
-marginBottom:10,
-alignSelf:'stretch',
-justifyContent:'center'}});
+marginBottom:8,
+marginTop:8},
+
+summaryText:{
+flex:1,
+flexDirection:'column',
+fontFamily:'Brandon Grotesque',
+marginLeft:4},
+
+title:{
+color:'#ffffff',
+flex:1,
+flexDirection:'column',
+fontFamily:'BrandonGrotesque-Bold',
+fontSize:20,
+textAlign:'center'},
+
+titleContainer:{
+backgroundColor:'rgba(0,0,0,0.3)',
+alignItems:'center',
+flex:1,
+flexDirection:'row',
+padding:20}});
 
 
-
-_reactNative.AppRegistry.registerComponent('NewsStoryBox',function(){return NewsStoryBox;});
+_reactNative.AppRegistry.registerComponent('NewsFeedView',function(){return NewsFeedView;});
 });
 __d('react-native/Libraries/react-native/react-native.js',function(global, require, module, exports) {  'use strict';
 
