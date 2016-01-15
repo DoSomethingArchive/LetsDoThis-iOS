@@ -12,14 +12,12 @@
 @implementation UINavigationController (LDT)
 
 - (void)styleNavigationBar:(LDTNavigationBarStyle)style {
-    self.navigationBar.tintColor = UIColor.whiteColor;
-    self.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    self.navigationBar.tintColor = LDTTheme.ctaBlueColor;
     NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
     titleBarAttributes[NSFontAttributeName] = LDTTheme.fontBold;
-    titleBarAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor;
+    titleBarAttributes[NSForegroundColorAttributeName] = LDTTheme.ctaBlueColor;
     self.navigationBar.titleTextAttributes = titleBarAttributes;
     if (style == LDTNavigationBarStyleNormal) {
-        [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"Header Background"] forBarMetrics:UIBarMetricsDefault];
         self.navigationBar.translucent = NO;
     }
     else if (style == LDTNavigationBarStyleClear) {
@@ -27,7 +25,8 @@
         self.navigationBar.backgroundColor = UIColor.clearColor;
         self.navigationBar.shadowImage = [UIImage new];
         self.navigationBar.translucent = YES;
-        self.navigationBar.barTintColor = UIColor.clearColor;
+        self.navigationBar.barTintColor = UIColor.whiteColor;
+        self.navigationBar.tintColor = UIColor.whiteColor;
     }
 
 }

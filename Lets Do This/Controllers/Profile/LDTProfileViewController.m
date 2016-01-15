@@ -128,14 +128,14 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     self.tableView.contentInset = UIEdgeInsetsMake(0,0,0,0);
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
+//- (UIStatusBarStyle)preferredStatusBarStyle {
+//    return UIStatusBarStyleLightContent;
+//}
 
 #pragma Mark - LDTUserProfileViewController
 
 - (void)styleView {
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
+    self.view.backgroundColor = LDTTheme.ctaBlueColor;
     self.tableView.backgroundColor = UIColor.clearColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self styleBackBarButton];

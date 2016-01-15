@@ -68,7 +68,7 @@
     [self.window makeKeyAndVisible];
     self.window.rootViewController = [[LDTTabBarController alloc] init];
     UIView *customStatusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, 20)];
-    customStatusBarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
+    customStatusBarView.backgroundColor = UIColor.whiteColor;
     [self.window.rootViewController.view addSubview:customStatusBarView];
     [LDTMessage setDefaultViewController:self.window.rootViewController];
 

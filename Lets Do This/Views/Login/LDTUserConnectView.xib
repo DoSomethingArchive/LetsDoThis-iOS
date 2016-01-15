@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserConnectViewController">
@@ -20,7 +20,6 @@
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DS Logo" translatesAutoresizingMaskIntoConstraints="NO" id="m1M-XO-1c6">
                     <rect key="frame" x="250" y="70" width="100" height="80"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="100" id="8ZL-jE-Gbn"/>
                         <constraint firstAttribute="height" constant="80" id="XcC-0B-GaZ"/>
@@ -31,7 +30,6 @@
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yds-sE-O3r" userLabel="Headline">
                             <rect key="frame" x="0.0" y="0.0" width="270" height="63"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="63" id="BkF-tx-guW"/>
                             </constraints>
@@ -41,7 +39,6 @@
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oOz-tm-U29" customClass="LDTButton">
                             <rect key="frame" x="31" y="63" width="209" height="50"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="209" id="iUa-xZ-ZJ9"/>
                                 <constraint firstAttribute="height" constant="50" id="z83-Zj-PAW"/>
@@ -55,7 +52,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ti6-9l-PI9" customClass="LDTButton">
                             <rect key="frame" x="31" y="125" width="209" height="50"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="9Zb-kj-1Ce"/>
                                 <constraint firstAttribute="width" constant="209" id="ZM9-Og-91G"/>
@@ -74,7 +70,6 @@
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
                     <constraints>
                         <constraint firstItem="Yds-sE-O3r" firstAttribute="top" secondItem="VDw-TA-TiP" secondAttribute="top" id="9dy-WQ-iRj"/>
                         <constraint firstItem="Yds-sE-O3r" firstAttribute="leading" secondItem="VDw-TA-TiP" secondAttribute="leading" id="WaS-AV-mRx"/>
@@ -88,7 +83,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="VDw-TA-TiP" firstAttribute="top" secondItem="m1M-XO-1c6" secondAttribute="bottom" constant="62" id="Phw-nh-D7W"/>

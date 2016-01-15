@@ -17,7 +17,7 @@ const CGFloat kFontSizeTitle = 24.0f;
 @implementation LDTTheme
 
 +(UIColor *)ctaBlueColor {
-    return [UIColor colorWithRed:0 green:174.0f/255.0f blue:238.0f/255.0f alpha:1.0f];
+    return [UIColor colorWithRed:54.0f/255.0f green:52.0f/255.0f blue:173.0f/255.0f alpha:1.0f];
 }
 
 +(UIColor *)disabledGrayColor {
@@ -30,6 +30,10 @@ const CGFloat kFontSizeTitle = 24.0f;
 
 +(UIColor *)lightGrayColor {
     return [UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:246.0f/255.0f alpha:1.0f];
+}
+
++(UIColor *)magentaColor {
+    return [UIColor colorWithRed:241.0f/255.0f green:41.0f/255.0f blue:89.0f/255.0f alpha:1.0f];
 }
 
 +(UIColor *)mediumGrayColor {
