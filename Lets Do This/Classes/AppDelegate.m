@@ -18,8 +18,13 @@
 
 #define isLoggingGoogleAnalytics NO
 
-@implementation AppDelegate
+@interface AppDelegate()
 
+@property (strong, nonatomic, readwrite) NSURL *jsCodeLocation;
+
+@end
+
+@implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
@@ -39,8 +44,6 @@
         [GAI sharedInstance].logger.logLevel = kGAILogLevelVerbose;
     }
     [Fabric with:@[[Crashlytics startWithAPIKey:keysDict[@"fabricApiKey"]]]];
-
-
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setForegroundColor:LDTTheme.ctaBlueColor];
@@ -52,6 +55,14 @@
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
+
+    // Uncomment this for local development:
+//    NSString *urlString = @"http://localhost:8081/index.ios.bundle";
+//    self.jsCodeLocation = [NSURL URLWithString:urlString];
+
+    // Keep this uncommented for distribution builds.
+    // @todo: Add a build step to compile main.jsbundle (we're manually doing this in terminal to rebuild)
+    self.jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];
