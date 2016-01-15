@@ -32,6 +32,5 @@
 +(UIFont *)fontTitle;
 +(NSString *)fontName;
 +(NSString *)fontBoldName;
-+(UIImage *)fullBackgroundImage;
 
 @end
