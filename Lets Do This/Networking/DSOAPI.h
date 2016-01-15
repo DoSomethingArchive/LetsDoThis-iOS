@@ -11,16 +11,17 @@
 #import "DSOCampaign.h"
 #import "DSOReportbackItem.h"
 #import "DSOCampaignSignup.h"
+#import "DSOCause.h"
 
 @interface DSOAPI : AFHTTPSessionManager
+
+@property (nonatomic, strong, readonly) NSString *phoenixBaseURL;
+@property (nonatomic, strong, readonly) NSString *phoenixApiURL;
+@property (nonatomic, strong, readonly) NSString *northstarBaseURL;
 
 + (DSOAPI *)sharedInstance;
 
 - (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId;
-
-- (NSString *)phoenixBaseURL;
-
-- (NSString *)northstarBaseURL;
 
 - (void)setHTTPHeaderFieldSession:(NSString *)token;
 
@@ -38,10 +39,16 @@
 
 - (void)loadUserWithUserId:(NSString *)userID completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
+// Potentially temporary method, exploring loading all Campaigns into memory.
+- (void)loadAllCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+
+// Will soon be deprecated - GH #714
 - (void)loadCampaignsForTermIds:(NSArray *)termIds completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)loadReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)loadCampaignSignupsForUser:(DSOUser *)user completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+
+- (void)loadCausesWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 @end

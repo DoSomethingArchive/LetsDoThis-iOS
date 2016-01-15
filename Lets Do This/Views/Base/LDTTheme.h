@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "UIImageView+LDT.h"
 #import "UINavigationController+LDT.h"
 #import "UIViewController+LDT.h"
@@ -20,6 +19,7 @@
 +(UIColor *)disabledGrayColor;
 +(UIColor *)facebookBlueColor;
 +(UIColor *)lightGrayColor;
++(UIColor *)magentaColor;
 +(UIColor *)mediumGrayColor;
 +(UIColor *)orangeColor;
 +(UIFont *)font;

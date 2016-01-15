@@ -25,7 +25,7 @@
 #endif
 
 #ifdef RELEASE
-#define DSOSERVER @"dosomething.org"
+#define DSOSERVER @"www.dosomething.org"
 #define LDTSERVER @"northstar.dosomething.org"
 #define LDTSERVERKEYNAME @"northstarLiveKey"
 #endif
@@ -39,9 +39,9 @@
 
 @interface DSOAPI()
 
-@property (nonatomic, strong) NSString *phoenixBaseURL;
-@property (nonatomic, strong) NSString *phoenixApiURL;
-@property (nonatomic, strong) NSString *northstarBaseURL;
+@property (nonatomic, strong, readwrite) NSString *phoenixBaseURL;
+@property (nonatomic, strong, readwrite) NSString *phoenixApiURL;
+@property (nonatomic, strong, readwrite) NSString *northstarBaseURL;
 
 @end
 
@@ -78,18 +78,14 @@
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [self.requestSerializer setValue:applicationId forHTTPHeaderField:@"X-DS-Application-Id"];
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
-        self.phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
-        self.phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
-        self.northstarBaseURL = [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, LDTSERVER];
+        _phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
+        _phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
+        _northstarBaseURL = [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, LDTSERVER];
     }
     return self;
 }
 
 #pragma mark - DSOAPI
-
-- (NSString *)phoenixBaseURL {
-    return _phoenixBaseURL;
-}
 
 - (void)setHTTPHeaderFieldSession:(NSString *)token {
     [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
@@ -193,7 +189,7 @@
     NSDictionary *params = @{
                              @"quantity": [NSNumber numberWithInteger:reportbackItem.quantity],
                              @"caption": reportbackItem.caption,
-                             // why_participated is a required property on server-side that we currently don't collect in the app, so set to empty.
+                             // why_participated is a required property on server-side that we currently don't collect in the app.
                              @"why_participated": reportbackItem.caption,
                              @"source": LDTSOURCENAME,
                              @"file": [UIImagePNGRepresentation(reportbackItem.image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]
@@ -214,8 +210,7 @@
 - (void)loadUserWithUserId:(NSString *)userID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-          NSArray *userInfo = responseObject[@"data"];
-          DSOUser *user = [[DSOUser alloc] initWithDict:userInfo.firstObject];
+          DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
           if (completionHandler) {
               completionHandler(user);
           }
@@ -225,6 +220,26 @@
               errorHandler(error);
           }
       }];
+}
+
+- (void)loadAllCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"%@campaigns?count=200", self.phoenixApiURL];
+
+    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSMutableArray *campaigns = [[NSMutableArray alloc] init];
+        for (NSDictionary* campaignDict in responseObject[@"data"]) {
+            DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
+            [campaigns addObject:campaign];
+        }
+        if (completionHandler) {
+            completionHandler(campaigns);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
 }
 
 - (void)loadCampaignsForTermIds:(NSArray *)termIds completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
@@ -237,7 +252,7 @@
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
     NSString *mobileAppDateString = [dateFormat stringFromDate:[NSDate date]];
 
-    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app_date=%@&term_ids=%@", self.phoenixApiURL, mobileAppDateString, [termIdStrings componentsJoinedByString:@","]];
+    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app=true&mobile_app_date=%@&term_ids=%@", self.phoenixApiURL, mobileAppDateString, [termIdStrings componentsJoinedByString:@","]];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           NSMutableArray *campaigns = [[NSMutableArray alloc] init];
@@ -291,6 +306,27 @@
         }
         if (completionHandler) {
             completionHandler(campaignSignups);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
+- (void)loadCausesWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"%@terms?vid=2", self.phoenixApiURL];
+
+    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSMutableArray *causes = [[NSMutableArray alloc] init];
+        // @todo: Once API is cleaned up, we'll want to loop through a responseObject["data"] instead of responseObject.
+        // @see https://github.com/DoSomething/LetsDoThis-iOS/issues/713#issuecomment-168758395
+        for (NSDictionary* causeDict in responseObject) {
+            [causes addObject:[[DSOCause alloc] initWithDict:causeDict]];
+        }
+        if (completionHandler) {
+            completionHandler(causes);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];

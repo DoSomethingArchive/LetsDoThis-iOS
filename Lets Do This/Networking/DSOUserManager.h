@@ -6,36 +6,30 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "DSOAPI.h"
 
 @interface DSOUserManager : NSObject
 
-// Whether the logged in user data has been synced.
-@property (assign, nonatomic, readonly) BOOL isCurrentUserSync;
-
-// Stores the authenticated user (if user has logged in).
+// Stores the current/authenticated user.
 @property (strong, nonatomic, readonly) DSOUser *user;
 
-// Stores all DSOCampaigns which are available for participation via this app.
-@property (strong, nonatomic, readonly) NSArray *activeMobileAppCampaigns;
+// Stores all active DSOCampaigns to display.
+@property (strong, nonatomic, readonly) NSArray *activeCampaigns;
 
-// Singleton object for accessing authenticated User, activeMobileAppCampaigns.
+// Singleton object for accessing authenticated User, activeCampaigns
 + (DSOUserManager *)sharedInstance;
-
-- (void)setActiveMobileAppCampaigns:(NSArray *)activeMobileAppCampaigns;
 
 // Posts login request to the API with given email and password, and saves session tokens to remain authenticated upon future app usage.
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
+// Use saved session to set relevant DSOAPI headers and loads the current user's campaignSignups.
+- (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+
 // Returns whether an authenticated user session has been saved.
 - (BOOL)userHasCachedSession;
 
-// Fetches the current user from API and updates the user property. Called when user is first logged in, when app opens with a saved session, or when user posts Campaign activity (signup/reportback).
-- (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
-
-// Gets the campaignSignups for given user for all activeMobileAppCampaigns.
-- (void)loadActiveMobileAppCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Loads the campaignSignups for given user for all activeCampaigns.
+- (void)loadActiveCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 // Logs out the user and deletes the saved session tokens. Called when User logs out from Settings screen.
 - (void)endSessionWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
@@ -46,8 +40,10 @@
 // Posts a Reportback Item for the current user, and updates activity.
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-// Returns DSOCampaign for a given Campaign id if it exists in the activeMobileAppCampaigns property.
-- (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID;
+// Returns DSOCampaign for a given Campaign id if it exists in the activeCampaigns property.
+- (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID;
+
+- (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 // Stores the user's avatar image within the filesystem. 
 - (void)storeAvatar:(UIImage *)photo;

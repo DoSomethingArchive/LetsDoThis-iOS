@@ -16,9 +16,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 @interface DSOUserManager()
 
-@property (assign, nonatomic, readwrite) BOOL isCurrentUserSync;
 @property (strong, nonatomic, readwrite) DSOUser *user;
-@property (strong, nonatomic, readwrite) NSArray *activeMobileAppCampaigns;
+@property (strong, nonatomic) NSMutableArray *mutableActiveCampaigns;
 
 @end
 
@@ -37,7 +36,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     return _sharedInstance;
 }
 
-#pragma mark - DSOUserManager
+#pragma mark - Accessors
 
 - (void)setUser:(DSOUser *)user {
     _user = user;
@@ -49,6 +48,12 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     }
 }
 
+- (NSArray *)activeCampaigns {
+    return [self.mutableActiveCampaigns copy];
+}
+
+#pragma mark - DSOUser
+
 - (BOOL)userHasCachedSession {
     NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
 	
@@ -58,7 +63,6 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
         self.user = user;
-        self.isCurrentUserSync = NO;
 
         [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
         // Save session in Keychain for when app is quit.
@@ -74,7 +78,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
       }];
 }
 
-- (void)syncCurrentUserWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
     NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
     if (sessionToken.length == 0) {
@@ -88,8 +92,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
-        [self loadActiveMobileAppCampaignSignupsForUser:self.user completionHandler:^{
-            self.isCurrentUserSync = YES;
+        [self loadActiveCampaignSignupsForUser:self.user completionHandler:^{
             if (completionHandler) {
                 completionHandler();
             }
@@ -103,12 +106,15 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     }];
 }
 
-- (void)loadActiveMobileAppCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)loadActiveCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] loadCampaignSignupsForUser:user completionHandler:^(NSArray *campaignSignups) {
-        user.campaignSignups = [[NSMutableArray alloc] init];
+        [user removeAllCampaignSignups];
         for (DSOCampaignSignup *signup in campaignSignups) {
-            if ([self activeMobileAppCampaignWithId:signup.campaign.campaignID]) {
-                [user.campaignSignups addObject:signup];
+            if ([self activeCampaignWithId:signup.campaign.campaignID]) {
+                [user addCampaignSignup:signup];
+            }
+            else {
+                NSLog(@"Filtering signup for inactive campaign %li.", (long)signup.campaign.campaignID);
             }
         }
         if (completionHandler) {
@@ -123,15 +129,15 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 - (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
-        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
-        [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
-        [self deleteAvatar];
-        self.user = nil;
-        self.isCurrentUserSync = NO;
+        [self deleteCurrentUser];
         if (completionHandler) {
             completionHandler();
         }
     } errorHandler:^(NSError *error) {
+        // Only perform logout tasks if error is NOT a lack of connectivity.
+        if (error.code != -1009) {
+            [self deleteCurrentUser];
+        }
         if (errorHandler) {
             errorHandler(error);
         }
@@ -140,7 +146,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] createCampaignSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
-        [self.user.campaignSignups addObject:signup];
+        [self.user addCampaignSignup:signup];
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
         if (completionHandler) {
             completionHandler(signup);
@@ -171,13 +177,57 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     }];
 }
 
-- (DSOCampaign *)activeMobileAppCampaignWithId:(NSInteger)campaignID {
-    for (DSOCampaign *campaign in self.activeMobileAppCampaigns) {
+- (void)deleteCurrentUser {
+    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+    [self deleteAvatar];
+    self.user = nil;
+}
+
+- (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID {
+    for (DSOCampaign *campaign in self.activeCampaigns) {
         if (campaign.campaignID == campaignID) {
             return campaign;
         }
     }
     return nil;
+}
+
+- (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [SVProgressHUD showWithStatus:@"Loading actions..."];
+    [[DSOAPI sharedInstance] loadAllCampaignsWithCompletionHandler:^(NSArray *campaigns) {
+        NSLog(@"loadAllCampaignsWithCompletionHandler");
+        if (campaigns.count == 0) {
+            NSLog(@"No campaigns found.");
+        }
+        self.mutableActiveCampaigns = [[NSMutableArray alloc] init];
+        for (DSOCampaign *campaign in campaigns) {
+            if ([campaign.status isEqual:@"active"]) {
+                [self.mutableActiveCampaigns addObject:campaign];
+            }
+            else {
+                NSLog(@"Filtering Campaign %li: status == %@.", (long)campaign.campaignID, campaign.status);
+            }
+        }
+
+        [self startSessionWithCompletionHandler:^ {
+            NSLog(@"syncCurrentUserWithCompletionHandler");
+            [SVProgressHUD dismiss];
+            if (completionHandler) {
+                completionHandler(self.activeCampaigns);
+            }
+        } errorHandler:^(NSError *error) {
+            [SVProgressHUD dismiss];
+            if (errorHandler) {
+                errorHandler(error);
+            }
+        }];
+    } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
 }
 
 #pragma mark - Avatar CRUD
@@ -210,11 +260,14 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
     NSError *error;
-    if ([fileManager removeItemAtPath:filePath error:&error]) {
-        NSLog(@"Successfully deleted file: %@ ", avatarFileNameString);
-    }
-    else {
-        NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
+    
+    if ([fileManager fileExistsAtPath:filePath]) {
+        if ([fileManager removeItemAtPath:filePath error:&error]) {
+            NSLog(@"Successfully deleted file: %@ ", avatarFileNameString);
+        }
+        else {
+            NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
+        }
     }
 }
 

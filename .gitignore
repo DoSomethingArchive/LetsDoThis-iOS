@@ -20,3 +20,5 @@ DerivedData
 *.xcuserstate
 Lets\ Do\ This/keys.plist
 Lets\ Do\ This/Resources/Fonts
+node_modules/
+npm-debug.log

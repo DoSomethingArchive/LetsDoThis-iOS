@@ -27,8 +27,8 @@
     self = [super init];
 
     if (self) {
-        self.campaign = campaign;
-        self.user = [DSOUserManager sharedInstance].user;
+        _campaign = campaign;
+        _user = [DSOUserManager sharedInstance].user;
     }
 
     return self;
@@ -38,23 +38,32 @@
     self = [super init];
 
     if (self) {
-        self.reportbackItemID = [dict valueForKeyAsInt:@"id" nullValue:0];
-        self.quantity = [[dict valueForKeyPath:@"reportback"] valueForKeyAsInt:@"quantity" nullValue:0];
-        self.created = [[dict valueForKeyPath:@"reportback"] valueForKeyAsInt:@"created_at" nullValue:0];
-        self.caption = [dict valueForKeyAsString:@"caption"];
-        self.status = [dict valueForKeyAsString:@"status"];
+        _reportbackItemID = [dict valueForKeyAsInt:@"id" nullValue:0];
+        _quantity = [[dict valueForKeyPath:@"reportback"] valueForKeyAsInt:@"quantity" nullValue:0];
+        _created = [[dict valueForKeyPath:@"reportback"] valueForKeyAsInt:@"created_at" nullValue:0];
+        _caption = [dict valueForKeyAsString:@"caption"];
+        _status = [dict valueForKeyAsString:@"status"];
         NSString *imagePath = [[dict valueForKeyPath:@"media"] valueForKeyAsString:@"uri" nullValue:nil];
-        self.imageURL = [NSURL URLWithString:imagePath];
-        self.user = [[DSOUser alloc] initWithDict:dict[@"user"]];
+        _imageURL = [NSURL URLWithString:imagePath];
+        _user = [[DSOUser alloc] initWithDict:dict[@"user"]];
         NSInteger campaignID = [[dict valueForKeyPath:@"campaign.id"] intValue];
-        // @todo: If an active DSOCampaign doesn't exist, use the dictionary to create a DSOCampaign to expose the Campaign Title
-		
-#warning Could self.campaign ever be nil?
-        self.campaign = [[DSOUserManager sharedInstance] activeMobileAppCampaignWithId:campaignID];
+        NSString *campaignTitle = [dict[@"campaign"] valueForKeyAsString:@"title" nullValue:nil];
+        _campaign = [[DSOCampaign alloc] initWithCampaignID:campaignID title:campaignTitle];
     }
 
     return self;
 }
+
+- (DSOCampaign *)campaign {
+    // Return fully loaded DSOCampaign if its an activeCampaign.
+    DSOCampaign *activeCampaign = [[DSOUserManager sharedInstance] activeCampaignWithId:_campaign.campaignID];
+    if (activeCampaign) {
+        return activeCampaign;
+    }
+    return _campaign;
+}
+
+#pragma mark - DSOReportbackItem
 
 + (NSArray *)sortReportbackItemsAsPromotedFirst:(NSArray *)reportbackItems {
     NSSortDescriptor *promotedSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"status" ascending:NO];

@@ -69,9 +69,9 @@
     self.textFieldsRequired = @[self.emailTextField,
                                 self.passwordTextField];
 
-    [self.submitButton setTitle:[@"Sign in" uppercaseString] forState:UIControlStateNormal];
+    [self.submitButton setTitle:@"Sign in".uppercaseString forState:UIControlStateNormal];
     [self.submitButton enable:NO];
-    [self.passwordButton setTitle:[@"Reset Password" uppercaseString] forState:UIControlStateNormal];
+    [self.passwordButton setTitle:@"Reset Password".uppercaseString forState:UIControlStateNormal];
 
     [self styleView];
 }
@@ -85,20 +85,19 @@
 #pragma mark - LDTUserLoginViewController
 
 - (void)styleView {
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
-
-    UIFont *font = [LDTTheme font];
+    self.view.backgroundColor = LDTTheme.ctaBlueColor;
+    UIFont *font = LDTTheme.font;
     self.headerLabel.font = font;
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
-    self.headerLabel.textColor = [UIColor whiteColor];
+    self.headerLabel.textColor = UIColor.whiteColor;
     for (UITextField *aTextField in self.textFields) {
         aTextField.font = font;
     }
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     self.passwordTextField.secureTextEntry = YES;
-    self.passwordButton.backgroundColor = [UIColor whiteColor];
-    [self.passwordButton setTitleColor:[LDTTheme ctaBlueColor] forState:UIControlStateNormal];
-    [self.registerLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.passwordButton.backgroundColor = UIColor.whiteColor;
+    [self.passwordButton setTitleColor:LDTTheme.magentaColor forState:UIControlStateNormal];
+    [self.registerLink setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
 }
 
 -(void)updateSubmitButton {
@@ -113,7 +112,7 @@
         }
     }
     if (enabled) {
-        [self.submitButton enable:YES];
+        [self.submitButton enable:YES backgroundColor:LDTTheme.magentaColor];
     }
     else {
         [self.submitButton enable:NO];
@@ -128,7 +127,7 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if (![self validateEmailForCandidate:self.emailTextField.text]) {
-        [LDTMessage displayErrorMessageForString:@"Please enter a valid email."];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Please enter a valid email."];
         return;
     }
     [self.view endEditing:YES];
@@ -138,26 +137,26 @@
         if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
             LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
             [rootVC dismissViewControllerAnimated:YES completion:^{
-                [rootVC loadMainFeed];
+                [rootVC reloadCurrentUser];
             }];
         }
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];
-        [LDTMessage displayErrorMessageForError:error];
-        [self.emailTextField setBorderColor:[UIColor redColor]];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
+        [self.emailTextField setBorderColor:UIColor.redColor];
     }];
 }
 
 - (IBAction)passwordButtonTouchUpInside:(id)sender {
-    NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [[DSOAPI sharedInstance] phoenixBaseURL]];
+    NSString *resetUrl = [NSString stringWithFormat:@"%@user/password", [DSOAPI sharedInstance].phoenixBaseURL];
     [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"forgot password" label:nil value:nil];
 
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:resetUrl]];
 }
 
 - (IBAction)emailEditingDidBegin:(id)sender {
-    [self.emailTextField setBorderColor:[UIColor clearColor]];
+    [self.emailTextField setBorderColor:UIColor.clearColor];
 }
 
 - (IBAction)emailEditingDidEnd:(id)sender {
@@ -170,7 +169,7 @@
 
 - (IBAction)passwordEditingChanged:(id)sender {
     if (self.passwordTextField.text.length > 5) {
-        [self.submitButton enable:YES];
+        [self.submitButton enable:YES backgroundColor:LDTTheme.magentaColor];
     }
     else {
         [self.submitButton enable:NO];

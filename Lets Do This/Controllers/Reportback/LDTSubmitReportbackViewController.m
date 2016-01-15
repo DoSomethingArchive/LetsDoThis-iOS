@@ -9,7 +9,9 @@
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTTheme.h"
 #import "LDTTabBarController.h"
+#import "UITextField+LDT.h"
 #import "GAI+LDT.h"
+#import "NSString+RemoveEmoji.h"
 
 @interface LDTSubmitReportbackViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -20,13 +22,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *quantityTextField;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
+@property (assign, nonatomic) BOOL quantityTextIsValid;
+@property (assign, nonatomic) BOOL captionTextIsValid;
 
 - (IBAction)changePhotoButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)quantityTextFieldEditingChanged:(id)sender;
-- (IBAction)quantityTextFieldEditingDidEnd:(id)sender;
 - (IBAction)captionTextFieldEditingChanged:(id)sender;
-- (IBAction)captionTextFieldEditingDidEnd:(id)sender;
 
 @end
 
@@ -38,7 +40,7 @@
     self = [super initWithNibName:@"LDTSubmitReportbackView" bundle:nil];
 
     if (self) {
-        self.reportbackItem = reportbackItem;
+        _reportbackItem = reportbackItem;
     }
 
     return self;
@@ -88,10 +90,10 @@
 }
 
 - (void)styleView {
-    self.captionTextField.font = [LDTTheme font];
-    self.quantityTextField.font = [LDTTheme font];
+    self.captionTextField.font = LDTTheme.font;
+    self.quantityTextField.font = LDTTheme.font;
     CALayer *backgroundImageMaskLayer = [CALayer layer];
-    backgroundImageMaskLayer.backgroundColor = [UIColor blackColor].CGColor;
+    backgroundImageMaskLayer.backgroundColor = UIColor.blackColor.CGColor;
     backgroundImageMaskLayer.opacity = 0.5;
     backgroundImageMaskLayer.frame = self.backgroundImageView.frame;
     [self.backgroundImageView.layer addSublayer:backgroundImageMaskLayer];
@@ -100,18 +102,59 @@
     self.backgroundImageView.image = self.reportbackItem.image;
     
     self.primaryImageView.layer.masksToBounds = YES;
-    self.primaryImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.primaryImageView.layer.borderColor = UIColor.whiteColor.CGColor;
     self.primaryImageView.layer.borderWidth = 1;
     [self.submitButton enable:NO];
 }
 
-- (void)updateSubmitButton {
-    if (self.captionTextField.text.length > 0 && self.captionTextField.text.length < 61 && self.quantityTextField.text.length > 0 && self.quantityTextField.text.intValue > 0) {
+- (BOOL)validateCaption {
+    NSMutableArray *errorMessages = [[NSMutableArray alloc] init];
+    if (self.captionTextField.text.length > 60) {
+        [self.captionTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"Your caption needs to be 60 characters or less."];
+    }
+    if ([self.captionTextField.text isIncludingEmoji]) {
+        [self.captionTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"No emoji in the caption, please."];
+    }
+    if (errorMessages.count > 0) {
+        NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage];
+        self.captionTextIsValid = NO;
+        [self.submitButton enable:NO];
+        return NO;
+    }
+    self.captionTextIsValid = YES;
+    if (self.quantityTextIsValid) {
         [self.submitButton enable:YES];
     }
-    else {
-        [self.submitButton enable:NO];
+    return YES;
+}
+
+- (BOOL)validateQuantity {
+    NSMutableArray *errorMessages = [[NSMutableArray alloc] init];
+    long long oneGreaterThanLargest32BitNumber = 2147483648;
+    long long quantityValue = self.quantityTextField.text.longLongValue;
+    if (quantityValue <= 0) {
+        [self.quantityTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"We need a positive number quantity."];
     }
+    if (quantityValue > oneGreaterThanLargest32BitNumber) {
+        [self.quantityTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"Hmm, that's a big number. Let's try bringing it back down to Earth."];
+    }
+    if (errorMessages.count > 0) {
+        NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage];
+        self.quantityTextIsValid = NO;
+        [self.submitButton enable:NO];
+        return NO;
+    }
+    self.quantityTextIsValid = YES;
+    if (self.captionTextIsValid) {
+        [self.submitButton enable:YES];
+    }
+    return YES;
 }
 
 - (IBAction)changePhotoButtonTouchUpInside:(id)sender {
@@ -154,32 +197,32 @@
     LDTTabBarController *rootVC = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
         [SVProgressHUD dismiss];
-        [LDTMessage setDefaultViewController:rootVC];
         [rootVC dismissViewControllerAnimated:YES completion:^{
             [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.reportbackItem.campaign.title]];
         }];
 
     } errorHandler:^(NSError *error) {
-        [LDTMessage setDefaultViewController:self.navigationController];
         [SVProgressHUD dismiss];
-        [LDTMessage displayErrorMessageForError:error];
+        [LDTMessage displayErrorMessageInViewController:self error:error];
     }];
 }
 
 - (IBAction)quantityTextFieldEditingChanged:(id)sender {
-    [self updateSubmitButton];
+    [self.quantityTextField setBorderColor:UIColor.clearColor];
+    [self validateQuantity];
 }
 
 - (IBAction)captionTextFieldEditingChanged:(id)sender {
-    [self updateSubmitButton];
+    [self.captionTextField setBorderColor:UIColor.clearColor];
+    [self validateCaption];
 }
 
-- (IBAction)captionTextFieldEditingDidEnd:(id)sender {
-    [self updateSubmitButton];
+- (IBAction)captionTextFieldEditingDidBegin:(id)sender {
+    [self.captionTextField setBorderColor:UIColor.clearColor];
 }
 
-- (IBAction)quantityTextFieldEditingDidEnd:(id)sender {
-    [self updateSubmitButton];
+- (IBAction)quantityTextFieldEditingDidBegin:(id)sender {
+    [self.quantityTextField setBorderColor:UIColor.clearColor];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -198,6 +241,27 @@
     viewController.title = [NSString stringWithFormat:@"I did %@", self.reportbackItem.campaign.title].uppercaseString;
     [viewController styleRightBarButton];
     [viewController styleBackBarButton];
+}
+
+# pragma mark - UITextFieldControllerDelegate
+
+// If user changes chars in a text field--and that field is the captionTextField--restrict chars from showing up, and display an error message.
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([textField isEqual:self.captionTextField]) {
+        // Prevents crashing undo bug: http://stackoverflow.com/questions/433337/set-the-maximum-character-length-of-a-uitextfield
+        if (range.length + range.location > textField.text.length) {
+            return NO;
+        }
+        NSUInteger newLength = [textField.text length] + [string length] - range.length;
+        if (newLength > 60) {
+            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Your caption can't be longer than 60 characters."];
+            return NO;
+        }
+        else {
+            return YES;
+        }
+    }
+    return YES;
 }
 
 @end

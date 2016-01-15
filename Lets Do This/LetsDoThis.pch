@@ -12,7 +12,13 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
+// Note that removing the Foundation and UIKit headers from here may not break the app--those headers are also imported through CocoaPods.
+// The #import directive only #include(s) a file when that file has not been included before, and it replaces that directive with the
+// entire content of the specified header. We keep the Foundation and UIKit headers here for safety and clarity. 
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "DSOUserManager.h"
 #import "NSError+LDT.h"
 #import <SVProgressHUD.h>
+#import <NewRelicAgent/NewRelic.h>
 #endif

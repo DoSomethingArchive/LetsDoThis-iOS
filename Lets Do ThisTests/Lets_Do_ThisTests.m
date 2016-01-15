@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
 @interface Lets_Do_ThisTests : XCTestCase

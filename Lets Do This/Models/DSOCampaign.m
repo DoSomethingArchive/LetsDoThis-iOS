@@ -13,6 +13,7 @@
 @interface DSOCampaign ()
 
 @property (assign, nonatomic, readwrite) BOOL isCoverImageDarkBackground;
+@property (strong, nonatomic, readwrite) DSOCause *cause;
 @property (strong, nonatomic, readwrite) NSArray *tags;
 @property (strong, nonatomic, readwrite) NSDate *endDate;
 @property (assign, nonatomic, readwrite) NSInteger campaignID;
@@ -30,11 +31,12 @@
 
 @implementation DSOCampaign
 
-- (instancetype)initWithCampaignID:(NSInteger)campaignID {
+- (instancetype)initWithCampaignID:(NSInteger)campaignID title:(id)title {
     self = [super init];
 
     if (self) {
-        self.campaignID = campaignID;
+        _campaignID = campaignID;
+        _title = title;
     }
     return self;
 }
@@ -43,32 +45,27 @@
     self = [super init];
 
     if (self) {
-        self.campaignID = [values valueForKeyAsInt:@"id" nullValue:self.campaignID];
-        self.endDate = [[values valueForKeyPath:@"mobile_app.dates"] valueForKeyAsDate:@"end" nullValue:nil];
-        self.title = [values valueForKeyAsString:@"title" nullValue:self.title];
-        self.status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
-        self.tagline = [values valueForKeyAsString:@"tagline" nullValue:self.tagline];
-        self.coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:self.coverImage];
-        self.isCoverImageDarkBackground = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsBool:@"dark_background" nullValue:NO];
-        self.reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
-        self.reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
-
-        // @todo: This actually doesn't return the nullValue but blank
-        self.solutionCopy = [[values valueForKeyPath:@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:@"Placeholder solution copy"];
-
-        self.solutionSupportCopy = @"Placeholder solution copy";
+        _campaignID = [values valueForKeyAsInt:@"id" nullValue:0];
+        _title = [values valueForKeyAsString:@"title" nullValue:nil];
+        _status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
+        NSDictionary *causeDict = [values valueForKeyPath:@"causes.primary"];
+        _cause = [[DSOCause alloc] initWithDict:causeDict];
+        _tagline = [values valueForKeyAsString:@"tagline" nullValue:nil];
+        _coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:nil];
+        _isCoverImageDarkBackground = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsBool:@"dark_background" nullValue:NO];
+        _reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
+        _reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
+        _solutionCopy = [[values valueForKeyPath:@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:nil];
         if ([values[@"solutions"] objectForKey:@"support_copy"]) {
             // Might be string: see https://github.com/DoSomething/phoenix/issues/5069
             if ([[values[@"solutions"] objectForKey:@"support_copy"] isKindOfClass:[NSString class]]) {
-                self.solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy"];
+                _solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy"];
             }
             else {
-                // @todo: Same here
-                self.solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw" nullValue:@"Placeholder solution support copy"];
+                _solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw" nullValue:nil];
             }
         }
-
-        self.tags = values[@"tags"];
+        _tags = values[@"tags"];
     }
 	
     return self;
@@ -76,21 +73,6 @@
 
 - (NSURL *)coverImageURL {
     return [NSURL URLWithString:self.coverImage];
-}
-
-- (NSInteger)numberOfDaysLeft {
-    if (!self.endDate) {
-        return 0;
-    }
-	
-    NSCalendar *c = [NSCalendar currentCalendar];
-    NSDate *today = [NSDate date];
-    NSDateComponents *components = [c components:NSCalendarUnitDay fromDate:today toDate:self.endDate options:0];
-
-    if (components.day > 0) {
-        return components.day;
-    }
-    return 0;
 }
 
 @end

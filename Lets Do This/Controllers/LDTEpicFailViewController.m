@@ -30,8 +30,8 @@
     self = [super initWithNibName:@"LDTEpicFailView" bundle:nil];
 
     if (self) {
-        self.headlineLabelText = title;
-        self.detailsLabelText = subtitle;
+        _headlineLabelText = title;
+        _detailsLabelText = subtitle;
     }
 
     return self;
@@ -59,9 +59,9 @@
 #pragma mark - LDTEpicFailViewController
 
 - (void)styleView {
-    self.headlineLabel.font = [LDTTheme fontHeadingBold];
-    self.headlineLabel.textColor = [LDTTheme mediumGrayColor];
-    self.detailsLabel.font = [LDTTheme font];
+    self.headlineLabel.font = LDTTheme.fontHeadingBold;
+    self.headlineLabel.textColor = LDTTheme.mediumGrayColor;
+    self.detailsLabel.font = LDTTheme.font;
     [self.submitButton enable:YES];
 }
 

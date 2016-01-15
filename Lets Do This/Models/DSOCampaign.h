@@ -6,14 +6,13 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-
 @class DSOCampaign;
+@class DSOCause;
 
 @interface DSOCampaign : NSObject
 
 @property (assign, nonatomic, readonly) BOOL isCoverImageDarkBackground;
+@property (strong, nonatomic, readonly) DSOCause *cause;
 @property (strong, nonatomic, readonly) NSArray *tags;
 @property (assign, nonatomic, readonly) NSInteger campaignID;
 @property (strong, nonatomic, readonly) NSString *coverImage;
@@ -26,8 +25,7 @@
 @property (strong, nonatomic, readonly) NSString *tagline;
 @property (strong, nonatomic, readonly) NSURL *coverImageURL;
 
-- (instancetype)initWithCampaignID:(NSInteger)campaignID;
+- (instancetype)initWithCampaignID:(NSInteger)campaignID title:(NSString *)title;
 - (instancetype)initWithDict:(NSDictionary*)values;
-- (NSInteger)numberOfDaysLeft;
 
 @end

@@ -10,7 +10,7 @@
 #import "LDTReportbackItemDetailView.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
-#import "LDTUserProfileViewController.h"
+#import "LDTProfileViewController.h"
 #import "GAI+LDT.h"
 
 @interface LDTReportbackItemDetailSingleViewController () <LDTReportbackItemDetailViewDelegate>
@@ -28,7 +28,7 @@
     self = [super initWithNibName:@"LDTReportbackItemDetailSingleView" bundle:nil];
 
     if (self) {
-        self.reportbackItem = reportbackItem;
+        _reportbackItem = reportbackItem;
     }
 
     return self;
@@ -39,7 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = [self.reportbackItem.campaign.title uppercaseString];
+    self.title = self.reportbackItem.campaign.title.uppercaseString;
     [self styleBackBarButton];
 
     [self configureReportbackItemDetailView];
@@ -61,6 +61,7 @@
 
 - (void)configureReportbackItemDetailView {
     self.reportbackItemDetailView.delegate = self;
+    self.reportbackItemDetailView.displayShareButton = NO;
     self.reportbackItemDetailView.reportbackItem = self.reportbackItem;
     self.reportbackItemDetailView.campaignButtonTitle = self.reportbackItem.campaign.title;
     self.reportbackItemDetailView.captionLabelText = self.reportbackItem.caption;
@@ -79,8 +80,8 @@
     [self.navigationController pushViewController:destVC animated:YES];
 }
 
-- (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
-    LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:self.reportbackItem.user];
+- (void)didClickOnReportbackItemUserForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+    LDTProfileViewController *destVC = [[LDTProfileViewController alloc] initWithUser:self.reportbackItem.user];
 	
     [self.navigationController pushViewController:destVC animated:YES];
 }

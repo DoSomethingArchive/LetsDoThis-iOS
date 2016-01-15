@@ -9,14 +9,13 @@
 #import "LDTCampaignDetailViewController.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailCampaignCell.h"
-#import "LDTCampaignDetailActionButtonCell.h"
 #import "LDTCampaignDetailReportbackItemCell.h"
-#import "LDTCampaignDetailSelfReportbackCell.h"
 #import "LDTHeaderCollectionReusableView.h"
-#import "LDTUserProfileViewController.h"
+#import "LDTProfileViewController.h"
 #import "LDTSubmitReportbackViewController.h"
-#import "LDTMessage.h"
+#import "LDTActivityViewController.h"
 #import "GAI+LDT.h"
+#import "LDTEpicFailViewController.h"
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
     LDTCampaignDetailSectionTypeCampaign,
@@ -25,13 +24,16 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailSectionType) {
 
 typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     LDTCampaignDetailCampaignSectionRowCampaign,
-    LDTCampaignDetailCampaignSectionRowAction
+    LDTCampaignDetailCampaignSectionRowSelfReportback
 };
 
-@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailActionButtonCellDelegate, LDTCampaignDetailSelfReportbackCellDelegate, LDTReportbackItemDetailViewDelegate>
+@interface LDTCampaignDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTCampaignDetailCampaignCellDelegate, LDTReportbackItemDetailViewDelegate, LDTEpicFailSubmitButtonDelegate>
 
+@property (assign, nonatomic) BOOL reportbackItemsLoaded;
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOReportbackItem *currentUserReportback;
+@property (strong, nonatomic) LDTCampaignDetailCampaignCell *campaignSizingCell;
+@property (strong, nonatomic) LDTCampaignDetailReportbackItemCell *reportbackItemSizingCell;
 @property (strong, nonatomic) NSMutableArray *reportbackItems;
 @property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
@@ -48,8 +50,8 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     self = [super initWithNibName:@"LDTCampaignDetailView" bundle:nil];
 
     if (self) {
-        self.campaign = campaign;
-        self.reportbackItems = [[NSMutableArray alloc] init];
+        _campaign = campaign;
+        _reportbackItems = [[NSMutableArray alloc] init];
     }
 
     return self;
@@ -63,10 +65,15 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self styleView];
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil] forCellWithReuseIdentifier:@"CampaignCell"];
-    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailActionButtonCell" bundle:nil] forCellWithReuseIdentifier:@"ActionButtonCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil] forCellWithReuseIdentifier:@"ReportbackItemCell"];
-    [self.collectionView registerNib:[UINib nibWithNibName:@"LDTCampaignDetailSelfReportbackCell" bundle:nil] forCellWithReuseIdentifier:@"SelfReportbackCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"LDTHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
+
+    // Create dummy sizing cells to determine dynamic  heights.
+    UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil];
+    self.campaignSizingCell = [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
+    UINib *reportbackItemCellNib = [UINib nibWithNibName:@"LDTCampaignDetailReportbackItemCell" bundle:nil];
+    self.reportbackItemSizingCell = [[reportbackItemCellNib instantiateWithOwner:nil options:nil] firstObject];
+
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.minimumInteritemSpacing = 0.0f;
     self.flowLayout.minimumLineSpacing = 0.0f;
@@ -76,8 +83,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     self.imagePickerController.delegate = self;
     self.imagePickerController.allowsEditing = YES;
 
-    [self fetchReportbackItems];
-    [LDTMessage setDefaultViewController:self];
+    [self loadReportbackItems];
 
     if ([[self user] hasCompletedCampaign:self.campaign]) {
         for (DSOCampaignSignup *signup in [self user].campaignSignups) {
@@ -131,11 +137,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    // Without this, iOS kindly changes toolbar to UIStatusBarStyleDefault when we scroll and hide the navigationBar (because we set self.navigationController.hidesBarsOnSwipe to YES).
-    return UIStatusBarStyleLightContent;
-}
-
 #pragma mark - LDTCampaignDetailViewController
 
 - (void)styleView {
@@ -148,142 +149,157 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
-- (void)fetchReportbackItems {
-    NSArray *statusValues = @[@"promoted", @"approved"];
-    for (NSString *status in statusValues) {
-        [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:@[self.campaign] status:status completionHandler:^(NSArray *rbItems) {
-		[self.reportbackItems addObjectsFromArray:rbItems];
+- (void)loadReportbackItems {
+    self.reportbackItemsLoaded = NO;
+    [SVProgressHUD showWithStatus:@"Loading photos..."];
+
+    [[DSOAPI sharedInstance] loadReportbackItemsForCampaigns:@[self.campaign] status:@"promoted,approved" completionHandler:^(NSArray *rbItems) {
+        self.reportbackItemsLoaded = YES;
+        rbItems = [DSOReportbackItem sortReportbackItemsAsPromotedFirst:rbItems];
+        [self.reportbackItems addObjectsFromArray:rbItems];
         [self.collectionView reloadData];
-        } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+    } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        // No connection or timeout:
+        if (error.code == -1001 || error.code == -1009) {
+            LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:[error readableTitle] subtitle:[error readableMessage]];
+            epicFailVC.delegate = self;
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+            [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+            [self presentViewController:navVC animated:YES completion:nil];
+        }
+        else {
+            [SVProgressHUD dismiss];
+            // @todo: Present EpicFail for internal errors with back button?
+            // Refs (GH #664)
             [LDTMessage displayErrorMessageForError:error];
-        }];
-    }
+        }
+
+    }];
 }
 
 - (void)configureCampaignCell:(LDTCampaignDetailCampaignCell *)cell {
     cell.campaign = self.campaign;
+    cell.delegate = self;
     cell.titleLabelText = self.campaign.title;
     cell.taglineLabelText = self.campaign.tagline;
     cell.solutionCopyLabelText = self.campaign.solutionCopy;
     cell.solutionSupportCopyLabelText = self.campaign.solutionSupportCopy;
     cell.coverImageURL = self.campaign.coverImageURL;
-}
+    cell.campaignDetailsHeadingLabelText = @"Do this".uppercaseString;
+    cell.staticInstructionLabelText = @"When you’re done, submit a pic of yourself in action. #picsoritdidnthappen";
 
-- (void)configureActionButtonCell:(LDTCampaignDetailActionButtonCell *)cell {
-    cell.delegate = self;
-    NSString *actionButtonTitle = @"Stop being bored";
-    if ([self.user isDoingCampaign:self.campaign]) {
-        actionButtonTitle = @"Prove it";
+    if ([[self user] hasCompletedCampaign:self.campaign]) {
+        cell.displayActionButton = NO;
+        cell.displayCampaignDetailsView = YES;
     }
-    cell.actionButtonTitle = actionButtonTitle;
+    else {
+        if ([[self user] isDoingCampaign:self.campaign]) {
+            cell.displayActionButton = YES;
+            cell.actionButtonLabelText = @"Prove it".uppercaseString;
+            cell.displayCampaignDetailsView = YES;
+        }
+        else {
+            cell.displayActionButton = YES;
+            cell.actionButtonLabelText = @"Do this now".uppercaseString;
+            cell.displayCampaignDetailsView = NO;
+        }
+    }
 }
 
-- (void)configureReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView forIndexPath:(NSIndexPath *)indexPath {
+- (void)configureReportbackItemCell:(LDTCampaignDetailReportbackItemCell *)reportbackItemCell forIndexPath:(NSIndexPath *)indexPath {
+    LDTReportbackItemDetailView *reportbackItemDetailView = reportbackItemCell.detailView;
     reportbackItemDetailView.delegate = self;
-    DSOReportbackItem *reportbackItem = self.reportbackItems[indexPath.row];
+    DSOReportbackItem *reportbackItem;
+
+    BOOL localImageExists = NO;
+    // Self Reportback:
+    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
+        reportbackItem = self.currentUserReportback;
+        reportbackItemDetailView.displayShareButton = YES;
+        reportbackItemDetailView.shareButtonTitle = @"Share your photo".uppercaseString;
+        // If reportbackItem was just submitted, photo may be available.
+        if (reportbackItem.image) {
+            localImageExists = YES;
+            reportbackItemDetailView.reportbackItemImage = self.currentUserReportback.image;
+        }
+    }
+    else {
+        reportbackItem = self.reportbackItems[indexPath.row];
+        reportbackItemDetailView.displayShareButton = NO;
+    }
+
     reportbackItemDetailView.reportbackItem = reportbackItem;
+    if (!localImageExists) {
+        reportbackItemDetailView.reportbackItemImageURL = reportbackItem.imageURL;
+    }
     reportbackItemDetailView.campaignButtonTitle = self.campaign.title;
     reportbackItemDetailView.captionLabelText = reportbackItem.caption;
     reportbackItemDetailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)reportbackItem.quantity, reportbackItem.campaign.reportbackNoun, reportbackItem.campaign.reportbackVerb];
-    reportbackItemDetailView.reportbackItemImageURL = reportbackItem.imageURL;
     reportbackItemDetailView.userAvatarImage = reportbackItem.user.photo;
     reportbackItemDetailView.userCountryNameLabelText = reportbackItem.user.countryName;
     reportbackItemDetailView.userDisplayNameButtonTitle = reportbackItem.user.displayName;
-}
-
-- (void)configureSelfReportbackCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    cell.delegate = self;
-    cell.detailView.campaignButtonTitle = self.campaign.title;
-    cell.detailView.captionLabelText = self.currentUserReportback.caption;
-    cell.detailView.quantityLabelText = [NSString stringWithFormat:@"%li %@ %@", (long)self.currentUserReportback.quantity, self.campaign.reportbackNoun, self.campaign.reportbackVerb];
-
-    // If reportbackItem was just submitted, photo may be available.
-    if (self.currentUserReportback.image) {
-        cell.detailView.reportbackItemImage = self.currentUserReportback.image;
-    }
-    else {
-        cell.detailView.reportbackItemImageURL = self.currentUserReportback.imageURL;
-    }
-
-    cell.detailView.userAvatarImage = self.currentUserReportback.user.photo;
-    cell.detailView.userCountryNameLabelText = self.currentUserReportback.user.countryName;
-    cell.detailView.userDisplayNameButtonTitle = self.currentUserReportback.user.displayName;
 }
 
 -(DSOUser *)user {
 	return [DSOUserManager sharedInstance].user;
 }
 
-#pragma mark - LDTCampaignDetailActionButtonCellDelegate
+#pragma mark - LDTCampaignListCampaignCellDelegate
 
-- (void)didClickActionButtonForCell:(LDTCampaignDetailActionButtonCell *)cell {
-    // Shouldn't see the actionButton if completed, but sanity check.
-    if ([self.user hasCompletedCampaign:self.campaign]) {
-        return;
-    }
 
-    if ([self.user isDoingCampaign:self.campaign]) {
-        UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *cameraAlertAction;
-        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"camera" value:nil];
-                self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-                [self presentViewController:self.imagePickerController animated:YES completion:NULL];
-            }];
-        }
-        else {
-            cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                // Nada
-            }];
-        }
-        UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-            [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"gallery" value:nil];
-            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            [self presentViewController:self.imagePickerController animated:YES completion:NULL];
-        }];
-        UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
-            [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [reportbackPhotoAlertController addAction:cameraAlertAction];
-        [reportbackPhotoAlertController addAction:photoLibraryAlertAction];
-        [reportbackPhotoAlertController addAction:cancelAlertAction];
-        [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
-    }
-    else {
+- (void)didClickActionButtonForCell:(LDTCampaignDetailCampaignCell *)cell {
+
+    if (![[self user] isDoingCampaign:self.campaign]) {
         [SVProgressHUD showWithStatus:@"Signing up..."];
         [[DSOUserManager sharedInstance] signupUserForCampaign:self.campaign completionHandler:^(DSOCampaignSignup *signup) {
             [SVProgressHUD dismiss];
             [LDTMessage displaySuccessMessageWithTitle:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", self.campaign.title]];
             [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:LDTCampaignDetailSectionTypeCampaign]];
-         } errorHandler:^(NSError *error) {
-             [SVProgressHUD dismiss];
-             [LDTMessage displayErrorMessageForError:error];
-         }];
+        } errorHandler:^(NSError *error) {
+            [SVProgressHUD dismiss];
+            [LDTMessage displayErrorMessageForError:error];
+        }];
+        return;
     }
-}
 
-#pragma mark - LDTCampaignDetailSelfReportbackCellDelegate
-
-- (void)didClickSharePhotoButtonForCell:(LDTCampaignDetailSelfReportbackCell *)cell {
-    NSString *title = self.campaign.title;
-    NSString *verb = self.campaign.reportbackVerb.lowercaseString;
-    NSString *quantity = [NSString stringWithFormat:@"%li", (long)self.currentUserReportback.quantity];
-    NSString *noun = self.campaign.reportbackNoun.lowercaseString;
-    NSString *appStoreLink = [NSString stringWithFormat:@"https://itunes.apple.com/app/id998995766"];
-    NSString *shareMessage = [NSString stringWithFormat:@"BAM. I just rocked the %@ campaign on the Let's Do This app and %@ %@ %@. Wanna do it with me? %@", title, verb, quantity, noun, appStoreLink];
-    UIImage *shareImage = cell.detailView.reportbackItemImage;
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@ [shareMessage, shareImage] applicationActivities:nil];
-    activityViewController.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
-    [activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-        // activityType is the reverse-DNS string rep. of the activity chosen, i.e. "com.apple.UIKit.activity.Facebook"
-        NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
-        // retrieves and later lowercases end of activityType, i.e. "facebook"
-        NSString *activityString = activityTypeComponents[[activityTypeComponents count]-1];
-        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:activityString.lowercaseString value:nil];
+    UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cameraAlertAction;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"camera" value:nil];
+            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+        }];
+    }
+    else {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            // Nada
+        }];
+    }
+    UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"gallery" value:nil];
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePickerController animated:YES completion:NULL];
     }];
-    [self presentViewController:activityViewController animated:YES completion:nil];
+    UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [reportbackPhotoAlertController addAction:cameraAlertAction];
+    [reportbackPhotoAlertController addAction:photoLibraryAlertAction];
+    [reportbackPhotoAlertController addAction:cancelAlertAction];
+    [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
 }
+
+#pragma mark - LDTEpicFailSubmitButtonDelegate
+
+- (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+
+    [self loadReportbackItems];
+}
+
 
 #pragma mark - UICollectionViewDataSource
 
@@ -291,8 +307,11 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     if (section == LDTCampaignDetailSectionTypeReportback) {
         return self.reportbackItems.count;
     }
-
-    return 2;
+    if ([[self user] hasCompletedCampaign:self.campaign]) {
+        // Campaign Detail + Self Reportback
+        return 2;
+    }
+    return 1;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -301,31 +320,23 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-
         if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
+
             LDTCampaignDetailCampaignCell *campaignCell = (LDTCampaignDetailCampaignCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CampaignCell" forIndexPath:indexPath];
             [self configureCampaignCell:campaignCell];
             return campaignCell;
         }
-
-        if (indexPath.row == LDTCampaignDetailCampaignSectionRowAction) {
+        else if (indexPath.row == LDTCampaignDetailCampaignSectionRowSelfReportback) {
             if ([[self user] hasCompletedCampaign:self.campaign]) {
-                LDTCampaignDetailSelfReportbackCell *selfReportbackCell = (LDTCampaignDetailSelfReportbackCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"SelfReportbackCell" forIndexPath:indexPath];
-                [self configureSelfReportbackCell:selfReportbackCell];
+                LDTCampaignDetailReportbackItemCell *selfReportbackCell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
+                [self configureReportbackItemCell:selfReportbackCell forIndexPath:indexPath];
                 return selfReportbackCell;
             }
-            else {
-                LDTCampaignDetailActionButtonCell *actionButtonCell = (LDTCampaignDetailActionButtonCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ActionButtonCell" forIndexPath:indexPath];
-                [self configureActionButtonCell:actionButtonCell];
-                return actionButtonCell;
-            }
         }
-
     }
     if (indexPath.section == LDTCampaignDetailSectionTypeReportback) {
         LDTCampaignDetailReportbackItemCell *reportbackItemCell = (LDTCampaignDetailReportbackItemCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ReportbackItemCell" forIndexPath:indexPath];
-        [self configureReportbackItemDetailView:reportbackItemCell.detailView forIndexPath:indexPath];
-		
+        [self configureReportbackItemCell:reportbackItemCell forIndexPath:indexPath];
         return reportbackItemCell;
     }
 
@@ -336,7 +347,7 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     UICollectionReusableView *reusableView = nil;
     if (kind == UICollectionElementKindSectionHeader) {
         LDTHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
-        headerView.titleLabel.text = [@"Who's doing it now" uppercaseString];
+        headerView.titleLabel.text = @"Who's doing it now".uppercaseString;
         reusableView = headerView;
     }
 
@@ -347,34 +358,17 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    // Square reportback photo + header height + caption height.
-    CGFloat reportbackItemHeight = screenWidth + 36 + 70;
-
-    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign) {
-        if (indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
-            // Create a dummy sizing cell to determine dynamic CampaignCell height.
-            // We never display this cell, but just configure it with the campaign to return the exact the height.
-            UINib *campaignCellNib = [UINib nibWithNibName:@"LDTCampaignDetailCampaignCell" bundle:nil];
-            LDTCampaignDetailCampaignCell *sizingCell =  [[campaignCellNib instantiateWithOwner:nil options:nil] firstObject];
-            [self configureCampaignCell:sizingCell];
-            sizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(sizingCell.frame));
-            [sizingCell setNeedsLayout];
-            [sizingCell layoutIfNeeded];
-            CGFloat campaignCellHeight = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-            return CGSizeMake(screenWidth, campaignCellHeight);
-        }
-        else {
-            if ([[self user] hasCompletedCampaign:self.campaign]) {
-                // Add 90 for the Share Photo button.
-                return CGSizeMake(screenWidth, reportbackItemHeight + 90);
-            }
-            else {
-                // Button height (50) + top and bottom margins (2 * 16) = 82
-                return CGSizeMake(screenWidth, 82);
-            }
-        }
+    if (indexPath.section == LDTCampaignDetailSectionTypeCampaign && indexPath.row == LDTCampaignDetailCampaignSectionRowCampaign) {
+        [self configureCampaignCell:self.campaignSizingCell];
+        self.campaignSizingCell.frame = CGRectMake(0, 0, CGRectGetWidth(self.collectionView.bounds), CGRectGetHeight(self.campaignSizingCell.frame));
+        [self.campaignSizingCell setNeedsLayout];
+        [self.campaignSizingCell layoutIfNeeded];
+        CGFloat campaignCellHeight = [self.campaignSizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+        return CGSizeMake(screenWidth, campaignCellHeight);
     }
 
+    [self configureReportbackItemCell:self.reportbackItemSizingCell forIndexPath:indexPath];
+    CGFloat reportbackItemHeight = [self.reportbackItemSizingCell.detailView heightForWidth:screenWidth];
     return CGSizeMake(screenWidth, reportbackItemHeight);
 }
 
@@ -393,8 +387,14 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     return;
 }
 
-- (void)didClickUserNameButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
-    LDTUserProfileViewController *destVC = [[LDTUserProfileViewController alloc] initWithUser:reportbackItemDetailView.reportbackItem.user];
+- (void)didClickShareButtonForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+
+    LDTActivityViewController *sharePhotoActivityViewController = [[LDTActivityViewController alloc] initWithReportbackItem:reportbackItemDetailView.reportbackItem image:reportbackItemDetailView.reportbackItemImage];
+    [self presentViewController:sharePhotoActivityViewController animated:YES completion:nil];
+}
+
+- (void)didClickOnReportbackItemUserForReportbackItemDetailView:(LDTReportbackItemDetailView *)reportbackItemDetailView {
+    LDTProfileViewController *destVC = [[LDTProfileViewController alloc] initWithUser:reportbackItemDetailView.reportbackItem.user];
     [self.navigationController pushViewController:destVC animated:YES];
 }
 

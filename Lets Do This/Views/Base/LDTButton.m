@@ -11,27 +11,35 @@
 
 @implementation LDTButton
 
-- (id)initWithCoder:(NSCoder*)coder {
+#pragma mark - NSObject
+
+- (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
 	
     if (self) {
-        [[self titleLabel] setFont:[LDTTheme fontBold]];
+        [[self titleLabel] setFont:LDTTheme.fontBold];
         self.layer.cornerRadius = 6;
-		[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-		[self setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+		[self setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+		[self setTitleColor:UIColor.grayColor forState:UIControlStateDisabled];
     }
 	
     return self;
 }
 
--(void)enable:(BOOL)enabled {
-	if (enabled) {
-		self.backgroundColor = [LDTTheme ctaBlueColor];
-	}
-	else {
-		self.backgroundColor = [LDTTheme disabledGrayColor];
-	}
-	
+#pragma mark - LDTButton
+
+- (void)enable:(BOOL)enabled {
+    if (enabled) {
+        self.backgroundColor = LDTTheme.ctaBlueColor;
+    }
+    else {
+        self.backgroundColor = LDTTheme.disabledGrayColor;
+    }
+    self.enabled = enabled;
+}
+
+- (void)enable:(BOOL)enabled backgroundColor:(UIColor *)backgroundColor {
+    self.backgroundColor = backgroundColor;
 	self.enabled = enabled;
 }
 

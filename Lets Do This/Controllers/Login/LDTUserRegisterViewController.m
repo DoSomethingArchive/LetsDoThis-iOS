@@ -12,6 +12,7 @@
 #import "LDTUserLoginViewController.h"
 #import "UITextField+LDT.h"
 #import "GAI+LDT.h"
+#import "NSString+RemoveEmoji.h"
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -58,7 +59,7 @@
     self = [super initWithNibName:@"LDTUserRegisterView" bundle:nil];
 
     if (self) {
-        self.user = user;
+        _user = user;
     }
     
     return self;
@@ -69,7 +70,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self.submitButton setTitle:[@"Create account" uppercaseString] forState:UIControlStateNormal];
+    [self.submitButton setTitle:@"Create account".uppercaseString forState:UIControlStateNormal];
     [self.submitButton enable:NO];
     [self.loginLink setTitle:@"Have a DoSomething.org account? Sign in" forState:UIControlStateNormal];
     
@@ -131,21 +132,21 @@
 #pragma mark - LDTUserRegisterViewController
 
 - (void)styleView {
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[LDTTheme fullBackgroundImage]];
+    self.view.backgroundColor = LDTTheme.ctaBlueColor;
     [self.imageView addCircleFrame];
     for (UITextField *aTextField in self.textFields) {
-        aTextField.font = [LDTTheme font];
+        aTextField.font = LDTTheme.font;
     }
     [self.firstNameTextField setKeyboardType:UIKeyboardTypeNamePhonePad];
     [self.emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     [self.mobileTextField setKeyboardType:UIKeyboardTypeNumberPad];
-    self.footerLabel.font = [LDTTheme font];
+    self.footerLabel.font = LDTTheme.font;
     self.footerLabel.textAlignment = NSTextAlignmentCenter;
-    self.footerLabel.textColor = [UIColor whiteColor];
-    self.headerLabel.font = [LDTTheme font];
+    self.footerLabel.textColor = UIColor.whiteColor;
+    self.headerLabel.font = LDTTheme.font;
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
-    self.headerLabel.textColor = [UIColor whiteColor];
-    [self.loginLink setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.headerLabel.textColor = UIColor.whiteColor;
+    [self.loginLink setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
@@ -166,23 +167,24 @@
                     [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
                         NSLog(@"Successful user avatar upload: %@", responseObject);
                     } errorHandler:^(NSError * error) {
-                        [LDTMessage displayErrorMessageForError:error];
+                        NSLog(@"Unsuccessful user avatar upload: %@", error.localizedDescription);
                     }];
                 }
                 if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
                     LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
                     [rootVC dismissViewControllerAnimated:YES completion:^{
-                        [rootVC loadMainFeed];
+                        [SVProgressHUD dismiss];
+                        [rootVC reloadCurrentUser];
                     }];
                 }
             } errorHandler:^(NSError *error) {
                 [SVProgressHUD dismiss];
-                [LDTMessage displayErrorMessageForError:error];
+                [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
             }];
 
         } failure:^(NSError *error) {
             [SVProgressHUD dismiss];
-            [LDTMessage displayErrorMessageForError:error];
+            [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
         }];
     }
     else {
@@ -234,19 +236,19 @@
 }
 
 - (IBAction)firstNameEditingDidBegin:(id)sender {
-    [self.firstNameTextField setBorderColor:[UIColor clearColor]];
+    [self.firstNameTextField setBorderColor:UIColor.clearColor];
 }
 
 - (IBAction)emailEditingDidBegin:(id)sender {
-    [self.emailTextField setBorderColor:[UIColor clearColor]];
+    [self.emailTextField setBorderColor:UIColor.clearColor];
 }
 
 - (IBAction)mobileEditingDidBegin:(id)sender {
-    [self.mobileTextField setBorderColor:[UIColor clearColor]];
+    [self.mobileTextField setBorderColor:UIColor.clearColor];
 }
 
 - (IBAction)passwordEditingDidBegin:(id)sender {
-    [self.passwordTextField setBorderColor:[UIColor clearColor]];
+    [self.passwordTextField setBorderColor:UIColor.clearColor];
 }
 
 - (IBAction)firstNameEditingDidEnd:(id)sender {
@@ -275,7 +277,7 @@
 - (void)updateCreateAccountButton {
     BOOL enabled = NO;
     
-    if (self.passwordTextField.text.length > 5) {
+    if ([self validatePassword:self.passwordTextField.text]) {
         for (UITextField *aTextField in self.textFieldsRequired) {
             if (aTextField.text.length > 0) {
                 enabled = YES;
@@ -287,7 +289,7 @@
         }
     }
     if (enabled) {
-        [self.submitButton enable:YES];
+        [self.submitButton enable:YES backgroundColor:LDTTheme.magentaColor];
     }
     else {
         [self.submitButton enable:NO];
@@ -295,27 +297,45 @@
 }
 
 - (BOOL)validateForm {
-    NSMutableArray *errorMessages = [[NSMutableArray alloc] init];;
-
-    if (![self validateName:self.firstNameTextField.text]) {
-        [self.firstNameTextField setBorderColor:[UIColor redColor]];
+    NSMutableArray *errorMessages = [[NSMutableArray alloc] init];
+    
+    // Emoji presence check and other validations placed in if/else if blocks
+    // so user won't receive two redundant error messages.
+    if ([self.firstNameTextField.text isIncludingEmoji]) {
+        [self.firstNameTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"No emoji allowed in your name."];
+    }
+    else if (![self validateName:self.firstNameTextField.text]) {
+        [self.firstNameTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"We need your first name."];
     }
-    if (![self validateEmailForCandidate:self.emailTextField.text]) {
-        [self.emailTextField setBorderColor:[UIColor redColor]];
+    
+    if ([self.emailTextField.text isIncludingEmoji]) {
+        [self.emailTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"No emoji allowed in your email."];
+    }
+    else if (![self validateEmailForCandidate:self.emailTextField.text]) {
+        [self.emailTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"We need a valid email."];
     }
+    
     if (![self validateMobile:self.mobileTextField.text]) {
-        [self.mobileTextField setBorderColor:[UIColor redColor]];
+        [self.mobileTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"Enter a valid telephone number."];
     }
-    if (![self validatePassword:self.passwordTextField.text]) {
-        [self.passwordTextField setBorderColor:[UIColor redColor]];
+    
+    if ([self.passwordTextField.text isIncludingEmoji]) {
+        [self.passwordTextField setBorderColor:UIColor.redColor];
+        [errorMessages addObject:@"No emoji allowed in your password."];
+    }
+    else if (![self validatePassword:self.passwordTextField.text]) {
+        [self.passwordTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"Password must be 6+ characters."];
     }
+    
     if (errorMessages.count > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
-        [LDTMessage displayErrorMessageForString:errorMessage];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage];
         return NO;
     }
     return YES;
@@ -381,6 +401,27 @@
     [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
     [viewController styleBackBarButton];
     [viewController styleRightBarButton];
+}
+
+# pragma mark - UITextFieldControllerDelegate
+
+// If user changes chars in a text field--and that field is the emailTextField--restrict chars from showing up, and display an error message.
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([textField isEqual:self.emailTextField]){
+        // Prevents crashing undo bug: http://stackoverflow.com/questions/433337/set-the-maximum-character-length-of-a-uitextfield
+        if (range.length + range.location > textField.text.length) {
+            return NO;
+        }
+        NSUInteger newLength = [textField.text length] + [string length] - range.length;
+        if (newLength > 60) {
+            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Your email can't be longer than 60 characters."];
+            return NO;
+        }
+        else {
+            return YES;
+        }
+    }
+    return YES;
 }
 
 @end

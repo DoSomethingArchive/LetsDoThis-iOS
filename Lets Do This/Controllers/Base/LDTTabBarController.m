@@ -7,16 +7,15 @@
 //
 
 #import "LDTTabBarController.h"
-#import "LDTUserProfileViewController.h"
-#import "LDTCampaignListViewController.h"
+#import "LDTNewsFeedViewController.h"
+#import "LDTProfileViewController.h"
 #import "LDTOnboardingPageViewController.h"
 #import "LDTUserConnectViewController.h"
+#import "LDTCauseListViewController.h"
+#import "LDTEpicFailViewController.h"
 #import "LDTTheme.h"
 
-@interface LDTTabBarController ()
-
-@property (strong, nonatomic) LDTCampaignListViewController *campaignListViewController;
-@property (strong, nonatomic) UINavigationController *campaignListNavigationController;
+@interface LDTTabBarController () <LDTEpicFailSubmitButtonDelegate>
 
 @end
 
@@ -25,20 +24,29 @@
 # pragma mark - NSObject
 
 - (id)init {
-    if (self = [super init]) {
-        self.tabBar.translucent = NO;
-		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:[LDTTheme fontName] size:10.0f] } forState:UIControlStateNormal];
 
-        LDTUserProfileViewController *profileVC = [[LDTUserProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
+    if (self = [super init]) {
+
+        self.tabBar.translucent = NO;
+        self.tabBar.tintColor = LDTTheme.ctaBlueColor;
+		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:LDTTheme.fontName size:10.0f] } forState:UIControlStateNormal];
+
+        LDTNewsFeedViewController *newsFeedViewController = [[LDTNewsFeedViewController alloc] init];
+        newsFeedViewController.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
+        newsFeedViewController.title = @"News";
+        UINavigationController *newsFeedNavigationController = [[UINavigationController alloc] initWithRootViewController:newsFeedViewController];
+
+        LDTProfileViewController *profileVC = [[LDTProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
         profileVC.title = @"Me";
         UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
 
-        self.campaignListViewController = [[LDTCampaignListViewController alloc] initWithNibName:@"LDTCampaignListView" bundle:nil];
-        self.campaignListNavigationController = [[UINavigationController alloc] initWithRootViewController:self.campaignListViewController];
-        self.campaignListNavigationController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
+        LDTCauseListViewController *causeListViewController = [[LDTCauseListViewController alloc] initWithNibName:@"LDTCauseListView" bundle:nil];
+        causeListViewController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
+        causeListViewController.title = @"Actions";
+        UINavigationController *causeListNavigationController = [[UINavigationController alloc] initWithRootViewController:causeListViewController];
 
-        self.viewControllers = [NSArray arrayWithObjects:self.campaignListNavigationController, profileNavVC, nil];
+        self.viewControllers = [NSArray arrayWithObjects:newsFeedNavigationController, causeListNavigationController, profileNavVC, nil];
     }
 	
     return self;
@@ -66,16 +74,41 @@
             destNavVC = [[UINavigationController alloc] initWithRootViewController:userConnectVC];
         }
         [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
+        destNavVC.navigationBar.barStyle = UIStatusBarStyleLightContent;
         [self presentViewController:destNavVC animated:YES completion:nil];
-        [TSMessage setDefaultViewController:destNavVC];
+    }
+    else {
+        if ([DSOUserManager sharedInstance].activeCampaigns.count == 0) {
+            [[DSOUserManager sharedInstance] loadCurrentUserAndActiveCampaignsWithCompletionHander:^(NSArray *activeCampaigns) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"activeCampaignsLoaded" object:self];
+            } errorHandler:^(NSError *error) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"epicFail" object:self];
+                [self presentEpicFailForError:error];
+            }];
+        }
     }
 }
 
-# pragma mark - LDTTabBarController
+#pragma mark - LDTTabBarController
 
-- (void)loadMainFeed {
-    [self.campaignListNavigationController popToRootViewControllerAnimated:YES];
-    [self.campaignListViewController loadMainFeed];
+- (void)reloadCurrentUser {
+    UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
+    [initialVC popToRootViewControllerAnimated:YES];
+    [[DSOUserManager sharedInstance] startSessionWithCompletionHandler:^ {
+        NSLog(@"syncCurrentUserWithCompletionHandler");
+    } errorHandler:^(NSError *error) {
+        [self presentEpicFailForError:error];
+    }];
+}
+
+- (void)presentEpicFailForError:(NSError *)error {
+    LDTEpicFailViewController *epicFailVC = [[LDTEpicFailViewController alloc] initWithTitle:error.readableTitle subtitle:error.readableMessage];
+    epicFailVC.delegate = self;
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
+    [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
+    [self presentViewController:navVC animated:YES completion:nil];
+    // @TODO: cleanup - this is dismissing the SVProgressHUD called dfrom DSOUserManager
+    [SVProgressHUD dismiss];
 }
 
 @end

@@ -44,14 +44,6 @@
     return [value integerValue];
 }
 
-- (double)valueForKeyAsDouble:(NSString *)key nullValue:(double)nullValue {
-    id value = [self valueForJSONKey:key];
-    if(value == nil) {
-        return nullValue;
-    }
-    return [value doubleValue];
-}
-
 - (BOOL)valueForKeyAsBool:(NSString *)key nullValue:(BOOL)nullValue {
     id value = [self valueForJSONKey:key];
     if(value == nil) {
@@ -85,10 +77,6 @@
 }
 
 - (NSInteger)valueForKeyAsInt:(NSString *)key nullValue:(NSInteger)nullValue {
-    return 0;
-}
-
-- (double)valueForKeyAsDouble:(NSString *)key nullValue:(double)nullValue {
     return 0;
 }
 
