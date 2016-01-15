@@ -74,6 +74,7 @@
             destNavVC = [[UINavigationController alloc] initWithRootViewController:userConnectVC];
         }
         [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
+        destNavVC.navigationBar.barStyle = UIStatusBarStyleLightContent;
         [self presentViewController:destNavVC animated:YES completion:nil];
     }
     else {

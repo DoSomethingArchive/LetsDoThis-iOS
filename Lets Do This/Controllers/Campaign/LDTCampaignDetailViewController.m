@@ -137,11 +137,6 @@ typedef NS_ENUM(NSInteger, LDTCampaignDetailCampaignSectionRow) {
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    // Without this, iOS kindly changes toolbar to UIStatusBarStyleDefault when we scroll and hide the navigationBar (because we set self.navigationController.hidesBarsOnSwipe to YES).
-    return UIStatusBarStyleLightContent;
-}
-
 #pragma mark - LDTCampaignDetailViewController
 
 - (void)styleView {

@@ -18,6 +18,7 @@
 #import "LDTProfileNoSignupsTableViewCell.h"
 #import "LDTActivityViewController.h"
 #import "LDTEpicFailViewController.h"
+#import "AppDelegate.h"
 
 @interface LDTProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LDTProfileHeaderTableViewCellDelegate, LDTProfileCampaignTableViewCellDelegate, LDTReportbackItemDetailViewDelegate, LDTEpicFailSubmitButtonDelegate>
 
@@ -128,6 +129,14 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
     self.tableView.contentInset = UIEdgeInsetsMake(0,0,0,0);
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+
+    UIView *statusBarBackgroundView = ((AppDelegate *)[UIApplication sharedApplication].delegate).statusBarBackgroundView;
+    statusBarBackgroundView.backgroundColor = UIColor.whiteColor;
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
@@ -135,10 +144,13 @@ typedef NS_ENUM(NSInteger, LDTProfileSectionType) {
 #pragma Mark - LDTUserProfileViewController
 
 - (void)styleView {
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Header Background"]];
+    self.view.backgroundColor = LDTTheme.ctaBlueColor;
     self.tableView.backgroundColor = UIColor.clearColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self styleBackBarButton];
+    UIView *statusBarBackgroundView = ((AppDelegate *)[UIApplication sharedApplication].delegate).statusBarBackgroundView;
+    statusBarBackgroundView.backgroundColor = LDTTheme.ctaBlueColor;
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)loadUserProfile {

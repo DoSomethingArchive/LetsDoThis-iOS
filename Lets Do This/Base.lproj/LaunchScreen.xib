@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -10,15 +11,18 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Full Background" translatesAutoresizingMaskIntoConstraints="NO" id="yZU-0F-sit">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DS Logo" translatesAutoresizingMaskIntoConstraints="NO" id="yZU-0F-sit">
+                    <rect key="frame" x="190" y="200" width="100" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="G2r-Bi-Rb4"/>
+                        <constraint firstAttribute="height" constant="80" id="yCG-Ra-H95"/>
+                    </constraints>
                 </imageView>
             </subviews>
+            <color key="backgroundColor" red="0.21176470588235294" green="0.20392156862745098" blue="0.67843137254901964" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="yZU-0F-sit" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="71j-rF-G1r"/>
-                <constraint firstAttribute="bottom" secondItem="yZU-0F-sit" secondAttribute="bottom" id="Up8-Sp-Bmf"/>
-                <constraint firstItem="yZU-0F-sit" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jN5-BI-MwT"/>
-                <constraint firstAttribute="trailing" secondItem="yZU-0F-sit" secondAttribute="trailing" id="xtI-pk-fQh"/>
+                <constraint firstItem="yZU-0F-sit" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="97e-jk-tal"/>
+                <constraint firstItem="yZU-0F-sit" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="uYp-id-lRi"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -26,6 +30,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Full Background" width="375" height="668"/>
+        <image name="DS Logo" width="100" height="80"/>
     </resources>
 </document>

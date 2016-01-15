@@ -132,7 +132,7 @@
 #pragma mark - LDTUserRegisterViewController
 
 - (void)styleView {
-    self.view.backgroundColor = [UIColor colorWithPatternImage:LDTTheme.fullBackgroundImage];
+    self.view.backgroundColor = LDTTheme.ctaBlueColor;
     [self.imageView addCircleFrame];
     for (UITextField *aTextField in self.textFields) {
         aTextField.font = LDTTheme.font;
@@ -289,7 +289,7 @@
         }
     }
     if (enabled) {
-        [self.submitButton enable:YES];
+        [self.submitButton enable:YES backgroundColor:LDTTheme.magentaColor];
     }
     else {
         [self.submitButton enable:NO];
