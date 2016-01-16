@@ -108,6 +108,7 @@
     self.rateArrowImageView.image = [UIImage imageNamed:@"Arrow"];
 
     [self.submitIdeasButton.titleLabel setFont:LDTTheme.fontCaption];
+    [self.submitIdeasButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
     self.submitIdeasButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     // wraps button text if multiple lines are needed on smaller screens
     self.submitIdeasButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
