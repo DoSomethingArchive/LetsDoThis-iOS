@@ -8,6 +8,7 @@ import React, {
   Text,
   Image,
   TouchableHighlight,
+  RefreshControl,
   View
 } from 'react-native';
 
@@ -19,6 +20,7 @@ var NewsFeedView = React.createClass({
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
+      isRefreshing: false,
       loaded: false,
     };
   },
@@ -46,8 +48,27 @@ var NewsFeedView = React.createClass({
         dataSource={this.state.dataSource}
         renderRow={this.renderPost}
         style={styles.listView}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this._onRefresh}
+            tintColor="#3932A9"
+            title="Checking for updates..."
+            colors={['#ff0000', '#00ff00', '#0000ff']}
+            progressBackgroundColor="#ffff00"
+          />
+        }
       />
     );
+  },
+  _onRefresh: function () {
+    this.setState({isRefreshing: true});
+    setTimeout(() => {
+      this.fetchData();
+      this.setState({
+        isRefreshing: false,
+      });
+    }, 1000);
   },
   renderLoadingView: function() {
     return (
