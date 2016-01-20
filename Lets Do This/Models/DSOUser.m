@@ -19,6 +19,7 @@
 @property (nonatomic, strong, readwrite) NSString *email;
 @property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *mobile;
+@property (nonatomic, strong, readwrite) NSArray *parseInstallationIds;
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *userID;
 @property (nonatomic, strong, readwrite) UIImage *photo;
@@ -43,6 +44,7 @@
         }
         _firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Doer"];
         _email = dict[@"email"];
+        _parseInstallationIds = dict[@"parse_installation_ids"];
         _sessionToken = dict[@"session_token"];
         _mutableCampaignSignups = [[NSMutableArray alloc] init];
 		
