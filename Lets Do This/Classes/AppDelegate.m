@@ -56,12 +56,12 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
-    // Uncomment this for local development:
-//    NSString *urlString = @"http://localhost:8081/index.ios.bundle";
-//    self.jsCodeLocation = [NSURL URLWithString:urlString];
+    // Uncomment this for React development: Allows reloading of all React views (RCTRootView) without a rebuild in Xcode.
+//    self.jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
 
-    // Keep this uncommented for distribution builds.
-    // @todo: Add a build step to compile main.jsbundle (we're manually doing this in terminal to rebuild)
+    // Also comment out the line below that sets jsLocation.
+    // This must remain uncommented for distribution builds. main.jsbundle is updated in our "Bundle React Native code and images" build phase.
+    // @todo: Figure out environment variable based solution instead?
     self.jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

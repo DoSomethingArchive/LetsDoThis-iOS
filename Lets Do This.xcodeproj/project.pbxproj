@@ -668,6 +668,7 @@
 				568131DF1B730BA700FF9854 /* ShellScript */,
 				4235F3E4912DA954769AFE43 /* Embed Pods Frameworks */,
 				EA1F559F1BFF7D0D00AD98D8 /* ShellScript */,
+				B2731BE01C503C710071253F /* Bundle React Native code and images */,
 			);
 			buildRules = (
 			);
@@ -838,6 +839,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		B2731BE01C503C710071253F /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "DEST=$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\n\nreact-native bundle \\\n--entry-file ReactComponent/index.ios.js \\\n--platform ios \\\n--dev false \\\n--bundle-output \"$DEST/main.jsbundle\" \\\n--assets-dest \"$DEST\"";
 		};
 		EA1F559F1BFF7D0D00AD98D8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
