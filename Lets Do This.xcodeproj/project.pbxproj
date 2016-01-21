@@ -852,7 +852,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "DEST=$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\n\nreact-native bundle \\\n--entry-file ReactComponent/index.ios.js \\\n--platform ios \\\n--bundle-output \"$DEST/main.jsbundle\" \\\n--assets-dest \"$DEST\"";
+			shellScript = "DEST=$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\n\nreact-native bundle \\\n--entry-file ReactComponent/index.ios.js \\\n--platform ios \\\n--dev false \\\n--bundle-output \"$DEST/main.jsbundle\" \\\n--assets-dest \"$DEST\"";
 		};
 		EA1F559F1BFF7D0D00AD98D8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
