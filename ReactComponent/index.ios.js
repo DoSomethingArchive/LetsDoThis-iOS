@@ -53,7 +53,6 @@ var NewsFeedView = React.createClass({
             refreshing={this.state.isRefreshing}
             onRefresh={this._onRefresh}
             tintColor="#3932A9"
-            title="Checking for updates..."
             colors={['#ff0000', '#00ff00', '#0000ff']}
             progressBackgroundColor="#ffff00"
           />
