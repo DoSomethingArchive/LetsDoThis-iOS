@@ -99,7 +99,7 @@ var NewsFeedView = React.createClass({
       imgBackground = <Text style={styles.title}>{post.title.toUpperCase()}</Text>;
     }
 
-    imgOval = require('./img/listitem-oval.png');
+    imgOval = require('image!listitem-oval');
 
     var linkToArticle;
     if (typeof post.custom_fields.full_article_url !== 'undefined'
