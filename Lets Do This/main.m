@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "LDTAppDelegate.h"
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([LDTAppDelegate class]));
     }
 }
