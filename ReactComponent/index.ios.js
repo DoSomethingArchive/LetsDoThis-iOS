@@ -12,6 +12,8 @@ import React, {
   View
 } from 'react-native';
 
+var Helpers = require('./helpers.js');
+
 var TAKE_ACTION_TEXT = 'Take action';
 
 var NewsFeedView = React.createClass({
@@ -115,10 +117,20 @@ var NewsFeedView = React.createClass({
       linkToArticle = null;
     }
 
+    var formattedDate = Helpers.formatDate(post.date);
+    var viewCategory = null;
+    if (post.categories.length > 0) {
+      viewCategory =
+        <View style={styles.categoryContainer}>
+          <Text style={styles.category}>{post.categories[0].title}</Text>
+        </View>;
+    }
+
     return(
       <View style={styles.postContainer}>
         <View style={styles.postHeader}>
-          <Text style={styles.date}>{post.date}</Text>
+          <Text style={styles.date}>{formattedDate}</Text>
+          {viewCategory}
         </View>
         {imgBackground}
         <View style={styles.postBody}>
@@ -176,6 +188,8 @@ var styles = React.StyleSheet.create({
     backgroundColor: '#EEE',
   },
   postHeader: {
+    flex: 1,
+    flexDirection: 'row',
     backgroundColor: '#00e4c8',
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
@@ -200,6 +214,14 @@ var styles = React.StyleSheet.create({
     fontFamily: 'BrandonGrotesque-Bold',
     fontSize: 16,
     textAlign: 'center',
+  },
+  category: {
+    color: '#ffffff',
+    fontFamily: 'Brandon Grotesque',
+  },
+  categoryContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
   },
   date: {
     color: '#ffffff',
