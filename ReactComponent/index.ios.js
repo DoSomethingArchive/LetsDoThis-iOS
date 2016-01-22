@@ -81,6 +81,8 @@ var NewsFeedView = React.createClass({
   },
   renderPost: function(post) {
     var imgBackground;
+    var imgOval;
+
     if (typeof post !== 'undefined'
         && typeof post.attachments[0] !== 'undefined'
         && typeof post.attachments[0].images !== 'undefined'
@@ -96,6 +98,8 @@ var NewsFeedView = React.createClass({
     else {
       imgBackground = <Text style={styles.title}>{post.title.toUpperCase()}</Text>;
     }
+
+    imgOval = require('image!listitem-oval');
 
     var linkToArticle;
     if (typeof post.custom_fields.full_article_url !== 'undefined'
@@ -120,13 +124,22 @@ var NewsFeedView = React.createClass({
         <View style={styles.postBody}>
           <Text style={styles.subtitle}>{post.custom_fields.subtitle}</Text>
           <View style={styles.summaryItem}>
-            <Text style={styles.summaryText}>* {post.custom_fields.summary_1}</Text>
+            <View style={styles.listItemOvalContainer}>
+              <Image source={imgOval} />
+            </View>
+            <Text style={styles.summaryText}>{post.custom_fields.summary_1}</Text>
           </View>
           <View style={styles.summaryItem}>
-            <Text style={styles.summaryText}>* {post.custom_fields.summary_2}</Text>
+            <View style={styles.listItemOvalContainer}>
+              <Image source={imgOval} />
+            </View>
+            <Text style={styles.summaryText}>{post.custom_fields.summary_2}</Text>
           </View>
           <View style={styles.summaryItem}>
-            <Text style={styles.summaryText}>* {post.custom_fields.summary_3}</Text>
+            <View style={styles.listItemOvalContainer}>
+              <Image source={imgOval} />
+            </View>
+            <Text style={styles.summaryText}>{post.custom_fields.summary_3}</Text>
           </View>
           {linkToArticle}
         </View>
@@ -192,6 +205,12 @@ var styles = React.StyleSheet.create({
     color: '#ffffff',
     fontFamily: 'Brandon Grotesque',
   },
+  // View container to center the image against just a single line of text
+  listItemOvalContainer: {
+    // This height is based off the draw height of a single summaryText line
+    height: 21.5,
+    justifyContent: 'center',
+  },
   listView: {
     backgroundColor: '#eeeeee',
     paddingLeft: 10,
@@ -199,9 +218,9 @@ var styles = React.StyleSheet.create({
     paddingBottom: 10,
   },
   subtitle: {
-    color: '#454545',
+    color: '#4A4A4A',
     fontFamily: 'BrandonGrotesque-Bold',
-    fontSize: 16,
+    fontSize: 18,
   },
   summaryItem: {
     flex: 1,
@@ -210,9 +229,11 @@ var styles = React.StyleSheet.create({
     marginTop: 8,
   },
   summaryText: {
+    color: '#4A4A4A',
     flex: 1,
     flexDirection: 'column',
     fontFamily: 'Brandon Grotesque',
+    fontSize: 15,
     marginLeft: 4,
   },
   title: {
