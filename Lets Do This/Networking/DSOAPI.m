@@ -223,7 +223,7 @@
 }
 
 - (void)loadAllCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"%@campaigns?count=200", self.phoenixApiURL];
+    NSString *url = [NSString stringWithFormat:@"%@campaigns?count=300", self.phoenixApiURL];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSMutableArray *campaigns = [[NSMutableArray alloc] init];
