@@ -15,5 +15,7 @@
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
 - (void)addActiveCampaign:(DSOCampaign *)campaign;
+// We'll want to split this out into a Category method eventually, as this color is LDT specific.
+- (UIColor *)color;
 
 @end
