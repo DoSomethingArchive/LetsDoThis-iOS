@@ -665,9 +665,9 @@
 				C2B151E61ACE04C30028C336 /* Frameworks */,
 				C2B151E71ACE04C30028C336 /* Resources */,
 				57A97D3FE5F4843F35259D92 /* Copy Pods Resources */,
-				568131DF1B730BA700FF9854 /* ShellScript */,
+				568131DF1B730BA700FF9854 /* Run Fabric Script */,
 				4235F3E4912DA954769AFE43 /* Embed Pods Frameworks */,
-				EA1F559F1BFF7D0D00AD98D8 /* ShellScript */,
+				EA1F559F1BFF7D0D00AD98D8 /* Run New Relic Script */,
 				B2731BE01C503C710071253F /* Bundle React Native code and images */,
 			);
 			buildRules = (
@@ -812,13 +812,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		568131DF1B730BA700FF9854 /* ShellScript */ = {
+		568131DF1B730BA700FF9854 /* Run Fabric Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Fabric Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -854,13 +855,14 @@
 			shellPath = /bin/sh;
 			shellScript = "DEST=$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\n\nreact-native bundle \\\n--entry-file ReactComponent/index.ios.js \\\n--platform ios \\\n--dev false \\\n--bundle-output \"$DEST/main.jsbundle\" \\\n--assets-dest \"$DEST\"";
 		};
-		EA1F559F1BFF7D0D00AD98D8 /* ShellScript */ = {
+		EA1F559F1BFF7D0D00AD98D8 /* Run New Relic Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run New Relic Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
