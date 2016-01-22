@@ -1,12 +1,12 @@
 //
-//  AppDelegate.m
+//  LDTAppDelegate.m
 //  Lets Do This
 //
 //  Created by Ryan Grimm on 4/2/15.
 //  Copyright (c) 2015 Do Something. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "LDTAppDelegate.h"
 #import "AFNetworkActivityIndicatorManager.h"
 #import <Parse/Parse.h>
 #import "LDTTheme.h"
@@ -18,13 +18,13 @@
 
 #define isLoggingGoogleAnalytics NO
 
-@interface AppDelegate()
+@interface LDTAppDelegate()
 
 @property (strong, nonatomic, readwrite) NSURL *jsCodeLocation;
 
 @end
 
-@implementation AppDelegate
+@implementation LDTAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 

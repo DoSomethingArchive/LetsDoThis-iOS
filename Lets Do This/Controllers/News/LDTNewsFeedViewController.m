@@ -8,7 +8,7 @@
 
 #import "LDTNewsFeedViewController.h"
 #import "LDTTheme.h"
-#import "AppDelegate.h"
+#import "LDTAppDelegate.h"
 #import <RCTBridgeModule.h>
 #import <RCTRootView.h>
 #import "LDTCampaignDetailViewController.h"
@@ -30,7 +30,7 @@ RCT_EXPORT_MODULE();
 
     self.navigationItem.title = @"Let's Do This".uppercaseString;
 
-    NSURL *jsCodeLocation = ((AppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
+    NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
     NSString *newsURLPrefix = @"live";
 #ifdef DEBUG
     newsURLPrefix = @"dev";
