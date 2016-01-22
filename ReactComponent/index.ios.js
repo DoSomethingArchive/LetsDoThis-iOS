@@ -8,8 +8,11 @@ import React, {
   Text,
   Image,
   TouchableHighlight,
+  RefreshControl,
   View
 } from 'react-native';
+
+var Helpers = require('./helpers.js');
 
 var TAKE_ACTION_TEXT = 'Take action';
 
@@ -19,6 +22,7 @@ var NewsFeedView = React.createClass({
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
+      isRefreshing: false,
       loaded: false,
     };
   },
@@ -46,8 +50,26 @@ var NewsFeedView = React.createClass({
         dataSource={this.state.dataSource}
         renderRow={this.renderPost}
         style={styles.listView}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this._onRefresh}
+            tintColor="#3932A9"
+            colors={['#ff0000', '#00ff00', '#0000ff']}
+            progressBackgroundColor="#ffff00"
+          />
+        }
       />
     );
+  },
+  _onRefresh: function () {
+    this.setState({isRefreshing: true});
+    setTimeout(() => {
+      this.fetchData();
+      this.setState({
+        isRefreshing: false,
+      });
+    }, 1000);
   },
   renderLoadingView: function() {
     return (
@@ -61,6 +83,8 @@ var NewsFeedView = React.createClass({
   },
   renderPost: function(post) {
     var imgBackground;
+    var imgOval;
+
     if (typeof post !== 'undefined'
         && typeof post.attachments[0] !== 'undefined'
         && typeof post.attachments[0].images !== 'undefined'
@@ -77,6 +101,8 @@ var NewsFeedView = React.createClass({
       imgBackground = <Text style={styles.title}>{post.title.toUpperCase()}</Text>;
     }
 
+    imgOval = require('image!listitem-oval');
+
     var linkToArticle;
     if (typeof post.custom_fields.full_article_url !== 'undefined'
         && typeof post.custom_fields.full_article_url[0] !== 'undefined'
@@ -91,22 +117,41 @@ var NewsFeedView = React.createClass({
       linkToArticle = null;
     }
 
+    var formattedDate = Helpers.formatDate(post.date);
+    var viewCategory = null;
+    if (post.categories.length > 0) {
+      viewCategory =
+        <View style={styles.categoryContainer}>
+          <Text style={styles.category}>{post.categories[0].title}</Text>
+        </View>;
+    }
+
     return(
       <View style={styles.postContainer}>
         <View style={styles.postHeader}>
-          <Text style={styles.date}>{post.date}</Text>
+          <Text style={styles.date}>{formattedDate}</Text>
+          {viewCategory}
         </View>
         {imgBackground}
         <View style={styles.postBody}>
           <Text style={styles.subtitle}>{post.custom_fields.subtitle}</Text>
           <View style={styles.summaryItem}>
-            <Text style={styles.summaryText}>* {post.custom_fields.summary_1}</Text>
+            <View style={styles.listItemOvalContainer}>
+              <Image source={imgOval} />
+            </View>
+            <Text style={styles.summaryText}>{post.custom_fields.summary_1}</Text>
           </View>
           <View style={styles.summaryItem}>
-            <Text style={styles.summaryText}>* {post.custom_fields.summary_2}</Text>
+            <View style={styles.listItemOvalContainer}>
+              <Image source={imgOval} />
+            </View>
+            <Text style={styles.summaryText}>{post.custom_fields.summary_2}</Text>
           </View>
           <View style={styles.summaryItem}>
-            <Text style={styles.summaryText}>* {post.custom_fields.summary_3}</Text>
+            <View style={styles.listItemOvalContainer}>
+              <Image source={imgOval} />
+            </View>
+            <Text style={styles.summaryText}>{post.custom_fields.summary_3}</Text>
           </View>
           {linkToArticle}
         </View>
@@ -143,6 +188,8 @@ var styles = React.StyleSheet.create({
     backgroundColor: '#EEE',
   },
   postHeader: {
+    flex: 1,
+    flexDirection: 'row',
     backgroundColor: '#00e4c8',
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
@@ -168,9 +215,23 @@ var styles = React.StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
+  category: {
+    color: '#ffffff',
+    fontFamily: 'Brandon Grotesque',
+  },
+  categoryContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
   date: {
     color: '#ffffff',
     fontFamily: 'Brandon Grotesque',
+  },
+  // View container to center the image against just a single line of text
+  listItemOvalContainer: {
+    // This height is based off the draw height of a single summaryText line
+    height: 21.5,
+    justifyContent: 'center',
   },
   listView: {
     backgroundColor: '#eeeeee',
@@ -179,9 +240,9 @@ var styles = React.StyleSheet.create({
     paddingBottom: 10,
   },
   subtitle: {
-    color: '#454545',
+    color: '#4A4A4A',
     fontFamily: 'BrandonGrotesque-Bold',
-    fontSize: 16,
+    fontSize: 18,
   },
   summaryItem: {
     flex: 1,
@@ -190,9 +251,11 @@ var styles = React.StyleSheet.create({
     marginTop: 8,
   },
   summaryText: {
+    color: '#4A4A4A',
     flex: 1,
     flexDirection: 'column',
     fontFamily: 'Brandon Grotesque',
+    fontSize: 15,
     marginLeft: 4,
   },
   title: {

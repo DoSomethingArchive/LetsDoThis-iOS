@@ -1,9 +1,10 @@
 {
   "name": "letsdothis-ios",
-  "version": "1.0.2",
-  "description": "LetsDoThis iOS React Native",
+  "version": "1.0.3",
+  "description": "Let's Do This (iOS)",
   "main": "index.js",
   "scripts": {
+    "start": "(cd node_modules/react-native; npm run start -- --root ../../ReactComponent)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

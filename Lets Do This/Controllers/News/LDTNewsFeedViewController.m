@@ -8,7 +8,7 @@
 
 #import "LDTNewsFeedViewController.h"
 #import "LDTTheme.h"
-#import "AppDelegate.h"
+#import "LDTAppDelegate.h"
 #import <RCTBridgeModule.h>
 #import <RCTRootView.h>
 #import "LDTCampaignDetailViewController.h"
@@ -30,12 +30,12 @@ RCT_EXPORT_MODULE();
 
     self.navigationItem.title = @"Let's Do This".uppercaseString;
 
-    NSURL *jsCodeLocation = ((AppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
+    NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
     NSString *newsURLPrefix = @"live";
 #ifdef DEBUG
     newsURLPrefix = @"dev";
 #endif
-    NSString *newsURLString = [NSString stringWithFormat:@"http://%@-ltd-news.pantheon.io/?json=1", newsURLPrefix];
+    NSString *newsURLString = [NSString stringWithFormat:@"https://%@-ltd-news.pantheon.io/?json=1", newsURLPrefix];
     NSDictionary *props = @{@"url" : newsURLString};
     RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsFeedView" initialProperties:props launchOptions:nil];
     self.view = rootView;
