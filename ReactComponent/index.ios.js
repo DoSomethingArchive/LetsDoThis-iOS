@@ -118,19 +118,20 @@ var NewsFeedView = React.createClass({
     }
 
     var formattedDate = Helpers.formatDate(post.date);
-    var viewCategory = null;
+    var causeStyle = null;
+    var causeTitle = null;
     if (post.categories.length > 0) {
-      viewCategory =
-        <View style={styles.categoryContainer}>
-          <Text style={styles.category}>{post.categories[0].title}</Text>
-        </View>;
+      causeTitle = post.categories[0].title;
+      causeStyle = {backgroundColor: '#FF0033'};
     }
 
     return(
       <View style={styles.postContainer}>
-        <View style={styles.postHeader}>
+        <View style={[styles.postHeader, causeStyle]}>
           <Text style={styles.date}>{formattedDate}</Text>
-          {viewCategory}
+          <View style={styles.categoryContainer}>
+            <Text style={styles.category}>{causeTitle}</Text>
+          </View>
         </View>
         {imgBackground}
         <View style={styles.postBody}>
