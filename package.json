@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/DoSomething/LetsDoThis-iOS/issues"
   },
-  "homepage": "https://github.com/DoSomething/LetsDoThis-iOS#readme"
+  "homepage": "https://github.com/DoSomething/LetsDoThis-iOS#readme",
+  "dependencies": {
+    "react-native": "^0.18.1"
+  }
 }
