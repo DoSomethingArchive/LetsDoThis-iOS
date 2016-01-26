@@ -4,7 +4,7 @@
   "description": "Let's Do This (iOS)",
   "main": "index.js",
   "scripts": {
-    "start": "(cd node_modules/react-native; npm run start -- --root ../../ReactComponent)",
+    "start": "(cd node_modules/react-native; npm run start -- --root ../..)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

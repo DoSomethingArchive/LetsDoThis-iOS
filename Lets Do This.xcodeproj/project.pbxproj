@@ -41,6 +41,7 @@
 		B24D53051C0F71040090C8EC /* LDTActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24D53041C0F71040090C8EC /* LDTActivityViewController.m */; };
 		B24FE0311BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FE0301BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m */; };
 		B24FE0331BAA49CE001CAD5D /* LDTSubmitReportbackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */; };
+		B250A2791C5803200076B66D /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = B250A2781C5803200076B66D /* environment.plist */; };
 		B258EB311B8E548B00B298C0 /* LDTReportbackItemDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = B258EB301B8E548B00B298C0 /* LDTReportbackItemDetailView.m */; };
 		B258EB331B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B258EB321B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib */; };
 		B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */; };
@@ -155,6 +156,7 @@
 		B24FE02F1BAA49AA001CAD5D /* LDTSubmitReportbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTSubmitReportbackViewController.h; path = Reportback/LDTSubmitReportbackViewController.h; sourceTree = "<group>"; };
 		B24FE0301BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTSubmitReportbackViewController.m; path = Reportback/LDTSubmitReportbackViewController.m; sourceTree = "<group>"; };
 		B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTSubmitReportbackView.xib; path = Reportback/LDTSubmitReportbackView.xib; sourceTree = "<group>"; };
+		B250A2781C5803200076B66D /* environment.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = environment.plist; sourceTree = "<group>"; };
 		B258EB2F1B8E548B00B298C0 /* LDTReportbackItemDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTReportbackItemDetailView.h; path = Reportback/LDTReportbackItemDetailView.h; sourceTree = "<group>"; };
 		B258EB301B8E548B00B298C0 /* LDTReportbackItemDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTReportbackItemDetailView.m; path = Reportback/LDTReportbackItemDetailView.m; sourceTree = "<group>"; };
 		B258EB321B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTReportbackItemDetailSingleView.xib; path = Reportback/LDTReportbackItemDetailSingleView.xib; sourceTree = "<group>"; };
@@ -513,6 +515,7 @@
 				C2B151EE1ACE04C30028C336 /* main.m */,
 				C20BA28F1AF3DE0D00E9886F /* LetsDoThis.pch */,
 				B20881A01B0B9B0F00E697B2 /* keys.plist */,
+				B250A2781C5803200076B66D /* environment.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -750,6 +753,7 @@
 				B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */,
 				B2FF62C81C3CA2800003DBFE /* LDTCauseDetailCampaignCell.xib in Resources */,
 				B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */,
+				B250A2791C5803200076B66D /* environment.plist in Resources */,
 				B211C41E1C3AF4EF00A94E64 /* LDTCauseListView.xib in Resources */,
 				B258EB331B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib in Resources */,
 				B21107391C04E94E00282619 /* LDTProfileCampaignTableViewCell.xib in Resources */,
