@@ -24,7 +24,6 @@
 		B211C4221C3AF54800A94E64 /* LDTCauseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B211C4211C3AF54800A94E64 /* LDTCauseListViewController.m */; };
 		B212C2621B4ED6F300376BB1 /* LDTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B212C2611B4ED6F300376BB1 /* LDTBaseViewController.m */; };
 		B21306FC1C486E5C003893DB /* LDTNewsArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21306FB1C486E5C003893DB /* LDTNewsArticleViewController.m */; };
-		B21307001C487F92003893DB /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = B21306FF1C487F92003893DB /* main.jsbundle */; };
 		B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */; };
 		B21996B11B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B21996AF1B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.m */; };
 		B21996B21B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21996B01B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.xib */; };
@@ -128,7 +127,6 @@
 		B212C2611B4ED6F300376BB1 /* LDTBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseViewController.m; path = Base/LDTBaseViewController.m; sourceTree = "<group>"; };
 		B21306FA1C486E5C003893DB /* LDTNewsArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTNewsArticleViewController.h; path = News/LDTNewsArticleViewController.h; sourceTree = "<group>"; };
 		B21306FB1C486E5C003893DB /* LDTNewsArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTNewsArticleViewController.m; path = News/LDTNewsArticleViewController.m; sourceTree = "<group>"; };
-		B21306FF1C487F92003893DB /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+LDT.h"; sourceTree = "<group>"; };
 		B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+LDT.m"; sourceTree = "<group>"; };
 		B21996AE1B7CFEDA0054EADC /* LDTHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTHeaderCollectionReusableView.h; sourceTree = "<group>"; };
@@ -501,7 +499,6 @@
 				C2B1521F1ACE05510028C336 /* Views */,
 				C2B152191ACE05510028C336 /* Controllers */,
 				C2B151FC1ACE04C30028C336 /* Images.xcassets */,
-				B21306FF1C487F92003893DB /* main.jsbundle */,
 				C2B151FE1ACE04C30028C336 /* LaunchScreen.xib */,
 				B260387E1B44F84D002FE362 /* Resources */,
 				C2B151EC1ACE04C30028C336 /* Supporting Files */,
@@ -760,7 +757,6 @@
 				B23E68271B8FC74E005BFB5E /* LDTCampaignDetailReportbackItemCell.xib in Resources */,
 				B24FE0331BAA49CE001CAD5D /* LDTSubmitReportbackView.xib in Resources */,
 				B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */,
-				B21307001C487F92003893DB /* main.jsbundle in Resources */,
 				B23E68221B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.xib in Resources */,
 				B27AF0E71B4F493D00164926 /* LDTProfileView.xib in Resources */,
 				B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */,
