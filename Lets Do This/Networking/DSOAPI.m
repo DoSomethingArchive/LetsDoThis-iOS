@@ -14,7 +14,6 @@
 
 
 // API Constants
-#define isActivityLogging NO
 #define DSOPROTOCOL @"https"
 #define LDTSOURCENAME @"letsdothis_ios"
 
@@ -52,10 +51,12 @@
 + (DSOAPI *)sharedInstance {
     static DSOAPI *_sharedInstance = nil;
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+    NSDictionary *environmentDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"environment" ofType:@"plist"]];
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME] applicationId:keysDict[@"dsApplicationId"]];
+        BOOL activityLoggerEnabled = [environmentDict objectForKey:@"AFNetworkActivityLoggerEnabled"] && [environmentDict[@"AFNetworkActivityLoggerEnabled"] boolValue];
+        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME] applicationId:keysDict[@"dsApplicationId"] activityLoggerEnabled:activityLoggerEnabled];
     });
 
     return _sharedInstance;
@@ -63,12 +64,12 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId {
+- (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId activityLoggerEnabled:(BOOL)activityLoggerEnabled{
     NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/v1/", DSOPROTOCOL, LDTSERVER]];
     self = [super initWithBaseURL:baseURL];
 
     if (self) {
-        if (isActivityLogging) {
+        if (activityLoggerEnabled) {
             [[AFNetworkActivityLogger sharedLogger] startLogging];
             [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
         }
