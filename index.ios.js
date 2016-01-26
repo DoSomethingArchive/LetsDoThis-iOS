@@ -12,7 +12,7 @@ import React, {
   View
 } from 'react-native';
 
-var Helpers = require('./helpers.js');
+var Helpers = require('./ReactComponents/Helpers.js');
 
 var TAKE_ACTION_TEXT = 'Take action';
 
