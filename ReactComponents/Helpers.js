@@ -31,5 +31,40 @@ module.exports = {
     }
 
     return months[d.getMonth()] + ' ' + d.getDate() + daySuffix + ', ' + d.getFullYear();
-  }
+  },
+  /**
+   * Returns hex string for background color of given cause
+   *
+   * @param causeTitle The user-facing Cause title, e.g. "Physical Health"
+   * @return string
+   */
+  causeBackgroundColor: function(causeTitle) {
+    switch (causeTitle) {
+      case 'Animals':
+        return '#1BC2DD';
+      case 'Bullying':
+        return '#E75526';
+      case 'Disasters':
+        return '#1D78FB';
+      case 'Discrimination':
+        return '#E1000D';
+      case 'Education':
+        return '#1AE3C6';
+      case 'Environment':
+        return '#12D168';
+      case 'Homelessness':
+        return '#FBB71D';
+      case 'Mental Health':
+        return '#BA2CC7';
+      case 'Physical Health':
+        return '#BA2CC7';
+      case 'Relationships':
+        return '#A01DFB';
+      case 'Sex':
+        return '#FB1DA9';
+      case 'Violence':
+        return '#F1921A';
+    }
+    return '#FF0033';
+  },
 }

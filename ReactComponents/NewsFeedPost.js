@@ -63,46 +63,7 @@ var NewsFeedPost = React.createClass({
     var causeTitle = null;
     if (post.categories.length > 0) {
       causeTitle = post.categories[0].title;
-      var causeBackgroundColor: '#FF0033';
-      switch (causeTitle) {
-        case 'Animals':
-          causeBackgroundColor = '#1BC2DD';
-          break;
-        case 'Bullying':
-          causeBackgroundColor = '#E75526';
-          break;
-        case 'Disasters':
-          causeBackgroundColor = '#1D78FB';
-          break;
-        case 'Discrimination':
-          causeBackgroundColor = '#E1000D';
-          break;
-        case 'Education':
-          causeBackgroundColor = '#1AE3C6';
-          break;
-        case 'Environment':
-          causeBackgroundColor = '#12D168';
-          break;
-        case 'Homelessness':
-          causeBackgroundColor = '#FBB71D';
-          break;
-        case 'Mental Health':
-          causeBackgroundColor = '#BA2CC7';
-          break;
-        case 'Physical Health':
-          causeBackgroundColor = '#BA2CC7';
-          break;
-        case 'Relationships':
-          causeBackgroundColor = '#A01DFB';
-          break;
-        case 'Sex':
-          causeBackgroundColor = '#FB1DA9';
-          break;
-        case 'Violence':
-          causeBackgroundColor = '#F1921A';
-          break;
-      }
-      causeStyle = {backgroundColor: causeBackgroundColor};
+      causeStyle = {backgroundColor: Helpers.causeBackgroundColor(causeTitle)};
     }
 
     return(
