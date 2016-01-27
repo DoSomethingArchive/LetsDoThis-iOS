@@ -9,17 +9,16 @@ import React, {
 } from 'react-native';
 
 var Helpers = require('./Helpers.js');
-var TAKE_ACTION_TEXT = 'Take action';
+var NewsFeedViewController = require('react-native').NativeModules.LDTNewsFeedViewController; 
 
 var NewsFeedPost = React.createClass({
   ctaButtonPressed: function() {
     var campaignID = this.props.post.custom_fields.campaign_id[0];
-    var NewsFeedViewController = require('react-native').NativeModules.LDTNewsFeedViewController;
     NewsFeedViewController.presentCampaignWithCampaignID(campaignID);
   },
-  fullArticlePressed: function(url) {
-    var NewsFeedViewController = require('react-native').NativeModules.LDTNewsFeedViewController;
-    NewsFeedViewController.presentFullArticle(this.props.post.id, url);
+  fullArticlePressed: function() {
+    var urlString = this.props.post.custom_fields.full_article_url[0];
+    NewsFeedViewController.presentFullArticle(this.props.post.id, urlString);
   },
   render: function() {
     var imgBackground;
@@ -49,19 +48,17 @@ var NewsFeedPost = React.createClass({
     if (typeof post.custom_fields.full_article_url !== 'undefined'
         && typeof post.custom_fields.full_article_url[0] !== 'undefined'
         && post.custom_fields.full_article_url[0]) {
-        linkToArticle = <Text
-            onPress={this.fullArticlePressed.bind(this, post.custom_fields.full_article_url[0])}
-            style={styles.articleLink}>
-            Read the full article
-          </Text>;
+      linkToArticle = <Text
+        onPress={this.fullArticlePressed}
+        style={styles.articleLink}>
+        Read the full article
+      </Text>;
     }
     else {
       linkToArticle = null;
     }
 
-    var formattedDate = Helpers.formatDate(post.date);
-    var causeStyle = null;
-    var causeTitle = null;
+    var causeTitle, causeStyle = null;
     if (post.categories.length > 0) {
       causeTitle = post.categories[0].title;
       causeStyle = {backgroundColor: Helpers.causeBackgroundColor(causeTitle)};
@@ -70,7 +67,7 @@ var NewsFeedPost = React.createClass({
     return(
       <View style={styles.postContainer}>
         <View style={[styles.postHeader, causeStyle]}>
-          <Text style={styles.date}>{formattedDate}</Text>
+          <Text style={styles.date}>{Helpers.formatDate(post.date)}</Text>
           <View style={styles.categoryContainer}>
             <Text style={styles.category}>{causeTitle}</Text>
           </View>
@@ -99,7 +96,7 @@ var NewsFeedPost = React.createClass({
           {linkToArticle}
         </View>
         <TouchableHighlight onPress={this.ctaButtonPressed} style={styles.btn}>
-          <Text style={styles.btnText}>{TAKE_ACTION_TEXT.toUpperCase()}</Text>
+          <Text style={styles.btnText}>{'Take action'.toUpperCase()}</Text>
         </TouchableHighlight>
       </View>
     );
