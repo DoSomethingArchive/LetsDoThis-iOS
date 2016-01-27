@@ -78,7 +78,7 @@
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [self.requestSerializer setValue:applicationId forHTTPHeaderField:@"X-DS-Application-Id"];
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
-         _phoenixBaseURL =  [NSString stringWithFormat:@"https://%@/", DSOSERVER];
+        _phoenixBaseURL =  [NSString stringWithFormat:@"https://%@/", DSOSERVER];
         _phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
         _northstarBaseURL = [NSString stringWithFormat:@"https://%@/", LDTSERVER];
     }

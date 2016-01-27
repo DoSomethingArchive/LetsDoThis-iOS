@@ -121,7 +121,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
             }
         }
         if (inactiveCampaignIDs.count > 0) {
-            NSLog(@"[DSOUserManager] Filtering signups for inactive Campaigns:[ %@ ]", [inactiveCampaignIDs componentsJoinedByString:@","]);
+            NSLog(@"[DSOUserManager] Filtering User %@ Signups for inactive Campaigns %@.", user.userID, [inactiveCampaignIDs componentsJoinedByString:@","]);
         }
         if (completionHandler) {
             completionHandler();
@@ -217,7 +217,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
             }
         }
         if (inactiveCampaignIDs.count > 0) {
-            NSLog(@"[DSOUserManager] Filtering inactive Campaigns:[ %@ ]", [inactiveCampaignIDs componentsJoinedByString:@", "]);
+            NSLog(@"[DSOUserManager] Filtering inactive Campaigns %@.", [inactiveCampaignIDs componentsJoinedByString:@", "]);
         }
 
         [self startSessionWithCompletionHandler:^ {
