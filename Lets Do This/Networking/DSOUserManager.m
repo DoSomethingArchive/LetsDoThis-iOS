@@ -111,13 +111,17 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)loadActiveCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] loadCampaignSignupsForUser:user completionHandler:^(NSArray *campaignSignups) {
         [user removeAllCampaignSignups];
+        NSMutableArray *inactiveCampaignIDs = [[NSMutableArray alloc] init];
         for (DSOCampaignSignup *signup in campaignSignups) {
             if ([self activeCampaignWithId:signup.campaign.campaignID]) {
                 [user addCampaignSignup:signup];
             }
             else {
-                NSLog(@"Filtering signup for inactive campaign %li.", (long)signup.campaign.campaignID);
+                [inactiveCampaignIDs addObject:[NSString stringWithFormat:@"%li", (long)signup.campaign.campaignID]];
             }
+        }
+        if (inactiveCampaignIDs.count > 0) {
+            NSLog(@"[DSOUserManager] Filtering signups for inactive Campaigns:[ %@ ]", [inactiveCampaignIDs componentsJoinedByString:@","]);
         }
         if (completionHandler) {
             completionHandler();
@@ -203,13 +207,17 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
             NSLog(@"No campaigns found.");
         }
         self.mutableActiveCampaigns = [[NSMutableArray alloc] init];
+        NSMutableArray *inactiveCampaignIDs = [[NSMutableArray alloc] init];
         for (DSOCampaign *campaign in campaigns) {
             if ([campaign.status isEqual:@"active"]) {
                 [self.mutableActiveCampaigns addObject:campaign];
             }
             else {
-                NSLog(@"Filtering Campaign %li: status == %@.", (long)campaign.campaignID, campaign.status);
+                [inactiveCampaignIDs addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];
             }
+        }
+        if (inactiveCampaignIDs.count > 0) {
+            NSLog(@"[DSOUserManager] Filtering inactive Campaigns:[ %@ ]", [inactiveCampaignIDs componentsJoinedByString:@", "]);
         }
 
         [self startSessionWithCompletionHandler:^ {
