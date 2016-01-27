@@ -19,7 +19,7 @@ var NewsFeedPost = React.createClass({
   },
   fullArticlePressed: function(url) {
     var NewsFeedViewController = require('react-native').NativeModules.LDTNewsFeedViewController;
-    NewsFeedViewController.presentFullArticleWithUrlString(url);
+    NewsFeedViewController.presentFullArticle(this.props.post.id, url);
   },
   render: function() {
     var imgBackground;
