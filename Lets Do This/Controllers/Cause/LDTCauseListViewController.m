@@ -64,6 +64,7 @@
     [[DSOAPI sharedInstance] loadCausesWithCompletionHandler:^(NSArray *causes) {
         self.causes = causes;
         NSArray *activeCampaigns = [DSOUserManager sharedInstance].activeCampaigns;
+        NSMutableArray *causelessCampaignIDs = [[NSMutableArray alloc] init];
         for (DSOCampaign *campaign in activeCampaigns) {
             if (campaign.cause) {
                 NSNumber *causeID = [NSNumber numberWithInteger:campaign.cause.causeID];
@@ -72,9 +73,12 @@
                     [cause addActiveCampaign:campaign];
                 }
                 else {
-                    NSLog(@"Filtering Campaign %li: cause == %@.", (long)campaign.campaignID, causeID);
+                    [causelessCampaignIDs addObject:[NSString stringWithFormat:@"%li",(long)campaign.campaignID]];
                 }
             }
+        }
+        if (causelessCampaignIDs.count > 0) {
+            NSLog(@"[LDTCauseListViewController] Campaigns without Primary Cause: %@.", [causelessCampaignIDs componentsJoinedByString:@", "]);
         }
         [SVProgressHUD dismiss];
         [self.tableView reloadData];
