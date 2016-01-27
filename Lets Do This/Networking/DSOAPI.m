@@ -14,7 +14,6 @@
 
 
 // API Constants
-#define DSOPROTOCOL @"https"
 #define LDTSOURCENAME @"letsdothis_ios"
 
 #ifdef DEBUG
@@ -65,7 +64,7 @@
 #pragma mark - NSObject
 
 - (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId activityLoggerEnabled:(BOOL)activityLoggerEnabled{
-    NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/v1/", DSOPROTOCOL, LDTSERVER]];
+    NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@/v1/", LDTSERVER]];
     self = [super initWithBaseURL:baseURL];
 
     if (self) {
@@ -79,9 +78,9 @@
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [self.requestSerializer setValue:applicationId forHTTPHeaderField:@"X-DS-Application-Id"];
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
-        _phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
+         _phoenixBaseURL =  [NSString stringWithFormat:@"https://%@/", DSOSERVER];
         _phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
-        _northstarBaseURL = [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, LDTSERVER];
+        _northstarBaseURL = [NSString stringWithFormat:@"https://%@/", LDTSERVER];
     }
     return self;
 }
