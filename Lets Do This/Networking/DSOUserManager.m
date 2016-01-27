@@ -54,8 +54,12 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 #pragma mark - DSOUser
 
+- (NSString *)currentService {
+    return [DSOAPI sharedInstance].baseURL.absoluteString;
+}
+
 - (BOOL)userHasCachedSession {
-    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:self.currentService account:@"Session"];
 	
     return sessionToken.length > 0;
 }
@@ -66,8 +70,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
         [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
         // Save session in Keychain for when app is quit.
-        [SSKeychain setPassword:user.sessionToken forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
-        [SSKeychain setPassword:self.user.userID forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+        [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
+        [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];
         if (completionHandler) {
             completionHandler(user);
         }
@@ -80,7 +84,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 - (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
-    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:self.currentService account:@"Session"];
     if (sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
@@ -90,8 +94,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     // @see https://github.com/DoSomething/northstar/issues/186
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
-    NSString *userID = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
-
+    NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         [self loadActiveCampaignSignupsForUser:self.user completionHandler:^{
@@ -134,8 +137,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 - (void)endSession {
-    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
-    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+    [SSKeychain deletePasswordForService:self.currentService account:@"Session"];
+    [SSKeychain deletePasswordForService:self.currentService account:@"UserID"];
     [self deleteAvatar];
     self.user = nil;
 }

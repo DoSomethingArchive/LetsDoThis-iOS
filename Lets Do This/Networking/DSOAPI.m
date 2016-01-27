@@ -64,8 +64,8 @@
 #pragma mark - NSObject
 
 - (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId activityLoggerEnabled:(BOOL)activityLoggerEnabled{
-    NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@/v1/", LDTSERVER]];
-    self = [super initWithBaseURL:baseURL];
+    NSString *northstarURLString = [NSString stringWithFormat:@"https://%@/v1/", LDTSERVER];
+    self = [super initWithBaseURL:[NSURL URLWithString:northstarURLString]];
 
     if (self) {
         if (activityLoggerEnabled) {
@@ -80,7 +80,6 @@
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
         _phoenixBaseURL =  [NSString stringWithFormat:@"https://%@/", DSOSERVER];
         _phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
-        _northstarBaseURL = [NSString stringWithFormat:@"https://%@/", LDTSERVER];
     }
     return self;
 }
