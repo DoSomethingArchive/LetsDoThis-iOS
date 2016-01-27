@@ -9,6 +9,7 @@
 #import "LDTCauseListViewController.h"
 #import "LDTTheme.h"
 #import "LDTCauseDetailViewController.h"
+#import "GAI+LDT.h"
 
 @interface LDTCauseListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -44,7 +45,9 @@
     [super viewDidAppear:animated];
 
     self.navigationController.hidesBarsOnSwipe = NO;
-    // @todo: Not this?
+    [[GAI sharedInstance] trackScreenView:@"cause-list"];
+
+    // @todo: Not this? @see GH #746
     // -(void)receivedNotification: is no longer being called, so something needs to be fixed (or remove all notifications in general)
     if (self.causes.count == 0 && [DSOUserManager sharedInstance].activeCampaigns.count > 0) {
         [self loadCauses];
