@@ -25,6 +25,7 @@ var NewsFeedPost = React.createClass({
     var imgBackground;
     var imgOval;
     var post = this.props.post;
+    var postTitle = post.title.toUpperCase();
 
     if (typeof post !== 'undefined'
         && typeof post.attachments[0] !== 'undefined'
@@ -34,12 +35,12 @@ var NewsFeedPost = React.createClass({
           style={{flex: 1, height: 128, alignItems: 'stretch'}}
           source={{uri: post.attachments[0].images.full.url}}>
             <View style={styles.titleContainer}>
-              <Text style={styles.title}>{post.title.toUpperCase()}</Text>
+              <Text style={styles.title}>{postTitle}</Text>
             </View>
           </Image>;
     }
     else {
-      imgBackground = <Text style={styles.title}>{post.title.toUpperCase()}</Text>;
+      imgBackground = <Text style={styles.title}>{postTitle}</Text>;
     }
 
     imgOval = require('image!listitem-oval');
