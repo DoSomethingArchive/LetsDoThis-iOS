@@ -14,6 +14,7 @@
 #import "LDTCampaignDetailViewController.h"
 #import "LDTNewsArticleViewController.h"
 #import "LDTTabBarController.h"
+#import "GAI+LDT.h"
 
 @interface LDTNewsFeedViewController () <RCTBridgeModule>
 
@@ -53,6 +54,7 @@ RCT_EXPORT_MODULE();
     [super viewDidAppear:animated];
 
     self.navigationController.hidesBarsOnSwipe = NO;
+    [[GAI sharedInstance] trackScreenView:@"news"];
 }
 
 #pragma mark - LDTNewsFeedViewController
@@ -73,7 +75,6 @@ RCT_EXPORT_MODULE();
         dispatch_async(dispatch_get_main_queue(), ^{
             [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Our bad. That's an invalid campaign ID :("];
         });
-            [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Our bad. That's an invalid campaign ID :("];
         return;
     }
     LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
@@ -82,8 +83,8 @@ RCT_EXPORT_MODULE();
     });
 }
 
-- (void)presentNewsArticleWithUrlString:(NSString *)urlString {
-    LDTNewsArticleViewController *articleViewController = [[LDTNewsArticleViewController alloc] initWithArticleUrlString:urlString];
+- (void)presentNewsArticleViewControllerForNewsPostID:(NSInteger)newsPostID urlString:(NSString *)urlString {
+    LDTNewsArticleViewController *articleViewController = [[LDTNewsArticleViewController alloc] initWithNewsPostID:newsPostID urlString:urlString];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:articleViewController];
     LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -97,8 +98,8 @@ RCT_EXPORT_METHOD(presentCampaignWithCampaignID:(NSString *)campaignID) {
     [self presentCampaignDetailViewControllerForCampaignId:campaignID.integerValue];
 }
 
-RCT_EXPORT_METHOD(presentFullArticleWithUrlString:(NSString *)urlString) {
-    [self presentNewsArticleWithUrlString:urlString];
+RCT_EXPORT_METHOD(presentFullArticle:(NSInteger)newsPostID urlString:(NSString *)urlString) {
+    [self presentNewsArticleViewControllerForNewsPostID:newsPostID urlString:urlString];
 }
 
 // Adding this hoping to get rid of all the trickery but it doesn't seem to do anything.
