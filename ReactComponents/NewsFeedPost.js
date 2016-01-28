@@ -17,11 +17,11 @@ var NewsFeedPost = React.createClass({
       imageCreditHidden: true,
     };
   },
-  ctaButtonPressed: function() {
+  _onPressActionButton: function() {
     var campaignID = this.props.post.custom_fields.campaign_id[0];
     NewsFeedViewController.presentCampaignWithCampaignID(campaignID);
   },
-  fullArticlePressed: function() {
+  _onPressFullArticle: function() {
     var urlString = this.props.post.custom_fields.full_article_url[0];
     NewsFeedViewController.presentFullArticle(this.props.post.id, urlString);
   },
@@ -90,7 +90,7 @@ var NewsFeedPost = React.createClass({
         && typeof post.custom_fields.full_article_url[0] !== 'undefined'
         && post.custom_fields.full_article_url[0]) {
       linkToArticle = <Text
-        onPress={this.fullArticlePressed}
+        onPress={this._onPressFullArticle}
         style={styles.articleLink}>
         Read the full article
       </Text>;
@@ -121,7 +121,7 @@ var NewsFeedPost = React.createClass({
           {this.renderSummaryItem(post.custom_fields.summary_3[0])}
           {linkToArticle}
         </View>
-        <TouchableHighlight onPress={this.ctaButtonPressed} style={styles.btn}>
+        <TouchableHighlight onPress={this._onPressActionButton} style={styles.btn}>
           <Text style={styles.btnText}>{'Take action'.toUpperCase()}</Text>
         </TouchableHighlight>
       </View>
