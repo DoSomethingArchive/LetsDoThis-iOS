@@ -1,6 +1,7 @@
 'use strict';
 
 import React, {
+  Component,
   StyleSheet,
   Text,
   Image,
@@ -20,24 +21,31 @@ var NewsFeedPost = React.createClass({
     var urlString = this.props.post.custom_fields.full_article_url[0];
     NewsFeedViewController.presentFullArticle(this.props.post.id, urlString);
   },
+  renderSummaryItem: function(summaryItemText) {
+    return (
+      <View style={styles.summaryItem}>
+        <View style={styles.listItemOvalContainer}>
+          <Image source={require('image!listitem-oval')} />
+        </View>
+        <Text style={styles.summaryText}>{summaryItemText}</Text>
+      </View>);
+  },
   render: function() {
     var post = this.props.post;
 
-    var photoImage;
+    var postImage;
     if (typeof post !== 'undefined'
         && typeof post.attachments[0] !== 'undefined'
         && typeof post.attachments[0].images !== 'undefined'
         && typeof post.attachments[0].images.full !== 'undefined') {
-        photoImage = <Image
+        postImage = <Image
           style={{flex: 1, height: 128, alignItems: 'stretch'}}
           source={{uri: post.attachments[0].images.full.url}}>
           </Image>;
     }
     else {
-      photoImage = null;
+      postImage = null;
     }
-
-    var imgOval = require('image!listitem-oval');
 
     var linkToArticle;
     if (typeof post.custom_fields.full_article_url !== 'undefined'
@@ -58,7 +66,6 @@ var NewsFeedPost = React.createClass({
       causeTitle = post.categories[0].title;
       causeStyle = {backgroundColor: Helpers.causeBackgroundColor(causeTitle)};
     }
-
     return(
       <View style={styles.postContainer}>
         <View style={[styles.postHeader, causeStyle]}>
@@ -67,27 +74,12 @@ var NewsFeedPost = React.createClass({
             <Text style={styles.category}>{causeTitle}</Text>
           </View>
         </View>
-        {photoImage}
+        {postImage}
         <View style={styles.postBody}>
           <Text style={styles.title}>{post.title.toUpperCase()}</Text>
-          <View style={styles.summaryItem}>
-            <View style={styles.listItemOvalContainer}>
-              <Image source={imgOval} />
-            </View>
-            <Text style={styles.summaryText}>{post.custom_fields.summary_1}</Text>
-          </View>
-          <View style={styles.summaryItem}>
-            <View style={styles.listItemOvalContainer}>
-              <Image source={imgOval} />
-            </View>
-            <Text style={styles.summaryText}>{post.custom_fields.summary_2}</Text>
-          </View>
-          <View style={styles.summaryItem}>
-            <View style={styles.listItemOvalContainer}>
-              <Image source={imgOval} />
-            </View>
-            <Text style={styles.summaryText}>{post.custom_fields.summary_3}</Text>
-          </View>
+          {this.renderSummaryItem(post.custom_fields.summary_1)}
+          {this.renderSummaryItem(post.custom_fields.summary_2)}
+          {this.renderSummaryItem(post.custom_fields.summary_3)}
           {linkToArticle}
         </View>
         <TouchableHighlight onPress={this.ctaButtonPressed} style={styles.btn}>
