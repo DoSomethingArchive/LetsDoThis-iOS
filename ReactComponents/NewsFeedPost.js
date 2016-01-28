@@ -22,13 +22,19 @@ var NewsFeedPost = React.createClass({
     NewsFeedViewController.presentFullArticle(this.props.post.id, urlString);
   },
   renderSummaryItem: function(summaryItemText) {
-    return (
-      <View style={styles.summaryItem}>
-        <View style={styles.listItemOvalContainer}>
-          <Image source={require('image!listitem-oval')} />
+    if (summaryItemText.length > 0) {
+      return (
+        <View style={styles.summaryItem}>
+          <View style={styles.listItemOvalContainer}>
+            <Image source={require('image!listitem-oval')} />
+          </View>
+          <Text style={styles.summaryText}>{summaryItemText}</Text>
         </View>
-        <Text style={styles.summaryText}>{summaryItemText}</Text>
-      </View>);
+      );
+    }
+    else {
+      return null;
+    }
   },
   render: function() {
     var post = this.props.post;
@@ -66,6 +72,7 @@ var NewsFeedPost = React.createClass({
       causeTitle = post.categories[0].title;
       causeStyle = {backgroundColor: Helpers.causeBackgroundColor(causeTitle)};
     }
+
     return(
       <View style={styles.postContainer}>
         <View style={[styles.postHeader, causeStyle]}>
@@ -77,9 +84,9 @@ var NewsFeedPost = React.createClass({
         {postImage}
         <View style={styles.postBody}>
           <Text style={styles.title}>{post.title.toUpperCase()}</Text>
-          {this.renderSummaryItem(post.custom_fields.summary_1)}
-          {this.renderSummaryItem(post.custom_fields.summary_2)}
-          {this.renderSummaryItem(post.custom_fields.summary_3)}
+          {this.renderSummaryItem(post.custom_fields.summary_1[0])}
+          {this.renderSummaryItem(post.custom_fields.summary_2[0])}
+          {this.renderSummaryItem(post.custom_fields.summary_3[0])}
           {linkToArticle}
         </View>
         <TouchableHighlight onPress={this.ctaButtonPressed} style={styles.btn}>
