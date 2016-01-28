@@ -21,28 +21,23 @@ var NewsFeedPost = React.createClass({
     NewsFeedViewController.presentFullArticle(this.props.post.id, urlString);
   },
   render: function() {
-    var imgBackground;
-    var imgOval;
     var post = this.props.post;
-    var postTitle = post.title.toUpperCase();
 
+    var photoImage;
     if (typeof post !== 'undefined'
         && typeof post.attachments[0] !== 'undefined'
         && typeof post.attachments[0].images !== 'undefined'
         && typeof post.attachments[0].images.full !== 'undefined') {
-        imgBackground = <Image
+        photoImage = <Image
           style={{flex: 1, height: 128, alignItems: 'stretch'}}
           source={{uri: post.attachments[0].images.full.url}}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title}>{postTitle}</Text>
-            </View>
           </Image>;
     }
     else {
-      imgBackground = <Text style={styles.title}>{postTitle}</Text>;
+      photoImage = null;
     }
 
-    imgOval = require('image!listitem-oval');
+    var imgOval = require('image!listitem-oval');
 
     var linkToArticle;
     if (typeof post.custom_fields.full_article_url !== 'undefined'
@@ -72,9 +67,9 @@ var NewsFeedPost = React.createClass({
             <Text style={styles.category}>{causeTitle}</Text>
           </View>
         </View>
-        {imgBackground}
+        {photoImage}
         <View style={styles.postBody}>
-          <Text style={styles.subtitle}>{post.custom_fields.subtitle}</Text>
+          <Text style={styles.title}>{post.title.toUpperCase()}</Text>
           <View style={styles.summaryItem}>
             <View style={styles.listItemOvalContainer}>
               <Image source={imgOval} />
@@ -157,11 +152,6 @@ var styles = StyleSheet.create({
     height: 21.5,
     justifyContent: 'center',
   },
-  subtitle: {
-    color: '#4A4A4A',
-    fontFamily: 'BrandonGrotesque-Bold',
-    fontSize: 18,
-  },
   summaryItem: {
     flex: 1,
     flexDirection: 'row',
@@ -177,19 +167,11 @@ var styles = StyleSheet.create({
     marginLeft: 4,
   },
   title: {
-    color: '#ffffff',
+    color: '#4A4A4A',
     flex: 1,
     flexDirection: 'column',
     fontFamily: 'BrandonGrotesque-Bold',
     fontSize: 20,
-    textAlign: 'center',
-  },
-  titleContainer: {
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    padding: 20,
   },
 });
 
