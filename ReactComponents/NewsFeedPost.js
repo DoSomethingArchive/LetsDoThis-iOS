@@ -20,29 +20,37 @@ var NewsFeedPost = React.createClass({
     var urlString = this.props.post.custom_fields.full_article_url[0];
     NewsFeedViewController.presentFullArticle(this.props.post.id, urlString);
   },
+  renderSummaryItem: function(summaryItemText) {
+    if (summaryItemText.length > 0) {
+      return (
+        <View style={styles.summaryItem}>
+          <View style={styles.listItemOvalContainer}>
+            <Image source={require('image!listitem-oval')} />
+          </View>
+          <Text style={styles.summaryText}>{summaryItemText}</Text>
+        </View>
+      );
+    }
+    else {
+      return null;
+    }
+  },
   render: function() {
-    var imgBackground;
-    var imgOval;
     var post = this.props.post;
-    var postTitle = post.title.toUpperCase();
 
+    var postImage;
     if (typeof post !== 'undefined'
         && typeof post.attachments[0] !== 'undefined'
         && typeof post.attachments[0].images !== 'undefined'
         && typeof post.attachments[0].images.full !== 'undefined') {
-        imgBackground = <Image
+        postImage = <Image
           style={{flex: 1, height: 128, alignItems: 'stretch'}}
           source={{uri: post.attachments[0].images.full.url}}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title}>{postTitle}</Text>
-            </View>
           </Image>;
     }
     else {
-      imgBackground = <Text style={styles.title}>{postTitle}</Text>;
+      postImage = null;
     }
-
-    imgOval = require('image!listitem-oval');
 
     var linkToArticle;
     if (typeof post.custom_fields.full_article_url !== 'undefined'
@@ -72,27 +80,12 @@ var NewsFeedPost = React.createClass({
             <Text style={styles.category}>{causeTitle}</Text>
           </View>
         </View>
-        {imgBackground}
+        {postImage}
         <View style={styles.postBody}>
-          <Text style={styles.subtitle}>{post.custom_fields.subtitle}</Text>
-          <View style={styles.summaryItem}>
-            <View style={styles.listItemOvalContainer}>
-              <Image source={imgOval} />
-            </View>
-            <Text style={styles.summaryText}>{post.custom_fields.summary_1}</Text>
-          </View>
-          <View style={styles.summaryItem}>
-            <View style={styles.listItemOvalContainer}>
-              <Image source={imgOval} />
-            </View>
-            <Text style={styles.summaryText}>{post.custom_fields.summary_2}</Text>
-          </View>
-          <View style={styles.summaryItem}>
-            <View style={styles.listItemOvalContainer}>
-              <Image source={imgOval} />
-            </View>
-            <Text style={styles.summaryText}>{post.custom_fields.summary_3}</Text>
-          </View>
+          <Text style={styles.title}>{post.title.toUpperCase()}</Text>
+          {this.renderSummaryItem(post.custom_fields.summary_1[0])}
+          {this.renderSummaryItem(post.custom_fields.summary_2[0])}
+          {this.renderSummaryItem(post.custom_fields.summary_3[0])}
           {linkToArticle}
         </View>
         <TouchableHighlight onPress={this.ctaButtonPressed} style={styles.btn}>
@@ -157,11 +150,6 @@ var styles = StyleSheet.create({
     height: 21.5,
     justifyContent: 'center',
   },
-  subtitle: {
-    color: '#4A4A4A',
-    fontFamily: 'BrandonGrotesque-Bold',
-    fontSize: 18,
-  },
   summaryItem: {
     flex: 1,
     flexDirection: 'row',
@@ -177,19 +165,11 @@ var styles = StyleSheet.create({
     marginLeft: 4,
   },
   title: {
-    color: '#ffffff',
+    color: '#4A4A4A',
     flex: 1,
     flexDirection: 'column',
     fontFamily: 'BrandonGrotesque-Bold',
     fontSize: 20,
-    textAlign: 'center',
-  },
-  titleContainer: {
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    padding: 20,
   },
 });
 
