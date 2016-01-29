@@ -21,7 +21,7 @@ var NewsFeedPost = React.createClass({
     var campaignID = this.props.post.custom_fields.campaign_id[0];
     NewsFeedViewController.presentCampaignWithCampaignID(campaignID);
   },
-  _onPressFullArticle: function() {
+  _onPressFullArticleButton: function() {
     var urlString = this.props.post.custom_fields.full_article_url[0];
     NewsFeedViewController.presentFullArticle(this.props.post.id, urlString);
   },
@@ -37,8 +37,8 @@ var NewsFeedPost = React.createClass({
         && post.custom_fields.full_article_url[0]) {
       return (
         <Text
-          onPress={this._onPressFullArticle}
-          style={styles.articleLink}>
+          onPress={this._onPressFullArticleButton}
+          style={styles.fullArticleButton}>
             Read the full article
         </Text>
       );
@@ -76,7 +76,7 @@ var NewsFeedPost = React.createClass({
       }
       return (
         <Image
-          style={styles.postImage}
+          style={styles.image}
           source={{uri: post.attachments[0].images.full.url}}>
           {viewImageCredit}
         </Image>
@@ -106,15 +106,15 @@ var NewsFeedPost = React.createClass({
     }
 
     return(
-      <View style={[styles.postContainer, styles.rounded]}>
-        <View style={[styles.postHeader, causeStyle]}>
-          <Text style={styles.date}>{Helpers.formatDate(post.date)}</Text>
-          <View style={styles.categoryContainer}>
-            <Text style={styles.category}>{causeTitle}</Text>
+      <View style={[styles.wrapper]}>
+        <View style={[styles.header, causeStyle]}>
+          <Text style={styles.headerText}>{Helpers.formatDate(post.date)}</Text>
+          <View style={styles.causeContainer}>
+            <Text style={styles.headerText}>{causeTitle}</Text>
           </View>
         </View>
         {this.renderImage()}
-        <View style={styles.postBody}>
+        <View style={styles.content}>
           <Text style={styles.title}>{post.title.toUpperCase()}</Text>
           {this.renderSummaryItem(post.custom_fields.summary_1[0])}
           {this.renderSummaryItem(post.custom_fields.summary_2[0])}
@@ -130,27 +130,32 @@ var NewsFeedPost = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  postBody: {
-    padding: 20,
-  },
-  postContainer: {
-    backgroundColor: '#ffffff',
+  wrapper: {
+    backgroundColor: '#FFFFFF',
     marginTop: 14,
     marginLeft: 7,
     marginRight: 7,
   },
-  postHeader: {
+  header: {
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#00e4c8',
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
     padding: 4,
   },
-  postHeaderText: {
+  headerText: {
     color: '#ffffff',
+    fontFamily: 'Brandon Grotesque',
   },
-  articleLink: {
+  causeContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  content: {
+    padding: 20,
+  },
+  fullArticleButton: {
     color: '#3932A9',
     fontFamily: 'BrandonGrotesque-Bold',
     marginTop: 14,
@@ -168,19 +173,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
-  category: {
-    color: '#ffffff',
-    fontFamily: 'Brandon Grotesque',
-  },
-  categoryContainer: {
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  date: {
-    color: '#ffffff',
-    fontFamily: 'Brandon Grotesque',
-  },
-  postImage: {
+  image: {
     flex: 1, 
     height: 180, 
     justifyContent: 'flex-end',
