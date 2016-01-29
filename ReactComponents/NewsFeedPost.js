@@ -98,6 +98,7 @@ var NewsFeedPost = React.createClass({
   },
   render: function() {
     var post = this.props.post;
+    var postTitle = Helpers.convertUnicode(post.title);
     var causeTitle, causeStyle = null;
     if (post.categories.length > 0) {
       causeTitle = post.categories[0].title;
@@ -114,7 +115,7 @@ var NewsFeedPost = React.createClass({
         </View>
         {this.renderImage()}
         <View style={styles.content}>
-          <Text style={styles.title}>{post.title.toUpperCase()}</Text>
+          <Text style={styles.title}>{postTitle.toUpperCase()}</Text>
           {this.renderSummaryItem(post.custom_fields.summary_1[0])}
           {this.renderSummaryItem(post.custom_fields.summary_2[0])}
           {this.renderSummaryItem(post.custom_fields.summary_3[0])}
