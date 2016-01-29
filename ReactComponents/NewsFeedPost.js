@@ -21,7 +21,7 @@ var NewsFeedPost = React.createClass({
     var campaignID = this.props.post.custom_fields.campaign_id[0];
     NewsFeedViewController.presentCampaignWithCampaignID(campaignID);
   },
-  _onPressFullArticle: function() {
+  _onPressFullArticleButton: function() {
     var urlString = this.props.post.custom_fields.full_article_url[0];
     NewsFeedViewController.presentFullArticle(this.props.post.id, urlString);
   },
@@ -29,6 +29,21 @@ var NewsFeedPost = React.createClass({
     this.setState({
       imageCreditHidden: !this.state.imageCreditHidden,
     });
+  },
+  renderFullArticleButton: function () {
+    var post = this.props.post;
+    if (typeof post.custom_fields.full_article_url !== 'undefined'
+        && typeof post.custom_fields.full_article_url[0] !== 'undefined'
+        && post.custom_fields.full_article_url[0]) {
+      return (
+        <Text
+          onPress={this._onPressFullArticleButton}
+          style={styles.fullArticleButton}>
+            Read the full article
+        </Text>
+      );
+    }
+    return null;
   },
   renderImage: function() {
     var post = this.props.post;
@@ -38,17 +53,16 @@ var NewsFeedPost = React.createClass({
         && typeof post.attachments[0].images.full !== 'undefined') {
 
       var viewImageCredit = null;
-      if (post.custom_fields.photo_credit[0].length > 0) {
+      var imageCreditText = post.custom_fields.photo_credit[0];
+      if (imageCreditText.length > 0) {
         var imageCreditOpacity = 1;
         if (this.state.imageCreditHidden) {
           imageCreditOpacity = 0;
         }
         viewImageCredit = (
           <View style={styles.imageCreditContainer}>
-            <View style={[styles.imageCreditTextContainer, styles.rounded, {opacity: imageCreditOpacity}]} >
-              <Text style={styles.imageCreditText}>
-                {post.custom_fields.photo_credit[0]}
-              </Text>
+            <View style={[styles.imageCreditTextContainer, {opacity: imageCreditOpacity}]} >
+              <Text style={styles.imageCreditText}>{imageCreditText}</Text>
             </View>
             <TouchableHighlight onPress={this._onPressImageCreditButton}>
               <Image
@@ -61,7 +75,7 @@ var NewsFeedPost = React.createClass({
       }
       return (
         <Image
-          style={styles.postImage}
+          style={styles.image}
           source={{uri: post.attachments[0].images.full.url}}>
           {viewImageCredit}
         </Image>
@@ -73,7 +87,7 @@ var NewsFeedPost = React.createClass({
     if (summaryItemText.length > 0) {
       return (
         <View style={styles.summaryItem}>
-          <View style={styles.listItemOvalContainer}>
+          <View style={styles.summaryItemOvalContainer}>
             <Image source={require('image!listitem-oval')} />
           </View>
           <Text style={styles.summaryText}>{summaryItemText}</Text>
@@ -84,21 +98,6 @@ var NewsFeedPost = React.createClass({
   },
   render: function() {
     var post = this.props.post;
-
-    var linkToArticle;
-    if (typeof post.custom_fields.full_article_url !== 'undefined'
-        && typeof post.custom_fields.full_article_url[0] !== 'undefined'
-        && post.custom_fields.full_article_url[0]) {
-      linkToArticle = <Text
-        onPress={this._onPressFullArticle}
-        style={styles.articleLink}>
-        Read the full article
-      </Text>;
-    }
-    else {
-      linkToArticle = null;
-    }
-
     var causeTitle, causeStyle = null;
     if (post.categories.length > 0) {
       causeTitle = post.categories[0].title;
@@ -106,23 +105,23 @@ var NewsFeedPost = React.createClass({
     }
 
     return(
-      <View style={[styles.postContainer, styles.rounded]}>
-        <View style={[styles.postHeader, causeStyle]}>
-          <Text style={styles.date}>{Helpers.formatDate(post.date)}</Text>
-          <View style={styles.categoryContainer}>
-            <Text style={styles.category}>{causeTitle}</Text>
+      <View style={[styles.wrapper]}>
+        <View style={[styles.header, causeStyle]}>
+          <Text style={styles.headerText}>{Helpers.formatDate(post.date)}</Text>
+          <View style={styles.causeContainer}>
+            <Text style={styles.headerText}>{causeTitle}</Text>
           </View>
         </View>
         {this.renderImage()}
-        <View style={styles.postBody}>
+        <View style={styles.content}>
           <Text style={styles.title}>{post.title.toUpperCase()}</Text>
           {this.renderSummaryItem(post.custom_fields.summary_1[0])}
           {this.renderSummaryItem(post.custom_fields.summary_2[0])}
           {this.renderSummaryItem(post.custom_fields.summary_3[0])}
-          {linkToArticle}
+          {this.renderFullArticleButton()}
         </View>
-        <TouchableHighlight onPress={this._onPressActionButton} style={styles.btn}>
-          <Text style={styles.btnText}>{'Take action'.toUpperCase()}</Text>
+        <TouchableHighlight onPress={this._onPressActionButton} style={styles.actionButton}>
+          <Text style={styles.actionButtonText}>{'Take action'.toUpperCase()}</Text>
         </TouchableHighlight>
       </View>
     );
@@ -130,56 +129,50 @@ var NewsFeedPost = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  postBody: {
-    padding: 20,
-  },
-  postContainer: {
-    backgroundColor: '#ffffff',
+  wrapper: {
+    backgroundColor: '#FFFFFF',
     marginTop: 14,
     marginLeft: 7,
     marginRight: 7,
   },
-  postHeader: {
+  header: {
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#00e4c8',
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
     padding: 4,
   },
-  postHeaderText: {
+  headerText: {
     color: '#ffffff',
+    fontFamily: 'Brandon Grotesque',
   },
-  articleLink: {
+  causeContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  content: {
+    padding: 20,
+  },
+  fullArticleButton: {
     color: '#3932A9',
     fontFamily: 'BrandonGrotesque-Bold',
+    marginTop: 14,
   },
-  btn: {
+  actionButton: {
     backgroundColor: '#3932A9',
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
     paddingBottom: 10,
     paddingTop: 10,
   },
-  btnText: {
+  actionButtonText: {
     color: '#ffffff',
     fontFamily: 'BrandonGrotesque-Bold',
     fontSize: 16,
     textAlign: 'center',
   },
-  category: {
-    color: '#ffffff',
-    fontFamily: 'Brandon Grotesque',
-  },
-  categoryContainer: {
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  date: {
-    color: '#ffffff',
-    fontFamily: 'Brandon Grotesque',
-  },
-  postImage: {
+  image: {
     flex: 1, 
     height: 180, 
     justifyContent: 'flex-end',
@@ -204,14 +197,23 @@ var styles = StyleSheet.create({
     paddingRight: 15,
     marginRight: 37,
     flex: 1,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
   },
   imageCreditText: {
     color: '#FFFFFF',
     fontFamily: 'Brandon Grotesque',
     fontSize: 15,
   },
+  title: {
+    color: '#4A4A4A',
+    fontFamily: 'BrandonGrotesque-Bold',
+    fontSize: 20,
+  },
   // View container to center the image against just a single line of text
-  listItemOvalContainer: {
+  summaryItemOvalContainer: {
     // This height is based off the draw height of a single summaryText line
     height: 21.5,
     justifyContent: 'center',
@@ -229,19 +231,6 @@ var styles = StyleSheet.create({
     fontFamily: 'Brandon Grotesque',
     fontSize: 15,
     marginLeft: 4,
-  },
-  title: {
-    color: '#4A4A4A',
-    flex: 1,
-    flexDirection: 'column',
-    fontFamily: 'BrandonGrotesque-Bold',
-    fontSize: 20,
-  },
-  rounded: {
-    borderTopLeftRadius: 6,
-    borderTopRightRadius: 6,
-    borderBottomLeftRadius: 6,
-    borderBottomRightRadius: 6,
   },
 });
 
