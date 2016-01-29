@@ -55,7 +55,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         BOOL activityLoggerEnabled = [environmentDict objectForKey:@"AFNetworkActivityLoggerEnabled"] && [environmentDict[@"AFNetworkActivityLoggerEnabled"] boolValue];
-        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME] applicationId:keysDict[@"dsApplicationId"] activityLoggerEnabled:activityLoggerEnabled];
+        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME]  activityLoggerEnabled:activityLoggerEnabled];
     });
 
     return _sharedInstance;
@@ -63,7 +63,7 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId activityLoggerEnabled:(BOOL)activityLoggerEnabled{
+- (instancetype)initWithApiKey:(NSString *)apiKey activityLoggerEnabled:(BOOL)activityLoggerEnabled{
     NSString *northstarURLString = [NSString stringWithFormat:@"https://%@/v1/", LDTSERVER];
     self = [super initWithBaseURL:[NSURL URLWithString:northstarURLString]];
 
@@ -76,7 +76,6 @@
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.requestSerializer.timeoutInterval = 30;
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [self.requestSerializer setValue:applicationId forHTTPHeaderField:@"X-DS-Application-Id"];
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
         _phoenixBaseURL =  [NSString stringWithFormat:@"https://%@/", DSOSERVER];
         _phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
