@@ -36,7 +36,7 @@ RCT_EXPORT_MODULE();
 #ifdef DEBUG
     newsURLPrefix = @"dev";
 #endif
-    NSString *newsURLString = [NSString stringWithFormat:@"https://%@-ltd-news.pantheon.io/?json=1", newsURLPrefix];
+    NSString *newsURLString = [NSString stringWithFormat:@"https://%@-ltd-news.pantheon.io/?json=1&count=50", newsURLPrefix];
     NSDictionary *props = @{@"url" : newsURLString};
     RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsFeedView" initialProperties:props launchOptions:nil];
     self.view = rootView;
