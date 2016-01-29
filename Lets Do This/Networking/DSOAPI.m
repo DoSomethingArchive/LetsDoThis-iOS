@@ -14,8 +14,6 @@
 
 
 // API Constants
-#define isActivityLogging NO
-#define DSOPROTOCOL @"https"
 #define LDTSOURCENAME @"letsdothis_ios"
 
 #ifdef DEBUG
@@ -52,10 +50,12 @@
 + (DSOAPI *)sharedInstance {
     static DSOAPI *_sharedInstance = nil;
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+    NSDictionary *environmentDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"environment" ofType:@"plist"]];
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME] applicationId:keysDict[@"dsApplicationId"]];
+        BOOL activityLoggerEnabled = [environmentDict objectForKey:@"AFNetworkActivityLoggerEnabled"] && [environmentDict[@"AFNetworkActivityLoggerEnabled"] boolValue];
+        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME] applicationId:keysDict[@"dsApplicationId"] activityLoggerEnabled:activityLoggerEnabled];
     });
 
     return _sharedInstance;
@@ -63,12 +63,12 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId {
-    NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/v1/", DSOPROTOCOL, LDTSERVER]];
-    self = [super initWithBaseURL:baseURL];
+- (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId activityLoggerEnabled:(BOOL)activityLoggerEnabled{
+    NSString *northstarURLString = [NSString stringWithFormat:@"https://%@/v1/", LDTSERVER];
+    self = [super initWithBaseURL:[NSURL URLWithString:northstarURLString]];
 
     if (self) {
-        if (isActivityLogging) {
+        if (activityLoggerEnabled) {
             [[AFNetworkActivityLogger sharedLogger] startLogging];
             [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
         }
@@ -78,9 +78,8 @@
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [self.requestSerializer setValue:applicationId forHTTPHeaderField:@"X-DS-Application-Id"];
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
-        _phoenixBaseURL =  [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, DSOSERVER];
+        _phoenixBaseURL =  [NSString stringWithFormat:@"https://%@/", DSOSERVER];
         _phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
-        _northstarBaseURL = [NSString stringWithFormat:@"%@://%@/", DSOPROTOCOL, LDTSERVER];
     }
     return self;
 }

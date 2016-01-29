@@ -8,9 +8,11 @@
 
 #import "LDTNewsArticleViewController.h"
 #import "LDTTheme.h"
+#import "GAI+LDT.h"
 
 @interface LDTNewsArticleViewController () <UIWebViewDelegate>
 
+@property (assign, nonatomic) NSInteger newsPostID;
 @property (strong, nonatomic) NSURL *articleURL;
 @property (strong, nonatomic) NSURLRequest *articleURLRequest;
 
@@ -20,10 +22,11 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithArticleUrlString:(NSString *)articleUrlString {
+- (instancetype)initWithNewsPostID:(NSInteger)newsPostID urlString:(NSString *)articleUrlString {
     self = [super init];
 
     if (self) {
+        _newsPostID = newsPostID;
         _articleURL = [NSURL URLWithString:articleUrlString];
         _articleURLRequest = [NSURLRequest requestWithURL:_articleURL];
     }
@@ -46,6 +49,13 @@
 
     [self styleView];
     [SVProgressHUD showWithStatus:@"Loading article..." maskType:SVProgressHUDMaskTypeNone];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    NSString *screenName = [NSString stringWithFormat:@"news/%li", (long)self.newsPostID];
+    [[GAI sharedInstance] trackScreenView:screenName];
 }
 
 #pragma mark - LDTNewsArticleViewController

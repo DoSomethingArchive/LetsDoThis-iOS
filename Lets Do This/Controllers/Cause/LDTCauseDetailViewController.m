@@ -10,6 +10,7 @@
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 #import "LDTCauseDetailCampaignCell.h"
+#import "GAI+LDT.h"
 
 @interface LDTCauseDetailViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -56,6 +57,8 @@
     [super viewDidAppear:animated];
 
     self.navigationController.hidesBarsOnSwipe = NO;
+    NSString *screenName = [NSString stringWithFormat:@"taxonomy-term/%li", (long)self.cause.causeID];
+    [[GAI sharedInstance] trackScreenView:screenName];
 }
 
 #pragma mark - LDTCauseDetailViewController

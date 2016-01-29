@@ -1,10 +1,10 @@
 {
-  "name": "letsdothis-ios",
-  "version": "1.0.3",
+  "name": "letsdothis_ios",
+  "version": "1.0.4",
   "description": "Let's Do This (iOS)",
   "main": "index.js",
   "scripts": {
-    "start": "(cd node_modules/react-native; npm run start -- --root ../../ReactComponent)",
+    "start": "(cd node_modules/react-native; npm run start -- --root ../..)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/DoSomething/LetsDoThis-iOS/issues"
   },
-  "homepage": "https://github.com/DoSomething/LetsDoThis-iOS#readme"
+  "homepage": "https://github.com/DoSomething/LetsDoThis-iOS#readme",
+  "dependencies": {
+    "react-native": "^0.18.1"
+  }
 }

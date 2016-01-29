@@ -54,8 +54,12 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 #pragma mark - DSOUser
 
+- (NSString *)currentService {
+    return [DSOAPI sharedInstance].baseURL.absoluteString;
+}
+
 - (BOOL)userHasCachedSession {
-    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:self.currentService account:@"Session"];
 	
     return sessionToken.length > 0;
 }
@@ -66,8 +70,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
         [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
         // Save session in Keychain for when app is quit.
-        [SSKeychain setPassword:user.sessionToken forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
-        [SSKeychain setPassword:self.user.userID forService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+        [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
+        [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];
         if (completionHandler) {
             completionHandler(user);
         }
@@ -80,7 +84,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 - (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
 
-    NSString *sessionToken = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
+    NSString *sessionToken = [SSKeychain passwordForService:self.currentService account:@"Session"];
     if (sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
@@ -90,8 +94,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     // @see https://github.com/DoSomething/northstar/issues/186
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
 
-    NSString *userID = [SSKeychain passwordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
-
+    NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         [self loadActiveCampaignSignupsForUser:self.user completionHandler:^{
@@ -111,13 +114,17 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)loadActiveCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] loadCampaignSignupsForUser:user completionHandler:^(NSArray *campaignSignups) {
         [user removeAllCampaignSignups];
+        NSMutableArray *inactiveCampaignIDs = [[NSMutableArray alloc] init];
         for (DSOCampaignSignup *signup in campaignSignups) {
             if ([self activeCampaignWithId:signup.campaign.campaignID]) {
                 [user addCampaignSignup:signup];
             }
             else {
-                NSLog(@"Filtering signup for inactive campaign %li.", (long)signup.campaign.campaignID);
+                [inactiveCampaignIDs addObject:[NSString stringWithFormat:@"%li", (long)signup.campaign.campaignID]];
             }
+        }
+        if (inactiveCampaignIDs.count > 0) {
+            NSLog(@"[DSOUserManager] Filtering User %@ Signups for inactive Campaigns %@.", user.userID, [inactiveCampaignIDs componentsJoinedByString:@","]);
         }
         if (completionHandler) {
             completionHandler();
@@ -130,8 +137,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 - (void)endSession {
-    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"Session"];
-    [SSKeychain deletePasswordForService:[[DSOAPI sharedInstance] northstarBaseURL] account:@"UserID"];
+    [SSKeychain deletePasswordForService:self.currentService account:@"Session"];
+    [SSKeychain deletePasswordForService:self.currentService account:@"UserID"];
     [self deleteAvatar];
     self.user = nil;
 }
@@ -203,13 +210,17 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
             NSLog(@"No campaigns found.");
         }
         self.mutableActiveCampaigns = [[NSMutableArray alloc] init];
+        NSMutableArray *inactiveCampaignIDs = [[NSMutableArray alloc] init];
         for (DSOCampaign *campaign in campaigns) {
             if ([campaign.status isEqual:@"active"]) {
                 [self.mutableActiveCampaigns addObject:campaign];
             }
             else {
-                NSLog(@"Filtering Campaign %li: status == %@.", (long)campaign.campaignID, campaign.status);
+                [inactiveCampaignIDs addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];
             }
+        }
+        if (inactiveCampaignIDs.count > 0) {
+            NSLog(@"[DSOUserManager] Filtering inactive Campaigns %@.", [inactiveCampaignIDs componentsJoinedByString:@", "]);
         }
 
         [self startSessionWithCompletionHandler:^ {

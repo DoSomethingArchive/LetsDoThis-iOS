@@ -16,8 +16,6 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
-#define isLoggingGoogleAnalytics NO
-
 @interface LDTAppDelegate()
 
 @property (strong, nonatomic, readwrite) NSURL *jsCodeLocation;
@@ -29,6 +27,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
+    NSDictionary *environmentDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"environment" ofType:@"plist"]];
     
     [NewRelicAgent startWithApplicationToken:keysDict[@"newRelicAppToken"]];
 
@@ -39,7 +38,7 @@
     GAItrackingID = keysDict[@"googleAnalyticsTestTrackingID"];
 #endif
     [[GAI sharedInstance] trackerWithTrackingId:GAItrackingID];
-    if (isLoggingGoogleAnalytics) {
+    if ([environmentDict objectForKey:@"GoogleAnalyticsLoggerEnabled"] && [environmentDict[@"GoogleAnalyticsLoggerEnabled"] boolValue]) {
         [GAI sharedInstance].trackUncaughtExceptions = YES;
         [GAI sharedInstance].logger.logLevel = kGAILogLevelVerbose;
     }
@@ -56,13 +55,16 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
-    // Uncomment this for React development: Allows reloading of all React views (RCTRootView) without a rebuild in Xcode.
-//    self.jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
-
-    // Also comment out the line below that sets jsLocation.
-    // This must remain uncommented for distribution builds. main.jsbundle is updated in our "Bundle React Native code and images" build phase.
-    // @todo: Figure out environment variable based solution instead?
-    self.jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+    if ([environmentDict objectForKey:@"ReactNativeUseOfflineBundle"] && ![environmentDict[@"ReactNativeUseOfflineBundle"] boolValue]) {
+        // Run "npm start" from the project root to enable local React Native development.
+        self.jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
+        NSLog(@"[LDTAppDelegate] Running React Native from localhost development server.");
+    }
+    else {
+        // main.jsbundle gets updated in our "Bundle React Native code and images" build phase.
+        self.jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+        NSLog(@"[LDTAppDelegate] Running React Native from main.jsbundle.");
+    }
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];

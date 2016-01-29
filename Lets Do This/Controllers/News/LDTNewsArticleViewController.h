@@ -10,6 +10,6 @@
 
 @interface LDTNewsArticleViewController : UIViewController
 
-- (instancetype)initWithArticleUrlString:(NSString *)articleUrlString;
+- (instancetype)initWithNewsPostID:(NSInteger)newsPostID urlString:(NSString *)articleUrlString;
 
 @end

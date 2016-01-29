@@ -9,6 +9,7 @@
 #import "LDTCauseListViewController.h"
 #import "LDTTheme.h"
 #import "LDTCauseDetailViewController.h"
+#import "GAI+LDT.h"
 
 @interface LDTCauseListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -44,7 +45,9 @@
     [super viewDidAppear:animated];
 
     self.navigationController.hidesBarsOnSwipe = NO;
-    // @todo: Not this?
+    [[GAI sharedInstance] trackScreenView:@"cause-list"];
+
+    // @todo: Not this? @see GH #746
     // -(void)receivedNotification: is no longer being called, so something needs to be fixed (or remove all notifications in general)
     if (self.causes.count == 0 && [DSOUserManager sharedInstance].activeCampaigns.count > 0) {
         [self loadCauses];
@@ -64,6 +67,7 @@
     [[DSOAPI sharedInstance] loadCausesWithCompletionHandler:^(NSArray *causes) {
         self.causes = causes;
         NSArray *activeCampaigns = [DSOUserManager sharedInstance].activeCampaigns;
+        NSMutableArray *causelessCampaignIDs = [[NSMutableArray alloc] init];
         for (DSOCampaign *campaign in activeCampaigns) {
             if (campaign.cause) {
                 NSNumber *causeID = [NSNumber numberWithInteger:campaign.cause.causeID];
@@ -72,9 +76,12 @@
                     [cause addActiveCampaign:campaign];
                 }
                 else {
-                    NSLog(@"Filtering Campaign %li: cause == %@.", (long)campaign.campaignID, causeID);
+                    [causelessCampaignIDs addObject:[NSString stringWithFormat:@"%li",(long)campaign.campaignID]];
                 }
             }
+        }
+        if (causelessCampaignIDs.count > 0) {
+            NSLog(@"[LDTCauseListViewController] Campaigns without Primary Cause: %@.", [causelessCampaignIDs componentsJoinedByString:@", "]);
         }
         [SVProgressHUD dismiss];
         [self.tableView reloadData];
