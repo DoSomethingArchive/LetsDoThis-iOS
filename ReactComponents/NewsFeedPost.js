@@ -30,6 +30,21 @@ var NewsFeedPost = React.createClass({
       imageCreditHidden: !this.state.imageCreditHidden,
     });
   },
+  renderFullArticleButton: function () {
+    var post = this.props.post;
+    if (typeof post.custom_fields.full_article_url !== 'undefined'
+        && typeof post.custom_fields.full_article_url[0] !== 'undefined'
+        && post.custom_fields.full_article_url[0]) {
+      return (
+        <Text
+          onPress={this._onPressFullArticle}
+          style={styles.articleLink}>
+            Read the full article
+        </Text>
+      );
+    }
+    return null;
+  },
   renderImage: function() {
     var post = this.props.post;
     
@@ -84,21 +99,6 @@ var NewsFeedPost = React.createClass({
   },
   render: function() {
     var post = this.props.post;
-
-    var linkToArticle;
-    if (typeof post.custom_fields.full_article_url !== 'undefined'
-        && typeof post.custom_fields.full_article_url[0] !== 'undefined'
-        && post.custom_fields.full_article_url[0]) {
-      linkToArticle = <Text
-        onPress={this._onPressFullArticle}
-        style={styles.articleLink}>
-        Read the full article
-      </Text>;
-    }
-    else {
-      linkToArticle = null;
-    }
-
     var causeTitle, causeStyle = null;
     if (post.categories.length > 0) {
       causeTitle = post.categories[0].title;
@@ -119,7 +119,7 @@ var NewsFeedPost = React.createClass({
           {this.renderSummaryItem(post.custom_fields.summary_1[0])}
           {this.renderSummaryItem(post.custom_fields.summary_2[0])}
           {this.renderSummaryItem(post.custom_fields.summary_3[0])}
-          {linkToArticle}
+          {this.renderFullArticleButton()}
         </View>
         <TouchableHighlight onPress={this._onPressActionButton} style={styles.btn}>
           <Text style={styles.btnText}>{'Take action'.toUpperCase()}</Text>
