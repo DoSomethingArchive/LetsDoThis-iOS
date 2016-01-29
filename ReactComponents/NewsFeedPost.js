@@ -53,17 +53,16 @@ var NewsFeedPost = React.createClass({
         && typeof post.attachments[0].images.full !== 'undefined') {
 
       var viewImageCredit = null;
-      if (post.custom_fields.photo_credit[0].length > 0) {
+      var imageCreditText = post.custom_fields.photo_credit[0];
+      if (imageCreditText.length > 0) {
         var imageCreditOpacity = 1;
         if (this.state.imageCreditHidden) {
           imageCreditOpacity = 0;
         }
         viewImageCredit = (
           <View style={styles.imageCreditContainer}>
-            <View style={[styles.imageCreditTextContainer, styles.rounded, {opacity: imageCreditOpacity}]} >
-              <Text style={styles.imageCreditText}>
-                {post.custom_fields.photo_credit[0]}
-              </Text>
+            <View style={[styles.imageCreditTextContainer, {opacity: imageCreditOpacity}]} >
+              <Text style={styles.imageCreditText}>{imageCreditText}</Text>
             </View>
             <TouchableHighlight onPress={this._onPressImageCreditButton}>
               <Image
@@ -88,7 +87,7 @@ var NewsFeedPost = React.createClass({
     if (summaryItemText.length > 0) {
       return (
         <View style={styles.summaryItem}>
-          <View style={styles.listItemOvalContainer}>
+          <View style={styles.summaryItemOvalContainer}>
             <Image source={require('image!listitem-oval')} />
           </View>
           <Text style={styles.summaryText}>{summaryItemText}</Text>
@@ -121,8 +120,8 @@ var NewsFeedPost = React.createClass({
           {this.renderSummaryItem(post.custom_fields.summary_3[0])}
           {this.renderFullArticleButton()}
         </View>
-        <TouchableHighlight onPress={this._onPressActionButton} style={styles.btn}>
-          <Text style={styles.btnText}>{'Take action'.toUpperCase()}</Text>
+        <TouchableHighlight onPress={this._onPressActionButton} style={styles.actionButton}>
+          <Text style={styles.actionButtonText}>{'Take action'.toUpperCase()}</Text>
         </TouchableHighlight>
       </View>
     );
@@ -160,14 +159,14 @@ var styles = StyleSheet.create({
     fontFamily: 'BrandonGrotesque-Bold',
     marginTop: 14,
   },
-  btn: {
+  actionButton: {
     backgroundColor: '#3932A9',
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
     paddingBottom: 10,
     paddingTop: 10,
   },
-  btnText: {
+  actionButtonText: {
     color: '#ffffff',
     fontFamily: 'BrandonGrotesque-Bold',
     fontSize: 16,
@@ -198,14 +197,23 @@ var styles = StyleSheet.create({
     paddingRight: 15,
     marginRight: 37,
     flex: 1,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
   },
   imageCreditText: {
     color: '#FFFFFF',
     fontFamily: 'Brandon Grotesque',
     fontSize: 15,
   },
+  title: {
+    color: '#4A4A4A',
+    fontFamily: 'BrandonGrotesque-Bold',
+    fontSize: 20,
+  },
   // View container to center the image against just a single line of text
-  listItemOvalContainer: {
+  summaryItemOvalContainer: {
     // This height is based off the draw height of a single summaryText line
     height: 21.5,
     justifyContent: 'center',
@@ -223,19 +231,6 @@ var styles = StyleSheet.create({
     fontFamily: 'Brandon Grotesque',
     fontSize: 15,
     marginLeft: 4,
-  },
-  title: {
-    color: '#4A4A4A',
-    flex: 1,
-    flexDirection: 'column',
-    fontFamily: 'BrandonGrotesque-Bold',
-    fontSize: 20,
-  },
-  rounded: {
-    borderTopLeftRadius: 6,
-    borderTopRightRadius: 6,
-    borderBottomLeftRadius: 6,
-    borderBottomRightRadius: 6,
   },
 });
 
