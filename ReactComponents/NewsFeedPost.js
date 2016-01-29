@@ -153,6 +153,7 @@ var styles = StyleSheet.create({
   articleLink: {
     color: '#3932A9',
     fontFamily: 'BrandonGrotesque-Bold',
+    marginTop: 14,
   },
   btn: {
     backgroundColor: '#3932A9',
