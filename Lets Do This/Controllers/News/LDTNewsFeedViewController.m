@@ -40,6 +40,7 @@ RCT_EXPORT_MODULE();
     NSDictionary *props = @{@"url" : newsURLString};
     RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsFeedView" initialProperties:props launchOptions:nil];
     self.view = rootView;
+
     [self styleView];
 }
 

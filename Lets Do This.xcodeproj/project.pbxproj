@@ -20,7 +20,6 @@
 		B21107391C04E94E00282619 /* LDTProfileCampaignTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21107371C04E94E00282619 /* LDTProfileCampaignTableViewCell.xib */; };
 		B21126271B618038009128E7 /* DSOUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B21126261B618038009128E7 /* DSOUserManager.m */; };
 		B211C4181C3AEE4700A94E64 /* DSOCause.m in Sources */ = {isa = PBXBuildFile; fileRef = B211C4171C3AEE4700A94E64 /* DSOCause.m */; };
-		B211C41E1C3AF4EF00A94E64 /* LDTCauseListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B211C41D1C3AF4EF00A94E64 /* LDTCauseListView.xib */; };
 		B211C4221C3AF54800A94E64 /* LDTCauseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B211C4211C3AF54800A94E64 /* LDTCauseListViewController.m */; };
 		B212C2621B4ED6F300376BB1 /* LDTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B212C2611B4ED6F300376BB1 /* LDTBaseViewController.m */; };
 		B21306FC1C486E5C003893DB /* LDTNewsArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21306FB1C486E5C003893DB /* LDTNewsArticleViewController.m */; };
@@ -121,7 +120,6 @@
 		B21126261B618038009128E7 /* DSOUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOUserManager.m; path = Networking/DSOUserManager.m; sourceTree = "<group>"; };
 		B211C4161C3AEE4700A94E64 /* DSOCause.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCause.h; sourceTree = "<group>"; };
 		B211C4171C3AEE4700A94E64 /* DSOCause.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCause.m; sourceTree = "<group>"; };
-		B211C41D1C3AF4EF00A94E64 /* LDTCauseListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTCauseListView.xib; path = Cause/LDTCauseListView.xib; sourceTree = "<group>"; };
 		B211C4201C3AF54800A94E64 /* LDTCauseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCauseListViewController.h; path = "Lets Do This/Controllers/Cause/LDTCauseListViewController.h"; sourceTree = SOURCE_ROOT; };
 		B211C4211C3AF54800A94E64 /* LDTCauseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCauseListViewController.m; path = "Lets Do This/Controllers/Cause/LDTCauseListViewController.m"; sourceTree = SOURCE_ROOT; };
 		B212C2601B4ED6F300376BB1 /* LDTBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTBaseViewController.h; path = Base/LDTBaseViewController.h; sourceTree = "<group>"; };
@@ -280,7 +278,6 @@
 		B211C41F1C3AF52000A94E64 /* Cause */ = {
 			isa = PBXGroup;
 			children = (
-				B211C41D1C3AF4EF00A94E64 /* LDTCauseListView.xib */,
 				B24B269D1C3B353E0039D76D /* LDTCauseDetailView.xib */,
 				B2FF62C41C3CA2800003DBFE /* LDTCauseDetailCampaignCell.h */,
 				B2FF62C51C3CA2800003DBFE /* LDTCauseDetailCampaignCell.m */,
@@ -754,7 +751,6 @@
 				B2FF62C81C3CA2800003DBFE /* LDTCauseDetailCampaignCell.xib in Resources */,
 				B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */,
 				B250A2791C5803200076B66D /* environment.plist in Resources */,
-				B211C41E1C3AF4EF00A94E64 /* LDTCauseListView.xib in Resources */,
 				B258EB331B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib in Resources */,
 				B21107391C04E94E00282619 /* LDTProfileCampaignTableViewCell.xib in Resources */,
 				B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */,

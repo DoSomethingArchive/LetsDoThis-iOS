@@ -44,6 +44,14 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTCauseDetailCampaignCell" bundle:nil] forCellReuseIdentifier:@"campaignCell"];
     self.tableView.estimatedRowHeight = 150.0f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    NSArray *activeCampaigns = [DSOUserManager sharedInstance].activeCampaigns;
+
+    for (DSOCampaign *campaign in activeCampaigns) {
+        if (campaign.cause.causeID == self.cause.causeID) {
+            [self.cause addActiveCampaign:campaign];
+        }
+    }
+    [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
