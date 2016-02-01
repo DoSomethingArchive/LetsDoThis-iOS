@@ -84,11 +84,11 @@ var NewsFeedView = React.createClass({
     return (
       <NewsFeedPost
         key={post.id}
-        post={post}
-      />
+        post={post} />
     );
   },
 });
+
 
 var styles = React.StyleSheet.create({
   listView: {
