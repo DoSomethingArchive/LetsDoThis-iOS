@@ -41,7 +41,7 @@
         UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
 
-        LDTCauseListViewController *causeListViewController = [[LDTCauseListViewController alloc] initWithNibName:@"LDTCauseListView" bundle:nil];
+        LDTCauseListViewController *causeListViewController = [[LDTCauseListViewController alloc] init];
         causeListViewController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
         causeListViewController.title = @"Actions";
         UINavigationController *causeListNavigationController = [[UINavigationController alloc] initWithRootViewController:causeListViewController];
