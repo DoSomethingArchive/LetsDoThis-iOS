@@ -13,6 +13,7 @@ import React, {
   View
 } from 'react-native';
 
+var Style = require('./Style.js');
 var CauseListViewController = require('react-native').NativeModules.LDTCauseListViewController;
 
 var CauseListView = React.createClass({
@@ -74,7 +75,7 @@ var CauseListView = React.createClass({
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
-        <Text style={styles.text}>
+        <Text style={Style.textBody}>
           Loading causes...
         </Text>
       </View>
@@ -89,10 +90,10 @@ var CauseListView = React.createClass({
       <TouchableHighlight onPress={() => this._onPressCauseRow(cause)}>
         <View style={styles.row}>
           <View style={[styles.causeColor, causeColorStyle]} />
-          <View style={[styles.content, styles.bordered]}>
+          <View style={[styles.contentContainer, styles.bordered]}>
             <View>
-              <Text style={styles.title}>{cause.title}</Text>
-              <Text style={styles.text}>{cause.description}</Text>
+              <Text style={Style.textHeading}>{cause.title}</Text>
+              <Text style={Style.textCaption}>{cause.description}</Text>
             </View>
           </View>
           <View style={[styles.arrowContainer, styles.bordered]}>
@@ -119,11 +120,6 @@ var styles = React.StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#EEE',
   },
-  text: {
-    color: '#4A4A4A',
-    fontFamily: 'Brandon Grotesque',
-    fontSize: 12,
-  },
   row: {
     backgroundColor: '#FFFFFF',
     flex: 1,
@@ -139,7 +135,7 @@ var styles = React.StyleSheet.create({
     borderTopWidth: 2,
     borderBottomWidth: 2,    
   },
-  content: {
+  contentContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -157,11 +153,6 @@ var styles = React.StyleSheet.create({
     width: 12,
     height: 21,
   },
-  title: {
-    color: '4A4A4A',
-    fontFamily: 'BrandonGrotesque-Bold',
-    fontSize: 18,
-  }
 });
 
 module.exports = CauseListView;
