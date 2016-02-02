@@ -2,19 +2,19 @@
 
 var React = require('react-native');
 
-var colorCtaBlue = '#3932A9';
-var colorTextDefault = '#4A4A4A';
-
-var fontFamilyName = 'Brandon Grotesque';
-var fontFamilyBoldName = 'BrandonGrotesque-Bold';
-var fontSizeCaption = 13;
-var fontSizeBody = 16;
-var fontSizeHeading = 20;
-var fontSizeTitle = 24;
-
 var {
   StyleSheet,
 } = React;
+
+var Theme = require('react-native').NativeModules.LDTTheme;
+var colorCtaBlue = '#3932A9';
+var colorTextDefault = '#4A4A4A';
+var fontFamilyName = Theme.fontName;
+var fontFamilyBoldName = Theme.fontNameBold;
+var fontSizeCaption = Theme.fontSizeCaption;
+var fontSizeBody = Theme.fontSizeBody;
+var fontSizeHeading = Theme.fontSizeHeading;
+var fontSizeTitle = Theme.fontSizeTitle;
 
 module.exports = StyleSheet.create({
   backgroundColorCtaBlue: {

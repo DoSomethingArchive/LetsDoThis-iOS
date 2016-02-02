@@ -35,7 +35,7 @@
     self.backgroundColor = UIColor.clearColor;
     self.userDisplayNameLabel.font = [LDTTheme fontTitle];
     self.userDisplayNameLabel.textColor = UIColor.whiteColor;
-    self.userCountryNameLabel.font = [LDTTheme fontHeadingBold];
+    self.userCountryNameLabel.font = [LDTTheme fontHeading];
     self.userCountryNameLabel.textColor = UIColor.whiteColor;
 }
 
