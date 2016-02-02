@@ -32,12 +32,8 @@ RCT_EXPORT_MODULE();
     self.navigationItem.title = @"Let's Do This".uppercaseString;
 
     NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
-    NSString *newsURLPrefix = @"live";
-#ifdef DEBUG
-    newsURLPrefix = @"dev";
-#endif
-    NSString *newsURLString = [NSString stringWithFormat:@"https://%@-ltd-news.pantheon.io/api/get_posts?count=50", newsURLPrefix];
-    NSDictionary *props = @{@"url" : newsURLString};
+    NSString *url = [NSString stringWithFormat:@"%@get_posts?count=50", [DSOAPI sharedInstance].newsApiURL];
+    NSDictionary *props = @{@"url" : url};
     RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsFeedView" initialProperties:props launchOptions:nil];
     self.view = rootView;
 
