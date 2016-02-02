@@ -15,6 +15,7 @@
 @interface LDTCauseDetailViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) DSOCause *cause;
+@property (strong, nonatomic) NSMutableArray *campaigns;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -39,16 +40,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+
     [self styleView];
     self.title = self.cause.title.uppercaseString;
     [self.tableView registerNib:[UINib nibWithNibName:@"LDTCauseDetailCampaignCell" bundle:nil] forCellReuseIdentifier:@"campaignCell"];
     self.tableView.estimatedRowHeight = 150.0f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+
+    self.campaigns = [[NSMutableArray alloc] init];
     NSArray *activeCampaigns = [DSOUserManager sharedInstance].activeCampaigns;
 
     for (DSOCampaign *campaign in activeCampaigns) {
         if (campaign.cause.causeID == self.cause.causeID) {
-            [self.cause addActiveCampaign:campaign];
+            [self.campaigns addObject:campaign];
         }
     }
     [self.tableView reloadData];
@@ -78,7 +82,7 @@
 }
 
 - (void)configureCampaignCell:(LDTCauseDetailCampaignCell *)campaignCell indexPath:(NSIndexPath *)indexPath {
-    DSOCampaign *campaign = self.cause.activeCampaigns[indexPath.row];
+    DSOCampaign *campaign = self.campaigns[indexPath.row];
     campaignCell.campaign = campaign;
     campaignCell.campaignTitleLabelText = campaign.title.uppercaseString;
     campaignCell.campaignCoverImageViewImageURL = campaign.coverImageURL;
@@ -88,7 +92,7 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.cause.activeCampaigns.count;
+    return self.campaigns.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

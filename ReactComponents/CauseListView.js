@@ -33,8 +33,7 @@ var CauseListView = React.createClass({
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          // This will eventually turn into responseData.data once API is formatted correctly
-          dataSource: this.state.dataSource.cloneWithRows(responseData),
+          dataSource: this.state.dataSource.cloneWithRows(responseData.categories),
           loaded: true,
         });
       })
@@ -81,25 +80,19 @@ var CauseListView = React.createClass({
       </View>
     );
   },
-  _onPressCauseID(cause) {
-    CauseListViewController.presentCauseWithCauseID(cause);
+  _onPressCauseRow(cause) {
+    CauseListViewController.presentCause(cause);
   },
   renderRow: function(cause) {
-    // Will eventually change to id.
-    var causeID = cause.tid;
-    var causeColorStyle = {backgroundColor: Helpers.causeBackgroundColor(cause.name)};
-    var subtitle = null;
-    if (cause.description) {
-      subtitle = cause.description.substr(0, 10);
-    }
+    var causeColorStyle = {backgroundColor: '#' + cause.hex};
     return (
-      <TouchableHighlight onPress={() => this._onPressCauseID(cause)}>
+      <TouchableHighlight onPress={() => this._onPressCauseRow(cause)}>
         <View style={styles.row}>
           <View style={[styles.causeColor, causeColorStyle]} />
           <View style={styles.content}>
             <View>
-              <Text style={styles.title}>{cause.name}</Text>
-              <Text style={styles.text}>{subtitle}</Text>
+              <Text style={styles.title}>{cause.title}</Text>
+              <Text style={styles.text}>{cause.description}</Text>
             </View>
           </View>
         </View>

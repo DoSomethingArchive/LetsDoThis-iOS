@@ -12,7 +12,6 @@
 @interface DSOCause ()
 
 @property (assign, nonatomic, readwrite) NSInteger causeID;
-@property (strong, nonatomic) NSMutableArray *mutableActiveCampaigns;
 @property (strong, nonatomic, readwrite) NSString *title;
 
 @end
@@ -21,32 +20,26 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithDict:(NSDictionary*)dict {
+- (instancetype)initWithPhoenixDict:(NSDictionary*)dict {
     self = [super init];
 
     if (self) {
-        // @todo: Eventually tid will be deprecated https://github.com/DoSomething/LetsDoThis-iOS/issues/713#issuecomment-168758395
-        _causeID = [dict valueForKeyAsInt:@"tid" nullValue:0];
-        if (_causeID == 0) {
-            _causeID = [dict valueForKeyAsInt:@"id" nullValue:0];
-        }
+        _causeID = [dict valueForKeyAsInt:@"id" nullValue:0];
         _title = [dict valueForKeyAsString:@"name" nullValue:@"Unknown"];
-        _mutableActiveCampaigns = [[NSMutableArray alloc] init];
     }
 
     return self;
 }
 
-#pragma mark - Accessors
+- (instancetype)initWithNewsDict:(NSDictionary*)dict {
+    self = [super init];
 
-- (NSArray *)activeCampaigns {
-    return [self.mutableActiveCampaigns copy];
-}
+    if (self) {
+        _causeID = [dict valueForKeyAsInt:@"phoenix_id" nullValue:0];
+        _title = [dict valueForKeyAsString:@"title" nullValue:@"Unknown"];
+    }
 
-#pragma mark - DSOCause
-
-- (void)addActiveCampaign:(DSOCampaign *)campaign {
-    [self.mutableActiveCampaigns addObject:campaign];
+    return self;
 }
 
 @end

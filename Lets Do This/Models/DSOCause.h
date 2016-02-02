@@ -8,12 +8,10 @@
 
 @interface DSOCause : NSObject
 
-// May not need this once we don't need to store master list of campaigns.
-@property (strong, nonatomic, readonly) NSArray *activeCampaigns;
 @property (assign, nonatomic, readonly) NSInteger causeID;
 @property (strong, nonatomic, readonly) NSString *title;
 
-- (instancetype)initWithDict:(NSDictionary *)dict;
-- (void)addActiveCampaign:(DSOCampaign *)campaign;
+- (instancetype)initWithPhoenixDict:(NSDictionary *)dict;
+- (instancetype)initWithNewsDict:(NSDictionary *)dict;
 
 @end
