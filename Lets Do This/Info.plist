@@ -57,6 +57,7 @@
 	<array>
 		<string>Brandon_med.otf</string>
 		<string>Brandon_bld.otf</string>
+		<string>Brandon_reg.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
