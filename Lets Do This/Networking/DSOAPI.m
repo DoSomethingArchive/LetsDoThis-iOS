@@ -19,18 +19,21 @@
 #ifdef DEBUG
 #define DSOSERVER @"staging.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
+#define LDTNEWSPREFIX @"dev"
 #define LDTSERVERKEYNAME @"northstarTestKey"
 #endif
 
 #ifdef RELEASE
 #define DSOSERVER @"www.dosomething.org"
 #define LDTSERVER @"northstar.dosomething.org"
+#define LDTNEWSPREFIX @"live"
 #define LDTSERVERKEYNAME @"northstarLiveKey"
 #endif
 
 #ifdef THOR
 #define DSOSERVER @"thor.dosomething.org"
 #define LDTSERVER @"northstar-thor.dosomething.org"
+#define LDTNEWSPREFIX @"live"
 #define LDTSERVERKEYNAME @"northstarLiveKey"
 #endif
 
@@ -40,6 +43,7 @@
 @property (nonatomic, strong, readwrite) NSString *phoenixBaseURL;
 @property (nonatomic, strong, readwrite) NSString *phoenixApiURL;
 @property (nonatomic, strong, readwrite) NSString *northstarBaseURL;
+@property (nonatomic, strong, readwrite) NSString *newsApiURL;
 
 @end
 
@@ -79,6 +83,7 @@
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
         _phoenixBaseURL =  [NSString stringWithFormat:@"https://%@/", DSOSERVER];
         _phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
+        _newsApiURL = [NSString stringWithFormat:@"https://%@-ltd-news.pantheon.io/api/", LDTNEWSPREFIX];
     }
     return self;
 }

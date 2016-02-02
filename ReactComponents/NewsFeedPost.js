@@ -18,12 +18,10 @@ var NewsFeedPost = React.createClass({
     };
   },
   _onPressActionButton: function() {
-    var campaignID = this.props.post.custom_fields.campaign_id[0];
-    NewsFeedViewController.presentCampaignWithCampaignID(campaignID);
+    NewsFeedViewController.presentCampaign(this.props.post.campaign_id);
   },
   _onPressFullArticleButton: function() {
-    var urlString = this.props.post.custom_fields.full_article_url[0];
-    NewsFeedViewController.presentFullArticle(this.props.post.id, urlString);
+    NewsFeedViewController.presentFullArticle(this.props.post.id, this.props.post.full_article_url);
   },
   _onPressImageCreditButton: function() {
     this.setState({
@@ -32,9 +30,7 @@ var NewsFeedPost = React.createClass({
   },
   renderFullArticleButton: function () {
     var post = this.props.post;
-    if (typeof post.custom_fields.full_article_url !== 'undefined'
-        && typeof post.custom_fields.full_article_url[0] !== 'undefined'
-        && post.custom_fields.full_article_url[0]) {
+    if (post.full_article_url.length > 0) {
       return (
         <Text
           onPress={this._onPressFullArticleButton}
@@ -48,13 +44,9 @@ var NewsFeedPost = React.createClass({
   renderImage: function() {
     var post = this.props.post;
     
-    if (typeof post.attachments[0] !== 'undefined'
-        && typeof post.attachments[0].images !== 'undefined'
-        && typeof post.attachments[0].images.full !== 'undefined') {
-
+    if (post.image_url.length > 0) {
       var viewImageCredit = null;
-      var imageCreditText = post.custom_fields.photo_credit[0];
-      if (imageCreditText.length > 0) {
+      if (post.photo_credit.length > 0) {
         var imageCreditOpacity = 1;
         if (this.state.imageCreditHidden) {
           imageCreditOpacity = 0;
@@ -62,7 +54,7 @@ var NewsFeedPost = React.createClass({
         viewImageCredit = (
           <View style={styles.imageCreditContainer}>
             <View style={[styles.imageCreditTextContainer, {opacity: imageCreditOpacity}]} >
-              <Text style={styles.imageCreditText}>{imageCreditText}</Text>
+              <Text style={styles.imageCreditText}>{post.photo_credit}</Text>
             </View>
             <TouchableHighlight onPress={this._onPressImageCreditButton}>
               <Image
@@ -76,7 +68,7 @@ var NewsFeedPost = React.createClass({
       return (
         <Image
           style={styles.image}
-          source={{uri: post.attachments[0].images.full.url}}>
+          source={{uri: post.image_url}}>
           {viewImageCredit}
         </Image>
       );
@@ -102,7 +94,7 @@ var NewsFeedPost = React.createClass({
     var causeTitle, causeStyle = null;
     if (post.categories.length > 0) {
       causeTitle = post.categories[0].title;
-      causeStyle = {backgroundColor: Helpers.causeBackgroundColor(causeTitle)};
+      causeStyle = {backgroundColor: '#' + post.categories[0].hex};
     }
 
     return(
@@ -116,9 +108,9 @@ var NewsFeedPost = React.createClass({
         {this.renderImage()}
         <View style={styles.content}>
           <Text style={styles.title}>{postTitle.toUpperCase()}</Text>
-          {this.renderSummaryItem(post.custom_fields.summary_1[0])}
-          {this.renderSummaryItem(post.custom_fields.summary_2[0])}
-          {this.renderSummaryItem(post.custom_fields.summary_3[0])}
+          {this.renderSummaryItem(post.summary_1)}
+          {this.renderSummaryItem(post.summary_2)}
+          {this.renderSummaryItem(post.summary_3)}
           {this.renderFullArticleButton()}
         </View>
         <TouchableHighlight onPress={this._onPressActionButton} style={styles.actionButton}>

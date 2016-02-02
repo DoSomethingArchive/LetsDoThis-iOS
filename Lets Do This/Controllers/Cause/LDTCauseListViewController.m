@@ -36,8 +36,8 @@ RCT_EXPORT_MODULE();
     self.navigationItem.title = @"Let's Do This".uppercaseString;
 
     NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
-    NSString *causeURLString = [NSString stringWithFormat:@"%@terms?vid=2", [DSOAPI sharedInstance].phoenixApiURL];
-    NSDictionary *initialProperties = @{@"url" : causeURLString};
+    NSString *url = [NSString stringWithFormat:@"%@get_category_index", [DSOAPI sharedInstance].newsApiURL];
+    NSDictionary *initialProperties = @{@"url" : url};
     RCTRootView *rootView =[[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"CauseListView" initialProperties:initialProperties launchOptions:nil];
     self.view = rootView;
 }
@@ -64,14 +64,14 @@ RCT_EXPORT_MODULE();
 
 #pragma mark - RCTBridgeModule
 
-RCT_EXPORT_METHOD(presentCauseWithCauseID:(NSDictionary *)causeDict) {
+RCT_EXPORT_METHOD(presentCause:(NSDictionary *)causeDict) {
     dispatch_async(dispatch_get_main_queue(), ^{
         UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
         // This is the worst.
         // May need to look into creating a separate UIView and then adding our ReactView as a subview: http://stackoverflow.com/questions/29597610/cant-push-a-native-view-controller-from-a-react-native-click
 
         UINavigationController *navigationController = keyWindow.rootViewController.childViewControllers[1];
-        DSOCause *cause = [[DSOCause alloc] initWithDict:causeDict];
+        DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
         LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
         [navigationController pushViewController:causeDetailViewController animated:YES];
     });
