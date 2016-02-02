@@ -7,6 +7,7 @@ import React, {
   Component,
   StyleSheet,
   Text,
+  Image,
   RefreshControl,
   TouchableHighlight,
   View
@@ -88,11 +89,17 @@ var CauseListView = React.createClass({
       <TouchableHighlight onPress={() => this._onPressCauseRow(cause)}>
         <View style={styles.row}>
           <View style={[styles.causeColor, causeColorStyle]} />
-          <View style={styles.content}>
+          <View style={[styles.content, styles.bordered]}>
             <View>
               <Text style={styles.title}>{cause.title}</Text>
               <Text style={styles.text}>{cause.description}</Text>
             </View>
+          </View>
+          <View style={[styles.arrowContainer, styles.bordered]}>
+              <Image
+                style={styles.arrowImage}
+                source={require('image!Arrow')}
+              />  
           </View>
         </View>
       </TouchableHighlight>
@@ -117,26 +124,38 @@ var styles = React.StyleSheet.create({
     fontFamily: 'Brandon Grotesque',
     fontSize: 12,
   },
+  row: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+    flexDirection: 'row',
+  },
   causeColor: {
     width: 8,
     backgroundColor: '#00FF00',
     height: 84,
+  },
+  bordered: {
+    borderColor: '#EDEDED',
+    borderTopWidth: 2,
+    borderBottomWidth: 2,    
   },
   content: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 8,
-    borderColor: '#EDEDED',
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
     height: 84,
   },
-  row: {
-    backgroundColor: '#FFFFFF',
-    flex: 1,
-    flexDirection: 'row',
+  arrowContainer: {
+    width: 38,
+    height: 84,
     alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  arrowImage: {
+    width: 12,
+    height: 21,
   },
   title: {
     color: '4A4A4A',
