@@ -36,7 +36,7 @@ RCT_EXPORT_MODULE();
 #ifdef DEBUG
     newsURLPrefix = @"dev";
 #endif
-    NSString *newsURLString = [NSString stringWithFormat:@"https://%@-ltd-news.pantheon.io/?json=1&count=50", newsURLPrefix];
+    NSString *newsURLString = [NSString stringWithFormat:@"https://%@-ltd-news.pantheon.io/api/get_posts?count=50", newsURLPrefix];
     NSDictionary *props = @{@"url" : newsURLString};
     RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsFeedView" initialProperties:props launchOptions:nil];
     self.view = rootView;
@@ -95,8 +95,8 @@ RCT_EXPORT_MODULE();
 
 #pragma mark - RCTBridgeModule
 
-RCT_EXPORT_METHOD(presentCampaignWithCampaignID:(NSString *)campaignID) {
-    [self presentCampaignDetailViewControllerForCampaignId:campaignID.integerValue];
+RCT_EXPORT_METHOD(presentCampaign:(NSInteger)campaignID) {
+    [self presentCampaignDetailViewControllerForCampaignId:campaignID];
 }
 
 RCT_EXPORT_METHOD(presentFullArticle:(NSInteger)newsPostID urlString:(NSString *)urlString) {
