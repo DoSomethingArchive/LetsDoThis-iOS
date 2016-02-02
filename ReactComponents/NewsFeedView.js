@@ -11,6 +11,7 @@ import React, {
   View
 } from 'react-native';
 
+var Style = require('./Style.js');
 var NewsFeedPost = require('./NewsFeedPost.js');
 
 var NewsFeedView = React.createClass({
@@ -72,7 +73,7 @@ var NewsFeedView = React.createClass({
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
-        <Text style={styles.loadingText}>
+        <Text style={Style.textBody}>
           Loading news...
         </Text>
       </View>
@@ -103,11 +104,6 @@ var styles = React.StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#EEE',
-  },
-  loadingText: {
-    color: '#4A4A4A',
-    fontFamily: 'Brandon Grotesque',
-    fontSize: 15,
   },
 });
 

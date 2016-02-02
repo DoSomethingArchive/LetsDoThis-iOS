@@ -59,7 +59,7 @@
 #pragma mark - LDTEpicFailViewController
 
 - (void)styleView {
-    self.headlineLabel.font = LDTTheme.fontHeadingBold;
+    self.headlineLabel.font = LDTTheme.fontHeading;
     self.headlineLabel.textColor = LDTTheme.mediumGrayColor;
     self.detailsLabel.font = LDTTheme.font;
     [self.submitButton enable:YES];
