@@ -16,6 +16,7 @@ const CGFloat kFontSizeTitle = 24.0f;
 
 NSString *fontName = @"BrandonGrotesque-Medium";
 NSString *fontNameBold = @"BrandonGrotesque-Bold";
+NSString *hexCtaBlue = @"#3932A9";
 
 @interface LDTTheme () <RCTBridgeModule>
 
@@ -25,8 +26,8 @@ NSString *fontNameBold = @"BrandonGrotesque-Bold";
 
 RCT_EXPORT_MODULE();
 
-+(UIColor *)ctaBlueColor {
-    return [UIColor colorWithRed:54.0f/255.0f green:52.0f/255.0f blue:173.0f/255.0f alpha:1.0f];
++ (UIColor *)ctaBlueColor {
+    return [self colorFromHexString:hexCtaBlue];
 }
 
 +(UIColor *)disabledGrayColor {
@@ -89,6 +90,14 @@ RCT_EXPORT_MODULE();
     return fontNameBold;
 }
 
++(UIColor *)colorFromHexString:(NSString *)hexString {
+    unsigned rgbValue = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:hexString];
+    [scanner setScanLocation:1]; // bypass '#' character
+    [scanner scanHexInt:&rgbValue];
+    return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+}
+
 #pragma mark - RCTBridgeModule
 
 - (NSDictionary *)constantsToExport {
@@ -99,6 +108,7 @@ RCT_EXPORT_MODULE();
              @"fontSizeBody": [NSNumber numberWithFloat:kFontSizeBody],
              @"fontSizeHeading": [NSNumber numberWithFloat:kFontSizeHeading],
              @"fontSizeTitle": [NSNumber numberWithFloat:kFontSizeTitle],
+             @"colorCtaBlue" : hexCtaBlue,
              };
 }
 
