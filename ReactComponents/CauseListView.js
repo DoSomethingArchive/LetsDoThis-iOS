@@ -12,7 +12,6 @@ import React, {
   View
 } from 'react-native';
 
-var Helpers = require('./Helpers.js');
 var CauseListViewController = require('react-native').NativeModules.LDTCauseListViewController;
 
 var CauseListView = React.createClass({
