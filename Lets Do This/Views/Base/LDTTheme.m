@@ -14,7 +14,7 @@ const CGFloat kFontSizeBody = 16.0f;
 const CGFloat kFontSizeHeading = 18.0f;
 const CGFloat kFontSizeTitle = 24.0f;
 
-NSString *fontName = @"BrandonGrotesque-Medium";
+NSString *fontName = @"BrandonGrotesque-Regular";
 NSString *fontNameBold = @"BrandonGrotesque-Bold";
 NSString *hexCtaBlue = @"#3932A9";
 
