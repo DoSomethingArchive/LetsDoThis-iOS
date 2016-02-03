@@ -81,13 +81,13 @@ var CauseListView = React.createClass({
       </View>
     );
   },
-  _onPressCauseRow(cause) {
+  _onPressRow(cause) {
     CauseListViewController.presentCause(cause);
   },
   renderRow: function(cause) {
     var causeColorStyle = {backgroundColor: '#' + cause.hex};
     return (
-      <TouchableHighlight onPress={() => this._onPressCauseRow(cause)}>
+      <TouchableHighlight onPress={() => this._onPressRow(cause)}>
         <View style={styles.row}>
           <View style={[styles.causeColor, causeColorStyle]} />
           <View style={[styles.contentContainer, styles.bordered]}>

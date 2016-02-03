@@ -16,6 +16,7 @@
 @property (strong, nonatomic, readwrite) DSOCause *cause;
 @property (strong, nonatomic, readwrite) NSArray *tags;
 @property (strong, nonatomic, readwrite) NSDate *endDate;
+@property (strong, nonatomic, readwrite) NSDictionary *dictionary;
 @property (assign, nonatomic, readwrite) NSInteger campaignID;
 @property (strong, nonatomic, readwrite) NSString *coverImage;
 @property (strong, nonatomic, readwrite) NSString *reportbackNoun;
@@ -50,8 +51,8 @@
         _status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
         NSDictionary *causeDict = [values valueForKeyPath:@"causes.primary"];
         _cause = [[DSOCause alloc] initWithPhoenixDict:causeDict];
-        _tagline = [values valueForKeyAsString:@"tagline" nullValue:nil];
-        _coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:nil];
+        _tagline = [values valueForKeyAsString:@"tagline" nullValue:@""];
+        _coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:@""];
         _isCoverImageDarkBackground = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsBool:@"dark_background" nullValue:NO];
         _reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
         _reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
@@ -73,6 +74,21 @@
 
 - (NSURL *)coverImageURL {
     return [NSURL URLWithString:self.coverImage];
+}
+
+- (NSDictionary *)dictionary {
+    NSString *coverImage;
+    if (self.coverImage) {
+        coverImage = self.coverImage;
+    }
+    else {
+        coverImage = @"";
+    }
+    return @{
+             @"id" : [NSNumber numberWithInteger:self.campaignID],
+             @"title" : self.title,
+             @"image_url" : coverImage,
+             };
 }
 
 @end

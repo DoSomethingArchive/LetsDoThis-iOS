@@ -11,7 +11,10 @@
 
 @interface DSOCause ()
 
+@property (strong, nonatomic, readwrite) NSDictionary *dictionary;
 @property (assign, nonatomic, readwrite) NSInteger causeID;
+@property (strong, nonatomic) NSString *coverImageURL;
+@property (strong, nonatomic) NSString *tagline;
 @property (strong, nonatomic, readwrite) NSString *title;
 
 @end
@@ -37,9 +40,23 @@
     if (self) {
         _causeID = [dict valueForKeyAsInt:@"phoenix_id" nullValue:0];
         _title = [dict valueForKeyAsString:@"title" nullValue:@"Unknown"];
+        _tagline = [dict valueForKeyAsString:@"description" nullValue:@""];
+        _coverImageURL = [dict valueForKeyAsString:@"image_url" nullValue:@""];
     }
 
     return self;
+}
+
+
+#pragma mark - Accessors
+
+- (NSDictionary *)dictionary {
+    return @{
+             @"id" : [NSNumber numberWithInteger:self.causeID],
+             @"title" : self.title,
+             @"tagline": self.tagline,
+             @"image_url": self.coverImageURL,
+             };
 }
 
 @end

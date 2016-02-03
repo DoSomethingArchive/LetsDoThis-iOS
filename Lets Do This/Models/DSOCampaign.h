@@ -14,6 +14,7 @@
 @property (assign, nonatomic, readonly) BOOL isCoverImageDarkBackground;
 @property (strong, nonatomic, readonly) DSOCause *cause;
 @property (strong, nonatomic, readonly) NSArray *tags;
+@property (strong, nonatomic, readonly) NSDictionary *dictionary;
 @property (assign, nonatomic, readonly) NSInteger campaignID;
 @property (strong, nonatomic, readonly) NSString *coverImage;
 @property (strong, nonatomic, readonly) NSString *solutionCopy;

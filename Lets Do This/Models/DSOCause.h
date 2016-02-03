@@ -8,6 +8,7 @@
 
 @interface DSOCause : NSObject
 
+@property (strong, nonatomic, readonly) NSDictionary *dictionary;
 @property (assign, nonatomic, readonly) NSInteger causeID;
 @property (strong, nonatomic, readonly) NSString *title;
 
