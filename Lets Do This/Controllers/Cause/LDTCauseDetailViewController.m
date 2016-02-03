@@ -9,7 +9,6 @@
 #import "LDTCauseDetailViewController.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
-#import "LDTCauseDetailCampaignCell.h"
 #import "GAI+LDT.h"
 #import "LDTAppDelegate.h"
 #import <RCTBridgeModule.h>
@@ -19,8 +18,6 @@
 
 @property (strong, nonatomic) DSOCause *cause;
 @property (strong, nonatomic) NSMutableArray *campaigns;
-
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -84,16 +81,6 @@ RCT_EXPORT_MODULE();
 
 - (void)styleView {
     [self styleBackBarButton];
-    self.view.backgroundColor = LDTTheme.lightGrayColor;
-    self.tableView.backgroundColor = UIColor.clearColor;
-}
-
-- (void)configureCampaignCell:(LDTCauseDetailCampaignCell *)campaignCell indexPath:(NSIndexPath *)indexPath {
-    DSOCampaign *campaign = self.campaigns[indexPath.row];
-    campaignCell.campaign = campaign;
-    campaignCell.campaignTitleLabelText = campaign.title.uppercaseString;
-    campaignCell.campaignCoverImageViewImageURL = campaign.coverImageURL;
-    campaignCell.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)presentCampaignDetailViewControllerForCampaignId:(NSInteger)campaignID {
@@ -103,13 +90,6 @@ RCT_EXPORT_MODULE();
     // http://stackoverflow.com/a/29762965/1470725
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
     UINavigationController *navigationController = keyWindow.rootViewController.childViewControllers[1];
-
-    if (!campaign) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Our bad. That's an invalid campaign ID :("];
-        });
-        return;
-    }
     LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
     dispatch_async(dispatch_get_main_queue(), ^{
         [navigationController pushViewController:campaignDetailViewController animated:YES];
@@ -120,36 +100,6 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(presentCampaign:(NSInteger)campaignID) {
     [self presentCampaignDetailViewControllerForCampaignId:campaignID];
-}
-
-
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.campaigns.count;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    LDTCauseDetailCampaignCell *campaignCell = [tableView dequeueReusableCellWithIdentifier:@"campaignCell"];
-    [self configureCampaignCell:campaignCell indexPath:indexPath];
-
-    return campaignCell;
-}
-
-#pragma mark -- UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    LDTCauseDetailCampaignCell *campaignCell = [self.tableView cellForRowAtIndexPath:indexPath];
-    LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaignCell.campaign];
-    [self.navigationController pushViewController:campaignDetailViewController animated:YES];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewAutomaticDimension;
 }
 
 @end
