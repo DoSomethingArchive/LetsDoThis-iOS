@@ -7,6 +7,7 @@
 //
 
 #import "LDTCauseDetailViewController.h"
+#import "LDTTabBarController.h"
 #import "LDTTheme.h"
 #import "LDTCampaignDetailViewController.h"
 #import "GAI+LDT.h"
@@ -85,11 +86,8 @@ RCT_EXPORT_MODULE();
 
 - (void)presentCampaignDetailViewControllerForCampaignId:(NSInteger)campaignID {
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
-
-    // @todo DRY
-    // http://stackoverflow.com/a/29762965/1470725
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    UINavigationController *navigationController = keyWindow.rootViewController.childViewControllers[1];
+    LDTTabBarController *tabBarController = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
     LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
     dispatch_async(dispatch_get_main_queue(), ^{
         [navigationController pushViewController:campaignDetailViewController animated:YES];
