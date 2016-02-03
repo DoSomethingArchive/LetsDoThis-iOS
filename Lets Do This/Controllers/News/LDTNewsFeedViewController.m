@@ -62,12 +62,8 @@ RCT_EXPORT_MODULE();
 
 - (void)presentCampaignDetailViewControllerForCampaignId:(NSInteger)campaignID {
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
-
-    // Without this trickery, the ReactView won't push to the Campaign Detail VC, even though this method gets called (will output NSLog calls, etc).
-    // http://stackoverflow.com/a/29762965/1470725
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    UINavigationController *navigationController = keyWindow.rootViewController.childViewControllers[0];
-
+    LDTTabBarController *tabBarController = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
     if (!campaign) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Our bad. That's an invalid campaign ID :("];

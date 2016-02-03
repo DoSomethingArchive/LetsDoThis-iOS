@@ -8,6 +8,7 @@
 
 #import "LDTCauseListViewController.h"
 #import "LDTTheme.h"
+#import "LDTTabBarController.h"
 #import "LDTCauseDetailViewController.h"
 #import "GAI+LDT.h"
 #import "LDTAppDelegate.h"
@@ -66,11 +67,8 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(presentCause:(NSDictionary *)causeDict) {
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-        // This is the worst.
-        // May need to look into creating a separate UIView and then adding our ReactView as a subview: http://stackoverflow.com/questions/29597610/cant-push-a-native-view-controller-from-a-react-native-click
-
-        UINavigationController *navigationController = keyWindow.rootViewController.childViewControllers[1];
+        LDTTabBarController *tabBarController = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
         DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
         LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
         [navigationController pushViewController:causeDetailViewController animated:YES];
