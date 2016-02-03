@@ -11,8 +11,11 @@
 #import "LDTCampaignDetailViewController.h"
 #import "LDTCauseDetailCampaignCell.h"
 #import "GAI+LDT.h"
+#import "LDTAppDelegate.h"
+#import <RCTBridgeModule.h>
+#import <RCTRootView.h>
 
-@interface LDTCauseDetailViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface LDTCauseDetailViewController () <RCTBridgeModule>
 
 @property (strong, nonatomic) DSOCause *cause;
 @property (strong, nonatomic) NSMutableArray *campaigns;
@@ -23,10 +26,12 @@
 
 @implementation LDTCauseDetailViewController
 
+RCT_EXPORT_MODULE();
+
 #pragma mark - NSObject
 
 - (instancetype)initWithCause:(DSOCause *)cause {
-    self = [super initWithNibName:@"LDTCauseDetailView" bundle:nil];
+    self = [super init];
 
     if (self) {
         _cause = cause;
@@ -43,19 +48,21 @@
 
     [self styleView];
     self.title = self.cause.title.uppercaseString;
-    [self.tableView registerNib:[UINib nibWithNibName:@"LDTCauseDetailCampaignCell" bundle:nil] forCellReuseIdentifier:@"campaignCell"];
-    self.tableView.estimatedRowHeight = 150.0f;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
 
     self.campaigns = [[NSMutableArray alloc] init];
+    NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
+    NSDictionary *initialProperties = @{@"cause" : self.cause.dictionary, @"campaigns": [self.campaigns copy]};
+    RCTRootView *rootView =[[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"CauseDetailView" initialProperties:initialProperties launchOptions:nil];
+    self.view = rootView;
+
     NSArray *activeCampaigns = [DSOUserManager sharedInstance].activeCampaigns;
 
     for (DSOCampaign *campaign in activeCampaigns) {
         if (campaign.cause.causeID == self.cause.causeID) {
-            [self.campaigns addObject:campaign];
+            [self.campaigns addObject:campaign.dictionary];
         }
     }
-    [self.tableView reloadData];
+    rootView.appProperties = @{@"cause" : self.cause.dictionary, @"campaigns": [self.campaigns copy]};
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -88,6 +95,33 @@
     campaignCell.campaignCoverImageViewImageURL = campaign.coverImageURL;
     campaignCell.selectionStyle = UITableViewCellSelectionStyleNone;
 }
+
+- (void)presentCampaignDetailViewControllerForCampaignId:(NSInteger)campaignID {
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
+
+    // @todo DRY
+    // http://stackoverflow.com/a/29762965/1470725
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    UINavigationController *navigationController = keyWindow.rootViewController.childViewControllers[1];
+
+    if (!campaign) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Our bad. That's an invalid campaign ID :("];
+        });
+        return;
+    }
+    LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [navigationController pushViewController:campaignDetailViewController animated:YES];
+    });
+}
+
+#pragma mark - RCTBridgeModule
+
+RCT_EXPORT_METHOD(presentCampaign:(NSInteger)campaignID) {
+    [self presentCampaignDetailViewControllerForCampaignId:campaignID];
+}
+
 
 #pragma mark - UITableViewDataSource
 
