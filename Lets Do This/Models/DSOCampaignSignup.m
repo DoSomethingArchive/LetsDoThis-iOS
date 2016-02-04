@@ -27,7 +27,7 @@
 
     if (self) {
         NSInteger reportbackID = [dict valueForKeyAsInt:@"reportback_id" nullValue:0];
-        if (reportbackID > 0) {
+        if (reportbackID > 0 && [dict valueForJSONKey:@"reportback_data"]) {
             _campaign = [[DSOCampaign alloc] initWithDict:(NSDictionary *)[dict valueForKeyPath:@"reportback_data.campaign"]];
             NSArray *reportbackItems = [dict[@"reportback_data"] valueForKeyPath:@"reportback_items.data"];
             // For now, we only support uploading and displaying a single ReportbackItem per Reportback. Future functionality could include uploading multiple ReportbackItems, as per the web.
