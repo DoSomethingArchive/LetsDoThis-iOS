@@ -88,6 +88,7 @@
              @"id" : [NSNumber numberWithInteger:self.campaignID],
              @"title" : self.title,
              @"image_url" : coverImage,
+             @"tagline" : self.tagline,
              };
 }
 

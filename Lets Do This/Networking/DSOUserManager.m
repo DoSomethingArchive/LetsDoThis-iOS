@@ -52,6 +52,24 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     return [self.mutableActiveCampaigns copy];
 }
 
+- (NSDictionary *)campaignDictionaries {
+    NSMutableDictionary *campaigns = [[NSMutableDictionary alloc] init];
+    for (DSOCampaign *campaign in self.activeCampaigns) {
+        NSString *campaignIDString = [NSString stringWithFormat:@"%li", (long)campaign.campaignID];
+        campaigns[campaignIDString] = campaign.dictionary;
+    }
+    return [campaigns copy];
+}
+
+- (NSDictionary *)headers {
+    NSString *session = [SSKeychain passwordForService:self.currentService account:@"Session"];
+    NSString *apiKey = [DSOAPI sharedInstance].apiKey;
+    return @{
+             @"session" : session,
+             @"apiKey" : apiKey
+             };
+}
+
 #pragma mark - DSOUser
 
 - (NSString *)currentService {
@@ -164,6 +182,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     [[DSOAPI sharedInstance] createCampaignSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
         [self.user addCampaignSignup:signup];
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateCurrentUser" object:self];
         if (completionHandler) {
             completionHandler(signup);
         }
@@ -177,6 +196,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)reportbackItem.campaign.campaignID] value:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateCurrentUser" object:self];
         // Update the corresponding campaignSignup with the new reportbackItem.
         for (DSOCampaignSignup *signup in self.user.campaignSignups) {
             if (reportbackItem.campaign.campaignID == signup.campaign.campaignID) {

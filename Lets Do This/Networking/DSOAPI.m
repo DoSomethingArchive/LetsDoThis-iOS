@@ -40,6 +40,7 @@
 
 @interface DSOAPI()
 
+@property (nonatomic, strong, readwrite) NSString *apiKey;
 @property (nonatomic, strong, readwrite) NSString *phoenixBaseURL;
 @property (nonatomic, strong, readwrite) NSString *phoenixApiURL;
 @property (nonatomic, strong, readwrite) NSString *northstarBaseURL;
@@ -72,6 +73,7 @@
     self = [super initWithBaseURL:[NSURL URLWithString:northstarURLString]];
 
     if (self) {
+        _apiKey = apiKey;
         if (activityLoggerEnabled) {
             [[AFNetworkActivityLogger sharedLogger] startLogging];
             [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
@@ -324,5 +326,11 @@
 - (void)logError:(NSError *)error methodName:(NSString *)methodName URLString:(NSString *)URLString {
     NSLog(@"\n*** DSOAPI ****\n\nError %li: %@\n%@\n%@ \n\n", (long)error.code, error.localizedDescription, methodName, URLString);
 }
+
+- (NSString *)profileURLforUser:(DSOUser *)user {
+    NSString *northstarURLString = [NSString stringWithFormat:@"https://%@/v1/", LDTSERVER];
+    return [NSString stringWithFormat:@"%@users/_id/%@/campaigns", northstarURLString, user.userID];
+}
+
 
 @end

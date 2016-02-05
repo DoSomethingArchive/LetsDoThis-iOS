@@ -15,6 +15,7 @@
 
 @interface DSOAPI : AFHTTPSessionManager
 
+@property (nonatomic, strong, readonly) NSString *apiKey;
 @property (nonatomic, strong, readonly) NSString *phoenixBaseURL;
 @property (nonatomic, strong, readonly) NSString *phoenixApiURL;
 @property (nonatomic, strong, readonly) NSString *newsApiURL;
@@ -47,5 +48,6 @@
 
 - (void)loadCampaignSignupsForUser:(DSOUser *)user completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
+- (NSString *)profileURLforUser:(DSOUser *)user;
 
 @end

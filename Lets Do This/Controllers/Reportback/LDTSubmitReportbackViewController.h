@@ -10,6 +10,8 @@
 
 @interface LDTSubmitReportbackViewController : LDTBaseViewController
 
+- (instancetype)initWithCampaign:(DSOCampaign *)campaign reportbackItemImage:(UIImage *)reportbackItemImage;
+
 - (instancetype)initWithReportbackItem:(DSOReportbackItem *)reportbackItem;
 
 @end
