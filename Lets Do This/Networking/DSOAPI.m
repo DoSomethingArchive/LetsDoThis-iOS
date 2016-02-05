@@ -98,7 +98,7 @@
     if (!countryCode) {
         countryCode = @"";
     }
-    NSString *url = @"users?create_drupal_user=1";
+    NSString *url = @"auth/register?create_drupal_user=1";
     NSDictionary *params = @{@"email": email,
                              @"password": password,
                              @"first_name": firstName,
@@ -119,12 +119,15 @@
 }
 
 - (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = @"login";
+    NSString *url = @"auth/token";
     NSDictionary *params = @{@"email": email,
                              @"password": password};
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
+        NSMutableDictionary *userDict = [[responseObject valueForKeyPath:@"data.user.data"] mutableCopy];
+        // This may warrant a more graceful solution, but it's a quick way to implement the API changes in https://github.com/DoSomething/northstar/pull/268. Include the session token in our return DSOUser so any methods calling this one has access to the session token required for authenticated requests.
+        userDict[@"session_token"] = [responseObject valueForKeyPath:@"data.key"];
+        DSOUser *user = [[DSOUser alloc] initWithDict:[userDict copy]];
         if (completionHandler) {
             completionHandler(user);
         }
@@ -156,7 +159,7 @@
 }
 
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = @"logout";
+    NSString *url = @"auth/invalidate";
     [self POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler(responseObject);
