@@ -172,6 +172,9 @@ var UserView = React.createClass({
   renderDoingRow: function(signup) {
     var campaignIDString = signup.drupal_id.toString();
     var campaign = UserViewController.campaigns[campaignIDString];
+    if (!campaign) {
+      return null;
+    }
     if (this.props.isSelfProfile) {
       // Render Prove It button
     }
