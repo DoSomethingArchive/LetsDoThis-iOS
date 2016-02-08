@@ -14,6 +14,7 @@ import React, {
 
 var Style = require('./Style.js');
 var UserViewController = require('react-native').NativeModules.LDTUserViewController;
+var ReportbackItemView = require('./ReportbackItemView.js');
 
 var UserView = React.createClass({
   getInitialState: function() {
@@ -185,16 +186,10 @@ var UserView = React.createClass({
     );
   },
   renderDoneRow: function(signup) {
-    var campaignIDString = signup.drupal_id.toString();
-    var campaign = UserViewController.campaigns[campaignIDString];
     return (
-      <TouchableHighlight onPress={() => this._onPressRow(signup)}>
-        <View style={styles.row}>
-          <Text style={[Style.textHeading, Style.textColorCtaBlue]}>
-            Test {campaign.title}
-          </Text>
-        </View>
-      </TouchableHighlight>
+      <ReportbackItemView
+        key={signup.reportback_id}
+        reportback={signup.reportback_data} />
     );
   },
   _onPressRow(signup) {
