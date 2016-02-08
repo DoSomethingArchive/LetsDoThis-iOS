@@ -52,16 +52,23 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     return [self.mutableActiveCampaigns copy];
 }
 
-#pragma mark - DSOUser
+- (NSDictionary *)campaignDictionaries {
+    NSMutableDictionary *campaigns = [[NSMutableDictionary alloc] init];
+    for (DSOCampaign *campaign in self.activeCampaigns) {
+        NSString *campaignIDString = [NSString stringWithFormat:@"%li", (long)campaign.campaignID];
+        campaigns[campaignIDString] = campaign.dictionary;
+    }
+    return [campaigns copy];
+}
 
 - (NSString *)currentService {
     return [DSOAPI sharedInstance].baseURL.absoluteString;
 }
 
+#pragma mark - DSOUserManager
+
 - (BOOL)userHasCachedSession {
-    NSString *sessionToken = [SSKeychain passwordForService:self.currentService account:@"Session"];
-	
-    return sessionToken.length > 0;
+    return self.sessionToken.length > 0;
 }
 
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
@@ -82,22 +89,26 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
       }];
 }
 
-- (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (NSString *)sessionToken {
+    return [SSKeychain passwordForService:self.currentService account:@"Session"];
+}
 
-    NSString *sessionToken = [SSKeychain passwordForService:self.currentService account:@"Session"];
-    if (sessionToken.length == 0) {
+- (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    if (self.sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
     }
 
     // @todo: Once Northstar API supports it, actively check for whether or saved session is valid before trying to start.
     // @see https://github.com/DoSomething/northstar/issues/186
-    [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:sessionToken];
+    [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:self.sessionToken];
 
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         [self loadActiveCampaignSignupsForUser:self.user completionHandler:^{
+            // Adding this here for edge case when we need to refresh a User's Profile from signing out and then signing in as a different user.
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"updateCurrentUser" object:self];
             if (completionHandler) {
                 completionHandler();
             }
@@ -164,6 +175,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     [[DSOAPI sharedInstance] createCampaignSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
         [self.user addCampaignSignup:signup];
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateCurrentUser" object:self];
         if (completionHandler) {
             completionHandler(signup);
         }
@@ -177,6 +189,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)reportbackItem.campaign.campaignID] value:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateCurrentUser" object:self];
         // Update the corresponding campaignSignup with the new reportbackItem.
         for (DSOCampaignSignup *signup in self.user.campaignSignups) {
             if (reportbackItem.campaign.campaignID == signup.campaign.campaignID) {

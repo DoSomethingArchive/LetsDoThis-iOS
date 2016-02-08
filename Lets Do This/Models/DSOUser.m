@@ -14,6 +14,7 @@
 @interface DSOUser()
 
 @property (nonatomic, strong, readwrite) NSMutableArray *mutableCampaignSignups;
+@property (nonatomic, strong, readwrite) NSString *avatarURL;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *email;
@@ -45,7 +46,7 @@
         _email = dict[@"email"];
         _sessionToken = dict[@"session_token"];
         _mutableCampaignSignups = [[NSMutableArray alloc] init];
-		
+        _avatarURL = [dict valueForKeyAsString:@"photo" nullValue:@""];
         if (dict[@"photo"]) {
             [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
                  _photo = image;
@@ -56,7 +57,16 @@
     return self;
 }
 
+#pragma mark - Accessors
 
+- (NSDictionary *)dictionary {
+    return @{
+             @"id" : self.userID,
+             @"displayName" : self.displayName,
+             @"countryName" : self.countryName,
+             @"avatarURL": self.avatarURL
+             };
+}
 
 - (UIImage *)photo {
     if (!_photo) {

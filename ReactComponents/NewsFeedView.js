@@ -79,9 +79,7 @@ var NewsFeedView = React.createClass({
       </View>
     );
   },
-  renderRow: function(
-    post: Object,
-  ) {
+  renderRow: function(post) {
     return (
       <NewsFeedPost
         key={post.id}

@@ -36,6 +36,17 @@
 
 #pragma mark - NSObject
 
+- (instancetype)initWithCampaign:(DSOCampaign *)campaign reportbackItemImage:(UIImage *)reportbackItemImage {
+    self = [super initWithNibName:@"LDTSubmitReportbackView" bundle:nil];
+
+    if (self) {
+        _reportbackItem = [[DSOReportbackItem alloc] initWithCampaign:campaign];
+        _reportbackItem.image = reportbackItemImage;
+    }
+
+    return self;
+}
+
 - (instancetype)initWithReportbackItem:(DSOReportbackItem *)reportbackItem {
     self = [super initWithNibName:@"LDTSubmitReportbackView" bundle:nil];
 
@@ -200,7 +211,6 @@
         [rootVC dismissViewControllerAnimated:YES completion:^{
             [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.reportbackItem.campaign.title]];
         }];
-
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [LDTMessage displayErrorMessageInViewController:self error:error];
