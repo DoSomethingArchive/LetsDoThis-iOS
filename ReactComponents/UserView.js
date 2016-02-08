@@ -33,6 +33,7 @@ var UserView = React.createClass({
       }),
       isRefreshing: false,
       loaded: false,
+      error: null,
     };
   },
   componentDidMount: function() {
@@ -82,8 +83,10 @@ var UserView = React.createClass({
         this.setState({
           dataSource : this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
           loaded: true,
+          error: null,
         });
       })
+      .catch((error) => this.catchError(error))
       .done();
   },
   _onRefresh: function () {
@@ -94,6 +97,12 @@ var UserView = React.createClass({
         isRefreshing: false,
       });
     }, 1000);
+  },
+  catchError: function(error) {
+    console.log(error);
+    this.setState({
+      error: error,
+    });
   },
   renderLoadingView: function() {
     // @todo DRY LoadingView ReactComponent
@@ -106,7 +115,19 @@ var UserView = React.createClass({
       </View>
     );
   },
+  renderError: function() {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={Style.textBody}>
+          Epic Fail
+        </Text>
+      </View>
+    );
+  },
   render: function() {
+    if (this.state.error) {
+      return this.renderError();
+    }
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }

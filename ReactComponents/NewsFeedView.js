@@ -22,6 +22,7 @@ var NewsFeedView = React.createClass({
       }),
       isRefreshing: false,
       loaded: false,
+      error: null,
     };
   },
   componentDidMount: function() {
@@ -34,11 +35,31 @@ var NewsFeedView = React.createClass({
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData.posts),
           loaded: true,
+          error: null,
         });
       })
+      .catch((error) => this.catchError(error))
       .done();
   },
+  catchError: function(error) {
+    console.log(error);
+    this.setState({
+      error: error,
+    });
+  },
+  renderError: function() {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={Style.textBody}>
+          Epic Fail
+        </Text>
+      </View>
+    );
+  },
   render: function() {
+    if (this.state.error) {
+      return this.renderError();
+    }
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
