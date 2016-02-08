@@ -80,7 +80,7 @@
     [self.navigationController.barHideOnSwipeGestureRecognizer addTarget:self action:@selector(handleSwipeGestureRecognizer:)];
 
     // Make sure self profile is to to date
-    if (self.isCurrentUserProfile) {
+    if (self.isCurrentUserProfile && [DSOUserManager sharedInstance].user) {
         self.user = [DSOUserManager sharedInstance].user;
         self.reactRootView.appProperties = [self appProperties];
     }
@@ -102,13 +102,25 @@
 }
 
 - (NSDictionary *)appProperties {
+    NSDictionary *appProperties;
     NSString *profileURL = [[DSOAPI sharedInstance] profileURLforUser:self.user];
-    return @{
+    NSDictionary *userDict = [[NSDictionary alloc] init];
+    NSString *sessionToken = @"";
+    if (self.user) {
+        userDict = self.user.dictionary;
+        sessionToken = [DSOUserManager sharedInstance].sessionToken;
+    }
+
+    appProperties = @{
            @"user" : self.user.dictionary,
            @"url" : profileURL,
            @"isSelfProfile" : [NSNumber numberWithBool:self.isCurrentUserProfile],
+           @"apiKey": [DSOAPI sharedInstance].apiKey,
+           @"sessionToken": sessionToken,
            };
+    return appProperties;
 }
+
 
 - (void)receivedNotification:(NSNotification *)notification {
     if ([[notification name] isEqualToString:@"updateCurrentUser"]) {
@@ -184,14 +196,8 @@
 RCT_EXPORT_MODULE();
 
 - (NSDictionary *)constantsToExport {
-    NSDictionary *headers = [DSOUserManager sharedInstance].headers;
-    NSLog(@"headers %@", headers);
     NSDictionary *campaigns =  [DSOUserManager sharedInstance].campaignDictionaries;
-    NSDictionary *props = @{
-                            @"apiKey" : headers[@"apiKey"],
-                            @"session" : headers[@"session"],
-                            @"campaigns" : campaigns
-                            };
+    NSDictionary *props = @{@"campaigns" : campaigns};
     return props;
 }
 

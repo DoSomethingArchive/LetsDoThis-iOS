@@ -47,8 +47,8 @@ var UserView = React.createClass({
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Session': UserViewController.session,
-        'X-DS-REST-API-Key': UserViewController.apiKey,
+        'Session': this.props.sessionToken,
+        'X-DS-REST-API-Key': this.props.apiKey,
       },
     };
     fetch(this.props.url, options)
@@ -60,6 +60,9 @@ var UserView = React.createClass({
           rowIDs = [],
           i;
 
+        if (!responseData.data) {
+          return;
+        }
         sectionIDs.push(0);
         dataBlob[0] = "Actions I'm doing";
         rowIDs[0] = [];

@@ -13,8 +13,8 @@
 // Stores the current/authenticated user.
 @property (strong, nonatomic, readonly) DSOUser *user;
 
-// Stores headers for authenticated API requests.
-@property (strong, nonatomic, readonly) NSDictionary *headers;
+// Stores session token for authenticated API requests.
+@property (strong, nonatomic, readonly) NSString *sessionToken;
 
 // Stores all active DSOCampaigns to display.
 @property (strong, nonatomic, readonly) NSArray *activeCampaigns;
