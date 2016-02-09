@@ -62,8 +62,10 @@ var UserView = React.createClass({
           i;
 
         if (!responseData.data) {
+          // @todo Throw error
           return;
         }
+
         sectionIDs.push(0);
         dataBlob[0] = "Actions I'm doing";
         rowIDs[0] = [];
@@ -72,6 +74,16 @@ var UserView = React.createClass({
         rowIDs[1] = [];
         for (i = 0; i < signups.length; i++) {
           var signup = signups[i];
+          if (!signup.drupal_id) {
+            continue;
+          }
+          var campaignIDString = signup.drupal_id.toString();
+          // Filter out inactive campaigns.
+          var campaign = UserViewController.campaigns[campaignIDString];
+          if (!campaign) {
+            continue;
+          }
+          signup.campaign = campaign;
           var sectionNumber = 0;
           if (signup.reportback_data) {
             sectionNumber = 1;
@@ -180,9 +192,6 @@ var UserView = React.createClass({
     );
   },
   renderRow: function(signup) {
-    if (!signup.drupal_id) {
-      return null;
-    }
     if (signup.reportback_data) {
       return this.renderDoneRow(signup);
     }
@@ -191,11 +200,6 @@ var UserView = React.createClass({
     }
   },
   renderDoingRow: function(signup) {
-    var campaignIDString = signup.drupal_id.toString();
-    var campaign = UserViewController.campaigns[campaignIDString];
-    if (!campaign) {
-      return null;
-    }
     if (this.props.isSelfProfile) {
       // Render Prove It button
     }
@@ -203,10 +207,10 @@ var UserView = React.createClass({
       <TouchableHighlight onPress={() => this._onPressDoingRow(signup)}>
         <View style={styles.row}>
           <Text style={[Style.textHeading, Style.textColorCtaBlue]}>
-            {campaign.title}
+            {signup.campaign.title}
           </Text>
           <Text style={Style.textBody}>
-            {campaign.tagline}
+            {signup.campaign.tagline}
           </Text>
         </View>
       </TouchableHighlight>

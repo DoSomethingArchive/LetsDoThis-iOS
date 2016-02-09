@@ -25,7 +25,10 @@ var ReportbackItemView = React.createClass({
     if (user.photo.length == 0) {
       this.props.user.avatarURL = 'https://placekitten.com/g/600/600';
     }
-
+    // Sanity check:
+    if ((!reportbackItem.media) || reportbackItem.media.uri.length == 0) {
+      reportbackItem.media.uri = 'https://placekitten.com/g/600/600';
+    }
     return(
       <View style={styles.container}>
        <Text style={[Style.textCaption, styles.countryNameText]}>{user.country}</Text>
