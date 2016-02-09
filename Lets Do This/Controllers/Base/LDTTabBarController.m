@@ -8,7 +8,7 @@
 
 #import "LDTTabBarController.h"
 #import "LDTNewsFeedViewController.h"
-#import "LDTProfileViewController.h"
+#import "LDTUserViewController.h"
 #import "LDTOnboardingPageViewController.h"
 #import "LDTUserConnectViewController.h"
 #import "LDTCauseListViewController.h"
@@ -36,12 +36,12 @@
         newsFeedViewController.title = @"News";
         UINavigationController *newsFeedNavigationController = [[UINavigationController alloc] initWithRootViewController:newsFeedViewController];
 
-        LDTProfileViewController *profileVC = [[LDTProfileViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
+        LDTUserViewController *profileVC = [[LDTUserViewController alloc] initWithUser:[DSOUserManager sharedInstance].user];
         profileVC.title = @"Me";
         UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
 
-        LDTCauseListViewController *causeListViewController = [[LDTCauseListViewController alloc] initWithNibName:@"LDTCauseListView" bundle:nil];
+        LDTCauseListViewController *causeListViewController = [[LDTCauseListViewController alloc] init];
         causeListViewController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
         causeListViewController.title = @"Actions";
         UINavigationController *causeListNavigationController = [[UINavigationController alloc] initWithRootViewController:causeListViewController];

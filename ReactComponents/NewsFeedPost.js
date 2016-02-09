@@ -9,6 +9,7 @@ import React, {
 } from 'react-native';
 
 var Helpers = require('./Helpers.js');
+var Style = require('./Style.js');
 var NewsFeedViewController = require('react-native').NativeModules.LDTNewsFeedViewController;
 
 var NewsFeedPost = React.createClass({
@@ -18,12 +19,10 @@ var NewsFeedPost = React.createClass({
     };
   },
   _onPressActionButton: function() {
-    var campaignID = this.props.post.custom_fields.campaign_id[0];
-    NewsFeedViewController.presentCampaignWithCampaignID(campaignID);
+    NewsFeedViewController.presentCampaign(this.props.post.campaign_id);
   },
   _onPressFullArticleButton: function() {
-    var urlString = this.props.post.custom_fields.full_article_url[0];
-    NewsFeedViewController.presentFullArticle(this.props.post.id, urlString);
+    NewsFeedViewController.presentFullArticle(this.props.post.id, this.props.post.full_article_url);
   },
   _onPressImageCreditButton: function() {
     this.setState({
@@ -32,13 +31,11 @@ var NewsFeedPost = React.createClass({
   },
   renderFullArticleButton: function () {
     var post = this.props.post;
-    if (typeof post.custom_fields.full_article_url !== 'undefined'
-        && typeof post.custom_fields.full_article_url[0] !== 'undefined'
-        && post.custom_fields.full_article_url[0]) {
+    if (post.full_article_url.length > 0) {
       return (
         <Text
           onPress={this._onPressFullArticleButton}
-          style={styles.fullArticleButton}>
+          style={[Style.textBodyBold, Style.textColorCtaBlue]}>
             Read the full article
         </Text>
       );
@@ -48,13 +45,9 @@ var NewsFeedPost = React.createClass({
   renderImage: function() {
     var post = this.props.post;
     
-    if (typeof post.attachments[0] !== 'undefined'
-        && typeof post.attachments[0].images !== 'undefined'
-        && typeof post.attachments[0].images.full !== 'undefined') {
-
+    if (post.image_url.length > 0) {
       var viewImageCredit = null;
-      var imageCreditText = post.custom_fields.photo_credit[0];
-      if (imageCreditText.length > 0) {
+      if (post.photo_credit.length > 0) {
         var imageCreditOpacity = 1;
         if (this.state.imageCreditHidden) {
           imageCreditOpacity = 0;
@@ -62,7 +55,7 @@ var NewsFeedPost = React.createClass({
         viewImageCredit = (
           <View style={styles.imageCreditContainer}>
             <View style={[styles.imageCreditTextContainer, {opacity: imageCreditOpacity}]} >
-              <Text style={styles.imageCreditText}>{imageCreditText}</Text>
+              <Text style={[Style.textBody, {color: 'white'}]}>{post.photo_credit}</Text>
             </View>
             <TouchableHighlight onPress={this._onPressImageCreditButton}>
               <Image
@@ -76,7 +69,7 @@ var NewsFeedPost = React.createClass({
       return (
         <Image
           style={styles.image}
-          source={{uri: post.attachments[0].images.full.url}}>
+          source={{uri: post.image_url}}>
           {viewImageCredit}
         </Image>
       );
@@ -90,7 +83,7 @@ var NewsFeedPost = React.createClass({
           <View style={styles.summaryItemOvalContainer}>
             <Image source={require('image!listitem-oval')} />
           </View>
-          <Text style={styles.summaryText}>{summaryItemText}</Text>
+          <Text style={[Style.textBody, styles.summaryText]}>{summaryItemText}</Text>
         </View>
       );
     }
@@ -102,27 +95,29 @@ var NewsFeedPost = React.createClass({
     var causeTitle, causeStyle = null;
     if (post.categories.length > 0) {
       causeTitle = post.categories[0].title;
-      causeStyle = {backgroundColor: Helpers.causeBackgroundColor(causeTitle)};
+      causeStyle = {backgroundColor: '#' + post.categories[0].hex};
     }
 
     return(
       <View style={[styles.wrapper]}>
         <View style={[styles.header, causeStyle]}>
-          <Text style={styles.headerText}>{Helpers.formatDate(post.date)}</Text>
+          <Text style={[Style.textCaptionBold, {color: 'white'}]}>{Helpers.formatDate(post.date)}</Text>
           <View style={styles.causeContainer}>
-            <Text style={styles.headerText}>{causeTitle}</Text>
+            <Text style={[Style.textCaptionBold, {color: 'white'}]}>{causeTitle}</Text>
           </View>
         </View>
         {this.renderImage()}
         <View style={styles.content}>
-          <Text style={styles.title}>{postTitle.toUpperCase()}</Text>
-          {this.renderSummaryItem(post.custom_fields.summary_1[0])}
-          {this.renderSummaryItem(post.custom_fields.summary_2[0])}
-          {this.renderSummaryItem(post.custom_fields.summary_3[0])}
+          <Text style={Style.textHeading}>{postTitle.toUpperCase()}</Text>
+          {this.renderSummaryItem(post.summary_1)}
+          {this.renderSummaryItem(post.summary_2)}
+          {this.renderSummaryItem(post.summary_3)}
           {this.renderFullArticleButton()}
         </View>
         <TouchableHighlight onPress={this._onPressActionButton} style={styles.actionButton}>
-          <Text style={styles.actionButtonText}>{'Take action'.toUpperCase()}</Text>
+          <Text style={[Style.textBodyBold, styles.actionButtonText]}>
+            {'Take action'.toUpperCase()}
+          </Text>
         </TouchableHighlight>
       </View>
     );
@@ -144,10 +139,6 @@ var styles = StyleSheet.create({
     borderTopRightRadius: 6,
     padding: 4,
   },
-  headerText: {
-    color: '#ffffff',
-    fontFamily: 'Brandon Grotesque',
-  },
   causeContainer: {
     flex: 1,
     alignItems: 'flex-end',
@@ -156,8 +147,6 @@ var styles = StyleSheet.create({
     padding: 20,
   },
   fullArticleButton: {
-    color: '#3932A9',
-    fontFamily: 'BrandonGrotesque-Bold',
     marginTop: 14,
   },
   actionButton: {
@@ -169,8 +158,6 @@ var styles = StyleSheet.create({
   },
   actionButtonText: {
     color: '#ffffff',
-    fontFamily: 'BrandonGrotesque-Bold',
-    fontSize: 16,
     textAlign: 'center',
   },
   image: {
@@ -205,13 +192,6 @@ var styles = StyleSheet.create({
   },
   imageCreditText: {
     color: '#FFFFFF',
-    fontFamily: 'Brandon Grotesque',
-    fontSize: 15,
-  },
-  title: {
-    color: '#4A4A4A',
-    fontFamily: 'BrandonGrotesque-Bold',
-    fontSize: 20,
   },
   // View container to center the image against just a single line of text
   summaryItemOvalContainer: {
@@ -226,11 +206,8 @@ var styles = StyleSheet.create({
     marginTop: 8,
   },
   summaryText: {
-    color: '#4A4A4A',
     flex: 1,
     flexDirection: 'column',
-    fontFamily: 'Brandon Grotesque',
-    fontSize: 15,
     marginLeft: 4,
   },
 });

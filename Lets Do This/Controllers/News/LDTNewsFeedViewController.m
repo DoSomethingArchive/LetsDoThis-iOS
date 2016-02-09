@@ -32,14 +32,11 @@ RCT_EXPORT_MODULE();
     self.navigationItem.title = @"Let's Do This".uppercaseString;
 
     NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
-    NSString *newsURLPrefix = @"live";
-#ifdef DEBUG
-    newsURLPrefix = @"dev";
-#endif
-    NSString *newsURLString = [NSString stringWithFormat:@"https://%@-ltd-news.pantheon.io/?json=1&count=50", newsURLPrefix];
-    NSDictionary *props = @{@"url" : newsURLString};
+    NSString *url = [NSString stringWithFormat:@"%@get_posts?count=50", [DSOAPI sharedInstance].newsApiURL];
+    NSDictionary *props = @{@"url" : url};
     RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsFeedView" initialProperties:props launchOptions:nil];
     self.view = rootView;
+
     [self styleView];
 }
 
@@ -65,12 +62,8 @@ RCT_EXPORT_MODULE();
 
 - (void)presentCampaignDetailViewControllerForCampaignId:(NSInteger)campaignID {
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
-
-    // Without this trickery, the ReactView won't push to the Campaign Detail VC, even though this method gets called (will output NSLog calls, etc).
-    // http://stackoverflow.com/a/29762965/1470725
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    UINavigationController *navigationController = keyWindow.rootViewController.childViewControllers[0];
-
+    LDTTabBarController *tabBarController = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
     if (!campaign) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Our bad. That's an invalid campaign ID :("];
@@ -94,8 +87,8 @@ RCT_EXPORT_MODULE();
 
 #pragma mark - RCTBridgeModule
 
-RCT_EXPORT_METHOD(presentCampaignWithCampaignID:(NSString *)campaignID) {
-    [self presentCampaignDetailViewControllerForCampaignId:campaignID.integerValue];
+RCT_EXPORT_METHOD(presentCampaign:(NSInteger)campaignID) {
+    [self presentCampaignDetailViewControllerForCampaignId:campaignID];
 }
 
 RCT_EXPORT_METHOD(presentFullArticle:(NSInteger)newsPostID urlString:(NSString *)urlString) {

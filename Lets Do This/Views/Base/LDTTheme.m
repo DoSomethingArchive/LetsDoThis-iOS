@@ -7,17 +7,27 @@
 //
 
 #import "LDTTheme.h"
+#import <RCTBridgeModule.h>
 
 const CGFloat kFontSizeCaption = 13.0f;
-const CGFloat kFontSizeNormal = 15.0f;
-const CGFloat kFontSizeSubHeading = 17.0f;
-const CGFloat kFontSizeHeading = 17.0f;
+const CGFloat kFontSizeBody = 16.0f;
+const CGFloat kFontSizeHeading = 18.0f;
 const CGFloat kFontSizeTitle = 24.0f;
+
+NSString *fontName = @"BrandonGrotesque-Regular";
+NSString *fontNameBold = @"BrandonGrotesque-Bold";
+NSString *hexCtaBlue = @"#3932A9";
+
+@interface LDTTheme () <RCTBridgeModule>
+
+@end
 
 @implementation LDTTheme
 
-+(UIColor *)ctaBlueColor {
-    return [UIColor colorWithRed:54.0f/255.0f green:52.0f/255.0f blue:173.0f/255.0f alpha:1.0f];
+RCT_EXPORT_MODULE();
+
++ (UIColor *)ctaBlueColor {
+    return [self colorFromHexString:hexCtaBlue];
 }
 
 +(UIColor *)disabledGrayColor {
@@ -45,11 +55,11 @@ const CGFloat kFontSizeTitle = 24.0f;
 }
 
 +(UIFont *)font {
-    return [UIFont fontWithName:[self fontName] size:kFontSizeNormal];
+    return [UIFont fontWithName:[self fontName] size:kFontSizeBody];
 }
 
 +(UIFont *)fontBold {
-    return [UIFont fontWithName:[self fontBoldName] size:kFontSizeNormal];
+    return [UIFont fontWithName:[self fontBoldName] size:kFontSizeBody];
 }
 
 +(UIFont *)fontCaption {
@@ -61,14 +71,10 @@ const CGFloat kFontSizeTitle = 24.0f;
 }
 
 +(UIFont *)fontSubHeading {
-    return [UIFont fontWithName:[self fontName] size:kFontSizeSubHeading];
-}
-
-+(UIFont *)fontHeading {
     return [UIFont fontWithName:[self fontName] size:kFontSizeHeading];
 }
 
-+(UIFont *)fontHeadingBold {
++(UIFont *)fontHeading {
     return [UIFont fontWithName:[self fontBoldName] size:kFontSizeHeading];
 }
 
@@ -77,11 +83,33 @@ const CGFloat kFontSizeTitle = 24.0f;
 }
 
 +(NSString *)fontName {
-    return @"BrandonGrotesque-Medium";
+    return fontName;
 }
 
 +(NSString *)fontBoldName {
-    return @"BrandonGrotesque-Bold";
+    return fontNameBold;
+}
+
++(UIColor *)colorFromHexString:(NSString *)hexString {
+    unsigned rgbValue = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:hexString];
+    [scanner setScanLocation:1]; // bypass '#' character
+    [scanner scanHexInt:&rgbValue];
+    return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+}
+
+#pragma mark - RCTBridgeModule
+
+- (NSDictionary *)constantsToExport {
+    return @{
+             @"fontName": fontName,
+             @"fontNameBold": fontNameBold,
+             @"fontSizeCaption": [NSNumber numberWithFloat:kFontSizeCaption],
+             @"fontSizeBody": [NSNumber numberWithFloat:kFontSizeBody],
+             @"fontSizeHeading": [NSNumber numberWithFloat:kFontSizeHeading],
+             @"fontSizeTitle": [NSNumber numberWithFloat:kFontSizeTitle],
+             @"colorCtaBlue" : hexCtaBlue,
+             };
 }
 
 @end

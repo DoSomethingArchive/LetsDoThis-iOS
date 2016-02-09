@@ -8,14 +8,11 @@
 
 @interface DSOCause : NSObject
 
-// May not need this once we don't need to store master list of campaigns.
-@property (strong, nonatomic, readonly) NSArray *activeCampaigns;
+@property (strong, nonatomic, readonly) NSDictionary *dictionary;
 @property (assign, nonatomic, readonly) NSInteger causeID;
 @property (strong, nonatomic, readonly) NSString *title;
 
-- (instancetype)initWithDict:(NSDictionary *)dict;
-- (void)addActiveCampaign:(DSOCampaign *)campaign;
-// We'll want to split this out into a Category method eventually, as this color is LDT specific.
-- (UIColor *)color;
+- (instancetype)initWithPhoenixDict:(NSDictionary *)dict;
+- (instancetype)initWithNewsDict:(NSDictionary *)dict;
 
 @end

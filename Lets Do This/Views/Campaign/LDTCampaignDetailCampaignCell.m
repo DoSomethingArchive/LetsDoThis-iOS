@@ -75,7 +75,7 @@
     self.taglineLabel.font = LDTTheme.font;
     [self.coverImageView addGrayTintForFullScreenWidthImageView];
     self.campaignDetailsView.backgroundColor = LDTTheme.orangeColor;
-    self.campaignDetailsHeadingLabel.font = LDTTheme.fontHeadingBold;
+    self.campaignDetailsHeadingLabel.font = LDTTheme.fontHeading;
     self.campaignDetailsHeadingLabel.textColor = UIColor.whiteColor;
     self.solutionCopyLabel.textColor = UIColor.whiteColor;
     self.solutionCopyLabel.font = LDTTheme.font;

@@ -8,18 +8,22 @@
 
 #import "LDTCauseListViewController.h"
 #import "LDTTheme.h"
+#import "LDTTabBarController.h"
 #import "LDTCauseDetailViewController.h"
 #import "GAI+LDT.h"
+#import "LDTAppDelegate.h"
+#import <RCTBridgeModule.h>
+#import <RCTRootView.h>
 
-@interface LDTCauseListViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface LDTCauseListViewController () <RCTBridgeModule>
 
 @property (strong, nonatomic) NSArray *causes;
-
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
 @implementation LDTCauseListViewController
+
+RCT_EXPORT_MODULE();
 
 #pragma mark - UIViewController
 
@@ -28,10 +32,15 @@
 
     [self styleView];
 
+    self.causes = [[NSArray alloc] init];
     self.title = @"Actions";
     self.navigationItem.title = @"Let's Do This".uppercaseString;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedNotification:) name:@"activeCampaignsLoaded" object:nil];
+
+    NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
+    NSString *url = [NSString stringWithFormat:@"%@get_category_index", [DSOAPI sharedInstance].newsApiURL];
+    NSDictionary *initialProperties = @{@"url" : url};
+    RCTRootView *rootView =[[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"CauseListView" initialProperties:initialProperties launchOptions:nil];
+    self.view = rootView;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -46,94 +55,24 @@
 
     self.navigationController.hidesBarsOnSwipe = NO;
     [[GAI sharedInstance] trackScreenView:@"cause-list"];
-
-    // @todo: Not this? @see GH #746
-    // -(void)receivedNotification: is no longer being called, so something needs to be fixed (or remove all notifications in general)
-    if (self.causes.count == 0 && [DSOUserManager sharedInstance].activeCampaigns.count > 0) {
-        [self loadCauses];
-    }
 }
 
 #pragma mark - LDTCauseListViewController
 
 - (void)styleView {
     [self styleBackBarButton];
-    self.view.backgroundColor = LDTTheme.lightGrayColor;
-    self.tableView.backgroundColor = UIColor.clearColor;
 }
 
-- (void)loadCauses {
-    [SVProgressHUD showWithStatus:@"Loading..."];
-    [[DSOAPI sharedInstance] loadCausesWithCompletionHandler:^(NSArray *causes) {
-        self.causes = causes;
-        NSArray *activeCampaigns = [DSOUserManager sharedInstance].activeCampaigns;
-        NSMutableArray *causelessCampaignIDs = [[NSMutableArray alloc] init];
-        for (DSOCampaign *campaign in activeCampaigns) {
-            if (campaign.cause) {
-                NSNumber *causeID = [NSNumber numberWithInteger:campaign.cause.causeID];
-                if ([causeID intValue] > 0) {
-                    DSOCause *cause = [self causeWithID:causeID];
-                    [cause addActiveCampaign:campaign];
-                }
-                else {
-                    [causelessCampaignIDs addObject:[NSString stringWithFormat:@"%li",(long)campaign.campaignID]];
-                }
-            }
-        }
-        if (causelessCampaignIDs.count > 0) {
-            NSLog(@"[LDTCauseListViewController] Campaigns without Primary Cause: %@.", [causelessCampaignIDs componentsJoinedByString:@", "]);
-        }
-        [SVProgressHUD dismiss];
-        [self.tableView reloadData];
-    } errorHandler:^(NSError *error) {
-        [SVProgressHUD dismiss];
-    }];
-}
+#pragma mark - RCTBridgeModule
 
-- (DSOCause *)causeWithID:(NSNumber *)causeID {
-    for (DSOCause *cause in self.causes) {
-        if (cause.causeID == causeID.intValue) {
-            return cause;
-        }
-    }
-    return nil;
-}
-
-- (void)receivedNotification:(NSNotification *) notification {
-    if ([[notification name] isEqualToString:@"activeCampaignsLoaded"]) {
-        NSLog(@"Received notification");
-        [self loadCauses];
-    } else if ([[notification name] isEqualToString:@"Not Found"]) {
-        NSLog(@"epic fail");
-    }
-}
-
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.causes.count;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rowCell"];
-    DSOCause *cause = self.causes[indexPath.row];
-    cell.textLabel.text = cause.title;
-    cell.textLabel.font = LDTTheme.fontBold;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-    return cell;
-}
-
-#pragma mark -- UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    DSOCause *cause = self.causes[indexPath.row];
-    LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
-    [self.navigationController pushViewController:causeDetailViewController animated:YES];
+RCT_EXPORT_METHOD(presentCause:(NSDictionary *)causeDict) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        LDTTabBarController *tabBarController = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
+        DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
+        LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
+        [navigationController pushViewController:causeDetailViewController animated:YES];
+    });
 }
 
 @end

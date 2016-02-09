@@ -78,7 +78,7 @@
 
 - (void)styleView {
     self.view.backgroundColor = LDTTheme.ctaBlueColor;
-    self.headlineLabel.font = LDTTheme.fontHeadingBold;
+    self.headlineLabel.font = LDTTheme.fontHeading;
     self.descriptionLabel.font = LDTTheme.font;
     self.descriptionContainerView.layer.masksToBounds = NO;
     self.descriptionContainerView.layer.shadowOffset = CGSizeMake(0, -3);

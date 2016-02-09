@@ -19,27 +19,32 @@
 #ifdef DEBUG
 #define DSOSERVER @"staging.dosomething.org"
 #define LDTSERVER @"northstar-qa.dosomething.org"
+#define LDTNEWSPREFIX @"dev"
 #define LDTSERVERKEYNAME @"northstarTestKey"
 #endif
 
 #ifdef RELEASE
 #define DSOSERVER @"www.dosomething.org"
 #define LDTSERVER @"northstar.dosomething.org"
+#define LDTNEWSPREFIX @"live"
 #define LDTSERVERKEYNAME @"northstarLiveKey"
 #endif
 
 #ifdef THOR
 #define DSOSERVER @"thor.dosomething.org"
 #define LDTSERVER @"northstar-thor.dosomething.org"
+#define LDTNEWSPREFIX @"live"
 #define LDTSERVERKEYNAME @"northstarLiveKey"
 #endif
 
 
 @interface DSOAPI()
 
+@property (nonatomic, strong, readwrite) NSString *apiKey;
 @property (nonatomic, strong, readwrite) NSString *phoenixBaseURL;
 @property (nonatomic, strong, readwrite) NSString *phoenixApiURL;
 @property (nonatomic, strong, readwrite) NSString *northstarBaseURL;
+@property (nonatomic, strong, readwrite) NSString *newsApiURL;
 
 @end
 
@@ -55,7 +60,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         BOOL activityLoggerEnabled = [environmentDict objectForKey:@"AFNetworkActivityLoggerEnabled"] && [environmentDict[@"AFNetworkActivityLoggerEnabled"] boolValue];
-        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME] applicationId:keysDict[@"dsApplicationId"] activityLoggerEnabled:activityLoggerEnabled];
+        _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME]  activityLoggerEnabled:activityLoggerEnabled];
     });
 
     return _sharedInstance;
@@ -63,11 +68,12 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithApiKey:(NSString *)apiKey applicationId:(NSString *)applicationId activityLoggerEnabled:(BOOL)activityLoggerEnabled{
+- (instancetype)initWithApiKey:(NSString *)apiKey activityLoggerEnabled:(BOOL)activityLoggerEnabled{
     NSString *northstarURLString = [NSString stringWithFormat:@"https://%@/v1/", LDTSERVER];
     self = [super initWithBaseURL:[NSURL URLWithString:northstarURLString]];
 
     if (self) {
+        _apiKey = apiKey;
         if (activityLoggerEnabled) {
             [[AFNetworkActivityLogger sharedLogger] startLogging];
             [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
@@ -76,10 +82,10 @@
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.requestSerializer.timeoutInterval = 30;
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [self.requestSerializer setValue:applicationId forHTTPHeaderField:@"X-DS-Application-Id"];
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
         _phoenixBaseURL =  [NSString stringWithFormat:@"https://%@/", DSOSERVER];
         _phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
+        _newsApiURL = [NSString stringWithFormat:@"https://%@-ltd-news.pantheon.io/api/", LDTNEWSPREFIX];
     }
     return self;
 }
@@ -94,7 +100,7 @@
     if (!countryCode) {
         countryCode = @"";
     }
-    NSString *url = @"users?create_drupal_user=1";
+    NSString *url = @"auth/register?create_drupal_user=1";
     NSDictionary *params = @{@"email": email,
                              @"password": password,
                              @"first_name": firstName,
@@ -115,12 +121,15 @@
 }
 
 - (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = @"login";
+    NSString *url = @"auth/token";
     NSDictionary *params = @{@"email": email,
                              @"password": password};
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
+        NSMutableDictionary *userDict = [[responseObject valueForKeyPath:@"data.user.data"] mutableCopy];
+        // This may warrant a more graceful solution, but it's a quick way to implement the API changes in https://github.com/DoSomething/northstar/pull/268. Include the session token in our return DSOUser so any methods calling this one has access to the session token required for authenticated requests.
+        userDict[@"session_token"] = [responseObject valueForKeyPath:@"data.key"];
+        DSOUser *user = [[DSOUser alloc] initWithDict:[userDict copy]];
         if (completionHandler) {
             completionHandler(user);
         }
@@ -152,7 +161,7 @@
 }
 
 - (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = @"logout";
+    NSString *url = @"auth/invalidate";
     [self POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler(responseObject);
@@ -314,29 +323,14 @@
     }];
 }
 
-- (void)loadCausesWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"%@terms?vid=2", self.phoenixApiURL];
-
-    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSMutableArray *causes = [[NSMutableArray alloc] init];
-        // @todo: Once API is cleaned up, we'll want to loop through a responseObject["data"] instead of responseObject.
-        // @see https://github.com/DoSomething/LetsDoThis-iOS/issues/713#issuecomment-168758395
-        for (NSDictionary* causeDict in responseObject) {
-            [causes addObject:[[DSOCause alloc] initWithDict:causeDict]];
-        }
-        if (completionHandler) {
-            completionHandler(causes);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
-        if (errorHandler) {
-            errorHandler(error);
-        }
-    }];
-}
-
 - (void)logError:(NSError *)error methodName:(NSString *)methodName URLString:(NSString *)URLString {
     NSLog(@"\n*** DSOAPI ****\n\nError %li: %@\n%@\n%@ \n\n", (long)error.code, error.localizedDescription, methodName, URLString);
 }
+
+- (NSString *)profileURLforUser:(DSOUser *)user {
+    NSString *northstarURLString = [NSString stringWithFormat:@"https://%@/v1/", LDTSERVER];
+    return [NSString stringWithFormat:@"%@users/_id/%@/campaigns", northstarURLString, user.userID];
+}
+
 
 @end

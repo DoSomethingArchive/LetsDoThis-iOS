@@ -39,14 +39,20 @@
     NSData *errorData = self.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
     if (errorData) {
         NSError *error = self;
-        NSDictionary *reponseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:&error];
-        NSDictionary *errorDict = reponseDict[@"error"];
-        NSInteger code = [errorDict valueForKeyAsInt:@"code" nullValue:0];
+        NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:&error];
+        NSInteger code = [responseDict valueForKeyAsInt:@"code" nullValue:0];
+        NSDictionary *errorDict = responseDict[@"errors"];
         if (code >= 400 && code < 500) {
             if (isTitle) {
                 return nil;
             }
-            return [errorDict valueForKeyAsString:@"message"];
+            NSArray *errors = [errorDict allValues];
+            if (errors.count > 0) {
+                NSArray *firstError = errors[0];
+                if (firstError.count > 0) {
+                    return firstError[0];
+                }
+            }
         }
     }
     if (isTitle) {

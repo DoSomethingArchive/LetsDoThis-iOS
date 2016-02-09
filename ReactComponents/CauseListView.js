@@ -7,14 +7,16 @@ import React, {
   Component,
   StyleSheet,
   Text,
+  Image,
   RefreshControl,
+  TouchableHighlight,
   View
 } from 'react-native';
 
 var Style = require('./Style.js');
-var NewsFeedPost = require('./NewsFeedPost.js');
+var CauseListViewController = require('react-native').NativeModules.LDTCauseListViewController;
 
-var NewsFeedView = React.createClass({
+var CauseListView = React.createClass({
   getInitialState: function() {
     return {
       dataSource: new ListView.DataSource({
@@ -22,7 +24,7 @@ var NewsFeedView = React.createClass({
       }),
       isRefreshing: false,
       loaded: false,
-      error: null,
+      error: false,
     };
   },
   componentDidMount: function() {
@@ -33,9 +35,8 @@ var NewsFeedView = React.createClass({
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.posts),
+          dataSource: this.state.dataSource.cloneWithRows(responseData.categories),
           loaded: true,
-          error: null,
         });
       })
       .catch((error) => this.catchError(error))
@@ -95,26 +96,41 @@ var NewsFeedView = React.createClass({
       <View style={styles.loadingContainer}>
         <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
         <Text style={Style.textBody}>
-          Loading news...
+          Loading causes...
         </Text>
       </View>
     );
   },
-  renderRow: function(post) {
+  _onPressRow(cause) {
+    CauseListViewController.presentCause(cause);
+  },
+  renderRow: function(cause) {
+    var causeColorStyle = {backgroundColor: '#' + cause.hex};
     return (
-      <NewsFeedPost
-        key={post.id}
-        post={post} />
+      <TouchableHighlight onPress={() => this._onPressRow(cause)}>
+        <View style={styles.row}>
+          <View style={[styles.causeColor, causeColorStyle]} />
+          <View style={[styles.contentContainer, styles.bordered]}>
+            <View>
+              <Text style={Style.textHeading}>{cause.title}</Text>
+              <Text style={Style.textCaption}>{cause.description}</Text>
+            </View>
+          </View>
+          <View style={[styles.arrowContainer, styles.bordered]}>
+              <Image
+                style={styles.arrowImage}
+                source={require('image!Arrow')}
+              />  
+          </View>
+        </View>
+      </TouchableHighlight>
     );
   },
 });
 
-
 var styles = React.StyleSheet.create({
   listView: {
-    backgroundColor: '#eeeeee',
-    paddingLeft: 10,
-    paddingRight: 10,
+    backgroundColor: '#FFFFFF',
     paddingBottom: 10,
   },
   loadingContainer: {
@@ -124,6 +140,39 @@ var styles = React.StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#EEE',
   },
+  row: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+    flexDirection: 'row',
+  },
+  causeColor: {
+    width: 8,
+    backgroundColor: '#00FF00',
+    height: 84,
+  },
+  bordered: {
+    borderColor: '#EDEDED',
+    borderTopWidth: 2,
+    borderBottomWidth: 2,    
+  },
+  contentContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 8,
+    height: 84,
+  },
+  arrowContainer: {
+    width: 38,
+    height: 84,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  arrowImage: {
+    width: 12,
+    height: 21,
+  },
 });
 
-module.exports = NewsFeedView;
+module.exports = CauseListView;

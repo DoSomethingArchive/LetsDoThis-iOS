@@ -28,7 +28,6 @@
 +(UIFont *)fontCaptionBold;
 +(UIFont *)fontSubHeading;
 +(UIFont *)fontHeading;
-+(UIFont *)fontHeadingBold;
 +(UIFont *)fontTitle;
 +(NSString *)fontName;
 +(NSString *)fontBoldName;
