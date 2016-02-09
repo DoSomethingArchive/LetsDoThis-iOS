@@ -33,6 +33,7 @@
     self = [super init];
 
     if (self) {
+
         _signupID = [dict valueForKeyAsInt:@"id" nullValue:0];
         _campaign = [[DSOCampaign alloc] initWithDict:dict[@"campaign"]];
         // @todo: Waiting for Reportback object: https://github.com/DoSomething/phoenix/issues/6151
@@ -40,5 +41,12 @@
 
     return self;
 }
+
+- (NSDictionary *)dictionary {
+    return @{
+             @"id" : [NSNumber numberWithInteger:self.signupID],
+             };
+}
+
 
 @end

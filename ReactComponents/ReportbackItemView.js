@@ -13,17 +13,21 @@ var Style = require('./Style.js');
 
 var ReportbackItemView = React.createClass({
   render: function() {
-    // We only supporting displaying a single reportbackItem for now.
-    var reportbackItem = this.props.reportback.reportback_items.data[0];
-    var campaign = this.props.reportback.campaign;
+    var reportbackItem = this.props.reportbackItem;
+    var reportback = this.props.reportback;
+    var campaign = this.props.campaign;
     var quantityLabel = campaign.reportback_info.noun + ' ' + campaign.reportback_info.verb;
-    var user = this.props.reportback.user;
+    var user = this.props.user;
+
     // @todo: Need countryName from iOS
-    if (user.first_name.length == 0) {
+    if ((!user.country) || user.country.length == 0) {
+      user.country = '';
+    }
+    if ((!user.country) || user.first_name.length == 0) {
       user.first_name = 'Doer';
     }
-    if (user.photo.length == 0) {
-      this.props.user.avatarURL = 'https://placekitten.com/g/600/600';
+    if ((user.photo && user.photo.length == 0) || (!user.photo)) {
+      user.photo = 'https://placekitten.com/g/600/600';
     }
     // Sanity check:
     if ((!reportbackItem.media) || reportbackItem.media.uri.length == 0) {
@@ -31,7 +35,9 @@ var ReportbackItemView = React.createClass({
     }
     return(
       <View style={styles.container}>
-       <Text style={[Style.textCaption, styles.countryNameText]}>{user.country}</Text>
+       <Text style={[Style.textCaption, styles.countryNameText]}>
+         {user.country.toUpperCase()}
+        </Text>
         <Image
           style={styles.reportbackItemImage}
           source={{uri:reportbackItem.media.uri}}
@@ -42,7 +48,7 @@ var ReportbackItemView = React.createClass({
               {campaign.title}
             </Text>
             <Text style={[Style.textCaptionBold, {textAlign: 'right'}]}>
-              {this.props.reportback.quantity} {quantityLabel}
+              {reportback.quantity} {quantityLabel}
             </Text>
           </View>
           <Text style={Style.textBody}>{reportbackItem.caption}</Text>
@@ -84,6 +90,7 @@ var styles = React.StyleSheet.create({
   countryNameText: {
     textAlign: 'right',
     paddingRight: 8,
+    height: 20,
   },
   avatarImage: {
     width: 50,

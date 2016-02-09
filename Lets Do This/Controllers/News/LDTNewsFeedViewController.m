@@ -11,7 +11,7 @@
 #import "LDTAppDelegate.h"
 #import <RCTBridgeModule.h>
 #import <RCTRootView.h>
-#import "LDTCampaignDetailViewController.h"
+#import "LDTCampaignViewController.h"
 #import "LDTNewsArticleViewController.h"
 #import "LDTTabBarController.h"
 #import "GAI+LDT.h"
@@ -61,18 +61,20 @@ RCT_EXPORT_MODULE();
 }
 
 - (void)presentCampaignDetailViewControllerForCampaignId:(NSInteger)campaignID {
+    LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
+    // @todo: Dont filter by active campaigns anymore to avoid this.
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
-    LDTTabBarController *tabBarController = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
+    UINavigationController *navController = (UINavigationController *)appDelegate.window.rootViewController.childViewControllers[0];
     if (!campaign) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [LDTMessage displayErrorMessageInViewController:navigationController.topViewController title:@"Our bad. That's an invalid campaign ID :("];
+            NSString *message = [NSString stringWithFormat:@"Our bad. %li is an invalid campaign id :(", (long)campaignID];
+            [LDTMessage displayErrorMessageInViewController:appDelegate.window.rootViewController title:message];
         });
         return;
     }
-    LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
+    LDTCampaignViewController *campaignDetailViewController = [[LDTCampaignViewController alloc] initWithCampaign:campaign];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [navigationController pushViewController:campaignDetailViewController animated:YES];
+        [appDelegate pushViewController:campaignDetailViewController];
     });
 }
 

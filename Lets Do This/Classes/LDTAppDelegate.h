@@ -12,5 +12,8 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIView *statusBarBackgroundView;
 
+// Pushes given viewController in the NavigationController of our root TabBarController.
+- (void)pushViewController:(UIViewController *)viewController;
+
 @end
 

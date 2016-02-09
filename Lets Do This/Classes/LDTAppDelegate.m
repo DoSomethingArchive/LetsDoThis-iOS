@@ -120,4 +120,12 @@
     [PFPush handlePush:userInfo];
 }
 
+#pragma mark - LDTAppDelegate
+
+- (void)pushViewController:(UIViewController *)viewController {
+    LDTTabBarController *tabBarController = (LDTTabBarController *)self.window.rootViewController;
+    UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
+    [navigationController pushViewController:viewController animated:YES];
+}
+
 @end

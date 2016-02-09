@@ -48,7 +48,9 @@ var CauseDetailView = React.createClass({
             </Text>
           </View>
         </Image>
-        <Text style={[Style.textSubheading, styles.tagline]}>{this.props.cause.tagline}</Text>
+        <Text style={[Style.textSubheading, styles.tagline]}>
+          {this.props.cause.tagline}
+        </Text>
       </View>
     );
   },

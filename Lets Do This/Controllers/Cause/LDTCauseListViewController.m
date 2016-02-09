@@ -66,12 +66,11 @@ RCT_EXPORT_MODULE();
 #pragma mark - RCTBridgeModule
 
 RCT_EXPORT_METHOD(presentCause:(NSDictionary *)causeDict) {
+    LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
+    DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
+    LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
     dispatch_async(dispatch_get_main_queue(), ^{
-        LDTTabBarController *tabBarController = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-        UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
-        DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
-        LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
-        [navigationController pushViewController:causeDetailViewController animated:YES];
+        [appDelegate pushViewController:causeDetailViewController];
     });
 }
 

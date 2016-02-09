@@ -9,7 +9,7 @@
 #import "LDTUserViewController.h"
 #import "LDTTheme.h"
 #import "LDTTabBarController.h"
-#import "LDTCampaignDetailViewController.h"
+#import "LDTCampaignViewController.h"
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTSettingsViewController.h"
 #import "GAI+LDT.h"
@@ -134,11 +134,10 @@
 
 - (void)presentCampaignDetailViewControllerForCampaignId:(NSInteger)campaignID {
     dispatch_async(dispatch_get_main_queue(), ^{
+        LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
         DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
-        LDTTabBarController *tabBarController = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-        UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
-        LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
-        [navigationController pushViewController:campaignDetailViewController animated:YES];
+        LDTCampaignViewController *viewController = [[LDTCampaignViewController alloc] initWithCampaign:campaign];
+        [appDelegate pushViewController:viewController];
     });
 }
 

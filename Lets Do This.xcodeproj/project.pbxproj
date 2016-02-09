@@ -41,6 +41,7 @@
 		B24FE0311BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FE0301BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m */; };
 		B24FE0331BAA49CE001CAD5D /* LDTSubmitReportbackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */; };
 		B250A2791C5803200076B66D /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = B250A2781C5803200076B66D /* environment.plist */; };
+		B25146991C6A7C120067452E /* LDTCampaignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B25146981C6A7C120067452E /* LDTCampaignViewController.m */; };
 		B258EB311B8E548B00B298C0 /* LDTReportbackItemDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = B258EB301B8E548B00B298C0 /* LDTReportbackItemDetailView.m */; };
 		B258EB331B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B258EB321B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib */; };
 		B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */; };
@@ -154,6 +155,8 @@
 		B24FE0301BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTSubmitReportbackViewController.m; path = Reportback/LDTSubmitReportbackViewController.m; sourceTree = "<group>"; };
 		B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTSubmitReportbackView.xib; path = Reportback/LDTSubmitReportbackView.xib; sourceTree = "<group>"; };
 		B250A2781C5803200076B66D /* environment.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = environment.plist; sourceTree = "<group>"; };
+		B25146971C6A7C110067452E /* LDTCampaignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCampaignViewController.h; path = Campaign/LDTCampaignViewController.h; sourceTree = "<group>"; };
+		B25146981C6A7C120067452E /* LDTCampaignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCampaignViewController.m; path = Campaign/LDTCampaignViewController.m; sourceTree = "<group>"; };
 		B258EB2F1B8E548B00B298C0 /* LDTReportbackItemDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTReportbackItemDetailView.h; path = Reportback/LDTReportbackItemDetailView.h; sourceTree = "<group>"; };
 		B258EB301B8E548B00B298C0 /* LDTReportbackItemDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTReportbackItemDetailView.m; path = Reportback/LDTReportbackItemDetailView.m; sourceTree = "<group>"; };
 		B258EB321B8E696100B298C0 /* LDTReportbackItemDetailSingleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTReportbackItemDetailSingleView.xib; path = Reportback/LDTReportbackItemDetailSingleView.xib; sourceTree = "<group>"; };
@@ -290,6 +293,8 @@
 		B22274021B587A02005C896D /* Campaign */ = {
 			isa = PBXGroup;
 			children = (
+				B25146971C6A7C110067452E /* LDTCampaignViewController.h */,
+				B25146981C6A7C120067452E /* LDTCampaignViewController.m */,
 				B27F49EB1B6ADB93005CFC35 /* LDTCampaignDetailViewController.h */,
 				B27F49EC1B6ADB93005CFC35 /* LDTCampaignDetailViewController.m */,
 			);
@@ -893,6 +898,7 @@
 				C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */,
 				B23E68211B8FC728005BFB5E /* LDTCampaignDetailCampaignCell.m in Sources */,
 				B27F49ED1B6ADB93005CFC35 /* LDTCampaignDetailViewController.m in Sources */,
+				B25146991C6A7C120067452E /* LDTCampaignViewController.m in Sources */,
 				B21107381C04E94E00282619 /* LDTProfileCampaignTableViewCell.m in Sources */,
 				B2E75D831B87B1920015BE4A /* LDTReportbackItemDetailSingleViewController.m in Sources */,
 				B240DD321B73DA4D00CA6C6E /* LDTTabBarController.m in Sources */,

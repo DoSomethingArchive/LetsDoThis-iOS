@@ -82,6 +82,9 @@ var UserView = React.createClass({
           var sectionNumber = 0;
           if (signup.reportback) {
             sectionNumber = 1;
+            signup.reportback = signup.reportback_data;
+            signup.reportbackItem = signup.reportback.reportback_items.data[0];
+            signup.user = signup.reportback.user;
           }
           rowIDs[sectionNumber].push(signup.id);
           dataBlob[sectionNumber + ':' + signup.id] = signup;
@@ -212,11 +215,19 @@ var UserView = React.createClass({
       </TouchableHighlight>
     );
   },
-  renderDoneRow: function(signup) {
+  renderDoneRow: function(rowData) {
     return (
-      <ReportbackItemView
-        key={signup.reportback_id}
-        reportback={signup.reportback_data} />
+      <TouchableHighlight onPress={() => this._onPressRow(rowData)}>
+        <View>
+          <ReportbackItemView
+            key={rowData.reportbackItem.id}
+            reportbackItem={rowData.reportbackItem}
+            reportback={rowData.reportback} 
+            campaign={rowData.campaign}
+            user={rowData.user}
+          />
+        </View>
+      </TouchableHighlight>
     );
   },
   _onPressRow(rowData) {
