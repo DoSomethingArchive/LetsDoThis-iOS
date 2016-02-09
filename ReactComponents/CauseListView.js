@@ -24,6 +24,7 @@ var CauseListView = React.createClass({
       }),
       isRefreshing: false,
       loaded: false,
+      error: false,
     };
   },
   componentDidMount: function() {
@@ -38,9 +39,28 @@ var CauseListView = React.createClass({
           loaded: true,
         });
       })
+      .catch((error) => this.catchError(error))
       .done();
   },
+  catchError: function(error) {
+    console.log(error);
+    this.setState({
+      error: error,
+    });
+  },
+  renderError: function() {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={Style.textBody}>
+          Epic Fail
+        </Text>
+      </View>
+    );
+  },
   render: function() {
+    if (this.state.error) {
+      return this.renderError();
+    }
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
