@@ -79,6 +79,7 @@ var UserView = React.createClass({
           if (!campaign) {
             continue;
           }
+          signup.campaign = campaign;
           var sectionNumber = 0;
           if (signup.reportback) {
             sectionNumber = 1;

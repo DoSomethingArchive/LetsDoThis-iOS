@@ -42,6 +42,20 @@
     return self;
 }
 
+- (instancetype)initWithID:(NSInteger)signupID campaign:(DSOCampaign *)campaign {
+
+    self = [super init];
+
+    if (self) {
+        _signupID = signupID;
+        _campaign = campaign;
+    }
+
+    return self;
+}
+
+#pragma mark - Accessors
+
 - (NSDictionary *)dictionary {
     return @{
              @"id" : [NSNumber numberWithInteger:self.signupID],

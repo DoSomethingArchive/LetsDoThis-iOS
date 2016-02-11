@@ -13,7 +13,7 @@
 @interface DSOCampaign : NSObject
 
 @property (strong, nonatomic, readonly) DSOCause *cause;
-@property (strong, nonatomic, readonly) DSOCampaignSignup *currentUserSignup;
+@property (strong, nonatomic) DSOCampaignSignup *currentUserSignup;
 @property (strong, nonatomic, readonly) NSArray *tags;
 @property (strong, nonatomic, readonly) NSDictionary *dictionary;
 @property (assign, nonatomic, readonly) NSInteger campaignID;

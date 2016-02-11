@@ -20,5 +20,6 @@
 
 - (instancetype)initWithCampaign:(DSOCampaign *)campaign user:(DSOUser *)user;
 - (instancetype)initWithDict:(NSDictionary *)dict;
+- (instancetype)initWithID:(NSInteger)signupID campaign:(DSOCampaign *)campaign;
 
 @end

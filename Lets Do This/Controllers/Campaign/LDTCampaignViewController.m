@@ -83,11 +83,14 @@
     else {
         currentUserSignupDict = [[NSDictionary alloc] init];
     }
-
+    NSString *signupURLString = [NSString stringWithFormat:@"%@signups?user=%@", [DSOAPI sharedInstance].baseURL, [DSOUserManager sharedInstance].user.userID];
     appProperties = @{
                       @"campaign" : self.campaign.dictionary,
-                      @"url" : url,
-                      @"currentUserSignup" : currentUserSignupDict,
+                      @"galleryUrl" : url,
+                      @"signupUrl" : signupURLString,
+                      @"initialSignup" : currentUserSignupDict,
+                      @"apiKey": [DSOAPI sharedInstance].apiKey,
+                      @"sessionToken": [DSOUserManager sharedInstance].sessionToken,
                       };
     return appProperties;
 }
@@ -102,6 +105,13 @@ RCT_EXPORT_METHOD(presentUser:(NSDictionary *)userDict) {
     LDTUserViewController *viewController = [[LDTUserViewController alloc] initWithUser:user];
     dispatch_async(dispatch_get_main_queue(), ^{
         [appDelegate pushViewController:viewController];
+    });
+}
+
+RCT_EXPORT_METHOD(signupConfirmMessageForCampaignTitle:(NSString *)campaignTitle) {
+    LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
+     dispatch_async(dispatch_get_main_queue(), ^{
+        [LDTMessage displaySuccessMessageInViewController:appDelegate.window.rootViewController title:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", campaignTitle]];
     });
 }
 

@@ -18,6 +18,10 @@ var CampaignViewController = require('react-native').NativeModules.LDTCampaignVi
 
 var CampaignView = React.createClass({
   getInitialState: function() {
+    var signup = false
+    if (this.props.initialSignup.id) {
+      signup = true;
+    }
     return {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
@@ -25,13 +29,15 @@ var CampaignView = React.createClass({
       isRefreshing: false,
       loaded: false,
       error: false,
+      signup: signup,
+      reportback:this.props.initialSignup.id,
     };
   },
   componentDidMount: function() {
     this.fetchData();
   },
   fetchData: function() {
-    fetch(this.props.url)
+    fetch(this.props.galleryUrl)
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
@@ -103,14 +109,45 @@ var CampaignView = React.createClass({
     );
   },
   _onPressActionButton: function() {
-    console.log('Tappy');
+    if (!this.state.signup) {
+      fetch(this.props.signupUrl, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Session': this.props.sessionToken,
+          'X-DS-REST-API-Key': this.props.apiKey,
+        },
+        body: JSON.stringify({
+          campaign_id: this.props.campaign.id,
+          source: 'letsdothis_ios',
+        }),
+      })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log('signup success');
+        console.log(responseData);
+        this.setState({
+          signup: true,
+        });
+        CampaignViewController.signupConfirmMessageForCampaignTitle(this.props.campaign.title);
+      })
+      .catch((error) => this.catchError(error))
+      .done();
+    }
+    else {
+      CampaignViewController.presentProveIt();
+    }
   },
   renderActionButton: function() {
     // @todo: If reportback, return selfReportback;
-    var actionButtonText = 'Do this now';
-    if (this.props.currentUserSignup.id) {
-      var actionButtonText = 'Prove it';
-    }    
+    var actionButtonText;
+    if (this.state.signup) {
+      actionButtonText = 'Prove it';
+    }
+    else {
+      actionButtonText = 'Do this now';
+    }
     return (
       <View style={styles.content}>
         <TouchableHighlight style={[Style.actionButton, styles.content]} onPress={() => this._onPressActionButton()}>
@@ -131,7 +168,7 @@ var CampaignView = React.createClass({
     );
   },
   renderCampaignContent: function() {
-    if (!this.props.currentUserSignup.id) {
+    if (!this.state.signup) {
       return null;
     }
     var solutionText, solutionSupportText;
