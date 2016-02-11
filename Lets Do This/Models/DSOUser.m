@@ -13,6 +13,7 @@
 
 @interface DSOUser()
 
+@property (nonatomic, assign, readwrite) NSInteger phoenixID;
 @property (nonatomic, strong, readwrite) NSMutableArray *mutableCampaignSignups;
 @property (nonatomic, strong, readwrite) NSString *avatarURL;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
@@ -44,6 +45,7 @@
         }
         _firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Doer"];
         _email = dict[@"email"];
+        _phoenixID = [dict valueForKeyAsInt:@"drupal_id" nullValue:0];
         _sessionToken = dict[@"session_token"];
         _mutableCampaignSignups = [[NSMutableArray alloc] init];
         _avatarURL = [dict valueForKeyAsString:@"photo" nullValue:@""];

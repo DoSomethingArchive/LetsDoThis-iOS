@@ -74,22 +74,17 @@ var UserView = React.createClass({
         rowIDs[1] = [];
         for (i = 0; i < signups.length; i++) {
           var signup = signups[i];
-          if (!signup.drupal_id) {
-            continue;
-          }
-          var campaignIDString = signup.drupal_id.toString();
           // Filter out inactive campaigns.
-          var campaign = UserViewController.campaigns[campaignIDString];
+          var campaign = UserViewController.campaigns[signup.campaign.id];
           if (!campaign) {
             continue;
           }
-          signup.campaign = campaign;
           var sectionNumber = 0;
-          if (signup.reportback_data) {
+          if (signup.reportback) {
             sectionNumber = 1;
           }
-          rowIDs[sectionNumber].push(signup.signup_id);
-          dataBlob[sectionNumber + ':' + signup.signup_id] = signup;
+          rowIDs[sectionNumber].push(signup.id);
+          dataBlob[sectionNumber + ':' + signup.id] = signup;
         }
 
         this.setState({
@@ -191,12 +186,13 @@ var UserView = React.createClass({
       </View>
     );
   },
-  renderRow: function(signup) {
-    if (signup.reportback_data) {
-      return this.renderDoneRow(signup);
+  renderRow: function(rowData) {
+    console.log(rowData);
+    if (rowData.reportback) {
+      return this.renderDoneRow(rowData);
     }
     else {
-      return this.renderDoingRow(signup);
+      return this.renderDoingRow(rowData);
     }
   },
   renderDoingRow: function(signup) {
@@ -223,16 +219,18 @@ var UserView = React.createClass({
         reportback={signup.reportback_data} />
     );
   },
-  _onPressRow(signup) {
-    UserViewController.presentCampaign(Number(signup.drupal_id));
+  _onPressRow(rowData) {
+    UserViewController.presentCampaign(Number(rowData.campaign.id));
   },
-  _onPressDoingRow(signup) {
-    var campaignID = Number(signup.drupal_id);
+  _onPressDoingRow(rowData) {
+    UserViewController.presentCampaign(Number(rowData.campaign.id));
+    return;
+    // @todo Fix me
     if (this.props.isSelfProfile) {
-      UserViewController.presentProveIt(campaignID);
+      UserViewController.presentProveIt(Number(rowData.campaign.id));
     }
     else {
-      UserViewController.presentCampaign(campaignID);
+      UserViewController.presentCampaign(Number(rowData.campaign.id));
     }
   },
 });

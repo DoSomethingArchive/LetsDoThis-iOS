@@ -305,7 +305,7 @@
 }
 
 - (void)loadCampaignSignupsForUser:(DSOUser *)user completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"users/_id/%@/campaigns", user.userID];
+    NSString *url = [self profileURLforUser:user];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSMutableArray *campaignSignups = [[NSMutableArray alloc] init];
         for (NSDictionary *campaignSignupDict in responseObject[@"data"]) {
@@ -329,7 +329,7 @@
 
 - (NSString *)profileURLforUser:(DSOUser *)user {
     NSString *northstarURLString = [NSString stringWithFormat:@"https://%@/v1/", LDTSERVER];
-    return [NSString stringWithFormat:@"%@users/_id/%@/campaigns", northstarURLString, user.userID];
+    return [NSString stringWithFormat:@"%@signups?user=%li", northstarURLString, (long)user.phoenixID];
 }
 
 

@@ -79,6 +79,9 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
         // Save session in Keychain for when app is quit.
         [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
         [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];
+        // Need to store this when querying for current user's signups.
+        NSString *phoenixID = [NSString stringWithFormat:@"%li", self.user.phoenixID];
+        [SSKeychain setPassword:phoenixID forService:self.currentService account:@"PhoenixID"];
         if (completionHandler) {
             completionHandler(user);
         }
