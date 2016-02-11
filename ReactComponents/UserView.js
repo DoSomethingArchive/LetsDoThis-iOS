@@ -171,9 +171,6 @@ var UserView = React.createClass({
           style={styles.avatar}
           source={{uri: this.props.user.avatarURL}}
         />
-        <Text style={[Style.textTitle, styles.headerText]}>
-          {this.props.user.displayName.toUpperCase()}
-        </Text>
         <Text style={[Style.textHeading, styles.headerText]}>
           {this.props.user.countryName.toUpperCase()}
         </Text>
@@ -190,7 +187,6 @@ var UserView = React.createClass({
     );
   },
   renderRow: function(rowData) {
-    console.log(rowData);
     if (rowData.reportback) {
       return this.renderDoneRow(rowData);
     }

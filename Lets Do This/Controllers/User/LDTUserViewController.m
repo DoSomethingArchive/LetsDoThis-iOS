@@ -47,7 +47,6 @@
     [super viewDidLoad];
 
     self.navigationItem.title = nil;
-
     if ([self.user isLoggedInUser] || !self.user) {
         self.user = [DSOUserManager sharedInstance].user;
         self.isCurrentUserProfile = YES;
@@ -58,26 +57,17 @@
         self.navigationItem.rightBarButtonItem = settingsButton;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedNotification:) name:@"updateCurrentUser" object:nil];
     }
+    self.navigationItem.title = self.user.displayName.uppercaseString;
 
     NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
     self.reactRootView =[[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"UserView" initialProperties:[self appProperties] launchOptions:nil];
     self.view = self.reactRootView;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
     [self styleView];
-
-    self.navigationController.hidesBarsOnSwipe = YES;
-    [self.navigationController.barHideOnSwipeGestureRecognizer addTarget:self action:@selector(handleSwipeGestureRecognizer:)];
 
     // Make sure self profile is to to date
     if (self.isCurrentUserProfile && [DSOUserManager sharedInstance].user) {
@@ -99,6 +89,7 @@
 
 - (void)styleView {
     [self styleBackBarButton];
+    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
 }
 
 - (NSDictionary *)appProperties {
@@ -126,10 +117,6 @@
     if ([[notification name] isEqualToString:@"updateCurrentUser"]) {
       self.reactRootView.appProperties = [self appProperties];
     }
-}
-
-- (void)handleSwipeGestureRecognizer:(UISwipeGestureRecognizer *)recognizer {
-    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)presentCampaignDetailViewControllerForCampaignId:(NSInteger)campaignID {
@@ -184,7 +171,7 @@
 - (IBAction)settingsTapped:(id)sender {
     LDTSettingsViewController *destVC = [[LDTSettingsViewController alloc] initWithNibName:@"LDTSettingsView" bundle:nil];
     UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
-    [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
+    [destNavVC styleNavigationBar:LDTNavigationBarStyleNormal];
     LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [tabBar presentViewController:destNavVC animated:YES completion:nil];
 }
@@ -199,7 +186,6 @@ RCT_EXPORT_MODULE();
     NSDictionary *props = @{@"campaigns" : campaigns};
     return props;
 }
-
 
 RCT_EXPORT_METHOD(presentCampaign:(NSInteger)campaignID) {
     [self presentCampaignDetailViewControllerForCampaignId:campaignID];
@@ -218,7 +204,6 @@ RCT_EXPORT_METHOD(presentProveIt:(NSInteger)campaignID) {
     [viewController styleBackBarButton];
 }
 
-
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -232,8 +217,6 @@ RCT_EXPORT_METHOD(presentProveIt:(NSInteger)campaignID) {
             [navigationController presentViewController:destNavVC animated:YES completion:nil];
         });
     }];
-
-
 }
 
 @end

@@ -50,12 +50,6 @@
     self.view = self.reactRootView;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
