@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong, readonly) NSArray *campaignSignups;
 @property (nonatomic, strong, readonly) NSDictionary *dictionary;
+@property (nonatomic, assign, readonly) NSInteger phoenixID;
 @property (nonatomic, strong, readonly) NSString *avatarURL;
 @property (nonatomic, strong, readonly) NSString *countryCode;
 @property (nonatomic, strong, readonly) NSString *countryName;

@@ -14,6 +14,7 @@
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) DSOReportbackItem *reportbackItem;
+@property (assign, nonatomic, readonly) NSInteger signupID;
 
 - (instancetype)initWithCampaign:(DSOCampaign *)campaign user:(DSOUser *)user;
 - (instancetype)initWithDict:(NSDictionary *)dict;
