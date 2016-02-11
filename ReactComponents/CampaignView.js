@@ -134,7 +134,15 @@ var CampaignView = React.createClass({
     if (!this.props.currentUserSignup.id) {
       return null;
     }
-
+    var solutionText, solutionSupportText;
+    if (this.props.campaign.solutionCopy.length > 0) {
+      solutionText = this.renderCampaignContentText(this.props.campaign.solutionCopy);
+    }
+    if (this.props.campaign.solutionSupportCopy.length > 0) {
+      solutionSupportText = this.renderCampaignContentText(this.props.campaign.solutionSupportCopy);
+    }
+    var submitCopy = "When you're done, submit a pic of yourself in action. #picsoritdidnthappen";
+    var submitText = this.renderCampaignContentText(submitCopy);
     return (
       <View>
         <View style={Style.sectionHeader}>
@@ -143,17 +151,16 @@ var CampaignView = React.createClass({
           </Text>
         </View>
         <View style={styles.content}>
-          <Text style={[Style.textBody, styles.paragraph]}>
-            {this.props.campaign.solutionCopy}
-          </Text>
-          <Text style={[Style.textBody, styles.paragraph]}>
-            {this.props.campaign.solutionSupportCopy}
-          </Text>
-          <Text style={[Style.textBody, styles.paragraph]}>
-            When you’re done, submit a pic of yourself in action. #picsoritdidnthappen
-          </Text>
+          {solutionText}
+          {solutionSupportText}
+          {submitText}
         </View>
       </View>
+    );
+  },
+  renderCampaignContentText: function(copy) {
+    return (
+      <Text style={[Style.textBody, styles.contentText]}>{copy}</Text>
     );
   },
   renderCover: function() {
@@ -254,7 +261,7 @@ var styles = React.StyleSheet.create({
   content: {
     padding: 8,
   },
-  paragraph: {
+  contentText: {
     paddingBottom: 12,
   }
 });
