@@ -329,7 +329,7 @@
 
 - (NSString *)profileURLforUser:(DSOUser *)user {
     NSString *northstarURLString = [NSString stringWithFormat:@"https://%@/v1/", LDTSERVER];
-    return [NSString stringWithFormat:@"%@signups?user=%li", northstarURLString, (long)user.phoenixID];
+    return [NSString stringWithFormat:@"%@signups?user=%@", northstarURLString, user.userID];
 }
 
 
