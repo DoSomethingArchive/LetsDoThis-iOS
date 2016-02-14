@@ -232,14 +232,6 @@ var UserView = React.createClass({
   },
   _onPressDoingRow(rowData) {
     UserViewController.presentCampaign(Number(rowData.campaign.id));
-    return;
-    // @todo Fix me
-    if (this.props.isSelfProfile) {
-      UserViewController.presentProveIt(Number(rowData.campaign.id));
-    }
-    else {
-      UserViewController.presentCampaign(Number(rowData.campaign.id));
-    }
   },
 });
 

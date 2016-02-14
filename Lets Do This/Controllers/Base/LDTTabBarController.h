@@ -10,4 +10,6 @@
 
 -(void)reloadCurrentUser;
 
+- (void)presentReportbackAlertControllerForCampaignID:(NSInteger)campaignID;
+
 @end

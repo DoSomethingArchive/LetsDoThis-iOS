@@ -136,7 +136,7 @@ var CampaignView = React.createClass({
       .done();
     }
     else {
-      CampaignViewController.presentProveIt();
+      CampaignViewController.presentProveIt(Number(this.props.campaign.id));
     }
   },
   renderActionButton: function() {

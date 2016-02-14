@@ -9,6 +9,7 @@
 #import "LDTCampaignViewController.h"
 #import "LDTUserViewController.h"
 #import "LDTAppDelegate.h"
+#import "LDTTabBarController.h"
 #import "GAI+LDT.h"
 #import "LDTTheme.h"
 #import <RCTBridgeModule.h>
@@ -112,6 +113,14 @@ RCT_EXPORT_METHOD(signupConfirmMessageForCampaignTitle:(NSString *)campaignTitle
     LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
      dispatch_async(dispatch_get_main_queue(), ^{
         [LDTMessage displaySuccessMessageInViewController:appDelegate.window.rootViewController title:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", campaignTitle]];
+    });
+}
+
+RCT_EXPORT_METHOD(presentProveIt:(NSInteger)campaignID) {
+    LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        LDTTabBarController *tabBarController = (LDTTabBarController *)appDelegate.window.rootViewController;
+        [tabBarController presentReportbackAlertControllerForCampaignID:campaignID];
     });
 }
 
