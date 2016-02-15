@@ -34,6 +34,11 @@
 
 RCT_EXPORT_MODULE();
 
+// @see http://facebook.github.io/react-native/docs/native-modules-ios.html#threading
+- (dispatch_queue_t)methodQueue {
+    return dispatch_get_main_queue();
+}
+
 RCT_EXPORT_METHOD(pushUser:(NSDictionary *)userDict) {
     DSOUser *user = [[DSOUser alloc] initWithDict:userDict];
     LDTUserViewController *viewController = [[LDTUserViewController alloc] initWithUser:user];
@@ -45,49 +50,32 @@ RCT_EXPORT_METHOD(pushUser:(NSDictionary *)userDict) {
 RCT_EXPORT_METHOD(pushCampaign:(NSInteger)campaignID) {
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
     if (!campaign) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSString *message = [NSString stringWithFormat:@"Error occured: invalid Campaign ID %li", (long)campaignID];
-            [LDTMessage displayErrorMessageInViewController:self.tabBarController title:message];
-        });
+        NSString *message = [NSString stringWithFormat:@"Error occured: invalid Campaign ID %li", (long)campaignID];
+        [LDTMessage displayErrorMessageInViewController:self.tabBarController title:message];
         return;
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        LDTCampaignViewController *viewController = [[LDTCampaignViewController alloc] initWithCampaign:campaign];
-        [self.tabBarController pushViewController:viewController];
-    });
+    LDTCampaignViewController *viewController = [[LDTCampaignViewController alloc] initWithCampaign:campaign];
+    [self.tabBarController pushViewController:viewController];
 }
 
-RCT_EXPORT_METHOD(signupConfirmMessageForCampaignTitle:(NSString *)campaignTitle) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [LDTMessage displaySuccessMessageInViewController:self.tabBarController title:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", campaignTitle]];
-    });
+RCT_EXPORT_METHOD(displaySignupSuccessMessageWithCampaignTitle:(NSString *)campaignTitle) {
+    [LDTMessage displaySuccessMessageInViewController:self.tabBarController title:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", campaignTitle]];
 }
 
 RCT_EXPORT_METHOD(presentProveIt:(NSInteger)campaignID) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tabBarController presentReportbackAlertControllerForCampaignID:campaignID];
-    });
+    [self.tabBarController presentReportbackAlertControllerForCampaignID:campaignID];
 }
 
 RCT_EXPORT_METHOD(pushCause:(NSDictionary *)causeDict) {
     DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
     LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tabBarController pushViewController:causeDetailViewController];
-    });
+    [self.tabBarController pushViewController:causeDetailViewController];
 }
 
 RCT_EXPORT_METHOD(presentNewsArticle:(NSInteger)newsPostID urlString:(NSString *)urlString) {
     LDTNewsArticleViewController *articleViewController = [[LDTNewsArticleViewController alloc] initWithNewsPostID:newsPostID urlString:urlString];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:articleViewController];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tabBarController presentViewController:navigationController animated:YES completion:nil];
-    });
+    [self.tabBarController presentViewController:navigationController animated:YES completion:nil];
 }
-
-// I wonder if this will work?
-//- (dispatch_queue_t)methodQueue {
-//    return dispatch_get_main_queue();
-//}
 
 @end

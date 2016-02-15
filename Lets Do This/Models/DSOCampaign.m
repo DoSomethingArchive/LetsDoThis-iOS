@@ -83,7 +83,7 @@
     else {
         coverImage = @"";
     }
-    // Hack for some kind of crash
+    // @todo This is hack for default solutionCopy nullValue not being set
     if (!self.solutionCopy) {
         self.solutionCopy = @"";
     }
@@ -101,7 +101,6 @@
              @"solutionCopy" : self.solutionCopy,
              @"solutionSupportCopy" : self.solutionSupportCopy,
              };
-    NSLog(@"dict %@", dict);
     return dict;
 }
 

@@ -125,12 +125,10 @@ var CampaignView = React.createClass({
       })
       .then((response) => response.json())
       .then((responseData) => {
-        console.log('signup success');
-        console.log(responseData);
         this.setState({
           signup: true,
         });
-        Bridge.signupConfirmMessageForCampaignTitle(this.props.campaign.title);
+        Bridge.displaySignupSuccessMessageWithCampaignTitle(this.props.campaign.title);
       })
       .catch((error) => this.catchError(error))
       .done();

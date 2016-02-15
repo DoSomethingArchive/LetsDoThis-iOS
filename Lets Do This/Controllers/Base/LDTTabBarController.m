@@ -112,6 +112,7 @@
 }
 
 - (void)reloadCurrentUser {
+    // @todo Pop all child view controllers, not just first.
     UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
     [initialVC popToRootViewControllerAnimated:YES];
     [[DSOUserManager sharedInstance] startSessionWithCompletionHandler:^ {
@@ -140,36 +141,33 @@
 }
 
 - (void)presentReportbackAlertControllerForCampaignID:(NSInteger)campaignID {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
-        self.proveItCampaign = campaign;
-        UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *cameraAlertAction;
-        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"camera" value:nil];
-                self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-                [self presentViewController:self.imagePickerController animated:YES completion:NULL];
-            }];
-        }
-        else {
-            cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                // Nada
-            }];
-        }
-        UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-            [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"gallery" value:nil];
-            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
+    self.proveItCampaign = campaign;
+    UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cameraAlertAction;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"camera" value:nil];
+            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
             [self presentViewController:self.imagePickerController animated:YES completion:NULL];
         }];
-        UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
-            [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [reportbackPhotoAlertController addAction:cameraAlertAction];
-        [reportbackPhotoAlertController addAction:photoLibraryAlertAction];
-        [reportbackPhotoAlertController addAction:cancelAlertAction];
-        [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
-    });
+    }
+    else {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:nil];
+    }
+    UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"gallery" value:nil];
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+    }];
+    UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [reportbackPhotoAlertController addAction:cameraAlertAction];
+    [reportbackPhotoAlertController addAction:photoLibraryAlertAction];
+    [reportbackPhotoAlertController addAction:cancelAlertAction];
+    [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
+
 }
 
 # pragma mark - UINavigationControllerDelegate
@@ -185,12 +183,10 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIImage *selectedImage = info[UIImagePickerControllerEditedImage];
-            LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithCampaign:self.proveItCampaign reportbackItemImage:selectedImage];
-            UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
-            [self presentViewController:destNavVC animated:YES completion:nil];
-        });
+        UIImage *selectedImage = info[UIImagePickerControllerEditedImage];
+        LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithCampaign:self.proveItCampaign reportbackItemImage:selectedImage];
+        UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
+        [self presentViewController:destNavVC animated:YES completion:nil];
     }];
 }
 
