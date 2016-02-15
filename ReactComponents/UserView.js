@@ -14,6 +14,7 @@ import React, {
 
 var Style = require('./Style.js');
 var UserViewController = require('react-native').NativeModules.LDTUserViewController;
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
 
 var UserView = React.createClass({
@@ -75,10 +76,13 @@ var UserView = React.createClass({
         for (i = 0; i < signups.length; i++) {
           var signup = signups[i];
           // Filter out inactive campaigns.
+          // @todo Won't need this once we get tagline returned in campaign object
+          // Then we can just inspect the campaign status returned in object
           var campaign = UserViewController.campaigns[signup.campaign.id];
           if (!campaign) {
             continue;
           }
+          // @todo: Filter out any signups where !campaign_run.current
           signup.campaign = campaign;
           var sectionNumber = 0;
           if (signup.reportback) {
@@ -200,7 +204,7 @@ var UserView = React.createClass({
       // Render Prove It button
     }
     return (
-      <TouchableHighlight onPress={() => this._onPressDoingRow(signup)}>
+      <TouchableHighlight onPress={() => this._onPressRow(signup)}>
         <View style={styles.row}>
           <Text style={[Style.textHeading, Style.textColorCtaBlue]}>
             {signup.campaign.title}
@@ -228,10 +232,7 @@ var UserView = React.createClass({
     );
   },
   _onPressRow(rowData) {
-    UserViewController.presentCampaign(Number(rowData.campaign.id));
-  },
-  _onPressDoingRow(rowData) {
-    UserViewController.presentCampaign(Number(rowData.campaign.id));
+    Bridge.pushCampaign(Number(rowData.campaign.id));
   },
 });
 

@@ -12,10 +12,9 @@
 #import "LDTTabBarController.h"
 #import "GAI+LDT.h"
 #import "LDTTheme.h"
-#import <RCTBridgeModule.h>
 #import <RCTRootView.h>
 
-@interface LDTCampaignViewController () <RCTBridgeModule, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface LDTCampaignViewController () < UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) DSOCampaign *campaign;
 @property (strong, nonatomic) RCTRootView *reactRootView;
@@ -94,34 +93,6 @@
                       @"sessionToken": [DSOUserManager sharedInstance].sessionToken,
                       };
     return appProperties;
-}
-
-#pragma mark - RCTBridgeModule
-
-RCT_EXPORT_MODULE();
-
-RCT_EXPORT_METHOD(presentUser:(NSDictionary *)userDict) {
-    LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
-    DSOUser *user = [[DSOUser alloc] initWithDict:userDict];
-    LDTUserViewController *viewController = [[LDTUserViewController alloc] initWithUser:user];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [appDelegate.tabBarController pushViewController:viewController];
-    });
-}
-
-RCT_EXPORT_METHOD(signupConfirmMessageForCampaignTitle:(NSString *)campaignTitle) {
-    LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
-     dispatch_async(dispatch_get_main_queue(), ^{
-        [LDTMessage displaySuccessMessageInViewController:appDelegate.window.rootViewController title:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", campaignTitle]];
-    });
-}
-
-RCT_EXPORT_METHOD(presentProveIt:(NSInteger)campaignID) {
-    LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        LDTTabBarController *tabBarController = (LDTTabBarController *)appDelegate.window.rootViewController;
-        [tabBarController presentReportbackAlertControllerForCampaignID:campaignID];
-    });
 }
 
 @end

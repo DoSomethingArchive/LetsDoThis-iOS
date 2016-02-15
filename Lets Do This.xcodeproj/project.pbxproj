@@ -66,6 +66,7 @@
 		B2BB8F191C457CEC000EA5CA /* LDTNewsFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BB8F181C457CEC000EA5CA /* LDTNewsFeedViewController.m */; };
 		B2C1ADA51C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C1ADA31C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.m */; };
 		B2C1ADA61C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C1ADA41C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.xib */; };
+		B2C257E91C7213B1006DB1CE /* LDTReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C257E81C7213B1006DB1CE /* LDTReactBridge.m */; };
 		B2C3054B1BE142AE0046CD10 /* NSError+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C3054A1BE142AE0046CD10 /* NSError+LDT.m */; };
 		B2E652DF1B4380AD00EF9D69 /* LDTTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E652DE1B4380AD00EF9D69 /* LDTTheme.m */; };
 		B2E652E21B43822600EF9D69 /* LDTButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E652E11B43822600EF9D69 /* LDTButton.m */; };
@@ -194,6 +195,8 @@
 		B2C1ADA21C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTProfileNoSignupsTableViewCell.h; path = Profile/LDTProfileNoSignupsTableViewCell.h; sourceTree = "<group>"; };
 		B2C1ADA31C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTProfileNoSignupsTableViewCell.m; path = Profile/LDTProfileNoSignupsTableViewCell.m; sourceTree = "<group>"; };
 		B2C1ADA41C053B61007137B8 /* LDTProfileNoSignupsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTProfileNoSignupsTableViewCell.xib; path = Profile/LDTProfileNoSignupsTableViewCell.xib; sourceTree = "<group>"; };
+		B2C257E71C7213B1006DB1CE /* LDTReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTReactBridge.h; sourceTree = "<group>"; };
+		B2C257E81C7213B1006DB1CE /* LDTReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTReactBridge.m; sourceTree = "<group>"; };
 		B2C305491BE142AE0046CD10 /* NSError+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+LDT.h"; sourceTree = "<group>"; };
 		B2C3054A1BE142AE0046CD10 /* NSError+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+LDT.m"; sourceTree = "<group>"; };
 		B2E652DD1B4380AD00EF9D69 /* LDTTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTTheme.h; path = Base/LDTTheme.h; sourceTree = "<group>"; };
@@ -587,6 +590,8 @@
 				B27FD03D1BBD99FF00A44952 /* LDTEpicFailViewController.m */,
 				B24D53031C0F71040090C8EC /* LDTActivityViewController.h */,
 				B24D53041C0F71040090C8EC /* LDTActivityViewController.m */,
+				B2C257E71C7213B1006DB1CE /* LDTReactBridge.h */,
+				B2C257E81C7213B1006DB1CE /* LDTReactBridge.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -921,6 +926,7 @@
 				B2753E391BD17C49004DDD6A /* GAI+LDT.m in Sources */,
 				B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */,
 				B2963E0A1BD83D1000D2B6EE /* LDTOnboardingPageViewController.m in Sources */,
+				B2C257E91C7213B1006DB1CE /* LDTReactBridge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@ import React, {
 
 var Helpers = require('./Helpers.js');
 var Style = require('./Style.js');
-var NewsFeedViewController = require('react-native').NativeModules.LDTNewsFeedViewController;
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
 
 var NewsFeedPost = React.createClass({
   getInitialState() {
@@ -19,10 +19,10 @@ var NewsFeedPost = React.createClass({
     };
   },
   _onPressActionButton: function() {
-    NewsFeedViewController.presentCampaign(this.props.post.campaign_id);
+    Bridge.pushCampaign(this.props.post.campaign_id);
   },
   _onPressFullArticleButton: function() {
-    NewsFeedViewController.presentFullArticle(this.props.post.id, this.props.post.full_article_url);
+    Bridge.presentNewsArticle(this.props.post.id, this.props.post.full_article_url);
   },
   _onPressImageCreditButton: function() {
     this.setState({

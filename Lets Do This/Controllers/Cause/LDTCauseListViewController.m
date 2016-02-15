@@ -8,22 +8,17 @@
 
 #import "LDTCauseListViewController.h"
 #import "LDTTheme.h"
-#import "LDTTabBarController.h"
-#import "LDTCauseDetailViewController.h"
 #import "GAI+LDT.h"
 #import "LDTAppDelegate.h"
-#import <RCTBridgeModule.h>
 #import <RCTRootView.h>
 
-@interface LDTCauseListViewController () <RCTBridgeModule>
+@interface LDTCauseListViewController ()
 
 @property (strong, nonatomic) NSArray *causes;
 
 @end
 
 @implementation LDTCauseListViewController
-
-RCT_EXPORT_MODULE();
 
 #pragma mark - UIViewController
 
@@ -61,17 +56,6 @@ RCT_EXPORT_MODULE();
 
 - (void)styleView {
     [self styleBackBarButton];
-}
-
-#pragma mark - RCTBridgeModule
-
-RCT_EXPORT_METHOD(presentCause:(NSDictionary *)causeDict) {
-    LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
-    DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
-    LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [appDelegate.tabBarController pushViewController:causeDetailViewController];
-    });
 }
 
 @end

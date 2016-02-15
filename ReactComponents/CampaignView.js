@@ -14,7 +14,7 @@ import Dimensions from 'Dimensions';
 
 var Style = require('./Style.js');
 var ReportbackItemView = require('./ReportbackItemView.js');
-var CampaignViewController = require('react-native').NativeModules.LDTCampaignViewController;
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
 
 var CampaignView = React.createClass({
   getInitialState: function() {
@@ -130,13 +130,13 @@ var CampaignView = React.createClass({
         this.setState({
           signup: true,
         });
-        CampaignViewController.signupConfirmMessageForCampaignTitle(this.props.campaign.title);
+        Bridge.signupConfirmMessageForCampaignTitle(this.props.campaign.title);
       })
       .catch((error) => this.catchError(error))
       .done();
     }
     else {
-      CampaignViewController.presentProveIt(Number(this.props.campaign.id));
+      Bridge.presentProveIt(Number(this.props.campaign.id));
     }
   },
   renderActionButton: function() {
@@ -260,7 +260,7 @@ var CampaignView = React.createClass({
     );
   },
   _onPressRow: function(user) {
-    CampaignViewController.presentUser(user);
+    Bridge.pushUser(user);
   }
 });
 

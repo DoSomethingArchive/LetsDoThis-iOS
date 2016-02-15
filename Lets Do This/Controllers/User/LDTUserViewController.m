@@ -138,13 +138,4 @@ RCT_EXPORT_MODULE();
     return props;
 }
 
-RCT_EXPORT_METHOD(presentCampaign:(NSInteger)campaignID) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
-        DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
-        LDTCampaignViewController *viewController = [[LDTCampaignViewController alloc] initWithCampaign:campaign];
-        [appDelegate.tabBarController pushViewController:viewController];
-    });
-}
-
 @end
