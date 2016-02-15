@@ -10,7 +10,6 @@
 #import "AFNetworkActivityIndicatorManager.h"
 #import <Parse/Parse.h>
 #import "LDTTheme.h"
-#import "LDTTabBarController.h"
 #import "TSMessageView.h"
 #import "GAI+LDT.h"
 #import <Fabric/Fabric.h>
@@ -118,6 +117,12 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [PFPush handlePush:userInfo];
+}
+
+# pragma mark - Accessors
+
+- (LDTTabBarController *)tabBarController {
+    return (LDTTabBarController *)self.window.rootViewController;
 }
 
 @end

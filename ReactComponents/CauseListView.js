@@ -14,7 +14,7 @@ import React, {
 } from 'react-native';
 
 var Style = require('./Style.js');
-var CauseListViewController = require('react-native').NativeModules.LDTCauseListViewController;
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
 
 var CauseListView = React.createClass({
   getInitialState: function() {
@@ -102,7 +102,7 @@ var CauseListView = React.createClass({
     );
   },
   _onPressRow(cause) {
-    CauseListViewController.presentCause(cause);
+    Bridge.pushCause(cause);
   },
   renderRow: function(cause) {
     var causeColorStyle = {backgroundColor: '#' + cause.hex};

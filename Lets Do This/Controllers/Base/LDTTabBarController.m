@@ -13,9 +13,14 @@
 #import "LDTUserConnectViewController.h"
 #import "LDTCauseListViewController.h"
 #import "LDTEpicFailViewController.h"
+#import "LDTSubmitReportbackViewController.h"
 #import "LDTTheme.h"
+#import "GAI+LDT.h"
 
-@interface LDTTabBarController () <LDTEpicFailSubmitButtonDelegate>
+@interface LDTTabBarController () <LDTEpicFailSubmitButtonDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+@property (strong, nonatomic) DSOCampaign *proveItCampaign;
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
 @end
 
@@ -55,7 +60,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Full Background"]];
+    self.imagePickerController = [[UIImagePickerController alloc] init];
+    self.imagePickerController.delegate = self;
+    self.imagePickerController.allowsEditing = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -99,7 +106,13 @@
 
 #pragma mark - LDTTabBarController
 
+- (void)pushViewController:(UIViewController *)viewController {
+    UINavigationController *navigationController = self.childViewControllers[self.selectedIndex];
+    [navigationController pushViewController:viewController animated:YES];
+}
+
 - (void)reloadCurrentUser {
+    // @todo Pop all child view controllers, not just first.
     UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
     [initialVC popToRootViewControllerAnimated:YES];
     [[DSOUserManager sharedInstance] startSessionWithCompletionHandler:^ {
@@ -125,6 +138,56 @@
     [destNavVC styleNavigationBar:LDTNavigationBarStyleClear];
     destNavVC.navigationBar.barStyle = UIStatusBarStyleLightContent;
     [self presentViewController:destNavVC animated:YES completion:nil];
+}
+
+- (void)presentReportbackAlertControllerForCampaignID:(NSInteger)campaignID {
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
+    self.proveItCampaign = campaign;
+    UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cameraAlertAction;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"camera" value:nil];
+            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+        }];
+    }
+    else {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:nil];
+    }
+    UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+        [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"choose reportback photo" label:@"gallery" value:nil];
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+    }];
+    UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        [reportbackPhotoAlertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [reportbackPhotoAlertController addAction:cameraAlertAction];
+    [reportbackPhotoAlertController addAction:photoLibraryAlertAction];
+    [reportbackPhotoAlertController addAction:cancelAlertAction];
+    [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
+
+}
+
+# pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+    viewController.title = [NSString stringWithFormat:@"I did %@", self.proveItCampaign.title].uppercaseString;
+    [viewController styleRightBarButton];
+    [viewController styleBackBarButton];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [picker dismissViewControllerAnimated:YES completion:^{
+        UIImage *selectedImage = info[UIImagePickerControllerEditedImage];
+        LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithCampaign:self.proveItCampaign reportbackItemImage:selectedImage];
+        UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
+        [self presentViewController:destNavVC animated:YES completion:nil];
+    }];
 }
 
 @end

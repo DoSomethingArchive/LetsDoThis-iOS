@@ -23,6 +23,32 @@ module.exports = StyleSheet.create({
   textColorCtaBlue: {
     color: colorCtaBlue,
   },
+  actionButton: {
+    backgroundColor: colorCtaBlue,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    paddingBottom: 10,
+    paddingTop: 10,
+  },
+  actionButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontFamily: fontFamilyBoldName,
+    fontSize: fontSizeBody,
+  },
+  sectionHeader: {
+    backgroundColor: '#F8F8F6',
+  },
+  sectionHeaderText: {
+    textAlign: 'center', 
+    color: colorTextDefault,
+    fontFamily: fontFamilyBoldName,
+    fontSize: fontSizeHeading,
+    padding: 14,
+
+  },
   textCaption: {
     color: colorTextDefault,
     fontFamily: fontFamilyName,

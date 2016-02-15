@@ -7,15 +7,12 @@
 //
 
 #import "LDTCauseDetailViewController.h"
-#import "LDTTabBarController.h"
 #import "LDTTheme.h"
-#import "LDTCampaignDetailViewController.h"
 #import "GAI+LDT.h"
 #import "LDTAppDelegate.h"
-#import <RCTBridgeModule.h>
 #import <RCTRootView.h>
 
-@interface LDTCauseDetailViewController () <RCTBridgeModule>
+@interface LDTCauseDetailViewController ()
 
 @property (strong, nonatomic) DSOCause *cause;
 @property (strong, nonatomic) NSMutableArray *campaigns;
@@ -23,8 +20,6 @@
 @end
 
 @implementation LDTCauseDetailViewController
-
-RCT_EXPORT_MODULE();
 
 #pragma mark - NSObject
 
@@ -56,7 +51,7 @@ RCT_EXPORT_MODULE();
     NSArray *activeCampaigns = [DSOUserManager sharedInstance].activeCampaigns;
 
     for (DSOCampaign *campaign in activeCampaigns) {
-        if (campaign.cause.causeID == self.cause.causeID) {
+        if (campaign.cause.causeID == self.cause.causeID && [campaign.status isEqualToString:@"active"]) {
             [self.campaigns addObject:campaign.dictionary];
         }
     }
@@ -82,22 +77,6 @@ RCT_EXPORT_MODULE();
 
 - (void)styleView {
     [self styleBackBarButton];
-}
-
-- (void)presentCampaignDetailViewControllerForCampaignId:(NSInteger)campaignID {
-    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
-    LDTTabBarController *tabBarController = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
-    LDTCampaignDetailViewController *campaignDetailViewController = [[LDTCampaignDetailViewController alloc] initWithCampaign:campaign];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [navigationController pushViewController:campaignDetailViewController animated:YES];
-    });
-}
-
-#pragma mark - RCTBridgeModule
-
-RCT_EXPORT_METHOD(presentCampaign:(NSInteger)campaignID) {
-    [self presentCampaignDetailViewControllerForCampaignId:campaignID];
 }
 
 @end

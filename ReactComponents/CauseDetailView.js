@@ -13,7 +13,7 @@ import React, {
 } from 'react-native';
 
 var Style = require('./Style.js');
-var CauseDetailViewController = require('react-native').NativeModules.LDTCauseDetailViewController;
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
 
 var CauseDetailView = React.createClass({
   getInitialState: function() {
@@ -48,7 +48,9 @@ var CauseDetailView = React.createClass({
             </Text>
           </View>
         </Image>
-        <Text style={[Style.textSubheading, styles.tagline]}>{this.props.cause.tagline}</Text>
+        <Text style={[Style.textSubheading, styles.tagline]}>
+          {this.props.cause.tagline}
+        </Text>
       </View>
     );
   },
@@ -73,7 +75,7 @@ var CauseDetailView = React.createClass({
     );
   },
   _onPressRow(campaign) {
-    CauseDetailViewController.presentCampaign(campaign.id);
+    Bridge.pushCampaign(campaign.id);
   },
 });
 

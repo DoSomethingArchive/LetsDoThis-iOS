@@ -14,3 +14,6 @@ AppRegistry.registerComponent('CauseDetailView', () => CauseDetailView);
 
 var UserView = require('./ReactComponents/UserView.js');
 AppRegistry.registerComponent('UserView', () => UserView);
+
+var CampaignView = require('./ReactComponents/CampaignView.js');
+AppRegistry.registerComponent('CampaignView', () => CampaignView);

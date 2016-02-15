@@ -52,18 +52,17 @@
         NSDictionary *causeDict = [values valueForKeyPath:@"causes.primary"];
         _cause = [[DSOCause alloc] initWithPhoenixDict:causeDict];
         _tagline = [values valueForKeyAsString:@"tagline" nullValue:@""];
-        _coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:@""];
-        _isCoverImageDarkBackground = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsBool:@"dark_background" nullValue:NO];
+        _coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:@""];;
         _reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
         _reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
-        _solutionCopy = [[values valueForKeyPath:@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:nil];
+        _solutionCopy = [[values valueForKeyPath:@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:@""];
         if ([values[@"solutions"] objectForKey:@"support_copy"]) {
             // Might be string: see https://github.com/DoSomething/phoenix/issues/5069
             if ([[values[@"solutions"] objectForKey:@"support_copy"] isKindOfClass:[NSString class]]) {
                 _solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy"];
             }
             else {
-                _solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw" nullValue:nil];
+                _solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw" nullValue:@""];
             }
         }
         _tags = values[@"tags"];
@@ -84,12 +83,36 @@
     else {
         coverImage = @"";
     }
-    return @{
+    // @todo This is hack for default solutionCopy nullValue not being set
+    if (!self.solutionCopy) {
+        self.solutionCopy = @"";
+    }
+    if (!self.solutionSupportCopy) {
+        self.solutionSupportCopy = @"";
+    }
+    NSDictionary *reportbackInfo = @{@"noun" : self.reportbackNoun, @"verb" : self.reportbackVerb};
+    NSDictionary *dict = @{
              @"id" : [NSNumber numberWithInteger:self.campaignID],
+             @"status": self.status,
              @"title" : self.title,
              @"image_url" : coverImage,
              @"tagline" : self.tagline,
+             @"reportback_info" : reportbackInfo,
+             @"solutionCopy" : self.solutionCopy,
+             @"solutionSupportCopy" : self.solutionSupportCopy,
              };
+    return dict;
+}
+
+- (DSOCampaignSignup *)currentUserSignup {
+    DSOUser *currentUser = [DSOUserManager sharedInstance].user;
+    for (DSOCampaignSignup *signup in currentUser.campaignSignups) {
+
+        if (self.campaignID == signup.campaign.campaignID) {
+            return signup;
+        }
+    }
+    return nil;
 }
 
 @end

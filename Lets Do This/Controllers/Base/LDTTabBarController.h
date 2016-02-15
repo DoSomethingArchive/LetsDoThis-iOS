@@ -10,4 +10,9 @@
 
 -(void)reloadCurrentUser;
 
+- (void)presentReportbackAlertControllerForCampaignID:(NSInteger)campaignID;
+
+// Convenience method for pushing given VC on the selected tab's UINavigationController.
+- (void)pushViewController:(UIViewController *)viewController;
+
 @end

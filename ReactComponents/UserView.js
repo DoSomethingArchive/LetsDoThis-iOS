@@ -14,6 +14,7 @@ import React, {
 
 var Style = require('./Style.js');
 var UserViewController = require('react-native').NativeModules.LDTUserViewController;
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
 
 var UserView = React.createClass({
@@ -75,13 +76,20 @@ var UserView = React.createClass({
         for (i = 0; i < signups.length; i++) {
           var signup = signups[i];
           // Filter out inactive campaigns.
+          // @todo Won't need this once we get tagline returned in campaign object
+          // Then we can just inspect the campaign status returned in object
           var campaign = UserViewController.campaigns[signup.campaign.id];
           if (!campaign) {
             continue;
           }
+          // @todo: Filter out any signups where !campaign_run.current
+          signup.campaign = campaign;
           var sectionNumber = 0;
           if (signup.reportback) {
             sectionNumber = 1;
+            signup.reportback = signup.reportback_data;
+            signup.reportbackItem = signup.reportback.reportback_items.data[0];
+            signup.user = signup.reportback.user;
           }
           rowIDs[sectionNumber].push(signup.id);
           dataBlob[sectionNumber + ':' + signup.id] = signup;
@@ -168,9 +176,6 @@ var UserView = React.createClass({
           style={styles.avatar}
           source={{uri: this.props.user.avatarURL}}
         />
-        <Text style={[Style.textTitle, styles.headerText]}>
-          {this.props.user.displayName.toUpperCase()}
-        </Text>
         <Text style={[Style.textHeading, styles.headerText]}>
           {this.props.user.countryName.toUpperCase()}
         </Text>
@@ -187,7 +192,6 @@ var UserView = React.createClass({
     );
   },
   renderRow: function(rowData) {
-    console.log(rowData);
     if (rowData.reportback) {
       return this.renderDoneRow(rowData);
     }
@@ -200,7 +204,7 @@ var UserView = React.createClass({
       // Render Prove It button
     }
     return (
-      <TouchableHighlight onPress={() => this._onPressDoingRow(signup)}>
+      <TouchableHighlight onPress={() => this._onPressRow(signup)}>
         <View style={styles.row}>
           <Text style={[Style.textHeading, Style.textColorCtaBlue]}>
             {signup.campaign.title}
@@ -212,26 +216,23 @@ var UserView = React.createClass({
       </TouchableHighlight>
     );
   },
-  renderDoneRow: function(signup) {
+  renderDoneRow: function(rowData) {
     return (
-      <ReportbackItemView
-        key={signup.reportback_id}
-        reportback={signup.reportback_data} />
+      <TouchableHighlight onPress={() => this._onPressRow(rowData)}>
+        <View>
+          <ReportbackItemView
+            key={rowData.reportbackItem.id}
+            reportbackItem={rowData.reportbackItem}
+            reportback={rowData.reportback} 
+            campaign={rowData.campaign}
+            user={rowData.user}
+          />
+        </View>
+      </TouchableHighlight>
     );
   },
   _onPressRow(rowData) {
-    UserViewController.presentCampaign(Number(rowData.campaign.id));
-  },
-  _onPressDoingRow(rowData) {
-    UserViewController.presentCampaign(Number(rowData.campaign.id));
-    return;
-    // @todo Fix me
-    if (this.props.isSelfProfile) {
-      UserViewController.presentProveIt(Number(rowData.campaign.id));
-    }
-    else {
-      UserViewController.presentCampaign(Number(rowData.campaign.id));
-    }
+    Bridge.pushCampaign(Number(rowData.campaign.id));
   },
 });
 

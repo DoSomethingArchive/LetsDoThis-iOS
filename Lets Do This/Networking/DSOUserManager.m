@@ -17,7 +17,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 @interface DSOUserManager()
 
 @property (strong, nonatomic, readwrite) DSOUser *user;
-@property (strong, nonatomic) NSMutableArray *mutableActiveCampaigns;
+@property (strong, nonatomic) NSMutableArray *mutableCampaigns;
 
 @end
 
@@ -49,7 +49,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 - (NSArray *)activeCampaigns {
-    return [self.mutableActiveCampaigns copy];
+    return [self.mutableCampaigns copy];
 }
 
 - (NSDictionary *)campaignDictionaries {
@@ -125,17 +125,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)loadActiveCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] loadCampaignSignupsForUser:user completionHandler:^(NSArray *campaignSignups) {
         [user removeAllCampaignSignups];
-        NSMutableArray *inactiveCampaignIDs = [[NSMutableArray alloc] init];
         for (DSOCampaignSignup *signup in campaignSignups) {
-            if ([self activeCampaignWithId:signup.campaign.campaignID]) {
-                [user addCampaignSignup:signup];
-            }
-            else {
-                [inactiveCampaignIDs addObject:[NSString stringWithFormat:@"%li", (long)signup.campaign.campaignID]];
-            }
-        }
-        if (inactiveCampaignIDs.count > 0) {
-            NSLog(@"[DSOUserManager] Filtering User %@ Signups for inactive Campaigns %@.", user.userID, [inactiveCampaignIDs componentsJoinedByString:@","]);
+            [user addCampaignSignup:signup];
         }
         if (completionHandler) {
             completionHandler();
@@ -172,9 +163,9 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] createCampaignSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
+    [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
         [self.user addCampaignSignup:signup];
-        [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
+//        [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"updateCurrentUser" object:self];
         if (completionHandler) {
             completionHandler(signup);
@@ -220,20 +211,12 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     [[DSOAPI sharedInstance] loadAllCampaignsWithCompletionHandler:^(NSArray *campaigns) {
         NSLog(@"loadAllCampaignsWithCompletionHandler");
         if (campaigns.count == 0) {
+            // @todo Throw error here
             NSLog(@"No campaigns found.");
         }
-        self.mutableActiveCampaigns = [[NSMutableArray alloc] init];
-        NSMutableArray *inactiveCampaignIDs = [[NSMutableArray alloc] init];
+        self.mutableCampaigns = [[NSMutableArray alloc] init];
         for (DSOCampaign *campaign in campaigns) {
-            if ([campaign.status isEqual:@"active"]) {
-                [self.mutableActiveCampaigns addObject:campaign];
-            }
-            else {
-                [inactiveCampaignIDs addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];
-            }
-        }
-        if (inactiveCampaignIDs.count > 0) {
-            NSLog(@"[DSOUserManager] Filtering inactive Campaigns %@.", [inactiveCampaignIDs componentsJoinedByString:@", "]);
+            [self.mutableCampaigns addObject:campaign];
         }
 
         [self startSessionWithCompletionHandler:^ {
