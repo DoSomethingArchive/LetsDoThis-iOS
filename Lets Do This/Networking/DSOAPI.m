@@ -194,27 +194,10 @@
     }];
 }
 
-- (void)createCampaignSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/signup", (long)campaign.campaignID];
-    NSDictionary *params = @{@"source": LDTSOURCENAME};
-
-    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:responseObject[@"data"]];
-        signup.campaign = campaign;
-        if (completionHandler) {
-            completionHandler(signup);
-        }
-      } failure:^(NSURLSessionDataTask *task, NSError *error) {
-          [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
-          if (errorHandler) {
-              errorHandler(error);
-          }
-      }];
-}
-
 - (void)postReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"user/campaigns/%ld/reportback", (long)reportbackItem.campaign.campaignID];
+    NSString *url = @"reportbacks";
     NSDictionary *params = @{
+                             @"campaign_id": [NSNumber numberWithInteger:reportbackItem.campaign.campaignID],
                              @"quantity": [NSNumber numberWithInteger:reportbackItem.quantity],
                              @"caption": reportbackItem.caption,
                              // why_participated is a required property on server-side that we currently don't collect in the app.
