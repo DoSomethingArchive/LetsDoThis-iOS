@@ -10,7 +10,6 @@
 #import "AFNetworkActivityIndicatorManager.h"
 #import <Parse/Parse.h>
 #import "LDTTheme.h"
-#import "LDTTabBarController.h"
 #import "TSMessageView.h"
 #import "GAI+LDT.h"
 #import <Fabric/Fabric.h>
@@ -120,12 +119,10 @@
     [PFPush handlePush:userInfo];
 }
 
-#pragma mark - LDTAppDelegate
+# pragma mark - Accessors
 
-- (void)pushViewController:(UIViewController *)viewController {
-    LDTTabBarController *tabBarController = (LDTTabBarController *)self.window.rootViewController;
-    UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
-    [navigationController pushViewController:viewController animated:YES];
+- (LDTTabBarController *)tabBarController {
+    return (LDTTabBarController *)self.window.rootViewController;
 }
 
 @end

@@ -91,7 +91,7 @@ RCT_EXPORT_METHOD(presentCampaign:(NSInteger)campaignID) {
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
     LDTCampaignViewController *viewController = [[LDTCampaignViewController alloc] initWithCampaign:campaign];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [appDelegate pushViewController:viewController];
+        [appDelegate.tabBarController pushViewController:viewController];
     });
 }
 

@@ -74,7 +74,7 @@ RCT_EXPORT_MODULE();
     }
     LDTCampaignViewController *campaignDetailViewController = [[LDTCampaignViewController alloc] initWithCampaign:campaign];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [appDelegate pushViewController:campaignDetailViewController];
+        [appDelegate.tabBarController pushViewController:campaignDetailViewController];
     });
 }
 

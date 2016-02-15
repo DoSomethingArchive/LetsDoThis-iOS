@@ -143,7 +143,7 @@ RCT_EXPORT_METHOD(presentCampaign:(NSInteger)campaignID) {
         LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
         DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
         LDTCampaignViewController *viewController = [[LDTCampaignViewController alloc] initWithCampaign:campaign];
-        [appDelegate pushViewController:viewController];
+        [appDelegate.tabBarController pushViewController:viewController];
     });
 }
 

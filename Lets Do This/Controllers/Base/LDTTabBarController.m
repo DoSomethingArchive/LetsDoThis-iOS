@@ -106,6 +106,11 @@
 
 #pragma mark - LDTTabBarController
 
+- (void)pushViewController:(UIViewController *)viewController {
+    UINavigationController *navigationController = self.childViewControllers[self.selectedIndex];
+    [navigationController pushViewController:viewController animated:YES];
+}
+
 - (void)reloadCurrentUser {
     UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
     [initialVC popToRootViewControllerAnimated:YES];

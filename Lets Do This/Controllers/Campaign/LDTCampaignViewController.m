@@ -105,7 +105,7 @@ RCT_EXPORT_METHOD(presentUser:(NSDictionary *)userDict) {
     DSOUser *user = [[DSOUser alloc] initWithDict:userDict];
     LDTUserViewController *viewController = [[LDTUserViewController alloc] initWithUser:user];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [appDelegate pushViewController:viewController];
+        [appDelegate.tabBarController pushViewController:viewController];
     });
 }
 

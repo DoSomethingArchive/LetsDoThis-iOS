@@ -70,7 +70,7 @@ RCT_EXPORT_METHOD(presentCause:(NSDictionary *)causeDict) {
     DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
     LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [appDelegate pushViewController:causeDetailViewController];
+        [appDelegate.tabBarController pushViewController:causeDetailViewController];
     });
 }
 
