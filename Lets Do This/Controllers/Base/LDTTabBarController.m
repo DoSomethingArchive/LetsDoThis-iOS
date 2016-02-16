@@ -37,7 +37,7 @@
 		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:LDTTheme.fontName size:10.0f] } forState:UIControlStateNormal];
 
         LDTNewsFeedViewController *newsFeedViewController = [[LDTNewsFeedViewController alloc] init];
-        newsFeedViewController.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
+        newsFeedViewController.tabBarItem.image = [UIImage imageNamed:@"News Icon"];
         newsFeedViewController.title = @"News";
         UINavigationController *newsFeedNavigationController = [[UINavigationController alloc] initWithRootViewController:newsFeedViewController];
 
