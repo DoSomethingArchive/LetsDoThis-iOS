@@ -148,7 +148,6 @@ var UserView = React.createClass({
     }
     return (
       <ListView
-        style={Style.backgroundColorCtaBlue}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
         renderHeader={this.renderHeader}
@@ -157,7 +156,7 @@ var UserView = React.createClass({
           <RefreshControl
             refreshing={this.state.isRefreshing}
             onRefresh={this._onRefresh}
-            tintColor="white"
+            tintColor="#ccc"
             colors={['#ff0000', '#00ff00', '#0000ff']}
             progressBackgroundColor="#ffff00"
           />
@@ -170,15 +169,25 @@ var UserView = React.createClass({
     if (avatarURL.length == 0) {
       this.props.user.avatarURL = 'https://placekitten.com/g/600/600';
     }
+    var headerText = null;
+    if (this.props.user.countryName.length > 0) {
+      headerText = this.props.user.countryName.toUpperCase();
+    }
     return (
-      <View style={[Style.backgroundColorCtaBlue, styles.headerContainer]}>
+      <View>
         <Image
-          style={styles.avatar}
-          source={{uri: this.props.user.avatarURL}}
-        />
-        <Text style={[Style.textHeading, styles.headerText]}>
-          {this.props.user.countryName.toUpperCase()}
-        </Text>
+          style={styles.headerBackgroundImage}
+          source={require('image!Gradient Background')}>
+          <View style={styles.headerContainer}>
+             <Image
+               style={styles.avatar}
+               source={{uri: this.props.user.avatarURL}}
+             />
+             <Text style={[Style.textHeading, styles.headerText]}>
+               {headerText}
+             </Text>
+          </View>
+        </Image>
       </View>
     );
   },
@@ -247,7 +256,13 @@ var styles = React.StyleSheet.create({
   headerContainer: {
     alignItems: 'center',
     flex: 1,
-    padding: 20,
+    backgroundColor: 'transparent',
+    paddingTop: 20,
+  },
+  headerBackgroundImage: {
+    flex: 1,
+    height: 160,
+    alignItems: 'stretch',    
   },
   sectionContainer: {
     backgroundColor: '#F8F8F6',
@@ -263,8 +278,10 @@ var styles = React.StyleSheet.create({
   },
   headerText: {
     color: 'white',
+    opacity: 0.50,
     flex: 1,
     textAlign: 'center',
+    paddingTop: 4,
   },
   row: {
     backgroundColor: 'white',
