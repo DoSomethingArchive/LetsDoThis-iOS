@@ -205,7 +205,7 @@ var CampaignView = React.createClass({
     }
     return (
       <View>
-        <View style={styles.coverImageContainer}>
+        <View>
           <Image
             style={styles.coverImage}
             source={{uri: campaign.image_url}}>

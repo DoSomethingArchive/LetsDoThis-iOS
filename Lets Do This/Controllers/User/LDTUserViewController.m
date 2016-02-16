@@ -89,6 +89,7 @@
 
 - (void)styleView {
     [self styleBackBarButton];
+    self.view.backgroundColor = UIColor.whiteColor;
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
 }
 
