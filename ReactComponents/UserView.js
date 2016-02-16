@@ -41,7 +41,9 @@ var UserView = React.createClass({
     this.fetchData();
   },
   componentWillUpdate: function() {
-    this.fetchData();
+    // @todo: This isn't right, it's causing fetchData to load millions of times.
+    // We likely to inspect the loaded state in order to determine whether to refresh.
+    // this.fetchData();
   },
   fetchData: function() {
     var options = { 
