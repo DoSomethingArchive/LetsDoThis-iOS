@@ -9,6 +9,5 @@
 @interface UIImageView (LDT)
 
 - (void)addCircleFrame;
-- (void)addGrayTintForFullScreenWidthImageView;
 
 @end
