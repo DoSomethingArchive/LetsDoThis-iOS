@@ -57,7 +57,7 @@
         self.navigationItem.rightBarButtonItem = settingsButton;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedNotification:) name:@"updateCurrentUser" object:nil];
     }
-    self.navigationItem.title = self.user.displayName.uppercaseString;
+    [self setNavigationItemTitle];
 
     NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
     self.reactRootView =[[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"UserView" initialProperties:[self appProperties] launchOptions:nil];
@@ -72,6 +72,7 @@
     // Make sure self profile is to to date
     if (self.isCurrentUserProfile && [DSOUserManager sharedInstance].user) {
         self.user = [DSOUserManager sharedInstance].user;
+        [self setNavigationItemTitle];
         self.reactRootView.appProperties = [self appProperties];
     }
 
@@ -91,6 +92,10 @@
     [self styleBackBarButton];
     self.view.backgroundColor = UIColor.whiteColor;
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+}
+
+- (void)setNavigationItemTitle {
+    self.navigationItem.title = self.user.displayName.uppercaseString;
 }
 
 - (NSDictionary *)appProperties {
