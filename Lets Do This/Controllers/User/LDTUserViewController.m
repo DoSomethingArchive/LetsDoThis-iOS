@@ -69,11 +69,14 @@
 
     [self styleView];
 
-    // Make sure self profile is to to date
-    if (self.isCurrentUserProfile && [DSOUserManager sharedInstance].user) {
-        self.user = [DSOUserManager sharedInstance].user;
-        [self setNavigationItemTitle];
-        self.reactRootView.appProperties = [self appProperties];
+    // Check if user logged out and logged in as someone else.
+    if (self.isCurrentUserProfile) {
+        DSOUser *currentUser = [DSOUserManager sharedInstance].user;
+        if (![currentUser.userID isEqualToString:self.user.userID]) {
+            self.user = [DSOUserManager sharedInstance].user;
+            [self setNavigationItemTitle];
+            self.reactRootView.appProperties = [self appProperties];
+        }
     }
 
     NSString *trackingString;

@@ -41,7 +41,9 @@ var UserView = React.createClass({
     this.fetchData();
   },
   componentWillUpdate: function() {
-    this.fetchData();
+    // @todo: This isn't right, it's causing fetchData to load millions of times.
+    // We likely to inspect the loaded state in order to determine whether to refresh.
+    // this.fetchData();
   },
   fetchData: function() {
     var options = { 
@@ -75,14 +77,12 @@ var UserView = React.createClass({
         rowIDs[1] = [];
         for (i = 0; i < signups.length; i++) {
           var signup = signups[i];
-          // Filter out inactive campaigns.
-          // @todo Won't need this once we get tagline returned in campaign object
-          // Then we can just inspect the campaign status returned in object
+          // Sanity check the signup.campaign.id is a valid campaign.
           var campaign = UserViewController.campaigns[signup.campaign.id];
           if (!campaign) {
             continue;
           }
-          // @todo: Filter out any signups where !campaign_run.current
+
           signup.campaign = campaign;
           var sectionNumber = 0;
           if (signup.reportback) {
@@ -90,6 +90,17 @@ var UserView = React.createClass({
             signup.reportback = signup.reportback_data;
             signup.reportbackItem = signup.reportback.reportback_items.data[0];
             signup.user = signup.reportback.user;
+          }
+          else {
+            // Filter out any incomplete signups for non-current campaign runs.
+            if (!signup.campaign_run.current) {
+              continue;
+            }
+            // Also filter any incomplete signups that are for the current run
+            // but the campaign is closed.
+            if (signup.campaign.status != 'active') {
+              continue;
+            }
           }
           rowIDs[sectionNumber].push(signup.id);
           dataBlob[sectionNumber + ':' + signup.id] = signup;
