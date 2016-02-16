@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2946D0EC1C737C9800C78CE5 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2946D0E91C737C9800C78CE5 /* Brandon_bld.otf */; };
+		2946D0ED1C737C9800C78CE5 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2946D0EA1C737C9800C78CE5 /* Brandon_med.otf */; };
+		2946D0EE1C737C9800C78CE5 /* Brandon_reg.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2946D0EB1C737C9800C78CE5 /* Brandon_reg.otf */; };
 		421774269F5DF5997622C2F9 /* libPods-Lets Do This.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */; };
 		569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */; };
 		79E2E28707E3FB3559C51480 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD686577156AB49815812E2 /* libPods.a */; };
@@ -24,14 +27,11 @@
 		B22AB7681B4EE7BE00BE7052 /* LDTUserLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */; };
 		B240DD321B73DA4D00CA6C6E /* LDTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B240DD311B73DA4D00CA6C6E /* LDTTabBarController.m */; };
 		B24B269C1C3B34F30039D76D /* LDTCauseDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24B269B1C3B34F30039D76D /* LDTCauseDetailViewController.m */; };
-		B24D16671C616DCA00A4D30A /* Brandon_reg.otf in Resources */ = {isa = PBXBuildFile; fileRef = B24D16661C616DCA00A4D30A /* Brandon_reg.otf */; };
 		B24D53051C0F71040090C8EC /* LDTActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24D53041C0F71040090C8EC /* LDTActivityViewController.m */; };
 		B24FE0311BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FE0301BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m */; };
 		B24FE0331BAA49CE001CAD5D /* LDTSubmitReportbackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B24FE0321BAA49CE001CAD5D /* LDTSubmitReportbackView.xib */; };
 		B250A2791C5803200076B66D /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = B250A2781C5803200076B66D /* environment.plist */; };
 		B25146991C6A7C120067452E /* LDTCampaignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B25146981C6A7C120067452E /* LDTCampaignViewController.m */; };
-		B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */; };
-		B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */ = {isa = PBXBuildFile; fileRef = B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */; };
 		B2753E391BD17C49004DDD6A /* GAI+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B2753E381BD17C49004DDD6A /* GAI+LDT.m */; };
 		B27FD03F1BBD99FF00A44952 /* LDTEpicFailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27FD03D1BBD99FF00A44952 /* LDTEpicFailViewController.m */; };
 		B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27FD03E1BBD99FF00A44952 /* LDTEpicFailView.xib */; };
@@ -78,6 +78,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2946D0E91C737C9800C78CE5 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_bld.otf; sourceTree = "<group>"; };
+		2946D0EA1C737C9800C78CE5 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_med.otf; sourceTree = "<group>"; };
+		2946D0EB1C737C9800C78CE5 /* Brandon_reg.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Brandon_reg.otf; sourceTree = "<group>"; };
 		2C64A18B791813A4683F7BAD /* Pods-Lets Do This.thor.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.thor.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.thor.xcconfig"; sourceTree = "<group>"; };
 		481832CD7E534871B0CC8938 /* Pods-Lets Do This.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.debug.xcconfig"; sourceTree = "<group>"; };
 		569AA55C1B4085A000D8C8C9 /* InterfaceBuilderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InterfaceBuilderView.h; path = Base/InterfaceBuilderView.h; sourceTree = "<group>"; };
@@ -109,7 +112,6 @@
 		B240DD311B73DA4D00CA6C6E /* LDTTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTTabBarController.m; path = Base/LDTTabBarController.m; sourceTree = "<group>"; };
 		B24B269A1C3B34F30039D76D /* LDTCauseDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCauseDetailViewController.h; path = "Lets Do This/Controllers/Cause/LDTCauseDetailViewController.h"; sourceTree = SOURCE_ROOT; };
 		B24B269B1C3B34F30039D76D /* LDTCauseDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCauseDetailViewController.m; path = "Lets Do This/Controllers/Cause/LDTCauseDetailViewController.m"; sourceTree = SOURCE_ROOT; };
-		B24D16661C616DCA00A4D30A /* Brandon_reg.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_reg.otf; path = Resources/Fonts/Brandon_reg.otf; sourceTree = "<group>"; };
 		B24D53031C0F71040090C8EC /* LDTActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTActivityViewController.h; sourceTree = "<group>"; };
 		B24D53041C0F71040090C8EC /* LDTActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTActivityViewController.m; sourceTree = "<group>"; };
 		B24FE02F1BAA49AA001CAD5D /* LDTSubmitReportbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTSubmitReportbackViewController.h; path = Reportback/LDTSubmitReportbackViewController.h; sourceTree = "<group>"; };
@@ -118,8 +120,6 @@
 		B250A2781C5803200076B66D /* environment.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = environment.plist; sourceTree = "<group>"; };
 		B25146971C6A7C110067452E /* LDTCampaignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCampaignViewController.h; path = Campaign/LDTCampaignViewController.h; sourceTree = "<group>"; };
 		B25146981C6A7C120067452E /* LDTCampaignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCampaignViewController.m; path = Campaign/LDTCampaignViewController.m; sourceTree = "<group>"; };
-		B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_med.otf; path = Resources/Fonts/Brandon_med.otf; sourceTree = "<group>"; };
-		B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_bld.otf; path = Resources/Fonts/Brandon_bld.otf; sourceTree = "<group>"; };
 		B2753E371BD17C49004DDD6A /* GAI+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GAI+LDT.h"; sourceTree = "<group>"; };
 		B2753E381BD17C49004DDD6A /* GAI+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GAI+LDT.m"; sourceTree = "<group>"; };
 		B27FD03C1BBD99FF00A44952 /* LDTEpicFailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTEpicFailViewController.h; sourceTree = "<group>"; };
@@ -271,9 +271,9 @@
 		B273A7651B459B5400CBD4E1 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				B24D16661C616DCA00A4D30A /* Brandon_reg.otf */,
-				B273A7661B459B6C00CBD4E1 /* Brandon_med.otf */,
-				B273A7671B459BA300CBD4E1 /* Brandon_bld.otf */,
+				2946D0E91C737C9800C78CE5 /* Brandon_bld.otf */,
+				2946D0EA1C737C9800C78CE5 /* Brandon_med.otf */,
+				2946D0EB1C737C9800C78CE5 /* Brandon_reg.otf */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -635,14 +635,14 @@
 			files = (
 				EA0353311BAC63BA00D2B987 /* LDTMessageDefaultDesign.json in Resources */,
 				B2963E071BD83CC700D2B6EE /* LDTOnboardingPageView.xib in Resources */,
-				B24D16671C616DCA00A4D30A /* Brandon_reg.otf in Resources */,
 				B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */,
-				B273A7681B459BB700CBD4E1 /* Brandon_med.otf in Resources */,
 				B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */,
 				B250A2791C5803200076B66D /* environment.plist in Resources */,
+				2946D0EE1C737C9800C78CE5 /* Brandon_reg.otf in Resources */,
+				2946D0ED1C737C9800C78CE5 /* Brandon_med.otf in Resources */,
 				B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */,
 				B24FE0331BAA49CE001CAD5D /* LDTSubmitReportbackView.xib in Resources */,
-				B273A7691B459BBA00CBD4E1 /* Brandon_bld.otf in Resources */,
+				2946D0EC1C737C9800C78CE5 /* Brandon_bld.otf in Resources */,
 				B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */,
 				C2B152001ACE04C30028C336 /* LaunchScreen.xib in Resources */,
 				B2A41A051B5DCC5300C6C1A6 /* LDTSettingsView.xib in Resources */,
