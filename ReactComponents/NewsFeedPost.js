@@ -126,7 +126,7 @@ var NewsFeedPost = React.createClass({
 
 var styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: '#FFFFFF', 
+    backgroundColor: '#FFFFFF',
     marginTop: 14,
     marginLeft: 7,
     marginRight: 7,
