@@ -112,7 +112,7 @@ var NewsFeedView = React.createClass({
 
 var styles = React.StyleSheet.create({
   listView: {
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#DFDFDF',
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10,

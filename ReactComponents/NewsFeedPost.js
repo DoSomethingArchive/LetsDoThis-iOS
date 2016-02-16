@@ -126,10 +126,14 @@ var NewsFeedPost = React.createClass({
 
 var styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FFFFFF', 
     marginTop: 14,
     marginLeft: 7,
     marginRight: 7,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
   },
   header: {
     flex: 1,
@@ -153,8 +157,9 @@ var styles = StyleSheet.create({
     backgroundColor: '#3932A9',
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
-    paddingBottom: 10,
-    paddingTop: 10,
+    paddingBottom: 12,
+    paddingTop: 12,
+    height: 50,
   },
   actionButtonText: {
     color: '#ffffff',
