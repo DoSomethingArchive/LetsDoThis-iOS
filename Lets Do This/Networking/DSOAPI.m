@@ -178,11 +178,7 @@
     NSDictionary *params = @{@"campaign_id" : [NSNumber numberWithInteger:campaign.campaignID], @"source" : LDTSOURCENAME};
     NSString *url = @"signups";
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"responseObject %@", responseObject);
-        // @todo This is my insane API endpoint we should change to return an actual Signup object
-        // This seems to fial, cant figure out how to get responseObject in value with ( parenthesis )
-//        NSInteger signupID = (NSInteger)responseObject;
-        DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] init];
+        DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:responseObject[@"data"]];
         if (completionHandler) {
             completionHandler(signup);
         }

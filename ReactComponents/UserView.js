@@ -9,7 +9,8 @@ import React, {
   RefreshControl,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  View
+  View,
+  NativeAppEventEmitter
 } from 'react-native';
 
 var Style = require('./Style.js');
@@ -38,12 +39,19 @@ var UserView = React.createClass({
     };
   },
   componentDidMount: function() {
+    if (this.props.isSelfProfile) {
+      this.subscription = NativeAppEventEmitter.addListener(
+        'currentUserActivity',
+        (signup) => this.handleEvent(signup),
+      );
+    }
     this.fetchData();
   },
-  componentWillUpdate: function() {
-    // @todo: This isn't right, it's causing fetchData to load millions of times.
-    // We likely to inspect the loaded state in order to determine whether to refresh.
-    // this.fetchData();
+  componentWillUnmount: function() {
+    this.subscription.remove();
+  },
+  handleEvent: function(reminder) {
+    this.fetchData();
   },
   fetchData: function() {
     var options = { 
@@ -58,62 +66,49 @@ var UserView = React.createClass({
     fetch(this.props.url, options)
       .then((response) => response.json())
       .then((responseData) => {
-        var signups = responseData.data,
-          dataBlob = {},
-          sectionIDs = [],
-          rowIDs = [],
-          i;
-
-        if (!responseData.data) {
-          // @todo Throw error
-          return;
-        }
-
-        sectionIDs.push(0);
-        dataBlob[0] = "Actions I'm doing";
-        rowIDs[0] = [];
-        sectionIDs.push(1);
-        dataBlob[1] = "Actions I've done";
-        rowIDs[1] = [];
-        for (i = 0; i < signups.length; i++) {
-          var signup = signups[i];
-          // Sanity check the signup.campaign.id is a valid campaign.
-          var campaign = UserViewController.campaigns[signup.campaign.id];
-          if (!campaign) {
-            continue;
-          }
-
-          signup.campaign = campaign;
-          var sectionNumber = 0;
-          if (signup.reportback) {
-            sectionNumber = 1;
-            signup.reportback = signup.reportback_data;
-            signup.reportbackItem = signup.reportback.reportback_items.data[0];
-            signup.user = signup.reportback.user;
-          }
-          else {
-            // Filter out any incomplete signups for non-current campaign runs.
-            if (!signup.campaign_run.current) {
-              continue;
-            }
-            // Also filter any incomplete signups that are for the current run
-            // but the campaign is closed.
-            if (signup.campaign.status != 'active') {
-              continue;
-            }
-          }
-          rowIDs[sectionNumber].push(signup.id);
-          dataBlob[sectionNumber + ':' + signup.id] = signup;
-        }
-
-        this.setState({
-          dataSource : this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
-          loaded: true,
-          error: null,
-        });
+        this.loadSignups(responseData.data);
       })
       .catch((error) => this.catchError(error))
       .done();
+  },
+  loadSignups: function(signups) {
+    var dataBlob = {},
+      sectionIDs = [],
+      rowIDs = [],
+      i;
+    sectionIDs.push(0);
+    dataBlob[0] = "Actions I'm doing";
+    rowIDs[0] = [];
+    sectionIDs.push(1);
+    dataBlob[1] = "Actions I've done";
+    rowIDs[1] = [];
+    for (i = 0; i < signups.length; i++) {
+      var signup = signups[i];
+      var sectionNumber = 0;
+      if (signup.reportback) {
+        sectionNumber = 1;
+        signup.reportback = signup.reportback_data;
+        signup.reportbackItem = signup.reportback.reportback_items.data[0];
+      }
+      else {
+        if (!signup.campaign_run.current) {
+          continue;
+        }
+        if (signup.campaign.status != 'active') {
+          continue;
+        }
+        if (signup.campaign.type != 'campaign') {
+          continue;
+        }
+      }
+      rowIDs[sectionNumber].push(signup.id);
+      dataBlob[sectionNumber + ':' + signup.id] = signup;
+    }
+    this.setState({
+      dataSource : this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
+      loaded: true,
+      error: null,
+    });
   },
   _onRefresh: function () {
     this.setState({isRefreshing: true});
@@ -220,9 +215,6 @@ var UserView = React.createClass({
     }
   },
   renderDoingRow: function(signup) {
-    if (this.props.isSelfProfile) {
-      // Render Prove It button
-    }
     return (
       <TouchableHighlight onPress={() => this._onPressRow(signup)}>
         <View style={styles.row}>

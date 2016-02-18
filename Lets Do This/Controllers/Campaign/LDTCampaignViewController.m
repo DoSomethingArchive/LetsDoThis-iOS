@@ -45,8 +45,8 @@
     self.imagePickerController = [[UIImagePickerController alloc] init];
     self.imagePickerController.delegate = self;
     self.imagePickerController.allowsEditing = YES;
-    NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
-    self.reactRootView =[[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"CampaignView" initialProperties:[self appProperties] launchOptions:nil];
+
+    self.reactRootView = [[RCTRootView alloc] initWithBridge:((LDTAppDelegate *)[UIApplication sharedApplication].delegate).bridge moduleName:@"CampaignView" initialProperties:[self appProperties]];
     self.view = self.reactRootView;
 }
 

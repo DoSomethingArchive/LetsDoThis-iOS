@@ -55,12 +55,10 @@
     if (self.isCurrentUserProfile) {
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings Icon"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsTapped:)];
         self.navigationItem.rightBarButtonItem = settingsButton;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedNotification:) name:@"updateCurrentUser" object:nil];
     }
     [self setNavigationItemTitle];
 
-    NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
-    self.reactRootView =[[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"UserView" initialProperties:[self appProperties] launchOptions:nil];
+    self.reactRootView = [[RCTRootView alloc] initWithBridge:((LDTAppDelegate *)[UIApplication sharedApplication].delegate).bridge moduleName:@"UserView" initialProperties:[self appProperties]];
     self.view = self.reactRootView;
 }
 
@@ -110,7 +108,6 @@
         userDict = self.user.dictionary;
         sessionToken = [DSOUserManager sharedInstance].sessionToken;
     }
-
     appProperties = @{
            @"user" : self.user.dictionary,
            @"url" : profileURL,
@@ -119,13 +116,6 @@
            @"sessionToken": sessionToken,
            };
     return appProperties;
-}
-
-
-- (void)receivedNotification:(NSNotification *)notification {
-    if ([[notification name] isEqualToString:@"updateCurrentUser"]) {
-      self.reactRootView.appProperties = [self appProperties];
-    }
 }
 
 - (IBAction)settingsTapped:(id)sender {

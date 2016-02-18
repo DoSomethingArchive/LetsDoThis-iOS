@@ -21,10 +21,9 @@
 
     self.navigationItem.title = @"Let's Do This".uppercaseString;
 
-    NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
     NSString *url = [NSString stringWithFormat:@"%@get_posts?count=50", [DSOAPI sharedInstance].newsApiURL];
     NSDictionary *props = @{@"url" : url};
-    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"NewsFeedView" initialProperties:props launchOptions:nil];
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:((LDTAppDelegate *)[UIApplication sharedApplication].delegate).bridge moduleName:@"NewsFeedView" initialProperties:props];
     self.view = rootView;
 
     [self styleBackBarButton];
