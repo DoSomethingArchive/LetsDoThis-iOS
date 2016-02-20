@@ -12,6 +12,7 @@
 @interface DSOCampaignSignup ()
 
 @property (assign, nonatomic, readwrite) NSInteger signupID;
+@property (strong, nonatomic) NSDictionary *campaignRun;
 
 @end
 
@@ -36,6 +37,8 @@
 
         _signupID = [dict valueForKeyAsInt:@"id" nullValue:0];
         _campaign = [[DSOCampaign alloc] initWithDict:dict[@"campaign"]];
+        _campaignRun = dict[@"campaign_run"];
+
         // @todo: Waiting for Reportback object: https://github.com/DoSomething/phoenix/issues/6151
     }
 
@@ -59,6 +62,8 @@
 - (NSDictionary *)dictionary {
     return @{
              @"id" : [NSNumber numberWithInteger:self.signupID],
+             @"campaign" : self.campaign.dictionary,
+             @"campaign_run": self.campaignRun,
              };
 }
 

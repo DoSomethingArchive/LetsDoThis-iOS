@@ -8,7 +8,8 @@ import React, {
   ListView,
   View,
   ActivityIndicatorIOS,
-  RefreshControl
+  RefreshControl,
+  NativeAppEventEmitter
 } from 'react-native';
 import Dimensions from 'Dimensions';
 
@@ -35,6 +36,23 @@ var CampaignView = React.createClass({
   },
   componentDidMount: function() {
     this.fetchData();
+    this.subscription = NativeAppEventEmitter.addListener(
+      'currentUserActivity',
+      (signup) => this.handleEvent(signup),
+    );
+  },
+  componentWillUnmount: function() {
+    this.subscription.remove();
+  },
+  handleEvent: function(signup) {
+    if (signup.campaign.id != this.props.campaign.id) {
+      return;
+    }
+    if (!this.state.signup) {
+      this.setState({
+        signup: true,
+      });
+    }
   },
   fetchData: function() {
     fetch(this.props.galleryUrl)
@@ -49,7 +67,6 @@ var CampaignView = React.createClass({
       .done();
   },
   catchError: function(error) {
-    console.log(error);
     this.setState({
       error: error,
     });
@@ -110,28 +127,7 @@ var CampaignView = React.createClass({
   },
   _onPressActionButton: function() {
     if (!this.state.signup) {
-      fetch(this.props.signupUrl, {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Session': this.props.sessionToken,
-          'X-DS-REST-API-Key': this.props.apiKey,
-        },
-        body: JSON.stringify({
-          campaign_id: this.props.campaign.id,
-          source: 'letsdothis_ios',
-        }),
-      })
-      .then((response) => response.json())
-      .then((responseData) => {
-        this.setState({
-          signup: true,
-        });
-        Bridge.displaySignupSuccessMessageWithCampaignTitle(this.props.campaign.title);
-      })
-      .catch((error) => this.catchError(error))
-      .done();
+      Bridge.postSignup(Number(this.props.campaign.id));
     }
     else {
       Bridge.presentProveIt(Number(this.props.campaign.id));

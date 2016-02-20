@@ -8,6 +8,7 @@
 
 #import "LDTReactBridge.h"
 #import <RCTBridgeModule.h>
+#import <RCTEventDispatcher.h>
 #import "LDTAppDelegate.h"
 #import "LDTTabBarController.h"
 #import "LDTUserViewController.h"
@@ -28,6 +29,10 @@
 -(LDTTabBarController *)tabBarController {
     LDTAppDelegate *appDelegate = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
     return appDelegate.tabBarController;
+}
+
+- (LDTAppDelegate *)appDelegate {
+    return ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
 }
 
 #pragma mark - RCTBridgeModule
@@ -58,10 +63,6 @@ RCT_EXPORT_METHOD(pushCampaign:(NSInteger)campaignID) {
     [self.tabBarController pushViewController:viewController];
 }
 
-RCT_EXPORT_METHOD(displaySignupSuccessMessageWithCampaignTitle:(NSString *)campaignTitle) {
-    [LDTMessage displaySuccessMessageInViewController:self.tabBarController title:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", campaignTitle]];
-}
-
 RCT_EXPORT_METHOD(presentProveIt:(NSInteger)campaignID) {
     [self.tabBarController presentReportbackAlertControllerForCampaignID:campaignID];
 }
@@ -76,6 +77,19 @@ RCT_EXPORT_METHOD(presentNewsArticle:(NSInteger)newsPostID urlString:(NSString *
     LDTNewsArticleViewController *articleViewController = [[LDTNewsArticleViewController alloc] initWithNewsPostID:newsPostID urlString:urlString];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:articleViewController];
     [self.tabBarController presentViewController:navigationController animated:YES completion:nil];
+}
+
+RCT_EXPORT_METHOD(postSignup:(NSInteger)campaignID) {
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
+    [SVProgressHUD showWithStatus:@"Signing up..."];
+    [[DSOUserManager sharedInstance] signupUserForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
+        [SVProgressHUD dismiss];
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup.dictionary];
+        [LDTMessage displaySuccessMessageInViewController:self.tabBarController title:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", campaign.title]];
+    } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        [LDTMessage displayErrorMessageInViewController:self.tabBarController title:error.readableTitle];
+    }];
 }
 
 @end
