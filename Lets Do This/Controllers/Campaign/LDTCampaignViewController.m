@@ -75,20 +75,13 @@
 
 - (NSDictionary *)appProperties {
     NSDictionary *appProperties;
-    NSString *url = [NSString stringWithFormat:@"%@reportback-items?load_user=true&status=approved,promoted&campaigns=%li", [DSOAPI sharedInstance].phoenixApiURL, (long)self.campaign.campaignID];
-    NSDictionary *currentUserSignupDict;
-    if (self.campaign.currentUserSignup) {
-        currentUserSignupDict = self.campaign.currentUserSignup.dictionary;
-    }
-    else {
-        currentUserSignupDict = [[NSDictionary alloc] init];
-    }
+    NSString *galleryUrl = [NSString stringWithFormat:@"%@reportback-items?load_user=true&status=approved,promoted&campaigns=%li", [DSOAPI sharedInstance].phoenixApiURL, (long)self.campaign.campaignID];
     NSString *signupURLString = [NSString stringWithFormat:@"%@signups?user=%@", [DSOAPI sharedInstance].baseURL, [DSOUserManager sharedInstance].user.userID];
     appProperties = @{
                       @"campaign" : self.campaign.dictionary,
-                      @"galleryUrl" : url,
+                      @"galleryUrl" : galleryUrl,
                       @"signupUrl" : signupURLString,
-                      @"initialSignup" : currentUserSignupDict,
+                      @"currentUser" : [DSOUserManager sharedInstance].user.dictionary,
                       @"apiKey": [DSOAPI sharedInstance].apiKey,
                       @"sessionToken": [DSOUserManager sharedInstance].sessionToken,
                       };

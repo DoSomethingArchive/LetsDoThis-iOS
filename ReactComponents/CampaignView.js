@@ -19,10 +19,6 @@ var Bridge = require('react-native').NativeModules.LDTReactBridge;
 
 var CampaignView = React.createClass({
   getInitialState: function() {
-    var signup = false
-    if (this.props.initialSignup.id) {
-      signup = true;
-    }
     return {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
@@ -30,8 +26,8 @@ var CampaignView = React.createClass({
       isRefreshing: false,
       loaded: false,
       error: false,
-      signup: signup,
-      reportback:this.props.initialSignup.id,
+      signup: false,
+      reportback: false,
     };
   },
   componentDidMount: function() {
@@ -42,19 +38,53 @@ var CampaignView = React.createClass({
     );
   },
   componentWillUnmount: function() {
-    this.subscription.remove();
+    if (typeof this.subscription != "undefined") {
+      this.subscription.remove();
+    }
   },
-  handleEvent: function(signup) {
-    if (signup.campaign.id != this.props.campaign.id) {
+  handleEvent: function(campaignActivity) {
+    if (campaignActivity.campaign.id != this.props.campaign.id) {
       return;
     }
     if (!this.state.signup) {
       this.setState({
         signup: true,
       });
+      return;
+    }
+    // If we have a quantity, this campaignActivityEvent is a Reportback.
+    if (campaignActivity.quantity) {
+      this.setState({
+        reportback: campaignActivity,
+      });    
     }
   },
   fetchData: function() {
+    var statusUrl = this.props.signupUrl + '&campaigns=' + this.props.campaign.id.toString();
+    fetch(statusUrl)
+      .then((response) => response.json())
+      .then((responseData) => {
+        var signups = responseData.data;
+        for (var i = 0; i < signups.length; i++) {
+          var signup = signups[i];
+          if (!signup.campaign_run.current) {
+            continue;
+          }
+          this.setState({
+            signup: true,
+          });
+          if (signup.reportback) {
+            this.setState({
+              reportback: signup.reportback,
+            });
+          }
+        }
+        this.fetchGalleryData();
+      })
+      .catch((error) => this.catchError(error))
+      .done();
+  },
+  fetchGalleryData: function() {
     fetch(this.props.galleryUrl)
       .then((response) => response.json())
       .then((responseData) => {
@@ -88,7 +118,7 @@ var CampaignView = React.createClass({
       <View style={styles.loadingContainer}>
         <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
         <Text style={Style.textBody}>
-          Loading photos...
+          Loading...
         </Text>
       </View>
     );
@@ -126,17 +156,42 @@ var CampaignView = React.createClass({
     );
   },
   _onPressActionButton: function() {
-    if (!this.state.signup) {
+    if (this.state.reportback.id) {
+      Bridge.shareReportback(this.state.reportback);
+    }
+    else if (!this.state.signup) {
       Bridge.postSignup(Number(this.props.campaign.id));
     }
     else {
       Bridge.presentProveIt(Number(this.props.campaign.id));
     }
   },
+  renderSelfReportback: function() {
+    var reportbackItem = {
+      media: {
+        uri: this.state.reportback.imageUrl,
+      },
+      caption: this.state.reportback.caption,
+    };
+
+    return (
+      <View>
+        <ReportbackItemView
+        key={this.state.reportback.id}
+        reportbackItem={this.state.reportback.reportback_items.data[0]}
+        reportback={this.state.reportback}
+        campaign={this.props.campaign}
+        user={this.props.currentUser}
+        />
+      </View>
+    );
+  },
   renderActionButton: function() {
-    // @todo: If reportback, return selfReportback;
     var actionButtonText;
-    if (this.state.signup) {
+    if (this.state.reportback.id) {
+      actionButtonText = 'Share your photo';
+    }
+    else if (this.state.signup) {
       actionButtonText = 'Prove it';
     }
     else {
@@ -174,6 +229,11 @@ var CampaignView = React.createClass({
     }
     var submitCopy = "When you're done, submit a pic of yourself in action. #picsoritdidnthappen";
     var submitText = this.renderCampaignContentText(submitCopy);
+
+    var selfReportback;
+    if (this.state.reportback.id) {
+      selfReportback = this.renderSelfReportback();
+    }
     return (
       <View>
         <View style={Style.sectionHeader}>
@@ -186,6 +246,7 @@ var CampaignView = React.createClass({
           {solutionSupportText}
           {submitText}
         </View>
+        {selfReportback}
       </View>
     );
   },
@@ -235,6 +296,11 @@ var CampaignView = React.createClass({
       <View>
         {this.renderCover()}
         {content}
+        <View style={[Style.sectionHeader, {marginTop: 4,}]}>
+          <Text style={Style.sectionHeaderText}>
+            {"Who's doing it now".toUpperCase()}
+          </Text>
+        </View>
       </View>
     );
   },
@@ -258,8 +324,6 @@ var CampaignView = React.createClass({
   }
 });
 
-// @todo: shadownotworking 
-// @see https://github.com/facebook/react-native/issues/449#issuecomment-157874168
 var styles = React.StyleSheet.create({
   loadingContainer: {
     flex: 1,

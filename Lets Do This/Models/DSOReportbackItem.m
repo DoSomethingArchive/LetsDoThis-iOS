@@ -16,6 +16,7 @@
 @property (nonatomic, assign, readwrite) NSInteger created;
 @property (nonatomic, assign, readwrite) NSInteger reportbackItemID;
 @property (nonatomic, strong, readwrite) NSString *status;
+@property (nonatomic, strong, readwrite) NSString *imageUri;
 
 @end
 
@@ -43,8 +44,8 @@
         _created = [[dict valueForKeyPath:@"reportback"] valueForKeyAsInt:@"created_at" nullValue:0];
         _caption = [dict valueForKeyAsString:@"caption"];
         _status = [dict valueForKeyAsString:@"status"];
-        NSString *imagePath = [[dict valueForKeyPath:@"media"] valueForKeyAsString:@"uri" nullValue:nil];
-        _imageURL = [NSURL URLWithString:imagePath];
+        _imageUri = [[dict valueForKeyPath:@"media"] valueForKeyAsString:@"uri" nullValue:nil];
+        _imageURL = [NSURL URLWithString:self.imageUri];
         _user = [[DSOUser alloc] initWithDict:dict[@"user"]];
         NSInteger campaignID = [[dict valueForKeyPath:@"campaign.id"] intValue];
         NSString *campaignTitle = [dict[@"campaign"] valueForKeyAsString:@"title" nullValue:nil];

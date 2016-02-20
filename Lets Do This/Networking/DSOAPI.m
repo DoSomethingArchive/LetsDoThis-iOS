@@ -37,7 +37,6 @@
 #define LDTSERVERKEYNAME @"northstarLiveKey"
 #endif
 
-
 @interface DSOAPI()
 
 @property (nonatomic, strong, readwrite) NSString *apiKey;
@@ -204,7 +203,7 @@
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
-            completionHandler(responseObject);
+            completionHandler(responseObject[@"data"]);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];

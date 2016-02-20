@@ -16,7 +16,10 @@ var ReportbackItemView = React.createClass({
     var reportbackItem = this.props.reportbackItem;
     var reportback = this.props.reportback;
     var campaign = this.props.campaign;
-    var quantityLabel = campaign.reportback_info.noun + ' ' + campaign.reportback_info.verb;
+    var quantityLabel;
+    if (campaign.reportback_info) {
+      quantityLabel = campaign.reportback_info.noun + ' ' + campaign.reportback_info.verb;
+    }
     var user = this.props.user;
 
     // @todo: Need countryName from iOS

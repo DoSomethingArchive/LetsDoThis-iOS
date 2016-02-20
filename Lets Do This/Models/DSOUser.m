@@ -62,11 +62,12 @@
 #pragma mark - Accessors
 
 - (NSDictionary *)dictionary {
+     // Keys match API properties
     return @{
              @"id" : self.userID,
-             @"displayName" : self.displayName,
-             @"countryName" : self.countryName,
-             @"avatarURL": self.avatarURL
+             @"first_name" : self.displayName,
+             @"country" : self.countryName,
+             @"photo": self.avatarURL
              };
 }
 

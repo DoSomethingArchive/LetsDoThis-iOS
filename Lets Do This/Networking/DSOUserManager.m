@@ -10,6 +10,8 @@
 #import <SSKeychain/SSKeychain.h>
 #import "GAI+LDT.h"
 #import <Crashlytics/Crashlytics.h>
+#import "LDTAppDelegate.h"
+#import <RCTEventDispatcher.h>
 
 NSString *const avatarFileNameString = @"LDTStoredAvatar.jpeg";
 NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
@@ -66,6 +68,10 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 #pragma mark - DSOUserManager
+
+- (LDTAppDelegate *)appDelegate {
+    return ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
+}
 
 - (BOOL)userHasCachedSession {
     return self.sessionToken.length > 0;
@@ -163,8 +169,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
-        [self.user addCampaignSignup:signup];
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup.dictionary];
         if (completionHandler) {
             completionHandler(signup);
         }
@@ -176,16 +182,11 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
+    [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *reportbackDict) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)reportbackItem.campaign.campaignID] value:nil];
-        // Update the corresponding campaignSignup with the new reportbackItem.
-        for (DSOCampaignSignup *signup in self.user.campaignSignups) {
-            if (reportbackItem.campaign.campaignID == signup.campaign.campaignID) {
-                signup.reportbackItem = reportbackItem;
-            }
-        }
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:reportbackDict];
         if (completionHandler) {
-            completionHandler(response);
+            completionHandler(reportbackDict);
         }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {

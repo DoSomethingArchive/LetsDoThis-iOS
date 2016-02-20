@@ -48,9 +48,11 @@ var UserView = React.createClass({
     this.fetchData();
   },
   componentWillUnmount: function() {
-    this.subscription.remove();
+    if (typeof this.subscription != "undefined") {
+      this.subscription.remove();
+    }
   },
-  handleEvent: function(reminder) {
+  handleEvent: function(campaignActivity) {
     this.fetchData();
   },
   fetchData: function() {
@@ -87,7 +89,6 @@ var UserView = React.createClass({
       var sectionNumber = 0;
       if (signup.reportback) {
         sectionNumber = 1;
-        signup.reportback = signup.reportback_data;
         signup.reportbackItem = signup.reportback.reportback_items.data[0];
       }
       else {
@@ -171,13 +172,12 @@ var UserView = React.createClass({
     );
   },
   renderHeader: function() {
-    var avatarURL = this.props.user.avatarURL;
-    if (avatarURL.length == 0) {
-      this.props.user.avatarURL = 'https://placekitten.com/g/600/600';
+    if (this.props.user.photo.length == 0) {
+      this.props.user.photo = 'https://placekitten.com/g/600/600';
     }
     var headerText = null;
-    if (this.props.user.countryName.length > 0) {
-      headerText = this.props.user.countryName.toUpperCase();
+    if (this.props.user.country.length > 0) {
+      headerText = this.props.user.country.toUpperCase();
     }
     return (
       <View>
@@ -187,7 +187,7 @@ var UserView = React.createClass({
           <View style={styles.headerContainer}>
              <Image
                style={styles.avatar}
-               source={{uri: this.props.user.avatarURL}}
+               source={{uri: this.props.user.photo}}
              />
              <Text style={[Style.textHeading, styles.headerText]}>
                {headerText}
@@ -199,8 +199,8 @@ var UserView = React.createClass({
   },
   renderSectionHeader(sectionData, sectionID) {
     return (
-      <View style={styles.sectionContainer}>
-        <Text style={[Style.textHeading, {textAlign: 'center'}]}>
+      <View style={Style.sectionHeader}>
+        <Text style={Style.sectionHeaderText}>
           {sectionData.toUpperCase()}
         </Text>
       </View>
@@ -237,7 +237,7 @@ var UserView = React.createClass({
             reportbackItem={rowData.reportbackItem}
             reportback={rowData.reportback} 
             campaign={rowData.campaign}
-            user={rowData.user}
+            user={this.props.user}
           />
         </View>
       </TouchableHighlight>
@@ -266,10 +266,6 @@ var styles = React.StyleSheet.create({
     flex: 1,
     height: 160,
     alignItems: 'stretch',    
-  },
-  sectionContainer: {
-    backgroundColor: '#F8F8F6',
-    padding: 14,
   },
   avatar: {
     width: 100,
