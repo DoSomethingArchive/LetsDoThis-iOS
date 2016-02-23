@@ -39,8 +39,11 @@ var ReportbackItemView = React.createClass({
     }
     var shareButton = null;
     if (this.props.share) {
-      shareButton = (
-        <TouchableHighlight style={[Style.actionButton, {padding: 8, marginTop: 16,}]} onPress={() => this._onPressShareButton()}>
+      var shareButton = (
+        <TouchableHighlight 
+          style={[Style.actionButton, {padding: 8, marginTop: 16,}]} 
+          onPress={() => Bridge.shareReportback(this.getShareMessage(), reportbackItem.media.uri)}
+          >
           <Text style={Style.actionButtonText}>
             {"Share your photo".toUpperCase()}
           </Text>
@@ -80,9 +83,14 @@ var ReportbackItemView = React.createClass({
       </View>
     );
   },
-  _onPressShareButton: function() {
-    Bridge.shareReportback(this.props.reportback);
-  }
+  getShareMessage: function() {
+    var campaign = this.props.campaign;
+    var message = "BAM. I just rocked the " + campaign.title + " campaign on the ";
+    message += "DoSomething app and " + campaign.reportback_info.verb + " ";
+    message += this.props.reportback.quantity.toString() + " ";
+    message += campaign.reportback_info.noun + ". Wanna do it with me?";
+    return message;
+  },
 });
 
 var styles = React.StyleSheet.create({

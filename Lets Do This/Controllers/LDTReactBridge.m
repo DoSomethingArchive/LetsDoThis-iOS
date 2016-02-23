@@ -16,6 +16,8 @@
 #import "LDTCauseDetailViewController.h"
 #import "LDTNewsArticleViewController.h"
 #import "LDTMessage.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "LDTActivityViewController.h"
 
 
 @interface LDTReactBridge() <RCTBridgeModule>
@@ -91,9 +93,16 @@ RCT_EXPORT_METHOD(postSignup:(NSInteger)campaignID) {
     }];
 }
 
-RCT_EXPORT_METHOD(shareReportback:(NSDictionary *)reportbackDict) {
-    // @todo: Present LDTActivityViewController
-    NSLog(@"reportback %@", reportbackDict);
+RCT_EXPORT_METHOD(shareReportback:(NSString *)shareMessage shareImageUrl:(NSString *)shareImageUrl) {
+    NSURL *url = [NSURL URLWithString:shareImageUrl];
+    // This is weaksauce but we otherwise don't have a way to pass the downloaded image from React Native back into Obj C.
+    // @see https://github.com/facebook/react-native/issues/201
+    [SVProgressHUD showWithStatus:@"Loading..." maskType:SVProgressHUDMaskTypeNone];
+    [[SDWebImageManager sharedManager] downloadImageWithURL:url options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
+        [SVProgressHUD dismiss];
+        LDTActivityViewController *activityViewController = [[LDTActivityViewController alloc] initWithShareMessage:shareMessage shareImage:image gaiActionName:@"share photo"];
+        [[self tabBarController] presentViewController:activityViewController animated:YES completion:nil];
+    }];
 }
 
 @end
