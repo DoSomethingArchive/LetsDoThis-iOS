@@ -17,6 +17,8 @@ var Style = require('./Style.js');
 var UserViewController = require('react-native').NativeModules.LDTUserViewController;
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
+var firstSectionHeaderText = "Actions I'm Doing";
+var secondSectionHeaderText = "Actions I've Done";
 
 var UserView = React.createClass({
   getInitialState: function() {
@@ -79,10 +81,10 @@ var UserView = React.createClass({
       rowIDs = [],
       i;
     sectionIDs.push(0);
-    dataBlob[0] = "Actions I'm doing";
+    dataBlob[0] = firstSectionHeaderText;
     rowIDs[0] = [];
     sectionIDs.push(1);
-    dataBlob[1] = "Actions I've done";
+    dataBlob[1] = secondSectionHeaderText;
     rowIDs[1] = [];
     for (i = 0; i < signups.length; i++) {
       var signup = signups[i];
@@ -146,6 +148,26 @@ var UserView = React.createClass({
       </View>
     );
   },
+  renderEmptySelfProfile: function() {
+    return (
+      <View>
+        {this.renderHeader()}
+        <View style={Style.sectionHeader}>
+          <Text style={Style.sectionHeaderText}>
+            {firstSectionHeaderText.toUpperCase()}
+          </Text>
+        </View>
+        <View style={styles.noActionsContainer}>
+          <Text style={Style.textHeading}>
+            You haven’t started any actions yet.
+          </Text>
+          <Text style={[Style.textBody, {paddingTop: 8}]}>
+            And you totally should! Shit is happening in the world -- find out how to do something about it.
+          </Text>
+        </View>
+      </View>
+    );
+  },
   render: function() {
     if (this.state.error) {
       return this.renderError();
@@ -153,6 +175,10 @@ var UserView = React.createClass({
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
+    if (this.state.dataSource.getRowCount() == 0 && this.props.isSelfProfile) {
+      return this.renderEmptySelfProfile();
+    }
+
     return (
       <ListView
         dataSource={this.state.dataSource}
@@ -256,6 +282,14 @@ var styles = React.StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#EEE',
+  },
+  noActionsContainer : {
+    flex: 1,  
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 33,
+    paddingRight: 33,
+    paddingTop: 18,
   },
   headerContainer: {
     alignItems: 'center',
