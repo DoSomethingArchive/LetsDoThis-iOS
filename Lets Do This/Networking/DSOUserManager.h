@@ -32,9 +32,6 @@
 // Returns whether an authenticated user session has been saved.
 - (BOOL)userHasCachedSession;
 
-// Loads the campaignSignups for given user for all activeCampaigns.
-- (void)loadActiveCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
-
 // Logs out the user and deletes the saved session tokens. Called when User logs out from Settings screen.
 - (void)endSessionWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 

@@ -112,27 +112,6 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
-        [self loadActiveCampaignSignupsForUser:self.user completionHandler:^{
-            // @todo: Send LDTAppDelegate.bridge.eventDispatcher to refresh a User's Profile from signing out and then signing in as a different user.
-            if (completionHandler) {
-                completionHandler();
-            }
-        } errorHandler:^(NSError *error) {
-            errorHandler(error);
-        }];
-    } errorHandler:^(NSError *error) {
-        if (errorHandler) {
-            errorHandler(error);
-        }
-    }];
-}
-
-- (void)loadActiveCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] loadCampaignSignupsForUser:user completionHandler:^(NSArray *campaignSignups) {
-        [user removeAllCampaignSignups];
-        for (DSOCampaignSignup *signup in campaignSignups) {
-            [user addCampaignSignup:signup];
-        }
         if (completionHandler) {
             completionHandler();
         }

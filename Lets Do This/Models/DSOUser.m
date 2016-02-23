@@ -14,7 +14,6 @@
 @interface DSOUser()
 
 @property (nonatomic, assign, readwrite) NSInteger phoenixID;
-@property (nonatomic, strong, readwrite) NSMutableArray *mutableCampaignSignups;
 @property (nonatomic, strong, readwrite) NSString *avatarURL;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
@@ -47,7 +46,6 @@
         _email = dict[@"email"];
         _phoenixID = [dict valueForKeyAsInt:@"drupal_id" nullValue:0];
         _sessionToken = dict[@"session_token"];
-        _mutableCampaignSignups = [[NSMutableArray alloc] init];
         _avatarURL = [dict valueForKeyAsString:@"photo" nullValue:@""];
         if (dict[@"photo"]) {
             [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
@@ -91,14 +89,6 @@
 	return _photo;
 }
 
-- (NSArray *)campaignSignups {
-    return [self.mutableCampaignSignups copy];
-}
-
-- (void)removeAllCampaignSignups {
-    [self.mutableCampaignSignups removeAllObjects];
-}
-
 - (void)setPhoto:(UIImage *)photo {
     _photo = photo;
     if ([self isLoggedInUser] && photo) {
@@ -139,39 +129,8 @@
     return self.userID;
 }
 
-- (void)addCampaignSignup:(DSOCampaignSignup *)campaignSignup {
-    [self.mutableCampaignSignups addObject:campaignSignup];
-}
-
 - (BOOL)isLoggedInUser {
     return [self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID];
-}
-
-- (BOOL)isDoingCampaign:(DSOCampaign *)campaign {
-    for (DSOCampaignSignup *signup in self.campaignSignups) {
-        if (campaign.campaignID == signup.campaign.campaignID) {
-            if (signup.reportbackItem) {
-                // By doing, we mean they haven't completed it yet.
-                // So no, the user is not Doing it.
-                return NO;
-            }
-            return YES;
-        }
-    }
-    return NO;
-}
-
-- (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign {
-    for (DSOCampaignSignup *signup in self.campaignSignups) {
-        if (campaign.campaignID == signup.campaign.campaignID) {
-            if (signup.reportbackItem) {
-                return YES;
-            }
-            // Nope, haven't completed the campaign yet
-            return NO;
-        }
-    }
-    return NO;
 }
 
 @end

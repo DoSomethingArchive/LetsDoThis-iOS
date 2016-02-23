@@ -104,15 +104,4 @@
     return dict;
 }
 
-- (DSOCampaignSignup *)currentUserSignup {
-    DSOUser *currentUser = [DSOUserManager sharedInstance].user;
-    for (DSOCampaignSignup *signup in currentUser.campaignSignups) {
-        // @todo This needs to also make sure the campaign is not closed, and that signup.campaign_run.current
-        if (self.campaignID == signup.campaign.campaignID) {
-            return signup;
-        }
-    }
-    return nil;
-}
-
 @end

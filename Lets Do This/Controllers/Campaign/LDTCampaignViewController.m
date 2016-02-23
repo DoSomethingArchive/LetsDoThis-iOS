@@ -53,18 +53,19 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    DSOUser *currentUser = [DSOUserManager sharedInstance].user;
-    NSString *screenStatus;
-    if ([currentUser hasCompletedCampaign:self.campaign]) {
-        screenStatus = @"completed";
-    }
-    else if ([currentUser isDoingCampaign:self.campaign]) {
-        screenStatus = @"proveit";
-    }
-    else {
-        screenStatus = @"pitch";
-    }
-    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld/%@", (long)self.campaign.campaignID, screenStatus]];
+//    DSOUser *currentUser = [DSOUserManager sharedInstance].user;
+//    NSString *screenStatus;
+//    if ([currentUser hasCompletedCampaign:self.campaign]) {
+//        screenStatus = @"completed";
+//    }
+//    else if ([currentUser isDoingCampaign:self.campaign]) {
+//        screenStatus = @"proveit";
+//    }
+//    else {
+//        screenStatus = @"pitch";
+//    }
+    // @todo Send screenStatus (or not)
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld", (long)self.campaign.campaignID]];
 }
 
 #pragma mark - LDTCampaignViewController
