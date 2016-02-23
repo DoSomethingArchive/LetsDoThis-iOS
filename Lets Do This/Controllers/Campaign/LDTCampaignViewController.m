@@ -53,18 +53,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-//    DSOUser *currentUser = [DSOUserManager sharedInstance].user;
-//    NSString *screenStatus;
-//    if ([currentUser hasCompletedCampaign:self.campaign]) {
-//        screenStatus = @"completed";
-//    }
-//    else if ([currentUser isDoingCampaign:self.campaign]) {
-//        screenStatus = @"proveit";
-//    }
-//    else {
-//        screenStatus = @"pitch";
-//    }
-    // @todo Send screenStatus (or not)
+    // @todo (potentially). track this screen from React Native, since we determine the currentUser state there
+    // Previously we would send campaign/:id/pitch|proveit|completed
     [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld", (long)self.campaign.campaignID]];
 }
 

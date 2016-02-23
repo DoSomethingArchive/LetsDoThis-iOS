@@ -26,7 +26,7 @@ var ReportbackItemView = React.createClass({
     if ((!user.country) || user.country.length == 0) {
       user.country = '';
     }
-    if ((!user.country) || user.first_name.length == 0) {
+    if ((!user.first_name) || user.first_name.length == 0) {
       user.first_name = 'Doer';
     }
     if ((user.photo && user.photo.length == 0) || (!user.photo)) {
