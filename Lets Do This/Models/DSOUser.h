@@ -8,12 +8,10 @@
 
 #import "DSOCampaign.h"
 
-@class DSOCampaignSignup;
 @class DSOUser;
 
 @interface DSOUser : NSObject
 
-@property (nonatomic, strong, readonly) NSArray *campaignSignups;
 @property (nonatomic, strong, readonly) NSDictionary *dictionary;
 @property (nonatomic, assign, readonly) NSInteger phoenixID;
 @property (nonatomic, strong, readonly) NSString *avatarURL;
@@ -30,14 +28,7 @@
 - (instancetype)initWithDict:(NSDictionary *)dict;
 - (void)setPhoto:(UIImage *)image;
 
-// Removes all the user's campaignSignups, used when syncing.
-- (void)removeAllCampaignSignups;
-// Adds given campaignSignup to the user's campaignSignups.
-- (void)addCampaignSignup:(DSOCampaignSignup *)campaignSignup;
-
 // Checks if the User is the logged-in User.
 - (BOOL)isLoggedInUser;
-- (BOOL)isDoingCampaign:(DSOCampaign *)campaign;
-- (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign;
 
 @end

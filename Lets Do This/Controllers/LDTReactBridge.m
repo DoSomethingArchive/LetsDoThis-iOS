@@ -84,12 +84,16 @@ RCT_EXPORT_METHOD(postSignup:(NSInteger)campaignID) {
     [SVProgressHUD showWithStatus:@"Signing up..."];
     [[DSOUserManager sharedInstance] signupUserForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
         [SVProgressHUD dismiss];
-        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup.dictionary];
         [LDTMessage displaySuccessMessageInViewController:self.tabBarController title:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", campaign.title]];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [LDTMessage displayErrorMessageInViewController:self.tabBarController title:error.readableTitle];
     }];
+}
+
+RCT_EXPORT_METHOD(shareReportback:(NSDictionary *)reportbackDict) {
+    // @todo: Present LDTActivityViewController
+    NSLog(@"reportback %@", reportbackDict);
 }
 
 @end

@@ -10,6 +10,8 @@
 #import <SSKeychain/SSKeychain.h>
 #import "GAI+LDT.h"
 #import <Crashlytics/Crashlytics.h>
+#import "LDTAppDelegate.h"
+#import <RCTEventDispatcher.h>
 
 NSString *const avatarFileNameString = @"LDTStoredAvatar.jpeg";
 NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
@@ -67,6 +69,10 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 #pragma mark - DSOUserManager
 
+- (LDTAppDelegate *)appDelegate {
+    return ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
+}
+
 - (BOOL)userHasCachedSession {
     return self.sessionToken.length > 0;
 }
@@ -106,27 +112,6 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         self.user = user;
-        [self loadActiveCampaignSignupsForUser:self.user completionHandler:^{
-            // @todo: Send LDTAppDelegate.bridge.eventDispatcher to refresh a User's Profile from signing out and then signing in as a different user.
-            if (completionHandler) {
-                completionHandler();
-            }
-        } errorHandler:^(NSError *error) {
-            errorHandler(error);
-        }];
-    } errorHandler:^(NSError *error) {
-        if (errorHandler) {
-            errorHandler(error);
-        }
-    }];
-}
-
-- (void)loadActiveCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] loadCampaignSignupsForUser:user completionHandler:^(NSArray *campaignSignups) {
-        [user removeAllCampaignSignups];
-        for (DSOCampaignSignup *signup in campaignSignups) {
-            [user addCampaignSignup:signup];
-        }
         if (completionHandler) {
             completionHandler();
         }
@@ -163,8 +148,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
-        [self.user addCampaignSignup:signup];
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup.dictionary];
         if (completionHandler) {
             completionHandler(signup);
         }
@@ -176,16 +161,11 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
+    [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *reportbackDict) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)reportbackItem.campaign.campaignID] value:nil];
-        // Update the corresponding campaignSignup with the new reportbackItem.
-        for (DSOCampaignSignup *signup in self.user.campaignSignups) {
-            if (reportbackItem.campaign.campaignID == signup.campaign.campaignID) {
-                signup.reportbackItem = reportbackItem;
-            }
-        }
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:reportbackDict];
         if (completionHandler) {
-            completionHandler(response);
+            completionHandler(reportbackDict);
         }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {

@@ -37,7 +37,6 @@
 #define LDTSERVERKEYNAME @"northstarLiveKey"
 #endif
 
-
 @interface DSOAPI()
 
 @property (nonatomic, strong, readwrite) NSString *apiKey;
@@ -204,7 +203,7 @@
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
-            completionHandler(responseObject);
+            completionHandler(responseObject[@"data"]);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
@@ -301,25 +300,6 @@
               errorHandler(error);
           }
       }];
-}
-
-- (void)loadCampaignSignupsForUser:(DSOUser *)user completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [self profileURLforUser:user];
-    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSMutableArray *campaignSignups = [[NSMutableArray alloc] init];
-        for (NSDictionary *campaignSignupDict in responseObject[@"data"]) {
-            DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:campaignSignupDict];
-            [campaignSignups addObject:signup];
-        }
-        if (completionHandler) {
-            completionHandler(campaignSignups);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
-        if (errorHandler) {
-            errorHandler(error);
-        }
-    }];
 }
 
 - (void)logError:(NSError *)error methodName:(NSString *)methodName URLString:(NSString *)URLString {

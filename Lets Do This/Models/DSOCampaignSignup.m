@@ -34,12 +34,9 @@
     self = [super init];
 
     if (self) {
-
         _signupID = [dict valueForKeyAsInt:@"id" nullValue:0];
         _campaign = [[DSOCampaign alloc] initWithDict:dict[@"campaign"]];
         _campaignRun = dict[@"campaign_run"];
-
-        // @todo: Waiting for Reportback object: https://github.com/DoSomething/phoenix/issues/6151
     }
 
     return self;

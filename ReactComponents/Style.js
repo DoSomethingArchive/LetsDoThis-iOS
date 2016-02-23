@@ -39,7 +39,7 @@ module.exports = StyleSheet.create({
     fontSize: fontSizeBody,
   },
   sectionHeader: {
-    backgroundColor: '#F8F8F6',
+    backgroundColor: '#EEEEEE',
   },
   sectionHeaderText: {
     textAlign: 'center', 

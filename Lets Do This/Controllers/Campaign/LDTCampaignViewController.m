@@ -53,18 +53,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    DSOUser *currentUser = [DSOUserManager sharedInstance].user;
-    NSString *screenStatus;
-    if ([currentUser hasCompletedCampaign:self.campaign]) {
-        screenStatus = @"completed";
-    }
-    else if ([currentUser isDoingCampaign:self.campaign]) {
-        screenStatus = @"proveit";
-    }
-    else {
-        screenStatus = @"pitch";
-    }
-    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld/%@", (long)self.campaign.campaignID, screenStatus]];
+    // @todo (potentially). track this screen from React Native, since we determine the currentUser state there
+    // Previously we would send campaign/:id/pitch|proveit|completed
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld", (long)self.campaign.campaignID]];
 }
 
 #pragma mark - LDTCampaignViewController
@@ -75,20 +66,13 @@
 
 - (NSDictionary *)appProperties {
     NSDictionary *appProperties;
-    NSString *url = [NSString stringWithFormat:@"%@reportback-items?load_user=true&status=approved,promoted&campaigns=%li", [DSOAPI sharedInstance].phoenixApiURL, (long)self.campaign.campaignID];
-    NSDictionary *currentUserSignupDict;
-    if (self.campaign.currentUserSignup) {
-        currentUserSignupDict = self.campaign.currentUserSignup.dictionary;
-    }
-    else {
-        currentUserSignupDict = [[NSDictionary alloc] init];
-    }
+    NSString *galleryUrl = [NSString stringWithFormat:@"%@reportback-items?load_user=true&status=approved,promoted&campaigns=%li", [DSOAPI sharedInstance].phoenixApiURL, (long)self.campaign.campaignID];
     NSString *signupURLString = [NSString stringWithFormat:@"%@signups?user=%@", [DSOAPI sharedInstance].baseURL, [DSOUserManager sharedInstance].user.userID];
     appProperties = @{
                       @"campaign" : self.campaign.dictionary,
-                      @"galleryUrl" : url,
+                      @"galleryUrl" : galleryUrl,
                       @"signupUrl" : signupURLString,
-                      @"initialSignup" : currentUserSignupDict,
+                      @"currentUser" : [DSOUserManager sharedInstance].user.dictionary,
                       @"apiKey": [DSOAPI sharedInstance].apiKey,
                       @"sessionToken": [DSOUserManager sharedInstance].sessionToken,
                       };

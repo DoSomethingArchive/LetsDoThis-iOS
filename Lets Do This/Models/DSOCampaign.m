@@ -104,15 +104,4 @@
     return dict;
 }
 
-- (DSOCampaignSignup *)currentUserSignup {
-    DSOUser *currentUser = [DSOUserManager sharedInstance].user;
-    for (DSOCampaignSignup *signup in currentUser.campaignSignups) {
-
-        if (self.campaignID == signup.campaign.campaignID) {
-            return signup;
-        }
-    }
-    return nil;
-}
-
 @end
