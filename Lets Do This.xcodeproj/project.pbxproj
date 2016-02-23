@@ -163,7 +163,7 @@
 		C20BA28B1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+DSOJsonHelper.h"; sourceTree = "<group>"; };
 		C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DSOJsonHelper.m"; sourceTree = "<group>"; };
 		C20BA28F1AF3DE0D00E9886F /* LetsDoThis.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LetsDoThis.pch; sourceTree = "<group>"; };
-		C2B151E91ACE04C30028C336 /* Lets Do This.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lets Do This.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2B151E91ACE04C30028C336 /* DoSomething.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoSomething.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B151ED1ACE04C30028C336 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2B151EE1ACE04C30028C336 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C2B151FC1ACE04C30028C336 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -381,7 +381,7 @@
 		C2B151EA1ACE04C30028C336 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C2B151E91ACE04C30028C336 /* Lets Do This.app */,
+				C2B151E91ACE04C30028C336 /* DoSomething.app */,
 				C2B152051ACE04C30028C336 /* Lets Do ThisTests.xctest */,
 			);
 			name = Products;
@@ -568,7 +568,7 @@
 			);
 			name = "Lets Do This";
 			productName = "Lets Do This";
-			productReference = C2B151E91ACE04C30028C336 /* Lets Do This.app */;
+			productReference = C2B151E91ACE04C30028C336 /* DoSomething.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C2B152041ACE04C30028C336 /* Lets Do ThisTests */ = {
@@ -877,7 +877,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.dosomething.LetsDoThis;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = DoSomething;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Thor;
@@ -990,7 +990,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.dosomething.LetsDoThis;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = DoSomething;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -1007,7 +1007,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.dosomething.LetsDoThis;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = DoSomething;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
