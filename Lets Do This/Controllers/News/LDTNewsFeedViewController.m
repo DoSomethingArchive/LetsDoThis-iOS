@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.title = @"Let's Do This".uppercaseString;
+    self.navigationItem.title = @"DoSomething".uppercaseString;
 
     NSString *url = [NSString stringWithFormat:@"%@get_posts?count=50", [DSOAPI sharedInstance].newsApiURL];
     NSDictionary *props = @{@"url" : url};

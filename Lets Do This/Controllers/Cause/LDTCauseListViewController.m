@@ -29,7 +29,7 @@
 
     self.causes = [[NSArray alloc] init];
     self.title = @"Actions";
-    self.navigationItem.title = @"Let's Do This".uppercaseString;
+    self.navigationItem.title = @"DoSomething".uppercaseString;
 
     NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
     NSString *url = [NSString stringWithFormat:@"%@get_category_index", [DSOAPI sharedInstance].newsApiURL];
