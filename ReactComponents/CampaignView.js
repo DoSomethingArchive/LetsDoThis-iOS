@@ -166,26 +166,6 @@ var CampaignView = React.createClass({
       Bridge.presentProveIt(Number(this.props.campaign.id));
     }
   },
-  renderSelfReportback: function() {
-    var reportbackItem = {
-      media: {
-        uri: this.state.reportback.imageUrl,
-      },
-      caption: this.state.reportback.caption,
-    };
-
-    return (
-      <View>
-        <ReportbackItemView
-        key={this.state.reportback.id}
-        reportbackItem={this.state.reportback.reportback_items.data[0]}
-        reportback={this.state.reportback}
-        campaign={this.props.campaign}
-        user={this.props.currentUser}
-        />
-      </View>
-    );
-  },
   renderActionButton: function() {
     var actionButtonText;
     if (this.state.reportback.id) {
@@ -232,7 +212,14 @@ var CampaignView = React.createClass({
 
     var selfReportback;
     if (this.state.reportback.id) {
-      selfReportback = this.renderSelfReportback();
+      selfReportback = (
+        <ReportbackItemView
+        key={this.state.reportback.id}
+        reportbackItem={this.state.reportback.reportback_items.data[0]}
+        reportback={this.state.reportback}
+        campaign={this.props.campaign}
+        user={this.props.currentUser}
+        />);
     }
     return (
       <View>
