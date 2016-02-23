@@ -14,6 +14,7 @@ import React, {
 import Dimensions from 'Dimensions';
 
 var Style = require('./Style.js');
+var NetworkErrorView = require('./NetworkErrorView.js');
 var ReportbackItemView = require('./ReportbackItemView.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 
@@ -53,6 +54,7 @@ var CampaignView = React.createClass({
       return;
     }
     // If we have a quantity, this campaignActivityEvent is a Reportback.
+    // @todo: Different handleEvent? This feels hacky.
     if (campaignActivity.quantity) {
       this.setState({
         reportback: campaignActivity,
@@ -60,10 +62,20 @@ var CampaignView = React.createClass({
     }
   },
   fetchData: function() {
-    var statusUrl = this.props.signupUrl + '&campaigns=' + this.props.campaign.id.toString();
+    this.setState({
+      error: false,
+      loaded: false,
+    });
+    var statusUrl = this.props.signupUrl;
+    statusUrl += '&campaigns=' + this.props.campaign.id.toString();
     fetch(statusUrl)
       .then((response) => response.json())
+      .catch((error) => this.catchError(error))
       .then((responseData) => {
+        if (!responseData) {
+          return;
+        }
+        this.fetchGalleryData();
         var signups = responseData.data;
         for (var i = 0; i < signups.length; i++) {
           var signup = signups[i];
@@ -79,46 +91,37 @@ var CampaignView = React.createClass({
             });
           }
         }
-        this.fetchGalleryData();
       })
-      .catch((error) => this.catchError(error))
       .done();
   },
   fetchGalleryData: function() {
     fetch(this.props.galleryUrl)
       .then((response) => response.json())
+      .catch((error) => this.catchError(error))
       .then((responseData) => {
+        if (!responseData) {
+          return;
+        }
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData.data),
           loaded: true,
+          error: null,
         });
       })
-      .catch((error) => this.catchError(error))
       .done();
   },
   catchError: function(error) {
     this.setState({
       error: error,
+      loaded: true,
     });
-  },
-  renderError: function() {
-    return (
-      <View>
-        {this.renderCover()}
-        <View style={styles.loadingContainer}>
-          <Text style={Style.textBody}>
-            Epic Fail
-          </Text>
-        </View>
-      </View>
-    );
   },
   renderLoadingView: function() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
         <Text style={Style.textBody}>
-          Loading...
+          Loading action...
         </Text>
       </View>
     );
@@ -134,7 +137,12 @@ var CampaignView = React.createClass({
   },
   render: function() {
     if (this.state.error) {
-      return this.renderError();
+      return (
+        <NetworkErrorView
+          title="Action isn't loading right now"
+          retryHandler={this.fetchData}
+          errorMessage={this.state.error.message}
+        />);
     }
     if (!this.state.loaded) {
       return this.renderLoadingView();

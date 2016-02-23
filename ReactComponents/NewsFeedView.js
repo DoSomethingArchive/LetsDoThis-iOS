@@ -13,6 +13,7 @@ import React, {
 
 var Style = require('./Style.js');
 var NewsFeedPost = require('./NewsFeedPost.js');
+var NetworkErrorView = require('./NetworkErrorView.js');
 
 var NewsFeedView = React.createClass({
   getInitialState: function() {
@@ -29,36 +30,39 @@ var NewsFeedView = React.createClass({
     this.fetchData();
   },
   fetchData: function() {
+    this.setState({
+      loaded: false,
+      error: null,
+    });
     fetch(this.props.url)
       .then((response) => response.json())
+      .catch((error) => this.catchError(error))
       .then((responseData) => {
+        if (!responseData) {
+          return;
+        }
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData.posts),
           loaded: true,
           error: null,
         });
       })
-      .catch((error) => this.catchError(error))
       .done();
   },
   catchError: function(error) {
-    console.log(error);
+    console.log("NewsFeed.catchError");
     this.setState({
       error: error,
     });
   },
-  renderError: function() {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text style={Style.textBody}>
-          Epic Fail
-        </Text>
-      </View>
-    );
-  },
   render: function() {
     if (this.state.error) {
-      return this.renderError();
+      return (
+        <NetworkErrorView
+          title="News isn't loading right now"
+          retryHandler={this.fetchData}
+          errorMessage={this.state.error.message}
+        />);
     }
     if (!this.state.loaded) {
       return this.renderLoadingView();

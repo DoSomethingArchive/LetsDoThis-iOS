@@ -14,6 +14,7 @@ import React, {
 } from 'react-native';
 
 var Style = require('./Style.js');
+var NetworkErrorView = require('./NetworkErrorView.js');
 var UserViewController = require('react-native').NativeModules.LDTUserViewController;
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
@@ -58,6 +59,10 @@ var UserView = React.createClass({
     this.fetchData();
   },
   fetchData: function() {
+    this.setState({
+      error: false,
+      loaded: false,
+    });
     var options = { 
       method: 'GET',
       headers: {
@@ -69,10 +74,13 @@ var UserView = React.createClass({
     };
     fetch(this.props.url, options)
       .then((response) => response.json())
+      .catch((error) => this.catchError(error))
       .then((responseData) => {
+        if (!responseData) {
+          return;
+        }
         this.loadSignups(responseData.data);
       })
-      .catch((error) => this.catchError(error))
       .done();
   },
   loadSignups: function(signups) {
@@ -123,7 +131,7 @@ var UserView = React.createClass({
     }, 1000);
   },
   catchError: function(error) {
-    console.log(error);
+    console.log("UserView.catchError");
     this.setState({
       error: error,
     });
@@ -135,15 +143,6 @@ var UserView = React.createClass({
         <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
         <Text style={Style.textBody}>
           Loading profile...
-        </Text>
-      </View>
-    );
-  },
-  renderError: function() {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text style={Style.textBody}>
-          Epic Fail
         </Text>
       </View>
     );
@@ -170,7 +169,13 @@ var UserView = React.createClass({
   },
   render: function() {
     if (this.state.error) {
-      return this.renderError();
+      return (
+        <NetworkErrorView
+          title="Profile isn't loading right now"
+          retryHandler={this.fetchData}
+          errorMessage={this.state.error.message}
+        />
+      );
     }
     if (!this.state.loaded) {
       return this.renderLoadingView();
