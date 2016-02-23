@@ -156,10 +156,7 @@ var CampaignView = React.createClass({
     );
   },
   _onPressActionButton: function() {
-    if (this.state.reportback.id) {
-      Bridge.shareReportback(this.state.reportback);
-    }
-    else if (!this.state.signup) {
+    if (!this.state.signup) {
       Bridge.postSignup(Number(this.props.campaign.id));
     }
     else {
@@ -169,7 +166,7 @@ var CampaignView = React.createClass({
   renderActionButton: function() {
     var actionButtonText;
     if (this.state.reportback.id) {
-      actionButtonText = 'Share your photo';
+      return null;
     }
     else if (this.state.signup) {
       actionButtonText = 'Prove it';
@@ -214,12 +211,14 @@ var CampaignView = React.createClass({
     if (this.state.reportback.id) {
       selfReportback = (
         <ReportbackItemView
-        key={this.state.reportback.id}
-        reportbackItem={this.state.reportback.reportback_items.data[0]}
-        reportback={this.state.reportback}
-        campaign={this.props.campaign}
-        user={this.props.currentUser}
-        />);
+          key={this.state.reportback.id}
+          reportbackItem={this.state.reportback.reportback_items.data[0]}
+          reportback={this.state.reportback}
+          campaign={this.props.campaign}
+          user={this.props.currentUser}
+          share={true}
+        />
+      );
     }
     return (
       <View>
@@ -296,11 +295,12 @@ var CampaignView = React.createClass({
       <TouchableHighlight onPress={() => this._onPressRow(rowData.user)}>
         <View>
           <ReportbackItemView
-          key={rowData.id}
-          reportbackItem={rowData}
-          reportback={rowData.reportback}
-          campaign={rowData.campaign}
-          user={rowData.user}
+            key={rowData.id}
+            reportbackItem={rowData}
+            reportback={rowData.reportback}
+            campaign={rowData.campaign}
+            user={rowData.user}
+            share={false}
           />
         </View>
       </TouchableHighlight>

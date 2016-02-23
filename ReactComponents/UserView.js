@@ -238,6 +238,7 @@ var UserView = React.createClass({
             reportback={rowData.reportback} 
             campaign={rowData.campaign}
             user={this.props.user}
+            share={this.props.isSelfProfile}
           />
         </View>
       </TouchableHighlight>

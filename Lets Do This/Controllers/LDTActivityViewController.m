@@ -15,12 +15,17 @@
 
 @implementation LDTActivityViewController
 
-- (instancetype)initWithReportbackItem:(DSOReportbackItem *)reportbackItem image:(UIImage *)image {
+- (instancetype)initWithShareMessage:(NSString *)shareMessage shareImage:(UIImage *)shareImage gaiActionName:(NSString *)gaiActionName {
 
-    DSOCampaign *campaign = reportbackItem.campaign;
-    NSString *shareMessage = [NSString stringWithFormat:@"BAM. I just rocked the %@ campaign on the Let's Do This app and %@ %ld %@. Wanna do it with me? https://itunes.apple.com/app/id998995766", campaign.title, campaign.reportbackVerb, (long)reportbackItem.quantity, campaign.reportbackNoun];
-
-    self = [super initWithActivityItems:@ [shareMessage, image] applicationActivities:nil];
+    NSString *shareMessageWithLink = [NSString stringWithFormat:@"%@ https://itunes.apple.com/app/id998995766", shareMessage];
+    NSArray *activityItems;
+    if (shareImage) {
+        activityItems = @[shareMessageWithLink, shareImage];
+    }
+    else {
+        activityItems = @[shareMessageWithLink];
+    }
+    self = [super initWithActivityItems:activityItems applicationActivities:nil];
 
     if (self) {
         self.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
@@ -29,7 +34,7 @@
             NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
             // retrieves and later lowercases end of activityType, i.e. "facebook"
             NSString *activityString = activityTypeComponents[activityTypeComponents.count-1];
-            [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"share photo" label:activityString.lowercaseString value:nil];
+            [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:gaiActionName label:activityString.lowercaseString value:nil];
         }];
     }
 

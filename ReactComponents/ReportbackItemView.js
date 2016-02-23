@@ -10,6 +10,7 @@ import React, {
 import Dimensions from 'Dimensions';
 
 var Style = require('./Style.js');
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
 
 var ReportbackItemView = React.createClass({
   render: function() {
@@ -36,6 +37,19 @@ var ReportbackItemView = React.createClass({
     if ((!reportbackItem.media) || reportbackItem.media.uri.length == 0) {
       reportbackItem.media.uri = 'https://placekitten.com/g/600/600';
     }
+    var shareButton = null;
+    if (this.props.share) {
+      var shareButton = (
+        <TouchableHighlight 
+          style={[Style.actionButton, {padding: 8, marginTop: 16,}]} 
+          onPress={() => Bridge.shareReportback(this.getShareMessage(), reportbackItem.media.uri)}
+          >
+          <Text style={Style.actionButtonText}>
+            {"Share your photo".toUpperCase()}
+          </Text>
+        </TouchableHighlight>
+      );
+    }
     return(
       <View style={styles.container}>
        <Text style={[Style.textCaption, styles.countryNameText]}>
@@ -55,6 +69,7 @@ var ReportbackItemView = React.createClass({
             </Text>
           </View>
           <Text style={Style.textBody}>{reportbackItem.caption}</Text>
+          {shareButton}
         </View>
         <View style={styles.userContainer}>
           <Image
@@ -67,7 +82,15 @@ var ReportbackItemView = React.createClass({
         </View>
       </View>
     );
-  }
+  },
+  getShareMessage: function() {
+    var campaign = this.props.campaign;
+    var message = "BAM. I just rocked the " + campaign.title + " campaign on the ";
+    message += "DoSomething app and " + campaign.reportback_info.verb + " ";
+    message += this.props.reportback.quantity.toString() + " ";
+    message += campaign.reportback_info.noun + ". Wanna do it with me?";
+    return message;
+  },
 });
 
 var styles = React.StyleSheet.create({

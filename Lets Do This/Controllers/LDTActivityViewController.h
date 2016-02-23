@@ -8,6 +8,6 @@
 
 @interface LDTActivityViewController : UIActivityViewController
 
-- (instancetype)initWithReportbackItem:(DSOReportbackItem *)reportbackItem image:(UIImage *)image;
+- (instancetype)initWithShareMessage:(NSString *)shareMessage shareImage:(UIImage *)shareImage gaiActionName:(NSString *)gaiActionName;
 
 @end
