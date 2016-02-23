@@ -10,6 +10,7 @@ import React, {
 import Dimensions from 'Dimensions';
 
 var Style = require('./Style.js');
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
 
 var ReportbackItemView = React.createClass({
   render: function() {
@@ -36,6 +37,16 @@ var ReportbackItemView = React.createClass({
     if ((!reportbackItem.media) || reportbackItem.media.uri.length == 0) {
       reportbackItem.media.uri = 'https://placekitten.com/g/600/600';
     }
+    var shareButton = null;
+    if (this.props.share) {
+      shareButton = (
+        <TouchableHighlight style={[Style.actionButton, {padding: 8, marginTop: 16,}]} onPress={() => this._onPressShareButton()}>
+          <Text style={Style.actionButtonText}>
+            {"Share your photo".toUpperCase()}
+          </Text>
+        </TouchableHighlight>
+      );
+    }
     return(
       <View style={styles.container}>
        <Text style={[Style.textCaption, styles.countryNameText]}>
@@ -55,6 +66,7 @@ var ReportbackItemView = React.createClass({
             </Text>
           </View>
           <Text style={Style.textBody}>{reportbackItem.caption}</Text>
+          {shareButton}
         </View>
         <View style={styles.userContainer}>
           <Image
@@ -67,6 +79,9 @@ var ReportbackItemView = React.createClass({
         </View>
       </View>
     );
+  },
+  _onPressShareButton: function() {
+    Bridge.shareReportback(this.props.reportback);
   }
 });
 
