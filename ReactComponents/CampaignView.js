@@ -17,6 +17,7 @@ var Style = require('./Style.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
 var ReportbackItemView = require('./ReportbackItemView.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
+var NetworkImage = require('./NetworkImage.js');
 
 var CampaignView = React.createClass({
   getInitialState: function() {
@@ -252,20 +253,25 @@ var CampaignView = React.createClass({
   renderCover: function() {
     var campaign = this.props.campaign;
     if (campaign.image_url.length == 0) {
-      campaign.image_url = 'https://placekitten.com/g/600/600';
+      campaign.image_url = 'Placeholder Image Download Fails';
     }
+    var titleView = (
+      <View style={styles.titleContainer}>
+        <Text style={[Style.textTitle, styles.centeredTitleText]}>
+          {campaign.title.toUpperCase()}
+        </Text>
+      </View>
+    );
+
     return (
       <View>
         <View>
-          <Image
+          <NetworkImage
             style={styles.coverImage}
-            source={{uri: campaign.image_url}}>
-            <View style={styles.titleContainer}>
-              <Text style={[Style.textTitle, styles.centeredTitleText]}>
-                {campaign.title.toUpperCase()}
-              </Text>
-            </View>
-          </Image>
+            source={{uri: campaign.image_url}}
+            content={titleView}
+            displayProgress={true}
+          />
         </View>
         <Text style={[Style.textSubheading, styles.tagline]}>
           {campaign.tagline}

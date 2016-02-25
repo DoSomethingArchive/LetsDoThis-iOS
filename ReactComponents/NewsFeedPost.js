@@ -11,6 +11,7 @@ import React, {
 var Helpers = require('./Helpers.js');
 var Style = require('./Style.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
+var NetworkImage = require('./NetworkImage.js');
 
 var NewsFeedPost = React.createClass({
   getInitialState() {
@@ -67,11 +68,11 @@ var NewsFeedPost = React.createClass({
         );
       }
       return (
-        <Image
+        <NetworkImage
           style={styles.image}
-          source={{uri: post.image_url}}>
-          {viewImageCredit}
-        </Image>
+          source={{uri: post.image_url}}
+          content={viewImageCredit}
+        />
       );
     }
     return null;

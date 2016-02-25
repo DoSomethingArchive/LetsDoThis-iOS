@@ -204,6 +204,7 @@ var UserView = React.createClass({
   },
   renderHeader: function() {
     if (this.props.user.photo.length == 0) {
+      // @todo: default avatar
       this.props.user.photo = 'https://placekitten.com/g/600/600';
     }
     var headerText = null;

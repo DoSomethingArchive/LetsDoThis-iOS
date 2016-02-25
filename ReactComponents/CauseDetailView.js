@@ -14,6 +14,7 @@ import React, {
 
 var Style = require('./Style.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
+var NetworkImage = require('./NetworkImage.js');
 
 var CauseDetailView = React.createClass({
   getInitialState: function() {
@@ -33,21 +34,22 @@ var CauseDetailView = React.createClass({
   },
   renderHeader: function() {
     if (this.props.cause.image_url.length == 0) {
-      // @todo: Load error loading image instead of kitty cat.
-      // Its failing to bundle into assets.
-      this.props.cause.image_url = 'https://placekitten.com/g/600/300';
+      this.props.cause.image_url = 'Placeholder Image Download Fails';
     }
+    var titleView = (
+      <View style={styles.centeredTitleContainer}>
+        <Text style={[Style.textTitle, styles.centeredTitleText]}>
+          {this.props.cause.title.toUpperCase()}
+        </Text>
+      </View>
+    );
     return (
       <View>
-        <Image
+        <NetworkImage
           style={{flex: 1, height: 150, alignItems: 'stretch'}}
-          source={{uri: this.props.cause.image_url}}>
-          <View style={styles.centeredTitleContainer}>
-            <Text style={[Style.textTitle, styles.centeredTitleText]}>
-              {this.props.cause.title.toUpperCase()}
-            </Text>
-          </View>
-        </Image>
+          source={{uri: this.props.cause.image_url}}
+          content={titleView}
+        />
         <Text style={[Style.textSubheading, styles.tagline]}>
           {this.props.cause.tagline}
         </Text>
@@ -56,15 +58,14 @@ var CauseDetailView = React.createClass({
   },
   renderRow: function(campaign) {
     if (campaign.image_url.length == 0) {
-      // @todo: Load error loading image instead of kitty cat.
-      // Its failing to bundle into assets.
-      campaign.image_url = 'https://placekitten.com/g/600/300';
+      campaign.image_url = 'Placeholder Image Download Fails';
     }
     return (
       <TouchableHighlight onPress={() => this._onPressRow(campaign)}>
         <Image
           style={{flex: 1, height: 150, alignItems: 'stretch'}}
-          source={{uri: campaign.image_url}}>
+          source={{uri: campaign.image_url}}
+          defaultSource={{uri: 'Placeholder Image Loading'}}>
           <View style={styles.centeredTitleContainer}>
             <Text style={[Style.textTitle, styles.centeredTitleText]}>
               {campaign.title.toUpperCase()}
