@@ -249,12 +249,22 @@ var UserView = React.createClass({
     return (
       <TouchableHighlight onPress={() => this._onPressRow(signup)}>
         <View style={styles.row}>
-          <Text style={[Style.textHeading, Style.textColorCtaBlue]}>
-            {signup.campaign.title}
-          </Text>
-          <Text style={Style.textBody}>
-            {signup.campaign.tagline}
-          </Text>
+          <View style={styles.contentContainer}>
+            <Text style={[Style.textHeading, Style.textColorCtaBlue]}>
+              {signup.campaign.title}
+            </Text>
+            <Text style={Style.textBody}>
+              {signup.campaign.tagline}
+            </Text>
+          </View>
+          <View style={styles.detailContainer}>
+            <View style={styles.arrowContainer}>
+              <Image
+                style={styles.arrowImage}
+                source={require('image!Arrow')}
+              />
+            </View>
+          </View>
         </View>
       </TouchableHighlight>
     );
@@ -325,7 +335,25 @@ var styles = React.StyleSheet.create({
   row: {
     backgroundColor: 'white',
     padding: 8,
+    flex: 1,
+    flexDirection: 'row',
   },
+  contentContainer: {
+    flex: 1,
+  },
+  detailContainer: {
+    width: 28,
+    padding: 12,
+  },
+  arrowContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  arrowImage: {
+    width: 12,
+    height: 21,
+  }
 });
 
 module.exports = UserView;
