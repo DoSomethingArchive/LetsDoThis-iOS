@@ -96,10 +96,11 @@
 
 - (void)loadAppData {
     if ([DSOUserManager sharedInstance].activeCampaigns.count == 0) {
+        [SVProgressHUD showWithStatus:@"Loading actions..."];
         [[DSOUserManager sharedInstance] loadCurrentUserAndActiveCampaignsWithCompletionHander:^(NSArray *activeCampaigns) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"activeCampaignsLoaded" object:self];
+            [SVProgressHUD dismiss];
         } errorHandler:^(NSError *error) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"epicFail" object:self];
+            [SVProgressHUD dismiss];
             // If we receieve HTTP 401 error:
             if (error.code == -1011) {
                 // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, therefore just use endSession.
@@ -130,8 +131,6 @@
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
     [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
     [self presentViewController:navVC animated:YES completion:nil];
-    // @TODO: cleanup - this is dismissing the SVProgressHUD called dfrom DSOUserManager
-    [SVProgressHUD dismiss];
 }
 
 - (void)presentUserConnectViewController {
