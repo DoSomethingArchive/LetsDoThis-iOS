@@ -184,7 +184,6 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 - (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [SVProgressHUD showWithStatus:@"Loading actions..."];
     [[DSOAPI sharedInstance] loadAllCampaignsWithCompletionHandler:^(NSArray *campaigns) {
         NSLog(@"loadAllCampaignsWithCompletionHandler");
         if (campaigns.count == 0) {
@@ -198,18 +197,15 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
         [self startSessionWithCompletionHandler:^ {
             NSLog(@"syncCurrentUserWithCompletionHandler");
-            [SVProgressHUD dismiss];
             if (completionHandler) {
                 completionHandler(self.activeCampaigns);
             }
         } errorHandler:^(NSError *error) {
-            [SVProgressHUD dismiss];
             if (errorHandler) {
                 errorHandler(error);
             }
         }];
     } errorHandler:^(NSError *error) {
-        [SVProgressHUD dismiss];
         if (errorHandler) {
             errorHandler(error);
         }

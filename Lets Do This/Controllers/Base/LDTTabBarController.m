@@ -81,26 +81,9 @@
         else {
             [self presentUserConnectViewController];
         }
-;
     }
     else {
-        if ([DSOUserManager sharedInstance].activeCampaigns.count == 0) {
-            [[DSOUserManager sharedInstance] loadCurrentUserAndActiveCampaignsWithCompletionHander:^(NSArray *activeCampaigns) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"activeCampaignsLoaded" object:self];
-            } errorHandler:^(NSError *error) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"epicFail" object:self];
-                // If we receieve HTTP 401 error:
-                if (error.code == -1011) {
-                    // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, therefore just use endSession.
-                    [[DSOUserManager sharedInstance] endSession];
-                    [self presentUserConnectViewController];
-                }
-                else {
-                    [self presentEpicFailForError:error];
-                }
-
-            }];
-        }
+        [self loadAppData];
     }
 }
 
@@ -109,6 +92,26 @@
 - (void)pushViewController:(UIViewController *)viewController {
     UINavigationController *navigationController = self.childViewControllers[self.selectedIndex];
     [navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)loadAppData {
+    if ([DSOUserManager sharedInstance].activeCampaigns.count == 0) {
+        [SVProgressHUD showWithStatus:@"Loading actions..."];
+        [[DSOUserManager sharedInstance] loadCurrentUserAndActiveCampaignsWithCompletionHander:^(NSArray *activeCampaigns) {
+            [SVProgressHUD dismiss];
+        } errorHandler:^(NSError *error) {
+            [SVProgressHUD dismiss];
+            // If we receieve HTTP 401 error:
+            if (error.code == -1011) {
+                // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, therefore just use endSession.
+                [[DSOUserManager sharedInstance] endSession];
+                [self presentUserConnectViewController];
+            }
+            else {
+                [self presentEpicFailForError:error];
+            }
+        }];
+    }
 }
 
 - (void)reloadCurrentUser {
@@ -128,8 +131,6 @@
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:epicFailVC];
     [navVC styleNavigationBar:LDTNavigationBarStyleNormal];
     [self presentViewController:navVC animated:YES completion:nil];
-    // @TODO: cleanup - this is dismissing the SVProgressHUD called dfrom DSOUserManager
-    [SVProgressHUD dismiss];
 }
 
 - (void)presentUserConnectViewController {
@@ -187,6 +188,14 @@
         LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithCampaign:self.proveItCampaign reportbackItemImage:selectedImage];
         UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
         [self presentViewController:destNavVC animated:YES completion:nil];
+    }];
+}
+
+#pragma mark - LDTEpicFailSubmitButtonDelegate
+
+- (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
+        [self loadAppData];
     }];
 }
 
