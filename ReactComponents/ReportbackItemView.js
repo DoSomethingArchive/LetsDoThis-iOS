@@ -11,6 +11,7 @@ import Dimensions from 'Dimensions';
 
 var Style = require('./Style.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
+var NetworkImage = require('./NetworkImage.js');
 
 var ReportbackItemView = React.createClass({
   render: function() {
@@ -31,11 +32,12 @@ var ReportbackItemView = React.createClass({
       user.first_name = 'Doer';
     }
     if ((user.photo && user.photo.length == 0) || (!user.photo)) {
+      // @todo: Default avatar
       user.photo = 'https://placekitten.com/g/600/600';
     }
     // Sanity check:
     if ((!reportbackItem.media) || reportbackItem.media.uri.length == 0) {
-      reportbackItem.media.uri = 'https://placekitten.com/g/600/600';
+      reportbackItem.media.uri = 'Placeholder Image Download Fails';
     }
     var shareButton = null;
     if (this.props.share) {
@@ -55,9 +57,10 @@ var ReportbackItemView = React.createClass({
        <Text style={[Style.textCaption, styles.countryNameText]}>
          {user.country.toUpperCase()}
         </Text>
-        <Image
+        <NetworkImage
           style={styles.reportbackItemImage}
           source={{uri:reportbackItem.media.uri}}
+          displayProgress={true}
         />
         <View style={styles.contentContainer}>
           <View style={{flexDirection: 'row'}}>
