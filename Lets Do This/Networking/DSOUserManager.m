@@ -111,6 +111,10 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
+        // If a user is already defined, we're starting session for a different one.
+        if (self.user) {
+            [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
+        }
         self.user = user;
         if (completionHandler) {
             completionHandler();

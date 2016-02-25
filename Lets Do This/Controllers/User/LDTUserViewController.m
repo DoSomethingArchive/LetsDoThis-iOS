@@ -101,16 +101,16 @@
 
 - (NSDictionary *)appProperties {
     NSDictionary *appProperties;
-    NSString *profileURL = [[DSOAPI sharedInstance] profileURLforUser:self.user];
     NSDictionary *userDict = [[NSDictionary alloc] init];
     NSString *sessionToken = @"";
     if (self.user) {
         userDict = self.user.dictionary;
         sessionToken = [DSOUserManager sharedInstance].sessionToken;
     }
+    // @todo Dont we need to use the apiKey and session in RN?
     appProperties = @{
            @"user" : self.user.dictionary,
-           @"url" : profileURL,
+           @"baseUrl" : [NSString stringWithFormat:@"%@", [DSOAPI sharedInstance].baseURL],
            @"isSelfProfile" : [NSNumber numberWithBool:self.isCurrentUserProfile],
            @"apiKey": [DSOAPI sharedInstance].apiKey,
            @"sessionToken": sessionToken,
