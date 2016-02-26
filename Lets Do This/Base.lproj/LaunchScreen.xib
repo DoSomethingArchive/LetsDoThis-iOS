@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -11,6 +11,9 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pattern BG" translatesAutoresizingMaskIntoConstraints="NO" id="kq9-qK-st8">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DS Logo" translatesAutoresizingMaskIntoConstraints="NO" id="yZU-0F-sit">
                     <rect key="frame" x="190" y="200" width="100" height="80"/>
                     <constraints>
@@ -22,6 +25,10 @@
             <color key="backgroundColor" red="0.21176470588235294" green="0.20392156862745098" blue="0.67843137254901964" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="yZU-0F-sit" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="97e-jk-tal"/>
+                <constraint firstItem="kq9-qK-st8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ao2-LX-Aeb"/>
+                <constraint firstAttribute="trailing" secondItem="kq9-qK-st8" secondAttribute="trailing" id="EJl-NZ-YkN"/>
+                <constraint firstAttribute="bottom" secondItem="kq9-qK-st8" secondAttribute="bottom" id="Mdx-aw-WrI"/>
+                <constraint firstItem="kq9-qK-st8" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="a1u-CD-XQa"/>
                 <constraint firstItem="yZU-0F-sit" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="uYp-id-lRi"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
@@ -31,5 +38,6 @@
     </objects>
     <resources>
         <image name="DS Logo" width="100" height="80"/>
+        <image name="Pattern BG" width="1500" height="1500"/>
     </resources>
 </document>

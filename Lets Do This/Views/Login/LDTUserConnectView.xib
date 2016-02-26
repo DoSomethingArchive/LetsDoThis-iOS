@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -19,26 +19,23 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DS Logo" translatesAutoresizingMaskIntoConstraints="NO" id="m1M-XO-1c6">
-                    <rect key="frame" x="250" y="70" width="100" height="80"/>
+                    <rect key="frame" x="250" y="115" width="100" height="80"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="100" id="8ZL-jE-Gbn"/>
                         <constraint firstAttribute="height" constant="80" id="XcC-0B-GaZ"/>
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" restorationIdentifier="label view" translatesAutoresizingMaskIntoConstraints="NO" id="VDw-TA-TiP" userLabel="Center Container View">
-                    <rect key="frame" x="165" y="212" width="270" height="175"/>
+                    <rect key="frame" x="165" y="221" width="270" height="158"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yds-sE-O3r" userLabel="Headline">
-                            <rect key="frame" x="0.0" y="0.0" width="270" height="63"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="63" id="BkF-tx-guW"/>
-                            </constraints>
+                            <rect key="frame" x="0.0" y="0.0" width="270" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oOz-tm-U29" customClass="LDTButton">
-                            <rect key="frame" x="31" y="63" width="209" height="50"/>
+                            <rect key="frame" x="31" y="46" width="209" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="209" id="iUa-xZ-ZJ9"/>
                                 <constraint firstAttribute="height" constant="50" id="z83-Zj-PAW"/>
@@ -51,7 +48,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ti6-9l-PI9" customClass="LDTButton">
-                            <rect key="frame" x="31" y="125" width="209" height="50"/>
+                            <rect key="frame" x="31" y="108" width="209" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="9Zb-kj-1Ce"/>
                                 <constraint firstAttribute="width" constant="209" id="ZM9-Og-91G"/>
@@ -74,7 +71,7 @@
                         <constraint firstItem="Yds-sE-O3r" firstAttribute="top" secondItem="VDw-TA-TiP" secondAttribute="top" id="9dy-WQ-iRj"/>
                         <constraint firstItem="Yds-sE-O3r" firstAttribute="leading" secondItem="VDw-TA-TiP" secondAttribute="leading" id="WaS-AV-mRx"/>
                         <constraint firstAttribute="bottom" secondItem="Ti6-9l-PI9" secondAttribute="bottom" id="Zk6-mN-DaC"/>
-                        <constraint firstItem="oOz-tm-U29" firstAttribute="top" secondItem="Yds-sE-O3r" secondAttribute="bottom" id="czh-Fe-l35"/>
+                        <constraint firstItem="oOz-tm-U29" firstAttribute="top" secondItem="Yds-sE-O3r" secondAttribute="bottom" constant="25" id="czh-Fe-l35"/>
                         <constraint firstItem="Ti6-9l-PI9" firstAttribute="top" secondItem="oOz-tm-U29" secondAttribute="bottom" constant="12" id="eXq-Io-CgN"/>
                         <constraint firstItem="oOz-tm-U29" firstAttribute="centerX" secondItem="VDw-TA-TiP" secondAttribute="centerX" id="i3s-ke-RN5"/>
                         <constraint firstItem="Ti6-9l-PI9" firstAttribute="centerX" secondItem="VDw-TA-TiP" secondAttribute="centerX" id="j0u-E5-Foj"/>
@@ -85,7 +82,7 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="VDw-TA-TiP" firstAttribute="top" secondItem="m1M-XO-1c6" secondAttribute="bottom" constant="62" id="Phw-nh-D7W"/>
+                <constraint firstItem="VDw-TA-TiP" firstAttribute="top" secondItem="m1M-XO-1c6" secondAttribute="bottom" constant="26" id="Phw-nh-D7W"/>
                 <constraint firstAttribute="centerY" secondItem="VDw-TA-TiP" secondAttribute="centerY" id="SJc-8G-Y3L"/>
                 <constraint firstItem="m1M-XO-1c6" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="bgC-Hy-srX"/>
                 <constraint firstAttribute="centerX" secondItem="VDw-TA-TiP" secondAttribute="centerX" id="tfC-ls-6jG"/>
