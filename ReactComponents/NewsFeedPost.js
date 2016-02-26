@@ -34,11 +34,19 @@ var NewsFeedPost = React.createClass({
     var post = this.props.post;
     if (post.full_article_url.length > 0) {
       return (
-        <Text
-          onPress={this._onPressFullArticleButton}
-          style={[Style.textBodyBold, Style.textColorCtaBlue]}>
-            Read the full article
-        </Text>
+        <View style={styles.fullArticleContainer}>
+          <Text
+            onPress={this._onPressFullArticleButton}
+            style={[Style.textBodyBold, Style.textColorCtaBlue, styles.fullArticleButton]}>
+              Read the full article
+          </Text>
+          <TouchableHighlight onPress={() => Bridge.shareNewsHeadline(post.title)}>
+            <Image
+              style={styles.shareButton}
+              source={{uri: 'Share Icon'}}
+            />
+          </TouchableHighlight>
+        </View>
       );
     }
     return null;
@@ -152,7 +160,8 @@ var styles = StyleSheet.create({
     padding: 20,
   },
   fullArticleButton: {
-    marginTop: 14,
+    marginTop: 8,
+    flex: 1,
   },
   actionButton: {
     backgroundColor: '#3932A9',
@@ -198,6 +207,15 @@ var styles = StyleSheet.create({
   },
   imageCreditText: {
     color: '#FFFFFF',
+  },
+  fullArticleContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  shareButton: {
+    width: 18,
+    height: 27,
+    backgroundColor: 'white',
   },
   // View container to center the image against just a single line of text
   summaryItemOvalContainer: {
