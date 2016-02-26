@@ -227,15 +227,12 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
         UIImage *selectedImage = info[UIImagePickerControllerEditedImage];
         if (self.selectedImageType == LDTSelectedImageTypeAvatar) {
             [SVProgressHUD showWithStatus:@"Uploading..."];
-            NSString *userID = [DSOUserManager sharedInstance].user.userID;
-            [[DSOAPI sharedInstance] postUserAvatarWithUserId:userID avatarImage:selectedImage completionHandler:^(id responseObject) {
-                [SVProgressHUD dismiss];
-                [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'." subtitle:@"You've successfully changed your profile photo. It may take a few minutes to update."];
+            [[DSOUserManager sharedInstance] postAvatarImage:selectedImage sendAppEvent:YES completionHandler:^(NSDictionary *completionHandler) {
                 // The response.data.photo is not updating with the new file for existing user avatars :(
                 // @see https://github.com/DoSomething/northstar/issues/211
-                NSLog(@"Successful user avatar upload: %@", responseObject);
-                // @todo Send RCTBridge eventDispatcher with new photo URL
-            } errorHandler:^(NSError * error) {
+                [SVProgressHUD dismiss];
+                [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'." subtitle:@"You've successfully changed your profile photo. It may take a few minutes to update."];
+            } errorHandler:^(NSError *error) {
                 [SVProgressHUD dismiss];
                 [LDTMessage displayErrorMessageForError:error];
             }];

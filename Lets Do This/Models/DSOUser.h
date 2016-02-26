@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong, readonly) NSDictionary *dictionary;
 @property (nonatomic, assign, readonly) NSInteger phoenixID;
-@property (nonatomic, strong, readonly) NSString *avatarURL;
+@property (nonatomic, strong) NSString *avatarURL;
 @property (nonatomic, strong, readonly) NSString *countryCode;
 @property (nonatomic, strong, readonly) NSString *countryName;
 @property (nonatomic, strong, readonly) NSString *displayName;

@@ -44,7 +44,7 @@ var UserView = React.createClass({
   },
   componentDidMount: function() {
     if (this.props.isSelfProfile) {
-      this.subscription = NativeAppEventEmitter.addListener(
+      this.userActivitySubscription = NativeAppEventEmitter.addListener(
         'currentUserActivity',
         (signup) => this.handleUserActivityEvent(signup),
       );
@@ -52,15 +52,18 @@ var UserView = React.createClass({
         'currentUserChanged',
         (user) => this.handleUserChangedEvent(user),
       );
+      this.userAvatarSubscription = NativeAppEventEmitter.addListener(
+        'currentUserAvatar',
+        (response) => this.handleUserAvatarEvent(response),
+      );
     }
     this.fetchData();
   },
   componentWillUnmount: function() {
-    if (typeof this.subscription != "undefined") {
-      this.subscription.remove();
-    }
-    if (typeof this.userChangedSubscription != "undefined") {
+    if (this.props.isSelfProfile) {
+      this.userActivitySubscription.remove();
       this.userChangedSubscription.remove();
+      this.userAvatarSubscription.remove();
     }
   },
   handleUserChangedEvent: function(user) {
@@ -70,6 +73,10 @@ var UserView = React.createClass({
   },
   handleUserActivityEvent: function(campaignActivity) {
     this.fetchData();
+  },
+  handleUserAvatarEvent: function(response) {
+    console.log("handleUserAvatarEvent: " + response.photo);
+    this.state.user.photo = response.photo;
   },
   fetchData: function() {
     this.setState({

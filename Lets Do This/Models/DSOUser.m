@@ -14,7 +14,6 @@
 @interface DSOUser()
 
 @property (nonatomic, assign, readwrite) NSInteger phoenixID;
-@property (nonatomic, strong, readwrite) NSString *avatarURL;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *email;
