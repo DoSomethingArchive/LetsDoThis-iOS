@@ -231,7 +231,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
                 // The response.data.photo is not updating with the new file for existing user avatars :(
                 // @see https://github.com/DoSomething/northstar/issues/211
                 [SVProgressHUD dismiss];
-                [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'." subtitle:@"You've successfully changed your profile photo. It may take a few minutes to update."];
+                [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'." subtitle:@"You've successfully changed your profile photo."];
             } errorHandler:^(NSError *error) {
                 [SVProgressHUD dismiss];
                 [LDTMessage displayErrorMessageForError:error];

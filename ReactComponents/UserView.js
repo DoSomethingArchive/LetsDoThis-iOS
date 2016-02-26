@@ -40,6 +40,7 @@ var UserView = React.createClass({
       error: null,
       // Because selfProfile can change user data, we need to store user in state.
       user: this.props.user,
+      photo: this.props.user.photo,
     };
   },
   componentDidMount: function() {
@@ -75,8 +76,9 @@ var UserView = React.createClass({
     this.fetchData();
   },
   handleUserAvatarEvent: function(response) {
-    console.log("handleUserAvatarEvent: " + response.photo);
-    this.state.user.photo = response.photo;
+    this.setState({
+      photo: response.photo + '?time=' + Date.now(),
+    });
   },
   fetchData: function() {
     this.setState({
@@ -225,10 +227,11 @@ var UserView = React.createClass({
     );
   },
   renderHeader: function() {
-    if (this.state.user.photo.length == 0) {
+    if (this.state.photo.length == 0) {
       // @todo: default avatar
-      this.state.user.photo = 'https://placekitten.com/g/600/600';
+      this.state.photo = 'https://placekitten.com/g/600/600';
     }
+    var url = this.state.photo + '?time=' + Date.now()
     var headerText = null;
     if (this.state.user.country.length > 0) {
       headerText = this.state.user.country.toUpperCase();
@@ -236,7 +239,7 @@ var UserView = React.createClass({
     var avatar = (
       <Image
         style={styles.avatar}
-        source={{uri: this.state.user.photo}}
+        source={{uri: url}}
       />
     );
     if (this.props.isSelfProfile) {

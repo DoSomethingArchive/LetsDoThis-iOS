@@ -189,7 +189,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 -(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:avatarImage completionHandler:^(id responseObject) {
+    [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(id responseObject) {
 
         NSDictionary *responseDict = responseObject[@"data"];
         self.user.avatarURL = responseDict[@"photo"];

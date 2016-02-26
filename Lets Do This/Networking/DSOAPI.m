@@ -140,10 +140,10 @@
     }];
 }
 
-- (void)postUserAvatarWithUserId:(NSString *)userID avatarImage:(UIImage *)avatarImage completionHandler:(void(^)(id))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"users/%@/avatar", userID];
+- (void)postAvatarForUser:(DSOUser *)user avatarImage:(UIImage *)avatarImage completionHandler:(void(^)(id))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"users/%@/avatar", user.userID];
     NSData *imageData = UIImageJPEGRepresentation(avatarImage, 1.0);
-    NSString *fileNameForImage = [NSString stringWithFormat:@"User_%@_ProfileImage", userID];
+    NSString *fileNameForImage = [NSString stringWithFormat:@"User_%@_ProfileImage", user.userID];
     
     [self POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"photo" fileName:fileNameForImage mimeType:@"image/jpeg"];
