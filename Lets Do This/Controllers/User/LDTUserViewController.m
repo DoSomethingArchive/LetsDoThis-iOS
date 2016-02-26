@@ -14,10 +14,9 @@
 #import "LDTSettingsViewController.h"
 #import "GAI+LDT.h"
 #import "LDTAppDelegate.h"
-#import <RCTBridgeModule.h>
 #import <RCTRootView.h>
 
-@interface LDTUserViewController () <RCTBridgeModule, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface LDTUserViewController () < UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (assign, nonatomic) BOOL isCurrentUserProfile;
 @property (strong, nonatomic) DSOCampaign *selectedCampaign;
@@ -107,7 +106,6 @@
         userDict = self.user.dictionary;
         sessionToken = [DSOUserManager sharedInstance].sessionToken;
     }
-    // @todo Dont we need to use the apiKey and session in RN?
     appProperties = @{
            @"user" : self.user.dictionary,
            @"baseUrl" : [NSString stringWithFormat:@"%@", [DSOAPI sharedInstance].baseURL],
@@ -124,17 +122,6 @@
     [destNavVC styleNavigationBar:LDTNavigationBarStyleNormal];
     LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [tabBar presentViewController:destNavVC animated:YES completion:nil];
-}
-
-                                                             
-#pragma mark - RCTBridgeModule
-
-RCT_EXPORT_MODULE();
-
-- (NSDictionary *)constantsToExport {
-    NSDictionary *campaigns =  [DSOUserManager sharedInstance].campaignDictionaries;
-    NSDictionary *props = @{@"campaigns" : campaigns};
-    return props;
 }
 
 @end

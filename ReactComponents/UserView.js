@@ -15,7 +15,6 @@ import React, {
 
 var Style = require('./Style.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
-var UserViewController = require('react-native').NativeModules.LDTUserViewController;
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
 var firstSectionHeaderText = "Actions I'm Doing";
