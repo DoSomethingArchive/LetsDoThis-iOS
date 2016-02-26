@@ -77,7 +77,7 @@ var UserView = React.createClass({
   },
   handleUserAvatarEvent: function(response) {
     this.setState({
-      photo: response.photo + '?time=' + Date.now(),
+      photo: response.photo,
     });
   },
   fetchData: function() {
