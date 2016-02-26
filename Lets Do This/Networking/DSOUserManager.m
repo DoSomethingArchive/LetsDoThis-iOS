@@ -153,6 +153,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
+        // @todo Just send raw response vs signup.dictionary to avoid potential bugs like
         [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup.dictionary];
         if (completionHandler) {
             completionHandler(signup);
@@ -185,6 +186,29 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
         }
     }
     return nil;
+}
+
+-(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(id responseObject) {
+
+        NSDictionary *responseDict = responseObject[@"data"];
+        self.user.avatarURL = responseDict[@"photo"];
+        // Not needed when we first start a session.
+        if (sendAppEvent) {
+          NSLog(@"Sending avatar eventDispatcher");
+          [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserAvatar" body:responseDict];
+        }
+        else {
+            NSLog(@"Not sending avatar eventDispatcher");
+        }
+        if (completionHandler) {
+            completionHandler(responseDict);
+        }
+    } errorHandler:^(NSError * error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
 }
 
 - (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {

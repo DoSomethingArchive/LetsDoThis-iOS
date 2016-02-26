@@ -20,9 +20,15 @@
 @interface LDTTabBarController () <LDTEpicFailSubmitButtonDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) DSOCampaign *proveItCampaign;
+@property (assign, nonatomic) NSInteger selectedImageType;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
 @end
+
+typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
+    LDTSelectedImageTypeReportback,
+    LDTSelectedImageTypeAvatar
+};
 
 @implementation LDTTabBarController
 
@@ -142,6 +148,7 @@
 }
 
 - (void)presentReportbackAlertControllerForCampaignID:(NSInteger)campaignID {
+    self.selectedImageType = LDTSelectedImageTypeReportback;
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
     self.proveItCampaign = campaign;
     UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
@@ -168,14 +175,47 @@
     [reportbackPhotoAlertController addAction:photoLibraryAlertAction];
     [reportbackPhotoAlertController addAction:cancelAlertAction];
     [self presentViewController:reportbackPhotoAlertController animated:YES completion:nil];
+}
 
+- (void)presentAvatarAlertController {
+    self.selectedImageType = LDTSelectedImageTypeAvatar;
+    [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"change avatar" label:nil value:nil];
+    // @todo DRY UIAlertControllers
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Set your photo." message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cameraAlertAction;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+            self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+        }];
+    }
+    else {
+        cameraAlertAction = [UIAlertAction actionWithTitle:@"(Camera Unavailable)" style:UIAlertActionStyleDefault handler:nil];
+    }
+    UIAlertAction *photoLibraryAlertAction = [UIAlertAction actionWithTitle:@"Choose From Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:self.imagePickerController animated:YES completion:NULL];
+    }];
+    UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        [alertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertController addAction:cameraAlertAction];
+    [alertController addAction:photoLibraryAlertAction];
+    [alertController addAction:cancelAlertAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 # pragma mark - UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
-    viewController.title = [NSString stringWithFormat:@"I did %@", self.proveItCampaign.title].uppercaseString;
+    if (self.selectedImageType == LDTSelectedImageTypeAvatar) {
+        viewController.title = @"Set your photo".uppercaseString;
+    }
+    else {
+        viewController.title = [NSString stringWithFormat:@"I did %@", self.proveItCampaign.title].uppercaseString;
+    }
+
     [viewController styleRightBarButton];
     [viewController styleBackBarButton];
 }
@@ -185,9 +225,23 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:^{
         UIImage *selectedImage = info[UIImagePickerControllerEditedImage];
-        LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithCampaign:self.proveItCampaign reportbackItemImage:selectedImage];
-        UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
-        [self presentViewController:destNavVC animated:YES completion:nil];
+        if (self.selectedImageType == LDTSelectedImageTypeAvatar) {
+            [SVProgressHUD showWithStatus:@"Uploading..."];
+            [[DSOUserManager sharedInstance] postAvatarImage:selectedImage sendAppEvent:YES completionHandler:^(NSDictionary *completionHandler) {
+                // The response.data.photo is not updating with the new file for existing user avatars :(
+                // @see https://github.com/DoSomething/northstar/issues/211
+                [SVProgressHUD dismiss];
+                [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'." subtitle:@"You've successfully changed your profile photo."];
+            } errorHandler:^(NSError *error) {
+                [SVProgressHUD dismiss];
+                [LDTMessage displayErrorMessageForError:error];
+            }];
+        }
+        else {
+            LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithCampaign:self.proveItCampaign reportbackItemImage:selectedImage];
+            UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
+            [self presentViewController:destNavVC animated:YES completion:nil];
+        }
     }];
 }
 

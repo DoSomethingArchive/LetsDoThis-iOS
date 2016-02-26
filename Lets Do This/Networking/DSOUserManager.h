@@ -49,6 +49,8 @@
 
 - (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
+-(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler ;
+
 // Stores the user's avatar image within the filesystem. 
 - (void)storeAvatar:(UIImage *)photo;
 

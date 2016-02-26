@@ -69,6 +69,10 @@ RCT_EXPORT_METHOD(presentProveIt:(NSInteger)campaignID) {
     [self.tabBarController presentReportbackAlertControllerForCampaignID:campaignID];
 }
 
+RCT_EXPORT_METHOD(presentAvatarAlertController) {
+    [self.tabBarController presentAvatarAlertController];
+}
+
 RCT_EXPORT_METHOD(pushCause:(NSDictionary *)causeDict) {
     DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
     LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];

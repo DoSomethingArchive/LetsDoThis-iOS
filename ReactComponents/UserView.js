@@ -40,11 +40,12 @@ var UserView = React.createClass({
       error: null,
       // Because selfProfile can change user data, we need to store user in state.
       user: this.props.user,
+      photo: this.props.user.photo,
     };
   },
   componentDidMount: function() {
     if (this.props.isSelfProfile) {
-      this.subscription = NativeAppEventEmitter.addListener(
+      this.userActivitySubscription = NativeAppEventEmitter.addListener(
         'currentUserActivity',
         (signup) => this.handleUserActivityEvent(signup),
       );
@@ -52,15 +53,18 @@ var UserView = React.createClass({
         'currentUserChanged',
         (user) => this.handleUserChangedEvent(user),
       );
+      this.userAvatarSubscription = NativeAppEventEmitter.addListener(
+        'currentUserAvatar',
+        (response) => this.handleUserAvatarEvent(response),
+      );
     }
     this.fetchData();
   },
   componentWillUnmount: function() {
-    if (typeof this.subscription != "undefined") {
-      this.subscription.remove();
-    }
-    if (typeof this.userChangedSubscription != "undefined") {
+    if (this.props.isSelfProfile) {
+      this.userActivitySubscription.remove();
       this.userChangedSubscription.remove();
+      this.userAvatarSubscription.remove();
     }
   },
   handleUserChangedEvent: function(user) {
@@ -70,6 +74,11 @@ var UserView = React.createClass({
   },
   handleUserActivityEvent: function(campaignActivity) {
     this.fetchData();
+  },
+  handleUserAvatarEvent: function(response) {
+    this.setState({
+      photo: response.photo + '?time=' + Date.now(),
+    });
   },
   fetchData: function() {
     this.setState({
@@ -218,13 +227,27 @@ var UserView = React.createClass({
     );
   },
   renderHeader: function() {
-    if (this.state.user.photo.length == 0) {
+    if (this.state.photo.length == 0) {
       // @todo: default avatar
-      this.state.user.photo = 'https://placekitten.com/g/600/600';
+      this.state.photo = 'https://placekitten.com/g/600/600';
     }
+    var url = this.state.photo + '?time=' + Date.now()
     var headerText = null;
     if (this.state.user.country.length > 0) {
       headerText = this.state.user.country.toUpperCase();
+    }
+    var avatar = (
+      <Image
+        style={styles.avatar}
+        source={{uri: url}}
+      />
+    );
+    if (this.props.isSelfProfile) {
+      avatar = (
+        <TouchableHighlight onPress={() => Bridge.presentAvatarAlertController()}>
+          {avatar}
+        </TouchableHighlight>
+      );
     }
     return (
       <View>
@@ -232,10 +255,7 @@ var UserView = React.createClass({
           style={styles.headerBackgroundImage}
           source={require('image!Gradient Background')}>
           <View style={styles.headerContainer}>
-             <Image
-               style={styles.avatar}
-               source={{uri: this.state.user.photo}}
-             />
+            {avatar}
              <Text style={[Style.textHeading, styles.headerText]}>
                {headerText}
              </Text>
