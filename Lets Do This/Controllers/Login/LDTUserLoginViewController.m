@@ -85,7 +85,7 @@
 #pragma mark - LDTUserLoginViewController
 
 - (void)styleView {
-    self.view.backgroundColor = LDTTheme.ctaBlueColor;
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Pattern BG"]];
     UIFont *font = LDTTheme.font;
     self.headerLabel.font = font;
     self.headerLabel.textAlignment = NSTextAlignmentCenter;

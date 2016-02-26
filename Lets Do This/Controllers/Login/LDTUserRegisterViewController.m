@@ -132,7 +132,7 @@
 #pragma mark - LDTUserRegisterViewController
 
 - (void)styleView {
-    self.view.backgroundColor = LDTTheme.ctaBlueColor;
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Pattern BG"]];
     [self.imageView addCircleFrame];
     for (UITextField *aTextField in self.textFields) {
         aTextField.font = LDTTheme.font;

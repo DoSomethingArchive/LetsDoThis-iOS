@@ -54,7 +54,7 @@
 #pragma mark - LDTUserConnectViewController
 
 - (void)styleView {
-    self.view.backgroundColor = LDTTheme.ctaBlueColor;
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Pattern BG"]];
     [self.navigationController addCustomStatusBarView:YES];
     self.headerLabel.font = LDTTheme.font;
     self.headerLabel.textColor = UIColor.whiteColor;
