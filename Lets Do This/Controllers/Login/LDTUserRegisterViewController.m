@@ -164,7 +164,7 @@
                 if (self.userDidPickAvatarPhoto) {
                     [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
                     [[DSOUserManager sharedInstance] postAvatarImage:self.imageView.image sendAppEvent:NO completionHandler:^(NSDictionary *completionHandler) {
-                        NSLog(@"Successful user avatar upload: %@", completionHandler);
+                        NSLog(@"Successful user avatar upload.");
                     } errorHandler:^(NSError *error) {
                         NSLog(@"Unsuccessful user avatar upload: %@", error.localizedDescription);
                     }];

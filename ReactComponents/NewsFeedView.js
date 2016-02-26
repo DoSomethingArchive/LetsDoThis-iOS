@@ -8,8 +8,12 @@ import React, {
   StyleSheet,
   Text,
   RefreshControl,
-  View
+  View,
+  // Lame way to fix https://github.com/DoSomething/LetsDoThis-iOS/issues/865
+  NativeAppEventEmitter
 } from 'react-native';
+// @see https://github.com/facebook/react-native/issues/5224
+NativeAppEventEmitter;
 
 var Style = require('./Style.js');
 var NewsFeedPost = require('./NewsFeedPost.js');
