@@ -32,8 +32,7 @@ var ReportbackItemView = React.createClass({
       user.first_name = 'Doer';
     }
     if ((user.photo && user.photo.length == 0) || (!user.photo)) {
-      // @todo: Default avatar
-      user.photo = 'https://placekitten.com/g/600/600';
+      user.photo = 'Avatar';
     }
     // Sanity check:
     if ((!reportbackItem.media) || reportbackItem.media.uri.length == 0) {

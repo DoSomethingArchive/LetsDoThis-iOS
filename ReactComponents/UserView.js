@@ -227,11 +227,10 @@ var UserView = React.createClass({
     );
   },
   renderHeader: function() {
-    if (this.state.photo.length == 0) {
-      // @todo: default avatar
-      this.state.photo = 'https://placekitten.com/g/600/600';
+    var avatarUri = this.state.photo;
+    if (avatarUri.length == 0) {
+      avatarUri =  'Avatar';
     }
-    var url = this.state.photo + '?time=' + Date.now()
     var headerText = null;
     if (this.state.user.country.length > 0) {
       headerText = this.state.user.country.toUpperCase();
@@ -239,7 +238,8 @@ var UserView = React.createClass({
     var avatar = (
       <Image
         style={styles.avatar}
-        source={{uri: url}}
+        defaultSource={{uri: 'Placeholder Image Loading'}}
+        source={{uri: avatarUri}}
       />
     );
     if (this.props.isSelfProfile) {
