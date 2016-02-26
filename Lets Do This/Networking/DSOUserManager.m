@@ -153,7 +153,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
-        // @todo Just send raw response vs signup.dictionary to avoid potential bugs like
+        // @todo Just send raw response vs signup.dictionary to avoid potential bugs like https://github.com/DoSomething/LetsDoThis-iOS/issues/850
         [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup.dictionary];
         if (completionHandler) {
             completionHandler(signup);
