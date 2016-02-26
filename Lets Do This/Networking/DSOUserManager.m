@@ -112,7 +112,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
         // If a user is already defined, we're starting session for a different one.
-        // @todo Clean this up. self.user is defined here when a new user registers for first time opening app sends the eventDispatcher -- https://github.com/DoSomething/LetsDoThis-iOS/issues/865
+        // @todo Clean this up. self.user is defined here when a new user registers for first time opening app
+        // @see https://github.com/DoSomething/LetsDoThis-iOS/issues/869
         // The purpose of this eventDispatcher was specifically when user logs out but logs in as someone else
         if (self.user) {
             NSLog(@"sending currentUserChanged eventDispatcher");
