@@ -226,16 +226,26 @@ var UserView = React.createClass({
     if (this.state.user.country.length > 0) {
       headerText = this.state.user.country.toUpperCase();
     }
+    var avatar = (
+      <Image
+        style={styles.avatar}
+        source={{uri: this.state.user.photo}}
+      />
+    );
+    if (this.props.isSelfProfile) {
+      avatar = (
+        <TouchableHighlight onPress={() => Bridge.presentAvatarAlertController()}>
+          {avatar}
+        </TouchableHighlight>
+      );
+    }
     return (
       <View>
         <Image
           style={styles.headerBackgroundImage}
           source={require('image!Gradient Background')}>
           <View style={styles.headerContainer}>
-             <Image
-               style={styles.avatar}
-               source={{uri: this.state.user.photo}}
-             />
+            {avatar}
              <Text style={[Style.textHeading, styles.headerText]}>
                {headerText}
              </Text>

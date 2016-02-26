@@ -8,7 +8,9 @@
 
 @interface LDTTabBarController : UITabBarController
 
--(void)reloadCurrentUser;
+- (void)reloadCurrentUser;
+
+- (void)presentAvatarAlertController;
 
 - (void)presentReportbackAlertControllerForCampaignID:(NSInteger)campaignID;
 
