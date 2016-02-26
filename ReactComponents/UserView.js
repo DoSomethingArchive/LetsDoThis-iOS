@@ -15,7 +15,6 @@ import React, {
 
 var Style = require('./Style.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
-var UserViewController = require('react-native').NativeModules.LDTUserViewController;
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
 var firstSectionHeaderText = "Actions I'm Doing";
@@ -39,13 +38,19 @@ var UserView = React.createClass({
       isRefreshing: false,
       loaded: false,
       error: null,
+      // Because selfProfile can change user data, we need to store user in state.
+      user: this.props.user,
     };
   },
   componentDidMount: function() {
     if (this.props.isSelfProfile) {
       this.subscription = NativeAppEventEmitter.addListener(
         'currentUserActivity',
-        (signup) => this.handleEvent(signup),
+        (signup) => this.handleUserActivityEvent(signup),
+      );
+      this.userChangedSubscription = NativeAppEventEmitter.addListener(
+        'currentUserChanged',
+        (user) => this.handleUserChangedEvent(user),
       );
     }
     this.fetchData();
@@ -54,8 +59,16 @@ var UserView = React.createClass({
     if (typeof this.subscription != "undefined") {
       this.subscription.remove();
     }
+    if (typeof this.userChangedSubscription != "undefined") {
+      this.userChangedSubscription.remove();
+    }
   },
-  handleEvent: function(campaignActivity) {
+  handleUserChangedEvent: function(user) {
+    console.log("handleUserChangedEvent");
+    this.state.user = user;
+    this.fetchData();
+  },
+  handleUserActivityEvent: function(campaignActivity) {
     this.fetchData();
   },
   fetchData: function() {
@@ -65,6 +78,7 @@ var UserView = React.createClass({
     });
     var options = { 
       method: 'GET',
+      timeout: 30000,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -72,7 +86,8 @@ var UserView = React.createClass({
         'X-DS-REST-API-Key': this.props.apiKey,
       },
     };
-    fetch(this.props.url, options)
+    var url = this.props.baseUrl + 'signups?user=' + this.state.user.id;
+    fetch(url, options)
       .then((response) => response.json())
       .catch((error) => this.catchError(error))
       .then((responseData) => {
@@ -203,13 +218,13 @@ var UserView = React.createClass({
     );
   },
   renderHeader: function() {
-    if (this.props.user.photo.length == 0) {
+    if (this.state.user.photo.length == 0) {
       // @todo: default avatar
-      this.props.user.photo = 'https://placekitten.com/g/600/600';
+      this.state.user.photo = 'https://placekitten.com/g/600/600';
     }
     var headerText = null;
-    if (this.props.user.country.length > 0) {
-      headerText = this.props.user.country.toUpperCase();
+    if (this.state.user.country.length > 0) {
+      headerText = this.state.user.country.toUpperCase();
     }
     return (
       <View>
@@ -219,7 +234,7 @@ var UserView = React.createClass({
           <View style={styles.headerContainer}>
              <Image
                style={styles.avatar}
-               source={{uri: this.props.user.photo}}
+               source={{uri: this.state.user.photo}}
              />
              <Text style={[Style.textHeading, styles.headerText]}>
                {headerText}

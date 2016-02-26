@@ -306,10 +306,4 @@
     NSLog(@"\n*** DSOAPI ****\n\nError %li: %@\n%@\n%@ \n\n", (long)error.code, error.localizedDescription, methodName, URLString);
 }
 
-- (NSString *)profileURLforUser:(DSOUser *)user {
-    NSString *northstarURLString = [NSString stringWithFormat:@"https://%@/v1/", LDTSERVER];
-    return [NSString stringWithFormat:@"%@signups?user=%@", northstarURLString, user.userID];
-}
-
-
 @end

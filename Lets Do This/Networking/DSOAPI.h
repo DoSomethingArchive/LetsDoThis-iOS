@@ -46,6 +46,4 @@
 
 - (void)loadReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-- (NSString *)profileURLforUser:(DSOUser *)user;
-
 @end
