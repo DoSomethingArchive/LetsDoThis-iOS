@@ -41,10 +41,12 @@ var NewsFeedPost = React.createClass({
               Read the full article
           </Text>
           <TouchableHighlight onPress={() => Bridge.shareNewsHeadline(post.id, post.title)}>
-            <Image
-              style={styles.shareButton}
-              source={{uri: 'Share Icon'}}
-            />
+            <View style={styles.shareButton}>
+              <Image
+                style={styles.shareButtonImage}
+                source={{uri: 'Share Icon'}}
+              />
+            </View>
           </TouchableHighlight>
         </View>
       );
@@ -213,9 +215,14 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   shareButton: {
+    backgroundColor: 'white', 
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+  },
+  shareButtonImage: {
     width: 18,
     height: 27,
-    backgroundColor: 'white',
   },
   // View container to center the image against just a single line of text
   summaryItemOvalContainer: {
