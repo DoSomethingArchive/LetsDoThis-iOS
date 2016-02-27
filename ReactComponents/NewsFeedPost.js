@@ -40,7 +40,7 @@ var NewsFeedPost = React.createClass({
             style={[Style.textBodyBold, Style.textColorCtaBlue, styles.fullArticleButton]}>
               Read the full article
           </Text>
-          <TouchableHighlight onPress={() => Bridge.shareNewsHeadline(post.title)}>
+          <TouchableHighlight onPress={() => Bridge.shareNewsHeadline(post.id, post.title)}>
             <Image
               style={styles.shareButton}
               source={{uri: 'Share Icon'}}

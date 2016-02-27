@@ -43,7 +43,7 @@ var ReportbackItemView = React.createClass({
       var shareButton = (
         <TouchableHighlight 
           style={[Style.actionButton, {padding: 8, marginTop: 16,}]} 
-          onPress={() => Bridge.shareReportback(this.getShareMessage(), reportbackItem.media.uri)}
+          onPress={() => Bridge.shareReportbackItem(Number(reportbackItem.id), this.getShareMessage(), reportbackItem.media.uri)}
           >
           <Text style={Style.actionButtonText}>
             {"Share your photo".toUpperCase()}

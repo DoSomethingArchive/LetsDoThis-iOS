@@ -97,20 +97,22 @@ RCT_EXPORT_METHOD(postSignup:(NSInteger)campaignID) {
     }];
 }
 
-RCT_EXPORT_METHOD(shareNewsHeadline:(NSString *)headline) {
+RCT_EXPORT_METHOD(shareNewsHeadline:(NSInteger)id headline:(NSString *)headline) {
     NSString *shareMessage = [NSString stringWithFormat:@"%@ - Come take action with me using the DoSomething app!", headline];
-    LDTActivityViewController *activityViewController = [[LDTActivityViewController alloc] initWithShareMessage:shareMessage shareImage:nil gaiActionName:@"share news"];
+
+    LDTActivityViewController *activityViewController = [[LDTActivityViewController alloc] initWithShareMessage:shareMessage shareImage:nil gaiCategoryName:@"news" gaiActionName:@"share" gaiValue:[NSNumber numberWithInteger:id]];
     [[self tabBarController] presentViewController:activityViewController animated:YES completion:nil];
 }
 
-RCT_EXPORT_METHOD(shareReportback:(NSString *)shareMessage shareImageUrl:(NSString *)shareImageUrl) {
+RCT_EXPORT_METHOD(shareReportbackItem:(NSInteger)id shareMessage:(NSString *)shareMessage shareImageUrl:(NSString *)shareImageUrl) {
     NSURL *url = [NSURL URLWithString:shareImageUrl];
     // This is weaksauce but we otherwise don't have a way to pass the downloaded image from React Native back into Obj C.
     // @see https://github.com/facebook/react-native/issues/201
     [SVProgressHUD showWithStatus:@"Loading..." maskType:SVProgressHUDMaskTypeNone];
     [[SDWebImageManager sharedManager] downloadImageWithURL:url options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
         [SVProgressHUD dismiss];
-        LDTActivityViewController *activityViewController = [[LDTActivityViewController alloc] initWithShareMessage:shareMessage shareImage:image gaiActionName:@"share photo"];
+
+        LDTActivityViewController *activityViewController = [[LDTActivityViewController alloc] initWithShareMessage:shareMessage shareImage:image gaiCategoryName:@"behavior" gaiActionName:@"share photo" gaiValue:[NSNumber numberWithInteger:id]];
         [[self tabBarController] presentViewController:activityViewController animated:YES completion:nil];
     }];
 }
