@@ -197,7 +197,7 @@ var CampaignView = React.createClass({
     return (
       <View>
         <Text style={[Style.textBody, {textAlign: 'center', padding: 20}]}>
-          This action is no longer available. 
+          Ayy! This campaign is closed. Go back a page for actions you can do right now. 
         </Text>
       </View>
     );
@@ -282,7 +282,7 @@ var CampaignView = React.createClass({
   renderHeader: function() {
     var content;
     if (this.props.campaign.status == 'closed') {
-      content= this.renderClosedContent();
+      content = this.renderClosedContent();
     }
     else {
       content = (
