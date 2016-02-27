@@ -51,10 +51,4 @@
 
 -(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler ;
 
-// Stores the user's avatar image within the filesystem. 
-- (void)storeAvatar:(UIImage *)photo;
-
-// Retrieves the user's avatar image from the filesystem. Returns nil if photo doesn't exist.
-- (UIImage *)retrieveAvatar;
-
 @end

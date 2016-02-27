@@ -13,9 +13,6 @@
 #import "LDTAppDelegate.h"
 #import <RCTEventDispatcher.h>
 
-NSString *const avatarFileNameString = @"LDTStoredAvatar.jpeg";
-NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
-
 @interface DSOUserManager()
 
 @property (strong, nonatomic, readwrite) DSOUser *user;
@@ -136,7 +133,6 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)endSession {
     [SSKeychain deletePasswordForService:self.currentService account:@"Session"];
     [SSKeychain deletePasswordForService:self.currentService account:@"UserID"];
-    [self deleteAvatar];
     self.user = nil;
 }
 
@@ -245,47 +241,6 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
             errorHandler(error);
         }
     }];
-}
-
-#pragma mark - Avatar CRUD
-
-- (void)storeAvatar:(UIImage *)photo {
-    NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
-    NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
-    
-    if (![photoData writeToFile:storedAvatarPhotoPath atomically:NO]) {
-        NSLog((@"Failed to persist photo data to disk"));
-    }
-    else {
-        [storedUserDefaults setObject:storedAvatarPhotoPath forKey:avatarStorageKey];
-        [storedUserDefaults synchronize];
-    }
-}
-
-- (UIImage *)retrieveAvatar {
-    NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:avatarStorageKey];
-    if (storedAvatarPhotoPath) {
-        return [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
-    }
-    return nil;
-}
-
-- (void) deleteAvatar {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
-    NSError *error;
-    
-    if ([fileManager fileExistsAtPath:filePath]) {
-        if ([fileManager removeItemAtPath:filePath error:&error]) {
-            NSLog(@"Successfully deleted file: %@ ", avatarFileNameString);
-        }
-        else {
-            NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
-        }
-    }
 }
 
 @end

@@ -21,13 +21,10 @@
 @property (nonatomic, strong, readwrite) NSString *mobile;
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *userID;
-@property (nonatomic, strong, readwrite) UIImage *photo;
 
 @end
 
 @implementation DSOUser
-
-@synthesize photo = _photo;
 
 - (instancetype)initWithDict:(NSDictionary *)dict {
     self = [super init];
@@ -46,11 +43,6 @@
         _phoenixID = [dict valueForKeyAsInt:@"drupal_id" nullValue:0];
         _sessionToken = dict[@"session_token"];
         _avatarURL = [dict valueForKeyAsString:@"photo" nullValue:@""];
-        if (dict[@"photo"]) {
-            [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
-                 _photo = image;
-             }];
-        }
     }
 
     return self;
@@ -66,33 +58,6 @@
              @"country" : self.countryName,
              @"photo": self.avatarURL
              };
-}
-
-- (UIImage *)photo {
-    if (!_photo) {
-        // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
-        if ([self isLoggedInUser]) {
-            UIImage *photo = [[DSOUserManager sharedInstance] retrieveAvatar];
-            if (photo) {
-                _photo = photo;
-            }
-            else {
-                _photo = [UIImage imageNamed:@"Default Avatar"];
-            }
-        }
-        else {
-            _photo = [UIImage imageNamed:@"Default Avatar"];
-        }
-	}
-	
-	return _photo;
-}
-
-- (void)setPhoto:(UIImage *)photo {
-    _photo = photo;
-    if ([self isLoggedInUser] && photo) {
-        [[DSOUserManager sharedInstance] storeAvatar:photo];
-    }
 }
 
 - (NSString *)countryName {
