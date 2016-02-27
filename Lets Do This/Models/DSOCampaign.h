@@ -23,8 +23,9 @@
 @property (strong, nonatomic, readonly) NSString *reportbackNoun;
 @property (strong, nonatomic, readonly) NSString *reportbackVerb;
 @property (strong, nonatomic, readonly) NSString *status;
-@property (strong, nonatomic, readonly) NSString *title;
 @property (strong, nonatomic, readonly) NSString *tagline;
+@property (strong, nonatomic, readonly) NSString *title;
+@property (strong, nonatomic, readonly) NSString *type;
 @property (strong, nonatomic, readonly) NSURL *coverImageURL;
 
 - (instancetype)initWithCampaignID:(NSInteger)campaignID title:(NSString *)title;
