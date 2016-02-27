@@ -193,11 +193,11 @@ var CampaignView = React.createClass({
       </View>
     );
   },
-  renderClosedContent: function() {
+  renderClosedContent: function(message) {
     return (
       <View>
         <Text style={[Style.textBody, {textAlign: 'center', padding: 20}]}>
-          This action is no longer available. 
+          {message}
         </Text>
       </View>
     );
@@ -281,8 +281,13 @@ var CampaignView = React.createClass({
   },
   renderHeader: function() {
     var content;
-    if (this.props.campaign.status == 'closed') {
-      content= this.renderClosedContent();
+    if (this.props.campaign.status != 'active') {
+      var message = "Ayy! This campaign is closed. Go back a page for actions you can do right now.";
+      content = this.renderClosedContent(message);
+    }
+    if (this.props.campaign.type != 'campaign') {
+      var message = "This action is only available via SMS.";
+      content = this.renderClosedContent(message);
     }
     else {
       content = (

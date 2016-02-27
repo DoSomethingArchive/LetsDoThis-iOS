@@ -24,8 +24,9 @@
 @property (strong, nonatomic, readwrite) NSString *solutionCopy;
 @property (strong, nonatomic, readwrite) NSString *solutionSupportCopy;
 @property (strong, nonatomic, readwrite) NSString *status;
-@property (strong, nonatomic, readwrite) NSString *title;
 @property (strong, nonatomic, readwrite) NSString *tagline;
+@property (strong, nonatomic, readwrite) NSString *title;
+@property (strong, nonatomic, readwrite) NSString *type;
 @property (strong, nonatomic, readwrite) NSURL *coverImageURL;
 
 @end
@@ -49,6 +50,7 @@
         _campaignID = [values valueForKeyAsInt:@"id" nullValue:0];
         _title = [values valueForKeyAsString:@"title" nullValue:nil];
         _status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
+        _type = [values valueForKeyAsString:@"type" nullValue:@""];
         NSDictionary *causeDict = [values valueForKeyPath:@"causes.primary"];
         _cause = [[DSOCause alloc] initWithPhoenixDict:causeDict];
         _tagline = [values valueForKeyAsString:@"tagline" nullValue:@""];
@@ -97,6 +99,7 @@
              @"title" : self.title,
              @"image_url" : coverImage,
              @"tagline" : self.tagline,
+             @"type" : self.type,
              @"reportback_info" : reportbackInfo,
              @"solutionCopy" : self.solutionCopy,
              @"solutionSupportCopy" : self.solutionSupportCopy,
