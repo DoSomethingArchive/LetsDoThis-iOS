@@ -9,12 +9,14 @@ import React, {
   Image,
   RefreshControl,
   TouchableHighlight,
-  View
+  View,
+  ActivityIndicatorIOS
 } from 'react-native';
 
 var Style = require('./Style.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var NetworkImage = require('./NetworkImage.js');
+var NetworkErrorView = require('./NetworkErrorView.js');
 
 var CauseDetailView = React.createClass({
   getInitialState: function() {
@@ -22,15 +24,82 @@ var CauseDetailView = React.createClass({
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
+      loaded: false,
+      error: null,
     };
   },
+  componentDidMount: function() {
+    this.fetchData();
+  },
+  catchError: function(error) {
+    this.setState({
+      error: error,
+      loaded: true,
+    });
+  },
+  fetchData: function() {
+    fetch(this.props.campaignsUrl)
+      .then((response) => response.json())
+      .catch((error) => this.catchError(error))
+      .then((responseData) => {
+        if (!responseData) {
+          return;
+        }
+        var campaigns = [];
+        for (var i = 0; i < responseData.data.length; i++) {
+          var campaign = responseData.data[i];
+          if (campaign.status != 'active') {
+            continue;
+          }
+          if (campaign.type != 'campaign') {
+            continue;
+          }
+          campaigns.push(campaign);
+        }
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(campaigns),
+          loaded: true,
+          error: null,
+        });
+      })
+      .done();
+  },
   render: function() {
+    if (this.state.error) {
+      return (
+        <NetworkErrorView
+          title="Action isn't loading right now"
+          retryHandler={this.fetchData}
+          errorMessage={this.state.error.message}
+        />);
+    }
+    if (!this.state.loaded) {
+      return this.renderLoadingView();
+    }
     return (
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
         renderHeader={this.renderHeader}
+        refreshControl= {
+        <RefreshControl
+          refreshing={this.state.isRefreshing}
+          onRefresh={this._onRefresh}
+          tintColor="#CCC"
+          colors={['#ff0000', '#00ff00', '#0000ff']}
+          progressBackgroundColor="#ffff00"
+        />}
       />
+    );
+  },
+  renderLoadingView: function() {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
+        <Text style={Style.textBody}>
+          Loading actions...
+        </Text>
+      </View>
     );
   },
   renderHeader: function() {
@@ -58,14 +127,18 @@ var CauseDetailView = React.createClass({
     );
   },
   renderRow: function(campaign) {
-    if (campaign.image_url.length == 0) {
-      campaign.image_url = 'Placeholder Image Download Fails';
+    var coverImage;
+    if (!campaign.cover_image.default) {
+      coverImage = 'Placeholder Image Download Fails';
+    }
+    else {
+      coverImage = campaign.cover_image.default.sizes.landscape.uri;
     }
     return (
       <TouchableHighlight onPress={() => this._onPressRow(campaign)}>
         <Image
           style={{flex: 1, height: 150, alignItems: 'stretch'}}
-          source={{uri: campaign.image_url}}
+          source={{uri: coverImage}}
           defaultSource={{uri: 'Placeholder Image Loading'}}>
           <View style={styles.centeredTitleContainer}>
             <Text style={[Style.textTitle, styles.centeredTitleText]}>
@@ -76,12 +149,27 @@ var CauseDetailView = React.createClass({
       </TouchableHighlight>
     );
   },
+  _onRefresh: function () {
+    this.setState({isRefreshing: true});
+    setTimeout(() => {
+      this.fetchData();
+      this.setState({
+        isRefreshing: false,
+      });
+    }, 1000);
+  },
   _onPressRow(campaign) {
     Bridge.pushCampaign(campaign.id);
   },
 });
 
 var styles = React.StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   centeredTitleContainer: {
     backgroundColor: 'rgba(0,0,0,0.3)',
     alignItems: 'center',
