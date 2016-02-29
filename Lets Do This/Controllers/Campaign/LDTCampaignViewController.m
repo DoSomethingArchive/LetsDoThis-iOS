@@ -50,7 +50,7 @@
 
     // Check for campaign in local storage:
     BOOL isCampaignStoredLocally = NO;
-    DSOCampaign *localCampaign = [[DSOUserManager sharedInstance] activeCampaignWithId:self.campaign.campaignID];
+    DSOCampaign *localCampaign = [[DSOUserManager sharedInstance] campaignWithID:self.campaign.campaignID];
     if (localCampaign) {
         self.campaign = localCampaign;
         self.title = self.campaign.title.uppercaseString;

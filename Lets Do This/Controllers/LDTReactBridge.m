@@ -81,7 +81,7 @@ RCT_EXPORT_METHOD(presentNewsArticle:(NSInteger)newsPostID urlString:(NSString *
 }
 
 RCT_EXPORT_METHOD(postSignup:(NSInteger)campaignID) {
-    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] campaignWithID:campaignID];
     [SVProgressHUD showWithStatus:@"Signing up..."];
     [[DSOUserManager sharedInstance] signupUserForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
         [SVProgressHUD dismiss];

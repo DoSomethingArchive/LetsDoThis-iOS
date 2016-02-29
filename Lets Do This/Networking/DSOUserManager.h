@@ -46,9 +46,10 @@
 
 -(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler ;
 
-// Returns DSOCampaign for a given Campaign id if it exists in the activeCampaigns property.
-- (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID;
+// Returns DSOCampaign from local storage, if exists.
+- (DSOCampaign *)campaignWithID:(NSInteger)campaignID;
 
+// Loads Campaign with given ID from the API, and stores locally.
 - (void)loadAndStoreCampaignWithID:(NSInteger)campaignID completionHandler:(void(^)(DSOCampaign *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 @end

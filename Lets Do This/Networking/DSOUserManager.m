@@ -201,7 +201,7 @@
     }];
 }
 
-- (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID {
+- (DSOCampaign *)campaignWithID:(NSInteger)campaignID {
     for (DSOCampaign *campaign in self.mutableCampaigns) {
         if (campaign.campaignID == campaignID) {
             return campaign;

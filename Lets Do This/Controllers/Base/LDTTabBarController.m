@@ -149,7 +149,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
 
 - (void)presentReportbackAlertControllerForCampaignID:(NSInteger)campaignID {
     self.selectedImageType = LDTSelectedImageTypeReportback;
-    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] campaignWithID:campaignID];
     self.proveItCampaign = campaign;
     UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *cameraAlertAction;
