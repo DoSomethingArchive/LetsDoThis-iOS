@@ -42,7 +42,7 @@
     [self styleView];
     self.title = self.cause.title.uppercaseString;
 
-    NSString *campaignsUrl = [NSString stringWithFormat:@"%@campaigns?term_ids=%li", [DSOAPI sharedInstance].phoenixApiURL, (long)self.cause.causeID];
+    NSString *campaignsUrl = [NSString stringWithFormat:@"%@campaigns?term_ids=%li&count=100", [DSOAPI sharedInstance].phoenixApiURL, (long)self.cause.causeID];
     NSDictionary *props = @{
                             @"cause" : self.cause.dictionary,
                             @"campaignsUrl": campaignsUrl,

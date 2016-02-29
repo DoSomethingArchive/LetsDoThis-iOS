@@ -159,7 +159,7 @@ var CauseDetailView = React.createClass({
     }, 1000);
   },
   _onPressRow(campaign) {
-    Bridge.pushCampaign(campaign.id);
+    Bridge.pushCampaign(Number(campaign.id));
   },
 });
 
