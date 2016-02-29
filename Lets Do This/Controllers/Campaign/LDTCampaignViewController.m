@@ -40,7 +40,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-
     [self styleView];
 
     NSString *galleryUrl = [NSString stringWithFormat:@"%@reportback-items?load_user=true&status=approved,promoted&campaigns=%li", [DSOAPI sharedInstance].phoenixApiURL, (long)self.campaign.campaignID];

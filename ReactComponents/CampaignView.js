@@ -163,7 +163,7 @@ var CampaignView = React.createClass({
       return (
         <NetworkErrorView
           title="Action isn't loading right now"
-          retryHandler={this.fetchData}
+          retryHandler={null}
           errorMessage={this.state.error.message}
         />);
     }
