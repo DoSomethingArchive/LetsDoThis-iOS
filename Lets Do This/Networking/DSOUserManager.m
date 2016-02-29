@@ -77,7 +77,8 @@
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
         self.user = user;
-
+        // Needed for when we're logging in as a different user.
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
         [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
         // Save session in Keychain for when app is quit.
         [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
@@ -108,17 +109,6 @@
 
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
-        // If a user is already defined, we're starting session for a different one.
-        // @todo Clean this up. self.user is defined here when a new user registers for first time opening app
-        // @see https://github.com/DoSomething/LetsDoThis-iOS/issues/869
-        // The purpose of this eventDispatcher was specifically when user logs out but logs in as someone else
-        if (self.user) {
-            NSLog(@"sending currentUserChanged eventDispatcher");
-            [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
-        }
-        else {
-             NSLog(@"Not sending currentUserChanged eventDispatcher");
-        }
         self.user = user;
         if (completionHandler) {
             completionHandler();
