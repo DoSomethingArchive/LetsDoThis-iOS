@@ -57,7 +57,7 @@
 
 - (DSOCampaign *)campaign {
     // Return fully loaded DSOCampaign if its an activeCampaign.
-    DSOCampaign *activeCampaign = [[DSOUserManager sharedInstance] activeCampaignWithId:_campaign.campaignID];
+    DSOCampaign *activeCampaign = [[DSOUserManager sharedInstance] campaignWithID:_campaign.campaignID];
     if (activeCampaign) {
         return activeCampaign;
     }

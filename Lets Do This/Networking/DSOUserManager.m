@@ -35,6 +35,17 @@
     return _sharedInstance;
 }
 
+#pragma mark - NSObject
+
+- (instancetype)init {
+    self = [super init];
+
+    if (self) {
+        self.mutableCampaigns = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 #pragma mark - Accessors
 
 - (void)setUser:(DSOUser *)user {
@@ -45,19 +56,6 @@
     else {
         [[Crashlytics sharedInstance] setUserIdentifier:nil];
     }
-}
-
-- (NSArray *)activeCampaigns {
-    return [self.mutableCampaigns copy];
-}
-
-- (NSDictionary *)campaignDictionaries {
-    NSMutableDictionary *campaigns = [[NSMutableDictionary alloc] init];
-    for (DSOCampaign *campaign in self.activeCampaigns) {
-        NSString *campaignIDString = [NSString stringWithFormat:@"%li", (long)campaign.campaignID];
-        campaigns[campaignIDString] = campaign.dictionary;
-    }
-    return [campaigns copy];
 }
 
 - (NSString *)currentService {
@@ -77,7 +75,8 @@
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
         self.user = user;
-
+        // Needed for when we're logging in as a different user.
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
         [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
         // Save session in Keychain for when app is quit.
         [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
@@ -96,7 +95,7 @@
     return [SSKeychain passwordForService:self.currentService account:@"Session"];
 }
 
-- (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)continueSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     if (self.sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
@@ -107,18 +106,7 @@
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:self.sessionToken];
 
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
-    [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
-        // If a user is already defined, we're starting session for a different one.
-        // @todo Clean this up. self.user is defined here when a new user registers for first time opening app
-        // @see https://github.com/DoSomething/LetsDoThis-iOS/issues/869
-        // The purpose of this eventDispatcher was specifically when user logs out but logs in as someone else
-        if (self.user) {
-            NSLog(@"sending currentUserChanged eventDispatcher");
-            [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
-        }
-        else {
-             NSLog(@"Not sending currentUserChanged eventDispatcher");
-        }
+    [[DSOAPI sharedInstance] loadUserWithID:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         if (completionHandler) {
             completionHandler();
@@ -182,28 +170,14 @@
     }];
 }
 
-- (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID {
-    for (DSOCampaign *campaign in self.activeCampaigns) {
-        if (campaign.campaignID == campaignID) {
-            return campaign;
-        }
-    }
-    return nil;
-}
-
 -(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(id responseObject) {
 
         NSDictionary *responseDict = responseObject[@"data"];
         self.user.avatarURL = responseDict[@"photo"];
-        // Not needed when we first start a session.
-        if (sendAppEvent) {
-          NSLog(@"Sending currentUserChanged eventDispatcher");
-          [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:responseDict];
-        }
-        else {
-            NSLog(@"Not sending currentUserChanged eventDispatcher");
-        }
+        NSLog(@"postAvatarImage currentUserChanged eventDispatcher");
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:responseDict];
+
         if (completionHandler) {
             completionHandler(responseDict);
         }
@@ -214,28 +188,22 @@
     }];
 }
 
-- (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] loadAllCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-        NSLog(@"loadAllCampaignsWithCompletionHandler");
-        if (campaigns.count == 0) {
-            // @todo Throw error here
-            NSLog(@"No campaigns found.");
+- (DSOCampaign *)campaignWithID:(NSInteger)campaignID {
+    for (DSOCampaign *campaign in self.mutableCampaigns) {
+        if (campaign.campaignID == campaignID) {
+            return campaign;
         }
-        self.mutableCampaigns = [[NSMutableArray alloc] init];
-        for (DSOCampaign *campaign in campaigns) {
-            [self.mutableCampaigns addObject:campaign];
-        }
+    }
+    return nil;
+}
 
-        [self startSessionWithCompletionHandler:^ {
-            NSLog(@"syncCurrentUserWithCompletionHandler");
-            if (completionHandler) {
-                completionHandler(self.activeCampaigns);
-            }
-        } errorHandler:^(NSError *error) {
-            if (errorHandler) {
-                errorHandler(error);
-            }
-        }];
+- (void)loadAndStoreCampaignWithID:(NSInteger)campaignID completionHandler:(void (^)(DSOCampaign *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] loadCampaignWithID:campaignID completionHandler:^(DSOCampaign *campaign) {
+        [self.mutableCampaigns addObject:campaign];
+        NSLog(@"[DSOUserManager] Stored Campaign ID %li.", (long)campaign.campaignID);
+        if (completionHandler) {
+            completionHandler(campaign);
+        }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);

@@ -33,6 +33,16 @@
 
 @implementation DSOCampaign
 
+- (instancetype)initWithCampaignID:(NSInteger)campaignID {
+    self = [super init];
+
+    if (self) {
+        _campaignID = campaignID;
+    }
+    return self;
+}
+
+
 - (instancetype)initWithCampaignID:(NSInteger)campaignID title:(id)title {
     self = [super init];
 
@@ -48,7 +58,7 @@
 
     if (self) {
         _campaignID = [values valueForKeyAsInt:@"id" nullValue:0];
-        _title = [values valueForKeyAsString:@"title" nullValue:nil];
+        _title = [values valueForKeyAsString:@"title" nullValue:@""];
         _status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
         _type = [values valueForKeyAsString:@"type" nullValue:@""];
         NSDictionary *causeDict = [values valueForKeyPath:@"causes.primary"];

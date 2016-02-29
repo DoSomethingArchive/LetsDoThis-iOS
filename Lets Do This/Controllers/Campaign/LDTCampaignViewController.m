@@ -13,6 +13,7 @@
 #import "GAI+LDT.h"
 #import "LDTTheme.h"
 #import <RCTRootView.h>
+#import <RCTEventDispatcher.h>
 
 @interface LDTCampaignViewController () < UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -39,15 +40,51 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = self.campaign.title.uppercaseString;
     [self styleView];
 
-    self.imagePickerController = [[UIImagePickerController alloc] init];
-    self.imagePickerController.delegate = self;
-    self.imagePickerController.allowsEditing = YES;
+    NSString *galleryUrl = [NSString stringWithFormat:@"%@reportback-items?load_user=true&status=approved,promoted&campaigns=%li", [DSOAPI sharedInstance].phoenixApiURL, (long)self.campaign.campaignID];
+    NSString *signupURLString = [NSString stringWithFormat:@"%@signups?user=%@", [DSOAPI sharedInstance].baseURL, [DSOUserManager sharedInstance].user.userID];
+    NSDictionary *appProperties;
+    NSDictionary *campaignDict = [[NSDictionary alloc] init];
 
-    self.reactRootView = [[RCTRootView alloc] initWithBridge:((LDTAppDelegate *)[UIApplication sharedApplication].delegate).bridge moduleName:@"CampaignView" initialProperties:[self appProperties]];
+    // Check for campaign in local storage:
+    BOOL isCampaignStoredLocally = NO;
+    DSOCampaign *localCampaign = [[DSOUserManager sharedInstance] campaignWithID:self.campaign.campaignID];
+    if (localCampaign) {
+        self.campaign = localCampaign;
+        self.title = self.campaign.title.uppercaseString;
+        campaignDict = self.campaign.dictionary;
+        isCampaignStoredLocally = YES;
+        NSLog(@"[LDTCampaignViewController] Loading Campaign ID %li from local storage." , (long)self.campaign.campaignID);
+    }
+
+    appProperties = @{
+                      @"id" : [NSNumber numberWithInteger:self.campaign.campaignID],
+                      @"campaign" : campaignDict,
+                      @"galleryUrl" : galleryUrl,
+                      @"signupUrl" : signupURLString,
+                      @"currentUser" : [DSOUserManager sharedInstance].user.dictionary,
+                      @"apiKey": [DSOAPI sharedInstance].apiKey,
+                      @"sessionToken": [DSOUserManager sharedInstance].sessionToken,
+                      };
+    __block LDTAppDelegate *appDelegate = (LDTAppDelegate *)[UIApplication sharedApplication].delegate;
+    self.reactRootView = [[RCTRootView alloc] initWithBridge:appDelegate.bridge moduleName:@"CampaignView" initialProperties: appProperties];
     self.view = self.reactRootView;
+
+    if (!isCampaignStoredLocally) {
+        [[DSOUserManager sharedInstance] loadAndStoreCampaignWithID:self.campaign.campaignID completionHandler:^(DSOCampaign *loadedCampaign) {
+            self.campaign = loadedCampaign;
+            self.title = self.campaign.title.uppercaseString;
+            [appDelegate.bridge.eventDispatcher sendAppEventWithName:@"campaignLoaded" body:self.campaign.dictionary];
+        } errorHandler:^(NSError *error) {
+            NSLog(@"Error loading campaign.");
+            NSDictionary *eventDict = @{
+                                        @"id" : [NSNumber numberWithInteger:self.campaign.campaignID],
+                                    @"error": @YES,
+                                    };
+            [appDelegate.bridge.eventDispatcher sendAppEventWithName:@"campaignLoaded" body:eventDict];
+        }];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -62,21 +99,6 @@
 
 - (void)styleView {
     [self styleBackBarButton];
-}
-
-- (NSDictionary *)appProperties {
-    NSDictionary *appProperties;
-    NSString *galleryUrl = [NSString stringWithFormat:@"%@reportback-items?load_user=true&status=approved,promoted&campaigns=%li", [DSOAPI sharedInstance].phoenixApiURL, (long)self.campaign.campaignID];
-    NSString *signupURLString = [NSString stringWithFormat:@"%@signups?user=%@", [DSOAPI sharedInstance].baseURL, [DSOUserManager sharedInstance].user.userID];
-    appProperties = @{
-                      @"campaign" : self.campaign.dictionary,
-                      @"galleryUrl" : galleryUrl,
-                      @"signupUrl" : signupURLString,
-                      @"currentUser" : [DSOUserManager sharedInstance].user.dictionary,
-                      @"apiKey": [DSOAPI sharedInstance].apiKey,
-                      @"sessionToken": [DSOUserManager sharedInstance].sessionToken,
-                      };
-    return appProperties;
 }
 
 @end

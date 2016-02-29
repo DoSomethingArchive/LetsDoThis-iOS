@@ -9,8 +9,6 @@
 #import "LDTUserViewController.h"
 #import "LDTTheme.h"
 #import "LDTTabBarController.h"
-#import "LDTCampaignViewController.h"
-#import "LDTSubmitReportbackViewController.h"
 #import "LDTSettingsViewController.h"
 #import "GAI+LDT.h"
 #import "LDTAppDelegate.h"
@@ -107,7 +105,7 @@
         sessionToken = [DSOUserManager sharedInstance].sessionToken;
     }
     appProperties = @{
-           @"user" : self.user.dictionary,
+           @"user" : userDict,
            @"baseUrl" : [NSString stringWithFormat:@"%@", [DSOAPI sharedInstance].baseURL],
            @"isSelfProfile" : [NSNumber numberWithBool:self.isCurrentUserProfile],
            @"apiKey": [DSOAPI sharedInstance].apiKey,

@@ -213,7 +213,7 @@
     }];
 }
 
-- (void)loadUserWithUserId:(NSString *)userID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+- (void)loadUserWithID:(NSString *)userID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
@@ -228,47 +228,25 @@
       }];
 }
 
-- (void)loadAllCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"%@campaigns?count=300", self.phoenixApiURL];
+- (void)loadCampaignWithID:(NSInteger)campaignID completionHandler:(void(^)(DSOCampaign *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"%@campaigns/%li", self.phoenixApiURL, (long)campaignID];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSMutableArray *campaigns = [[NSMutableArray alloc] init];
-        for (NSDictionary* campaignDict in responseObject[@"data"]) {
-            DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
-            [campaigns addObject:campaign];
+        DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:responseObject[@"data"]];
+        // API returns 200 if campaign is not found, so check for valid ID.
+        if (campaign.campaignID == 0) {
+            NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
+            errorDetails[NSLocalizedDescriptionKey] = @"Action not found.";
+            NSError *error = [NSError errorWithDomain:@"world" code:200 userInfo:errorDetails];
+            if (errorHandler) {
+                errorHandler(error);
+            }
         }
-        if (completionHandler) {
-            completionHandler(campaigns);
+        else {
+            if (completionHandler) {
+                completionHandler(campaign);
+            }
         }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
-        if (errorHandler) {
-            errorHandler(error);
-        }
-    }];
-}
-
-- (void)loadCampaignsForTermIds:(NSArray *)termIds completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
-    for (NSNumber *termID in termIds) {
-        [termIdStrings addObject:[termID stringValue]];
-    }
-
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyyy-MM-dd"];
-    NSString *mobileAppDateString = [dateFormat stringFromDate:[NSDate date]];
-
-    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app=true&mobile_app_date=%@&term_ids=%@", self.phoenixApiURL, mobileAppDateString, [termIdStrings componentsJoinedByString:@","]];
-
-    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-          NSMutableArray *campaigns = [[NSMutableArray alloc] init];
-          for (NSDictionary* campaignDict in responseObject[@"data"]) {
-              DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
-              [campaigns addObject:campaign];
-          }
-          if (completionHandler) {
-              completionHandler(campaigns);
-          }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {

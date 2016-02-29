@@ -89,7 +89,9 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
         }
     }
     else {
-        [self loadAppData];
+        if (![DSOUserManager sharedInstance].user) {
+            [self loadCurrentUser];
+        }
     }
 }
 
@@ -100,35 +102,30 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
     [navigationController pushViewController:viewController animated:YES];
 }
 
-- (void)loadAppData {
-    if ([DSOUserManager sharedInstance].activeCampaigns.count == 0) {
-        [SVProgressHUD showWithStatus:@"Loading actions..."];
-        [[DSOUserManager sharedInstance] loadCurrentUserAndActiveCampaignsWithCompletionHander:^(NSArray *activeCampaigns) {
-            [SVProgressHUD dismiss];
-        } errorHandler:^(NSError *error) {
-            [SVProgressHUD dismiss];
-            // If we receieve HTTP 401 error:
-            if (error.code == -1011) {
-                // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, therefore just use endSession.
-                [[DSOUserManager sharedInstance] endSession];
-                [self presentUserConnectViewController];
-            }
-            else {
-                [self presentEpicFailForError:error];
-            }
-        }];
-    }
+- (void)loadCurrentUser {
+    [SVProgressHUD showWithStatus:@"Loading..."];
+    NSLog(@"LDTTabBarController.loadCurrentUser");
+    [[DSOUserManager sharedInstance] continueSessionWithCompletionHandler:^(void){
+         [SVProgressHUD dismiss];
+    } errorHandler:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        // If we receieve HTTP 401 error:
+        if (error.code == -1011) {
+            // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, therefore just use endSession.
+            [[DSOUserManager sharedInstance] endSession];
+            [self presentUserConnectViewController];
+        }
+        else {
+            [self presentEpicFailForError:error];
+        }
+    }];
 }
 
 - (void)reloadCurrentUser {
     // @todo Pop all child view controllers, not just first.
     UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
     [initialVC popToRootViewControllerAnimated:YES];
-    [[DSOUserManager sharedInstance] startSessionWithCompletionHandler:^ {
-        NSLog(@"syncCurrentUserWithCompletionHandler");
-    } errorHandler:^(NSError *error) {
-        [self presentEpicFailForError:error];
-    }];
+    [self loadCurrentUser];
 }
 
 - (void)presentEpicFailForError:(NSError *)error {
@@ -149,7 +146,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
 
 - (void)presentReportbackAlertControllerForCampaignID:(NSInteger)campaignID {
     self.selectedImageType = LDTSelectedImageTypeReportback;
-    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] campaignWithID:campaignID];
     self.proveItCampaign = campaign;
     UIAlertController *reportbackPhotoAlertController = [UIAlertController alertControllerWithTitle:@"Pics or it didn't happen!" message:nil                                                              preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *cameraAlertAction;
@@ -247,7 +244,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
 
 - (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
     [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
-        [self loadAppData];
+        [self loadCurrentUser];
     }];
 }
 
