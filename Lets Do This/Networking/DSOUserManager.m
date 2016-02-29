@@ -96,7 +96,7 @@
     return [SSKeychain passwordForService:self.currentService account:@"Session"];
 }
 
-- (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)continueSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     if (self.sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
@@ -225,17 +225,6 @@
         for (DSOCampaign *campaign in campaigns) {
             [self.mutableCampaigns addObject:campaign];
         }
-
-        [self startSessionWithCompletionHandler:^ {
-            NSLog(@"syncCurrentUserWithCompletionHandler");
-            if (completionHandler) {
-                completionHandler(self.activeCampaigns);
-            }
-        } errorHandler:^(NSError *error) {
-            if (errorHandler) {
-                errorHandler(error);
-            }
-        }];
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
             errorHandler(error);
