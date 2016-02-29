@@ -89,7 +89,9 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
         }
     }
     else {
-        [self loadAppData];
+        if (![DSOUserManager sharedInstance].user) {
+            [self loadCurrentUser];
+        }
     }
 }
 
@@ -100,7 +102,8 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
     [navigationController pushViewController:viewController animated:YES];
 }
 
-- (void)loadAppData {
+- (void)loadCurrentUser {
+    NSLog(@"LDTTabBarController.loadCurrentUser");
     [[DSOUserManager sharedInstance] continueSessionWithCompletionHandler:^(void){
          [SVProgressHUD dismiss];
     } errorHandler:^(NSError *error) {
@@ -115,14 +118,6 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
             [self presentEpicFailForError:error];
         }
     }];
-//    if ([DSOUserManager sharedInstance].activeCampaigns.count == 0) {
-//        [SVProgressHUD showWithStatus:@"Loading actions..."];
-//        [[DSOUserManager sharedInstance] loadCurrentUserAndActiveCampaignsWithCompletionHander:^(NSArray *activeCampaigns) {
-//            [SVProgressHUD dismiss];
-//        } errorHandler:^(NSError *error) {
-//
-//        }];
-//    }
 }
 
 - (void)reloadCurrentUser {
@@ -252,7 +247,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
 
 - (void)didClickSubmitButton:(LDTEpicFailViewController *)vc {
     [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
-        [self loadAppData];
+        [self loadCurrentUser];
     }];
 }
 

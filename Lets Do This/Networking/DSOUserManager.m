@@ -186,14 +186,9 @@
 
         NSDictionary *responseDict = responseObject[@"data"];
         self.user.avatarURL = responseDict[@"photo"];
-        // Not needed when we first start a session.
-        if (sendAppEvent) {
-          NSLog(@"Sending currentUserChanged eventDispatcher");
-          [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:responseDict];
-        }
-        else {
-            NSLog(@"Not sending currentUserChanged eventDispatcher");
-        }
+        NSLog(@"postAvatarImage currentUserChanged eventDispatcher");
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:responseDict];
+
         if (completionHandler) {
             completionHandler(responseDict);
         }
