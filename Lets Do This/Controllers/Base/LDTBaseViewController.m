@@ -34,6 +34,12 @@
     [self startListeningForNotifications];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+
+    [self stopListeningForNotifications];
+}
+
 #pragma mark - LDTBaseUserLoginViewController
 
 - (void)startListeningForNotifications {
