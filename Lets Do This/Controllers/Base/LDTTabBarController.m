@@ -103,6 +103,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
 }
 
 - (void)loadCurrentUser {
+    [SVProgressHUD showWithStatus:@"Loading..."];
     NSLog(@"LDTTabBarController.loadCurrentUser");
     [[DSOUserManager sharedInstance] continueSessionWithCompletionHandler:^(void){
          [SVProgressHUD dismiss];
@@ -124,11 +125,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
     // @todo Pop all child view controllers, not just first.
     UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
     [initialVC popToRootViewControllerAnimated:YES];
-    [[DSOUserManager sharedInstance] continueSessionWithCompletionHandler:^ {
-        NSLog(@"syncCurrentUserWithCompletionHandler");
-    } errorHandler:^(NSError *error) {
-        [self presentEpicFailForError:error];
-    }];
+    [self loadCurrentUser];
 }
 
 - (void)presentEpicFailForError:(NSError *)error {
