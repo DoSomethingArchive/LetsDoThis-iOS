@@ -68,17 +68,22 @@
                       @"apiKey": [DSOAPI sharedInstance].apiKey,
                       @"sessionToken": [DSOUserManager sharedInstance].sessionToken,
                       };
-    self.reactRootView = [[RCTRootView alloc] initWithBridge:((LDTAppDelegate *)[UIApplication sharedApplication].delegate).bridge moduleName:@"CampaignView" initialProperties: appProperties];
+    __block LDTAppDelegate *appDelegate = (LDTAppDelegate *)[UIApplication sharedApplication].delegate;
+    self.reactRootView = [[RCTRootView alloc] initWithBridge:appDelegate.bridge moduleName:@"CampaignView" initialProperties: appProperties];
     self.view = self.reactRootView;
 
     if (!isCampaignStoredLocally) {
         [[DSOUserManager sharedInstance] loadAndStoreCampaignWithID:self.campaign.campaignID completionHandler:^(DSOCampaign *loadedCampaign) {
             self.campaign = loadedCampaign;
             self.title = self.campaign.title.uppercaseString;
-            LDTAppDelegate *appDelegate = (LDTAppDelegate *)[UIApplication sharedApplication].delegate;
             [appDelegate.bridge.eventDispatcher sendAppEventWithName:@"campaignLoaded" body:self.campaign.dictionary];
         } errorHandler:^(NSError *error) {
-            // @todo Send error to react native.. but need a way to refresh (user could always just navigate back and tap campaign again though).
+            NSLog(@"Error loading campaign.");
+            NSDictionary *eventDict = @{
+                                        @"id" : [NSNumber numberWithInteger:self.campaign.campaignID],
+                                    @"error": @YES,
+                                    };
+            [appDelegate.bridge.eventDispatcher sendAppEventWithName:@"campaignLoaded" body:eventDict];
         }];
     }
 }

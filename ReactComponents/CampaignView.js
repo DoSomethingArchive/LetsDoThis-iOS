@@ -50,10 +50,13 @@ var CampaignView = React.createClass({
     this.campaignLoadedSubscription.remove();
   },
   handleCampaignLoadedEvent: function(campaign) {
-    console.log("heard it");
-    console.log(campaign);
     if (Number(campaign.id) == this.props.id) {
-      console.log("its a match");
+      if (campaign.error) {
+        this.setState({
+          error: true,
+        });
+        return;
+      }
       this.setState({
         campaign: campaign,
       });
@@ -79,13 +82,11 @@ var CampaignView = React.createClass({
     }
   },
   fetchData: function() {
-    console.log("fetchData");
     this.setState({
       error: false,
       loaded: false,
     });
     if (!this.state.campaign.id) {
-      console.log("no campaign id");
       return;
     }
     var statusUrl = this.props.signupUrl;

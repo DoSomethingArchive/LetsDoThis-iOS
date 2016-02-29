@@ -106,7 +106,7 @@
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:self.sessionToken];
 
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
-    [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] loadUserWithID:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         if (completionHandler) {
             completionHandler();
