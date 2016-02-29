@@ -105,7 +105,7 @@
         sessionToken = [DSOUserManager sharedInstance].sessionToken;
     }
     appProperties = @{
-           @"user" : self.user.dictionary,
+           @"user" : userDict,
            @"baseUrl" : [NSString stringWithFormat:@"%@", [DSOAPI sharedInstance].baseURL],
            @"isSelfProfile" : [NSNumber numberWithBool:self.isCurrentUserProfile],
            @"apiKey": [DSOAPI sharedInstance].apiKey,

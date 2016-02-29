@@ -44,11 +44,11 @@
 // Posts a Reportback Item for the current user, and updates activity.
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
+-(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler ;
+
 // Returns DSOCampaign for a given Campaign id if it exists in the activeCampaigns property.
 - (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID;
 
-- (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
-
--(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler ;
+- (void)loadAndStoreCampaignWithID:(NSInteger)campaignID completionHandler:(void(^)(DSOCampaign *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 @end

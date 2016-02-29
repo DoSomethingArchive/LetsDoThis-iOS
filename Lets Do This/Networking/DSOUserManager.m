@@ -35,6 +35,17 @@
     return _sharedInstance;
 }
 
+#pragma mark - NSObject
+
+- (instancetype)init {
+    self = [super init];
+
+    if (self) {
+        self.mutableCampaigns = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 #pragma mark - Accessors
 
 - (void)setUser:(DSOUser *)user {
@@ -172,15 +183,6 @@
     }];
 }
 
-- (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID {
-    for (DSOCampaign *campaign in self.activeCampaigns) {
-        if (campaign.campaignID == campaignID) {
-            return campaign;
-        }
-    }
-    return nil;
-}
-
 -(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(id responseObject) {
 
@@ -199,16 +201,21 @@
     }];
 }
 
-- (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] loadAllCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-        NSLog(@"loadAllCampaignsWithCompletionHandler");
-        if (campaigns.count == 0) {
-            // @todo Throw error here
-            NSLog(@"No campaigns found.");
+- (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID {
+    for (DSOCampaign *campaign in self.mutableCampaigns) {
+        if (campaign.campaignID == campaignID) {
+            return campaign;
         }
-        self.mutableCampaigns = [[NSMutableArray alloc] init];
-        for (DSOCampaign *campaign in campaigns) {
-            [self.mutableCampaigns addObject:campaign];
+    }
+    return nil;
+}
+
+- (void)loadAndStoreCampaignWithID:(NSInteger)campaignID completionHandler:(void (^)(DSOCampaign *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] loadCampaignWithID:campaignID completionHandler:^(DSOCampaign *campaign) {
+        [self.mutableCampaigns addObject:campaign];
+        NSLog(@"[DSOUserManager] Stored Campaign ID %li.", (long)campaign.campaignID);
+        if (completionHandler) {
+            completionHandler(campaign);
         }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {

@@ -26,6 +26,8 @@ var CampaignView = React.createClass({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       isRefreshing: false,
+      id: this.props.id,
+      campaign: this.props.campaign,
       loaded: false,
       error: false,
       signup: false,
@@ -34,18 +36,32 @@ var CampaignView = React.createClass({
   },
   componentDidMount: function() {
     this.fetchData();
-    this.subscription = NativeAppEventEmitter.addListener(
+    this.activitySubscription = NativeAppEventEmitter.addListener(
       'currentUserActivity',
-      (signup) => this.handleEvent(signup),
+      (signup) => this.handleActivityEvent(signup),
+    );
+    this.campaignLoadedSubscription = NativeAppEventEmitter.addListener(
+      'campaignLoaded',
+      (campaign) => this.handleCampaignLoadedEvent(campaign),
     );
   },
   componentWillUnmount: function() {
-    if (typeof this.subscription != "undefined") {
-      this.subscription.remove();
+    this.activitySubscription.remove();
+    this.campaignLoadedSubscription.remove();
+  },
+  handleCampaignLoadedEvent: function(campaign) {
+    console.log("heard it");
+    console.log(campaign);
+    if (Number(campaign.id) == this.props.id) {
+      console.log("its a match");
+      this.setState({
+        campaign: campaign,
+      });
+      this.fetchData();
     }
   },
-  handleEvent: function(campaignActivity) {
-    if (campaignActivity.campaign.id != this.props.campaign.id) {
+  handleActivityEvent: function(campaignActivity) {
+    if (campaignActivity.campaign.id != this.props.id) {
       return;
     }
     if (!this.state.signup) {
@@ -63,12 +79,17 @@ var CampaignView = React.createClass({
     }
   },
   fetchData: function() {
+    console.log("fetchData");
     this.setState({
       error: false,
       loaded: false,
     });
+    if (!this.state.campaign.id) {
+      console.log("no campaign id");
+      return;
+    }
     var statusUrl = this.props.signupUrl;
-    statusUrl += '&campaigns=' + this.props.campaign.id.toString();
+    statusUrl += '&campaigns=' + this.props.id.toString();
     fetch(statusUrl)
       .then((response) => response.json())
       .catch((error) => this.catchError(error))
@@ -166,10 +187,10 @@ var CampaignView = React.createClass({
   },
   _onPressActionButton: function() {
     if (!this.state.signup) {
-      Bridge.postSignup(Number(this.props.campaign.id));
+      Bridge.postSignup(Number(this.props.id));
     }
     else {
-      Bridge.presentProveIt(Number(this.props.campaign.id));
+      Bridge.presentProveIt(Number(this.props.id));
     }
   },
   renderActionButton: function() {
@@ -207,11 +228,11 @@ var CampaignView = React.createClass({
       return null;
     }
     var solutionText, solutionSupportText;
-    if (this.props.campaign.solutionCopy.length > 0) {
-      solutionText = this.renderCampaignContentText(this.props.campaign.solutionCopy);
+    if (this.state.campaign.solutionCopy.length > 0) {
+      solutionText = this.renderCampaignContentText(this.state.campaign.solutionCopy);
     }
-    if (this.props.campaign.solutionSupportCopy.length > 0) {
-      solutionSupportText = this.renderCampaignContentText(this.props.campaign.solutionSupportCopy);
+    if (this.state.campaign.solutionSupportCopy.length > 0) {
+      solutionSupportText = this.renderCampaignContentText(this.state.campaign.solutionSupportCopy);
     }
     var submitCopy = "When you're done, submit a pic of yourself in action. #picsoritdidnthappen";
     var submitText = this.renderCampaignContentText(submitCopy);
@@ -223,7 +244,7 @@ var CampaignView = React.createClass({
           key={this.state.reportback.id}
           reportbackItem={this.state.reportback.reportback_items.data[0]}
           reportback={this.state.reportback}
-          campaign={this.props.campaign}
+          campaign={this.state.campaign}
           user={this.props.currentUser}
           share={true}
         />
@@ -251,7 +272,7 @@ var CampaignView = React.createClass({
     );
   },
   renderCover: function() {
-    var campaign = this.props.campaign;
+    var campaign = this.state.campaign;
     if (campaign.image_url.length == 0) {
       campaign.image_url = 'Placeholder Image Download Fails';
     }
@@ -281,11 +302,11 @@ var CampaignView = React.createClass({
   },
   renderHeader: function() {
     var content;
-    if (this.props.campaign.status != 'active') {
+    if (this.state.campaign.status != 'active') {
       var message = "Ayy! This campaign is closed. Go back a page for actions you can do right now.";
       content = this.renderClosedContent(message);
     }
-    if (this.props.campaign.type != 'campaign') {
+    if (this.state.campaign.type != 'campaign') {
       var message = "This action is only available via SMS.";
       content = this.renderClosedContent(message);
     }

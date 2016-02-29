@@ -55,12 +55,7 @@ RCT_EXPORT_METHOD(pushUser:(NSDictionary *)userDict) {
 }
 
 RCT_EXPORT_METHOD(pushCampaign:(NSInteger)campaignID) {
-    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
-    if (!campaign) {
-        NSString *message = [NSString stringWithFormat:@"Error occured: invalid Campaign ID %li", (long)campaignID];
-        [LDTMessage displayErrorMessageInViewController:self.tabBarController title:message];
-        return;
-    }
+    DSOCampaign *campaign = [[DSOCampaign alloc] initWithCampaignID:campaignID];
     LDTCampaignViewController *viewController = [[LDTCampaignViewController alloc] initWithCampaign:campaign];
     [self.tabBarController pushViewController:viewController];
 }

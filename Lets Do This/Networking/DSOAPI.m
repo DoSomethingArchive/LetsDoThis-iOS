@@ -248,6 +248,22 @@
     }];
 }
 
+- (void)loadCampaignWithID:(NSInteger)campaignID completionHandler:(void(^)(DSOCampaign *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"%@campaigns/%li", self.phoenixApiURL, (long)campaignID];
+
+    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:responseObject[@"data"]];
+        if (completionHandler) {
+            completionHandler(campaign);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
 - (void)loadCampaignsForTermIds:(NSArray *)termIds completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
     for (NSNumber *termID in termIds) {
