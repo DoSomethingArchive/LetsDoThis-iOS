@@ -40,7 +40,6 @@ var UserView = React.createClass({
       error: null,
       // Because selfProfile can change user data, we need to store user in state.
       user: this.props.user,
-      photo: this.props.user.photo,
     };
   },
   componentDidMount: function() {
@@ -53,10 +52,6 @@ var UserView = React.createClass({
         'currentUserChanged',
         (user) => this.handleUserChangedEvent(user),
       );
-      this.userAvatarSubscription = NativeAppEventEmitter.addListener(
-        'currentUserAvatar',
-        (response) => this.handleUserAvatarEvent(response),
-      );
     }
     this.fetchData();
   },
@@ -64,7 +59,6 @@ var UserView = React.createClass({
     if (this.props.isSelfProfile) {
       this.userActivitySubscription.remove();
       this.userChangedSubscription.remove();
-      this.userAvatarSubscription.remove();
     }
   },
   handleUserChangedEvent: function(user) {
@@ -74,11 +68,6 @@ var UserView = React.createClass({
   },
   handleUserActivityEvent: function(campaignActivity) {
     this.fetchData();
-  },
-  handleUserAvatarEvent: function(response) {
-    this.setState({
-      photo: response.photo,
-    });
   },
   fetchData: function() {
     this.setState({
@@ -227,7 +216,7 @@ var UserView = React.createClass({
     );
   },
   renderHeader: function() {
-    var avatarUri = this.state.photo;
+    var avatarUri = this.state.user.photo;
     if (avatarUri.length == 0) {
       avatarUri =  'Avatar';
     }

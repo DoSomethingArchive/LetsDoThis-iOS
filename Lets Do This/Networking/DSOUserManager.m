@@ -198,11 +198,11 @@
         self.user.avatarURL = responseDict[@"photo"];
         // Not needed when we first start a session.
         if (sendAppEvent) {
-          NSLog(@"Sending avatar eventDispatcher");
-          [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserAvatar" body:responseDict];
+          NSLog(@"Sending currentUserChanged eventDispatcher");
+          [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:responseDict];
         }
         else {
-            NSLog(@"Not sending avatar eventDispatcher");
+            NSLog(@"Not sending currentUserChanged eventDispatcher");
         }
         if (completionHandler) {
             completionHandler(responseDict);
