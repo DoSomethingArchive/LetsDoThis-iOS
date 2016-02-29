@@ -18,9 +18,10 @@ var NetworkImage = require('./NetworkImage.js');
 
 var CauseDetailView = React.createClass({
   getInitialState: function() {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
-      dataSource: ds.cloneWithRows(this.props.campaigns),
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
     };
   },
   render: function() {

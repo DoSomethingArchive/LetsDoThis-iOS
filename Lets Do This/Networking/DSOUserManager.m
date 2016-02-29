@@ -58,19 +58,6 @@
     }
 }
 
-- (NSArray *)activeCampaigns {
-    return [self.mutableCampaigns copy];
-}
-
-- (NSDictionary *)campaignDictionaries {
-    NSMutableDictionary *campaigns = [[NSMutableDictionary alloc] init];
-    for (DSOCampaign *campaign in self.activeCampaigns) {
-        NSString *campaignIDString = [NSString stringWithFormat:@"%li", (long)campaign.campaignID];
-        campaigns[campaignIDString] = campaign.dictionary;
-    }
-    return [campaigns copy];
-}
-
 - (NSString *)currentService {
     return [DSOAPI sharedInstance].baseURL.absoluteString;
 }
