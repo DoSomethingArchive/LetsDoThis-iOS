@@ -143,7 +143,12 @@
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];
-        [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
+        if (error.code == -1011) {
+            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Sorry, unrecognized email or password."];
+        }
+        else {
+            [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
+        }
         [self.emailTextField setBorderColor:UIColor.redColor];
     }];
 }
