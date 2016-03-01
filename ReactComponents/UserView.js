@@ -43,6 +43,7 @@ var UserView = React.createClass({
     };
   },
   componentDidMount: function() {
+    console.log("[UserView] ID:" + this.props.user.id);
     if (this.props.isSelfProfile) {
       this.userActivitySubscription = NativeAppEventEmitter.addListener(
         'currentUserActivity',
@@ -110,7 +111,12 @@ var UserView = React.createClass({
     for (i = 0; i < signups.length; i++) {
       var signup = signups[i];
       var sectionNumber = 0;
-      if (signup.reportback) {
+      if (signup.reportback 
+        && signup.reportback.reportback_items 
+        && signup.reportback.reportback_items.data 
+        && signup.reportback.reportback_items.data[0] 
+        && signup.reportback.reportback_items.data[0].id) {
+        
         sectionNumber = 1;
         signup.reportbackItem = signup.reportback.reportback_items.data[0];
       }
@@ -264,7 +270,7 @@ var UserView = React.createClass({
     );
   },
   renderRow: function(rowData) {
-    if (rowData.reportback) {
+    if (rowData.reportbackItem) {
       return this.renderDoneRow(rowData);
     }
     else {
