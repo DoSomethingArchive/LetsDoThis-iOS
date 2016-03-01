@@ -18,7 +18,7 @@
 - (void)styleRightBarButton {
     NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
     titleBarAttributes[NSFontAttributeName] = LDTTheme.fontBold;
-    titleBarAttributes[NSForegroundColorAttributeName] = LDTTheme.ctaBlueColor;
+    titleBarAttributes[NSForegroundColorAttributeName] = LDTTheme.copyGrayColor;
     [self.navigationItem.rightBarButtonItem setTitleTextAttributes:titleBarAttributes forState:UIControlStateNormal];
 }
 
