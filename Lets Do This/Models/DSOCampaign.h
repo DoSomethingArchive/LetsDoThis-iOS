@@ -7,14 +7,9 @@
 //
 
 @class DSOCampaign;
-@class DSOCampaignSignup;
-@class DSOCause;
 
 @interface DSOCampaign : NSObject
 
-@property (strong, nonatomic, readonly) DSOCause *cause;
-@property (strong, nonatomic) DSOCampaignSignup *currentUserSignup;
-@property (strong, nonatomic, readonly) NSArray *tags;
 @property (strong, nonatomic, readonly) NSDictionary *dictionary;
 @property (assign, nonatomic, readonly) NSInteger campaignID;
 @property (strong, nonatomic, readonly) NSString *coverImage;
@@ -26,7 +21,6 @@
 @property (strong, nonatomic, readonly) NSString *tagline;
 @property (strong, nonatomic, readonly) NSString *title;
 @property (strong, nonatomic, readonly) NSString *type;
-@property (strong, nonatomic, readonly) NSURL *coverImageURL;
 
 - (instancetype)initWithCampaignID:(NSInteger)campaignID;
 - (instancetype)initWithCampaignID:(NSInteger)campaignID title:(NSString *)title;

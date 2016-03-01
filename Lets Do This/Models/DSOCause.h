@@ -12,7 +12,6 @@
 @property (assign, nonatomic, readonly) NSInteger causeID;
 @property (strong, nonatomic, readonly) NSString *title;
 
-- (instancetype)initWithPhoenixDict:(NSDictionary *)dict;
 - (instancetype)initWithNewsDict:(NSDictionary *)dict;
 
 @end
