@@ -14,6 +14,7 @@ import React, {
 } from 'react-native';
 
 var Style = require('./Style.js');
+var Helpers = require('./Helpers.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
@@ -111,12 +112,7 @@ var UserView = React.createClass({
     for (i = 0; i < signups.length; i++) {
       var signup = signups[i];
       var sectionNumber = 0;
-      if (signup.reportback 
-        && signup.reportback.reportback_items 
-        && signup.reportback.reportback_items.data 
-        && signup.reportback.reportback_items.data[0] 
-        && signup.reportback.reportback_items.data[0].id) {
-        
+      if (Helpers.reportbackItemExistsForSignup(signup)) {
         sectionNumber = 1;
         signup.reportbackItem = signup.reportback.reportback_items.data[0];
       }
