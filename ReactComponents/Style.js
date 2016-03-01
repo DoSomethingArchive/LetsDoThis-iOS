@@ -8,7 +8,7 @@ var {
 
 var Theme = require('react-native').NativeModules.LDTTheme;
 var colorCtaBlue = Theme.colorCtaBlue;
-var colorTextDefault = '#4A4A4A';
+var colorTextDefault = Theme.colorCopyGray;
 var fontFamilyName = Theme.fontName;
 var fontFamilyBoldName = Theme.fontNameBold;
 var fontSizeCaption = Theme.fontSizeCaption;

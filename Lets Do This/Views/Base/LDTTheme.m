@@ -17,6 +17,7 @@ const CGFloat kFontSizeTitle = 24.0f;
 NSString *fontName = @"BrandonGrotesque-Regular";
 NSString *fontNameBold = @"BrandonGrotesque-Bold";
 NSString *hexCtaBlue = @"#3932A9";
+NSString *hexCopyGray = @"#4A4A4A";
 
 @interface LDTTheme () <RCTBridgeModule>
 
@@ -28,6 +29,10 @@ RCT_EXPORT_MODULE();
 
 + (UIColor *)ctaBlueColor {
     return [self colorFromHexString:hexCtaBlue];
+}
+
++ (UIColor *)copyGrayColor {
+    return [self colorFromHexString:hexCopyGray];
 }
 
 +(UIColor *)disabledGrayColor {
@@ -109,6 +114,7 @@ RCT_EXPORT_MODULE();
              @"fontSizeHeading": [NSNumber numberWithFloat:kFontSizeHeading],
              @"fontSizeTitle": [NSNumber numberWithFloat:kFontSizeTitle],
              @"colorCtaBlue" : hexCtaBlue,
+             @"colorCopyGray" : hexCopyGray,
              };
 }
 
