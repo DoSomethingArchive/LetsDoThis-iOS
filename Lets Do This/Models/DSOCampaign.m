@@ -61,8 +61,6 @@
         _title = [values valueForKeyAsString:@"title" nullValue:@""];
         _status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
         _type = [values valueForKeyAsString:@"type" nullValue:@""];
-        NSDictionary *causeDict = [values valueForKeyPath:@"causes.primary"];
-        _cause = [[DSOCause alloc] initWithPhoenixDict:causeDict];
         _tagline = [values valueForKeyAsString:@"tagline" nullValue:@""];
         _coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:@""];;
         _reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
@@ -77,14 +75,9 @@
                 _solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw" nullValue:@""];
             }
         }
-        _tags = values[@"tags"];
     }
 	
     return self;
-}
-
-- (NSURL *)coverImageURL {
-    return [NSURL URLWithString:self.coverImage];
 }
 
 - (NSDictionary *)dictionary {

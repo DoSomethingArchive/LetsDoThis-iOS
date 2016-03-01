@@ -23,17 +23,6 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithPhoenixDict:(NSDictionary*)dict {
-    self = [super init];
-
-    if (self) {
-        _causeID = [dict valueForKeyAsInt:@"id" nullValue:0];
-        _title = [dict valueForKeyAsString:@"name" nullValue:@"Unknown"];
-    }
-
-    return self;
-}
-
 - (instancetype)initWithNewsDict:(NSDictionary*)dict {
     self = [super init];
 
