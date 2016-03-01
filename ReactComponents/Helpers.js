@@ -73,4 +73,14 @@ module.exports = {
 
     return result;
   },
+  reportbackItemExistsForSignup: function(signup) {
+    if (signup.reportback 
+      && signup.reportback.reportback_items 
+      && signup.reportback.reportback_items.data 
+      && signup.reportback.reportback_items.data[0] 
+      && signup.reportback.reportback_items.data[0].id) {
+      return true;
+    }
+    return false;
+  }
 }

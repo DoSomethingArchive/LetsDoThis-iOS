@@ -14,6 +14,7 @@ import React, {
 } from 'react-native';
 
 var Style = require('./Style.js');
+var Helpers = require('./Helpers.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
@@ -43,6 +44,7 @@ var UserView = React.createClass({
     };
   },
   componentDidMount: function() {
+    console.log("[UserView] ID:" + this.props.user.id);
     if (this.props.isSelfProfile) {
       this.userActivitySubscription = NativeAppEventEmitter.addListener(
         'currentUserActivity',
@@ -110,7 +112,7 @@ var UserView = React.createClass({
     for (i = 0; i < signups.length; i++) {
       var signup = signups[i];
       var sectionNumber = 0;
-      if (signup.reportback) {
+      if (Helpers.reportbackItemExistsForSignup(signup)) {
         sectionNumber = 1;
         signup.reportbackItem = signup.reportback.reportback_items.data[0];
       }
@@ -264,7 +266,7 @@ var UserView = React.createClass({
     );
   },
   renderRow: function(rowData) {
-    if (rowData.reportback) {
+    if (rowData.reportbackItem) {
       return this.renderDoneRow(rowData);
     }
     else {
