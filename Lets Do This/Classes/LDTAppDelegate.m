@@ -10,15 +10,16 @@
 #import "AFNetworkActivityIndicatorManager.h"
 #import <Parse/Parse.h>
 #import "LDTTheme.h"
-#import "LDTTabBarController.h"
 #import "TSMessageView.h"
 #import "GAI+LDT.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <RCTEventDispatcher.h>
 
 @interface LDTAppDelegate()
 
 @property (strong, nonatomic, readwrite) NSURL *jsCodeLocation;
+@property (strong, nonatomic, readwrite) RCTBridge *bridge;
 
 @end
 
@@ -65,6 +66,7 @@
         self.jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
         NSLog(@"[LDTAppDelegate] Running React Native from main.jsbundle.");
     }
+    self.bridge = [[RCTBridge alloc] initWithBundleURL:self.jsCodeLocation moduleProvider:nil launchOptions:nil];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];
@@ -118,6 +120,12 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [PFPush handlePush:userInfo];
+}
+
+# pragma mark - Accessors
+
+- (LDTTabBarController *)tabBarController {
+    return (LDTTabBarController *)self.window.rootViewController;
 }
 
 @end

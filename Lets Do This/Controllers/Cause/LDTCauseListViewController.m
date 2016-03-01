@@ -8,22 +8,17 @@
 
 #import "LDTCauseListViewController.h"
 #import "LDTTheme.h"
-#import "LDTTabBarController.h"
-#import "LDTCauseDetailViewController.h"
 #import "GAI+LDT.h"
 #import "LDTAppDelegate.h"
-#import <RCTBridgeModule.h>
 #import <RCTRootView.h>
 
-@interface LDTCauseListViewController () <RCTBridgeModule>
+@interface LDTCauseListViewController ()
 
 @property (strong, nonatomic) NSArray *causes;
 
 @end
 
 @implementation LDTCauseListViewController
-
-RCT_EXPORT_MODULE();
 
 #pragma mark - UIViewController
 
@@ -34,7 +29,7 @@ RCT_EXPORT_MODULE();
 
     self.causes = [[NSArray alloc] init];
     self.title = @"Actions";
-    self.navigationItem.title = @"Let's Do This".uppercaseString;
+    self.navigationItem.title = @"DoSomething".uppercaseString;
 
     NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
     NSString *url = [NSString stringWithFormat:@"%@get_category_index", [DSOAPI sharedInstance].newsApiURL];
@@ -61,18 +56,6 @@ RCT_EXPORT_MODULE();
 
 - (void)styleView {
     [self styleBackBarButton];
-}
-
-#pragma mark - RCTBridgeModule
-
-RCT_EXPORT_METHOD(presentCause:(NSDictionary *)causeDict) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        LDTTabBarController *tabBarController = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-        UINavigationController *navigationController = tabBarController.childViewControllers[tabBarController.selectedIndex];
-        DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
-        LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
-        [navigationController pushViewController:causeDetailViewController animated:YES];
-    });
 }
 
 @end

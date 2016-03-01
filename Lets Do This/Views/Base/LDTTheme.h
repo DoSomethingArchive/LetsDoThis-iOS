@@ -15,6 +15,7 @@
 
 @interface LDTTheme : NSObject
 
++(UIColor *)copyGrayColor;
 +(UIColor *)ctaBlueColor;
 +(UIColor *)disabledGrayColor;
 +(UIColor *)facebookBlueColor;

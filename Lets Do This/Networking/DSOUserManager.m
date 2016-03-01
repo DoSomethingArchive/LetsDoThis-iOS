@@ -10,14 +10,13 @@
 #import <SSKeychain/SSKeychain.h>
 #import "GAI+LDT.h"
 #import <Crashlytics/Crashlytics.h>
-
-NSString *const avatarFileNameString = @"LDTStoredAvatar.jpeg";
-NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
+#import "LDTAppDelegate.h"
+#import <RCTEventDispatcher.h>
 
 @interface DSOUserManager()
 
 @property (strong, nonatomic, readwrite) DSOUser *user;
-@property (strong, nonatomic) NSMutableArray *mutableActiveCampaigns;
+@property (strong, nonatomic) NSMutableArray *mutableCampaigns;
 
 @end
 
@@ -36,6 +35,17 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     return _sharedInstance;
 }
 
+#pragma mark - NSObject
+
+- (instancetype)init {
+    self = [super init];
+
+    if (self) {
+        self.mutableCampaigns = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 #pragma mark - Accessors
 
 - (void)setUser:(DSOUser *)user {
@@ -48,24 +58,15 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     }
 }
 
-- (NSArray *)activeCampaigns {
-    return [self.mutableActiveCampaigns copy];
-}
-
-- (NSDictionary *)campaignDictionaries {
-    NSMutableDictionary *campaigns = [[NSMutableDictionary alloc] init];
-    for (DSOCampaign *campaign in self.activeCampaigns) {
-        NSString *campaignIDString = [NSString stringWithFormat:@"%li", (long)campaign.campaignID];
-        campaigns[campaignIDString] = campaign.dictionary;
-    }
-    return [campaigns copy];
-}
-
 - (NSString *)currentService {
     return [DSOAPI sharedInstance].baseURL.absoluteString;
 }
 
 #pragma mark - DSOUserManager
+
+- (LDTAppDelegate *)appDelegate {
+    return ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
+}
 
 - (BOOL)userHasCachedSession {
     return self.sessionToken.length > 0;
@@ -74,7 +75,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
         self.user = user;
-
+        // Needed for when we're logging in as a different user.
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
         [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
         // Save session in Keychain for when app is quit.
         [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
@@ -93,7 +95,7 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     return [SSKeychain passwordForService:self.currentService account:@"Session"];
 }
 
-- (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)continueSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     if (self.sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
@@ -104,39 +106,8 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:self.sessionToken];
 
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
-    [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] loadUserWithID:userID completionHandler:^(DSOUser *user) {
         self.user = user;
-        [self loadActiveCampaignSignupsForUser:self.user completionHandler:^{
-            // Adding this here for edge case when we need to refresh a User's Profile from signing out and then signing in as a different user.
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"updateCurrentUser" object:self];
-            if (completionHandler) {
-                completionHandler();
-            }
-        } errorHandler:^(NSError *error) {
-            errorHandler(error);
-        }];
-    } errorHandler:^(NSError *error) {
-        if (errorHandler) {
-            errorHandler(error);
-        }
-    }];
-}
-
-- (void)loadActiveCampaignSignupsForUser:(DSOUser *)user completionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] loadCampaignSignupsForUser:user completionHandler:^(NSArray *campaignSignups) {
-        [user removeAllCampaignSignups];
-        NSMutableArray *inactiveCampaignIDs = [[NSMutableArray alloc] init];
-        for (DSOCampaignSignup *signup in campaignSignups) {
-            if ([self activeCampaignWithId:signup.campaign.campaignID]) {
-                [user addCampaignSignup:signup];
-            }
-            else {
-                [inactiveCampaignIDs addObject:[NSString stringWithFormat:@"%li", (long)signup.campaign.campaignID]];
-            }
-        }
-        if (inactiveCampaignIDs.count > 0) {
-            NSLog(@"[DSOUserManager] Filtering User %@ Signups for inactive Campaigns %@.", user.userID, [inactiveCampaignIDs componentsJoinedByString:@","]);
-        }
         if (completionHandler) {
             completionHandler();
         }
@@ -150,7 +121,6 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 - (void)endSession {
     [SSKeychain deletePasswordForService:self.currentService account:@"Session"];
     [SSKeychain deletePasswordForService:self.currentService account:@"UserID"];
-    [self deleteAvatar];
     self.user = nil;
 }
 
@@ -172,10 +142,10 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] createCampaignSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
-        [self.user addCampaignSignup:signup];
+    [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateCurrentUser" object:self];
+        // @todo Just send raw response vs signup.dictionary to avoid potential bugs like https://github.com/DoSomething/LetsDoThis-iOS/issues/850
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup.dictionary];
         if (completionHandler) {
             completionHandler(signup);
         }
@@ -187,17 +157,11 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
 }
 
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *response) {
+    [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *reportbackDict) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)reportbackItem.campaign.campaignID] value:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateCurrentUser" object:self];
-        // Update the corresponding campaignSignup with the new reportbackItem.
-        for (DSOCampaignSignup *signup in self.user.campaignSignups) {
-            if (reportbackItem.campaign.campaignID == signup.campaign.campaignID) {
-                signup.reportbackItem = reportbackItem;
-            }
-        }
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:reportbackDict];
         if (completionHandler) {
-            completionHandler(response);
+            completionHandler(reportbackDict);
         }
     } errorHandler:^(NSError *error) {
         if (errorHandler) {
@@ -206,8 +170,26 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     }];
 }
 
-- (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID {
-    for (DSOCampaign *campaign in self.activeCampaigns) {
+-(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(id responseObject) {
+
+        NSDictionary *responseDict = responseObject[@"data"];
+        self.user.avatarURL = responseDict[@"photo"];
+        NSLog(@"postAvatarImage currentUserChanged eventDispatcher");
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:responseDict];
+
+        if (completionHandler) {
+            completionHandler(responseDict);
+        }
+    } errorHandler:^(NSError * error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
+- (DSOCampaign *)campaignWithID:(NSInteger)campaignID {
+    for (DSOCampaign *campaign in self.mutableCampaigns) {
         if (campaign.campaignID == campaignID) {
             return campaign;
         }
@@ -215,86 +197,18 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     return nil;
 }
 
-- (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [SVProgressHUD showWithStatus:@"Loading actions..."];
-    [[DSOAPI sharedInstance] loadAllCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-        NSLog(@"loadAllCampaignsWithCompletionHandler");
-        if (campaigns.count == 0) {
-            NSLog(@"No campaigns found.");
+- (void)loadAndStoreCampaignWithID:(NSInteger)campaignID completionHandler:(void (^)(DSOCampaign *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] loadCampaignWithID:campaignID completionHandler:^(DSOCampaign *campaign) {
+        [self.mutableCampaigns addObject:campaign];
+        NSLog(@"[DSOUserManager] Stored Campaign ID %li.", (long)campaign.campaignID);
+        if (completionHandler) {
+            completionHandler(campaign);
         }
-        self.mutableActiveCampaigns = [[NSMutableArray alloc] init];
-        NSMutableArray *inactiveCampaignIDs = [[NSMutableArray alloc] init];
-        for (DSOCampaign *campaign in campaigns) {
-            if ([campaign.status isEqual:@"active"]) {
-                [self.mutableActiveCampaigns addObject:campaign];
-            }
-            else {
-                [inactiveCampaignIDs addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];
-            }
-        }
-        if (inactiveCampaignIDs.count > 0) {
-            NSLog(@"[DSOUserManager] Filtering inactive Campaigns %@.", [inactiveCampaignIDs componentsJoinedByString:@", "]);
-        }
-
-        [self startSessionWithCompletionHandler:^ {
-            NSLog(@"syncCurrentUserWithCompletionHandler");
-            [SVProgressHUD dismiss];
-            if (completionHandler) {
-                completionHandler(self.activeCampaigns);
-            }
-        } errorHandler:^(NSError *error) {
-            [SVProgressHUD dismiss];
-            if (errorHandler) {
-                errorHandler(error);
-            }
-        }];
     } errorHandler:^(NSError *error) {
-        [SVProgressHUD dismiss];
         if (errorHandler) {
             errorHandler(error);
         }
     }];
-}
-
-#pragma mark - Avatar CRUD
-
-- (void)storeAvatar:(UIImage *)photo {
-    NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
-    NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
-    
-    if (![photoData writeToFile:storedAvatarPhotoPath atomically:NO]) {
-        NSLog((@"Failed to persist photo data to disk"));
-    }
-    else {
-        [storedUserDefaults setObject:storedAvatarPhotoPath forKey:avatarStorageKey];
-        [storedUserDefaults synchronize];
-    }
-}
-
-- (UIImage *)retrieveAvatar {
-    NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:avatarStorageKey];
-    if (storedAvatarPhotoPath) {
-        return [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
-    }
-    return nil;
-}
-
-- (void) deleteAvatar {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
-    NSError *error;
-    
-    if ([fileManager fileExistsAtPath:filePath]) {
-        if ([fileManager removeItemAtPath:filePath error:&error]) {
-            NSLog(@"Successfully deleted file: %@ ", avatarFileNameString);
-        }
-        else {
-            NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
-        }
-    }
 }
 
 @end

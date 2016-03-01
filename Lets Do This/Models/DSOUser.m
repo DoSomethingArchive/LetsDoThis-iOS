@@ -13,8 +13,7 @@
 
 @interface DSOUser()
 
-@property (nonatomic, strong, readwrite) NSMutableArray *mutableCampaignSignups;
-@property (nonatomic, strong, readwrite) NSString *avatarURL;
+@property (nonatomic, assign, readwrite) NSInteger phoenixID;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *email;
@@ -22,13 +21,10 @@
 @property (nonatomic, strong, readwrite) NSString *mobile;
 @property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *userID;
-@property (nonatomic, strong, readwrite) UIImage *photo;
 
 @end
 
 @implementation DSOUser
-
-@synthesize photo = _photo;
 
 - (instancetype)initWithDict:(NSDictionary *)dict {
     self = [super init];
@@ -44,14 +40,9 @@
         }
         _firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Doer"];
         _email = dict[@"email"];
+        _phoenixID = [dict valueForKeyAsInt:@"drupal_id" nullValue:0];
         _sessionToken = dict[@"session_token"];
-        _mutableCampaignSignups = [[NSMutableArray alloc] init];
         _avatarURL = [dict valueForKeyAsString:@"photo" nullValue:@""];
-        if (dict[@"photo"]) {
-            [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
-                 _photo = image;
-             }];
-        }
     }
 
     return self;
@@ -60,47 +51,13 @@
 #pragma mark - Accessors
 
 - (NSDictionary *)dictionary {
+     // Keys match API properties
     return @{
              @"id" : self.userID,
-             @"displayName" : self.displayName,
-             @"countryName" : self.countryName,
-             @"avatarURL": self.avatarURL
+             @"first_name" : self.displayName,
+             @"country" : self.countryName,
+             @"photo": self.avatarURL
              };
-}
-
-- (UIImage *)photo {
-    if (!_photo) {
-        // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
-        if ([self isLoggedInUser]) {
-            UIImage *photo = [[DSOUserManager sharedInstance] retrieveAvatar];
-            if (photo) {
-                _photo = photo;
-            }
-            else {
-                _photo = [UIImage imageNamed:@"Default Avatar"];
-            }
-        }
-        else {
-            _photo = [UIImage imageNamed:@"Default Avatar"];
-        }
-	}
-	
-	return _photo;
-}
-
-- (NSArray *)campaignSignups {
-    return [self.mutableCampaignSignups copy];
-}
-
-- (void)removeAllCampaignSignups {
-    [self.mutableCampaignSignups removeAllObjects];
-}
-
-- (void)setPhoto:(UIImage *)photo {
-    _photo = photo;
-    if ([self isLoggedInUser] && photo) {
-        [[DSOUserManager sharedInstance] storeAvatar:photo];
-    }
 }
 
 - (NSString *)countryName {
@@ -136,39 +93,8 @@
     return self.userID;
 }
 
-- (void)addCampaignSignup:(DSOCampaignSignup *)campaignSignup {
-    [self.mutableCampaignSignups addObject:campaignSignup];
-}
-
 - (BOOL)isLoggedInUser {
     return [self.userID isEqualToString:[DSOUserManager sharedInstance].user.userID];
-}
-
-- (BOOL)isDoingCampaign:(DSOCampaign *)campaign {
-    for (DSOCampaignSignup *signup in self.campaignSignups) {
-        if (campaign.campaignID == signup.campaign.campaignID) {
-            if (signup.reportbackItem) {
-                // By doing, we mean they haven't completed it yet.
-                // So no, the user is not Doing it.
-                return NO;
-            }
-            return YES;
-        }
-    }
-    return NO;
-}
-
-- (BOOL)hasCompletedCampaign:(DSOCampaign *)campaign {
-    for (DSOCampaignSignup *signup in self.campaignSignups) {
-        if (campaign.campaignID == signup.campaign.campaignID) {
-            if (signup.reportbackItem) {
-                return YES;
-            }
-            // Nope, haven't completed the campaign yet
-            return NO;
-        }
-    }
-    return NO;
 }
 
 @end

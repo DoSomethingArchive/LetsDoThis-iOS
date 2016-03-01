@@ -132,7 +132,7 @@
 #pragma mark - LDTUserRegisterViewController
 
 - (void)styleView {
-    self.view.backgroundColor = LDTTheme.ctaBlueColor;
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Pattern BG"]];
     [self.imageView addCircleFrame];
     for (UITextField *aTextField in self.textFields) {
         aTextField.font = LDTTheme.font;
@@ -162,11 +162,9 @@
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
                 
                 if (self.userDidPickAvatarPhoto) {
-                    [[DSOUserManager sharedInstance].user setPhoto:self.imageView.image];
-
-                    [[DSOAPI sharedInstance] postUserAvatarWithUserId:[DSOUserManager sharedInstance].user.userID avatarImage:self.imageView.image completionHandler:^(id responseObject) {
-                        NSLog(@"Successful user avatar upload: %@", responseObject);
-                    } errorHandler:^(NSError * error) {
+                    [[DSOUserManager sharedInstance] postAvatarImage:self.imageView.image sendAppEvent:NO completionHandler:^(NSDictionary *completionHandler) {
+                        NSLog(@"Successful user avatar upload.");
+                    } errorHandler:^(NSError *error) {
                         NSLog(@"Unsuccessful user avatar upload: %@", error.localizedDescription);
                     }];
                 }

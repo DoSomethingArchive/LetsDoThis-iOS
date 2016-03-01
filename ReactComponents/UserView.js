@@ -9,12 +9,16 @@ import React, {
   RefreshControl,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  View
+  View,
+  NativeAppEventEmitter
 } from 'react-native';
 
 var Style = require('./Style.js');
-var UserViewController = require('react-native').NativeModules.LDTUserViewController;
+var NetworkErrorView = require('./NetworkErrorView.js');
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
+var firstSectionHeaderText = "Actions I'm Doing";
+var secondSectionHeaderText = "Actions I've Done";
 
 var UserView = React.createClass({
   getInitialState: function() {
@@ -34,17 +38,45 @@ var UserView = React.createClass({
       isRefreshing: false,
       loaded: false,
       error: null,
+      // Because selfProfile can change user data, we need to store user in state.
+      user: this.props.user,
     };
   },
   componentDidMount: function() {
+    if (this.props.isSelfProfile) {
+      this.userActivitySubscription = NativeAppEventEmitter.addListener(
+        'currentUserActivity',
+        (signup) => this.handleUserActivityEvent(signup),
+      );
+      this.userChangedSubscription = NativeAppEventEmitter.addListener(
+        'currentUserChanged',
+        (user) => this.handleUserChangedEvent(user),
+      );
+    }
     this.fetchData();
   },
-  componentWillUpdate: function() {
+  componentWillUnmount: function() {
+    if (this.props.isSelfProfile) {
+      this.userActivitySubscription.remove();
+      this.userChangedSubscription.remove();
+    }
+  },
+  handleUserChangedEvent: function(user) {
+    console.log("handleUserChangedEvent");
+    this.state.user = user;
+    this.fetchData();
+  },
+  handleUserActivityEvent: function(campaignActivity) {
     this.fetchData();
   },
   fetchData: function() {
+    this.setState({
+      error: false,
+      loaded: false,
+    });
     var options = { 
       method: 'GET',
+      timeout: 30000,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -52,54 +84,55 @@ var UserView = React.createClass({
         'X-DS-REST-API-Key': this.props.apiKey,
       },
     };
-    fetch(this.props.url, options)
+    var url = this.props.baseUrl + 'signups?user=' + this.state.user.id;
+    fetch(url, options)
       .then((response) => response.json())
+      .catch((error) => this.catchError(error))
       .then((responseData) => {
-        var signups = responseData.data,
-          dataBlob = {},
-          sectionIDs = [],
-          rowIDs = [],
-          i;
-
-        if (!responseData.data) {
-          // @todo Throw error
+        if (!responseData) {
           return;
         }
-
-        sectionIDs.push(0);
-        dataBlob[0] = "Actions I'm doing";
-        rowIDs[0] = [];
-        sectionIDs.push(1);
-        dataBlob[1] = "Actions I've done";
-        rowIDs[1] = [];
-        for (i = 0; i < signups.length; i++) {
-          var signup = signups[i];
-          if (!signup.drupal_id) {
-            continue;
-          }
-          var campaignIDString = signup.drupal_id.toString();
-          // Filter out inactive campaigns.
-          var campaign = UserViewController.campaigns[campaignIDString];
-          if (!campaign) {
-            continue;
-          }
-          signup.campaign = campaign;
-          var sectionNumber = 0;
-          if (signup.reportback_data) {
-            sectionNumber = 1;
-          }
-          rowIDs[sectionNumber].push(signup.signup_id);
-          dataBlob[sectionNumber + ':' + signup.signup_id] = signup;
-        }
-
-        this.setState({
-          dataSource : this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
-          loaded: true,
-          error: null,
-        });
+        this.loadSignups(responseData.data);
       })
-      .catch((error) => this.catchError(error))
       .done();
+  },
+  loadSignups: function(signups) {
+    var dataBlob = {},
+      sectionIDs = [],
+      rowIDs = [],
+      i;
+    sectionIDs.push(0);
+    dataBlob[0] = firstSectionHeaderText;
+    rowIDs[0] = [];
+    sectionIDs.push(1);
+    dataBlob[1] = secondSectionHeaderText;
+    rowIDs[1] = [];
+    for (i = 0; i < signups.length; i++) {
+      var signup = signups[i];
+      var sectionNumber = 0;
+      if (signup.reportback) {
+        sectionNumber = 1;
+        signup.reportbackItem = signup.reportback.reportback_items.data[0];
+      }
+      else {
+        if (!signup.campaign_run.current) {
+          continue;
+        }
+        if (signup.campaign.status != 'active') {
+          continue;
+        }
+        if (signup.campaign.type != 'campaign') {
+          continue;
+        }
+      }
+      rowIDs[sectionNumber].push(signup.id);
+      dataBlob[sectionNumber + ':' + signup.id] = signup;
+    }
+    this.setState({
+      dataSource : this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
+      loaded: true,
+      error: null,
+    });
   },
   _onRefresh: function () {
     this.setState({isRefreshing: true});
@@ -111,7 +144,7 @@ var UserView = React.createClass({
     }, 1000);
   },
   catchError: function(error) {
-    console.log(error);
+    console.log("UserView.catchError");
     this.setState({
       error: error,
     });
@@ -127,25 +160,45 @@ var UserView = React.createClass({
       </View>
     );
   },
-  renderError: function() {
+  renderEmptySelfProfile: function() {
     return (
-      <View style={styles.loadingContainer}>
-        <Text style={Style.textBody}>
-          Epic Fail
-        </Text>
+      <View>
+        {this.renderHeader()}
+        <View style={Style.sectionHeader}>
+          <Text style={Style.sectionHeaderText}>
+            {firstSectionHeaderText.toUpperCase()}
+          </Text>
+        </View>
+        <View style={styles.noActionsContainer}>
+          <Text style={Style.textHeading}>
+            You haven’t started any actions yet.
+          </Text>
+          <Text style={[Style.textBody, {paddingTop: 8}]}>
+            And you totally should! Shit is happening in the world -- find out how to do something about it.
+          </Text>
+        </View>
       </View>
     );
   },
   render: function() {
     if (this.state.error) {
-      return this.renderError();
+      return (
+        <NetworkErrorView
+          title="Profile isn't loading right now"
+          retryHandler={this.fetchData}
+          errorMessage={this.state.error.message}
+        />
+      );
     }
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
+    if (this.state.dataSource.getRowCount() == 0 && this.props.isSelfProfile) {
+      return this.renderEmptySelfProfile();
+    }
+
     return (
       <ListView
-        style={Style.backgroundColorCtaBlue}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
         renderHeader={this.renderHeader}
@@ -154,7 +207,7 @@ var UserView = React.createClass({
           <RefreshControl
             refreshing={this.state.isRefreshing}
             onRefresh={this._onRefresh}
-            tintColor="white"
+            tintColor="#ccc"
             colors={['#ff0000', '#00ff00', '#0000ff']}
             progressBackgroundColor="#ffff00"
           />
@@ -163,77 +216,103 @@ var UserView = React.createClass({
     );
   },
   renderHeader: function() {
-    var avatarURL = this.props.user.avatarURL;
-    if (avatarURL.length == 0) {
-      this.props.user.avatarURL = 'https://placekitten.com/g/600/600';
+    var avatarUri = this.state.user.photo;
+    if (avatarUri.length == 0) {
+      avatarUri =  'Avatar';
+    }
+    var headerText = null;
+    if (this.state.user.country.length > 0) {
+      headerText = this.state.user.country.toUpperCase();
+    }
+    var avatar = (
+      <Image
+        style={styles.avatar}
+        defaultSource={{uri: 'Placeholder Image Loading'}}
+        source={{uri: avatarUri}}
+      />
+    );
+    if (this.props.isSelfProfile) {
+      avatar = (
+        <TouchableHighlight onPress={() => Bridge.presentAvatarAlertController()}>
+          {avatar}
+        </TouchableHighlight>
+      );
     }
     return (
-      <View style={[Style.backgroundColorCtaBlue, styles.headerContainer]}>
+      <View style={styles.headerContainer}>
         <Image
-          style={styles.avatar}
-          source={{uri: this.props.user.avatarURL}}
-        />
-        <Text style={[Style.textTitle, styles.headerText]}>
-          {this.props.user.displayName.toUpperCase()}
-        </Text>
-        <Text style={[Style.textHeading, styles.headerText]}>
-          {this.props.user.countryName.toUpperCase()}
-        </Text>
+          style={styles.headerBackgroundImage}
+          source={require('image!Gradient Background')}>
+          <View style={styles.avatarContainer}>
+            {avatar}
+            <Text style={[Style.textHeading, styles.headerText]}>
+              {headerText}
+            </Text>
+          </View>
+
+        </Image>
       </View>
     );
   },
   renderSectionHeader(sectionData, sectionID) {
     return (
-      <View style={styles.sectionContainer}>
-        <Text style={[Style.textHeading, {textAlign: 'center'}]}>
+      <View style={Style.sectionHeader}>
+        <Text style={Style.sectionHeaderText}>
           {sectionData.toUpperCase()}
         </Text>
       </View>
     );
   },
-  renderRow: function(signup) {
-    if (signup.reportback_data) {
-      return this.renderDoneRow(signup);
+  renderRow: function(rowData) {
+    if (rowData.reportback) {
+      return this.renderDoneRow(rowData);
     }
     else {
-      return this.renderDoingRow(signup);
+      return this.renderDoingRow(rowData);
     }
   },
   renderDoingRow: function(signup) {
-    if (this.props.isSelfProfile) {
-      // Render Prove It button
-    }
     return (
-      <TouchableHighlight onPress={() => this._onPressDoingRow(signup)}>
+      <TouchableHighlight onPress={() => this._onPressRow(signup)}>
         <View style={styles.row}>
-          <Text style={[Style.textHeading, Style.textColorCtaBlue]}>
-            {signup.campaign.title}
-          </Text>
-          <Text style={Style.textBody}>
-            {signup.campaign.tagline}
-          </Text>
+          <View style={styles.contentContainer}>
+            <Text style={[Style.textHeading, Style.textColorCtaBlue]}>
+              {signup.campaign.title}
+            </Text>
+            <Text style={Style.textBody}>
+              {signup.campaign.tagline}
+            </Text>
+          </View>
+          <View style={styles.detailContainer}>
+            <View style={styles.arrowContainer}>
+              <Image
+                style={styles.arrowImage}
+                source={require('image!Arrow')}
+              />
+            </View>
+          </View>
         </View>
       </TouchableHighlight>
     );
   },
-  renderDoneRow: function(signup) {
+  renderDoneRow: function(rowData) {
     return (
-      <ReportbackItemView
-        key={signup.reportback_id}
-        reportback={signup.reportback_data} />
+      <TouchableHighlight onPress={() => this._onPressRow(rowData)}>
+        <View>
+          <ReportbackItemView
+            key={rowData.reportbackItem.id}
+            reportbackItem={rowData.reportbackItem}
+            reportback={rowData.reportback} 
+            campaign={rowData.campaign}
+            user={this.props.user}
+            share={this.props.isSelfProfile}
+          />
+        </View>
+      </TouchableHighlight>
     );
   },
-  _onPressRow(signup) {
-    UserViewController.presentCampaign(Number(signup.drupal_id));
-  },
-  _onPressDoingRow(signup) {
-    var campaignID = Number(signup.drupal_id);
-    if (this.props.isSelfProfile) {
-      UserViewController.presentProveIt(campaignID);
-    }
-    else {
-      UserViewController.presentCampaign(campaignID);
-    }
+  _onPressRow(rowData) {
+    Bridge.pushCampaign(Number(rowData.campaign.id));
   },
 });
 
@@ -245,14 +324,24 @@ var styles = React.StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#EEE',
   },
-  headerContainer: {
+  noActionsContainer : {
+    flex: 1,  
+    justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
-    padding: 20,
+    paddingLeft: 33,
+    paddingRight: 33,
+    paddingTop: 18,
   },
-  sectionContainer: {
-    backgroundColor: '#F8F8F6',
-    padding: 14,
+  headerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatarContainer: {
+    paddingTop: 20,
+    alignItems: 'center',
+  },
+  headerBackgroundImage: {
+    height: 160,
   },
   avatar: {
     width: 100,
@@ -260,17 +349,36 @@ var styles = React.StyleSheet.create({
     borderRadius: 50,
     borderColor: 'white',
     borderWidth: 2,
-    alignItems: 'center',
   },
   headerText: {
     color: 'white',
-    flex: 1,
-    textAlign: 'center',
+    opacity: 0.50,
+    paddingTop: 4,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   row: {
     backgroundColor: 'white',
     padding: 8,
+    flex: 1,
+    flexDirection: 'row',
   },
+  contentContainer: {
+    flex: 1,
+  },
+  detailContainer: {
+    width: 28,
+    padding: 12,
+  },
+  arrowContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  arrowImage: {
+    width: 12,
+    height: 21,
+  }
 });
 
 module.exports = UserView;

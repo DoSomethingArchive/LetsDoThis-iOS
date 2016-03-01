@@ -10,7 +10,8 @@ import React, {
 
 var Helpers = require('./Helpers.js');
 var Style = require('./Style.js');
-var NewsFeedViewController = require('react-native').NativeModules.LDTNewsFeedViewController;
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
+var NetworkImage = require('./NetworkImage.js');
 
 var NewsFeedPost = React.createClass({
   getInitialState() {
@@ -19,10 +20,10 @@ var NewsFeedPost = React.createClass({
     };
   },
   _onPressActionButton: function() {
-    NewsFeedViewController.presentCampaign(this.props.post.campaign_id);
+    Bridge.pushCampaign(this.props.post.campaign_id);
   },
   _onPressFullArticleButton: function() {
-    NewsFeedViewController.presentFullArticle(this.props.post.id, this.props.post.full_article_url);
+    Bridge.presentNewsArticle(this.props.post.id, this.props.post.full_article_url);
   },
   _onPressImageCreditButton: function() {
     this.setState({
@@ -33,11 +34,21 @@ var NewsFeedPost = React.createClass({
     var post = this.props.post;
     if (post.full_article_url.length > 0) {
       return (
-        <Text
-          onPress={this._onPressFullArticleButton}
-          style={[Style.textBodyBold, Style.textColorCtaBlue]}>
-            Read the full article
-        </Text>
+        <View style={styles.fullArticleContainer}>
+          <Text
+            onPress={this._onPressFullArticleButton}
+            style={[Style.textBodyBold, Style.textColorCtaBlue, styles.fullArticleButton]}>
+              Read the full article
+          </Text>
+          <TouchableHighlight onPress={() => Bridge.shareNewsHeadline(post.id, Helpers.convertUnicode(post.title))}>
+            <View style={styles.shareButton}>
+              <Image
+                style={styles.shareButtonImage}
+                source={{uri: 'Share Icon'}}
+              />
+            </View>
+          </TouchableHighlight>
+        </View>
       );
     }
     return null;
@@ -67,11 +78,11 @@ var NewsFeedPost = React.createClass({
         );
       }
       return (
-        <Image
+        <NetworkImage
           style={styles.image}
-          source={{uri: post.image_url}}>
-          {viewImageCredit}
-        </Image>
+          source={{uri: post.image_url}}
+          content={viewImageCredit}
+        />
       );
     }
     return null;
@@ -130,6 +141,10 @@ var styles = StyleSheet.create({
     marginTop: 14,
     marginLeft: 7,
     marginRight: 7,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
   },
   header: {
     flex: 1,
@@ -147,14 +162,16 @@ var styles = StyleSheet.create({
     padding: 20,
   },
   fullArticleButton: {
-    marginTop: 14,
+    marginTop: 8,
+    flex: 1,
   },
   actionButton: {
     backgroundColor: '#3932A9',
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
-    paddingBottom: 10,
-    paddingTop: 10,
+    paddingBottom: 12,
+    paddingTop: 12,
+    height: 50,
   },
   actionButtonText: {
     color: '#ffffff',
@@ -192,6 +209,20 @@ var styles = StyleSheet.create({
   },
   imageCreditText: {
     color: '#FFFFFF',
+  },
+  fullArticleContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  shareButton: {
+    backgroundColor: 'white', 
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+  },
+  shareButtonImage: {
+    width: 18,
+    height: 27,
   },
   // View container to center the image against just a single line of text
   summaryItemOvalContainer: {

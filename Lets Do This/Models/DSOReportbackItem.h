@@ -15,11 +15,13 @@
 @property (nonatomic, assign, readonly) NSInteger reportbackItemID;
 @property (nonatomic, strong) NSString *caption;
 @property (nonatomic, strong, readonly) NSString *status;
+@property (nonatomic, strong, readonly) NSString *imageUri;
 @property (nonatomic, strong) NSURL *imageURL;
 @property (nonatomic, strong) UIImage *image;
 
 - (instancetype)initWithCampaign:(DSOCampaign *)campaign;
 - (instancetype)initWithDict:(NSDictionary *)dict;
+
 + (NSArray *)sortReportbackItemsAsPromotedFirst:(NSArray *)reportbackItems;
 
 @end

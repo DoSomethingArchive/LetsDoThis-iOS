@@ -10,31 +10,56 @@ import React, {
 import Dimensions from 'Dimensions';
 
 var Style = require('./Style.js');
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
+var NetworkImage = require('./NetworkImage.js');
 
 var ReportbackItemView = React.createClass({
   render: function() {
-    // We only supporting displaying a single reportbackItem for now.
-    var reportbackItem = this.props.reportback.reportback_items.data[0];
-    var campaign = this.props.reportback.campaign;
-    var quantityLabel = campaign.reportback_info.noun + ' ' + campaign.reportback_info.verb;
-    var user = this.props.reportback.user;
+    var reportbackItem = this.props.reportbackItem;
+    var reportback = this.props.reportback;
+    var campaign = this.props.campaign;
+    var quantityLabel;
+    if (campaign.reportback_info) {
+      quantityLabel = campaign.reportback_info.noun + ' ' + campaign.reportback_info.verb;
+    }
+    var user = this.props.user;
+
     // @todo: Need countryName from iOS
-    if (user.first_name.length == 0) {
+    if ((!user.country) || user.country.length == 0) {
+      user.country = '';
+    }
+    if ((!user.first_name) || user.first_name.length == 0) {
       user.first_name = 'Doer';
     }
-    if (user.photo.length == 0) {
-      this.props.user.avatarURL = 'https://placekitten.com/g/600/600';
+    if ((user.photo && user.photo.length == 0) || (!user.photo)) {
+      user.photo = 'Avatar';
     }
     // Sanity check:
     if ((!reportbackItem.media) || reportbackItem.media.uri.length == 0) {
-      reportbackItem.media.uri = 'https://placekitten.com/g/600/600';
+      reportbackItem.media.uri = 'Placeholder Image Download Fails';
+    }
+    var shareButton = null;
+    if (this.props.share) {
+      var shareButton = (
+        <TouchableHighlight 
+          style={[Style.actionButton, {padding: 8, marginTop: 16,}]} 
+          onPress={() => Bridge.shareReportbackItem(Number(reportbackItem.id), this.getShareMessage(), reportbackItem.media.uri)}
+          >
+          <Text style={Style.actionButtonText}>
+            {"Share your photo".toUpperCase()}
+          </Text>
+        </TouchableHighlight>
+      );
     }
     return(
       <View style={styles.container}>
-       <Text style={[Style.textCaption, styles.countryNameText]}>{user.country}</Text>
-        <Image
+       <Text style={[Style.textCaption, styles.countryNameText]}>
+         {user.country.toUpperCase()}
+        </Text>
+        <NetworkImage
           style={styles.reportbackItemImage}
           source={{uri:reportbackItem.media.uri}}
+          displayProgress={true}
         />
         <View style={styles.contentContainer}>
           <View style={{flexDirection: 'row'}}>
@@ -42,10 +67,11 @@ var ReportbackItemView = React.createClass({
               {campaign.title}
             </Text>
             <Text style={[Style.textCaptionBold, {textAlign: 'right'}]}>
-              {this.props.reportback.quantity} {quantityLabel}
+              {reportback.quantity} {quantityLabel}
             </Text>
           </View>
           <Text style={Style.textBody}>{reportbackItem.caption}</Text>
+          {shareButton}
         </View>
         <View style={styles.userContainer}>
           <Image
@@ -58,7 +84,15 @@ var ReportbackItemView = React.createClass({
         </View>
       </View>
     );
-  }
+  },
+  getShareMessage: function() {
+    var campaign = this.props.campaign;
+    var message = "BAM. I just rocked the " + campaign.title + " campaign on the ";
+    message += "DoSomething app and " + campaign.reportback_info.verb + " ";
+    message += this.props.reportback.quantity.toString() + " ";
+    message += campaign.reportback_info.noun + ". Wanna do it with me?";
+    return message;
+  },
 });
 
 var styles = React.StyleSheet.create({
@@ -84,6 +118,7 @@ var styles = React.StyleSheet.create({
   countryNameText: {
     textAlign: 'right',
     paddingRight: 8,
+    height: 20,
   },
   avatarImage: {
     width: 50,

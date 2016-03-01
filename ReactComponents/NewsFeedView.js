@@ -8,11 +8,16 @@ import React, {
   StyleSheet,
   Text,
   RefreshControl,
-  View
+  View,
+  // Lame way to fix https://github.com/DoSomething/LetsDoThis-iOS/issues/865
+  NativeAppEventEmitter
 } from 'react-native';
+// @see https://github.com/facebook/react-native/issues/5224
+NativeAppEventEmitter;
 
 var Style = require('./Style.js');
 var NewsFeedPost = require('./NewsFeedPost.js');
+var NetworkErrorView = require('./NetworkErrorView.js');
 
 var NewsFeedView = React.createClass({
   getInitialState: function() {
@@ -29,36 +34,39 @@ var NewsFeedView = React.createClass({
     this.fetchData();
   },
   fetchData: function() {
+    this.setState({
+      loaded: false,
+      error: null,
+    });
     fetch(this.props.url)
       .then((response) => response.json())
+      .catch((error) => this.catchError(error))
       .then((responseData) => {
+        if (!responseData) {
+          return;
+        }
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData.posts),
           loaded: true,
           error: null,
         });
       })
-      .catch((error) => this.catchError(error))
       .done();
   },
   catchError: function(error) {
-    console.log(error);
+    console.log("NewsFeed.catchError");
     this.setState({
       error: error,
     });
   },
-  renderError: function() {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text style={Style.textBody}>
-          Epic Fail
-        </Text>
-      </View>
-    );
-  },
   render: function() {
     if (this.state.error) {
-      return this.renderError();
+      return (
+        <NetworkErrorView
+          title="News isn't loading right now"
+          retryHandler={this.fetchData}
+          errorMessage={this.state.error.message}
+        />);
     }
     if (!this.state.loaded) {
       return this.renderLoadingView();
@@ -112,7 +120,7 @@ var NewsFeedView = React.createClass({
 
 var styles = React.StyleSheet.create({
   listView: {
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#DFDFDF',
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10,

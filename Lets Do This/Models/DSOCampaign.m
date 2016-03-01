@@ -24,13 +24,24 @@
 @property (strong, nonatomic, readwrite) NSString *solutionCopy;
 @property (strong, nonatomic, readwrite) NSString *solutionSupportCopy;
 @property (strong, nonatomic, readwrite) NSString *status;
-@property (strong, nonatomic, readwrite) NSString *title;
 @property (strong, nonatomic, readwrite) NSString *tagline;
+@property (strong, nonatomic, readwrite) NSString *title;
+@property (strong, nonatomic, readwrite) NSString *type;
 @property (strong, nonatomic, readwrite) NSURL *coverImageURL;
 
 @end
 
 @implementation DSOCampaign
+
+- (instancetype)initWithCampaignID:(NSInteger)campaignID {
+    self = [super init];
+
+    if (self) {
+        _campaignID = campaignID;
+    }
+    return self;
+}
+
 
 - (instancetype)initWithCampaignID:(NSInteger)campaignID title:(id)title {
     self = [super init];
@@ -47,33 +58,26 @@
 
     if (self) {
         _campaignID = [values valueForKeyAsInt:@"id" nullValue:0];
-        _title = [values valueForKeyAsString:@"title" nullValue:nil];
+        _title = [values valueForKeyAsString:@"title" nullValue:@""];
         _status = [values valueForKeyAsString:@"status" nullValue:@"closed"];
-        NSDictionary *causeDict = [values valueForKeyPath:@"causes.primary"];
-        _cause = [[DSOCause alloc] initWithPhoenixDict:causeDict];
+        _type = [values valueForKeyAsString:@"type" nullValue:@""];
         _tagline = [values valueForKeyAsString:@"tagline" nullValue:@""];
-        _coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:@""];
-        _isCoverImageDarkBackground = [[values valueForKeyPath:@"cover_image.default"] valueForKeyAsBool:@"dark_background" nullValue:NO];
+        _coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri" nullValue:@""];;
         _reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
         _reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
-        _solutionCopy = [[values valueForKeyPath:@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:nil];
+        _solutionCopy = [[values valueForKeyPath:@"solutions.copy"] valueForKeyAsString:@"raw" nullValue:@""];
         if ([values[@"solutions"] objectForKey:@"support_copy"]) {
             // Might be string: see https://github.com/DoSomething/phoenix/issues/5069
             if ([[values[@"solutions"] objectForKey:@"support_copy"] isKindOfClass:[NSString class]]) {
                 _solutionSupportCopy = [values valueForKeyPath:@"solutions.support_copy"];
             }
             else {
-                _solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw" nullValue:nil];
+                _solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw" nullValue:@""];
             }
         }
-        _tags = values[@"tags"];
     }
 	
     return self;
-}
-
-- (NSURL *)coverImageURL {
-    return [NSURL URLWithString:self.coverImage];
 }
 
 - (NSDictionary *)dictionary {
@@ -84,12 +88,26 @@
     else {
         coverImage = @"";
     }
-    return @{
+    // @todo This is hack for default solutionCopy nullValue not being set
+    if (!self.solutionCopy) {
+        self.solutionCopy = @"";
+    }
+    if (!self.solutionSupportCopy) {
+        self.solutionSupportCopy = @"";
+    }
+    NSDictionary *reportbackInfo = @{@"noun" : self.reportbackNoun, @"verb" : self.reportbackVerb};
+    NSDictionary *dict = @{
              @"id" : [NSNumber numberWithInteger:self.campaignID],
+             @"status": self.status,
              @"title" : self.title,
              @"image_url" : coverImage,
              @"tagline" : self.tagline,
+             @"type" : self.type,
+             @"reportback_info" : reportbackInfo,
+             @"solutionCopy" : self.solutionCopy,
+             @"solutionSupportCopy" : self.solutionSupportCopy,
              };
+    return dict;
 }
 
 @end

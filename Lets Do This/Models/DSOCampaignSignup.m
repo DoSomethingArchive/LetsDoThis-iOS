@@ -9,6 +9,13 @@
 #import "DSOCampaignSignup.h"
 #import "NSDictionary+DSOJsonHelper.h"
 
+@interface DSOCampaignSignup ()
+
+@property (assign, nonatomic, readwrite) NSInteger signupID;
+@property (strong, nonatomic) NSDictionary *campaignRun;
+
+@end
+
 @implementation DSOCampaignSignup
 
 - (instancetype)initWithCampaign:(DSOCampaign *)campaign user:(DSOUser *)user {
@@ -16,6 +23,7 @@
 
     if (self) {
         _campaign = campaign;
+        // Dont think we even need this here, its always for the current user and we store signups array on a user.
         _user = user;
     }
 
@@ -26,24 +34,35 @@
     self = [super init];
 
     if (self) {
-        NSInteger reportbackID = [dict valueForKeyAsInt:@"reportback_id" nullValue:0];
-        if (reportbackID > 0 && [dict valueForJSONKey:@"reportback_data"]) {
-            _campaign = [[DSOCampaign alloc] initWithDict:(NSDictionary *)[dict valueForKeyPath:@"reportback_data.campaign"]];
-            NSArray *reportbackItems = [dict[@"reportback_data"] valueForKeyPath:@"reportback_items.data"];
-            // For now, we only support uploading and displaying a single ReportbackItem per Reportback. Future functionality could include uploading multiple ReportbackItems, as per the web.
-            NSDictionary *reportbackItemDict = reportbackItems.firstObject;
-            _reportbackItem = [[DSOReportbackItem alloc] initWithCampaign:self.campaign];
-            _reportbackItem.quantity = [[dict valueForKeyPath:@"reportback_data.quantity"] integerValue];
-            _reportbackItem.caption = reportbackItemDict[@"caption"];
-            _reportbackItem.imageURL =[NSURL URLWithString:[reportbackItemDict valueForKeyPath:@"media.uri"]];
-        }
-        else {
-            // If no reportback_id exists, API returns the campaign simply as a drupal_id (corresponding to its campaign ID, no object returned) -- https://github.com/DoSomething/northstar/issues/210
-            _campaign = [[DSOCampaign alloc] initWithCampaignID:[dict valueForKeyAsInt:@"drupal_id" nullValue:0] title:nil];
-        }
+        _signupID = [dict valueForKeyAsInt:@"id" nullValue:0];
+        _campaign = [[DSOCampaign alloc] initWithDict:dict[@"campaign"]];
+        _campaignRun = dict[@"campaign_run"];
     }
 
     return self;
 }
+
+- (instancetype)initWithID:(NSInteger)signupID campaign:(DSOCampaign *)campaign {
+
+    self = [super init];
+
+    if (self) {
+        _signupID = signupID;
+        _campaign = campaign;
+    }
+
+    return self;
+}
+
+#pragma mark - Accessors
+
+- (NSDictionary *)dictionary {
+    return @{
+             @"id" : [NSNumber numberWithInteger:self.signupID],
+             @"campaign" : self.campaign.dictionary,
+             @"campaign_run": self.campaignRun,
+             };
+}
+
 
 @end
