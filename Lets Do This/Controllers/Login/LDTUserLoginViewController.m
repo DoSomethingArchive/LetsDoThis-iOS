@@ -173,7 +173,7 @@
 }
 
 - (IBAction)passwordEditingChanged:(id)sender {
-    if (self.passwordTextField.text.length > 5) {
+    if (self.passwordTextField.text.length > 0) {
         [self.submitButton enable:YES backgroundColor:LDTTheme.magentaColor];
     }
     else {
