@@ -239,16 +239,17 @@ var UserView = React.createClass({
       );
     }
     return (
-      <View>
+      <View style={styles.headerContainer}>
         <Image
           style={styles.headerBackgroundImage}
           source={require('image!Gradient Background')}>
-          <View style={styles.headerContainer}>
+          <View style={styles.avatarContainer}>
             {avatar}
-             <Text style={[Style.textHeading, styles.headerText]}>
-               {headerText}
-             </Text>
+            <Text style={[Style.textHeading, styles.headerText]}>
+              {headerText}
+            </Text>
           </View>
+
         </Image>
       </View>
     );
@@ -332,15 +333,15 @@ var styles = React.StyleSheet.create({
     paddingTop: 18,
   },
   headerContainer: {
+    justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
-    backgroundColor: 'transparent',
+  },
+  avatarContainer: {
     paddingTop: 20,
+    alignItems: 'center',
   },
   headerBackgroundImage: {
-    flex: 1,
     height: 160,
-    alignItems: 'stretch',    
   },
   avatar: {
     width: 100,
@@ -348,14 +349,13 @@ var styles = React.StyleSheet.create({
     borderRadius: 50,
     borderColor: 'white',
     borderWidth: 2,
-    alignItems: 'center',
   },
   headerText: {
     color: 'white',
     opacity: 0.50,
-    flex: 1,
-    textAlign: 'center',
     paddingTop: 4,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   row: {
     backgroundColor: 'white',
