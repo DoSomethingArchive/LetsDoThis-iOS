@@ -14,6 +14,7 @@ import React, {
 import Dimensions from 'Dimensions';
 
 var Style = require('./Style.js');
+var Helpers = require('./Helpers.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
 var ReportbackItemView = require('./ReportbackItemView.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
@@ -108,7 +109,7 @@ var CampaignView = React.createClass({
           this.setState({
             signup: true,
           });
-          if (signup.reportback) {
+          if (Helpers.reportbackItemExistsForSignup(signup)) {
             this.setState({
               reportback: signup.reportback,
             });

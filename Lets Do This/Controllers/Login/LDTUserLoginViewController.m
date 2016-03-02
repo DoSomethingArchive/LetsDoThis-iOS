@@ -143,7 +143,12 @@
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];
-        [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
+        if (error.code == -1011) {
+            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Sorry, unrecognized email or password."];
+        }
+        else {
+            [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
+        }
         [self.emailTextField setBorderColor:UIColor.redColor];
     }];
 }
@@ -168,7 +173,7 @@
 }
 
 - (IBAction)passwordEditingChanged:(id)sender {
-    if (self.passwordTextField.text.length > 5) {
+    if (self.passwordTextField.text.length > 0) {
         [self.submitButton enable:YES backgroundColor:LDTTheme.magentaColor];
     }
     else {
