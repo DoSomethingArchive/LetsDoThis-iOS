@@ -73,6 +73,7 @@
 }
 
 - (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    CLS_LOG(@"login");
     [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
         self.user = user;
         // Needed for when we're logging in as a different user.
@@ -85,6 +86,9 @@
             completionHandler(user);
         }
       } errorHandler:^(NSError *error) {
+          if (error.code >= 500) {
+              [self recordError:error logMessage:@"login"];
+          }
           if (errorHandler) {
               errorHandler(error);
           }
@@ -106,12 +110,15 @@
     [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:self.sessionToken];
 
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
+    NSString *logMessage = [NSString stringWithFormat:@"user %@", userID];
+    CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] loadUserWithID:userID completionHandler:^(DSOUser *user) {
         self.user = user;
         if (completionHandler) {
             completionHandler();
         }
     } errorHandler:^(NSError *error) {
+        [self recordError:error logMessage:logMessage];
         if (errorHandler) {
             errorHandler(error);
         }
@@ -125,6 +132,8 @@
 }
 
 - (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *logMessage = @"logout";
+    CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
         [self endSession];
         if (completionHandler) {
@@ -135,6 +144,7 @@
         if (error.code != -1009) {
             [self endSession];
         }
+        [self recordError:error logMessage:logMessage];
         if (errorHandler) {
             errorHandler(error);
         }
@@ -142,6 +152,8 @@
 }
 
 - (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaign.campaignID];
+    CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
         // @todo Just send raw response vs signup.dictionary to avoid potential bugs like https://github.com/DoSomething/LetsDoThis-iOS/issues/850
@@ -150,6 +162,7 @@
             completionHandler(signup);
         }
     } errorHandler:^(NSError *error) {
+        [self recordError:error logMessage:logMessage];
         if (errorHandler) {
             errorHandler(error);
         }
@@ -157,6 +170,8 @@
 }
 
 - (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)reportbackItem.campaign.campaignID];
+    CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *reportbackDict) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)reportbackItem.campaign.campaignID] value:nil];
         [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:reportbackDict];
@@ -164,6 +179,7 @@
             completionHandler(reportbackDict);
         }
     } errorHandler:^(NSError *error) {
+        [self recordError:error logMessage:logMessage];
         if (errorHandler) {
             errorHandler(error);
         }
@@ -171,8 +187,8 @@
 }
 
 -(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    CLS_LOG(@"%@", avatarImage);
     [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(id responseObject) {
-
         NSDictionary *responseDict = responseObject[@"data"];
         self.user.avatarURL = responseDict[@"photo"];
         NSLog(@"postAvatarImage currentUserChanged eventDispatcher");
@@ -182,6 +198,7 @@
             completionHandler(responseDict);
         }
     } errorHandler:^(NSError * error) {
+        [self recordError:error logMessage:@"avatar"];
         if (errorHandler) {
             errorHandler(error);
         }
@@ -198,17 +215,28 @@
 }
 
 - (void)loadAndStoreCampaignWithID:(NSInteger)campaignID completionHandler:(void (^)(DSOCampaign *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+    NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaignID];
+    CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] loadCampaignWithID:campaignID completionHandler:^(DSOCampaign *campaign) {
+        CLS_LOG(@"stored");
         [self.mutableCampaigns addObject:campaign];
-        NSLog(@"[DSOUserManager] Stored Campaign ID %li.", (long)campaign.campaignID);
         if (completionHandler) {
             completionHandler(campaign);
         }
     } errorHandler:^(NSError *error) {
+        [self recordError:error logMessage:logMessage];
         if (errorHandler) {
             errorHandler(error);
         }
     }];
+}
+
+- (void)recordError:(NSError *)error logMessage:(NSString *)logMessage {
+    CLS_LOG(@"Error code %li -- %@", (long)error.code, logMessage);
+    // Only record error in Crashlytics if error is NOT lack of connectivity or timeout.
+    if ((error.code != -1009) && (error.code != -1001)) {
+        [CrashlyticsKit recordError:error];
+    }
 }
 
 @end
