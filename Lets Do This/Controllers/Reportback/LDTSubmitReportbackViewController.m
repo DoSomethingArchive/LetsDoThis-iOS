@@ -130,7 +130,7 @@
     }
     if (errorMessages.count > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
-        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage subtitle:nil];
         self.captionTextIsValid = NO;
         [self.submitButton enable:NO];
         return NO;
@@ -156,7 +156,7 @@
     }
     if (errorMessages.count > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
-        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage subtitle:nil];
         self.quantityTextIsValid = NO;
         [self.submitButton enable:NO];
         return NO;
@@ -264,7 +264,7 @@
         }
         NSUInteger newLength = [textField.text length] + [string length] - range.length;
         if (newLength > 60) {
-            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Your caption can't be longer than 60 characters."];
+            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Your caption can't be longer than 60 characters." subtitle:nil];
             return NO;
         }
         else {
