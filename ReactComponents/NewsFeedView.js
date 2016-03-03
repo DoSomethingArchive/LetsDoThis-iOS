@@ -81,7 +81,7 @@ var NewsFeedView = React.createClass({
           <RefreshControl
             refreshing={this.state.isRefreshing}
             onRefresh={this._onRefresh}
-            tintColor="#3932A9"
+            tintColor="#CCC"
             colors={['#ff0000', '#00ff00', '#0000ff']}
             progressBackgroundColor="#ffff00"
           />
