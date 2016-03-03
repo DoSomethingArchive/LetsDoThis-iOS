@@ -13,6 +13,7 @@
 #import "UITextField+LDT.h"
 #import "GAI+LDT.h"
 #import "NSString+RemoveEmoji.h"
+#import <Crashlytics/Crashlytics.h>
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -181,6 +182,10 @@
             }];
 
         } failure:^(NSError *error) {
+            // Only record error in Crashlytics if error is NOT lack of connectivity, timeout, or email already exists.
+            if ((error.code != -1009) && (error.code != -1001) && (error.code != 422)) {
+                [CrashlyticsKit recordError:error];
+            }
             [SVProgressHUD dismiss];
             [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
         }];
