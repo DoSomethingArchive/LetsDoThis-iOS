@@ -180,7 +180,7 @@
 
 - (void)handleFeedbackTap:(UITapGestureRecognizer *)recognizer {
     [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on feedback form" label:nil value:nil];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://docs.google.com/a/dosomething.org/forms/d/1KUWQgfuoKpUXg7uuurXSgYQ3RCuxwNVSrGeb_kDRqf8/viewform?edit_requested=true"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://docs.google.com/a/dosomething.org/forms/d/1KUWQgfuoKpUXg7uuurXSgYQ3RCuxwNVSrGeb_kDRqf8/viewform"]];
 }
 
 - (void)handleRateTap:(UITapGestureRecognizer *)recognizer {
