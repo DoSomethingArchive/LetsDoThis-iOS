@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDTUserRegisterViewController">
@@ -31,14 +31,12 @@
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XhN-FG-gBt" userLabel="Headline">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="21"/>
-                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hON-y7-TtZ" userLabel="Select Avatar Button">
                             <rect key="frame" x="250" y="29" width="100" height="100"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="100" id="Xfx-6N-hU8"/>
                                 <constraint firstAttribute="height" constant="100" id="fJv-s0-Eg5"/>
@@ -52,7 +50,6 @@
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nkh-6g-VOu" userLabel="Avatar Image View">
                             <rect key="frame" x="250" y="29" width="100" height="100"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="100" id="nta-qi-c8g"/>
                                 <constraint firstAttribute="width" constant="100" id="pzn-S8-LOs"/>
@@ -63,12 +60,11 @@
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QjS-W9-vkE">
                                     <rect key="frame" x="0.0" y="0.0" width="584" height="44"/>
-                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="qVc-13-aZu"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                     <connections>
                                         <action selector="firstNameEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="86I-af-i9h"/>
                                         <action selector="firstNameEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="nbT-qO-hqj"/>
@@ -76,12 +72,11 @@
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mfy-Oc-Vpw">
                                     <rect key="frame" x="0.0" y="52" width="584" height="44"/>
-                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="wNI-IZ-zCO"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                     <connections>
                                         <action selector="emailEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="LIT-XD-dSn"/>
                                         <action selector="emailEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="HEW-0X-uDa"/>
@@ -89,12 +84,11 @@
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password (6+ characters...make it tricky!)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dxA-aT-bK7">
                                     <rect key="frame" x="0.0" y="156" width="584" height="44"/>
-                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="Ay5-af-5xt"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                                     <connections>
                                         <action selector="passwordEditingChanged:" destination="-1" eventType="editingChanged" id="kE1-qZ-Eh0"/>
                                         <action selector="passwordEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="P1w-BR-BWV"/>
@@ -103,19 +97,17 @@
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number (Optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CZ0-O0-iWG">
                                     <rect key="frame" x="0.0" y="104" width="584" height="44"/>
-                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="dIh-2c-kP8"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                     <connections>
                                         <action selector="mobileEditingDidBegin:" destination="-1" eventType="editingDidBegin" id="rQP-g7-jLa"/>
                                         <action selector="mobileEditingDidEnd:" destination="-1" eventType="editingDidEnd" id="RSk-J1-pW5"/>
                                     </connections>
                                 </textField>
                             </subviews>
-                            <animations/>
                             <constraints>
                                 <constraint firstItem="QjS-W9-vkE" firstAttribute="top" secondItem="bhL-AU-dqT" secondAttribute="top" id="53y-2r-P5K"/>
                                 <constraint firstAttribute="trailing" secondItem="Mfy-Oc-Vpw" secondAttribute="trailing" id="HAk-5r-bHy"/>
@@ -135,7 +127,6 @@
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WQo-g9-7HX" userLabel="Submit Button" customClass="LDTButton">
                             <rect key="frame" x="8" y="374" width="584" height="50"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="2VJ-5B-9qs"/>
                             </constraints>
@@ -148,7 +139,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ggr-KI-p8I" userLabel="Link to Login Screen" customClass="LDTButton">
                             <rect key="frame" x="277" y="432" width="47" height="30"/>
-                            <animations/>
                             <state key="normal" title="Sign In">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -158,7 +148,6 @@
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cyo-DU-kOw">
                             <rect key="frame" x="37" y="478" width="526" height="15"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="9xr-Pb-sNQ"/>
                             </constraints>
@@ -217,7 +206,6 @@
                             </variation>
                         </label>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="Cyo-DU-kOw" firstAttribute="leading" secondItem="lQg-IH-mxS" secondAttribute="leading" constant="37" id="6G1-Jx-8SQ"/>
@@ -257,7 +245,6 @@
                     </variation>
                 </scrollView>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="lQg-IH-mxS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="5Mm-ba-h3D"/>
