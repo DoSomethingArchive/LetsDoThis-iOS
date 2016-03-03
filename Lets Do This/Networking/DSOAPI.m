@@ -95,19 +95,17 @@
     [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
 }
 
-- (void)createUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler {
+- (void)createUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler {
     if (!countryCode) {
         countryCode = @"";
     }
     NSString *url = @"auth/register?create_drupal_user=1";
-    NSDictionary *params = @{@"email": email,
-                             @"password": password,
-                             @"first_name": firstName,
-                             @"mobile": mobile,
-                             @"country": countryCode,
-                             @"source": LDTSOURCENAME};
+    NSMutableDictionary *params = [@{@"email" : email, @"password": password, @"first_name" : firstName, @"mobile" : mobile, @"country" : countryCode, @"source" : LDTSOURCENAME} mutableCopy];
+    if (deviceToken) {
+        params[@"parse_installation_ids"] = deviceToken;
+    }
     
-    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:url parameters:[params copy] success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler(responseObject);
         }
@@ -121,8 +119,7 @@
 
 - (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = @"auth/token";
-    NSDictionary *params = @{@"email": email,
-                             @"password": password};
+    NSDictionary *params = @{@"email" : email, @"password" : password};
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         NSMutableDictionary *userDict = [[responseObject valueForKeyPath:@"data.user.data"] mutableCopy];
@@ -159,8 +156,11 @@
     }];
 }
 
-- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)logoutWithDeviceToken:(NSString *)deviceToken completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = @"auth/invalidate";
+    if (deviceToken) {
+        url = [NSString stringWithFormat:@"%@?parse_installation_ids=%@", url, deviceToken];
+    }
     [self POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler(responseObject);

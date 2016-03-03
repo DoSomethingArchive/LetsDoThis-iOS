@@ -58,14 +58,24 @@
     }
 }
 
+// @todo: Implement setSessionToken: instaed of calling SSKeychain.
+- (NSString *)sessionToken {
+    return [SSKeychain passwordForService:self.currentService account:@"Session"];
+}
+
+
+#pragma mark - DSOUserManager
+
 - (NSString *)currentService {
     return [DSOAPI sharedInstance].baseURL.absoluteString;
 }
 
-#pragma mark - DSOUserManager
-
 - (LDTAppDelegate *)appDelegate {
     return ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
+}
+
+- (NSString *)deviceToken {
+    return [self appDelegate].deviceToken;
 }
 
 - (BOOL)userHasCachedSession {
@@ -95,9 +105,6 @@
       }];
 }
 
-- (NSString *)sessionToken {
-    return [SSKeychain passwordForService:self.currentService account:@"Session"];
-}
 
 - (void)continueSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     if (self.sessionToken.length == 0) {
@@ -131,10 +138,10 @@
     self.user = nil;
 }
 
-- (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)endSessionWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *logMessage = @"logout";
     CLS_LOG(@"%@", logMessage);
-    [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
+    [[DSOAPI sharedInstance] logoutWithDeviceToken:self.deviceToken completionHandler:^(NSDictionary *responseDict) {
         [self endSession];
         if (completionHandler) {
             completionHandler();

@@ -18,6 +18,7 @@
 
 @interface LDTAppDelegate()
 
+@property (strong, nonatomic, readwrite) NSString *deviceToken;
 @property (strong, nonatomic, readwrite) NSURL *jsCodeLocation;
 @property (strong, nonatomic, readwrite) RCTBridge *bridge;
 
@@ -102,11 +103,11 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     currentInstallation.channels = @[ @"global" ];
     [currentInstallation saveInBackground];
+    self.deviceToken = [[[NSString stringWithFormat:@"%@", deviceToken] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
