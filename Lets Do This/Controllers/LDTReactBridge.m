@@ -88,7 +88,7 @@ RCT_EXPORT_METHOD(postSignup:(NSInteger)campaignID) {
         [LDTMessage displaySuccessMessageInViewController:self.tabBarController title:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", campaign.title]];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
-        [LDTMessage displayErrorMessageInViewController:self.tabBarController title:error.readableTitle];
+        [LDTMessage displayErrorMessageInViewController:self.tabBarController title:error.readableTitle subtitle:error.readableMessage];
     }];
 }
 
