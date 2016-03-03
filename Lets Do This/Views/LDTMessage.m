@@ -11,8 +11,8 @@
 
 @implementation LDTMessage
 
-+ (void)displayErrorMessageInViewController:(UIViewController *)viewController title:(NSString *)title {
-    [self showNotificationInViewController:viewController title:title subtitle:nil image:nil type:TSMessageNotificationTypeError duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
++ (void)displayErrorMessageInViewController:(UIViewController *)viewController title:(NSString *)title subtitle:(NSString *)subtitle{
+    [self showNotificationInViewController:viewController title:title subtitle:subtitle image:nil type:TSMessageNotificationTypeError duration:TSMessageNotificationDurationAutomatic callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionNavBarOverlay canBeDismissedByUser:YES];
 }
 
 + (void)displayErrorMessageForError:(NSError *)error {

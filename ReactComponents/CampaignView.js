@@ -308,7 +308,7 @@ var CampaignView = React.createClass({
       var message = "Ayy! This campaign is closed. Go back a page for actions you can do right now.";
       content = this.renderClosedContent(message);
     }
-    if (this.state.campaign.type != 'campaign') {
+    else if (this.state.campaign.type != 'campaign') {
       var message = "This action is only available via SMS.";
       content = this.renderClosedContent(message);
     }

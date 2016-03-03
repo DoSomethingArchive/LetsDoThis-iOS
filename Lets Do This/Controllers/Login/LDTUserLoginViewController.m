@@ -127,7 +127,7 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if (![self validateEmailForCandidate:self.emailTextField.text]) {
-        [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Please enter a valid email."];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Please enter a valid email."subtitle:nil];
         return;
     }
     [self.view endEditing:YES];
@@ -144,7 +144,7 @@
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];
         if (error.code == -1011) {
-            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Sorry, unrecognized email or password."];
+            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Sorry, unrecognized email or password." subtitle:nil];
         }
         else {
             [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
