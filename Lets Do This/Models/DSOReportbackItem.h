@@ -22,6 +22,4 @@
 - (instancetype)initWithCampaign:(DSOCampaign *)campaign;
 - (instancetype)initWithDict:(NSDictionary *)dict;
 
-+ (NSArray *)sortReportbackItemsAsPromotedFirst:(NSArray *)reportbackItems;
-
 @end
