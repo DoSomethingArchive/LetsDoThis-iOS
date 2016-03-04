@@ -7,7 +7,6 @@
 //
 
 #import "DSOCampaign.h"
-#import "NSDate+DSO.h"
 #import "NSDictionary+DSOJsonHelper.h"
 
 @interface DSOCampaign ()
