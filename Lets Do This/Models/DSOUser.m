@@ -34,16 +34,16 @@
         _userID = dict[@"_id"];
         // Hack to hotfix inconsistent API id property: https://github.com/DoSomething/LetsDoThis-iOS/issues/340
         if (!_userID) {
-            _userID = [dict valueForKeyAsString:@"id" nullValue:@"null-id"];
+            _userID = [dict valueForKeyAsString:@"id"];
         }
         if ([dict objectForKey:@"country"]) {
             _countryCode = dict[@"country"];
         }
-        _firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Doer"];
+        _firstName = [dict valueForKeyAsString:@"first_name"];
         _email = dict[@"email"];
-        _phoenixID = [dict valueForKeyAsInt:@"drupal_id" nullValue:0];
+        _phoenixID = [dict valueForKeyAsInt:@"drupal_id"];
         _sessionToken = dict[@"session_token"];
-        _avatarURL = [dict valueForKeyAsString:@"photo" nullValue:@""];
+        _avatarURL = [dict valueForKeyAsString:@"photo"];
         if ([dict valueForJSONKey:@"parse_installation_ids"]) {
             _deviceTokens = dict[@"parse_installation_ids"];
         }
