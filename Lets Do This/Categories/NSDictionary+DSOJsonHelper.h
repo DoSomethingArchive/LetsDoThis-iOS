@@ -10,10 +10,8 @@
 
 - (id)valueForJSONKey:(NSString *)key;
 - (NSString *)valueForKeyAsString:(NSString *)key;
-- (NSString *)valueForKeyAsString:(NSString *)key nullValue:(NSString *)nullValue;
-- (NSInteger)valueForKeyAsInt:(NSString *)key nullValue:(NSInteger)nullValue;
-- (BOOL)valueForKeyAsBool:(NSString *)key nullValue:(BOOL)nullValue;
-- (NSDate *)valueForKeyAsDate:(NSString *)key nullValue:(NSDate *)nullValue;
+- (NSInteger)valueForKeyAsInt:(NSString *)key;
+- (BOOL)valueForKeyAsBool:(NSString *)key;
 
 @end
 
@@ -21,9 +19,7 @@
 
 - (id)valueForJSONKey:(NSString *)key;
 - (NSString *)valueForKeyAsString:(NSString *)key;
-- (NSString *)valueForKeyAsString:(NSString *)key nullValue:(NSString *)nullValue;
-- (NSInteger)valueForKeyAsInt:(NSString *)key nullValue:(NSInteger)nullValue;
-- (BOOL)valueForKeyAsBool:(NSString *)key nullValue:(BOOL)nullValue;
-- (NSDate *)valueForKeyAsDate:(NSString *)key nullValue:(NSDate *)nullValue;
+- (NSInteger)valueForKeyAsInt:(NSString *)key;
+- (BOOL)valueForKeyAsBool:(NSString *)key;
 
 @end

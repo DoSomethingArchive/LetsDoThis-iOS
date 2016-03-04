@@ -39,16 +39,16 @@
     self = [super init];
 
     if (self) {
-        _reportbackItemID = [dict valueForKeyAsInt:@"id" nullValue:0];
-        _quantity = [[dict valueForKeyPath:@"reportback"] valueForKeyAsInt:@"quantity" nullValue:0];
-        _created = [[dict valueForKeyPath:@"reportback"] valueForKeyAsInt:@"created_at" nullValue:0];
+        _reportbackItemID = [dict valueForKeyAsInt:@"id"];
+        _quantity = [[dict valueForKeyPath:@"reportback"] valueForKeyAsInt:@"quantity"];
+        _created = [[dict valueForKeyPath:@"reportback"] valueForKeyAsInt:@"created_at"];
         _caption = [dict valueForKeyAsString:@"caption"];
         _status = [dict valueForKeyAsString:@"status"];
-        _imageUri = [[dict valueForKeyPath:@"media"] valueForKeyAsString:@"uri" nullValue:nil];
+        _imageUri = [[dict valueForKeyPath:@"media"] valueForKeyAsString:@"uri"];
         _imageURL = [NSURL URLWithString:self.imageUri];
         _user = [[DSOUser alloc] initWithDict:dict[@"user"]];
         NSInteger campaignID = [[dict valueForKeyPath:@"campaign.id"] intValue];
-        NSString *campaignTitle = [dict[@"campaign"] valueForKeyAsString:@"title" nullValue:nil];
+        NSString *campaignTitle = [dict[@"campaign"] valueForKeyAsString:@"title"];
         _campaign = [[DSOCampaign alloc] initWithCampaignID:campaignID title:campaignTitle];
     }
 

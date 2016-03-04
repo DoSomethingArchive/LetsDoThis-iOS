@@ -34,7 +34,7 @@
     self = [super init];
 
     if (self) {
-        _signupID = [dict valueForKeyAsInt:@"id" nullValue:0];
+        _signupID = [dict valueForKeyAsInt:@"id"];
         _campaign = [[DSOCampaign alloc] initWithDict:dict[@"campaign"]];
         _campaignRun = dict[@"campaign_run"];
     }
