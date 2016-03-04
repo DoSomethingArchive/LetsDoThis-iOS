@@ -16,6 +16,7 @@
 #import "LDTCauseDetailViewController.h"
 #import "LDTNewsArticleViewController.h"
 #import "LDTMessage.h"
+#import "LDTTheme.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "LDTActivityViewController.h"
 
@@ -44,6 +45,19 @@ RCT_EXPORT_MODULE();
 // @see http://facebook.github.io/react-native/docs/native-modules-ios.html#threading
 - (dispatch_queue_t)methodQueue {
     return dispatch_get_main_queue();
+}
+
+- (NSDictionary *)constantsToExport {
+    return @{
+             @"fontName": LDTTheme.fontName,
+             @"fontNameBold": LDTTheme.fontBoldName,
+             @"fontSizeCaption": [NSNumber numberWithFloat:LDTTheme.fontSizeCaption],
+             @"fontSizeBody": [NSNumber numberWithFloat:LDTTheme.fontSizeBody],
+             @"fontSizeHeading": [NSNumber numberWithFloat:LDTTheme.fontSizeHeading],
+             @"fontSizeTitle": [NSNumber numberWithFloat:LDTTheme.fontSizeTitle],
+             @"colorCtaBlue" : LDTTheme.hexCtaBlue,
+             @"colorCopyGray" : LDTTheme.hexCopyGray,
+             };
 }
 
 RCT_EXPORT_METHOD(pushUser:(NSDictionary *)userDict) {
