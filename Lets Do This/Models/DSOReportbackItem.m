@@ -64,13 +64,4 @@
     return _campaign;
 }
 
-#pragma mark - DSOReportbackItem
-
-+ (NSArray *)sortReportbackItemsAsPromotedFirst:(NSArray *)reportbackItems {
-    NSSortDescriptor *promotedSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"status" ascending:NO];
-    NSSortDescriptor *createdSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:NO];
-    NSArray *sortDescriptors = @[promotedSortDescriptor, createdSortDescriptor];
-    return [reportbackItems sortedArrayUsingDescriptors:sortDescriptors];
-}
-
 @end
