@@ -8,6 +8,7 @@
 
 #import "LDTUserRegisterViewController.h"
 #import "LDTTheme.h"
+#import "LDTAppDelegate.h"
 #import "LDTTabBarController.h"
 #import "LDTUserLoginViewController.h"
 #import "UITextField+LDT.h"
@@ -153,8 +154,10 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
         [self.view endEditing:YES];
+        LDTAppDelegate *appDelegate = (LDTAppDelegate *)[UIApplication sharedApplication].delegate;
+
         [SVProgressHUD showWithStatus:@"Creating account..."];
-        [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode success:^(NSDictionary *response) {
+        [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode deviceToken:appDelegate.deviceToken success:^(NSDictionary *response) {
             
             if (self.mobileTextField.text) {
                 [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"provide mobile number" label:nil value:nil];
@@ -169,6 +172,7 @@
                         NSLog(@"Unsuccessful user avatar upload: %@", error.localizedDescription);
                     }];
                 }
+
                 if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
                     LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
                     [rootVC dismissViewControllerAnimated:YES completion:^{

@@ -12,6 +12,7 @@
 
 @interface DSOUser : NSObject
 
+@property (nonatomic, strong, readonly) NSArray *deviceTokens;
 @property (nonatomic, strong, readonly) NSDictionary *dictionary;
 @property (nonatomic, assign, readonly) NSInteger phoenixID;
 @property (nonatomic, strong) NSString *avatarURL;
