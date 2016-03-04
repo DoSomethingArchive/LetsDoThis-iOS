@@ -228,6 +228,22 @@
       }];
 }
 
+- (void)postCurrentUserDeviceToken:(NSString *)deviceToken completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = @"profile";
+    NSDictionary *params = @{@"parse_installation_ids" : deviceToken};
+    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (completionHandler) {
+            completionHandler(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
+
 - (void)loadCampaignWithID:(NSInteger)campaignID completionHandler:(void(^)(DSOCampaign *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"%@campaigns/%li", self.phoenixApiURL, (long)campaignID];
 

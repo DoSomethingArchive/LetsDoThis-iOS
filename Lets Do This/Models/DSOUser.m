@@ -13,6 +13,7 @@
 
 @interface DSOUser()
 
+@property (nonatomic, strong, readwrite) NSArray *deviceTokens;
 @property (nonatomic, assign, readwrite) NSInteger phoenixID;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
@@ -43,6 +44,7 @@
         _phoenixID = [dict valueForKeyAsInt:@"drupal_id" nullValue:0];
         _sessionToken = dict[@"session_token"];
         _avatarURL = [dict valueForKeyAsString:@"photo" nullValue:@""];
+        _deviceTokens = dict[@"parse_installation_ids"];
     }
 
     return self;

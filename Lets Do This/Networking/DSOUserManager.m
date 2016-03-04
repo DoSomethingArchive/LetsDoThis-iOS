@@ -121,6 +121,26 @@
     CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] loadUserWithID:userID completionHandler:^(DSOUser *user) {
         self.user = user;
+        NSString *deviceToken = [self appDelegate].deviceToken;
+
+        if (deviceToken) {
+            BOOL deviceTokenStored = NO;
+            for (NSString *tokenString in self.user.deviceTokens) {
+                if ([deviceToken isEqualToString:tokenString]) {
+                    deviceTokenStored = YES;
+                }
+            }
+            if (!deviceTokenStored) {
+                NSString *tokenLogMessage = [NSString stringWithFormat:@"Posting device token %@", deviceToken];
+                CLS_LOG(@"%@", tokenLogMessage);
+                [[DSOAPI sharedInstance] postCurrentUserDeviceToken:deviceToken completionHandler:^(NSDictionary *response) {
+                    NSLog(@"Device token posted.");
+                } errorHandler:^(NSError *error) {
+                   [self recordError:error logMessage:tokenLogMessage];
+                }];
+            }
+        }
+
         if (completionHandler) {
             completionHandler();
         }
