@@ -118,7 +118,6 @@ var CauseListView = React.createClass({
           <View style={[styles.contentContainer, styles.bordered]}>
             <View>
               <Text style={Style.textHeading}>{cause.title}</Text>
-              <Text style={Style.textCaption}>{cause.description}</Text>
             </View>
           </View>
           <View style={[styles.arrowContainer, styles.bordered]}>
