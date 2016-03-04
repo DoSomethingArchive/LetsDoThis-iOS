@@ -44,7 +44,12 @@
         _phoenixID = [dict valueForKeyAsInt:@"drupal_id" nullValue:0];
         _sessionToken = dict[@"session_token"];
         _avatarURL = [dict valueForKeyAsString:@"photo" nullValue:@""];
-        _deviceTokens = dict[@"parse_installation_ids"];
+        if ([dict valueForJSONKey:@"parse_installation_ids"]) {
+            _deviceTokens = dict[@"parse_installation_ids"];
+        }
+        else {
+            _deviceTokens = [[NSArray alloc] init];
+        }
     }
 
     return self;
