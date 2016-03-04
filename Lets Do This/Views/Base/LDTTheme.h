@@ -32,5 +32,11 @@
 +(UIFont *)fontTitle;
 +(NSString *)fontName;
 +(NSString *)fontBoldName;
++ (NSString *)hexCopyGray;
++ (NSString *)hexCtaBlue;
++ (CGFloat)fontSizeCaption;
++ (CGFloat)fontSizeBody;
++ (CGFloat)fontSizeHeading;
++ (CGFloat)fontSizeTitle;
 
 @end
