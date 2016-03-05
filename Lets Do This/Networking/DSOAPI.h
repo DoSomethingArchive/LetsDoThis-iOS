@@ -10,7 +10,6 @@
 #import "DSOUser.h"
 #import "DSOCampaign.h"
 #import "DSOReportbackItem.h"
-#import "DSOCampaignSignup.h"
 #import "DSOCause.h"
 #import "DSOSignup.h"
 #import "DSOReportback.h"
