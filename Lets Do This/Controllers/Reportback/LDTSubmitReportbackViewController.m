@@ -18,7 +18,7 @@
 @property (assign, nonatomic) BOOL captionTextIsValid;
 @property (assign, nonatomic) BOOL quantityTextIsValid;
 @property (strong, nonatomic) DSOCampaign *campaign;
-@property (strong, nonatomic) UIImage *reportbackItemImage;
+@property (strong, nonatomic) UIImage *selectedImage;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
@@ -38,12 +38,12 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithCampaign:(DSOCampaign *)campaign reportbackItemImage:(UIImage *)reportbackItemImage {
+- (instancetype)initWithCampaign:(DSOCampaign *)campaign selectedImage:(UIImage *)selectedImage {
     self = [super initWithNibName:@"LDTSubmitReportbackView" bundle:nil];
 
     if (self) {
         _campaign = campaign;
-        _reportbackItemImage = reportbackItemImage;
+        _selectedImage = selectedImage;
     }
 
     return self;
@@ -56,7 +56,7 @@
 
     self.title = [NSString stringWithFormat:@"I did %@", self.campaign.title].uppercaseString;
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
-    self.primaryImageView.image = self.reportbackItemImage;
+    self.primaryImageView.image = self.selectedImage;
     self.captionTextField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
     self.captionTextField.placeholder = @"Caption your photo (60 chars or less)";
     self.quantityTextField.placeholder = [NSString stringWithFormat:@"Number of %@ %@", self.campaign.reportbackNoun, self.campaign.reportbackVerb];
@@ -97,7 +97,7 @@
     [self.backgroundImageView.layer addSublayer:backgroundImageMaskLayer];
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.backgroundImageView.layer.masksToBounds = YES;
-    self.backgroundImageView.image = self.reportbackItemImage;
+    self.backgroundImageView.image = self.selectedImage;
     
     self.primaryImageView.layer.masksToBounds = YES;
     self.primaryImageView.layer.borderColor = UIColor.whiteColor.CGColor;
@@ -189,7 +189,7 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     [self.view endEditing:YES];
     [SVProgressHUD showWithStatus:@"Uploading..."];
-    NSString *fileString = [UIImagePNGRepresentation(self.reportbackItemImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    NSString *fileString = [UIImagePNGRepresentation(self.selectedImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
 
     LDTTabBarController *rootVC = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
 
@@ -226,9 +226,9 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    self.reportbackItemImage = info[UIImagePickerControllerEditedImage];
-    self.backgroundImageView.image = self.reportbackItemImage;
-    self.primaryImageView.image = self.reportbackItemImage;
+    self.selectedImage = info[UIImagePickerControllerEditedImage];
+    self.backgroundImageView.image = self.selectedImage;
+    self.primaryImageView.image = self.selectedImage;
 }
 
 # pragma mark - UINavigationControllerDelegate
