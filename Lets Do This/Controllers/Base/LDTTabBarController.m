@@ -233,7 +233,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
             }];
         }
         else {
-            LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithCampaign:self.proveItCampaign reportbackItemImage:selectedImage];
+            LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithCampaign:self.proveItCampaign selectedImage:selectedImage];
             UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
             [self presentViewController:destNavVC animated:YES completion:nil];
         }

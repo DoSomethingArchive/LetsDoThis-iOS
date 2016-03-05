@@ -212,30 +212,6 @@
     }];
 }
 
-- (void)postReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = @"reportbacks";
-    NSDictionary *params = @{
-                             @"campaign_id": [NSNumber numberWithInteger:reportbackItem.campaign.campaignID],
-                             @"quantity": [NSNumber numberWithInteger:reportbackItem.quantity],
-                             @"caption": reportbackItem.caption,
-                             // why_participated is a required property on server-side that we currently don't collect in the app.
-                             @"why_participated": reportbackItem.caption,
-                             @"source": LDTSOURCENAME,
-                             @"file": [UIImagePNGRepresentation(reportbackItem.image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]
-                             };
-
-    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        if (completionHandler) {
-            completionHandler(responseObject[@"data"]);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
-        if (errorHandler) {
-            errorHandler(error);
-        }
-    }];
-}
-
 - (void)loadUserWithID:(NSString *)userID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -292,31 +268,6 @@
             errorHandler(error);
         }
     }];
-}
-
-- (void)loadReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSMutableArray *campaignIds = [[NSMutableArray alloc] init];
-    for (DSOCampaign *campaign in campaigns) {
-        [campaignIds addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];
-    }
-
-    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?load_user=true&status=%@&campaigns=%@", self.phoenixApiURL, status,[campaignIds componentsJoinedByString:@","]];
-
-    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-          NSMutableArray *rbItems = [[NSMutableArray alloc] init];
-          for (NSDictionary* rbItemDict in responseObject[@"data"]) {
-              DSOReportbackItem *rbItem = [[DSOReportbackItem alloc] initWithDict:rbItemDict];
-              [rbItems addObject:rbItem];
-          }
-          if (completionHandler) {
-              completionHandler(rbItems);
-          }
-      } failure:^(NSURLSessionDataTask *task, NSError *error) {
-          [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
-          if (errorHandler) {
-              errorHandler(error);
-          }
-      }];
 }
 
 - (void)logError:(NSError *)error methodName:(NSString *)methodName URLString:(NSString *)URLString {
