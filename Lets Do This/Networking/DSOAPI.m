@@ -173,13 +173,36 @@
     }];
 }
 
-- (void)postSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)postSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSDictionary *params = @{@"campaign_id" : [NSNumber numberWithInteger:campaign.campaignID], @"source" : LDTSOURCENAME};
     NSString *url = @"signups";
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:responseObject[@"data"]];
         if (completionHandler) {
-            completionHandler(signup);
+            completionHandler((DSOSignup *)responseObject[@"data"]);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
+- (void)postReportbackForCampaign:(DSOCampaign *)campaign fileString:(NSString *)fileString caption:(NSString *)caption quantity:(NSInteger)quantity completionHandler:(void(^)(DSOReportback *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = @"reportbacks";
+    NSDictionary *params = @{
+                             @"campaign_id": [NSNumber numberWithInteger:campaign.campaignID],
+                             @"quantity": [NSNumber numberWithInteger:quantity],
+                             @"caption": caption,
+                             // why_participated is a required property server-side that we currently don't collect in the app.
+                             @"why_participated": caption,
+                             @"source": LDTSOURCENAME,
+                             @"file": fileString,
+                             };
+
+    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (completionHandler) {
+            completionHandler((DSOReportback *)responseObject[@"data"]);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];

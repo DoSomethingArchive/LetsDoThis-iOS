@@ -97,7 +97,7 @@ RCT_EXPORT_METHOD(presentNewsArticle:(NSInteger)newsPostID urlString:(NSString *
 RCT_EXPORT_METHOD(postSignup:(NSInteger)campaignID) {
     DSOCampaign *campaign = [[DSOUserManager sharedInstance] campaignWithID:campaignID];
     [SVProgressHUD showWithStatus:@"Signing up..."];
-    [[DSOUserManager sharedInstance] signupUserForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
+    [[DSOUserManager sharedInstance] signupForCampaign:campaign completionHandler:^(DSOSignup *signup) {
         [SVProgressHUD dismiss];
         [LDTMessage displaySuccessMessageInViewController:self.tabBarController title:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", campaign.title]];
     } errorHandler:^(NSError *error) {

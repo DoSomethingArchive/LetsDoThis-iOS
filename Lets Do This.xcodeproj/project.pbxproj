@@ -36,6 +36,8 @@
 		B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27FD03E1BBD99FF00A44952 /* LDTEpicFailView.xib */; };
 		B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */; };
 		B28124D21BAA1FB700DF58DA /* UIViewController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124D11BAA1FB700DF58DA /* UIViewController+LDT.m */; };
+		B290D4C21C8A58A7009E6295 /* DSOReportback.m in Sources */ = {isa = PBXBuildFile; fileRef = B290D4C11C8A58A7009E6295 /* DSOReportback.m */; };
+		B290D4C51C8A5961009E6295 /* DSOSignup.m in Sources */ = {isa = PBXBuildFile; fileRef = B290D4C41C8A5961009E6295 /* DSOSignup.m */; };
 		B2963E071BD83CC700D2B6EE /* LDTOnboardingPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2963E061BD83CC700D2B6EE /* LDTOnboardingPageView.xib */; };
 		B2963E0A1BD83D1000D2B6EE /* LDTOnboardingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2963E091BD83D1000D2B6EE /* LDTOnboardingPageViewController.m */; };
 		B29A657F1BB60F0B008C0E2A /* DSOCampaignSignup.m in Sources */ = {isa = PBXBuildFile; fileRef = B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */; };
@@ -124,6 +126,10 @@
 		B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+LDT.m"; sourceTree = "<group>"; };
 		B28124D01BAA1FB700DF58DA /* UIViewController+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+LDT.h"; sourceTree = "<group>"; };
 		B28124D11BAA1FB700DF58DA /* UIViewController+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+LDT.m"; sourceTree = "<group>"; };
+		B290D4C01C8A58A7009E6295 /* DSOReportback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOReportback.h; sourceTree = "<group>"; };
+		B290D4C11C8A58A7009E6295 /* DSOReportback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOReportback.m; sourceTree = "<group>"; };
+		B290D4C31C8A5961009E6295 /* DSOSignup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOSignup.h; sourceTree = "<group>"; };
+		B290D4C41C8A5961009E6295 /* DSOSignup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOSignup.m; sourceTree = "<group>"; };
 		B2963E061BD83CC700D2B6EE /* LDTOnboardingPageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTOnboardingPageView.xib; path = Onboarding/LDTOnboardingPageView.xib; sourceTree = "<group>"; };
 		B2963E081BD83D1000D2B6EE /* LDTOnboardingPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTOnboardingPageViewController.h; path = Onboarding/LDTOnboardingPageViewController.h; sourceTree = "<group>"; };
 		B2963E091BD83D1000D2B6EE /* LDTOnboardingPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTOnboardingPageViewController.m; path = Onboarding/LDTOnboardingPageViewController.m; sourceTree = "<group>"; };
@@ -483,6 +489,10 @@
 				C20BA2821AF3DBE400E9886F /* DSOUser.m */,
 				C20BA2771AF3DBE400E9886F /* DSOCampaign.h */,
 				C20BA2781AF3DBE400E9886F /* DSOCampaign.m */,
+				B290D4C31C8A5961009E6295 /* DSOSignup.h */,
+				B290D4C41C8A5961009E6295 /* DSOSignup.m */,
+				B290D4C01C8A58A7009E6295 /* DSOReportback.h */,
+				B290D4C11C8A58A7009E6295 /* DSOReportback.m */,
 				B29A657D1BB60F0B008C0E2A /* DSOCampaignSignup.h */,
 				B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */,
 				B223AD741B7A724000D4AA40 /* DSOReportbackItem.h */,
@@ -758,6 +768,7 @@
 				B22AB7661B4EE78500BE7052 /* LDTUserLoginViewController.m in Sources */,
 				B223AD761B7A724000D4AA40 /* DSOReportbackItem.m in Sources */,
 				B2F2BA831C6440BF001EB1D5 /* LDTUserViewController.m in Sources */,
+				B290D4C21C8A58A7009E6295 /* DSOReportback.m in Sources */,
 				B24FE0311BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m in Sources */,
 				B22273FE1B58076F005C896D /* DSOAPI.m in Sources */,
 				C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */,
@@ -773,6 +784,7 @@
 				B211C4221C3AF54800A94E64 /* LDTCauseListViewController.m in Sources */,
 				B2E652DF1B4380AD00EF9D69 /* LDTTheme.m in Sources */,
 				B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */,
+				B290D4C51C8A5961009E6295 /* DSOSignup.m in Sources */,
 				C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */,
 				B2753E391BD17C49004DDD6A /* GAI+LDT.m in Sources */,
 				B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */,
