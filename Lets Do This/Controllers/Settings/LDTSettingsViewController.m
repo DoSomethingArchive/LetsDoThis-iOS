@@ -147,7 +147,7 @@
         [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"log out" label:nil value:nil];
         [SVProgressHUD showWithStatus:@"Logging out..."];
 
-        [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
+        [[DSOUserManager sharedInstance] logoutWithCompletionHandler:^ {
             [SVProgressHUD dismiss];
             [self pushUserConnectViewController];
         } errorHandler:^(NSError *error) {

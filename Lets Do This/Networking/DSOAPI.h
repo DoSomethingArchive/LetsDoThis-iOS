@@ -25,22 +25,22 @@
 
 + (DSOAPI *)sharedInstance;
 
-// Creates a DoSomething.org account with given properties. This API call does not additionally create an authenticated sesssion to log the user in, must additionally call createSessionForEmail:password:completionHandler:errorHandler.
+// Creates a DoSomething.org account with given properties. This API call does not automatically create an authenticated sesssion to log the user in, must additionally call createSessionForEmail:password:completionHandler:errorHandler.
 - (void)createUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler;
 
-// Creates authenticated session for given email/password combination, returns the corresponding loaded DSOUser upon copmletion.
+// Creates authenticated session for given email/password combination, returns the corresponding loaded DSOUser upon completion.
 - (void)createSessionForEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 // Loads the current user with saved sessionToken, if exists.
 - (void)loadCurrentUserWithCompletionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-// @todo Rename as endSession to keep consistent
-// Removes deviceToken from the current User's account, and ends session.
-- (void)logoutWithDeviceToken:(NSString *)deviceToken completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Ends session and removes deviceToken from the current User's account. deviceToken may be set to nil if user has not granted push notifications.
+- (void)endSessionWithDeviceToken:(NSString *)deviceToken completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 // Used to override ending a session for edge case failed logout requests (e.g. 401).
 - (void)deleteSessionToken;
 
+// Posts avatar for the given user (which should always be the current authenticated user).
 - (void)postAvatarForUser:(DSOUser *)user avatarImage:(UIImage *)avatarImage completionHandler:(void(^)(id))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 - (void)postReportbackForCampaign:(DSOCampaign *)campaign fileString:(NSString *)fileString caption:(NSString *)caption quantity:(NSInteger)quantity completionHandler:(void(^)(DSOReportback *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;

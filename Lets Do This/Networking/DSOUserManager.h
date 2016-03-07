@@ -25,11 +25,11 @@
 // Returns whether an authenticated user session has been saved.
 - (BOOL)userHasCachedSession;
 
-// Logs out the user and deletes the saved session tokens. Called when User logs out from Settings screen.
-- (void)endSessionWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Logs out the user and deletes the current user and saved session tokens. Called when User logs out from Settings screen.
+- (void)logoutWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-// Deletes the current user and saved session tokens, without making API requests. Hack for now to solve for scenarios where logout request seems to complete but we didn't get a chance to delete the logged in user's saved session tokens.
-- (void)endSession;
+// Deletes the current user and saved session tokens, without making API request. Hack for now to solve for scenarios where logout request seems to complete but we didn't get a chance to delete the logged in user's saved session tokens.
+- (void)forceLogout;
 
 // Posts Signup to API, calls relevant GoogleAnalytics and React Native eventDispatcher.
 - (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;

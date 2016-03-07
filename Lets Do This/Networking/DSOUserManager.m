@@ -53,6 +53,7 @@
     if (user) {
         [Crashlytics sharedInstance].userIdentifier = user.userID;
         [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
+        // Store userID for when we want to log network request to continue saved session (but don't want to log the actual sessionToken) in continueSessionWithCompletionHandler:errorHandler.
         [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];
     }
     else {
@@ -142,23 +143,22 @@
     }];
 }
 
-- (void)endSession {
+- (void)forceLogout {
     self.user = nil;
 }
 
-- (void)endSessionWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)logoutWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *logMessage = @"logout";
     CLS_LOG(@"%@", logMessage);
-    [[DSOAPI sharedInstance] logoutWithDeviceToken:self.deviceToken completionHandler:^(NSDictionary *responseDict) {
-        [self endSession];
+    [[DSOAPI sharedInstance] endSessionWithDeviceToken:self.deviceToken completionHandler:^(NSDictionary *responseDict) {
+        self.user = nil;
         if (completionHandler) {
             completionHandler();
         }
     } errorHandler:^(NSError *error) {
-        // Only perform logout tasks if error is NOT a lack of connectivity.
-        // @todo: Or timeout
-        if (error.code != -1009) {
-            [self endSession];
+        // Only perform logout tasks if error is NOT a lack of connectivity or timeout.
+        if ((error.code != -1009) && (error.code != -1001)) {
+            self.user = nil;
         }
         [self recordError:error logMessage:logMessage];
         if (errorHandler) {

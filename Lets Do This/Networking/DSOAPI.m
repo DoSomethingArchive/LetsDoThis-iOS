@@ -104,7 +104,6 @@
     return [SSKeychain passwordForService:self.currentService account:@"Session"];
 }
 
-
 #pragma mark - DSOAPI
 
 - (void)createUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler {
@@ -167,7 +166,7 @@
     }];
 }
 
-- (void)logoutWithDeviceToken:(NSString *)deviceToken completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)endSessionWithDeviceToken:(NSString *)deviceToken completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = @"auth/invalidate";
     if (deviceToken) {
         url = [NSString stringWithFormat:@"%@?parse_installation_ids=%@", url, deviceToken];
