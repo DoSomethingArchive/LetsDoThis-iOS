@@ -54,23 +54,17 @@
         [Crashlytics sharedInstance].userIdentifier = user.userID;
         [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
         [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];
-        if (user.sessionToken) {
-            // Save session in Keychain for when app is quit.
-            [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
-        }
     }
     else {
         [Crashlytics sharedInstance].userIdentifier = nil;
-        [SSKeychain deletePasswordForService:self.currentService account:@"Session"];
         [SSKeychain deletePasswordForService:self.currentService account:@"UserID"];
+        // Force delete cached API session if it hasn't been properly deleted.
+        NSString *sessionToken = [DSOAPI sharedInstance].sessionToken;
+        if (sessionToken && sessionToken.length > 0) {
+            [[DSOAPI sharedInstance] deleteSessionToken];
+        }
     }
 }
-
-// @todo: Implement setSessionToken: instaed of calling SSKeychain.
-- (NSString *)sessionToken {
-    return [SSKeychain passwordForService:self.currentService account:@"Session"];
-}
-
 
 #pragma mark - DSOUserManager
 
@@ -87,7 +81,7 @@
 }
 
 - (BOOL)userHasCachedSession {
-    return self.sessionToken.length > 0;
+    return [DSOAPI sharedInstance].sessionToken.length > 0;
 }
 
 - (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
@@ -107,16 +101,15 @@
       }];
 }
 
-
 - (void)continueSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    if (self.sessionToken.length == 0) {
+    if ([DSOAPI sharedInstance].sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
     }
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     NSString *logMessage = [NSString stringWithFormat:@"user %@", userID];
     CLS_LOG(@"%@", logMessage);
-    [[DSOAPI sharedInstance] loadUserWithSession:self.sessionToken completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] loadCurrentUserWithCompletionHandler:^(DSOUser *user) {
         self.user = user;
         NSString *deviceToken = [self appDelegate].deviceToken;
 
@@ -149,19 +142,23 @@
     }];
 }
 
+- (void)endSession {
+    self.user = nil;
+}
 
 - (void)endSessionWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *logMessage = @"logout";
     CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] logoutWithDeviceToken:self.deviceToken completionHandler:^(NSDictionary *responseDict) {
-        self.user = nil;
+        [self endSession];
         if (completionHandler) {
             completionHandler();
         }
     } errorHandler:^(NSError *error) {
         // Only perform logout tasks if error is NOT a lack of connectivity.
+        // @todo: Or timeout
         if (error.code != -1009) {
-            self.user = nil;
+            [self endSession];
         }
         [self recordError:error logMessage:logMessage];
         if (errorHandler) {

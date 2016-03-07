@@ -89,11 +89,23 @@
     return self;
 }
 
-#pragma mark - DSOAPI
+#pragma mark - Accessors
 
-- (void)setHTTPHeaderFieldSession:(NSString *)token {
-    [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
+- (NSString *)currentService {
+    return self.baseURL.absoluteString;
 }
+
+- (void)setSessionToken:(NSString *)sessionToken {
+    [SSKeychain setPassword:sessionToken forService:self.currentService account:@"Session"];
+    [self.requestSerializer setValue:sessionToken forHTTPHeaderField:@"Session"];
+}
+
+- (NSString *)sessionToken {
+    return [SSKeychain passwordForService:self.currentService account:@"Session"];
+}
+
+
+#pragma mark - DSOAPI
 
 - (void)createUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler {
     if (!countryCode) {
@@ -123,13 +135,8 @@
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         NSString *sessionToken = [responseObject valueForKeyPath:@"data.key"];
-        [self setHTTPHeaderFieldSession:sessionToken];
-
-        // This may warrant a more graceful solution, but it's a quick way to implement the API changes in https://github.com/DoSomething/northstar/pull/268. Include the session token in our return DSOUser so the DSOUserManager is able to set the session in Keychain.
-        // The other alternative here (which doesn't sound so bad) is that DSOAPI should store the session within the SSKeychain.
-        NSMutableDictionary *userDict = [[responseObject valueForKeyPath:@"data.user.data"] mutableCopy];
-        userDict[@"session_token"] = sessionToken;
-        DSOUser *user = [[DSOUser alloc] initWithDict:[userDict copy]];
+        self.sessionToken = sessionToken;
+        DSOUser *user = [[DSOUser alloc] initWithDict:[responseObject valueForKeyPath:@"data.user.data"]];
         if (completionHandler) {
             completionHandler(user);
         }
@@ -166,6 +173,7 @@
         url = [NSString stringWithFormat:@"%@?parse_installation_ids=%@", url, deviceToken];
     }
     [self POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self deleteSessionToken];
         if (completionHandler) {
             completionHandler(responseObject);
         }
@@ -175,6 +183,10 @@
             errorHandler(error);
         }
     }];
+}
+
+- (void)deleteSessionToken {
+    [SSKeychain deletePasswordForService:self.currentService account:@"Session"];
 }
 
 - (void)postSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
@@ -216,8 +228,11 @@
     }];
 }
 
-- (void)loadUserWithSession:(NSString *)session completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
-    [self setHTTPHeaderFieldSession:session];
+- (void)loadCurrentUserWithCompletionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+    if (!self.sessionToken) {
+        // @todo: Return error here
+    }
+    [self.requestSerializer setValue:self.sessionToken forHTTPHeaderField:@"Session"];
     NSString *url = [NSString stringWithFormat:@"profile"];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];

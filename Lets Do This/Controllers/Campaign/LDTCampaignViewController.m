@@ -65,7 +65,7 @@
                       @"signupUrl" : signupURLString,
                       @"currentUser" : [DSOUserManager sharedInstance].user.dictionary,
                       @"apiKey": [DSOAPI sharedInstance].apiKey,
-                      @"sessionToken": [DSOUserManager sharedInstance].sessionToken,
+                      @"sessionToken": [DSOAPI sharedInstance].sessionToken,
                       };
     __block LDTAppDelegate *appDelegate = (LDTAppDelegate *)[UIApplication sharedApplication].delegate;
     self.reactRootView = [[RCTRootView alloc] initWithBridge:appDelegate.bridge moduleName:@"CampaignView" initialProperties: appProperties];

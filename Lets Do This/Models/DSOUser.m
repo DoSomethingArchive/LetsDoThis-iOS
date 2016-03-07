@@ -18,7 +18,6 @@
 @property (nonatomic, strong, readwrite) NSString *email;
 @property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *mobile;
-@property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *userID;
 
 @end
@@ -40,7 +39,6 @@
         _firstName = [dict valueForKeyAsString:@"first_name"];
         _email = dict[@"email"];
         _phoenixID = [dict valueForKeyAsInt:@"drupal_id"];
-        _sessionToken = dict[@"session_token"];
         _avatarURL = [dict valueForKeyAsString:@"photo"];
         if ([dict valueForJSONKey:@"parse_installation_ids"]) {
             _deviceTokens = dict[@"parse_installation_ids"];
