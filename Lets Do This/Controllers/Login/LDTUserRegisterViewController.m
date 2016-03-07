@@ -162,7 +162,7 @@
                 [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"provide mobile number" label:nil value:nil];
             }
 
-            [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
+            [[DSOUserManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
                 if (self.userDidPickAvatarPhoto) {
                     [[DSOUserManager sharedInstance] postAvatarImage:self.imageView.image sendAppEvent:NO completionHandler:^(NSDictionary *completionHandler) {
                         NSLog(@"Successful user avatar upload.");

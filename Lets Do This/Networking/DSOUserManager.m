@@ -52,9 +52,17 @@
     _user = user;
     if (user) {
         [Crashlytics sharedInstance].userIdentifier = user.userID;
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
+        [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];
+        if (user.sessionToken) {
+            // Save session in Keychain for when app is quit.
+            [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
+        }
     }
     else {
         [Crashlytics sharedInstance].userIdentifier = nil;
+        [SSKeychain deletePasswordForService:self.currentService account:@"Session"];
+        [SSKeychain deletePasswordForService:self.currentService account:@"UserID"];
     }
 }
 
@@ -82,14 +90,10 @@
     return self.sessionToken.length > 0;
 }
 
-- (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     CLS_LOG(@"login");
-    [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] createSessionForEmail:email password:password completionHandler:^(DSOUser *user) {
         self.user = user;
-        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
-        // Save session in Keychain for when app is quit.
-        [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
-        [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];
         if (completionHandler) {
             completionHandler(user);
         }
@@ -145,24 +149,19 @@
     }];
 }
 
-- (void)endSession {
-    [SSKeychain deletePasswordForService:self.currentService account:@"Session"];
-    [SSKeychain deletePasswordForService:self.currentService account:@"UserID"];
-    self.user = nil;
-}
 
 - (void)endSessionWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *logMessage = @"logout";
     CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] logoutWithDeviceToken:self.deviceToken completionHandler:^(NSDictionary *responseDict) {
-        [self endSession];
+        self.user = nil;
         if (completionHandler) {
             completionHandler();
         }
     } errorHandler:^(NSError *error) {
         // Only perform logout tasks if error is NOT a lack of connectivity.
         if (error.code != -1009) {
-            [self endSession];
+            self.user = nil;
         }
         [self recordError:error logMessage:logMessage];
         if (errorHandler) {

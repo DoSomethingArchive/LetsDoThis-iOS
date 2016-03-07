@@ -117,7 +117,7 @@
     }];
 }
 
-- (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)createSessionForEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = @"auth/token";
     NSDictionary *params = @{@"email" : email, @"password" : password};
 

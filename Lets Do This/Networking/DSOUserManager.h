@@ -19,8 +19,8 @@
 // Singleton object for accessing authenticated User, stored campaigns.
 + (DSOUserManager *)sharedInstance;
 
-// Posts login request to the API with given email and password, and saves session tokens to remain authenticated upon future app usage.
-- (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Posts auth request to the API with given email and password, and saves session tokens to remain authenticated upon future app usage.
+- (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 // Use saved session to set relevant DSOAPI headers and loads the current user.
 - (void)continueSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;

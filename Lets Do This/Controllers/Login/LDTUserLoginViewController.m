@@ -131,7 +131,7 @@
     }
     [self.view endEditing:YES];
     [SVProgressHUD showWithStatus:@"Signing in..."];
-    [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
+    [[DSOUserManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
         [SVProgressHUD dismiss];
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     } errorHandler:^(NSError *error) {
