@@ -212,8 +212,9 @@
     }];
 }
 
-- (void)loadUserWithID:(NSString *)userID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
+- (void)loadUserWithSession:(NSString *)session completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+    [self setHTTPHeaderFieldSession:session];
+    NSString *url = [NSString stringWithFormat:@"profile"];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
           if (completionHandler) {

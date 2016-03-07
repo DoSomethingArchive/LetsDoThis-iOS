@@ -111,15 +111,10 @@
         // @todo: Should return error here.
         return;
     }
-
-    // @todo: Once Northstar API supports it, actively check for whether or saved session is valid before trying to start.
-    // @see https://github.com/DoSomething/northstar/issues/186
-    [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:self.sessionToken];
-
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     NSString *logMessage = [NSString stringWithFormat:@"user %@", userID];
     CLS_LOG(@"%@", logMessage);
-    [[DSOAPI sharedInstance] loadUserWithID:userID completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] loadUserWithSession:self.sessionToken completionHandler:^(DSOUser *user) {
         self.user = user;
         NSString *deviceToken = [self appDelegate].deviceToken;
 
