@@ -11,7 +11,6 @@
 #import "LDTButton.h"
 #import "LDTMessage.h"
 #import "LDTUserRegisterViewController.h"
-#import "LDTTabBarController.h"
 #import "UITextField+LDT.h"
 #import "GAI+LDT.h"
 
@@ -132,14 +131,9 @@
     }
     [self.view endEditing:YES];
     [SVProgressHUD showWithStatus:@"Signing in..."];
-    [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
+    [[DSOUserManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
         [SVProgressHUD dismiss];
-        if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
-            LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
-            [rootVC dismissViewControllerAnimated:YES completion:^{
-                [rootVC reloadCurrentUser];
-            }];
-        }
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];

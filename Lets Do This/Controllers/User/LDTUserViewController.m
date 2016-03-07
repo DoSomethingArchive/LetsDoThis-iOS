@@ -102,7 +102,7 @@
     NSString *sessionToken = @"";
     if (self.user) {
         userDict = self.user.dictionary;
-        sessionToken = [DSOUserManager sharedInstance].sessionToken;
+        sessionToken = [DSOAPI sharedInstance].sessionToken;
     }
     appProperties = @{
            @"user" : userDict,

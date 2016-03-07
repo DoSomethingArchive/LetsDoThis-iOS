@@ -8,7 +8,8 @@
 
 @interface LDTTabBarController : UITabBarController
 
-- (void)reloadCurrentUser;
+// Pops each child UINavigationController to its RootView, sets selectedTab to first.
+- (void)reset;
 
 - (void)presentAvatarAlertController;
 

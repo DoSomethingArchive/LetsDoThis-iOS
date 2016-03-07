@@ -111,8 +111,8 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
         [SVProgressHUD dismiss];
         // If we receieve HTTP 401 error:
         if (error.code == -1011) {
-            // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, therefore just use endSession.
-            [[DSOUserManager sharedInstance] endSession];
+            // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, so instead use the force.
+            [[DSOUserManager sharedInstance] forceLogout];
             [self presentUserConnectViewController];
         }
         else {
@@ -121,11 +121,11 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
     }];
 }
 
-- (void)reloadCurrentUser {
-    // @todo Pop all child view controllers, not just first.
-    UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
-    [initialVC popToRootViewControllerAnimated:YES];
-    [self loadCurrentUser];
+- (void)reset {
+    for (UINavigationController *child in self.viewControllers) {
+        [child popToRootViewControllerAnimated:YES];
+    }
+    self.selectedIndex = 0;
 }
 
 - (void)presentEpicFailForError:(NSError *)error {
