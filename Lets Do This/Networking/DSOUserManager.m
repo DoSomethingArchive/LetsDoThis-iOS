@@ -51,10 +51,10 @@
 - (void)setUser:(DSOUser *)user {
     _user = user;
     if (user) {
-        [[Crashlytics sharedInstance] setUserIdentifier:user.userID];
+        [Crashlytics sharedInstance].userIdentifier = user.userID;
     }
     else {
-        [[Crashlytics sharedInstance] setUserIdentifier:nil];
+        [Crashlytics sharedInstance].userIdentifier = nil;
     }
 }
 
@@ -86,9 +86,7 @@
     CLS_LOG(@"login");
     [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
         self.user = user;
-        // Needed for when we're logging in as a different user.
         [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
-        [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
         // Save session in Keychain for when app is quit.
         [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
         [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];

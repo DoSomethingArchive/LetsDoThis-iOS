@@ -122,9 +122,13 @@
     NSDictionary *params = @{@"email" : email, @"password" : password};
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSString *sessionToken = [responseObject valueForKeyPath:@"data.key"];
+        [self setHTTPHeaderFieldSession:sessionToken];
+
+        // This may warrant a more graceful solution, but it's a quick way to implement the API changes in https://github.com/DoSomething/northstar/pull/268. Include the session token in our return DSOUser so the DSOUserManager is able to set the session in Keychain.
+        // The other alternative here (which doesn't sound so bad) is that DSOAPI should store the session within the SSKeychain.
         NSMutableDictionary *userDict = [[responseObject valueForKeyPath:@"data.user.data"] mutableCopy];
-        // This may warrant a more graceful solution, but it's a quick way to implement the API changes in https://github.com/DoSomething/northstar/pull/268. Include the session token in our return DSOUser so any methods calling this one has access to the session token required for authenticated requests.
-        userDict[@"session_token"] = [responseObject valueForKeyPath:@"data.key"];
+        userDict[@"session_token"] = sessionToken;
         DSOUser *user = [[DSOUser alloc] initWithDict:[userDict copy]];
         if (completionHandler) {
             completionHandler(user);

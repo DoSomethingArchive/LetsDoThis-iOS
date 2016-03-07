@@ -16,7 +16,7 @@
 // Stores session token for authenticated API requests.
 @property (strong, nonatomic, readonly) NSString *sessionToken;
 
-// Singleton object for accessing authenticated User, activeCampaigns
+// Singleton object for accessing authenticated User, stored campaigns.
 + (DSOUserManager *)sharedInstance;
 
 // Posts login request to the API with given email and password, and saves session tokens to remain authenticated upon future app usage.
@@ -34,10 +34,13 @@
 // Deletes the current user and saved session tokens, without making API requests. Hack for now to solve for scenarios where logout request seems to complete but we didn't get a chance to delete the logged in user's saved session tokens.
 - (void)endSession;
 
+// Posts Signup to API, calls relevant GoogleAnalytics and React Native eventDispatcher.
 - (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
+// Posts Reportback to API, calls relevant GoogleAnalytics and React Native eventDispatcher.
 - (void)reportbackForCampaign:(DSOCampaign *)campaign fileString:(NSString *)fileString caption:(NSString *)caption quantity:(NSInteger)quantity completionHandler:(void(^)(DSOReportback *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
+// Posts Avatar to API, calls React Native eventDispatcher if sendAppEvent.
 - (void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler ;
 
 // Returns DSOCampaign from local storage, if exists.
