@@ -9,7 +9,6 @@
 #import "LDTUserRegisterViewController.h"
 #import "LDTTheme.h"
 #import "LDTAppDelegate.h"
-#import "LDTTabBarController.h"
 #import "LDTUserLoginViewController.h"
 #import "UITextField+LDT.h"
 #import "GAI+LDT.h"
@@ -164,7 +163,6 @@
             }
 
             [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
-                
                 if (self.userDidPickAvatarPhoto) {
                     [[DSOUserManager sharedInstance] postAvatarImage:self.imageView.image sendAppEvent:NO completionHandler:^(NSDictionary *completionHandler) {
                         NSLog(@"Successful user avatar upload.");
@@ -172,14 +170,8 @@
                         NSLog(@"Unsuccessful user avatar upload: %@", error.localizedDescription);
                     }];
                 }
-
-                if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
-                    LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
-                    [rootVC dismissViewControllerAnimated:YES completion:^{
-                        [SVProgressHUD dismiss];
-                        [rootVC reloadCurrentUser];
-                    }];
-                }
+                [SVProgressHUD dismiss];
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             } errorHandler:^(NSError *error) {
                 [SVProgressHUD dismiss];
                 [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];

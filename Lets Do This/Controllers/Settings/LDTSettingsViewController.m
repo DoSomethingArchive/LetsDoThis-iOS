@@ -172,10 +172,12 @@
 
 - (void)pushUserConnectViewController {
     [self.navigationController pushViewController:[[LDTUserConnectViewController alloc] init] animated:YES];
+    // @todo: statusBar color change
+    // @see https://github.com/DoSomething/LetsDoThis-iOS/issues/893
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
-    // Now that tabBar is hidden, select the first tab, so it will be the first tab selected upon next login.
+
     LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    [tabBar setSelectedIndex:0];
+    [tabBar reset];
 }
 
 - (void)handleFeedbackTap:(UITapGestureRecognizer *)recognizer {

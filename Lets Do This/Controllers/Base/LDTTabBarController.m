@@ -121,11 +121,11 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
     }];
 }
 
-- (void)reloadCurrentUser {
-    // @todo Pop all child view controllers, not just first.
-    UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
-    [initialVC popToRootViewControllerAnimated:YES];
-    [self loadCurrentUser];
+- (void)reset {
+    for (UINavigationController *child in self.viewControllers) {
+        [child popToRootViewControllerAnimated:YES];
+    }
+    self.selectedIndex = 0;
 }
 
 - (void)presentEpicFailForError:(NSError *)error {
