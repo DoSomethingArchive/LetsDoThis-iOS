@@ -270,8 +270,8 @@
         // API returns 200 if campaign is not found, so check for valid ID.
         if (campaign.campaignID == 0) {
             NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
-            errorDetails[NSLocalizedDescriptionKey] = @"Action not found.";
-            NSError *error = [NSError errorWithDomain:@"world" code:200 userInfo:errorDetails];
+            errorDetails[NSLocalizedDescriptionKey] = [NSString stringWithFormat:@"Campaign ID %li not found.", (long)campaignID];
+            NSError *error = [NSError errorWithDomain:@"org.dosomething.www" code:404 userInfo:errorDetails];
             if (errorHandler) {
                 errorHandler(error);
             }
