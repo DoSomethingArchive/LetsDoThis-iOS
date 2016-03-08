@@ -9,6 +9,7 @@
 @interface NSDictionary (DSOJsonHelper)
 
 - (id)valueForJSONKey:(NSString *)key;
+- (NSDictionary *)dictionaryForKeyPath:(NSString *)keyPath;
 - (NSString *)valueForKeyAsString:(NSString *)key;
 - (NSInteger)valueForKeyAsInt:(NSString *)key;
 - (BOOL)valueForKeyAsBool:(NSString *)key;

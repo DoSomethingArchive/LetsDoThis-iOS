@@ -28,6 +28,8 @@
 
 @implementation DSOCampaign
 
+#pragma mark - NSObject
+
 - (instancetype)initWithCampaignID:(NSInteger)campaignID {
     self = [super init];
 
@@ -57,44 +59,58 @@
         _status = [values valueForKeyAsString:@"status"];
         _type = [values valueForKeyAsString:@"type"];
         _tagline = [values valueForKeyAsString:@"tagline"];
-        _reportbackNoun = [values valueForKeyPath:@"reportback_info.noun"];
-        _reportbackVerb = [values valueForKeyPath:@"reportback_info.verb"];
-        _coverImage = [[values valueForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri"];
-        _solutionCopy = [[values valueForKeyPath:@"solutions.copy"] valueForKeyAsString:@"raw"];
-        _solutionSupportCopy = [[values valueForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw"];
+
+        if ([values dictionaryForKeyPath:@"reportback_info"]) {
+            _reportbackNoun = [values[@"reportback_info"] valueForKeyAsString:@"noun"];
+            _reportbackVerb = [values[@"reportback_info"] valueForKeyAsString:@"verb"];
+        }
+        else {
+            _reportbackNoun = @"";
+            _reportbackVerb = @"";
+        }
+
+        if ([values dictionaryForKeyPath:@"cover_image.default.sizes.landscape"]) {
+            _coverImage = [[values dictionaryForKeyPath:@"cover_image.default.sizes.landscape"] valueForKeyAsString:@"uri"];
+        }
+        else {
+            _coverImage = @"";
+        }
+
+        if ([values dictionaryForKeyPath:@"solutions.copy"]) {
+            _solutionCopy = [[values dictionaryForKeyPath:@"solutions.copy"] valueForKeyAsString:@"raw"];
+        }
+        else {
+            _solutionCopy = @"";
+        }
+
+        if ([values dictionaryForKeyPath:@"solutions.support_copy"]) {
+            _solutionSupportCopy = [[values dictionaryForKeyPath:@"solutions.support_copy"] valueForKeyAsString:@"raw"];
+        }
+        else {
+            _solutionSupportCopy = @"";
+        }
     }
 	
     return self;
 }
 
+#pragma mark - Accessors
+
 - (NSDictionary *)dictionary {
-    NSString *coverImage;
-    if (self.coverImage) {
-        coverImage = self.coverImage;
-    }
-    else {
-        coverImage = @"";
-    }
-    // @todo This is hack for default solutionCopy nullValue not being set
-    if (!self.solutionCopy) {
-        self.solutionCopy = @"";
-    }
-    if (!self.solutionSupportCopy) {
-        self.solutionSupportCopy = @"";
-    }
-    NSDictionary *reportbackInfo = @{@"noun" : self.reportbackNoun, @"verb" : self.reportbackVerb};
-    NSDictionary *dict = @{
+    return @{
              @"id" : [NSNumber numberWithInteger:self.campaignID],
              @"status": self.status,
              @"title" : self.title,
-             @"image_url" : coverImage,
+             @"image_url" : self.coverImage,
              @"tagline" : self.tagline,
              @"type" : self.type,
-             @"reportback_info" : reportbackInfo,
+             @"reportback_info" : @{
+                     @"noun" : self.reportbackNoun,
+                     @"verb" : self.reportbackVerb
+                     },
              @"solutionCopy" : self.solutionCopy,
              @"solutionSupportCopy" : self.solutionSupportCopy,
              };
-    return dict;
 }
 
 @end
