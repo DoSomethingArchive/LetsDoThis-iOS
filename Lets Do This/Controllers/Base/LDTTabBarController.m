@@ -249,3 +249,29 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
 }
 
 @end
+
+// Fixes crash when user selects photo with 3D touch (GH issue #925)
+// @see http://stackoverflow.com/a/34899938/1470725
+// LDTTabBarContoller is the only ViewController in our app with a UIImagePickerController, so declaring this within this class for now. If we add photos from another ViewController, we'll want to split this out into a different category class to DRY.
+
+@interface UICollectionViewController (LDT) <UIViewControllerPreviewingDelegate>
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location;
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+     commitViewController:(UIViewController *)viewControllerToCommit;
+
+@end
+
+@implementation UICollectionViewController (LDT)
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
+    return nil;
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+     commitViewController:(UIViewController *)viewControllerToCommit {
+    return;
+}
+
+@end
