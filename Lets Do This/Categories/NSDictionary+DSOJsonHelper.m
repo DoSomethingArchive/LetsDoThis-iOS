@@ -7,7 +7,6 @@
 //
 
 #import "NSDictionary+DSOJsonHelper.h"
-#import "NSDate+DSO.h"
 
 @implementation NSDictionary (DSOJsonHelper)
 
@@ -19,16 +18,17 @@
     return value;
 }
 
-- (NSString *)valueForKeyAsString:(NSString *)key {
-    return [self valueForKeyAsString:key nullValue:nil];
+- (NSDictionary *)dictionaryForKeyPath:(NSString *)keyPath {
+    if ([[self valueForKeyPath:keyPath] isKindOfClass:[NSDictionary class]]) {
+        return [self valueForKeyPath:keyPath];
+    }
+    return nil;
 }
 
-#warning I'd like to talk a little more about how we should handle
-// nil values in the app and maybe how we should change some of these methods a little
-- (NSString *)valueForKeyAsString:(NSString *)key nullValue:(NSString *)nullValue {
+- (NSString *)valueForKeyAsString:(NSString *)key; {
     id value = [self valueForJSONKey:key];
     if(value == nil) {
-        return nullValue;
+        return @"";
     }
     if([value isKindOfClass:[NSString class]]) {
         return value;
@@ -36,28 +36,20 @@
     return [NSString stringWithFormat:@"%@", value];
 }
 
-- (NSInteger)valueForKeyAsInt:(NSString *)key nullValue:(NSInteger)nullValue {
+- (NSInteger)valueForKeyAsInt:(NSString *)key {
     id value = [self valueForJSONKey:key];
     if(value == nil) {
-        return nullValue;
+        return 0;
     }
     return [value integerValue];
 }
 
-- (BOOL)valueForKeyAsBool:(NSString *)key nullValue:(BOOL)nullValue {
+- (BOOL)valueForKeyAsBool:(NSString *)key {
     id value = [self valueForJSONKey:key];
     if(value == nil) {
-        return nullValue;
+        return NO;
     }
     return [value boolValue];
-}
-
-- (NSDate *)valueForKeyAsDate:(NSString *)key nullValue:(NSDate *)nullValue {
-    id value = [self valueForJSONKey:key];
-    if(value == nil) {
-        return nullValue;
-    }
-    return [NSDate dateFromISO8601String:value];
 }
 
 @end
@@ -72,20 +64,12 @@
     return nil;
 }
 
-- (NSString *)valueForKeyAsString:(NSString *)key nullValue:(NSString *)nullValue {
-    return nil;
-}
-
-- (NSInteger)valueForKeyAsInt:(NSString *)key nullValue:(NSInteger)nullValue {
+- (NSInteger)valueForKeyAsInt:(NSString *)key {
     return 0;
 }
 
-- (BOOL)valueForKeyAsBool:(NSString *)key nullValue:(BOOL)nullValue {
+- (BOOL)valueForKeyAsBool:(NSString *)key {
     return NO;
-}
-
-- (NSDate *)valueForKeyAsDate:(NSString *)key nullValue:(NSDate *)nullValue {
-    return nil;
 }
 
 @end

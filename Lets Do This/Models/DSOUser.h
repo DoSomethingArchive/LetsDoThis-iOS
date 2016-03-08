@@ -12,6 +12,7 @@
 
 @interface DSOUser : NSObject
 
+@property (nonatomic, strong, readonly) NSArray *deviceTokens;
 @property (nonatomic, strong, readonly) NSDictionary *dictionary;
 @property (nonatomic, assign, readonly) NSInteger phoenixID;
 @property (nonatomic, strong) NSString *avatarURL;
@@ -21,7 +22,6 @@
 @property (nonatomic, strong, readonly) NSString *email;
 @property (nonatomic, strong, readonly) NSString *firstName;
 @property (nonatomic, strong, readonly) NSString *mobile;
-@property (nonatomic, strong, readonly) NSString *sessionToken;
 @property (nonatomic, strong, readonly) NSString *userID;
 @property (nonatomic, strong, readonly) UIImage *photo;
 

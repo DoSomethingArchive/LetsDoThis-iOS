@@ -111,8 +111,8 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
         [SVProgressHUD dismiss];
         // If we receieve HTTP 401 error:
         if (error.code == -1011) {
-            // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, therefore just use endSession.
-            [[DSOUserManager sharedInstance] endSession];
+            // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, so instead use the force.
+            [[DSOUserManager sharedInstance] forceLogout];
             [self presentUserConnectViewController];
         }
         else {
@@ -121,11 +121,11 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
     }];
 }
 
-- (void)reloadCurrentUser {
-    // @todo Pop all child view controllers, not just first.
-    UINavigationController *initialVC = (UINavigationController *)self.viewControllers[0];
-    [initialVC popToRootViewControllerAnimated:YES];
-    [self loadCurrentUser];
+- (void)reset {
+    for (UINavigationController *child in self.viewControllers) {
+        [child popToRootViewControllerAnimated:YES];
+    }
+    self.selectedIndex = 0;
 }
 
 - (void)presentEpicFailForError:(NSError *)error {
@@ -233,7 +233,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
             }];
         }
         else {
-            LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithCampaign:self.proveItCampaign reportbackItemImage:selectedImage];
+            LDTSubmitReportbackViewController *destVC = [[LDTSubmitReportbackViewController alloc] initWithCampaign:self.proveItCampaign selectedImage:selectedImage];
             UINavigationController *destNavVC = [[UINavigationController alloc] initWithRootViewController:destVC];
             [self presentViewController:destNavVC animated:YES completion:nil];
         }
@@ -246,6 +246,32 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
     [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
         [self loadCurrentUser];
     }];
+}
+
+@end
+
+// Fixes crash when user selects photo with 3D touch (GH issue #925)
+// @see http://stackoverflow.com/a/34899938/1470725
+// LDTTabBarContoller is the only ViewController in our app with a UIImagePickerController, so declaring this within this class for now. If we add photos from another ViewController, we'll want to split this out into a different category class to DRY.
+
+@interface UICollectionViewController (LDT) <UIViewControllerPreviewingDelegate>
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location;
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+     commitViewController:(UIViewController *)viewControllerToCommit;
+
+@end
+
+@implementation UICollectionViewController (LDT)
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
+    return nil;
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+     commitViewController:(UIViewController *)viewControllerToCommit {
+    return;
 }
 
 @end

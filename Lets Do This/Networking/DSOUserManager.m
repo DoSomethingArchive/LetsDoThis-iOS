@@ -51,37 +51,44 @@
 - (void)setUser:(DSOUser *)user {
     _user = user;
     if (user) {
-        [[Crashlytics sharedInstance] setUserIdentifier:user.userID];
+        [Crashlytics sharedInstance].userIdentifier = user.userID;
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
+        // Store userID for when we want to log network request to continue saved session (but don't want to log the actual sessionToken) in continueSessionWithCompletionHandler:errorHandler.
+        [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];
     }
     else {
-        [[Crashlytics sharedInstance] setUserIdentifier:nil];
+        [Crashlytics sharedInstance].userIdentifier = nil;
+        [SSKeychain deletePasswordForService:self.currentService account:@"UserID"];
+        // Force delete cached API session if it hasn't been properly deleted.
+        NSString *sessionToken = [DSOAPI sharedInstance].sessionToken;
+        if (sessionToken && sessionToken.length > 0) {
+            [[DSOAPI sharedInstance] deleteSessionToken];
+        }
     }
 }
+
+#pragma mark - DSOUserManager
 
 - (NSString *)currentService {
     return [DSOAPI sharedInstance].baseURL.absoluteString;
 }
 
-#pragma mark - DSOUserManager
-
 - (LDTAppDelegate *)appDelegate {
     return ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
 }
 
-- (BOOL)userHasCachedSession {
-    return self.sessionToken.length > 0;
+- (NSString *)deviceToken {
+    return [self appDelegate].deviceToken;
 }
 
-- (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (BOOL)userHasCachedSession {
+    return [DSOAPI sharedInstance].sessionToken.length > 0;
+}
+
+- (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     CLS_LOG(@"login");
-    [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] createSessionForEmail:email password:password completionHandler:^(DSOUser *user) {
         self.user = user;
-        // Needed for when we're logging in as a different user.
-        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
-        [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
-        // Save session in Keychain for when app is quit.
-        [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
-        [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];
         if (completionHandler) {
             completionHandler(user);
         }
@@ -95,25 +102,36 @@
       }];
 }
 
-- (NSString *)sessionToken {
-    return [SSKeychain passwordForService:self.currentService account:@"Session"];
-}
-
 - (void)continueSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    if (self.sessionToken.length == 0) {
+    if ([DSOAPI sharedInstance].sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
     }
-
-    // @todo: Once Northstar API supports it, actively check for whether or saved session is valid before trying to start.
-    // @see https://github.com/DoSomething/northstar/issues/186
-    [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:self.sessionToken];
-
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     NSString *logMessage = [NSString stringWithFormat:@"user %@", userID];
     CLS_LOG(@"%@", logMessage);
-    [[DSOAPI sharedInstance] loadUserWithID:userID completionHandler:^(DSOUser *user) {
+    [[DSOAPI sharedInstance] loadCurrentUserWithCompletionHandler:^(DSOUser *user) {
         self.user = user;
+        NSString *deviceToken = [self appDelegate].deviceToken;
+
+        if (deviceToken) {
+            BOOL deviceTokenStored = NO;
+            for (NSString *tokenString in self.user.deviceTokens) {
+                if ([deviceToken isEqualToString:tokenString]) {
+                    deviceTokenStored = YES;
+                }
+            }
+            if (!deviceTokenStored) {
+                NSString *tokenLogMessage = [NSString stringWithFormat:@"Posting device token %@", deviceToken];
+                CLS_LOG(@"%@", tokenLogMessage);
+                [[DSOAPI sharedInstance] postCurrentUserDeviceToken:deviceToken completionHandler:^(NSDictionary *response) {
+                    NSLog(@"Device token posted.");
+                } errorHandler:^(NSError *error) {
+                   [self recordError:error logMessage:tokenLogMessage];
+                }];
+            }
+        }
+
         if (completionHandler) {
             completionHandler();
         }
@@ -125,24 +143,22 @@
     }];
 }
 
-- (void)endSession {
-    [SSKeychain deletePasswordForService:self.currentService account:@"Session"];
-    [SSKeychain deletePasswordForService:self.currentService account:@"UserID"];
+- (void)forceLogout {
     self.user = nil;
 }
 
-- (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)logoutWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *logMessage = @"logout";
     CLS_LOG(@"%@", logMessage);
-    [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
-        [self endSession];
+    [[DSOAPI sharedInstance] endSessionWithDeviceToken:self.deviceToken completionHandler:^(NSDictionary *responseDict) {
+        self.user = nil;
         if (completionHandler) {
             completionHandler();
         }
     } errorHandler:^(NSError *error) {
-        // Only perform logout tasks if error is NOT a lack of connectivity.
-        if (error.code != -1009) {
-            [self endSession];
+        // Only perform logout tasks if error is NOT a lack of connectivity or timeout.
+        if ((error.code != -1009) && (error.code != -1001)) {
+            self.user = nil;
         }
         [self recordError:error logMessage:logMessage];
         if (errorHandler) {
@@ -151,13 +167,12 @@
     }];
 }
 
-- (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaign.campaignID];
     CLS_LOG(@"%@", logMessage);
-    [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
+    [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOSignup *signup) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
-        // @todo Just send raw response vs signup.dictionary to avoid potential bugs like https://github.com/DoSomething/LetsDoThis-iOS/issues/850
-        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup.dictionary];
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup];
         if (completionHandler) {
             completionHandler(signup);
         }
@@ -169,14 +184,14 @@
     }];
 }
 
-- (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)reportbackItem.campaign.campaignID];
+- (void)reportbackForCampaign:(DSOCampaign *)campaign fileString:(NSString *)fileString caption:(NSString *)caption quantity:(NSInteger)quantity completionHandler:(void(^)(DSOReportback *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaign.campaignID];
     CLS_LOG(@"%@", logMessage);
-    [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *reportbackDict) {
-        [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)reportbackItem.campaign.campaignID] value:nil];
-        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:reportbackDict];
+    [[DSOAPI sharedInstance] postReportbackForCampaign:campaign fileString:fileString caption:caption quantity:quantity completionHandler:^(DSOReportback *reportback) {
+        [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:reportback];
         if (completionHandler) {
-            completionHandler(reportbackDict);
+            completionHandler(reportback);
         }
     } errorHandler:^(NSError *error) {
         [self recordError:error logMessage:logMessage];

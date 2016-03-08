@@ -8,7 +8,7 @@
 
 #import "LDTUserRegisterViewController.h"
 #import "LDTTheme.h"
-#import "LDTTabBarController.h"
+#import "LDTAppDelegate.h"
 #import "LDTUserLoginViewController.h"
 #import "UITextField+LDT.h"
 #import "GAI+LDT.h"
@@ -153,15 +153,16 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if ([self validateForm]) {
         [self.view endEditing:YES];
+        LDTAppDelegate *appDelegate = (LDTAppDelegate *)[UIApplication sharedApplication].delegate;
+
         [SVProgressHUD showWithStatus:@"Creating account..."];
-        [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode success:^(NSDictionary *response) {
+        [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode deviceToken:appDelegate.deviceToken success:^(NSDictionary *response) {
             
             if (self.mobileTextField.text) {
                 [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"provide mobile number" label:nil value:nil];
             }
 
-            [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
-                
+            [[DSOUserManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
                 if (self.userDidPickAvatarPhoto) {
                     [[DSOUserManager sharedInstance] postAvatarImage:self.imageView.image sendAppEvent:NO completionHandler:^(NSDictionary *completionHandler) {
                         NSLog(@"Successful user avatar upload.");
@@ -169,13 +170,8 @@
                         NSLog(@"Unsuccessful user avatar upload: %@", error.localizedDescription);
                     }];
                 }
-                if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
-                    LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
-                    [rootVC dismissViewControllerAnimated:YES completion:^{
-                        [SVProgressHUD dismiss];
-                        [rootVC reloadCurrentUser];
-                    }];
-                }
+                [SVProgressHUD dismiss];
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             } errorHandler:^(NSError *error) {
                 [SVProgressHUD dismiss];
                 [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];

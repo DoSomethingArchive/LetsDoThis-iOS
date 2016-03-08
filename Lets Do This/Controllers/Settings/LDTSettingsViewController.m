@@ -147,7 +147,7 @@
         [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"log out" label:nil value:nil];
         [SVProgressHUD showWithStatus:@"Logging out..."];
 
-        [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
+        [[DSOUserManager sharedInstance] logoutWithCompletionHandler:^ {
             [SVProgressHUD dismiss];
             [self pushUserConnectViewController];
         } errorHandler:^(NSError *error) {
@@ -172,15 +172,17 @@
 
 - (void)pushUserConnectViewController {
     [self.navigationController pushViewController:[[LDTUserConnectViewController alloc] init] animated:YES];
+    // @todo: statusBar color change
+    // @see https://github.com/DoSomething/LetsDoThis-iOS/issues/893
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
-    // Now that tabBar is hidden, select the first tab, so it will be the first tab selected upon next login.
+
     LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    [tabBar setSelectedIndex:0];
+    [tabBar reset];
 }
 
 - (void)handleFeedbackTap:(UITapGestureRecognizer *)recognizer {
     [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on feedback form" label:nil value:nil];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://docs.google.com/a/dosomething.org/forms/d/1KUWQgfuoKpUXg7uuurXSgYQ3RCuxwNVSrGeb_kDRqf8/viewform?edit_requested=true"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://docs.google.com/a/dosomething.org/forms/d/1KUWQgfuoKpUXg7uuurXSgYQ3RCuxwNVSrGeb_kDRqf8/viewform"]];
 }
 
 - (void)handleRateTap:(UITapGestureRecognizer *)recognizer {

@@ -14,7 +14,6 @@
 
 #import <XCTest/XCTest.h>
 #import "NSDictionary+DSOJsonHelper.h"
-#import "NSDate+DSO.h"
 
 @interface NSDictionary_DSOJsonHelperTests : XCTestCase
 
@@ -35,44 +34,5 @@
     [super tearDown];
 }
 
-- (void)testValueForJSONKey {
-    XCTAssertEqualObjects([self.campaignJSONData valueForJSONKey:@"id"], @"5052");
-}
-
-- (void)testFalseValueForJSONKey {
-    XCTAssertNotEqual([self.campaignJSONData valueForJSONKey:@"id"], NULL);
-}
-
-- (void)testValueForKeyAsString {
-    XCTAssertEqualObjects([self.campaignJSONData valueForKeyAsString:@"title"], @"#BookItForward");
-}
-
-- (void)testFalseValueForKeyAsString {
-    XCTAssertNotEqualObjects([self.campaignJSONData valueForKeyAsString:@"title"], @"Super Stress Face");
-}
-
-- (void)testValueForKeyAsInt {
-    XCTAssertEqual([self.campaignJSONData valueForKeyAsInt:@"id" nullValue:0], 5052);
-}
-
-- (void)testFalseValueForKeyAsInt {
-    XCTAssertNotEqual([self.campaignJSONData valueForKeyAsInt:@"id" nullValue:0], 101);
-}
-
-- (void)testValueForKeyAsBool {
-    XCTAssertEqual([self.campaignJSONData valueForKeyAsBool:@"staff_pick" nullValue:false], true);
-}
-
-- (void)testFalseValueForKeyAsBool {
-    XCTAssertNotEqual([self.campaignJSONData valueForKeyAsBool:@"staff_pick" nullValue:false], false);
-}
-
-- (void)testValueForKeyAsDate {
-    XCTAssertEqual([self.campaignJSONData valueForKeyAsDate:@"dateCreated" nullValue:[NSDate dateFromISO8601String:@"2015-12-01T12:00:00-8:00"]], [NSDate dateFromISO8601String:@"2011-02-01T10:57:55-08:00"]);
-}
-
-- (void)testFalseValueForKeyAsDate {
-    XCTAssertNotEqual([self.campaignJSONData valueForKeyAsDate:@"dateCreated" nullValue:[NSDate dateFromISO8601String:@"2015-12-01T12:00:00-8:00"]], [NSDate dateFromISO8601String:@"2012-02-01T10:57:55-08:00"]);
-}
 
 @end

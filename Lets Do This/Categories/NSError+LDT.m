@@ -40,7 +40,7 @@
     if (errorData) {
         NSError *error = self;
         NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:&error];
-        NSInteger code = [responseDict valueForKeyAsInt:@"code" nullValue:0];
+        NSInteger code = [responseDict valueForKeyAsInt:@"code"];
         NSDictionary *errorDict = responseDict[@"errors"];
         if (code >= 400 && code < 500) {
             if (isTitle) {

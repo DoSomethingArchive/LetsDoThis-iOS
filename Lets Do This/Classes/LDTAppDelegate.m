@@ -18,6 +18,7 @@
 
 @interface LDTAppDelegate()
 
+@property (strong, nonatomic, readwrite) NSString *deviceToken;
 @property (strong, nonatomic, readwrite) NSURL *jsCodeLocation;
 @property (strong, nonatomic, readwrite) RCTBridge *bridge;
 
@@ -26,7 +27,6 @@
 @implementation LDTAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
     NSDictionary *environmentDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"environment" ofType:@"plist"]];
     
@@ -55,6 +55,9 @@
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
+
+    // Clear out any badges, as we don't yet require user to take any action besides opening up the app.
+    application.applicationIconBadgeNumber = 0;
 
     if ([environmentDict objectForKey:@"ReactNativeUseOfflineBundle"] && ![environmentDict[@"ReactNativeUseOfflineBundle"] boolValue]) {
         // Run "npm start" from the project root to enable local React Native development.
@@ -102,11 +105,11 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     currentInstallation.channels = @[ @"global" ];
     [currentInstallation saveInBackground];
+    self.deviceToken = [[[NSString stringWithFormat:@"%@", deviceToken] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {

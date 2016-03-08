@@ -8,18 +8,16 @@
 
 #import "DSOUser.h"
 #import "NSDictionary+DSOJsonHelper.h"
-#import "NSDate+DSO.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface DSOUser()
 
+@property (nonatomic, strong, readwrite) NSArray *deviceTokens;
 @property (nonatomic, assign, readwrite) NSInteger phoenixID;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *email;
 @property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *mobile;
-@property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *userID;
 
 @end
@@ -33,16 +31,21 @@
         _userID = dict[@"_id"];
         // Hack to hotfix inconsistent API id property: https://github.com/DoSomething/LetsDoThis-iOS/issues/340
         if (!_userID) {
-            _userID = [dict valueForKeyAsString:@"id" nullValue:@"null-id"];
+            _userID = [dict valueForKeyAsString:@"id"];
         }
         if ([dict objectForKey:@"country"]) {
             _countryCode = dict[@"country"];
         }
-        _firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Doer"];
+        _firstName = [dict valueForKeyAsString:@"first_name"];
         _email = dict[@"email"];
-        _phoenixID = [dict valueForKeyAsInt:@"drupal_id" nullValue:0];
-        _sessionToken = dict[@"session_token"];
-        _avatarURL = [dict valueForKeyAsString:@"photo" nullValue:@""];
+        _phoenixID = [dict valueForKeyAsInt:@"drupal_id"];
+        _avatarURL = [dict valueForKeyAsString:@"photo"];
+        if ([dict valueForJSONKey:@"parse_installation_ids"]) {
+            _deviceTokens = dict[@"parse_installation_ids"];
+        }
+        else {
+            _deviceTokens = [[NSArray alloc] init];
+        }
     }
 
     return self;
