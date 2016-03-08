@@ -18,6 +18,13 @@
     return value;
 }
 
+- (NSDictionary *)dictionaryForKeyPath:(NSString *)keyPath {
+    if ([[self valueForKeyPath:keyPath] isKindOfClass:[NSDictionary class]]) {
+        return [self valueForKeyPath:keyPath];
+    }
+    return nil;
+}
+
 - (NSString *)valueForKeyAsString:(NSString *)key; {
     id value = [self valueForJSONKey:key];
     if(value == nil) {
