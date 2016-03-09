@@ -10,6 +10,7 @@ import React, {
 import Dimensions from 'Dimensions';
 
 var Style = require('./Style.js');
+var Helpers = require('./Helpers.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var NetworkImage = require('./NetworkImage.js');
 
@@ -79,7 +80,7 @@ var ReportbackItemView = React.createClass({
             source={{uri:user.photo}}
           />
           <Text style={[Style.textBodyBold, Style.textColorCtaBlue, styles.usernameText]}>
-            {user.first_name.toUpperCase()}
+            {Helpers.sanitizeFirstName(user.first_name).toUpperCase()}
           </Text>
         </View>
       </View>
