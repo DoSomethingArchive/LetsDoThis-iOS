@@ -152,9 +152,10 @@
             [self pushUserConnectViewController];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
-            // Performs normal logout functionality even if we are presented with an error,
-            // but only if error is not a lack of connectivity. 
-            if (error.code != -1009) {
+            // If non-connection error, something's effed, login again.
+            // We make a similar check in LDTTabBarController -(void)loadCurrentUser.
+            if (!error.networkConnectionError) {
+                [[DSOUserManager sharedInstance] forceLogout];
                 [self pushUserConnectViewController];
             }
             else {
