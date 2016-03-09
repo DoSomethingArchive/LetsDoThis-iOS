@@ -48,6 +48,9 @@
         NSError *error = self;
         NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:&error];
         NSInteger code = [responseDict valueForKeyAsInt:@"code"];
+        // We currently get an array called "errors" back on a 422: Unprocessable entity
+        // which is why this works here but not in -(NSInteger)networkResponseCode below
+        // Per https://github.com/DoSomething/northstar/pull/305 all error objects will contain a code property, so we can use -(NSInteger)networkResponseCode for any request
         NSDictionary *errorDict = responseDict[@"errors"];
         if (code >= 400 && code < 500) {
             if (isTitle) {
@@ -66,6 +69,23 @@
         return @"Oops! Our bad.";
     }
     return @"Looks like there was an issue with that request. We're looking into it now!";
+}
+
+- (NSInteger)networkResponseCode {
+    NSData *errorData = self.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+    if (errorData) {
+        NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:nil];
+
+        // If a 'code' key exists, this is a 422
+        // Can remove this once https://github.com/DoSomething/northstar/pull/305 is resolved
+        if ([responseDict valueForKeyAsInt:@"code"]) {
+            return [responseDict valueForKeyAsInt:@"code"];
+        }
+
+        NSInteger code = [[responseDict dictionaryForKeyPath:@"error"] valueForKeyAsInt:@"code"];
+        return code;
+    }
+    return 0;
 }
 
 @end
