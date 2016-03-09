@@ -247,11 +247,12 @@
 }
 
 - (void)recordError:(NSError *)error logMessage:(NSString *)logMessage {
-    CLS_LOG(@"Error code %li -- %@", (long)error.code, logMessage);
-    // Only record error in Crashlytics if error is NOT lack of connectivity or timeout.
-    if ((error.code != -1009) && (error.code != -1001)) {
-        [CrashlyticsKit recordError:error];
+    CLS_LOG(@"error.code %li : %@", (long)error.code, logMessage);
+    if (error.networkConnectionError) {
+        NSLog(@"Excluding networking error from Crashlytics.");
+        return;
     }
+    [CrashlyticsKit recordError:error];
 }
 
 @end

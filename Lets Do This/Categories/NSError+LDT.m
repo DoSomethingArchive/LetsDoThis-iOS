@@ -11,6 +11,12 @@
 
 @implementation NSError (LDT)
 
+- (BOOL)networkConnectionError {
+    NSInteger code = self.code;
+    // Many thanks to http://nshipster.com/nserror/#cfurlconnection-&-cfurlprotocol-errors
+    return (code == -1001 || code == -1005 || code == -1009 || code == -1018 || code == -1019 || code == -1020);
+}
+
 - (NSString *)readableTitle {
     return [self readableStringAsTitle:YES];
 
@@ -20,15 +26,7 @@
 }
 
 - (NSString *)readableStringAsTitle:(BOOL)isTitle {
-    if (self.code == -1009) {
-        if (isTitle) {
-            return @"No connection.";
-        }
-        else {
-            return @"Seems like the Internet is trying to cause drama.";
-        }
-    }
-    else if (self.code == -1001) {
+    if (self.code == -1001) {
         if (isTitle) {
             return @"The request timed out.";
         }
@@ -36,6 +34,15 @@
             return @"Seems like the Internet is trying to cause drama.";
         }
     }
+    else if (self.networkConnectionError) {
+        if (isTitle) {
+            return @"No connection.";
+        }
+        else {
+            return @"Seems like the Internet is trying to cause drama.";
+        }
+    }
+
     NSData *errorData = self.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
     if (errorData) {
         NSError *error = self;
