@@ -42,6 +42,12 @@
             return @"Seems like the Internet is trying to cause drama.";
         }
     }
+    if (self.localizedFailureReason) {
+        if (isTitle) {
+            return self.localizedDescription;
+        }
+        else return self.localizedFailureReason;
+    }
     if (isTitle) {
         return @"Oops! Our bad.";
     }

@@ -93,7 +93,8 @@
             completionHandler(user);
         }
       } errorHandler:^(NSError *error) {
-          if (error.code >= 500) {
+          // Filter any 401's (invalid login credentials).
+          if (error.code != 401) {
               [self recordError:error logMessage:@"login"];
           }
           if (errorHandler) {
