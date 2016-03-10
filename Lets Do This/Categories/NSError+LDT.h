@@ -9,6 +9,7 @@
 @interface NSError (LDT)
 
 - (BOOL)networkConnectionError;
+- (NSInteger)networkResponseCode;
 - (NSString *)readableTitle;
 - (NSString *)readableMessage;
 

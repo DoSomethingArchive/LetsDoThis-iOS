@@ -13,6 +13,7 @@
 #import "LDTUserRegisterViewController.h"
 #import "UITextField+LDT.h"
 #import "GAI+LDT.h"
+#import <Crashlytics/Crashlytics.h>
 
 @interface LDTUserLoginViewController ()
 
@@ -137,13 +138,21 @@
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];
-        if (error.code == -1011) {
+
+        // We get a 401 back for incorrect login credentials.
+        if (error.networkConnectionError || error.networkResponseCode == 401) {
+            NSLog(@"Excluding error from Crashlytics.");
+        }
+        else {
+            [CrashlyticsKit recordError:error];
+        }
+
+        if (error.networkResponseCode == 401) {
             [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Sorry, unrecognized email or password." subtitle:nil];
         }
         else {
             [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
         }
-        [self.emailTextField setBorderColor:UIColor.redColor];
     }];
 }
 

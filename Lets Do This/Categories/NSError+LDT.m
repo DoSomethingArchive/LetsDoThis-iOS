@@ -42,30 +42,21 @@
             return @"Seems like the Internet is trying to cause drama.";
         }
     }
-
-    NSData *errorData = self.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
-    if (errorData) {
-        NSError *error = self;
-        NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:&error];
-        NSInteger code = [responseDict valueForKeyAsInt:@"code"];
-        NSDictionary *errorDict = responseDict[@"errors"];
-        if (code >= 400 && code < 500) {
-            if (isTitle) {
-                return nil;
-            }
-            NSArray *errors = [errorDict allValues];
-            if (errors.count > 0) {
-                NSArray *firstError = errors[0];
-                if (firstError.count > 0) {
-                    return firstError[0];
-                }
-            }
-        }
-    }
     if (isTitle) {
         return @"Oops! Our bad.";
     }
     return @"Looks like there was an issue with that request. We're looking into it now!";
+}
+
+// @todo: Move this logic into DSOAPI to create a new error returned with relevant response code and error messages.
+- (NSInteger)networkResponseCode {
+    NSData *errorData = self.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+    if (errorData) {
+        NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:nil];
+        NSInteger code = [[responseDict dictionaryForKeyPath:@"error"] valueForKeyAsInt:@"code"];
+        return code;
+    }
+    return 0;
 }
 
 @end

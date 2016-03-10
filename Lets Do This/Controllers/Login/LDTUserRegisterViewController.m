@@ -178,8 +178,11 @@
             }];
 
         } failure:^(NSError *error) {
-            // Only record error in Crashlytics if error is NOT lack of connectivity, timeout, or email already exists.
-            if ((error.code != -1009) && (error.code != -1001) && (error.code != 422)) {
+            // We get a 422 back when email or mobile already exists.
+            if (error.networkConnectionError || error.networkResponseCode == 422) {
+                NSLog(@"Excluding error from Crashlytics.");
+            }
+            else {
                 [CrashlyticsKit recordError:error];
             }
             [SVProgressHUD dismiss];
