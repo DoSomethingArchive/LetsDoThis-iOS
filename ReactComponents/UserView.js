@@ -102,34 +102,52 @@ var UserView = React.createClass({
     var dataBlob = {},
       sectionIDs = [],
       rowIDs = [],
-      i;
+      doing = [],
+      done = [];
+
     sectionIDs.push(0);
     dataBlob[0] = firstSectionHeaderText;
     rowIDs[0] = [];
     sectionIDs.push(1);
     dataBlob[1] = secondSectionHeaderText;
     rowIDs[1] = [];
-    for (i = 0; i < signups.length; i++) {
-      var signup = signups[i];
-      var sectionNumber = 0;
+
+    for (let i = 0; i < signups.length; i++) {
+      let signup = signups[i];
+      
       if (Helpers.reportbackItemExistsForSignup(signup)) {
-        sectionNumber = 1;
         signup.reportbackItem = signup.reportback.reportback_items.data[0];
+        done.push(signup);
       }
       else {
         if (!signup.campaign_run.current) {
           continue;
         }
-        if (signup.campaign.status != 'active') {
+        if (signup.campaign.status != 'active' || signup.campaign.type != 'campaign') {
           continue;
         }
-        if (signup.campaign.type != 'campaign') {
-          continue;
-        }
+        doing.push(signup);
       }
-      rowIDs[sectionNumber].push(signup.id);
-      dataBlob[sectionNumber + ':' + signup.id] = signup;
     }
+
+    doing.sort(function(a, b) { 
+      return b.id - a.id;
+    }); 
+    for (let i = 0; i < doing.length; i++) {
+      let signup = doing[i];
+      rowIDs[0].push(signup.id);
+      dataBlob['0:' + signup.id] = signup;
+    }
+
+    done.sort(function(a, b) { 
+      return b.reportbackItem.id - a.reportbackItem.id;
+    });
+    for (let i = 0; i < done.length; i++) {
+      let signup = done[i];
+      rowIDs[1].push(signup.id);
+      dataBlob['1:' + signup.id] = signup;
+    }
+
     this.setState({
       dataSource : this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
       loaded: true,
