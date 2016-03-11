@@ -85,6 +85,23 @@
     return [DSOAPI sharedInstance].sessionToken.length > 0;
 }
 
+- (void)registerUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler {
+    CLS_LOG(@"register");
+    [[DSOAPI sharedInstance] createUserWithEmail:email password:password firstName:firstName mobile:mobile countryCode:countryCode deviceToken:deviceToken success:^(NSDictionary *response) {
+        if (completionHandler) {
+            completionHandler(response);
+        }
+    } failure:^(NSError *error) {
+        // Filter any 422's (email/mobile exists).
+        if (error.code != 422) {
+            [self recordError:error logMessage:@"register"];
+        }
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
 - (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     CLS_LOG(@"login");
     [[DSOAPI sharedInstance] createSessionForEmail:email password:password completionHandler:^(DSOUser *user) {
@@ -93,7 +110,8 @@
             completionHandler(user);
         }
       } errorHandler:^(NSError *error) {
-          if (error.code >= 500) {
+          // Filter any 401's (invalid login credentials).
+          if (error.code != 401) {
               [self recordError:error logMessage:@"login"];
           }
           if (errorHandler) {
