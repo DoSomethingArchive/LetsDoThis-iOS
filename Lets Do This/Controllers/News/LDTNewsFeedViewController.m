@@ -44,6 +44,16 @@
     if ([DSOUserManager sharedInstance].user) {
         [[GAI sharedInstance] trackScreenView:@"news"];
     }
+    else {
+      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCurrentUserLoaded:) name:@"currentUserLoaded" object:nil];
+    }
+}
+
+#pragma mark - LDTNewsFeedViewController
+
+- (void)handleCurrentUserLoaded:(NSNotification *)notification {
+    [[GAI sharedInstance] trackScreenView:@"news"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:notification.name object:nil];
 }
 
 @end
