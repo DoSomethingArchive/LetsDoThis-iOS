@@ -42,7 +42,7 @@
             return @"Seems like the Internet is trying to cause drama.";
         }
     }
-    if (self.localizedFailureReason) {
+    if (self.code != 500 && self.localizedFailureReason) {
         if (isTitle) {
             return self.localizedDescription;
         }
