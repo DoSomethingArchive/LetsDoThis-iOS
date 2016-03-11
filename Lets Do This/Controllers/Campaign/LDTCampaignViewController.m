@@ -41,8 +41,8 @@
     [super viewDidLoad];
 
     [self styleView];
-
-    NSString *galleryUrl = [NSString stringWithFormat:@"%@reportback-items?load_user=true&status=approved,promoted&campaigns=%li", [DSOAPI sharedInstance].phoenixApiURL, (long)self.campaign.campaignID];
+    // Grab 100 records for now until we add paginated requests.
+    NSString *galleryUrl = [NSString stringWithFormat:@"%@reportback-items?load_user=true&status=approved,promoted&campaigns=%li&count=100", [DSOAPI sharedInstance].phoenixApiURL, (long)self.campaign.campaignID];
     NSString *signupURLString = [NSString stringWithFormat:@"%@signups?user=%@", [DSOAPI sharedInstance].baseURL, [DSOUserManager sharedInstance].user.userID];
     NSDictionary *appProperties;
     NSDictionary *campaignDict = [[NSDictionary alloc] init];
