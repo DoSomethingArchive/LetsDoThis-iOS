@@ -87,12 +87,11 @@
 
 - (void)registerUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler {
     CLS_LOG(@"register");
-    [[DSOAPI sharedInstance] createUserWithEmail:email password:password firstName:firstName        mobile:mobile countryCode:countryCode deviceToken:deviceToken success:^(NSDictionary *response) {
+    [[DSOAPI sharedInstance] createUserWithEmail:email password:password firstName:firstName mobile:mobile countryCode:countryCode deviceToken:deviceToken success:^(NSDictionary *response) {
         if (completionHandler) {
             completionHandler(response);
         }
     } failure:^(NSError *error) {
-        NSLog(@"Error %@", error);
         // Filter any 422's (email/mobile exists).
         if (error.code != 422) {
             [self recordError:error logMessage:@"register"];

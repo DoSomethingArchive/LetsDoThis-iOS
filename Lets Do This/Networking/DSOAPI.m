@@ -260,10 +260,10 @@
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:responseObject[@"data"]];
         // API returns 200 if campaign is not found, so check for valid ID.
-        // @todo This will be deprecated once https://github.com/DoSomething/phoenix/issues/6261 is resolved.
+        // @todo This whole check be deprecated once https://github.com/DoSomething/phoenix/issues/6261 is resolved.
         if (campaign.campaignID == 0) {
-            NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
-            userInfo[NSLocalizedDescriptionKey] = [NSString stringWithFormat:@"Campaign ID %li not found.", (long)campaignID];
+            NSString *errorDescription = [NSString stringWithFormat:@"Campaign ID %li not found.", (long)campaignID];
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey : errorDescription};
             NSError *error = [NSError errorWithDomain:@"org.dosomething.api.campaigns" code:404 userInfo:userInfo];
             if (errorHandler) {
                 errorHandler(error);
@@ -299,7 +299,7 @@
         }
         apiFailureReason = [fieldMessages componentsJoinedByString:@"\n"];
     }
-    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : [errorDict valueForKeyAsString:@"message"], NSLocalizedFailureReasonErrorKey : apiFailureReason, NSLocalizedRecoverySuggestionErrorKey : @""};
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : [errorDict valueForKeyAsString:@"message"], NSLocalizedFailureReasonErrorKey : apiFailureReason};
     return [NSError errorWithDomain:apiDomain code:apiCode userInfo:userInfo];
 }
 
