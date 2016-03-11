@@ -40,7 +40,10 @@
     [super viewDidAppear:animated];
 
     self.navigationController.hidesBarsOnSwipe = NO;
-    [[GAI sharedInstance] trackScreenView:@"news"];
+    // Because this is first visible viewController when app loads, prevent sending a GAI screenView for the split second before getting presented the User Connect view if we don't have a user.
+    if ([DSOUserManager sharedInstance].user) {
+        [[GAI sharedInstance] trackScreenView:@"news"];
+    }
 }
 
 @end
