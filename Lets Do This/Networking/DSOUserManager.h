@@ -16,14 +16,17 @@
 // Singleton object for accessing authenticated User, stored campaigns.
 + (DSOUserManager *)sharedInstance;
 
-// Posts auth request to the API with given email and password, and saves session tokens to remain authenticated upon future app usage.
+// Returns whether an authenticated user session has been saved.
+- (BOOL)userHasCachedSession;
+
+// Posts new user registration to API.
+- (void)registerUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler;
+
+// Posts auth request to the API with given email and password of an existing user, and saves session tokens to remain authenticated upon future app usage.
 - (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 // Use saved session to set relevant DSOAPI headers and loads the current user.
 - (void)continueSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
-
-// Returns whether an authenticated user session has been saved.
-- (BOOL)userHasCachedSession;
 
 // Logs out the user and deletes the current user and saved session tokens. Called when User logs out from Settings screen.
 - (void)logoutWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;

@@ -13,7 +13,6 @@
 #import "UITextField+LDT.h"
 #import "GAI+LDT.h"
 #import "NSString+RemoveEmoji.h"
-#import <Crashlytics/Crashlytics.h>
 
 @interface LDTUserRegisterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -22,6 +21,7 @@
 @property (strong, nonatomic) DSOUser *user;
 @property (strong, nonatomic) NSString *countryCode;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
+
 @property (weak, nonatomic) IBOutlet LDTButton *loginLink;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *avatarButton;
@@ -156,35 +156,30 @@
         LDTAppDelegate *appDelegate = (LDTAppDelegate *)[UIApplication sharedApplication].delegate;
 
         [SVProgressHUD showWithStatus:@"Creating account..."];
-        [[DSOAPI sharedInstance] createUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode deviceToken:appDelegate.deviceToken success:^(NSDictionary *response) {
-            
+        [[DSOUserManager sharedInstance] registerUserWithEmail:self.emailTextField.text password:self.passwordTextField.text firstName:self.firstNameTextField.text mobile:self.mobileTextField.text countryCode:self.countryCode deviceToken:appDelegate.deviceToken success:^(NSDictionary *response) {
+
             if (self.mobileTextField.text) {
                 [[GAI sharedInstance] trackEventWithCategory:@"account" action:@"provide mobile number" label:nil value:nil];
             }
 
             [[DSOUserManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
+
                 if (self.userDidPickAvatarPhoto) {
                     [[DSOUserManager sharedInstance] postAvatarImage:self.imageView.image sendAppEvent:NO completionHandler:^(NSDictionary *completionHandler) {
                         NSLog(@"Successful user avatar upload.");
                     } errorHandler:^(NSError *error) {
-                        NSLog(@"Unsuccessful user avatar upload: %@", error.localizedDescription);
+                        [LDTMessage displayErrorMessageInViewController:appDelegate.window.rootViewController title:@"Error uploading avatar." subtitle:@"Please try again from your profile."];
                     }];
                 }
+
                 [SVProgressHUD dismiss];
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             } errorHandler:^(NSError *error) {
                 [SVProgressHUD dismiss];
+                // @todo We're in trouble in edge case where the registration is successful but the login attempt failed, user wouldn't know to navigate to login screen to login.
                 [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
             }];
-
         } failure:^(NSError *error) {
-            // We get a 422 back when email or mobile already exists.
-            if (error.networkConnectionError || error.networkResponseCode == 422) {
-                NSLog(@"Excluding error from Crashlytics.");
-            }
-            else {
-                [CrashlyticsKit recordError:error];
-            }
             [SVProgressHUD dismiss];
             [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
         }];
@@ -300,9 +295,6 @@
 
 - (BOOL)validateForm {
     NSMutableArray *errorMessages = [[NSMutableArray alloc] init];
-    
-    // Emoji presence check and other validations placed in if/else if blocks
-    // so user won't receive two redundant error messages.
     if ([self.firstNameTextField.text isIncludingEmoji]) {
         [self.firstNameTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"No emoji allowed in your name."];
