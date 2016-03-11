@@ -110,10 +110,8 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"currentUserLoaded" object:[DSOUserManager sharedInstance].user];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
-        // @todo: error.code is now 401
-        // If we receieve HTTP 401 error:
-        if (error.code == -1011) {
-            // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, so instead use the force.
+        if (error.code == 401) {
+            // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:errorHandler:, so instead use the force.
             [[DSOUserManager sharedInstance] forceLogout];
             [self presentUserConnectViewController];
         }
