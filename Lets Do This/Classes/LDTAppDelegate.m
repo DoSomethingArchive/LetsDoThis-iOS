@@ -50,6 +50,11 @@
     [SVProgressHUD setFont:LDTTheme.font];
     [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"hasCompletedOnboarding"]) {
+        // Resolves edge-case when deleted from device and this is re-install (GH #950).
+        [[DSOAPI sharedInstance] deleteSessionToken];
+    }
+
     [Parse setApplicationId:keysDict[@"parseApplicationId"] clientKey:keysDict[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
