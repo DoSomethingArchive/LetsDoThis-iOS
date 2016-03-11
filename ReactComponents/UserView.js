@@ -44,7 +44,6 @@ var UserView = React.createClass({
     };
   },
   componentDidMount: function() {
-    console.log("[UserView] ID:" + this.props.user.id);
     if (this.props.isSelfProfile) {
       this.userActivitySubscription = NativeAppEventEmitter.addListener(
         'currentUserActivity',

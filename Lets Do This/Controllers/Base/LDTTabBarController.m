@@ -16,8 +16,9 @@
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTTheme.h"
 #import "GAI+LDT.h"
+#import <Crashlytics/Crashlytics.h>
 
-@interface LDTTabBarController () <LDTEpicFailSubmitButtonDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface LDTTabBarController () <UITabBarControllerDelegate, LDTEpicFailSubmitButtonDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) DSOCampaign *proveItCampaign;
 @property (assign, nonatomic) NSInteger selectedImageType;
@@ -37,7 +38,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
 - (id)init {
 
     if (self = [super init]) {
-
+        self.delegate = self;
         self.tabBar.translucent = NO;
         self.tabBar.tintColor = LDTTheme.ctaBlueColor;
 		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:LDTTheme.fontName size:10.0f] } forState:UIControlStateNormal];
@@ -246,6 +247,12 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
     [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
         [self loadCurrentUser];
     }];
+}
+
+#pragma mark - UITabBarControllerDelegate
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    CLS_LOG(@"selectedIndex %li", self.selectedIndex);
 }
 
 @end
