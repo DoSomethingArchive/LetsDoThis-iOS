@@ -9,12 +9,14 @@
 #import "GAI+LDT.h"
 #import <GoogleAnalytics/GAIFields.h>
 #import <GoogleAnalytics/GAIDictionaryBuilder.h>
+#import <Crashlytics/Crashlytics.h>
 
 @implementation GAI (LDT)
 
 - (void)trackScreenView:(NSString *)screenName {
     [self.defaultTracker set:kGAIScreenName value:screenName];
     [self.defaultTracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    CLS_LOG(@"%@", screenName);
 }
 
 - (void)trackEventWithCategory:(NSString *)category action:(NSString *)action label:(NSString *)label value:(NSNumber *)value {
@@ -23,6 +25,7 @@
         return;
     }
     [self.defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:category action:action label:label value:value] build]];
+    CLS_LOG(@"%@:%@:%@:%@", category, action, label, value);
 }
 
 

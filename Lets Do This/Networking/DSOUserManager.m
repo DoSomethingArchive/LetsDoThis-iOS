@@ -86,7 +86,6 @@
 }
 
 - (void)registerUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler {
-    CLS_LOG(@"register");
     [[DSOAPI sharedInstance] createUserWithEmail:email password:password firstName:firstName mobile:mobile countryCode:countryCode deviceToken:deviceToken success:^(NSDictionary *response) {
         if (completionHandler) {
             completionHandler(response);
@@ -103,7 +102,6 @@
 }
 
 - (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    CLS_LOG(@"login");
     [[DSOAPI sharedInstance] createSessionForEmail:email password:password completionHandler:^(DSOUser *user) {
         self.user = user;
         if (completionHandler) {
@@ -127,10 +125,11 @@
     }
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     NSString *logMessage = [NSString stringWithFormat:@"user %@", userID];
-    CLS_LOG(@"%@", logMessage);
+
     [[DSOAPI sharedInstance] loadCurrentUserWithCompletionHandler:^(DSOUser *user) {
         self.user = user;
         NSString *deviceToken = [self appDelegate].deviceToken;
+        CLS_LOG(@"%@", logMessage);
 
         if (deviceToken) {
             BOOL deviceTokenStored = NO;
@@ -167,8 +166,8 @@
 
 - (void)logoutWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *logMessage = @"logout";
-    CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] endSessionWithDeviceToken:self.deviceToken completionHandler:^(NSDictionary *responseDict) {
+        CLS_LOG(@"%@", logMessage);
         self.user = nil;
         if (completionHandler) {
             completionHandler();
@@ -186,8 +185,7 @@
 }
 
 - (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaign.campaignID];
-    CLS_LOG(@"%@", logMessage);
+    NSString *logMessage = [NSString stringWithFormat:@"%li", (long)campaign.campaignID];
     [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOSignup *signup) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
         [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup];
@@ -204,7 +202,6 @@
 
 - (void)reportbackForCampaign:(DSOCampaign *)campaign fileString:(NSString *)fileString caption:(NSString *)caption quantity:(NSInteger)quantity completionHandler:(void(^)(DSOReportback *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaign.campaignID];
-    CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] postReportbackForCampaign:campaign fileString:fileString caption:caption quantity:quantity completionHandler:^(DSOReportback *reportback) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
         [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:reportback];
@@ -219,9 +216,9 @@
     }];
 }
 
--(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    CLS_LOG(@"%@", avatarImage);
+- (void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(id responseObject) {
+        CLS_LOG(@"%@", avatarImage);
         NSDictionary *responseDict = responseObject[@"data"];
         self.user.avatarURL = responseDict[@"photo"];
         NSLog(@"postAvatarImage currentUserChanged eventDispatcher");
@@ -249,9 +246,8 @@
 
 - (void)loadAndStoreCampaignWithID:(NSInteger)campaignID completionHandler:(void (^)(DSOCampaign *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
     NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaignID];
-    CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] loadCampaignWithID:campaignID completionHandler:^(DSOCampaign *campaign) {
-        CLS_LOG(@"stored");
+        CLS_LOG(@"%@", logMessage);
         [self.mutableCampaigns addObject:campaign];
         if (completionHandler) {
             completionHandler(campaign);
