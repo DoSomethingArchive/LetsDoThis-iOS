@@ -86,7 +86,8 @@ var UserView = React.createClass({
         'X-DS-REST-API-Key': this.props.apiKey,
       },
     };
-    var url = this.props.baseUrl + 'signups?user=' + this.state.user.id;
+    // Grab 200 records for now until we add paginated requests.
+    var url = this.props.baseUrl + 'signups?user=' + this.state.user.id + '&count=200';
     fetch(url, options)
       .then((response) => response.json())
       .catch((error) => this.catchError(error))
@@ -114,6 +115,11 @@ var UserView = React.createClass({
 
     for (let i = 0; i < signups.length; i++) {
       let signup = signups[i];
+
+      // Data safety check:
+      if ((!signup.campaign) || (!signup.campaign_run)) {
+        continue;
+      }
       
       if (Helpers.reportbackItemExistsForSignup(signup)) {
         signup.reportbackItem = signup.reportback.reportback_items.data[0];
