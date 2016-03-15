@@ -92,6 +92,15 @@ var UserView = React.createClass({
       .catch((error) => this.catchError(error))
       .then((responseData) => {
         if (!responseData) {
+          this.setState({
+            error: error,
+          });
+          return;
+        }
+        if (responseData.error) {
+          this.setState({
+            error: responseData.error,
+          });
           return;
         }
         this.loadSignups(responseData.data);
@@ -207,6 +216,7 @@ var UserView = React.createClass({
   },
   render: function() {
     if (this.state.error) {
+      // @todo Refactor NetworkErrorView to accept error object, instead of errorMessage
       return (
         <NetworkErrorView
           title="Profile isn't loading right now"
