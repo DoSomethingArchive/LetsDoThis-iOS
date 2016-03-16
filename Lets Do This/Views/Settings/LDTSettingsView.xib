@@ -18,7 +18,6 @@
                 <outlet property="notificationSwitchView" destination="CNd-YW-Iyu" id="0bW-wD-SjV"/>
                 <outlet property="notificationsHeadingLabel" destination="tun-mR-gRE" id="mOD-5w-UTK"/>
                 <outlet property="notificationsLabel" destination="1Nu-TY-cY3" id="KST-qf-cU7"/>
-                <outlet property="notificationsSwitch" destination="17t-ud-SWl" id="deF-BC-c6e"/>
                 <outlet property="rateArrowImageView" destination="rFh-UQ-28U" id="HR0-hk-rSK"/>
                 <outlet property="rateLabel" destination="LiH-Ep-Uee" id="WTL-Eo-J7L"/>
                 <outlet property="rateView" destination="uZy-Vd-msE" id="JKS-Sl-lz4"/>
@@ -47,50 +46,6 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CNd-YW-Iyu" userLabel="Switch Container View">
-                            <rect key="frame" x="0.0" y="190" width="600" height="45"/>
-                            <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XBy-34-hV9" userLabel="Top Border View">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
-                                    <color key="backgroundColor" red="0.7843137255" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="ayM-Bm-nDP"/>
-                                    </constraints>
-                                </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Receive Notifications" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Nu-TY-cY3" userLabel="Receive Notifications Label">
-                                    <rect key="frame" x="17" y="12" width="161" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="17t-ud-SWl" userLabel="Notifications Enabled Switch">
-                                    <rect key="frame" x="533" y="7" width="51" height="31"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="31" id="Dp8-LF-Se9"/>
-                                    </constraints>
-                                </switch>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f9q-PT-ypz" userLabel="Bottom Border View">
-                                    <rect key="frame" x="0.0" y="44" width="600" height="1"/>
-                                    <color key="backgroundColor" red="0.7843137255" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="zQT-Lp-87l"/>
-                                    </constraints>
-                                </view>
-                            </subviews>
-                            <constraints>
-                                <constraint firstAttribute="bottom" secondItem="1Nu-TY-cY3" secondAttribute="bottom" constant="12" id="0AM-BW-2Yy"/>
-                                <constraint firstAttribute="trailing" secondItem="XBy-34-hV9" secondAttribute="trailing" id="2Yw-Kc-pLy"/>
-                                <constraint firstAttribute="bottom" secondItem="f9q-PT-ypz" secondAttribute="bottom" id="3SY-ib-gSx"/>
-                                <constraint firstItem="f9q-PT-ypz" firstAttribute="leading" secondItem="CNd-YW-Iyu" secondAttribute="leading" id="Goa-uc-r1h"/>
-                                <constraint firstItem="1Nu-TY-cY3" firstAttribute="top" secondItem="CNd-YW-Iyu" secondAttribute="top" constant="12" id="TQM-PA-7La"/>
-                                <constraint firstItem="XBy-34-hV9" firstAttribute="leading" secondItem="CNd-YW-Iyu" secondAttribute="leading" id="cVA-qt-pEs"/>
-                                <constraint firstItem="XBy-34-hV9" firstAttribute="top" secondItem="CNd-YW-Iyu" secondAttribute="top" id="ekG-aE-OST"/>
-                                <constraint firstAttribute="trailing" secondItem="f9q-PT-ypz" secondAttribute="trailing" id="esY-ib-8yp"/>
-                                <constraint firstAttribute="trailing" secondItem="17t-ud-SWl" secondAttribute="trailing" constant="18" id="mf6-K2-nCh"/>
-                                <constraint firstItem="17t-ud-SWl" firstAttribute="top" secondItem="CNd-YW-Iyu" secondAttribute="top" constant="7" id="msW-Sm-e2F"/>
-                                <constraint firstItem="1Nu-TY-cY3" firstAttribute="leading" secondItem="CNd-YW-Iyu" secondAttribute="leading" constant="17" id="reS-sT-ATh"/>
-                            </constraints>
-                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m5t-YK-XBL" userLabel="Logout Container View">
                             <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                             <subviews>
@@ -268,6 +223,33 @@
                                 <constraint firstAttribute="trailing" secondItem="0fQ-gC-eIh" secondAttribute="trailing" id="hML-jg-DfN"/>
                                 <constraint firstItem="WAq-aZ-WOJ" firstAttribute="leading" secondItem="oQe-dL-E6M" secondAttribute="leading" constant="16" id="kG9-1O-e3w"/>
                                 <constraint firstAttribute="trailing" secondItem="s07-pC-Llz" secondAttribute="trailing" id="nka-c3-Fmd"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CNd-YW-Iyu" userLabel="Switch Container View">
+                            <rect key="frame" x="0.0" y="190" width="600" height="45"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XBy-34-hV9" userLabel="Top Border View">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
+                                    <color key="backgroundColor" red="0.7843137255" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="1" id="ayM-Bm-nDP"/>
+                                    </constraints>
+                                </view>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Receive Notifications" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Nu-TY-cY3" userLabel="Receive Notifications Label">
+                                    <rect key="frame" x="17" y="12" width="567" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="1Nu-TY-cY3" secondAttribute="bottom" constant="12" id="0AM-BW-2Yy"/>
+                                <constraint firstAttribute="trailing" secondItem="XBy-34-hV9" secondAttribute="trailing" id="2Yw-Kc-pLy"/>
+                                <constraint firstAttribute="trailing" secondItem="1Nu-TY-cY3" secondAttribute="trailing" constant="16" id="NSj-FK-Vba"/>
+                                <constraint firstItem="1Nu-TY-cY3" firstAttribute="top" secondItem="CNd-YW-Iyu" secondAttribute="top" constant="12" id="TQM-PA-7La"/>
+                                <constraint firstItem="XBy-34-hV9" firstAttribute="leading" secondItem="CNd-YW-Iyu" secondAttribute="leading" id="cVA-qt-pEs"/>
+                                <constraint firstItem="XBy-34-hV9" firstAttribute="top" secondItem="CNd-YW-Iyu" secondAttribute="top" id="ekG-aE-OST"/>
+                                <constraint firstItem="1Nu-TY-cY3" firstAttribute="leading" secondItem="CNd-YW-Iyu" secondAttribute="leading" constant="17" id="reS-sT-ATh"/>
                             </constraints>
                         </view>
                     </subviews>
