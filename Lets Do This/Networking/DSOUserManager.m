@@ -219,6 +219,7 @@
 - (void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(id responseObject) {
         CLS_LOG(@"%@", avatarImage);
+        // @todo Safety test all of these keys.
         NSDictionary *responseDict = responseObject[@"data"];
         self.user.avatarURL = responseDict[@"photo"];
         NSLog(@"postAvatarImage currentUserChanged eventDispatcher");

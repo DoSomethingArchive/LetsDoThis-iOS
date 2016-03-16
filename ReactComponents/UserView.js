@@ -91,7 +91,10 @@ var UserView = React.createClass({
       .then((response) => response.json())
       .catch((error) => this.catchError(error))
       .then((responseData) => {
+        // This was added because of this https://github.com/DoSomething/LetsDoThis-iOS/pull/853#discussion_r54018442
         if (!responseData) {
+          // You'd assume error should be undefined here since the catch isn't firing
+          console.log(error);
           this.setState({
             error: error,
           });
@@ -103,7 +106,9 @@ var UserView = React.createClass({
           });
           return;
         }
-        this.loadSignups(responseData.data);
+        if (responseData.data) {
+          this.loadSignups(responseData.data);
+        }
       })
       .done();
   },
