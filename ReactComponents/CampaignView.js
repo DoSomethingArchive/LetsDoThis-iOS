@@ -309,7 +309,7 @@ var CampaignView = React.createClass({
       content = this.renderClosedContent(message);
     }
     else if (this.state.campaign.type != 'campaign') {
-      var message = "This action is only available via SMS.";
+      var message = "This experience can only be done through text messaging. Text APP to 38383 to get started!";
       content = this.renderClosedContent(message);
     }
     else {
