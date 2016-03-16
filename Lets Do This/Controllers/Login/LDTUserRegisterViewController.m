@@ -165,7 +165,7 @@
             [[DSOUserManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
 
                 if (self.userDidPickAvatarPhoto) {
-                    [[DSOUserManager sharedInstance] postAvatarImage:self.imageView.image sendAppEvent:NO completionHandler:^(NSDictionary *completionHandler) {
+                    [[DSOUserManager sharedInstance] postAvatarImage:self.imageView.image completionHandler:^(DSOUser *completionHandler) {
                         NSLog(@"Successful user avatar upload.");
                     } errorHandler:^(NSError *error) {
                         [LDTMessage displayErrorMessageInViewController:appDelegate.window.rootViewController title:@"Error uploading avatar." subtitle:@"Please try again from your profile."];

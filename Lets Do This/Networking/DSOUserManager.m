@@ -7,6 +7,7 @@
 //
 
 #import "DSOUserManager.h"
+#import "NSDictionary+DSOJsonHelper.h"
 #import <SSKeychain/SSKeychain.h>
 #import "GAI+LDT.h"
 #import <Crashlytics/Crashlytics.h>
@@ -216,17 +217,12 @@
     }];
 }
 
-- (void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(id responseObject) {
-        CLS_LOG(@"%@", avatarImage);
-        // @todo Safety test all of these keys.
-        NSDictionary *responseDict = responseObject[@"data"];
-        self.user.avatarURL = responseDict[@"photo"];
-        NSLog(@"postAvatarImage currentUserChanged eventDispatcher");
-        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:responseDict];
-
+- (void)postAvatarImage:(UIImage *)avatarImage completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(DSOUser *user) {
+        // @todo: hack for now, having trouble just updating avatar only in RN
+        self.user = user;
         if (completionHandler) {
-            completionHandler(responseDict);
+            completionHandler(user);
         }
     } errorHandler:^(NSError * error) {
         [self recordError:error logMessage:@"avatar"];

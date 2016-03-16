@@ -40,8 +40,8 @@
 // Posts Reportback to API, calls relevant GoogleAnalytics and React Native eventDispatcher.
 - (void)reportbackForCampaign:(DSOCampaign *)campaign fileString:(NSString *)fileString caption:(NSString *)caption quantity:(NSInteger)quantity completionHandler:(void(^)(DSOReportback *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-// Posts Avatar to API, calls React Native eventDispatcher if sendAppEvent.
-- (void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler ;
+// Posts Avatar to API, returns updated current user in completion handler.
+- (void)postAvatarImage:(UIImage *)avatarImage completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler ;
 
 // Returns DSOCampaign from local storage, if exists.
 - (DSOCampaign *)campaignWithID:(NSInteger)campaignID;
