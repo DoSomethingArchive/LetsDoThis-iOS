@@ -91,13 +91,10 @@ var UserView = React.createClass({
       .then((response) => response.json())
       .catch((error) => this.catchError(error))
       .then((responseData) => {
-        // This was added because of this https://github.com/DoSomething/LetsDoThis-iOS/pull/853#discussion_r54018442
+        // This was added here -- https://github.com/DoSomething/LetsDoThis-iOS/pull/853#discussion_r54018442
+        // If we turn on airplane mode and load this view, the catchError executes above 
+        // but this then block still executes. feels like i'm doing something wrong here.
         if (!responseData) {
-          // You'd assume error should be undefined here since the catch isn't firing
-          console.log(error);
-          this.setState({
-            error: error,
-          });
           return;
         }
         if (responseData.error) {
