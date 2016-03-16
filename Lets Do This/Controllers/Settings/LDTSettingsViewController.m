@@ -38,7 +38,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *rateArrowImageView;
 
 @property (weak, nonatomic) IBOutlet UIButton *submitIdeasButton;
-
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
 - (IBAction)submitIdeasButtonTouchUpInside:(id)sender;
@@ -99,13 +98,11 @@
     self.feedbackArrowImageView.image = [UIImage imageNamed:@"Arrow"];
     self.rateLabel.font = LDTTheme.font;
     self.rateArrowImageView.image = [UIImage imageNamed:@"Arrow"];
-
-    [self.submitIdeasButton.titleLabel setFont:LDTTheme.fontCaption];
+    self.submitIdeasButton.titleLabel.font = LDTTheme.fontCaption;
     [self.submitIdeasButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
     self.submitIdeasButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     self.submitIdeasButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    [self.versionLabel setFont:LDTTheme.fontCaption];
-
+    self.versionLabel.font = LDTTheme.fontCaption;
 }
 
 - (void)dismissSettings:(id)sender {
