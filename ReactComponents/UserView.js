@@ -261,7 +261,7 @@ var UserView = React.createClass({
       avatarUri =  'Avatar';
     }
     var headerText = null;
-    if (this.state.user.country.length > 0) {
+    if (this.state.user.country && this.state.user.country.length > 0) {
       headerText = this.state.user.country.toUpperCase();
     }
     var avatar = (
