@@ -149,7 +149,7 @@
     }];
 }
 
-- (void)postAvatarForUser:(DSOUser *)user avatarImage:(UIImage *)avatarImage completionHandler:(void(^)(id))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)postAvatarForUser:(DSOUser *)user avatarImage:(UIImage *)avatarImage completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"users/%@/avatar", user.userID];
     NSData *imageData = UIImageJPEGRepresentation(avatarImage, 1.0);
     NSString *fileNameForImage = [NSString stringWithFormat:@"User_%@_ProfileImage", user.userID];
@@ -157,8 +157,9 @@
     [self POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"photo" fileName:fileNameForImage mimeType:@"image/jpeg"];
     } success:^(NSURLSessionDataTask *task, id responseObject) {
+        DSOUser *updatedUser = [[DSOUser alloc] initWithDict:[responseObject valueForKeyPath:@"data"]];
         if (completionHandler) {
-            completionHandler(responseObject);
+            completionHandler(updatedUser);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         if (errorHandler) {

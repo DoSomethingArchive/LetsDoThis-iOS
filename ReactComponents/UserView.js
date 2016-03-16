@@ -91,10 +91,21 @@ var UserView = React.createClass({
       .then((response) => response.json())
       .catch((error) => this.catchError(error))
       .then((responseData) => {
+        // This was added here -- https://github.com/DoSomething/LetsDoThis-iOS/pull/853#discussion_r54018442
+        // If we turn on airplane mode and load this view, the catchError executes above 
+        // but this then block still executes. feels like i'm doing something wrong here.
         if (!responseData) {
           return;
         }
-        this.loadSignups(responseData.data);
+        if (responseData.error) {
+          this.setState({
+            error: responseData.error,
+          });
+          return;
+        }
+        if (responseData.data) {
+          this.loadSignups(responseData.data);
+        }
       })
       .done();
   },
@@ -207,6 +218,7 @@ var UserView = React.createClass({
   },
   render: function() {
     if (this.state.error) {
+      // @todo Refactor NetworkErrorView to accept error object, instead of errorMessage
       return (
         <NetworkErrorView
           title="Profile isn't loading right now"
@@ -246,7 +258,7 @@ var UserView = React.createClass({
       avatarUri =  'Avatar';
     }
     var headerText = null;
-    if (this.state.user.country.length > 0) {
+    if (this.state.user.country && this.state.user.country.length > 0) {
       headerText = this.state.user.country.toUpperCase();
     }
     var avatar = (
