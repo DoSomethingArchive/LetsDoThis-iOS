@@ -6,6 +6,10 @@
 //  Copyright © 2016 Do Something. All rights reserved.
 //
 
+// Currently not displayed in app.
+// @see https://github.com/DoSomething/LetsDoThis-iOS/issues/974
+
+
 #import <UIKit/UIKit.h>
 
 @interface LDTNewsArticleViewController : UIViewController
