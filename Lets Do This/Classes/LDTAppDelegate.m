@@ -61,6 +61,17 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
 
+    // Following code tracks opening Parse push notification
+    // @see https://www.parse.com/docs/ios/guide#push-notifications-tracking-pushes-and-app-opens
+    if (application.applicationState != UIApplicationStateBackground) {
+        BOOL preBackgroundPush = ![application respondsToSelector:@selector(backgroundRefreshStatus)];
+        BOOL oldPushHandlerOnly = ![self respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
+        BOOL noPushPayload = ![launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (preBackgroundPush || oldPushHandlerOnly || noPushPayload) {
+            [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+        }
+    }
+
     // Clear out any badges, as we don't yet require user to take any action besides opening up the app.
     application.applicationIconBadgeNumber = 0;
 
@@ -128,6 +139,10 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [PFPush handlePush:userInfo];
+    if (application.applicationState == UIApplicationStateInactive) {
+        application.applicationIconBadgeNumber = 0;
+        [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
+    }
 }
 
 # pragma mark - Accessors
