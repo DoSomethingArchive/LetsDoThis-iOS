@@ -78,6 +78,7 @@
 
     self.loggedInEmailLabel.text = [NSString stringWithFormat:@"Logged in as %@", [DSOUserManager sharedInstance].user.email];
     self.notificationsLabel.text = @"Notifications can be turned on or off by finding DoSomething in the Notifications section of the Settings app.";
+    self.termsLabel.text = @"Show Terms & Conditions";
     self.privacyPolicyLabel.text = @"Show Privacy Policy";
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 }
