@@ -36,6 +36,9 @@
 @property (weak, nonatomic) IBOutlet UIView *rateView;
 @property (weak, nonatomic) IBOutlet UILabel *rateLabel;
 
+@property (weak, nonatomic) IBOutlet UIView *privacyPolicyView;
+@property (weak, nonatomic) IBOutlet UILabel *privacyPolicyLabel;
+
 @property (weak, nonatomic) IBOutlet UIButton *submitIdeasButton;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
@@ -63,12 +66,16 @@
     UITapGestureRecognizer *feedbackTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleFeedbackTap:)];
     [self.feedbackView addGestureRecognizer:feedbackTap];
 
+    UITapGestureRecognizer *privacyPolicyTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePrivacyPolicyTap:)];
+    [self.privacyPolicyView addGestureRecognizer:privacyPolicyTap];
+
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(dismissSettings:)];
     self.navigationItem.rightBarButtonItem = rightButton;
     [self styleRightBarButton];
 
     self.loggedInEmailLabel.text = [NSString stringWithFormat:@"Logged in as %@", [DSOUserManager sharedInstance].user.email];
     self.notificationsLabel.text = @"Notifications can be turned on or off by finding DoSomething in the Notifications section of the Settings app.";
+    self.privacyPolicyLabel.text = @"Show Privacy Policy";
     self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 }
 
@@ -95,6 +102,7 @@
     self.feedbackHeadingLabel.textColor = LDTTheme.mediumGrayColor;
     self.feedbackLabel.font = LDTTheme.font;
     self.rateLabel.font = LDTTheme.font;
+    self.privacyPolicyLabel.font = LDTTheme.font;
     self.submitIdeasButton.titleLabel.font = LDTTheme.fontCaption;
     [self.submitIdeasButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
     self.submitIdeasButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
@@ -155,6 +163,11 @@
 - (void)handleRateTap:(UITapGestureRecognizer *)recognizer {
     [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on review app button" label:nil value:nil];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/998995766"]];
+}
+
+- (void)handlePrivacyPolicyTap:(UITapGestureRecognizer *)recognizer {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on privacy policy" label:nil value:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.dosomething.org/about/privacy-policy"]];
 }
 
 - (IBAction)submitIdeasButtonTouchUpInside:(id)sender {
