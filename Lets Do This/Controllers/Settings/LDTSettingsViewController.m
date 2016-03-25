@@ -29,15 +29,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (weak, nonatomic) IBOutlet UIView *notificationSwitchView;
 
-@property (weak, nonatomic) IBOutlet UIView *feedbackView;
 @property (weak, nonatomic) IBOutlet UILabel *feedbackHeadingLabel;
+@property (weak, nonatomic) IBOutlet UIView *feedbackView;
 @property (weak, nonatomic) IBOutlet UILabel *feedbackLabel;
-
 @property (weak, nonatomic) IBOutlet UIView *rateView;
 @property (weak, nonatomic) IBOutlet UILabel *rateLabel;
-
 @property (weak, nonatomic) IBOutlet UIView *privacyPolicyView;
 @property (weak, nonatomic) IBOutlet UILabel *privacyPolicyLabel;
+@property (weak, nonatomic) IBOutlet UIView *termsView;
+@property (weak, nonatomic) IBOutlet UILabel *termsLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *submitIdeasButton;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
@@ -68,6 +68,9 @@
 
     UITapGestureRecognizer *privacyPolicyTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePrivacyPolicyTap:)];
     [self.privacyPolicyView addGestureRecognizer:privacyPolicyTap];
+
+    UITapGestureRecognizer *termsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTermsTap:)];
+    [self.termsView addGestureRecognizer:termsTap];
 
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(dismissSettings:)];
     self.navigationItem.rightBarButtonItem = rightButton;
@@ -103,6 +106,7 @@
     self.feedbackLabel.font = LDTTheme.font;
     self.rateLabel.font = LDTTheme.font;
     self.privacyPolicyLabel.font = LDTTheme.font;
+    self.termsLabel.font = LDTTheme.font;
     self.submitIdeasButton.titleLabel.font = LDTTheme.fontCaption;
     [self.submitIdeasButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
     self.submitIdeasButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
@@ -163,6 +167,11 @@
 - (void)handleRateTap:(UITapGestureRecognizer *)recognizer {
     [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on review app button" label:nil value:nil];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/998995766"]];
+}
+
+- (void)handleTermsTap:(UITapGestureRecognizer *)recognizer {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on terms of service" label:nil value:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.dosomething.org/about/terms-service"]];
 }
 
 - (void)handlePrivacyPolicyTap:(UITapGestureRecognizer *)recognizer {
