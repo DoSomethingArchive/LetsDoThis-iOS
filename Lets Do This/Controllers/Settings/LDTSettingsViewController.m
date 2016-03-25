@@ -32,10 +32,9 @@
 @property (weak, nonatomic) IBOutlet UIView *feedbackView;
 @property (weak, nonatomic) IBOutlet UILabel *feedbackHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *feedbackLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *feedbackArrowImageView;
+
 @property (weak, nonatomic) IBOutlet UIView *rateView;
 @property (weak, nonatomic) IBOutlet UILabel *rateLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *rateArrowImageView;
 
 @property (weak, nonatomic) IBOutlet UIButton *submitIdeasButton;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
@@ -95,9 +94,7 @@
     self.feedbackHeadingLabel.font = LDTTheme.fontBold;
     self.feedbackHeadingLabel.textColor = LDTTheme.mediumGrayColor;
     self.feedbackLabel.font = LDTTheme.font;
-    self.feedbackArrowImageView.image = [UIImage imageNamed:@"Arrow"];
     self.rateLabel.font = LDTTheme.font;
-    self.rateArrowImageView.image = [UIImage imageNamed:@"Arrow"];
     self.submitIdeasButton.titleLabel.font = LDTTheme.fontCaption;
     [self.submitIdeasButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
     self.submitIdeasButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
