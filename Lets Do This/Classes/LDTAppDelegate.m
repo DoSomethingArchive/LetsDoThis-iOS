@@ -140,6 +140,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [PFPush handlePush:userInfo];
     if (application.applicationState == UIApplicationStateInactive) {
+        application.applicationIconBadgeNumber = 0;
         [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
     }
 }
