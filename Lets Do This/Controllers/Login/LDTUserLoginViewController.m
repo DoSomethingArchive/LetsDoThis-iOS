@@ -38,13 +38,7 @@
 #pragma mark - NSObject
 
 -(id)init{
-    self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
-	
-    if (self) {
-		
-    }
-	
-    return self;
+    return [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
 }
 
 #pragma mark - UIViewController
@@ -57,16 +51,11 @@
     self.passwordTextField.placeholder = @"Password";
     [self.registerLink setTitle:@"Don't have an account? Register here" forState:UIControlStateNormal];
 
-    self.textFields = @[self.emailTextField,
-                        self.passwordTextField
-                        ];
-	
+    self.textFields = @[self.emailTextField, self.passwordTextField];
     for (UITextField *aTextField in self.textFields) {
         aTextField.delegate = self;
     }
-	
-    self.textFieldsRequired = @[self.emailTextField,
-                                self.passwordTextField];
+    self.textFieldsRequired = self.textFields;
 
     [self.submitButton setTitle:@"Sign in".uppercaseString forState:UIControlStateNormal];
     [self.submitButton enable:NO];
@@ -137,13 +126,12 @@
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];
-        if (error.code == -1011) {
+        if (error.code == 401) {
             [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Sorry, unrecognized email or password." subtitle:nil];
         }
         else {
             [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
         }
-        [self.emailTextField setBorderColor:UIColor.redColor];
     }];
 }
 

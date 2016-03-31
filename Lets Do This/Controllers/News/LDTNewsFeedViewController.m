@@ -40,7 +40,20 @@
     [super viewDidAppear:animated];
 
     self.navigationController.hidesBarsOnSwipe = NO;
+    // Because this is first visible viewController when app loads, prevent sending a GAI screenView for the split second before getting presented the User Connect view if we don't have a user.
+    if ([DSOUserManager sharedInstance].user) {
+        [[GAI sharedInstance] trackScreenView:@"news"];
+    }
+    else {
+      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCurrentUserLoaded:) name:@"currentUserLoaded" object:nil];
+    }
+}
+
+#pragma mark - LDTNewsFeedViewController
+
+- (void)handleCurrentUserLoaded:(NSNotification *)notification {
     [[GAI sharedInstance] trackScreenView:@"news"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:notification.name object:nil];
 }
 
 @end

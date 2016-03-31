@@ -16,8 +16,9 @@
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTTheme.h"
 #import "GAI+LDT.h"
+#import <Crashlytics/Crashlytics.h>
 
-@interface LDTTabBarController () <LDTEpicFailSubmitButtonDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface LDTTabBarController () <UITabBarControllerDelegate, LDTEpicFailSubmitButtonDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) DSOCampaign *proveItCampaign;
 @property (assign, nonatomic) NSInteger selectedImageType;
@@ -37,7 +38,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
 - (id)init {
 
     if (self = [super init]) {
-
+        self.delegate = self;
         self.tabBar.translucent = NO;
         self.tabBar.tintColor = LDTTheme.ctaBlueColor;
 		[[UITabBarItem appearance] setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:LDTTheme.fontName size:10.0f] } forState:UIControlStateNormal];
@@ -104,14 +105,14 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
 
 - (void)loadCurrentUser {
     [SVProgressHUD showWithStatus:@"Loading..."];
-    NSLog(@"LDTTabBarController.loadCurrentUser");
+
     [[DSOUserManager sharedInstance] continueSessionWithCompletionHandler:^(void){
          [SVProgressHUD dismiss];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"currentUserLoaded" object:[DSOUserManager sharedInstance].user];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
-        // If we receieve HTTP 401 error:
-        if (error.code == -1011) {
-            // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:erroHandler, so instead use the force.
+        if (error.code == 401) {
+            // Session is borked, so we'll get a 401 when we try to logout too with endSessionWithCompletionHandler:errorHandler:, so instead use the force.
             [[DSOUserManager sharedInstance] forceLogout];
             [self presentUserConnectViewController];
         }
@@ -224,7 +225,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
         UIImage *selectedImage = info[UIImagePickerControllerEditedImage];
         if (self.selectedImageType == LDTSelectedImageTypeAvatar) {
             [SVProgressHUD showWithStatus:@"Uploading..."];
-            [[DSOUserManager sharedInstance] postAvatarImage:selectedImage sendAppEvent:YES completionHandler:^(NSDictionary *completionHandler) {
+            [[DSOUserManager sharedInstance] postAvatarImage:selectedImage completionHandler:^(DSOUser *completionHandler) {
                 [SVProgressHUD dismiss];
                 [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'." subtitle:@"You've successfully changed your profile photo."];
             } errorHandler:^(NSError *error) {
@@ -246,6 +247,12 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
     [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
         [self loadCurrentUser];
     }];
+}
+
+#pragma mark - UITabBarControllerDelegate
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    CLS_LOG(@"selectedIndex %li", self.selectedIndex);
 }
 
 @end

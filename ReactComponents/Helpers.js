@@ -82,5 +82,19 @@ module.exports = {
       return true;
     }
     return false;
+  },
+  /**
+   * Sanitze given first name: if it contains an email address, return "Doer".
+   *
+   * @param raw String to sanitize
+   * @result string
+   */
+  sanitizeFirstName: function(firstName) {
+    //  Courtesy of http://stackoverflow.com/a/16424756/1470725
+    var emailRegEx = /(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
+    if (emailRegEx.test(firstName)) {
+      return 'Doer';
+    }
+    return firstName;
   }
 }

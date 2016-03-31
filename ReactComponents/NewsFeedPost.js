@@ -38,7 +38,7 @@ var NewsFeedPost = React.createClass({
           <Text
             onPress={this._onPressFullArticleButton}
             style={[Style.textBodyBold, Style.textColorCtaBlue, styles.fullArticleButton]}>
-              Read the full article
+              View original story
           </Text>
           <TouchableHighlight onPress={() => Bridge.shareNewsHeadline(post.id, Helpers.convertUnicode(post.title))}>
             <View style={styles.shareButton}>

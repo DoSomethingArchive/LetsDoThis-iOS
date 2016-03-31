@@ -85,15 +85,31 @@
     return [DSOAPI sharedInstance].sessionToken.length > 0;
 }
 
+- (void)registerUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] createUserWithEmail:email password:password firstName:firstName mobile:mobile countryCode:countryCode deviceToken:deviceToken success:^(NSDictionary *response) {
+        if (completionHandler) {
+            completionHandler(response);
+        }
+    } failure:^(NSError *error) {
+        // Filter any 422's (email/mobile exists).
+        if (error.code != 422) {
+            [self recordError:error logMessage:@"register"];
+        }
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
 - (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    CLS_LOG(@"login");
     [[DSOAPI sharedInstance] createSessionForEmail:email password:password completionHandler:^(DSOUser *user) {
         self.user = user;
         if (completionHandler) {
             completionHandler(user);
         }
       } errorHandler:^(NSError *error) {
-          if (error.code >= 500) {
+          // Filter any 401's (invalid login credentials).
+          if (error.code != 401) {
               [self recordError:error logMessage:@"login"];
           }
           if (errorHandler) {
@@ -109,10 +125,11 @@
     }
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
     NSString *logMessage = [NSString stringWithFormat:@"user %@", userID];
-    CLS_LOG(@"%@", logMessage);
+
     [[DSOAPI sharedInstance] loadCurrentUserWithCompletionHandler:^(DSOUser *user) {
         self.user = user;
         NSString *deviceToken = [self appDelegate].deviceToken;
+        CLS_LOG(@"%@", logMessage);
 
         if (deviceToken) {
             BOOL deviceTokenStored = NO;
@@ -149,8 +166,8 @@
 
 - (void)logoutWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *logMessage = @"logout";
-    CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] endSessionWithDeviceToken:self.deviceToken completionHandler:^(NSDictionary *responseDict) {
+        CLS_LOG(@"%@", logMessage);
         self.user = nil;
         if (completionHandler) {
             completionHandler();
@@ -168,8 +185,7 @@
 }
 
 - (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaign.campaignID];
-    CLS_LOG(@"%@", logMessage);
+    NSString *logMessage = [NSString stringWithFormat:@"%li", (long)campaign.campaignID];
     [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOSignup *signup) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
         [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup];
@@ -186,7 +202,6 @@
 
 - (void)reportbackForCampaign:(DSOCampaign *)campaign fileString:(NSString *)fileString caption:(NSString *)caption quantity:(NSInteger)quantity completionHandler:(void(^)(DSOReportback *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaign.campaignID];
-    CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] postReportbackForCampaign:campaign fileString:fileString caption:caption quantity:quantity completionHandler:^(DSOReportback *reportback) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
         [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:reportback];
@@ -201,16 +216,12 @@
     }];
 }
 
--(void)postAvatarImage:(UIImage *)avatarImage sendAppEvent:(BOOL)sendAppEvent completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    CLS_LOG(@"%@", avatarImage);
-    [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(id responseObject) {
-        NSDictionary *responseDict = responseObject[@"data"];
-        self.user.avatarURL = responseDict[@"photo"];
-        NSLog(@"postAvatarImage currentUserChanged eventDispatcher");
-        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:responseDict];
-
+- (void)postAvatarImage:(UIImage *)avatarImage completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(DSOUser *user) {
+        // @todo: hack for now, having trouble just updating avatar only in RN
+        self.user = user;
         if (completionHandler) {
-            completionHandler(responseDict);
+            completionHandler(user);
         }
     } errorHandler:^(NSError * error) {
         [self recordError:error logMessage:@"avatar"];
@@ -231,9 +242,8 @@
 
 - (void)loadAndStoreCampaignWithID:(NSInteger)campaignID completionHandler:(void (^)(DSOCampaign *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
     NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaignID];
-    CLS_LOG(@"%@", logMessage);
     [[DSOAPI sharedInstance] loadCampaignWithID:campaignID completionHandler:^(DSOCampaign *campaign) {
-        CLS_LOG(@"stored");
+        CLS_LOG(@"%@", logMessage);
         [self.mutableCampaigns addObject:campaign];
         if (completionHandler) {
             completionHandler(campaign);
@@ -247,11 +257,12 @@
 }
 
 - (void)recordError:(NSError *)error logMessage:(NSString *)logMessage {
-    CLS_LOG(@"Error code %li -- %@", (long)error.code, logMessage);
-    // Only record error in Crashlytics if error is NOT lack of connectivity or timeout.
-    if ((error.code != -1009) && (error.code != -1001)) {
-        [CrashlyticsKit recordError:error];
+    CLS_LOG(@"error.code %li : %@", (long)error.code, logMessage);
+    if (error.networkConnectionError) {
+        NSLog(@"Excluding networking error from Crashlytics.");
+        return;
     }
+    [CrashlyticsKit recordError:error];
 }
 
 @end
