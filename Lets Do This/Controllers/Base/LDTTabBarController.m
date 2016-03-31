@@ -225,7 +225,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
         UIImage *selectedImage = info[UIImagePickerControllerEditedImage];
         if (self.selectedImageType == LDTSelectedImageTypeAvatar) {
             [SVProgressHUD showWithStatus:@"Uploading..."];
-            [[DSOUserManager sharedInstance] postAvatarImage:selectedImage sendAppEvent:YES completionHandler:^(NSDictionary *completionHandler) {
+            [[DSOUserManager sharedInstance] postAvatarImage:selectedImage completionHandler:^(DSOUser *completionHandler) {
                 [SVProgressHUD dismiss];
                 [LDTMessage displaySuccessMessageWithTitle:@"Hey good lookin'." subtitle:@"You've successfully changed your profile photo."];
             } errorHandler:^(NSError *error) {

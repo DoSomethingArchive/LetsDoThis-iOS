@@ -15,7 +15,6 @@
 		B211C4181C3AEE4700A94E64 /* DSOCause.m in Sources */ = {isa = PBXBuildFile; fileRef = B211C4171C3AEE4700A94E64 /* DSOCause.m */; };
 		B211C4221C3AF54800A94E64 /* LDTCauseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B211C4211C3AF54800A94E64 /* LDTCauseListViewController.m */; };
 		B212C2621B4ED6F300376BB1 /* LDTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B212C2611B4ED6F300376BB1 /* LDTBaseViewController.m */; };
-		B21306FC1C486E5C003893DB /* LDTNewsArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21306FB1C486E5C003893DB /* LDTNewsArticleViewController.m */; };
 		B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */; };
 		B22273FE1B58076F005C896D /* DSOAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = B22273FD1B58076F005C896D /* DSOAPI.m */; };
 		B22AB7661B4EE78500BE7052 /* LDTUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22AB7651B4EE78500BE7052 /* LDTUserLoginViewController.m */; };
@@ -89,8 +88,6 @@
 		B211C4211C3AF54800A94E64 /* LDTCauseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCauseListViewController.m; path = "Lets Do This/Controllers/Cause/LDTCauseListViewController.m"; sourceTree = SOURCE_ROOT; };
 		B212C2601B4ED6F300376BB1 /* LDTBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTBaseViewController.h; path = Base/LDTBaseViewController.h; sourceTree = "<group>"; };
 		B212C2611B4ED6F300376BB1 /* LDTBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseViewController.m; path = Base/LDTBaseViewController.m; sourceTree = "<group>"; };
-		B21306FA1C486E5C003893DB /* LDTNewsArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTNewsArticleViewController.h; path = News/LDTNewsArticleViewController.h; sourceTree = "<group>"; };
-		B21306FB1C486E5C003893DB /* LDTNewsArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTNewsArticleViewController.m; path = News/LDTNewsArticleViewController.m; sourceTree = "<group>"; };
 		B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+LDT.h"; sourceTree = "<group>"; };
 		B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+LDT.m"; sourceTree = "<group>"; };
 		B22273FC1B58076F005C896D /* DSOAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOAPI.h; path = Networking/DSOAPI.h; sourceTree = "<group>"; };
@@ -314,8 +311,6 @@
 			children = (
 				B2BB8F171C457CEC000EA5CA /* LDTNewsFeedViewController.h */,
 				B2BB8F181C457CEC000EA5CA /* LDTNewsFeedViewController.m */,
-				B21306FA1C486E5C003893DB /* LDTNewsArticleViewController.h */,
-				B21306FB1C486E5C003893DB /* LDTNewsArticleViewController.m */,
 			);
 			name = News;
 			sourceTree = "<group>";
@@ -766,7 +761,6 @@
 				B2C3054B1BE142AE0046CD10 /* NSError+LDT.m in Sources */,
 				C2B152201ACE05510028C336 /* LDTAppDelegate.m in Sources */,
 				B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */,
-				B21306FC1C486E5C003893DB /* LDTNewsArticleViewController.m in Sources */,
 				C2B151EF1ACE04C30028C336 /* main.m in Sources */,
 				B21126271B618038009128E7 /* DSOUserManager.m in Sources */,
 				B211C4221C3AF54800A94E64 /* LDTCauseListViewController.m in Sources */,

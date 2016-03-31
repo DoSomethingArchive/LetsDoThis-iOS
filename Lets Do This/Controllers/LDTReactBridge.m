@@ -14,12 +14,11 @@
 #import "LDTUserViewController.h"
 #import "LDTCampaignViewController.h"
 #import "LDTCauseDetailViewController.h"
-#import "LDTNewsArticleViewController.h"
 #import "LDTMessage.h"
 #import "LDTTheme.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "GAI+LDT.h"
 #import "LDTActivityViewController.h"
-
 
 @interface LDTReactBridge() <RCTBridgeModule>
 
@@ -89,9 +88,8 @@ RCT_EXPORT_METHOD(pushCause:(NSDictionary *)causeDict) {
 }
 
 RCT_EXPORT_METHOD(presentNewsArticle:(NSInteger)newsPostID urlString:(NSString *)urlString) {
-    LDTNewsArticleViewController *articleViewController = [[LDTNewsArticleViewController alloc] initWithNewsPostID:newsPostID urlString:urlString];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:articleViewController];
-    [self.tabBarController presentViewController:navigationController animated:YES completion:nil];
+    [[GAI sharedInstance] trackEventWithCategory:@"news" action:@"read" label:[NSString stringWithFormat:@"%li", (long)newsPostID]  value:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
 }
 
 RCT_EXPORT_METHOD(postSignup:(NSInteger)campaignID) {
