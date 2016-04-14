@@ -7,7 +7,6 @@
 //
 
 #import "LDTTheme.h"
-#import <RCTBridgeModule.h>
 
 const CGFloat kFontSizeCaption = 13.0f;
 const CGFloat kFontSizeBody = 16.0f;
@@ -17,17 +16,16 @@ const CGFloat kFontSizeTitle = 24.0f;
 NSString *fontName = @"BrandonGrotesque-Regular";
 NSString *fontNameBold = @"BrandonGrotesque-Bold";
 NSString *hexCtaBlue = @"#3932A9";
-
-@interface LDTTheme () <RCTBridgeModule>
-
-@end
+NSString *hexCopyGray = @"#4A4A4A";
 
 @implementation LDTTheme
 
-RCT_EXPORT_MODULE();
-
 + (UIColor *)ctaBlueColor {
     return [self colorFromHexString:hexCtaBlue];
+}
+
++ (UIColor *)copyGrayColor {
+    return [self colorFromHexString:hexCopyGray];
 }
 
 +(UIColor *)disabledGrayColor {
@@ -90,26 +88,36 @@ RCT_EXPORT_MODULE();
     return fontNameBold;
 }
 
++ (NSString *)hexCopyGray {
+    return hexCopyGray;
+}
+
++ (NSString *)hexCtaBlue {
+    return hexCtaBlue;
+}
+
++ (CGFloat)fontSizeCaption {
+    return kFontSizeCaption;
+}
+
++ (CGFloat)fontSizeBody {
+    return kFontSizeBody;
+}
+
++ (CGFloat)fontSizeHeading {
+    return kFontSizeHeading;
+}
+
++ (CGFloat)fontSizeTitle {
+    return kFontSizeTitle;
+}
+
 +(UIColor *)colorFromHexString:(NSString *)hexString {
     unsigned rgbValue = 0;
     NSScanner *scanner = [NSScanner scannerWithString:hexString];
     [scanner setScanLocation:1]; // bypass '#' character
     [scanner scanHexInt:&rgbValue];
     return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
-}
-
-#pragma mark - RCTBridgeModule
-
-- (NSDictionary *)constantsToExport {
-    return @{
-             @"fontName": fontName,
-             @"fontNameBold": fontNameBold,
-             @"fontSizeCaption": [NSNumber numberWithFloat:kFontSizeCaption],
-             @"fontSizeBody": [NSNumber numberWithFloat:kFontSizeBody],
-             @"fontSizeHeading": [NSNumber numberWithFloat:kFontSizeHeading],
-             @"fontSizeTitle": [NSNumber numberWithFloat:kFontSizeTitle],
-             @"colorCtaBlue" : hexCtaBlue,
-             };
 }
 
 @end

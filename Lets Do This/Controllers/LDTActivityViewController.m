@@ -15,7 +15,7 @@
 
 @implementation LDTActivityViewController
 
-- (instancetype)initWithShareMessage:(NSString *)shareMessage shareImage:(UIImage *)shareImage gaiActionName:(NSString *)gaiActionName {
+- (instancetype)initWithShareMessage:(NSString *)shareMessage shareImage:(UIImage *)shareImage gaiCategoryName:(NSString *)gaiCategoryName gaiActionName:(NSString *)gaiActionName gaiValue:(NSNumber *)gaiValue {
 
     NSString *shareMessageWithLink = [NSString stringWithFormat:@"%@ https://itunes.apple.com/app/id998995766", shareMessage];
     NSArray *activityItems;
@@ -34,7 +34,7 @@
             NSArray *activityTypeComponents = [activityType componentsSeparatedByString:@"."];
             // retrieves and later lowercases end of activityType, i.e. "facebook"
             NSString *activityString = activityTypeComponents[activityTypeComponents.count-1];
-            [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:gaiActionName label:activityString.lowercaseString value:nil];
+            [[GAI sharedInstance] trackEventWithCategory:gaiCategoryName action:gaiActionName label:activityString.lowercaseString value:gaiValue];
         }];
     }
 

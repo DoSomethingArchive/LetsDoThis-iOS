@@ -15,6 +15,7 @@
 
 @interface LDTTheme : NSObject
 
++(UIColor *)copyGrayColor;
 +(UIColor *)ctaBlueColor;
 +(UIColor *)disabledGrayColor;
 +(UIColor *)facebookBlueColor;
@@ -31,5 +32,11 @@
 +(UIFont *)fontTitle;
 +(NSString *)fontName;
 +(NSString *)fontBoldName;
++ (NSString *)hexCopyGray;
++ (NSString *)hexCtaBlue;
++ (CGFloat)fontSizeCaption;
++ (CGFloat)fontSizeBody;
++ (CGFloat)fontSizeHeading;
++ (CGFloat)fontSizeTitle;
 
 @end

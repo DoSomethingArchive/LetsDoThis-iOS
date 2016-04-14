@@ -8,27 +8,21 @@
 
 #import "DSOUser.h"
 #import "NSDictionary+DSOJsonHelper.h"
-#import "NSDate+DSO.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface DSOUser()
 
+@property (nonatomic, strong, readwrite) NSArray *deviceTokens;
 @property (nonatomic, assign, readwrite) NSInteger phoenixID;
-@property (nonatomic, strong, readwrite) NSString *avatarURL;
 @property (nonatomic, strong, readwrite) NSString *countryCode;
 @property (nonatomic, strong, readwrite) NSString *displayName;
 @property (nonatomic, strong, readwrite) NSString *email;
 @property (nonatomic, strong, readwrite) NSString *firstName;
 @property (nonatomic, strong, readwrite) NSString *mobile;
-@property (nonatomic, strong, readwrite) NSString *sessionToken;
 @property (nonatomic, strong, readwrite) NSString *userID;
-@property (nonatomic, strong, readwrite) UIImage *photo;
 
 @end
 
 @implementation DSOUser
-
-@synthesize photo = _photo;
 
 - (instancetype)initWithDict:(NSDictionary *)dict {
     self = [super init];
@@ -37,20 +31,20 @@
         _userID = dict[@"_id"];
         // Hack to hotfix inconsistent API id property: https://github.com/DoSomething/LetsDoThis-iOS/issues/340
         if (!_userID) {
-            _userID = [dict valueForKeyAsString:@"id" nullValue:@"null-id"];
+            _userID = [dict valueForKeyAsString:@"id"];
         }
         if ([dict objectForKey:@"country"]) {
             _countryCode = dict[@"country"];
         }
-        _firstName = [dict valueForKeyAsString:@"first_name" nullValue:@"Doer"];
+        _firstName = [dict valueForKeyAsString:@"first_name"];
         _email = dict[@"email"];
-        _phoenixID = [dict valueForKeyAsInt:@"drupal_id" nullValue:0];
-        _sessionToken = dict[@"session_token"];
-        _avatarURL = [dict valueForKeyAsString:@"photo" nullValue:@""];
-        if (dict[@"photo"]) {
-            [[SDWebImageManager sharedManager] downloadImageWithURL:dict[@"photo"] options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
-                 _photo = image;
-             }];
+        _phoenixID = [dict valueForKeyAsInt:@"drupal_id"];
+        _avatarURL = [dict valueForKeyAsString:@"photo"];
+        if ([dict valueForJSONKey:@"parse_installation_ids"]) {
+            _deviceTokens = dict[@"parse_installation_ids"];
+        }
+        else {
+            _deviceTokens = [[NSArray alloc] init];
         }
     }
 
@@ -67,33 +61,6 @@
              @"country" : self.countryName,
              @"photo": self.avatarURL
              };
-}
-
-- (UIImage *)photo {
-    if (!_photo) {
-        // If this user is the logged in user, the photo's path exists, and the file exists, return the locally saved file.
-        if ([self isLoggedInUser]) {
-            UIImage *photo = [[DSOUserManager sharedInstance] retrieveAvatar];
-            if (photo) {
-                _photo = photo;
-            }
-            else {
-                _photo = [UIImage imageNamed:@"Default Avatar"];
-            }
-        }
-        else {
-            _photo = [UIImage imageNamed:@"Default Avatar"];
-        }
-	}
-	
-	return _photo;
-}
-
-- (void)setPhoto:(UIImage *)photo {
-    _photo = photo;
-    if ([self isLoggedInUser] && photo) {
-        [[DSOUserManager sharedInstance] storeAvatar:photo];
-    }
 }
 
 - (NSString *)countryName {

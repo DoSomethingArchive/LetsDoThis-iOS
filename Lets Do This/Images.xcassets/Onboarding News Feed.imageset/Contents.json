@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Onboarding_StopBeingBored.png",
+      "filename" : "Onboarding News Feed.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Onboarding_StopBeingBored@2x.png",
+      "filename" : "Onboarding News Feed@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Onboarding_StopBeingBored@3x.png",
+      "filename" : "Onboarding News Feed@3x.png",
       "scale" : "3x"
     }
   ],

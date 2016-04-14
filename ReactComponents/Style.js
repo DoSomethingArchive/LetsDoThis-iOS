@@ -6,15 +6,15 @@ var {
   StyleSheet,
 } = React;
 
-var Theme = require('react-native').NativeModules.LDTTheme;
-var colorCtaBlue = Theme.colorCtaBlue;
-var colorTextDefault = '#4A4A4A';
-var fontFamilyName = Theme.fontName;
-var fontFamilyBoldName = Theme.fontNameBold;
-var fontSizeCaption = Theme.fontSizeCaption;
-var fontSizeBody = Theme.fontSizeBody;
-var fontSizeHeading = Theme.fontSizeHeading;
-var fontSizeTitle = Theme.fontSizeTitle;
+var Bridge = require('react-native').NativeModules.LDTReactBridge;
+var colorCtaBlue = Bridge.colorCtaBlue;
+var colorTextDefault = Bridge.colorCopyGray;
+var fontFamilyName = Bridge.fontName;
+var fontFamilyBoldName = Bridge.fontNameBold;
+var fontSizeCaption = Bridge.fontSizeCaption;
+var fontSizeBody = Bridge.fontSizeBody;
+var fontSizeHeading = Bridge.fontSizeHeading;
+var fontSizeTitle = Bridge.fontSizeTitle;
 
 module.exports = StyleSheet.create({
   backgroundColorCtaBlue: {

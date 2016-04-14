@@ -28,18 +28,18 @@
 @property (weak, nonatomic) IBOutlet UILabel *notificationsHeadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationsLabel;
 @property (weak, nonatomic) IBOutlet UIView *notificationSwitchView;
-@property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
 
-@property (weak, nonatomic) IBOutlet UIView *feedbackView;
 @property (weak, nonatomic) IBOutlet UILabel *feedbackHeadingLabel;
+@property (weak, nonatomic) IBOutlet UIView *feedbackView;
 @property (weak, nonatomic) IBOutlet UILabel *feedbackLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *feedbackArrowImageView;
 @property (weak, nonatomic) IBOutlet UIView *rateView;
 @property (weak, nonatomic) IBOutlet UILabel *rateLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *rateArrowImageView;
+@property (weak, nonatomic) IBOutlet UIView *privacyPolicyView;
+@property (weak, nonatomic) IBOutlet UILabel *privacyPolicyLabel;
+@property (weak, nonatomic) IBOutlet UIView *termsView;
+@property (weak, nonatomic) IBOutlet UILabel *termsLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *submitIdeasButton;
-
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
 - (IBAction)submitIdeasButtonTouchUpInside:(id)sender;
@@ -54,31 +54,39 @@
     [super viewDidLoad];
 
     self.title = @"Settings".uppercaseString;
-    self.notificationsSwitch.enabled = FALSE;
 
     [self styleView];
 
     UITapGestureRecognizer *logoutTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleLogoutTap:)];
     [self.logoutView addGestureRecognizer:logoutTap];
-    UITapGestureRecognizer *notificationSwitchTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleNotificationSwitchTap:)];
-    [self.notificationSwitchView addGestureRecognizer:notificationSwitchTap];
+
     UITapGestureRecognizer *rateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleRateTap:)];
     [self.rateView addGestureRecognizer:rateTap];
+
     UITapGestureRecognizer *feedbackTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleFeedbackTap:)];
     [self.feedbackView addGestureRecognizer:feedbackTap];
+
+    UITapGestureRecognizer *privacyPolicyTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePrivacyPolicyTap:)];
+    [self.privacyPolicyView addGestureRecognizer:privacyPolicyTap];
+
+    UITapGestureRecognizer *termsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTermsTap:)];
+    [self.termsView addGestureRecognizer:termsTap];
+
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(dismissSettings:)];
     self.navigationItem.rightBarButtonItem = rightButton;
     [self styleRightBarButton];
+
+    self.loggedInEmailLabel.text = [NSString stringWithFormat:@"Logged in as %@", [DSOUserManager sharedInstance].user.email];
+    self.notificationsLabel.text = @"Notifications can be turned on or off by finding DoSomething in the Notifications section of the Settings app.";
+    self.termsLabel.text = @"Show Terms & Conditions";
+    self.privacyPolicyLabel.text = @"Show Privacy Policy";
+    self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
     [[GAI sharedInstance] trackScreenView:@"settings"];
-
-    UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-    self.isNotificationsEnabled = (grantedSettings.types != UIUserNotificationTypeNone);
-    [self.notificationsSwitch setOn:self.isNotificationsEnabled];
 }
 
 #pragma LDTSettingsViewController
@@ -89,55 +97,26 @@
 
     self.accountHeadingLabel.font = LDTTheme.fontBold;
     self.accountHeadingLabel.textColor = LDTTheme.mediumGrayColor;
-
     self.loggedInEmailLabel.font = LDTTheme.font;
-    self.loggedInEmailLabel.text = [NSString stringWithFormat:@"Logged in as %@", [DSOUserManager sharedInstance].user.email];
-    
     self.logoutLabel.font = LDTTheme.font;
-    
     self.notificationsHeadingLabel.font = LDTTheme.fontBold;
     self.notificationsHeadingLabel.textColor = LDTTheme.mediumGrayColor;
     self.notificationsLabel.font = LDTTheme.font;
-    
     self.feedbackHeadingLabel.font = LDTTheme.fontBold;
     self.feedbackHeadingLabel.textColor = LDTTheme.mediumGrayColor;
     self.feedbackLabel.font = LDTTheme.font;
-    self.feedbackArrowImageView.image = [UIImage imageNamed:@"Arrow"];
-    
     self.rateLabel.font = LDTTheme.font;
-    self.rateArrowImageView.image = [UIImage imageNamed:@"Arrow"];
-
-    [self.submitIdeasButton.titleLabel setFont:LDTTheme.fontCaption];
+    self.privacyPolicyLabel.font = LDTTheme.font;
+    self.termsLabel.font = LDTTheme.font;
+    self.submitIdeasButton.titleLabel.font = LDTTheme.fontCaption;
     [self.submitIdeasButton setTitleColor:LDTTheme.ctaBlueColor forState:UIControlStateNormal];
     self.submitIdeasButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    // wraps button text if multiple lines are needed on smaller screens
     self.submitIdeasButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    
-    [self.versionLabel setFont:LDTTheme.fontCaption];
-    self.versionLabel.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    self.versionLabel.font = LDTTheme.fontCaption;
 }
 
 - (void)dismissSettings:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
-- (void)handleNotificationSwitchTap:(UITapGestureRecognizer *)recognizer {
-    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on notif switch" label:nil value:nil];
-    NSString *alertControllerMessage;
-    if (!self.isNotificationsEnabled) {
-        alertControllerMessage = @"You've disabled Notifications for Let's Do This. You can turn them on in the Notifications section of the Settings app.";
-    }
-    else {
-        alertControllerMessage = @"You've enabled Notifications for Let's Do This. You can turn them off in the Notifications section of the Settings app.";
-    }
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Receive Notifications" message:alertControllerMessage preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
-        [alertController dismissViewControllerAnimated:YES completion:nil];
-    }];
-
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)handleLogoutTap:(UITapGestureRecognizer *)recognizer {
@@ -147,14 +126,15 @@
         [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"log out" label:nil value:nil];
         [SVProgressHUD showWithStatus:@"Logging out..."];
 
-        [[DSOUserManager sharedInstance] endSessionWithCompletionHandler:^ {
+        [[DSOUserManager sharedInstance] logoutWithCompletionHandler:^ {
             [SVProgressHUD dismiss];
             [self pushUserConnectViewController];
         } errorHandler:^(NSError *error) {
             [SVProgressHUD dismiss];
-            // Performs normal logout functionality even if we are presented with an error,
-            // but only if error is not a lack of connectivity. 
-            if (error.code != -1009) {
+            // If non-connection error, something's effed, login again.
+            // We make a similar check in LDTTabBarController -(void)loadCurrentUser.
+            if (!error.networkConnectionError) {
+                [[DSOUserManager sharedInstance] forceLogout];
                 [self pushUserConnectViewController];
             }
             else {
@@ -172,20 +152,32 @@
 
 - (void)pushUserConnectViewController {
     [self.navigationController pushViewController:[[LDTUserConnectViewController alloc] init] animated:YES];
+    // @todo: statusBar color change
+    // @see https://github.com/DoSomething/LetsDoThis-iOS/issues/893
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleClear];
-    // Now that tabBar is hidden, select the first tab, so it will be the first tab selected upon next login.
+
     LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    [tabBar setSelectedIndex:0];
+    [tabBar reset];
 }
 
 - (void)handleFeedbackTap:(UITapGestureRecognizer *)recognizer {
     [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on feedback form" label:nil value:nil];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://docs.google.com/a/dosomething.org/forms/d/1KUWQgfuoKpUXg7uuurXSgYQ3RCuxwNVSrGeb_kDRqf8/viewform?edit_requested=true"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://docs.google.com/a/dosomething.org/forms/d/1KUWQgfuoKpUXg7uuurXSgYQ3RCuxwNVSrGeb_kDRqf8/viewform"]];
 }
 
 - (void)handleRateTap:(UITapGestureRecognizer *)recognizer {
     [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on review app button" label:nil value:nil];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/998995766"]];
+}
+
+- (void)handleTermsTap:(UITapGestureRecognizer *)recognizer {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on terms of service" label:nil value:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.dosomething.org/about/terms-service"]];
+}
+
+- (void)handlePrivacyPolicyTap:(UITapGestureRecognizer *)recognizer {
+    [[GAI sharedInstance] trackEventWithCategory:@"behavior" action:@"tap on privacy policy" label:nil value:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.dosomething.org/about/privacy-policy"]];
 }
 
 - (IBAction)submitIdeasButtonTouchUpInside:(id)sender {

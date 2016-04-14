@@ -10,7 +10,9 @@ import React, {
 import Dimensions from 'Dimensions';
 
 var Style = require('./Style.js');
+var Helpers = require('./Helpers.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
+var NetworkImage = require('./NetworkImage.js');
 
 var ReportbackItemView = React.createClass({
   render: function() {
@@ -31,18 +33,18 @@ var ReportbackItemView = React.createClass({
       user.first_name = 'Doer';
     }
     if ((user.photo && user.photo.length == 0) || (!user.photo)) {
-      user.photo = 'https://placekitten.com/g/600/600';
+      user.photo = 'Avatar';
     }
     // Sanity check:
     if ((!reportbackItem.media) || reportbackItem.media.uri.length == 0) {
-      reportbackItem.media.uri = 'https://placekitten.com/g/600/600';
+      reportbackItem.media.uri = 'Placeholder Image Download Fails';
     }
     var shareButton = null;
     if (this.props.share) {
       var shareButton = (
         <TouchableHighlight 
           style={[Style.actionButton, {padding: 8, marginTop: 16,}]} 
-          onPress={() => Bridge.shareReportback(this.getShareMessage(), reportbackItem.media.uri)}
+          onPress={() => Bridge.shareReportbackItem(Number(reportbackItem.id), this.getShareMessage(), reportbackItem.media.uri)}
           >
           <Text style={Style.actionButtonText}>
             {"Share your photo".toUpperCase()}
@@ -55,9 +57,10 @@ var ReportbackItemView = React.createClass({
        <Text style={[Style.textCaption, styles.countryNameText]}>
          {user.country.toUpperCase()}
         </Text>
-        <Image
+        <NetworkImage
           style={styles.reportbackItemImage}
           source={{uri:reportbackItem.media.uri}}
+          displayProgress={true}
         />
         <View style={styles.contentContainer}>
           <View style={{flexDirection: 'row'}}>
@@ -77,7 +80,7 @@ var ReportbackItemView = React.createClass({
             source={{uri:user.photo}}
           />
           <Text style={[Style.textBodyBold, Style.textColorCtaBlue, styles.usernameText]}>
-            {user.first_name.toUpperCase()}
+            {Helpers.sanitizeFirstName(user.first_name).toUpperCase()}
           </Text>
         </View>
       </View>

@@ -8,6 +8,6 @@
 
 @interface LDTActivityViewController : UIActivityViewController
 
-- (instancetype)initWithShareMessage:(NSString *)shareMessage shareImage:(UIImage *)shareImage gaiActionName:(NSString *)gaiActionName;
+- (instancetype)initWithShareMessage:(NSString *)shareMessage shareImage:(UIImage *)shareImage gaiCategoryName:(NSString *)gaiCategoryName gaiActionName:(NSString *)gaiActionName gaiValue:(NSNumber *)gaiValue;
 
 @end

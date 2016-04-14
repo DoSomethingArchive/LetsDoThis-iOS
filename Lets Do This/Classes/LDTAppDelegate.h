@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic, readonly) LDTTabBarController *tabBarController;
 @property (strong, nonatomic, readonly) RCTBridge *bridge;
+@property (strong, nonatomic, readonly) NSString *deviceToken;
 @property (strong, nonatomic, readonly) NSURL *jsCodeLocation;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIView *statusBarBackgroundView;

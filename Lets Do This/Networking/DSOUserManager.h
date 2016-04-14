@@ -13,46 +13,40 @@
 // Stores the current/authenticated user.
 @property (strong, nonatomic, readonly) DSOUser *user;
 
-// Stores session token for authenticated API requests.
-@property (strong, nonatomic, readonly) NSString *sessionToken;
-
-// Stores all active DSOCampaigns to display.
-@property (strong, nonatomic, readonly) NSArray *activeCampaigns;
-@property (strong, nonatomic, readonly) NSDictionary *campaignDictionaries;
-
-// Singleton object for accessing authenticated User, activeCampaigns
+// Singleton object for accessing authenticated User, stored campaigns.
 + (DSOUserManager *)sharedInstance;
-
-// Posts login request to the API with given email and password, and saves session tokens to remain authenticated upon future app usage.
-- (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
-
-// Use saved session to set relevant DSOAPI headers and loads the current user's campaignSignups.
-- (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 // Returns whether an authenticated user session has been saved.
 - (BOOL)userHasCachedSession;
 
-// Logs out the user and deletes the saved session tokens. Called when User logs out from Settings screen.
-- (void)endSessionWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Posts new user registration to API.
+- (void)registerUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler;
 
-// Deletes the current user and saved session tokens, without making API requests. Hack for now to solve for scenarios where logout request seems to complete but we didn't get a chance to delete the logged in user's saved session tokens.
-- (void)endSession;
+// Posts auth request to the API with given email and password of an existing user, and saves session tokens to remain authenticated upon future app usage.
+- (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-// Posts a campaign signup for the current user and given DSOCampaign. Called from a relevant Campaign view.
-- (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Use saved session to set relevant DSOAPI headers and loads the current user.
+- (void)continueSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-// Posts a Reportback Item for the current user, and updates activity.
-- (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Logs out the user and deletes the current user and saved session tokens. Called when User logs out from Settings screen.
+- (void)logoutWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-// Returns DSOCampaign for a given Campaign id if it exists in the activeCampaigns property.
-- (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID;
+// Deletes the current user and saved session tokens, without making API request. Hack for now to solve for scenarios where logout request seems to complete but we didn't get a chance to delete the logged in user's saved session tokens.
+- (void)forceLogout;
 
-- (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Posts Signup to API, calls relevant GoogleAnalytics and React Native eventDispatcher.
+- (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-// Stores the user's avatar image within the filesystem. 
-- (void)storeAvatar:(UIImage *)photo;
+// Posts Reportback to API, calls relevant GoogleAnalytics and React Native eventDispatcher.
+- (void)reportbackForCampaign:(DSOCampaign *)campaign fileString:(NSString *)fileString caption:(NSString *)caption quantity:(NSInteger)quantity completionHandler:(void(^)(DSOReportback *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-// Retrieves the user's avatar image from the filesystem. Returns nil if photo doesn't exist.
-- (UIImage *)retrieveAvatar;
+// Posts Avatar to API, returns updated current user in completion handler.
+- (void)postAvatarImage:(UIImage *)avatarImage completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler ;
+
+// Returns DSOCampaign from local storage, if exists.
+- (DSOCampaign *)campaignWithID:(NSInteger)campaignID;
+
+// Loads Campaign with given ID from the API, and stores locally.
+- (void)loadAndStoreCampaignWithID:(NSInteger)campaignID completionHandler:(void(^)(DSOCampaign *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 @end

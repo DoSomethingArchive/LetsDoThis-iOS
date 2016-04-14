@@ -14,8 +14,11 @@ import React, {
 import Dimensions from 'Dimensions';
 
 var Style = require('./Style.js');
+var Helpers = require('./Helpers.js');
+var NetworkErrorView = require('./NetworkErrorView.js');
 var ReportbackItemView = require('./ReportbackItemView.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
+var NetworkImage = require('./NetworkImage.js');
 
 var CampaignView = React.createClass({
   getInitialState: function() {
@@ -24,6 +27,8 @@ var CampaignView = React.createClass({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       isRefreshing: false,
+      id: this.props.id,
+      campaign: this.props.campaign,
       loaded: false,
       error: false,
       signup: false,
@@ -32,18 +37,35 @@ var CampaignView = React.createClass({
   },
   componentDidMount: function() {
     this.fetchData();
-    this.subscription = NativeAppEventEmitter.addListener(
+    this.activitySubscription = NativeAppEventEmitter.addListener(
       'currentUserActivity',
-      (signup) => this.handleEvent(signup),
+      (signup) => this.handleActivityEvent(signup),
+    );
+    this.campaignLoadedSubscription = NativeAppEventEmitter.addListener(
+      'campaignLoaded',
+      (campaign) => this.handleCampaignLoadedEvent(campaign),
     );
   },
   componentWillUnmount: function() {
-    if (typeof this.subscription != "undefined") {
-      this.subscription.remove();
+    this.activitySubscription.remove();
+    this.campaignLoadedSubscription.remove();
+  },
+  handleCampaignLoadedEvent: function(campaign) {
+    if (Number(campaign.id) == this.props.id) {
+      if (campaign.error) {
+        this.setState({
+          error: true,
+        });
+        return;
+      }
+      this.setState({
+        campaign: campaign,
+      });
+      this.fetchData();
     }
   },
-  handleEvent: function(campaignActivity) {
-    if (campaignActivity.campaign.id != this.props.campaign.id) {
+  handleActivityEvent: function(campaignActivity) {
+    if (campaignActivity.campaign.id != this.props.id) {
       return;
     }
     if (!this.state.signup) {
@@ -53,6 +75,7 @@ var CampaignView = React.createClass({
       return;
     }
     // If we have a quantity, this campaignActivityEvent is a Reportback.
+    // @todo: Different handleEvent? This feels hacky.
     if (campaignActivity.quantity) {
       this.setState({
         reportback: campaignActivity,
@@ -60,10 +83,23 @@ var CampaignView = React.createClass({
     }
   },
   fetchData: function() {
-    var statusUrl = this.props.signupUrl + '&campaigns=' + this.props.campaign.id.toString();
+    this.setState({
+      error: false,
+      loaded: false,
+    });
+    if (!this.state.campaign.id) {
+      return;
+    }
+    var statusUrl = this.props.signupUrl;
+    statusUrl += '&campaigns=' + this.props.id.toString();
     fetch(statusUrl)
       .then((response) => response.json())
+      .catch((error) => this.catchError(error))
       .then((responseData) => {
+        if (!responseData) {
+          return;
+        }
+        this.fetchGalleryData();
         var signups = responseData.data;
         for (var i = 0; i < signups.length; i++) {
           var signup = signups[i];
@@ -73,52 +109,43 @@ var CampaignView = React.createClass({
           this.setState({
             signup: true,
           });
-          if (signup.reportback) {
+          if (Helpers.reportbackItemExistsForSignup(signup)) {
             this.setState({
               reportback: signup.reportback,
             });
           }
         }
-        this.fetchGalleryData();
       })
-      .catch((error) => this.catchError(error))
       .done();
   },
   fetchGalleryData: function() {
     fetch(this.props.galleryUrl)
       .then((response) => response.json())
+      .catch((error) => this.catchError(error))
       .then((responseData) => {
+        if (!responseData) {
+          return;
+        }
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData.data),
           loaded: true,
+          error: null,
         });
       })
-      .catch((error) => this.catchError(error))
       .done();
   },
   catchError: function(error) {
     this.setState({
       error: error,
+      loaded: true,
     });
-  },
-  renderError: function() {
-    return (
-      <View>
-        {this.renderCover()}
-        <View style={styles.loadingContainer}>
-          <Text style={Style.textBody}>
-            Epic Fail
-          </Text>
-        </View>
-      </View>
-    );
   },
   renderLoadingView: function() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
         <Text style={Style.textBody}>
-          Loading...
+          Loading action...
         </Text>
       </View>
     );
@@ -134,7 +161,12 @@ var CampaignView = React.createClass({
   },
   render: function() {
     if (this.state.error) {
-      return this.renderError();
+      return (
+        <NetworkErrorView
+          title="Action isn't loading right now"
+          retryHandler={null}
+          errorMessage={this.state.error.message}
+        />);
     }
     if (!this.state.loaded) {
       return this.renderLoadingView();
@@ -157,10 +189,10 @@ var CampaignView = React.createClass({
   },
   _onPressActionButton: function() {
     if (!this.state.signup) {
-      Bridge.postSignup(Number(this.props.campaign.id));
+      Bridge.postSignup(Number(this.props.id));
     }
     else {
-      Bridge.presentProveIt(Number(this.props.campaign.id));
+      Bridge.presentProveIt(Number(this.props.id));
     }
   },
   renderActionButton: function() {
@@ -184,11 +216,11 @@ var CampaignView = React.createClass({
       </View>
     );
   },
-  renderClosedContent: function() {
+  renderClosedContent: function(message) {
     return (
       <View>
         <Text style={[Style.textBody, {textAlign: 'center', padding: 20}]}>
-          This action is no longer available. 
+          {message}
         </Text>
       </View>
     );
@@ -198,11 +230,11 @@ var CampaignView = React.createClass({
       return null;
     }
     var solutionText, solutionSupportText;
-    if (this.props.campaign.solutionCopy.length > 0) {
-      solutionText = this.renderCampaignContentText(this.props.campaign.solutionCopy);
+    if (this.state.campaign.solutionCopy.length > 0) {
+      solutionText = this.renderCampaignContentText(this.state.campaign.solutionCopy);
     }
-    if (this.props.campaign.solutionSupportCopy.length > 0) {
-      solutionSupportText = this.renderCampaignContentText(this.props.campaign.solutionSupportCopy);
+    if (this.state.campaign.solutionSupportCopy.length > 0) {
+      solutionSupportText = this.renderCampaignContentText(this.state.campaign.solutionSupportCopy);
     }
     var submitCopy = "When you're done, submit a pic of yourself in action. #picsoritdidnthappen";
     var submitText = this.renderCampaignContentText(submitCopy);
@@ -214,7 +246,7 @@ var CampaignView = React.createClass({
           key={this.state.reportback.id}
           reportbackItem={this.state.reportback.reportback_items.data[0]}
           reportback={this.state.reportback}
-          campaign={this.props.campaign}
+          campaign={this.state.campaign}
           user={this.props.currentUser}
           share={true}
         />
@@ -242,22 +274,27 @@ var CampaignView = React.createClass({
     );
   },
   renderCover: function() {
-    var campaign = this.props.campaign;
+    var campaign = this.state.campaign;
     if (campaign.image_url.length == 0) {
-      campaign.image_url = 'https://placekitten.com/g/600/600';
+      campaign.image_url = 'Placeholder Image Download Fails';
     }
+    var titleView = (
+      <View style={styles.titleContainer}>
+        <Text style={[Style.textTitle, styles.centeredTitleText]}>
+          {campaign.title.toUpperCase()}
+        </Text>
+      </View>
+    );
+
     return (
       <View>
         <View>
-          <Image
+          <NetworkImage
             style={styles.coverImage}
-            source={{uri: campaign.image_url}}>
-            <View style={styles.titleContainer}>
-              <Text style={[Style.textTitle, styles.centeredTitleText]}>
-                {campaign.title.toUpperCase()}
-              </Text>
-            </View>
-          </Image>
+            source={{uri: campaign.image_url}}
+            content={titleView}
+            displayProgress={true}
+          />
         </View>
         <Text style={[Style.textSubheading, styles.tagline]}>
           {campaign.tagline}
@@ -267,8 +304,13 @@ var CampaignView = React.createClass({
   },
   renderHeader: function() {
     var content;
-    if (this.props.campaign.status == 'closed') {
-      content= this.renderClosedContent();
+    if (this.state.campaign.status != 'active') {
+      var message = "Ayy! This campaign is closed. Go back a page for actions you can do right now.";
+      content = this.renderClosedContent(message);
+    }
+    else if (this.state.campaign.type != 'campaign') {
+      var message = "This experience can only be done through text messaging. Text APP to 38383 to get started!";
+      content = this.renderClosedContent(message);
     }
     else {
       content = (

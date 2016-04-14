@@ -15,6 +15,7 @@ import React, {
 
 var Style = require('./Style.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
+var NetworkErrorView = require('./NetworkErrorView.js');
 
 var CauseListView = React.createClass({
   getInitialState: function() {
@@ -31,35 +32,39 @@ var CauseListView = React.createClass({
     this.fetchData();
   },
   fetchData: function() {
+    this.setState({
+      error: false,
+      loaded: false,
+    });
     fetch(this.props.url)
       .then((response) => response.json())
+      .catch((error) => this.catchError(error))
       .then((responseData) => {
+        if (!responseData) {
+          return;
+        }
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData.categories),
           loaded: true,
         });
       })
-      .catch((error) => this.catchError(error))
+      
       .done();
   },
   catchError: function(error) {
-    console.log(error);
+    console.log("CauseListView.catchError");
     this.setState({
       error: error,
     });
   },
-  renderError: function() {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text style={Style.textBody}>
-          Epic Fail
-        </Text>
-      </View>
-    );
-  },
   render: function() {
     if (this.state.error) {
-      return this.renderError();
+      return (
+        <NetworkErrorView
+          title="Actions aren't loading right now"
+          retryHandler={this.fetchData}
+          errorMessage={this.state.error.message}
+        />);
     }
     if (!this.state.loaded) {
       return this.renderLoadingView();
@@ -74,7 +79,7 @@ var CauseListView = React.createClass({
           <RefreshControl
             refreshing={this.state.isRefreshing}
             onRefresh={this._onRefresh}
-            tintColor="#3932A9"
+            tintColor="#CCC"
             colors={['#ff0000', '#00ff00', '#0000ff']}
             progressBackgroundColor="#ffff00"
           />
@@ -96,7 +101,7 @@ var CauseListView = React.createClass({
       <View style={styles.loadingContainer}>
         <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
         <Text style={Style.textBody}>
-          Loading causes...
+          Loading actions...
         </Text>
       </View>
     );
@@ -113,7 +118,6 @@ var CauseListView = React.createClass({
           <View style={[styles.contentContainer, styles.bordered]}>
             <View>
               <Text style={Style.textHeading}>{cause.title}</Text>
-              <Text style={Style.textCaption}>{cause.description}</Text>
             </View>
           </View>
           <View style={[styles.arrowContainer, styles.bordered]}>

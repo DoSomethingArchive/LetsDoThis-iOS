@@ -38,7 +38,7 @@
     self.navigationItem.hidesBackButton = YES;
     [self styleBackBarButton];
     
-    self.headerLabel.text = @"Let’s make this official. Register an account \nto find un-boring stuff to do with your friends.";
+    self.headerLabel.text = @"Let’s make this official.\nCreate an account to find news around your top causes and ways to take action.";
     [self.registerButton setTitle:@"Register".uppercaseString forState:UIControlStateNormal];
     [self.loginButton setTitle:@"Sign in".uppercaseString forState:UIControlStateNormal];
 
@@ -54,7 +54,7 @@
 #pragma mark - LDTUserConnectViewController
 
 - (void)styleView {
-    self.view.backgroundColor = LDTTheme.ctaBlueColor;
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Pattern BG"]];
     [self.navigationController addCustomStatusBarView:YES];
     self.headerLabel.font = LDTTheme.font;
     self.headerLabel.textColor = UIColor.whiteColor;

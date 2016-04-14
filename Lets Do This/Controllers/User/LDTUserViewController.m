@@ -9,15 +9,12 @@
 #import "LDTUserViewController.h"
 #import "LDTTheme.h"
 #import "LDTTabBarController.h"
-#import "LDTCampaignViewController.h"
-#import "LDTSubmitReportbackViewController.h"
 #import "LDTSettingsViewController.h"
 #import "GAI+LDT.h"
 #import "LDTAppDelegate.h"
-#import <RCTBridgeModule.h>
 #import <RCTRootView.h>
 
-@interface LDTUserViewController () <RCTBridgeModule, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface LDTUserViewController () < UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (assign, nonatomic) BOOL isCurrentUserProfile;
 @property (strong, nonatomic) DSOCampaign *selectedCampaign;
@@ -101,16 +98,15 @@
 
 - (NSDictionary *)appProperties {
     NSDictionary *appProperties;
-    NSString *profileURL = [[DSOAPI sharedInstance] profileURLforUser:self.user];
     NSDictionary *userDict = [[NSDictionary alloc] init];
     NSString *sessionToken = @"";
     if (self.user) {
         userDict = self.user.dictionary;
-        sessionToken = [DSOUserManager sharedInstance].sessionToken;
+        sessionToken = [DSOAPI sharedInstance].sessionToken;
     }
     appProperties = @{
-           @"user" : self.user.dictionary,
-           @"url" : profileURL,
+           @"user" : userDict,
+           @"baseUrl" : [NSString stringWithFormat:@"%@", [DSOAPI sharedInstance].baseURL],
            @"isSelfProfile" : [NSNumber numberWithBool:self.isCurrentUserProfile],
            @"apiKey": [DSOAPI sharedInstance].apiKey,
            @"sessionToken": sessionToken,
@@ -124,17 +120,6 @@
     [destNavVC styleNavigationBar:LDTNavigationBarStyleNormal];
     LDTTabBarController *tabBar = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [tabBar presentViewController:destNavVC animated:YES completion:nil];
-}
-
-                                                             
-#pragma mark - RCTBridgeModule
-
-RCT_EXPORT_MODULE();
-
-- (NSDictionary *)constantsToExport {
-    NSDictionary *campaigns =  [DSOUserManager sharedInstance].campaignDictionaries;
-    NSDictionary *props = @{@"campaigns" : campaigns};
-    return props;
 }
 
 @end

@@ -11,7 +11,6 @@
 #import "LDTButton.h"
 #import "LDTMessage.h"
 #import "LDTUserRegisterViewController.h"
-#import "LDTTabBarController.h"
 #import "UITextField+LDT.h"
 #import "GAI+LDT.h"
 
@@ -39,13 +38,7 @@
 #pragma mark - NSObject
 
 -(id)init{
-    self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
-	
-    if (self) {
-		
-    }
-	
-    return self;
+    return [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
 }
 
 #pragma mark - UIViewController
@@ -58,16 +51,11 @@
     self.passwordTextField.placeholder = @"Password";
     [self.registerLink setTitle:@"Don't have an account? Register here" forState:UIControlStateNormal];
 
-    self.textFields = @[self.emailTextField,
-                        self.passwordTextField
-                        ];
-	
+    self.textFields = @[self.emailTextField, self.passwordTextField];
     for (UITextField *aTextField in self.textFields) {
         aTextField.delegate = self;
     }
-	
-    self.textFieldsRequired = @[self.emailTextField,
-                                self.passwordTextField];
+    self.textFieldsRequired = self.textFields;
 
     [self.submitButton setTitle:@"Sign in".uppercaseString forState:UIControlStateNormal];
     [self.submitButton enable:NO];
@@ -85,7 +73,7 @@
 #pragma mark - LDTUserLoginViewController
 
 - (void)styleView {
-    self.view.backgroundColor = LDTTheme.ctaBlueColor;
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Pattern BG"]];
     UIFont *font = LDTTheme.font;
     self.headerLabel.font = font;
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
@@ -127,24 +115,23 @@
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     if (![self validateEmailForCandidate:self.emailTextField.text]) {
-        [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Please enter a valid email."];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Please enter a valid email."subtitle:nil];
         return;
     }
     [self.view endEditing:YES];
     [SVProgressHUD showWithStatus:@"Signing in..."];
-    [[DSOUserManager sharedInstance] createSessionWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
+    [[DSOUserManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {
         [SVProgressHUD dismiss];
-        if ([self.presentingViewController isKindOfClass:[LDTTabBarController class]]) {
-            LDTTabBarController *rootVC = (LDTTabBarController *)self.presentingViewController;
-            [rootVC dismissViewControllerAnimated:YES completion:^{
-                [rootVC reloadCurrentUser];
-            }];
-        }
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
         [self.passwordTextField becomeFirstResponder];
-        [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
-        [self.emailTextField setBorderColor:UIColor.redColor];
+        if (error.code == 401) {
+            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Sorry, unrecognized email or password." subtitle:nil];
+        }
+        else {
+            [LDTMessage displayErrorMessageInViewController:self.navigationController error:error];
+        }
     }];
 }
 
@@ -168,7 +155,7 @@
 }
 
 - (IBAction)passwordEditingChanged:(id)sender {
-    if (self.passwordTextField.text.length > 5) {
+    if (self.passwordTextField.text.length > 0) {
         [self.submitButton enable:YES backgroundColor:LDTTheme.magentaColor];
     }
     else {

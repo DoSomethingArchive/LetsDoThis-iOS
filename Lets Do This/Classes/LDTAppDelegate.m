@@ -18,6 +18,7 @@
 
 @interface LDTAppDelegate()
 
+@property (strong, nonatomic, readwrite) NSString *deviceToken;
 @property (strong, nonatomic, readwrite) NSURL *jsCodeLocation;
 @property (strong, nonatomic, readwrite) RCTBridge *bridge;
 
@@ -26,7 +27,6 @@
 @implementation LDTAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
     NSDictionary *environmentDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"environment" ofType:@"plist"]];
     
@@ -50,11 +50,30 @@
     [SVProgressHUD setFont:LDTTheme.font];
     [TSMessageView addNotificationDesignFromFile:@"LDTMessageDefaultDesign.json"];
 
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"hasCompletedOnboarding"]) {
+        // Resolves edge-case when deleted from device and this is re-install (GH #950).
+        [[DSOAPI sharedInstance] deleteSessionToken];
+    }
+
     [Parse setApplicationId:keysDict[@"parseApplicationId"] clientKey:keysDict[@"parseClientKey"]];
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
+
+    // Following code tracks opening Parse push notification
+    // @see https://www.parse.com/docs/ios/guide#push-notifications-tracking-pushes-and-app-opens
+    if (application.applicationState != UIApplicationStateBackground) {
+        BOOL preBackgroundPush = ![application respondsToSelector:@selector(backgroundRefreshStatus)];
+        BOOL oldPushHandlerOnly = ![self respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
+        BOOL noPushPayload = ![launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (preBackgroundPush || oldPushHandlerOnly || noPushPayload) {
+            [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+        }
+    }
+
+    // Clear out any badges, as we don't yet require user to take any action besides opening up the app.
+    application.applicationIconBadgeNumber = 0;
 
     if ([environmentDict objectForKey:@"ReactNativeUseOfflineBundle"] && ![environmentDict[@"ReactNativeUseOfflineBundle"] boolValue]) {
         // Run "npm start" from the project root to enable local React Native development.
@@ -102,11 +121,11 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     currentInstallation.channels = @[ @"global" ];
     [currentInstallation saveInBackground];
+    self.deviceToken = currentInstallation.installationId;
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -120,6 +139,10 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [PFPush handlePush:userInfo];
+    if (application.applicationState == UIApplicationStateInactive) {
+        application.applicationIconBadgeNumber = 0;
+        [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
+    }
 }
 
 # pragma mark - Accessors

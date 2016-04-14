@@ -13,9 +13,6 @@
 #import "LDTAppDelegate.h"
 #import <RCTEventDispatcher.h>
 
-NSString *const avatarFileNameString = @"LDTStoredAvatar.jpeg";
-NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
-
 @interface DSOUserManager()
 
 @property (strong, nonatomic, readwrite) DSOUser *user;
@@ -38,144 +35,204 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     return _sharedInstance;
 }
 
+#pragma mark - NSObject
+
+- (instancetype)init {
+    self = [super init];
+
+    if (self) {
+        self.mutableCampaigns = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 #pragma mark - Accessors
 
 - (void)setUser:(DSOUser *)user {
     _user = user;
     if (user) {
-        [[Crashlytics sharedInstance] setUserIdentifier:user.userID];
+        [Crashlytics sharedInstance].userIdentifier = user.userID;
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserChanged" body:user.dictionary];
+        // Store userID for when we want to log network request to continue saved session (but don't want to log the actual sessionToken) in continueSessionWithCompletionHandler:errorHandler.
+        [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];
     }
     else {
-        [[Crashlytics sharedInstance] setUserIdentifier:nil];
+        [Crashlytics sharedInstance].userIdentifier = nil;
+        [SSKeychain deletePasswordForService:self.currentService account:@"UserID"];
+        // Force delete cached API session if it hasn't been properly deleted.
+        NSString *sessionToken = [DSOAPI sharedInstance].sessionToken;
+        if (sessionToken && sessionToken.length > 0) {
+            [[DSOAPI sharedInstance] deleteSessionToken];
+        }
     }
 }
 
-- (NSArray *)activeCampaigns {
-    return [self.mutableCampaigns copy];
-}
-
-- (NSDictionary *)campaignDictionaries {
-    NSMutableDictionary *campaigns = [[NSMutableDictionary alloc] init];
-    for (DSOCampaign *campaign in self.activeCampaigns) {
-        NSString *campaignIDString = [NSString stringWithFormat:@"%li", (long)campaign.campaignID];
-        campaigns[campaignIDString] = campaign.dictionary;
-    }
-    return [campaigns copy];
-}
+#pragma mark - DSOUserManager
 
 - (NSString *)currentService {
     return [DSOAPI sharedInstance].baseURL.absoluteString;
 }
 
-#pragma mark - DSOUserManager
-
 - (LDTAppDelegate *)appDelegate {
     return ((LDTAppDelegate *)[UIApplication sharedApplication].delegate);
 }
 
-- (BOOL)userHasCachedSession {
-    return self.sessionToken.length > 0;
+- (NSString *)deviceToken {
+    return [self appDelegate].deviceToken;
 }
 
-- (void)createSessionWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] loginWithEmail:email password:password completionHandler:^(DSOUser *user) {
-        self.user = user;
+- (BOOL)userHasCachedSession {
+    return [DSOAPI sharedInstance].sessionToken.length > 0;
+}
 
-        [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:user.sessionToken];
-        // Save session in Keychain for when app is quit.
-        [SSKeychain setPassword:user.sessionToken forService:self.currentService account:@"Session"];
-        [SSKeychain setPassword:self.user.userID forService:self.currentService account:@"UserID"];
+- (void)registerUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] createUserWithEmail:email password:password firstName:firstName mobile:mobile countryCode:countryCode deviceToken:deviceToken success:^(NSDictionary *response) {
+        if (completionHandler) {
+            completionHandler(response);
+        }
+    } failure:^(NSError *error) {
+        // Filter any 422's (email/mobile exists).
+        if (error.code != 422) {
+            [self recordError:error logMessage:@"register"];
+        }
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
+- (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] createSessionForEmail:email password:password completionHandler:^(DSOUser *user) {
+        self.user = user;
         if (completionHandler) {
             completionHandler(user);
         }
       } errorHandler:^(NSError *error) {
+          // Filter any 401's (invalid login credentials).
+          if (error.code != 401) {
+              [self recordError:error logMessage:@"login"];
+          }
           if (errorHandler) {
               errorHandler(error);
           }
       }];
 }
 
-- (NSString *)sessionToken {
-    return [SSKeychain passwordForService:self.currentService account:@"Session"];
-}
-
-- (void)startSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    if (self.sessionToken.length == 0) {
+- (void)continueSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    if ([DSOAPI sharedInstance].sessionToken.length == 0) {
         // @todo: Should return error here.
         return;
     }
-
-    // @todo: Once Northstar API supports it, actively check for whether or saved session is valid before trying to start.
-    // @see https://github.com/DoSomething/northstar/issues/186
-    [[DSOAPI sharedInstance] setHTTPHeaderFieldSession:self.sessionToken];
-
     NSString *userID = [SSKeychain passwordForService:self.currentService account:@"UserID"];
-    [[DSOAPI sharedInstance] loadUserWithUserId:userID completionHandler:^(DSOUser *user) {
+    NSString *logMessage = [NSString stringWithFormat:@"user %@", userID];
+
+    [[DSOAPI sharedInstance] loadCurrentUserWithCompletionHandler:^(DSOUser *user) {
         self.user = user;
+        NSString *deviceToken = [self appDelegate].deviceToken;
+        CLS_LOG(@"%@", logMessage);
+
+        if (deviceToken) {
+            BOOL deviceTokenStored = NO;
+            for (NSString *tokenString in self.user.deviceTokens) {
+                if ([deviceToken isEqualToString:tokenString]) {
+                    deviceTokenStored = YES;
+                }
+            }
+            if (!deviceTokenStored) {
+                NSString *tokenLogMessage = [NSString stringWithFormat:@"Posting device token %@", deviceToken];
+                CLS_LOG(@"%@", tokenLogMessage);
+                [[DSOAPI sharedInstance] postCurrentUserDeviceToken:deviceToken completionHandler:^(NSDictionary *response) {
+                    NSLog(@"Device token posted.");
+                } errorHandler:^(NSError *error) {
+                   [self recordError:error logMessage:tokenLogMessage];
+                }];
+            }
+        }
+
         if (completionHandler) {
             completionHandler();
         }
     } errorHandler:^(NSError *error) {
+        [self recordError:error logMessage:logMessage];
         if (errorHandler) {
             errorHandler(error);
         }
     }];
 }
 
-- (void)endSession {
-    [SSKeychain deletePasswordForService:self.currentService account:@"Session"];
-    [SSKeychain deletePasswordForService:self.currentService account:@"UserID"];
-    [self deleteAvatar];
+- (void)forceLogout {
     self.user = nil;
 }
 
-- (void)endSessionWithCompletionHandler:(void (^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] logoutWithCompletionHandler:^(NSDictionary *responseDict) {
-        [self endSession];
+- (void)logoutWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *logMessage = @"logout";
+    [[DSOAPI sharedInstance] endSessionWithDeviceToken:self.deviceToken completionHandler:^(NSDictionary *responseDict) {
+        CLS_LOG(@"%@", logMessage);
+        self.user = nil;
         if (completionHandler) {
             completionHandler();
         }
     } errorHandler:^(NSError *error) {
-        // Only perform logout tasks if error is NOT a lack of connectivity.
-        if (error.code != -1009) {
-            [self endSession];
+        // Only perform logout tasks if error is NOT a lack of connectivity or timeout.
+        if ((error.code != -1009) && (error.code != -1001)) {
+            self.user = nil;
         }
+        [self recordError:error logMessage:logMessage];
         if (errorHandler) {
             errorHandler(error);
         }
     }];
 }
 
-- (void)signupUserForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
+- (void)signupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *logMessage = [NSString stringWithFormat:@"%li", (long)campaign.campaignID];
+    [[DSOAPI sharedInstance] postSignupForCampaign:campaign completionHandler:^(DSOSignup *signup) {
         [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit signup" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
-        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup.dictionary];
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:signup];
         if (completionHandler) {
             completionHandler(signup);
         }
     } errorHandler:^(NSError *error) {
+        [self recordError:error logMessage:logMessage];
         if (errorHandler) {
             errorHandler(error);
         }
     }];
 }
 
-- (void)postUserReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [[DSOAPI sharedInstance] postReportbackItem:reportbackItem completionHandler:^(NSDictionary *reportbackDict) {
-        [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)reportbackItem.campaign.campaignID] value:nil];
-        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:reportbackDict];
+- (void)reportbackForCampaign:(DSOCampaign *)campaign fileString:(NSString *)fileString caption:(NSString *)caption quantity:(NSInteger)quantity completionHandler:(void(^)(DSOReportback *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaign.campaignID];
+    [[DSOAPI sharedInstance] postReportbackForCampaign:campaign fileString:fileString caption:caption quantity:quantity completionHandler:^(DSOReportback *reportback) {
+        [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"submit reportback" label:[NSString stringWithFormat:@"%li", (long)campaign.campaignID] value:nil];
+        [[self appDelegate].bridge.eventDispatcher sendAppEventWithName:@"currentUserActivity" body:reportback];
         if (completionHandler) {
-            completionHandler(reportbackDict);
+            completionHandler(reportback);
         }
     } errorHandler:^(NSError *error) {
+        [self recordError:error logMessage:logMessage];
         if (errorHandler) {
             errorHandler(error);
         }
     }];
 }
 
-- (DSOCampaign *)activeCampaignWithId:(NSInteger)campaignID {
-    for (DSOCampaign *campaign in self.activeCampaigns) {
+- (void)postAvatarImage:(UIImage *)avatarImage completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    [[DSOAPI sharedInstance] postAvatarForUser:[DSOUserManager sharedInstance].user avatarImage:avatarImage completionHandler:^(DSOUser *user) {
+        // @todo: hack for now, having trouble just updating avatar only in RN
+        self.user = user;
+        if (completionHandler) {
+            completionHandler(user);
+        }
+    } errorHandler:^(NSError * error) {
+        [self recordError:error logMessage:@"avatar"];
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
+}
+
+- (DSOCampaign *)campaignWithID:(NSInteger)campaignID {
+    for (DSOCampaign *campaign in self.mutableCampaigns) {
         if (campaign.campaignID == campaignID) {
             return campaign;
         }
@@ -183,78 +240,29 @@ NSString *const avatarStorageKey = @"storedAvatarPhotoPath";
     return nil;
 }
 
-- (void)loadCurrentUserAndActiveCampaignsWithCompletionHander:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    [SVProgressHUD showWithStatus:@"Loading actions..."];
-    [[DSOAPI sharedInstance] loadAllCampaignsWithCompletionHandler:^(NSArray *campaigns) {
-        NSLog(@"loadAllCampaignsWithCompletionHandler");
-        if (campaigns.count == 0) {
-            // @todo Throw error here
-            NSLog(@"No campaigns found.");
+- (void)loadAndStoreCampaignWithID:(NSInteger)campaignID completionHandler:(void (^)(DSOCampaign *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+    NSString *logMessage = [NSString stringWithFormat:@"campaign %li", (long)campaignID];
+    [[DSOAPI sharedInstance] loadCampaignWithID:campaignID completionHandler:^(DSOCampaign *campaign) {
+        CLS_LOG(@"%@", logMessage);
+        [self.mutableCampaigns addObject:campaign];
+        if (completionHandler) {
+            completionHandler(campaign);
         }
-        self.mutableCampaigns = [[NSMutableArray alloc] init];
-        for (DSOCampaign *campaign in campaigns) {
-            [self.mutableCampaigns addObject:campaign];
-        }
-
-        [self startSessionWithCompletionHandler:^ {
-            NSLog(@"syncCurrentUserWithCompletionHandler");
-            [SVProgressHUD dismiss];
-            if (completionHandler) {
-                completionHandler(self.activeCampaigns);
-            }
-        } errorHandler:^(NSError *error) {
-            [SVProgressHUD dismiss];
-            if (errorHandler) {
-                errorHandler(error);
-            }
-        }];
     } errorHandler:^(NSError *error) {
-        [SVProgressHUD dismiss];
+        [self recordError:error logMessage:logMessage];
         if (errorHandler) {
             errorHandler(error);
         }
     }];
 }
 
-#pragma mark - Avatar CRUD
-
-- (void)storeAvatar:(UIImage *)photo {
-    NSData *photoData = UIImageJPEGRepresentation(photo, 1.0);
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *storedAvatarPhotoPath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
-    NSUserDefaults *storedUserDefaults = [NSUserDefaults standardUserDefaults];
-    
-    if (![photoData writeToFile:storedAvatarPhotoPath atomically:NO]) {
-        NSLog((@"Failed to persist photo data to disk"));
+- (void)recordError:(NSError *)error logMessage:(NSString *)logMessage {
+    CLS_LOG(@"error.code %li : %@", (long)error.code, logMessage);
+    if (error.networkConnectionError) {
+        NSLog(@"Excluding networking error from Crashlytics.");
+        return;
     }
-    else {
-        [storedUserDefaults setObject:storedAvatarPhotoPath forKey:avatarStorageKey];
-        [storedUserDefaults synchronize];
-    }
-}
-
-- (UIImage *)retrieveAvatar {
-    NSString *storedAvatarPhotoPath = [[NSUserDefaults standardUserDefaults] objectForKey:avatarStorageKey];
-    if (storedAvatarPhotoPath) {
-        return [UIImage imageWithContentsOfFile:storedAvatarPhotoPath];
-    }
-    return nil;
-}
-
-- (void) deleteAvatar {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:avatarFileNameString];
-    NSError *error;
-    
-    if ([fileManager fileExistsAtPath:filePath]) {
-        if ([fileManager removeItemAtPath:filePath error:&error]) {
-            NSLog(@"Successfully deleted file: %@ ", avatarFileNameString);
-        }
-        else {
-            NSLog(@"Could not delete file: %@ ",[error localizedDescription]);
-        }
-    }
+    [CrashlyticsKit recordError:error];
 }
 
 @end

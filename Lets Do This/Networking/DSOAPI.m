@@ -89,227 +89,219 @@
     return self;
 }
 
-#pragma mark - DSOAPI
+#pragma mark - Accessors
 
-- (void)setHTTPHeaderFieldSession:(NSString *)token {
-    [self.requestSerializer setValue:token forHTTPHeaderField:@"Session"];
+- (NSString *)currentService {
+    return self.baseURL.absoluteString;
 }
 
-- (void)createUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler {
+- (void)setSessionToken:(NSString *)sessionToken {
+    [SSKeychain setPassword:sessionToken forService:self.currentService account:@"Session"];
+    [self.requestSerializer setValue:sessionToken forHTTPHeaderField:@"Session"];
+}
+
+- (NSString *)sessionToken {
+    return [SSKeychain passwordForService:self.currentService account:@"Session"];
+}
+
+#pragma mark - DSOAPI
+
+- (void)deleteSessionToken {
+    [SSKeychain deletePasswordForService:self.currentService account:@"Session"];
+}
+
+- (void)createUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler {
     if (!countryCode) {
         countryCode = @"";
     }
     NSString *url = @"auth/register?create_drupal_user=1";
-    NSDictionary *params = @{@"email": email,
-                             @"password": password,
-                             @"first_name": firstName,
-                             @"mobile": mobile,
-                             @"country": countryCode,
-                             @"source": LDTSOURCENAME};
+    NSMutableDictionary *params = [@{@"email" : email, @"password": password, @"first_name" : firstName, @"mobile" : mobile, @"country" : countryCode, @"source" : LDTSOURCENAME} mutableCopy];
+    if (deviceToken) {
+        params[@"parse_installation_ids"] = deviceToken;
+    }
     
-    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:url parameters:[params copy] success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler(responseObject);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
-            errorHandler(error);
+            errorHandler([self errorForAPIError:error domain:@"auth.register"]);
         }
     }];
 }
 
-- (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)createSessionForEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = @"auth/token";
-    NSDictionary *params = @{@"email": email,
-                             @"password": password};
+    NSDictionary *params = @{@"email" : email, @"password" : password};
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSMutableDictionary *userDict = [[responseObject valueForKeyPath:@"data.user.data"] mutableCopy];
-        // This may warrant a more graceful solution, but it's a quick way to implement the API changes in https://github.com/DoSomething/northstar/pull/268. Include the session token in our return DSOUser so any methods calling this one has access to the session token required for authenticated requests.
-        userDict[@"session_token"] = [responseObject valueForKeyPath:@"data.key"];
-        DSOUser *user = [[DSOUser alloc] initWithDict:[userDict copy]];
+        NSString *sessionToken = [responseObject valueForKeyPath:@"data.key"];
+        self.sessionToken = sessionToken;
+        DSOUser *user = [[DSOUser alloc] initWithDict:[responseObject valueForKeyPath:@"data.user.data"]];
         if (completionHandler) {
             completionHandler(user);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
-            errorHandler(error);
+            errorHandler([self errorForAPIError:error domain:@"auth.token"]);
         }
     }];
 }
 
-- (void)postUserAvatarWithUserId:(NSString *)userID avatarImage:(UIImage *)avatarImage completionHandler:(void(^)(id))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"users/%@/avatar", userID];
+- (void)postAvatarForUser:(DSOUser *)user avatarImage:(UIImage *)avatarImage completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"users/%@/avatar", user.userID];
     NSData *imageData = UIImageJPEGRepresentation(avatarImage, 1.0);
-    NSString *fileNameForImage = [NSString stringWithFormat:@"User_%@_ProfileImage", userID];
+    NSString *fileNameForImage = [NSString stringWithFormat:@"User_%@_ProfileImage", user.userID];
     
     [self POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"photo" fileName:fileNameForImage mimeType:@"image/jpeg"];
     } success:^(NSURLSessionDataTask *task, id responseObject) {
+        DSOUser *updatedUser = [[DSOUser alloc] initWithDict:[responseObject valueForKeyPath:@"data"]];
         if (completionHandler) {
-            completionHandler(responseObject);
+            completionHandler(updatedUser);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
-            errorHandler(error);
+            errorHandler([self errorForAPIError:error domain:@"users.avatar"]);
         }
     }];
 }
 
-- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)endSessionWithDeviceToken:(NSString *)deviceToken completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = @"auth/invalidate";
+    if (deviceToken) {
+        url = [NSString stringWithFormat:@"%@?parse_installation_ids=%@", url, deviceToken];
+    }
     [self POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self deleteSessionToken];
         if (completionHandler) {
             completionHandler(responseObject);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
-            errorHandler(error);
+            errorHandler([self errorForAPIError:error domain:@"auth.invalidate"]);
         }
     }];
 }
 
-- (void)postSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)postSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSDictionary *params = @{@"campaign_id" : [NSNumber numberWithInteger:campaign.campaignID], @"source" : LDTSOURCENAME};
     NSString *url = @"signups";
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        DSOCampaignSignup *signup = [[DSOCampaignSignup alloc] initWithDict:responseObject[@"data"]];
         if (completionHandler) {
-            completionHandler(signup);
+            completionHandler((DSOSignup *)responseObject[@"data"]);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
-            errorHandler(error);
+            errorHandler([self errorForAPIError:error domain:@"signups"]);
         }
     }];
 }
 
-- (void)postReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+- (void)postReportbackForCampaign:(DSOCampaign *)campaign fileString:(NSString *)fileString caption:(NSString *)caption quantity:(NSInteger)quantity completionHandler:(void(^)(DSOReportback *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = @"reportbacks";
     NSDictionary *params = @{
-                             @"campaign_id": [NSNumber numberWithInteger:reportbackItem.campaign.campaignID],
-                             @"quantity": [NSNumber numberWithInteger:reportbackItem.quantity],
-                             @"caption": reportbackItem.caption,
-                             // why_participated is a required property on server-side that we currently don't collect in the app.
-                             @"why_participated": reportbackItem.caption,
+                             @"campaign_id": [NSNumber numberWithInteger:campaign.campaignID],
+                             @"quantity": [NSNumber numberWithInteger:quantity],
+                             @"caption": caption,
+                             // why_participated is a required property server-side that we currently don't collect in the app.
+                             @"why_participated": caption,
                              @"source": LDTSOURCENAME,
-                             @"file": [UIImagePNGRepresentation(reportbackItem.image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]
+                             @"file": fileString,
                              };
 
     [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
-            completionHandler(responseObject[@"data"]);
+            completionHandler((DSOReportback *)responseObject[@"data"]);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
-            errorHandler(error);
+            errorHandler([self errorForAPIError:error domain:@"reportbacks"]);
         }
     }];
 }
 
-- (void)loadUserWithUserId:(NSString *)userID completionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"users/_id/%@", userID];
+- (void)loadCurrentUserWithCompletionHandler:(void (^)(DSOUser *))completionHandler errorHandler:(void (^)(NSError *))errorHandler {
+    if (!self.sessionToken) {
+        // @todo: Return error here
+    }
+    [self.requestSerializer setValue:self.sessionToken forHTTPHeaderField:@"Session"];
+    NSString *url = [NSString stringWithFormat:@"profile"];
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
           if (completionHandler) {
               completionHandler(user);
           }
       } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
           if (errorHandler) {
-              errorHandler(error);
+              errorHandler([self errorForAPIError:error domain:@"profile"]);
           }
       }];
 }
 
-- (void)loadAllCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"%@campaigns?count=300", self.phoenixApiURL];
-
-    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSMutableArray *campaigns = [[NSMutableArray alloc] init];
-        for (NSDictionary* campaignDict in responseObject[@"data"]) {
-            DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
-            [campaigns addObject:campaign];
-        }
+- (void)postCurrentUserDeviceToken:(NSString *)deviceToken completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = @"profile";
+    NSDictionary *params = @{@"parse_installation_ids" : deviceToken};
+    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
-            completionHandler(campaigns);
+            completionHandler(responseObject);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
-            errorHandler(error);
+            errorHandler([self errorForAPIError:error domain:@"profile"]);
         }
     }];
 }
 
-- (void)loadCampaignsForTermIds:(NSArray *)termIds completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSMutableArray *termIdStrings = [[NSMutableArray alloc] init];
-    for (NSNumber *termID in termIds) {
-        [termIdStrings addObject:[termID stringValue]];
-    }
 
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyyy-MM-dd"];
-    NSString *mobileAppDateString = [dateFormat stringFromDate:[NSDate date]];
-
-    NSString *url = [NSString stringWithFormat:@"%@campaigns.json?mobile_app=true&mobile_app_date=%@&term_ids=%@", self.phoenixApiURL, mobileAppDateString, [termIdStrings componentsJoinedByString:@","]];
+- (void)loadCampaignWithID:(NSInteger)campaignID completionHandler:(void(^)(DSOCampaign *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
+    NSString *url = [NSString stringWithFormat:@"%@campaigns/%li", self.phoenixApiURL, (long)campaignID];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-          NSMutableArray *campaigns = [[NSMutableArray alloc] init];
-          for (NSDictionary* campaignDict in responseObject[@"data"]) {
-              DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:campaignDict];
-              [campaigns addObject:campaign];
-          }
-          if (completionHandler) {
-              completionHandler(campaigns);
-          }
+        DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:responseObject[@"data"]];
+        // API returns 200 if campaign is not found, so check for valid ID.
+        // @todo This whole check be deprecated once https://github.com/DoSomething/phoenix/issues/6261 is resolved.
+        if (campaign.campaignID == 0) {
+            NSString *errorDescription = [NSString stringWithFormat:@"Campaign ID %li not found.", (long)campaignID];
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey : errorDescription};
+            NSError *error = [NSError errorWithDomain:@"org.dosomething.api.campaigns" code:404 userInfo:userInfo];
+            if (errorHandler) {
+                errorHandler(error);
+            }
+        }
+        else {
+            if (completionHandler) {
+                completionHandler(campaign);
+            }
+        }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
         if (errorHandler) {
-            errorHandler(error);
+            errorHandler([self errorForAPIError:error domain:@"campaigns"]);
         }
     }];
 }
 
-- (void)loadReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSMutableArray *campaignIds = [[NSMutableArray alloc] init];
-    for (DSOCampaign *campaign in campaigns) {
-        [campaignIds addObject:[NSString stringWithFormat:@"%li", (long)campaign.campaignID]];
+- (NSError *)errorForAPIError:(NSError *)error domain:(NSString *)domain {
+    NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+    if (!errorData) {
+        return error;
     }
-
-    NSString *url = [NSString stringWithFormat:@"%@reportback-items.json?load_user=true&status=%@&campaigns=%@", self.phoenixApiURL, status,[campaignIds componentsJoinedByString:@","]];
-
-    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-          NSMutableArray *rbItems = [[NSMutableArray alloc] init];
-          for (NSDictionary* rbItemDict in responseObject[@"data"]) {
-              DSOReportbackItem *rbItem = [[DSOReportbackItem alloc] initWithDict:rbItemDict];
-              [rbItems addObject:rbItem];
-          }
-          if (completionHandler) {
-              completionHandler(rbItems);
-          }
-      } failure:^(NSURLSessionDataTask *task, NSError *error) {
-          [self logError:error methodName:NSStringFromSelector(_cmd) URLString:url];
-          if (errorHandler) {
-              errorHandler(error);
-          }
-      }];
+    NSString *apiDomain = [NSString stringWithFormat:@"org.dosomething.api.%@", domain];
+    NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:errorData options:kNilOptions error:nil];
+    NSDictionary *errorDict =  [responseDict dictionaryForKeyPath:@"error"];
+    NSInteger apiCode = [errorDict valueForKeyAsInt:@"code"];
+    NSString *apiFailureReason = @"";
+    if (errorDict[@"fields"]) {
+        NSMutableArray *fieldMessages = [[NSMutableArray alloc] init];
+        for (NSArray *field in [errorDict[@"fields"] allValues]) {
+            NSString *fieldMessage = [field componentsJoinedByString:@"\n"];
+            [fieldMessages addObject:fieldMessage];
+        }
+        apiFailureReason = [fieldMessages componentsJoinedByString:@"\n"];
+    }
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : [errorDict valueForKeyAsString:@"message"], NSLocalizedFailureReasonErrorKey : apiFailureReason};
+    return [NSError errorWithDomain:apiDomain code:apiCode userInfo:userInfo];
 }
-
-- (void)logError:(NSError *)error methodName:(NSString *)methodName URLString:(NSString *)URLString {
-    NSLog(@"\n*** DSOAPI ****\n\nError %li: %@\n%@\n%@ \n\n", (long)error.code, error.localizedDescription, methodName, URLString);
-}
-
-- (NSString *)profileURLforUser:(DSOUser *)user {
-    NSString *northstarURLString = [NSString stringWithFormat:@"https://%@/v1/", LDTSERVER];
-    return [NSString stringWithFormat:@"%@signups?user=%@", northstarURLString, user.userID];
-}
-
 
 @end

@@ -12,10 +12,10 @@
 @implementation UINavigationController (LDT)
 
 - (void)styleNavigationBar:(LDTNavigationBarStyle)style {
-    self.navigationBar.tintColor = LDTTheme.ctaBlueColor;
+    self.navigationBar.tintColor = LDTTheme.copyGrayColor;
     NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
     titleBarAttributes[NSFontAttributeName] = LDTTheme.fontBold;
-    titleBarAttributes[NSForegroundColorAttributeName] = LDTTheme.ctaBlueColor;
+    titleBarAttributes[NSForegroundColorAttributeName] = LDTTheme.copyGrayColor;
     self.navigationBar.titleTextAttributes = titleBarAttributes;
     if (style == LDTNavigationBarStyleNormal) {
         self.navigationBar.translucent = NO;

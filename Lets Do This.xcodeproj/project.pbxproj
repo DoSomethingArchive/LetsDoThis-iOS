@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		421774269F5DF5997622C2F9 /* libPods-Lets Do This.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */; };
-		569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */; };
 		79E2E28707E3FB3559C51480 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD686577156AB49815812E2 /* libPods.a */; };
 		B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20881A01B0B9B0F00E697B2 /* keys.plist */; };
 		B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B20D06D01B3A58F40053D3B6 /* LDTMessage.m */; };
@@ -16,10 +15,8 @@
 		B211C4181C3AEE4700A94E64 /* DSOCause.m in Sources */ = {isa = PBXBuildFile; fileRef = B211C4171C3AEE4700A94E64 /* DSOCause.m */; };
 		B211C4221C3AF54800A94E64 /* LDTCauseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B211C4211C3AF54800A94E64 /* LDTCauseListViewController.m */; };
 		B212C2621B4ED6F300376BB1 /* LDTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B212C2611B4ED6F300376BB1 /* LDTBaseViewController.m */; };
-		B21306FC1C486E5C003893DB /* LDTNewsArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21306FB1C486E5C003893DB /* LDTNewsArticleViewController.m */; };
 		B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */; };
 		B22273FE1B58076F005C896D /* DSOAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = B22273FD1B58076F005C896D /* DSOAPI.m */; };
-		B223AD761B7A724000D4AA40 /* DSOReportbackItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B223AD751B7A724000D4AA40 /* DSOReportbackItem.m */; };
 		B22AB7661B4EE78500BE7052 /* LDTUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22AB7651B4EE78500BE7052 /* LDTUserLoginViewController.m */; };
 		B22AB7681B4EE7BE00BE7052 /* LDTUserLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */; };
 		B240DD321B73DA4D00CA6C6E /* LDTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B240DD311B73DA4D00CA6C6E /* LDTTabBarController.m */; };
@@ -37,9 +34,10 @@
 		B27FD0401BBD99FF00A44952 /* LDTEpicFailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27FD03E1BBD99FF00A44952 /* LDTEpicFailView.xib */; };
 		B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */; };
 		B28124D21BAA1FB700DF58DA /* UIViewController+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = B28124D11BAA1FB700DF58DA /* UIViewController+LDT.m */; };
+		B290D4C21C8A58A7009E6295 /* DSOReportback.m in Sources */ = {isa = PBXBuildFile; fileRef = B290D4C11C8A58A7009E6295 /* DSOReportback.m */; };
+		B290D4C51C8A5961009E6295 /* DSOSignup.m in Sources */ = {isa = PBXBuildFile; fileRef = B290D4C41C8A5961009E6295 /* DSOSignup.m */; };
 		B2963E071BD83CC700D2B6EE /* LDTOnboardingPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2963E061BD83CC700D2B6EE /* LDTOnboardingPageView.xib */; };
 		B2963E0A1BD83D1000D2B6EE /* LDTOnboardingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2963E091BD83D1000D2B6EE /* LDTOnboardingPageViewController.m */; };
-		B29A657F1BB60F0B008C0E2A /* DSOCampaignSignup.m in Sources */ = {isa = PBXBuildFile; fileRef = B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */; };
 		B2A1365B1B3C9FDA00D20273 /* LDTUserConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */; };
 		B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */; };
 		B2A136601B3D1AEF00D20273 /* LDTUserRegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2A1365F1B3D1AEF00D20273 /* LDTUserRegisterView.xib */; };
@@ -53,7 +51,6 @@
 		B2F2BA831C6440BF001EB1D5 /* LDTUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F2BA821C6440BF001EB1D5 /* LDTUserViewController.m */; };
 		C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2781AF3DBE400E9886F /* DSOCampaign.m */; };
 		C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA2821AF3DBE400E9886F /* DSOUser.m */; };
-		C20BA28D1AF3DCAB00E9886F /* NSDate+DSO.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA28A1AF3DCAB00E9886F /* NSDate+DSO.m */; };
 		C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */; };
 		C2B151EF1ACE04C30028C336 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B151EE1ACE04C30028C336 /* main.m */; };
 		C2B151FD1ACE04C30028C336 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2B151FC1ACE04C30028C336 /* Images.xcassets */; };
@@ -64,7 +61,6 @@
 		EA0353311BAC63BA00D2B987 /* LDTMessageDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = EA0353301BAC63BA00D2B987 /* LDTMessageDefaultDesign.json */; };
 		EA59C9F81C06172D006D49D2 /* NSDictionary+DSOJsonHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA59C9F71C06172D006D49D2 /* NSDictionary+DSOJsonHelperTests.m */; };
 		EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */; };
-		EA61D0841C15EF9E0060933C /* NSDate+DSOTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA61D0831C15EF9E0060933C /* NSDate+DSOTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,8 +76,6 @@
 /* Begin PBXFileReference section */
 		2C64A18B791813A4683F7BAD /* Pods-Lets Do This.thor.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.thor.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.thor.xcconfig"; sourceTree = "<group>"; };
 		481832CD7E534871B0CC8938 /* Pods-Lets Do This.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lets Do This.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lets Do This/Pods-Lets Do This.debug.xcconfig"; sourceTree = "<group>"; };
-		569AA55C1B4085A000D8C8C9 /* InterfaceBuilderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InterfaceBuilderView.h; path = Base/InterfaceBuilderView.h; sourceTree = "<group>"; };
-		569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InterfaceBuilderView.m; path = Base/InterfaceBuilderView.m; sourceTree = "<group>"; };
 		8FD686577156AB49815812E2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B20881A01B0B9B0F00E697B2 /* keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = keys.plist; sourceTree = "<group>"; };
 		B20D06CF1B3A58F40053D3B6 /* LDTMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTMessage.h; sourceTree = "<group>"; };
@@ -94,14 +88,10 @@
 		B211C4211C3AF54800A94E64 /* LDTCauseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCauseListViewController.m; path = "Lets Do This/Controllers/Cause/LDTCauseListViewController.m"; sourceTree = SOURCE_ROOT; };
 		B212C2601B4ED6F300376BB1 /* LDTBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTBaseViewController.h; path = Base/LDTBaseViewController.h; sourceTree = "<group>"; };
 		B212C2611B4ED6F300376BB1 /* LDTBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTBaseViewController.m; path = Base/LDTBaseViewController.m; sourceTree = "<group>"; };
-		B21306FA1C486E5C003893DB /* LDTNewsArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTNewsArticleViewController.h; path = News/LDTNewsArticleViewController.h; sourceTree = "<group>"; };
-		B21306FB1C486E5C003893DB /* LDTNewsArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTNewsArticleViewController.m; path = News/LDTNewsArticleViewController.m; sourceTree = "<group>"; };
 		B216CFC41B685EE8007E1914 /* UIImageView+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+LDT.h"; sourceTree = "<group>"; };
 		B216CFC51B685EE8007E1914 /* UIImageView+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+LDT.m"; sourceTree = "<group>"; };
 		B22273FC1B58076F005C896D /* DSOAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSOAPI.h; path = Networking/DSOAPI.h; sourceTree = "<group>"; };
 		B22273FD1B58076F005C896D /* DSOAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSOAPI.m; path = Networking/DSOAPI.m; sourceTree = "<group>"; };
-		B223AD741B7A724000D4AA40 /* DSOReportbackItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOReportbackItem.h; sourceTree = "<group>"; };
-		B223AD751B7A724000D4AA40 /* DSOReportbackItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOReportbackItem.m; sourceTree = "<group>"; };
 		B22AB7641B4EE78500BE7052 /* LDTUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserLoginViewController.h; path = Login/LDTUserLoginViewController.h; sourceTree = "<group>"; };
 		B22AB7651B4EE78500BE7052 /* LDTUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserLoginViewController.m; path = Login/LDTUserLoginViewController.m; sourceTree = "<group>"; };
 		B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserLoginView.xib; path = Login/LDTUserLoginView.xib; sourceTree = "<group>"; };
@@ -129,11 +119,13 @@
 		B28124CE1BAA0DF000DF58DA /* UINavigationController+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+LDT.m"; sourceTree = "<group>"; };
 		B28124D01BAA1FB700DF58DA /* UIViewController+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+LDT.h"; sourceTree = "<group>"; };
 		B28124D11BAA1FB700DF58DA /* UIViewController+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+LDT.m"; sourceTree = "<group>"; };
+		B290D4C01C8A58A7009E6295 /* DSOReportback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOReportback.h; sourceTree = "<group>"; };
+		B290D4C11C8A58A7009E6295 /* DSOReportback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOReportback.m; sourceTree = "<group>"; };
+		B290D4C31C8A5961009E6295 /* DSOSignup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOSignup.h; sourceTree = "<group>"; };
+		B290D4C41C8A5961009E6295 /* DSOSignup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOSignup.m; sourceTree = "<group>"; };
 		B2963E061BD83CC700D2B6EE /* LDTOnboardingPageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTOnboardingPageView.xib; path = Onboarding/LDTOnboardingPageView.xib; sourceTree = "<group>"; };
 		B2963E081BD83D1000D2B6EE /* LDTOnboardingPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTOnboardingPageViewController.h; path = Onboarding/LDTOnboardingPageViewController.h; sourceTree = "<group>"; };
 		B2963E091BD83D1000D2B6EE /* LDTOnboardingPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTOnboardingPageViewController.m; path = Onboarding/LDTOnboardingPageViewController.m; sourceTree = "<group>"; };
-		B29A657D1BB60F0B008C0E2A /* DSOCampaignSignup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOCampaignSignup.h; sourceTree = "<group>"; };
-		B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCampaignSignup.m; sourceTree = "<group>"; };
 		B2A1365A1B3C9FDA00D20273 /* LDTUserConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserConnectView.xib; path = Login/LDTUserConnectView.xib; sourceTree = "<group>"; };
 		B2A1365C1B3CA4B100D20273 /* LDTUserConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTUserConnectViewController.h; path = Login/LDTUserConnectViewController.h; sourceTree = "<group>"; };
 		B2A1365D1B3CA4B100D20273 /* LDTUserConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTUserConnectViewController.m; path = Login/LDTUserConnectViewController.m; sourceTree = "<group>"; };
@@ -158,8 +150,6 @@
 		C20BA2781AF3DBE400E9886F /* DSOCampaign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOCampaign.m; sourceTree = "<group>"; };
 		C20BA2811AF3DBE400E9886F /* DSOUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSOUser.h; sourceTree = "<group>"; };
 		C20BA2821AF3DBE400E9886F /* DSOUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSOUser.m; sourceTree = "<group>"; };
-		C20BA2891AF3DCAB00E9886F /* NSDate+DSO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DSO.h"; sourceTree = "<group>"; };
-		C20BA28A1AF3DCAB00E9886F /* NSDate+DSO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DSO.m"; sourceTree = "<group>"; };
 		C20BA28B1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+DSOJsonHelper.h"; sourceTree = "<group>"; };
 		C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DSOJsonHelper.m"; sourceTree = "<group>"; };
 		C20BA28F1AF3DE0D00E9886F /* LetsDoThis.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LetsDoThis.pch; sourceTree = "<group>"; };
@@ -179,7 +169,6 @@
 		EA59C9F71C06172D006D49D2 /* NSDictionary+DSOJsonHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DSOJsonHelperTests.m"; sourceTree = "<group>"; };
 		EA5C9F191B694712001D3EEA /* UITextField+LDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+LDT.h"; sourceTree = "<group>"; };
 		EA5C9F1A1B694712001D3EEA /* UITextField+LDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+LDT.m"; sourceTree = "<group>"; };
-		EA61D0831C15EF9E0060933C /* NSDate+DSOTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DSOTests.m"; sourceTree = "<group>"; };
 		FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Lets Do This.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -322,8 +311,6 @@
 			children = (
 				B2BB8F171C457CEC000EA5CA /* LDTNewsFeedViewController.h */,
 				B2BB8F181C457CEC000EA5CA /* LDTNewsFeedViewController.m */,
-				B21306FA1C486E5C003893DB /* LDTNewsArticleViewController.h */,
-				B21306FB1C486E5C003893DB /* LDTNewsArticleViewController.m */,
 			);
 			name = News;
 			sourceTree = "<group>";
@@ -331,8 +318,6 @@
 		B2E652DC1B43807000EF9D69 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				569AA55C1B4085A000D8C8C9 /* InterfaceBuilderView.h */,
-				569AA55D1B4085A000D8C8C9 /* InterfaceBuilderView.m */,
 				B2E652DD1B4380AD00EF9D69 /* LDTTheme.h */,
 				B2E652DE1B4380AD00EF9D69 /* LDTTheme.m */,
 				B2E652E01B43822600EF9D69 /* LDTButton.h */,
@@ -422,7 +407,6 @@
 				C2B1520B1ACE04C30028C336 /* Lets_Do_ThisTests.m */,
 				C2B152091ACE04C30028C336 /* Supporting Files */,
 				EA59C9F71C06172D006D49D2 /* NSDictionary+DSOJsonHelperTests.m */,
-				EA61D0831C15EF9E0060933C /* NSDate+DSOTests.m */,
 			);
 			path = "Lets Do ThisTests";
 			sourceTree = "<group>";
@@ -438,8 +422,6 @@
 		C2B152151ACE05510028C336 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				C20BA2891AF3DCAB00E9886F /* NSDate+DSO.h */,
-				C20BA28A1AF3DCAB00E9886F /* NSDate+DSO.m */,
 				C20BA28B1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.h */,
 				C20BA28C1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m */,
 				B2C305491BE142AE0046CD10 /* NSError+LDT.h */,
@@ -496,10 +478,10 @@
 				C20BA2821AF3DBE400E9886F /* DSOUser.m */,
 				C20BA2771AF3DBE400E9886F /* DSOCampaign.h */,
 				C20BA2781AF3DBE400E9886F /* DSOCampaign.m */,
-				B29A657D1BB60F0B008C0E2A /* DSOCampaignSignup.h */,
-				B29A657E1BB60F0B008C0E2A /* DSOCampaignSignup.m */,
-				B223AD741B7A724000D4AA40 /* DSOReportbackItem.h */,
-				B223AD751B7A724000D4AA40 /* DSOReportbackItem.m */,
+				B290D4C31C8A5961009E6295 /* DSOSignup.h */,
+				B290D4C41C8A5961009E6295 /* DSOSignup.m */,
+				B290D4C01C8A58A7009E6295 /* DSOReportback.h */,
+				B290D4C11C8A58A7009E6295 /* DSOReportback.m */,
 				B211C4161C3AEE4700A94E64 /* DSOCause.h */,
 				B211C4171C3AEE4700A94E64 /* DSOCause.m */,
 			);
@@ -763,15 +745,13 @@
 				EA5C9F1B1B694712001D3EEA /* UITextField+LDT.m in Sources */,
 				B2A1365E1B3CA4B100D20273 /* LDTUserConnectViewController.m in Sources */,
 				B211C4181C3AEE4700A94E64 /* DSOCause.m in Sources */,
-				B29A657F1BB60F0B008C0E2A /* DSOCampaignSignup.m in Sources */,
 				B28124D21BAA1FB700DF58DA /* UIViewController+LDT.m in Sources */,
 				B2A136631B3D9BC600D20273 /* LDTUserRegisterViewController.m in Sources */,
 				B212C2621B4ED6F300376BB1 /* LDTBaseViewController.m in Sources */,
 				C2B152381ACE0BB50028C336 /* LDTSettingsViewController.m in Sources */,
 				B22AB7661B4EE78500BE7052 /* LDTUserLoginViewController.m in Sources */,
-				B223AD761B7A724000D4AA40 /* DSOReportbackItem.m in Sources */,
-				C20BA28D1AF3DCAB00E9886F /* NSDate+DSO.m in Sources */,
 				B2F2BA831C6440BF001EB1D5 /* LDTUserViewController.m in Sources */,
+				B290D4C21C8A58A7009E6295 /* DSOReportback.m in Sources */,
 				B24FE0311BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m in Sources */,
 				B22273FE1B58076F005C896D /* DSOAPI.m in Sources */,
 				C20BA2881AF3DBE400E9886F /* DSOUser.m in Sources */,
@@ -781,13 +761,12 @@
 				B2C3054B1BE142AE0046CD10 /* NSError+LDT.m in Sources */,
 				C2B152201ACE05510028C336 /* LDTAppDelegate.m in Sources */,
 				B216CFC61B685EE8007E1914 /* UIImageView+LDT.m in Sources */,
-				B21306FC1C486E5C003893DB /* LDTNewsArticleViewController.m in Sources */,
 				C2B151EF1ACE04C30028C336 /* main.m in Sources */,
 				B21126271B618038009128E7 /* DSOUserManager.m in Sources */,
-				569AA55E1B4085A000D8C8C9 /* InterfaceBuilderView.m in Sources */,
 				B211C4221C3AF54800A94E64 /* LDTCauseListViewController.m in Sources */,
 				B2E652DF1B4380AD00EF9D69 /* LDTTheme.m in Sources */,
 				B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */,
+				B290D4C51C8A5961009E6295 /* DSOSignup.m in Sources */,
 				C20BA2831AF3DBE400E9886F /* DSOCampaign.m in Sources */,
 				B2753E391BD17C49004DDD6A /* GAI+LDT.m in Sources */,
 				B28124CF1BAA0DF000DF58DA /* UINavigationController+LDT.m in Sources */,
@@ -800,7 +779,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA61D0841C15EF9E0060933C /* NSDate+DSOTests.m in Sources */,
 				C2B1520C1ACE04C30028C336 /* Lets_Do_ThisTests.m in Sources */,
 				EA59C9F81C06172D006D49D2 /* NSDictionary+DSOJsonHelperTests.m in Sources */,
 			);

@@ -42,20 +42,14 @@
     [self styleView];
     self.title = self.cause.title.uppercaseString;
 
-    self.campaigns = [[NSMutableArray alloc] init];
+    NSString *campaignsUrl = [NSString stringWithFormat:@"%@campaigns?term_ids=%li&count=100", [DSOAPI sharedInstance].phoenixApiURL, (long)self.cause.causeID];
+    NSDictionary *props = @{
+                            @"cause" : self.cause.dictionary,
+                            @"campaignsUrl": campaignsUrl,
+                            };
     NSURL *jsCodeLocation = ((LDTAppDelegate *)[UIApplication sharedApplication].delegate).jsCodeLocation;
-    NSDictionary *initialProperties = @{@"cause" : self.cause.dictionary, @"campaigns": [self.campaigns copy]};
-    RCTRootView *rootView =[[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"CauseDetailView" initialProperties:initialProperties launchOptions:nil];
+    RCTRootView *rootView =[[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName: @"CauseDetailView" initialProperties:props launchOptions:nil];
     self.view = rootView;
-
-    NSArray *activeCampaigns = [DSOUserManager sharedInstance].activeCampaigns;
-
-    for (DSOCampaign *campaign in activeCampaigns) {
-        if (campaign.cause.causeID == self.cause.causeID && [campaign.status isEqualToString:@"active"]) {
-            [self.campaigns addObject:campaign.dictionary];
-        }
-    }
-    rootView.appProperties = @{@"cause" : self.cause.dictionary, @"campaigns": [self.campaigns copy]};
 }
 
 - (void)viewWillAppear:(BOOL)animated {

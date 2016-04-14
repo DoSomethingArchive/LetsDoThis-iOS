@@ -14,11 +14,11 @@
 #import "LDTUserViewController.h"
 #import "LDTCampaignViewController.h"
 #import "LDTCauseDetailViewController.h"
-#import "LDTNewsArticleViewController.h"
 #import "LDTMessage.h"
+#import "LDTTheme.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "GAI+LDT.h"
 #import "LDTActivityViewController.h"
-
 
 @interface LDTReactBridge() <RCTBridgeModule>
 
@@ -46,6 +46,19 @@ RCT_EXPORT_MODULE();
     return dispatch_get_main_queue();
 }
 
+- (NSDictionary *)constantsToExport {
+    return @{
+             @"fontName": LDTTheme.fontName,
+             @"fontNameBold": LDTTheme.fontBoldName,
+             @"fontSizeCaption": [NSNumber numberWithFloat:LDTTheme.fontSizeCaption],
+             @"fontSizeBody": [NSNumber numberWithFloat:LDTTheme.fontSizeBody],
+             @"fontSizeHeading": [NSNumber numberWithFloat:LDTTheme.fontSizeHeading],
+             @"fontSizeTitle": [NSNumber numberWithFloat:LDTTheme.fontSizeTitle],
+             @"colorCtaBlue" : LDTTheme.hexCtaBlue,
+             @"colorCopyGray" : LDTTheme.hexCopyGray,
+             };
+}
+
 RCT_EXPORT_METHOD(pushUser:(NSDictionary *)userDict) {
     DSOUser *user = [[DSOUser alloc] initWithDict:userDict];
     LDTUserViewController *viewController = [[LDTUserViewController alloc] initWithUser:user];
@@ -55,18 +68,17 @@ RCT_EXPORT_METHOD(pushUser:(NSDictionary *)userDict) {
 }
 
 RCT_EXPORT_METHOD(pushCampaign:(NSInteger)campaignID) {
-    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
-    if (!campaign) {
-        NSString *message = [NSString stringWithFormat:@"Error occured: invalid Campaign ID %li", (long)campaignID];
-        [LDTMessage displayErrorMessageInViewController:self.tabBarController title:message];
-        return;
-    }
+    DSOCampaign *campaign = [[DSOCampaign alloc] initWithCampaignID:campaignID];
     LDTCampaignViewController *viewController = [[LDTCampaignViewController alloc] initWithCampaign:campaign];
     [self.tabBarController pushViewController:viewController];
 }
 
 RCT_EXPORT_METHOD(presentProveIt:(NSInteger)campaignID) {
     [self.tabBarController presentReportbackAlertControllerForCampaignID:campaignID];
+}
+
+RCT_EXPORT_METHOD(presentAvatarAlertController) {
+    [self.tabBarController presentAvatarAlertController];
 }
 
 RCT_EXPORT_METHOD(pushCause:(NSDictionary *)causeDict) {
@@ -76,31 +88,38 @@ RCT_EXPORT_METHOD(pushCause:(NSDictionary *)causeDict) {
 }
 
 RCT_EXPORT_METHOD(presentNewsArticle:(NSInteger)newsPostID urlString:(NSString *)urlString) {
-    LDTNewsArticleViewController *articleViewController = [[LDTNewsArticleViewController alloc] initWithNewsPostID:newsPostID urlString:urlString];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:articleViewController];
-    [self.tabBarController presentViewController:navigationController animated:YES completion:nil];
+    [[GAI sharedInstance] trackEventWithCategory:@"news" action:@"read" label:[NSString stringWithFormat:@"%li", (long)newsPostID]  value:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
 }
 
 RCT_EXPORT_METHOD(postSignup:(NSInteger)campaignID) {
-    DSOCampaign *campaign = [[DSOUserManager sharedInstance] activeCampaignWithId:campaignID];
+    DSOCampaign *campaign = [[DSOUserManager sharedInstance] campaignWithID:campaignID];
     [SVProgressHUD showWithStatus:@"Signing up..."];
-    [[DSOUserManager sharedInstance] signupUserForCampaign:campaign completionHandler:^(DSOCampaignSignup *signup) {
+    [[DSOUserManager sharedInstance] signupForCampaign:campaign completionHandler:^(DSOSignup *signup) {
         [SVProgressHUD dismiss];
         [LDTMessage displaySuccessMessageInViewController:self.tabBarController title:@"Niiiiice." subtitle:[NSString stringWithFormat:@"You signed up for %@.", campaign.title]];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
-        [LDTMessage displayErrorMessageInViewController:self.tabBarController title:error.readableTitle];
+        [LDTMessage displayErrorMessageInViewController:self.tabBarController title:error.readableTitle subtitle:error.readableMessage];
     }];
 }
 
-RCT_EXPORT_METHOD(shareReportback:(NSString *)shareMessage shareImageUrl:(NSString *)shareImageUrl) {
+RCT_EXPORT_METHOD(shareNewsHeadline:(NSInteger)id headline:(NSString *)headline) {
+    NSString *shareMessage = [NSString stringWithFormat:@"%@ - Come take action with me using the DoSomething app!", headline];
+
+    LDTActivityViewController *activityViewController = [[LDTActivityViewController alloc] initWithShareMessage:shareMessage shareImage:nil gaiCategoryName:@"news" gaiActionName:@"share" gaiValue:[NSNumber numberWithInteger:id]];
+    [[self tabBarController] presentViewController:activityViewController animated:YES completion:nil];
+}
+
+RCT_EXPORT_METHOD(shareReportbackItem:(NSInteger)id shareMessage:(NSString *)shareMessage shareImageUrl:(NSString *)shareImageUrl) {
     NSURL *url = [NSURL URLWithString:shareImageUrl];
     // This is weaksauce but we otherwise don't have a way to pass the downloaded image from React Native back into Obj C.
     // @see https://github.com/facebook/react-native/issues/201
     [SVProgressHUD showWithStatus:@"Loading..." maskType:SVProgressHUDMaskTypeNone];
     [[SDWebImageManager sharedManager] downloadImageWithURL:url options:0 progress:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
         [SVProgressHUD dismiss];
-        LDTActivityViewController *activityViewController = [[LDTActivityViewController alloc] initWithShareMessage:shareMessage shareImage:image gaiActionName:@"share photo"];
+
+        LDTActivityViewController *activityViewController = [[LDTActivityViewController alloc] initWithShareMessage:shareMessage shareImage:image gaiCategoryName:@"behavior" gaiActionName:@"share photo" gaiValue:[NSNumber numberWithInteger:id]];
         [[self tabBarController] presentViewController:activityViewController animated:YES completion:nil];
     }];
 }

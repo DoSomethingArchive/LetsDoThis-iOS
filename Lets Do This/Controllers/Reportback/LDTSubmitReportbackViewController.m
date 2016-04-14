@@ -15,20 +15,22 @@
 
 @interface LDTSubmitReportbackViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
-@property (strong, nonatomic) DSOReportbackItem *reportbackItem;
+@property (assign, nonatomic) BOOL captionTextIsValid;
+@property (assign, nonatomic) BOOL quantityTextIsValid;
+@property (strong, nonatomic) DSOCampaign *campaign;
+@property (strong, nonatomic) UIImage *selectedImage;
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
+
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *primaryImageView;
 @property (weak, nonatomic) IBOutlet UITextField *captionTextField;
 @property (weak, nonatomic) IBOutlet UITextField *quantityTextField;
 @property (weak, nonatomic) IBOutlet LDTButton *submitButton;
-@property (strong, nonatomic) UIImagePickerController *imagePickerController;
-@property (assign, nonatomic) BOOL quantityTextIsValid;
-@property (assign, nonatomic) BOOL captionTextIsValid;
 
+- (IBAction)captionTextFieldEditingChanged:(id)sender;
 - (IBAction)changePhotoButtonTouchUpInside:(id)sender;
 - (IBAction)submitButtonTouchUpInside:(id)sender;
 - (IBAction)quantityTextFieldEditingChanged:(id)sender;
-- (IBAction)captionTextFieldEditingChanged:(id)sender;
 
 @end
 
@@ -36,22 +38,12 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithCampaign:(DSOCampaign *)campaign reportbackItemImage:(UIImage *)reportbackItemImage {
+- (instancetype)initWithCampaign:(DSOCampaign *)campaign selectedImage:(UIImage *)selectedImage {
     self = [super initWithNibName:@"LDTSubmitReportbackView" bundle:nil];
 
     if (self) {
-        _reportbackItem = [[DSOReportbackItem alloc] initWithCampaign:campaign];
-        _reportbackItem.image = reportbackItemImage;
-    }
-
-    return self;
-}
-
-- (instancetype)initWithReportbackItem:(DSOReportbackItem *)reportbackItem {
-    self = [super initWithNibName:@"LDTSubmitReportbackView" bundle:nil];
-
-    if (self) {
-        _reportbackItem = reportbackItem;
+        _campaign = campaign;
+        _selectedImage = selectedImage;
     }
 
     return self;
@@ -62,12 +54,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = [NSString stringWithFormat:@"I did %@", self.reportbackItem.campaign.title].uppercaseString;
+    self.title = [NSString stringWithFormat:@"I did %@", self.campaign.title].uppercaseString;
     [self.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
-    self.primaryImageView.image = self.reportbackItem.image;
+    self.primaryImageView.image = self.selectedImage;
     self.captionTextField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
     self.captionTextField.placeholder = @"Caption your photo (60 chars or less)";
-    self.quantityTextField.placeholder = [NSString stringWithFormat:@"Number of %@ %@", self.reportbackItem.campaign.reportbackNoun, self.reportbackItem.campaign.reportbackVerb];
+    self.quantityTextField.placeholder = [NSString stringWithFormat:@"Number of %@ %@", self.campaign.reportbackNoun, self.campaign.reportbackVerb];
     self.quantityTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.submitButton setTitle:@"Upload photo".uppercaseString forState:UIControlStateNormal];
     
@@ -77,16 +69,11 @@
 
     [self styleView];
 
-    self.textFields = @[self.captionTextField,
-                        self.quantityTextField,
-                        ];
+    self.textFields = @[self.captionTextField, self.quantityTextField];
     for (UITextField *aTextField in self.textFields) {
         aTextField.delegate = self;
     }
-    self.textFieldsRequired = @[self.captionTextField,
-                                self.quantityTextField,
-                                ];
-
+    self.textFieldsRequired = @[self.captionTextField, self.quantityTextField];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModalViewControllerAnimated:)];
     [self styleRightBarButton];
@@ -97,7 +84,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld/reportbackform", (long)self.reportbackItem.campaign.campaignID]];
+    [[GAI sharedInstance] trackScreenView:[NSString stringWithFormat:@"campaign/%ld/reportbackform", (long)self.campaign.campaignID]];
 }
 
 - (void)styleView {
@@ -110,7 +97,7 @@
     [self.backgroundImageView.layer addSublayer:backgroundImageMaskLayer];
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.backgroundImageView.layer.masksToBounds = YES;
-    self.backgroundImageView.image = self.reportbackItem.image;
+    self.backgroundImageView.image = self.selectedImage;
     
     self.primaryImageView.layer.masksToBounds = YES;
     self.primaryImageView.layer.borderColor = UIColor.whiteColor.CGColor;
@@ -130,7 +117,7 @@
     }
     if (errorMessages.count > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
-        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage subtitle:nil];
         self.captionTextIsValid = NO;
         [self.submitButton enable:NO];
         return NO;
@@ -156,7 +143,7 @@
     }
     if (errorMessages.count > 0) {
         NSString *errorMessage = [[errorMessages copy] componentsJoinedByString:@"\n"];
-        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage];
+        [LDTMessage displayErrorMessageInViewController:self.navigationController title:errorMessage subtitle:nil];
         self.quantityTextIsValid = NO;
         [self.submitButton enable:NO];
         return NO;
@@ -202,14 +189,14 @@
 - (IBAction)submitButtonTouchUpInside:(id)sender {
     [self.view endEditing:YES];
     [SVProgressHUD showWithStatus:@"Uploading..."];
-    self.reportbackItem.caption = self.captionTextField.text;
-    self.reportbackItem.quantity = [self.quantityTextField.text integerValue];
+    NSString *fileString = [UIImagePNGRepresentation(self.selectedImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
 
     LDTTabBarController *rootVC = (LDTTabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    [[DSOUserManager sharedInstance] postUserReportbackItem:self.reportbackItem completionHandler:^(NSDictionary *response) {
+
+    [[DSOUserManager sharedInstance] reportbackForCampaign:self.campaign fileString:fileString caption:self.captionTextField.text quantity:[self.quantityTextField.text integerValue] completionHandler:^(DSOReportback *reportback) {
         [SVProgressHUD dismiss];
         [rootVC dismissViewControllerAnimated:YES completion:^{
-            [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.reportbackItem.campaign.title]];
+            [LDTMessage displaySuccessMessageWithTitle:@"Stunning!" subtitle:[NSString stringWithFormat:@"You submitted your %@ photo for approval.", self.campaign.title]];
         }];
     } errorHandler:^(NSError *error) {
         [SVProgressHUD dismiss];
@@ -239,16 +226,16 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    self.reportbackItem.image = info[UIImagePickerControllerEditedImage];
-    self.backgroundImageView.image = self.reportbackItem.image;
-    self.primaryImageView.image = self.reportbackItem.image;
+    self.selectedImage = info[UIImagePickerControllerEditedImage];
+    self.backgroundImageView.image = self.selectedImage;
+    self.primaryImageView.image = self.selectedImage;
 }
 
 # pragma mark - UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [viewController.navigationController styleNavigationBar:LDTNavigationBarStyleNormal];
-    viewController.title = [NSString stringWithFormat:@"I did %@", self.reportbackItem.campaign.title].uppercaseString;
+    viewController.title = [NSString stringWithFormat:@"I did %@", self.campaign.title].uppercaseString;
     [viewController styleRightBarButton];
     [viewController styleBackBarButton];
 }
@@ -264,7 +251,7 @@
         }
         NSUInteger newLength = [textField.text length] + [string length] - range.length;
         if (newLength > 60) {
-            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Your caption can't be longer than 60 characters."];
+            [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Your caption can't be longer than 60 characters." subtitle:nil];
             return NO;
         }
         else {

@@ -9,43 +9,46 @@
 #import "AFHTTPSessionManager.h"
 #import "DSOUser.h"
 #import "DSOCampaign.h"
-#import "DSOReportbackItem.h"
-#import "DSOCampaignSignup.h"
 #import "DSOCause.h"
+#import "DSOSignup.h"
+#import "DSOReportback.h"
 
 @interface DSOAPI : AFHTTPSessionManager
 
+// Used by View Controllers with React Native views to share same API session.
 @property (nonatomic, strong, readonly) NSString *apiKey;
+@property (nonatomic, strong, readonly) NSString *currentService;
 @property (nonatomic, strong, readonly) NSString *phoenixBaseURL;
 @property (nonatomic, strong, readonly) NSString *phoenixApiURL;
 @property (nonatomic, strong, readonly) NSString *newsApiURL;
+@property (nonatomic, strong, readonly) NSString *sessionToken;
 
 + (DSOAPI *)sharedInstance;
 
-- (void)setHTTPHeaderFieldSession:(NSString *)token;
+// Used to override ending a session for edge case failed logout requests (e.g. 401).
+- (void)deleteSessionToken;
 
-- (void)createUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler;
+// Creates a DoSomething.org account with given properties. This API call does not automatically create an authenticated sesssion to log the user in, must additionally call createSessionForEmail:password:completionHandler:errorHandler.
+- (void)createUserWithEmail:(NSString *)email password:(NSString *)password firstName:(NSString *)firstName mobile:(NSString *)mobile countryCode:(NSString *)countryCode deviceToken:(NSString *)deviceToken success:(void(^)(NSDictionary *))completionHandler failure:(void(^)(NSError *))errorHandler;
 
-- (void)loginWithEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Creates authenticated session for given email/password combination, returns the corresponding loaded DSOUser upon completion.
+- (void)createSessionForEmail:(NSString *)email password:(NSString *)password completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)logoutWithCompletionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Loads the current user with saved sessionToken, if exists.
+- (void)loadCurrentUserWithCompletionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)postUserAvatarWithUserId:(NSString *)userID avatarImage:(UIImage *)avatarImage completionHandler:(void(^)(id))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Ends session and removes deviceToken from the current User's account. deviceToken may be set to nil if user has not granted push notifications.
+- (void)endSessionWithDeviceToken:(NSString *)deviceToken completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)postReportbackItem:(DSOReportbackItem *)reportbackItem completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+// Posts avatar for the given user (which should always be the current authenticated user).
+- (void)postAvatarForUser:(DSOUser *)user avatarImage:(UIImage *)avatarImage completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)loadUserWithUserId:(NSString *)userID completionHandler:(void(^)(DSOUser *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+- (void)postReportbackForCampaign:(DSOCampaign *)campaign fileString:(NSString *)fileString caption:(NSString *)caption quantity:(NSInteger)quantity completionHandler:(void(^)(DSOReportback *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-- (void)postSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOCampaignSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+- (void)postCurrentUserDeviceToken:(NSString *)deviceToken completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-// Potentially temporary method, exploring loading all Campaigns into memory.
-- (void)loadAllCampaignsWithCompletionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+- (void)postSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
-// Will soon be deprecated - GH #714
-- (void)loadCampaignsForTermIds:(NSArray *)termIds completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
-
-- (void)loadReportbackItemsForCampaigns:(NSArray *)campaigns status:(NSString *)status completionHandler:(void(^)(NSArray *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
-
-- (NSString *)profileURLforUser:(DSOUser *)user;
+- (void)loadCampaignWithID:(NSInteger)campaignID completionHandler:(void(^)(DSOCampaign *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 @end

@@ -14,9 +14,12 @@ import React, {
 } from 'react-native';
 
 var Style = require('./Style.js');
-var UserViewController = require('react-native').NativeModules.LDTUserViewController;
+var Helpers = require('./Helpers.js');
+var NetworkErrorView = require('./NetworkErrorView.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
+var firstSectionHeaderText = "Actions I'm Doing";
+var secondSectionHeaderText = "Actions I've Done";
 
 var UserView = React.createClass({
   getInitialState: function() {
@@ -36,28 +39,45 @@ var UserView = React.createClass({
       isRefreshing: false,
       loaded: false,
       error: null,
+      // Because selfProfile can change user data, we need to store user in state.
+      user: this.props.user,
     };
   },
   componentDidMount: function() {
     if (this.props.isSelfProfile) {
-      this.subscription = NativeAppEventEmitter.addListener(
+      this.userActivitySubscription = NativeAppEventEmitter.addListener(
         'currentUserActivity',
-        (signup) => this.handleEvent(signup),
+        (signup) => this.handleUserActivityEvent(signup),
+      );
+      this.userChangedSubscription = NativeAppEventEmitter.addListener(
+        'currentUserChanged',
+        (user) => this.handleUserChangedEvent(user),
       );
     }
     this.fetchData();
   },
   componentWillUnmount: function() {
-    if (typeof this.subscription != "undefined") {
-      this.subscription.remove();
+    if (this.props.isSelfProfile) {
+      this.userActivitySubscription.remove();
+      this.userChangedSubscription.remove();
     }
   },
-  handleEvent: function(campaignActivity) {
+  handleUserChangedEvent: function(user) {
+    console.log("handleUserChangedEvent");
+    this.state.user = user;
+    this.fetchData();
+  },
+  handleUserActivityEvent: function(campaignActivity) {
     this.fetchData();
   },
   fetchData: function() {
+    this.setState({
+      error: false,
+      loaded: false,
+    });
     var options = { 
       method: 'GET',
+      timeout: 30000,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -65,46 +85,85 @@ var UserView = React.createClass({
         'X-DS-REST-API-Key': this.props.apiKey,
       },
     };
-    fetch(this.props.url, options)
+    // Grab 200 records for now until we add paginated requests.
+    var url = this.props.baseUrl + 'signups?user=' + this.state.user.id + '&count=200';
+    fetch(url, options)
       .then((response) => response.json())
-      .then((responseData) => {
-        this.loadSignups(responseData.data);
-      })
       .catch((error) => this.catchError(error))
+      .then((responseData) => {
+        // This was added here -- https://github.com/DoSomething/LetsDoThis-iOS/pull/853#discussion_r54018442
+        // If we turn on airplane mode and load this view, the catchError executes above 
+        // but this then block still executes. feels like i'm doing something wrong here.
+        if (!responseData) {
+          return;
+        }
+        if (responseData.error) {
+          this.setState({
+            error: responseData.error,
+          });
+          return;
+        }
+        if (responseData.data) {
+          this.loadSignups(responseData.data);
+        }
+      })
       .done();
   },
   loadSignups: function(signups) {
     var dataBlob = {},
       sectionIDs = [],
       rowIDs = [],
-      i;
+      doing = [],
+      done = [];
+
     sectionIDs.push(0);
-    dataBlob[0] = "Actions I'm doing";
+    dataBlob[0] = firstSectionHeaderText;
     rowIDs[0] = [];
     sectionIDs.push(1);
-    dataBlob[1] = "Actions I've done";
+    dataBlob[1] = secondSectionHeaderText;
     rowIDs[1] = [];
-    for (i = 0; i < signups.length; i++) {
-      var signup = signups[i];
-      var sectionNumber = 0;
-      if (signup.reportback) {
-        sectionNumber = 1;
+
+    for (let i = 0; i < signups.length; i++) {
+      let signup = signups[i];
+
+      // Data safety check:
+      if ((!signup.campaign) || (!signup.campaign_run)) {
+        continue;
+      }
+      
+      if (Helpers.reportbackItemExistsForSignup(signup)) {
         signup.reportbackItem = signup.reportback.reportback_items.data[0];
+        done.push(signup);
       }
       else {
         if (!signup.campaign_run.current) {
           continue;
         }
-        if (signup.campaign.status != 'active') {
+        if (signup.campaign.status != 'active' || signup.campaign.type != 'campaign') {
           continue;
         }
-        if (signup.campaign.type != 'campaign') {
-          continue;
-        }
+        doing.push(signup);
       }
-      rowIDs[sectionNumber].push(signup.id);
-      dataBlob[sectionNumber + ':' + signup.id] = signup;
     }
+
+    doing.sort(function(a, b) { 
+      return b.id - a.id;
+    }); 
+    for (let i = 0; i < doing.length; i++) {
+      let signup = doing[i];
+      rowIDs[0].push(signup.id);
+      dataBlob['0:' + signup.id] = signup;
+    }
+
+    done.sort(function(a, b) { 
+      return b.reportbackItem.id - a.reportbackItem.id;
+    });
+    for (let i = 0; i < done.length; i++) {
+      let signup = done[i];
+      rowIDs[1].push(signup.id);
+      dataBlob['1:' + signup.id] = signup;
+    }
+
     this.setState({
       dataSource : this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
       loaded: true,
@@ -121,7 +180,7 @@ var UserView = React.createClass({
     }, 1000);
   },
   catchError: function(error) {
-    console.log(error);
+    console.log("UserView.catchError");
     this.setState({
       error: error,
     });
@@ -137,22 +196,44 @@ var UserView = React.createClass({
       </View>
     );
   },
-  renderError: function() {
+  renderEmptySelfProfile: function() {
     return (
-      <View style={styles.loadingContainer}>
-        <Text style={Style.textBody}>
-          Epic Fail
-        </Text>
+      <View>
+        {this.renderHeader()}
+        <View style={Style.sectionHeader}>
+          <Text style={Style.sectionHeaderText}>
+            {firstSectionHeaderText.toUpperCase()}
+          </Text>
+        </View>
+        <View style={styles.noActionsContainer}>
+          <Text style={Style.textHeading}>
+            You haven’t started any actions yet.
+          </Text>
+          <Text style={[Style.textBody, {paddingTop: 8}]}>
+            And you totally should! Shit is happening in the world -- find out how to do something about it.
+          </Text>
+        </View>
       </View>
     );
   },
   render: function() {
     if (this.state.error) {
-      return this.renderError();
+      // @todo Refactor NetworkErrorView to accept error object, instead of errorMessage
+      return (
+        <NetworkErrorView
+          title="Profile isn't loading right now"
+          retryHandler={this.fetchData}
+          errorMessage={this.state.error.message}
+        />
+      );
     }
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
+    if (this.state.dataSource.getRowCount() == 0 && this.props.isSelfProfile) {
+      return this.renderEmptySelfProfile();
+    }
+
     return (
       <ListView
         dataSource={this.state.dataSource}
@@ -172,27 +253,40 @@ var UserView = React.createClass({
     );
   },
   renderHeader: function() {
-    if (this.props.user.photo.length == 0) {
-      this.props.user.photo = 'https://placekitten.com/g/600/600';
+    var avatarUri = this.state.user.photo;
+    if (avatarUri.length == 0) {
+      avatarUri =  'Avatar';
     }
     var headerText = null;
-    if (this.props.user.country.length > 0) {
-      headerText = this.props.user.country.toUpperCase();
+    if (this.state.user.country && this.state.user.country.length > 0) {
+      headerText = this.state.user.country.toUpperCase();
+    }
+    var avatar = (
+      <Image
+        style={styles.avatar}
+        defaultSource={{uri: 'Placeholder Image Loading'}}
+        source={{uri: avatarUri}}
+      />
+    );
+    if (this.props.isSelfProfile) {
+      avatar = (
+        <TouchableHighlight onPress={() => Bridge.presentAvatarAlertController()}>
+          {avatar}
+        </TouchableHighlight>
+      );
     }
     return (
-      <View>
+      <View style={styles.headerContainer}>
         <Image
           style={styles.headerBackgroundImage}
           source={require('image!Gradient Background')}>
-          <View style={styles.headerContainer}>
-             <Image
-               style={styles.avatar}
-               source={{uri: this.props.user.photo}}
-             />
-             <Text style={[Style.textHeading, styles.headerText]}>
-               {headerText}
-             </Text>
+          <View style={styles.avatarContainer}>
+            {avatar}
+            <Text style={[Style.textHeading, styles.headerText]}>
+              {headerText}
+            </Text>
           </View>
+
         </Image>
       </View>
     );
@@ -207,7 +301,7 @@ var UserView = React.createClass({
     );
   },
   renderRow: function(rowData) {
-    if (rowData.reportback) {
+    if (rowData.reportbackItem) {
       return this.renderDoneRow(rowData);
     }
     else {
@@ -218,12 +312,22 @@ var UserView = React.createClass({
     return (
       <TouchableHighlight onPress={() => this._onPressRow(signup)}>
         <View style={styles.row}>
-          <Text style={[Style.textHeading, Style.textColorCtaBlue]}>
-            {signup.campaign.title}
-          </Text>
-          <Text style={Style.textBody}>
-            {signup.campaign.tagline}
-          </Text>
+          <View style={styles.contentContainer}>
+            <Text style={[Style.textHeading, Style.textColorCtaBlue]}>
+              {signup.campaign.title}
+            </Text>
+            <Text style={Style.textBody}>
+              {signup.campaign.tagline}
+            </Text>
+          </View>
+          <View style={styles.detailContainer}>
+            <View style={styles.arrowContainer}>
+              <Image
+                style={styles.arrowImage}
+                source={require('image!Arrow')}
+              />
+            </View>
+          </View>
         </View>
       </TouchableHighlight>
     );
@@ -257,16 +361,24 @@ var styles = React.StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#EEE',
   },
-  headerContainer: {
+  noActionsContainer : {
+    flex: 1,  
+    justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
-    backgroundColor: 'transparent',
+    paddingLeft: 33,
+    paddingRight: 33,
+    paddingTop: 18,
+  },
+  headerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatarContainer: {
     paddingTop: 20,
+    alignItems: 'center',
   },
   headerBackgroundImage: {
-    flex: 1,
     height: 160,
-    alignItems: 'stretch',    
   },
   avatar: {
     width: 100,
@@ -274,19 +386,36 @@ var styles = React.StyleSheet.create({
     borderRadius: 50,
     borderColor: 'white',
     borderWidth: 2,
-    alignItems: 'center',
   },
   headerText: {
     color: 'white',
     opacity: 0.50,
-    flex: 1,
-    textAlign: 'center',
     paddingTop: 4,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   row: {
     backgroundColor: 'white',
     padding: 8,
+    flex: 1,
+    flexDirection: 'row',
   },
+  contentContainer: {
+    flex: 1,
+  },
+  detailContainer: {
+    width: 28,
+    padding: 12,
+  },
+  arrowContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  arrowImage: {
+    width: 12,
+    height: 21,
+  }
 });
 
 module.exports = UserView;
