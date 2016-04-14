@@ -279,7 +279,7 @@ var UserView = React.createClass({
       <View style={styles.headerContainer}>
         <Image
           style={styles.headerBackgroundImage}
-          source={require('image!Gradient Background')}>
+          source={require('image!Pattern BG')}>
           <View style={styles.avatarContainer}>
             {avatar}
             <Text style={[Style.textHeading, styles.headerText]}>
