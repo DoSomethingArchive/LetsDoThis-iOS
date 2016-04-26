@@ -17,6 +17,7 @@ var Style = require('./Style.js');
 var Helpers = require('./Helpers.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
 var ReportbackItemView = require('./ReportbackItemView.js');
+var SponsorView = require('./SponsorView.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var NetworkImage = require('./NetworkImage.js');
 
@@ -285,6 +286,7 @@ var CampaignView = React.createClass({
         </Text>
       </View>
     );
+    var sponsorImageUrl = 'https://www.dosomething.org/sites/default/files/styles/wmax-423px/public/partners/HM-1.png?itok=N8vhbM3I';
 
     return (
       <View>
@@ -296,6 +298,9 @@ var CampaignView = React.createClass({
             displayProgress={true}
           />
         </View>
+        <SponsorView 
+          imageUrl={sponsorImageUrl}
+        />
         <Text style={[Style.textSubheading, styles.tagline]}>
           {campaign.tagline}
         </Text>
