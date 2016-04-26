@@ -286,7 +286,10 @@ var CampaignView = React.createClass({
         </Text>
       </View>
     );
-    var sponsorImageUrl = 'https://www.dosomething.org/sites/default/files/styles/wmax-423px/public/partners/HM-1.png?itok=N8vhbM3I';
+    var sponsored = null;
+    if (campaign.sponsorImageUrl) {
+      sponsored = <SponsorView imageUrl={campaign.sponsorImageUrl} />;
+    }
 
     return (
       <View>
@@ -298,9 +301,7 @@ var CampaignView = React.createClass({
             displayProgress={true}
           />
         </View>
-        <SponsorView 
-          imageUrl={sponsorImageUrl}
-        />
+        {sponsored}
         <Text style={[Style.textSubheading, styles.tagline]}>
           {campaign.tagline}
         </Text>
