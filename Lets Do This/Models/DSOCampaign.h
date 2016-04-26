@@ -16,6 +16,7 @@
 @property (strong, nonatomic, readonly) NSString *reportbackVerb;
 @property (strong, nonatomic, readonly) NSString *solutionCopy;
 @property (strong, nonatomic, readonly) NSString *solutionSupportCopy;
+@property (strong, nonatomic, readonly) NSString *sponsorImageURL;
 @property (strong, nonatomic, readonly) NSString *status;
 @property (strong, nonatomic, readonly) NSString *tagline;
 @property (strong, nonatomic, readonly) NSString *title;

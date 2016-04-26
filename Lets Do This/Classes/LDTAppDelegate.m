@@ -77,7 +77,7 @@
 
     if ([environmentDict objectForKey:@"ReactNativeUseOfflineBundle"] && ![environmentDict[@"ReactNativeUseOfflineBundle"] boolValue]) {
         // Run "npm start" from the project root to enable local React Native development.
-        self.jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
+        self.jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
         NSLog(@"[LDTAppDelegate] Running React Native from localhost development server.");
     }
     else {

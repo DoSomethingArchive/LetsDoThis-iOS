@@ -18,6 +18,7 @@
 @property (strong, nonatomic, readwrite) NSString *reportbackVerb;
 @property (strong, nonatomic, readwrite) NSString *solutionCopy;
 @property (strong, nonatomic, readwrite) NSString *solutionSupportCopy;
+@property (strong, nonatomic, readwrite) NSString *sponsorImageURL;
 @property (strong, nonatomic, readwrite) NSString *status;
 @property (strong, nonatomic, readwrite) NSString *tagline;
 @property (strong, nonatomic, readwrite) NSString *title;
@@ -89,6 +90,19 @@
         else {
             _solutionSupportCopy = @"";
         }
+
+        _sponsorImageURL = @"";
+        if ([values dictionaryForKeyPath:@"affiliates"]) {
+            NSArray *partnerData = [values valueForKeyPath:@"affiliates.partners"];
+            if (partnerData.count > 0) {
+                // API is hardcoded to return single partner for now
+                // @see https://github.com/DoSomething/phoenix/issues/6396
+                NSDictionary *partnerDict = partnerData[0];
+                if ([partnerDict valueForKeyAsBool:@"sponsor"]) {
+                    _sponsorImageURL = [[partnerDict dictionaryForKeyPath:@"media"] valueForKeyAsString:@"uri"];
+                }
+            }
+        }
     }
 	
     return self;
@@ -110,6 +124,7 @@
                      },
              @"solutionCopy" : self.solutionCopy,
              @"solutionSupportCopy" : self.solutionSupportCopy,
+             @"sponsorImageUrl": self.sponsorImageURL
              };
 }
 
