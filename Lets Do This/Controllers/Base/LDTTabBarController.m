@@ -252,7 +252,7 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
 #pragma mark - UITabBarControllerDelegate
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    CLS_LOG(@"selectedIndex %li", self.selectedIndex);
+    CLS_LOG(@"selectedIndex %li", (unsigned long)self.selectedIndex);
 }
 
 @end
