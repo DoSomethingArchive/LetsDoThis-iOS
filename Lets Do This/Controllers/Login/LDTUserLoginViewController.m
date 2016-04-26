@@ -114,10 +114,6 @@
 }
 
 - (IBAction)submitButtonTouchUpInside:(id)sender {
-    if (![self validateEmailForCandidate:self.emailTextField.text]) {
-        [LDTMessage displayErrorMessageInViewController:self.navigationController title:@"Please enter a valid email."subtitle:nil];
-        return;
-    }
     [self.view endEditing:YES];
     [SVProgressHUD showWithStatus:@"Signing in..."];
     [[DSOUserManager sharedInstance] loginWithEmail:self.emailTextField.text password:self.passwordTextField.text completionHandler:^(DSOUser *user) {

@@ -308,10 +308,6 @@
         [self.emailTextField setBorderColor:UIColor.redColor];
         [errorMessages addObject:@"No emoji allowed in your email."];
     }
-    else if (![self validateEmailForCandidate:self.emailTextField.text]) {
-        [self.emailTextField setBorderColor:UIColor.redColor];
-        [errorMessages addObject:@"We need a valid email."];
-    }
     
     if (![self validateMobile:self.mobileTextField.text]) {
         [self.mobileTextField setBorderColor:UIColor.redColor];

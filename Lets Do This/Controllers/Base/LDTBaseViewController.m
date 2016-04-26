@@ -52,17 +52,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
-- (BOOL)validateEmailForCandidate:(NSString *)candidate {
-    if (candidate.length < 6) {
-        return NO;
-    }
-	
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9-]+[.]{1}[A-Za-z0-9-]{2,6}([.]{1}[A-Za-z0-9-]{1,6}){0,9}";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
-	
-    return [emailTest evaluateWithObject:candidate];
-}
-
 - (void)handleKeyboardWillShowNotification:(NSNotification *)notification {
     self.keyboardVisible = YES;
     self.keyboardFrameInWindowCoordinates = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
