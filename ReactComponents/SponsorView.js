@@ -16,6 +16,7 @@ var SponsorView = React.createClass({
       <View style={styles.container}>
         <Text style={[Style.textBodyBold, styles.content]}>{label}</Text>
         <Image 
+          resizeMode="contain"
           source={{uri: this.props.imageUrl}}
           style={styles.image} 
         />
@@ -26,14 +27,14 @@ var SponsorView = React.createClass({
 
 var styles = React.StyleSheet.create({
   container: {
-    padding: 20,
+    paddingTop: 8,
   },
   content: {
     color: '#D6D6D6',
     textAlign: 'center',
   },
   image: {
-    height: 50,
+    height: 23,
   }
 });
 
