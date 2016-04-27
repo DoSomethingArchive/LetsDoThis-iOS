@@ -15,6 +15,7 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import <RCTEventDispatcher.h>
+#import <Tapjoy/Tapjoy.h>
 
 @interface LDTAppDelegate()
 
@@ -44,6 +45,18 @@
         [GAI sharedInstance].logger.logLevel = kGAILogLevelVerbose;
     }
     [Fabric with:@[[Crashlytics startWithAPIKey:keysDict[@"fabricApiKey"]]]];
+
+    // Setup Tapjoy
+    // @see https://ltv.tapjoy.com/s/571fa5b3-fd4a-8000-8000-17367200018b/onboarding#guide/basic?os=ios
+    if (keysDict[@"tapjoySdkKey"]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tjcConnectSuccess:) name:TJC_CONNECT_SUCCESS object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tjcConnectFail:) name:TJC_CONNECT_FAILED object:nil];
+        if ([environmentDict objectForKey:@"TapjoyDebugEnabled"] && [environmentDict[@"TapjoyDebugEnabled"] boolValue])
+            [Tapjoy setDebugEnabled:YES];
+        }
+        [Tapjoy connect:keysDict[@"tapjoySdkKey"]];
+    }
+
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setForegroundColor:LDTTheme.ctaBlueColor];
@@ -149,6 +162,16 @@
 
 - (LDTTabBarController *)tabBarController {
     return (LDTTabBarController *)self.window.rootViewController;
+}
+
+#pragma mark - Tapjoy
+
+-(void)tjcConnectSuccess:(NSNotification*)notifyObj {
+    NSLog(@"Tapjoy connect Succeeded");
+}
+
+-(void)tjcConnectFail:(NSNotification*)notifyObj {
+    NSLog(@"Tapjoy connect Failed");
 }
 
 @end
