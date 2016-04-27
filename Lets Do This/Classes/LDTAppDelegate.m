@@ -47,14 +47,16 @@
     [Fabric with:@[[Crashlytics startWithAPIKey:keysDict[@"fabricApiKey"]]]];
 
     // Setup Tapjoy
-    // @see https://ltv.tapjoy.com/s/571fa5b3-fd4a-8000-8000-17367200018b/onboarding#guide/basic?os=ios
-    if (keysDict[@"tapjoySdkKey"]) {
+    // @see https://home.tapjoy.com/tech/product-overview/integration-advertisers/integrating-the-advertiser-sdk
+    if (keysDict[@"tapjoyAppID"] && keysDict[@"tapjoySdkKey"]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tjcConnectSuccess:) name:TJC_CONNECT_SUCCESS object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tjcConnectFail:) name:TJC_CONNECT_FAILED object:nil];
-        if ([environmentDict objectForKey:@"TapjoyDebugEnabled"] && [environmentDict[@"TapjoyDebugEnabled"] boolValue])
-            [Tapjoy setDebugEnabled:YES];
+        BOOL tapjoyDebug = NO;
+        if (environmentDict[@"TapjoyDebugEnabled"] && [environmentDict[@"TapjoyDebugEnabled"] boolValue]) {
+            tapjoyDebug = YES;
         }
-        [Tapjoy connect:keysDict[@"tapjoySdkKey"]];
+
+        [Tapjoy requestTapjoyConnect:keysDict[@"tapjoyAppID"] secretKey:keysDict[@"tapjoySdkKey"] options:@{ TJC_OPTION_ENABLE_LOGGING : @(tapjoyDebug) } ];
     }
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
