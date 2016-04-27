@@ -92,7 +92,12 @@
         }
 
         _sponsorImageURL = @"";
-        if ([values dictionaryForKeyPath:@"affiliates"]) {
+        // Hardcode sponsor image for campaign 5769
+        // @see GH #998
+        if (self.campaignID == 5769) {
+            _sponsorImageURL = @"https://www.dosomething.org/sites/default/files/SponsorLogo%20NewsCorp.png";
+        }
+        else if ([values dictionaryForKeyPath:@"affiliates"]) {
             NSArray *partnerData = [values valueForKeyPath:@"affiliates.partners"];
             if (partnerData.count > 0) {
                 // API is hardcoded to return single partner for now
