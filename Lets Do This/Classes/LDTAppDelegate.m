@@ -30,7 +30,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
     NSDictionary *environmentDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"environment" ofType:@"plist"]];
-    
+
+    [NRLogger setLogLevels:NRLogLevelNone];
+    if (environmentDict[@"NewRelicLoggerEnabled"] && [environmentDict[@"NewRelicLoggerEnabled"] boolValue]) {
+        [NRLogger setLogLevels:NRLogLevelError|NRLogLevelWarning];
+    }
+
     [NewRelicAgent startWithApplicationToken:keysDict[@"newRelicAppToken"]];
 
     NSString *GAItrackingID = keysDict[@"googleAnalyticsLiveTrackingID"];
