@@ -69,7 +69,7 @@
     if (keysDict[@"tapjoySdkKey"]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tjcConnectSuccess:) name:TJC_CONNECT_SUCCESS object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tjcConnectFail:) name:TJC_CONNECT_FAILED object:nil];
-        if ([environmentDict objectForKey:@"TapjoyDebugEnabled"] && [environmentDict[@"TapjoyDebugEnabled"] boolValue]) {
+        if (environmentDict[@"TapjoyDebugEnabled"] && [environmentDict[@"TapjoyDebugEnabled"] boolValue]) {
             [Tapjoy setDebugEnabled:YES];
         }
         [Tapjoy connect:keysDict[@"tapjoySdkKey"]];
