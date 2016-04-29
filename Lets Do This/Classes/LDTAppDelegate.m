@@ -31,12 +31,16 @@
     NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"]];
     NSDictionary *environmentDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"environment" ofType:@"plist"]];
 
-    [NRLogger setLogLevels:NRLogLevelNone];
-    if (environmentDict[@"NewRelicLoggerEnabled"] && [environmentDict[@"NewRelicLoggerEnabled"] boolValue]) {
-        [NRLogger setLogLevels:NRLogLevelError|NRLogLevelWarning];
+    if (keysDict[@"newRelicAppToken"]) {
+        [NRLogger setLogLevels:NRLogLevelNone];
+        if (environmentDict[@"NewRelicLoggerEnabled"] && [environmentDict[@"NewRelicLoggerEnabled"] boolValue]) {
+            [NRLogger setLogLevels:NRLogLevelError|NRLogLevelWarning];
+        }
+        [NewRelicAgent startWithApplicationToken:keysDict[@"newRelicAppToken"]];
     }
-
-    [NewRelicAgent startWithApplicationToken:keysDict[@"newRelicAppToken"]];
+    else {
+        NSLog(@"Missing New Relic key in keys.plist");
+    }
 
     NSString *GAItrackingID = keysDict[@"googleAnalyticsLiveTrackingID"];
 #ifdef DEBUG
@@ -44,22 +48,34 @@
 #elif THOR
     GAItrackingID = keysDict[@"googleAnalyticsTestTrackingID"];
 #endif
-    [[GAI sharedInstance] trackerWithTrackingId:GAItrackingID];
-    if ([environmentDict objectForKey:@"GoogleAnalyticsLoggerEnabled"] && [environmentDict[@"GoogleAnalyticsLoggerEnabled"] boolValue]) {
-        [GAI sharedInstance].trackUncaughtExceptions = YES;
-        [GAI sharedInstance].logger.logLevel = kGAILogLevelVerbose;
+    if (GAItrackingID) {
+        [[GAI sharedInstance] trackerWithTrackingId:GAItrackingID];
+        if (environmentDict[@"GoogleAnalyticsLoggerEnabled"] && [environmentDict[@"GoogleAnalyticsLoggerEnabled"] boolValue]) {
+            [GAI sharedInstance].trackUncaughtExceptions = YES;
+            [GAI sharedInstance].logger.logLevel = kGAILogLevelVerbose;
+        }
     }
-    [Fabric with:@[[Crashlytics startWithAPIKey:keysDict[@"fabricApiKey"]]]];
+    else {
+        NSLog(@"Missing Google Analytics ID in keys.plist");
+    }
 
-    // Setup Tapjoy
-    // @see https://ltv.tapjoy.com/s/571fa5b3-fd4a-8000-8000-17367200018b/onboarding#guide/basic?os=ios
+    if (keysDict[@"fabricApiKey"]) {
+        [Fabric with:@[[Crashlytics startWithAPIKey:keysDict[@"fabricApiKey"]]]];
+    }
+    else {
+        NSLog(@"Missing Fabric key in keys.plist");
+    }
+
     if (keysDict[@"tapjoySdkKey"]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tjcConnectSuccess:) name:TJC_CONNECT_SUCCESS object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tjcConnectFail:) name:TJC_CONNECT_FAILED object:nil];
-        if ([environmentDict objectForKey:@"TapjoyDebugEnabled"] && [environmentDict[@"TapjoyDebugEnabled"] boolValue]) {
+        if (environmentDict[@"TapjoyDebugEnabled"] && [environmentDict[@"TapjoyDebugEnabled"] boolValue]) {
             [Tapjoy setDebugEnabled:YES];
         }
         [Tapjoy connect:keysDict[@"tapjoySdkKey"]];
+    }
+    else {
+        NSLog(@"Missing Tapjoy key in keys.plist");
     }
 
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
@@ -73,33 +89,37 @@
         [[DSOAPI sharedInstance] deleteSessionToken];
     }
 
-    [Parse setApplicationId:keysDict[@"parseApplicationId"] clientKey:keysDict[@"parseClientKey"]];
-    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
-    [application registerUserNotificationSettings:settings];
-    [application registerForRemoteNotifications];
+    if (keysDict[@"parseApplicationId"] && keysDict[@"parseClientKey"]) {
+        [Parse setApplicationId:keysDict[@"parseApplicationId"] clientKey:keysDict[@"parseClientKey"]];
+        UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
+        [application registerUserNotificationSettings:settings];
+        [application registerForRemoteNotifications];
 
-    // Following code tracks opening Parse push notification
-    // @see https://www.parse.com/docs/ios/guide#push-notifications-tracking-pushes-and-app-opens
-    if (application.applicationState != UIApplicationStateBackground) {
-        BOOL preBackgroundPush = ![application respondsToSelector:@selector(backgroundRefreshStatus)];
-        BOOL oldPushHandlerOnly = ![self respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
-        BOOL noPushPayload = ![launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        if (preBackgroundPush || oldPushHandlerOnly || noPushPayload) {
-            [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+        // Following code tracks opening Parse push notification
+        // @see https://www.parse.com/docs/ios/guide#push-notifications-tracking-pushes-and-app-opens
+        if (application.applicationState != UIApplicationStateBackground) {
+            BOOL preBackgroundPush = ![application respondsToSelector:@selector(backgroundRefreshStatus)];
+            BOOL oldPushHandlerOnly = ![self respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
+            BOOL noPushPayload = ![launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+            if (preBackgroundPush || oldPushHandlerOnly || noPushPayload) {
+                [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+            }
         }
+    }
+    else {
+        NSLog(@"Missing Parse keys in keys.plist");
     }
 
     // Clear out any badges, as we don't yet require user to take any action besides opening up the app.
+    // Currently only way this would be set to non-zero would be from receiving a Parse push notification.
     application.applicationIconBadgeNumber = 0;
 
-    if ([environmentDict objectForKey:@"ReactNativeUseOfflineBundle"] && ![environmentDict[@"ReactNativeUseOfflineBundle"] boolValue]) {
-        // Run "npm start" from the project root to enable local React Native development.
+    if (environmentDict[@"ReactNativeUseOfflineBundle"] && ![environmentDict[@"ReactNativeUseOfflineBundle"] boolValue]) {
         self.jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
         NSLog(@"[LDTAppDelegate] Running React Native from localhost development server.");
     }
     else {
-        // main.jsbundle gets updated in our "Bundle React Native code and images" build phase.
         self.jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
         NSLog(@"[LDTAppDelegate] Running React Native from main.jsbundle.");
     }
@@ -149,9 +169,9 @@
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     if (error.code == 3010) {
         NSLog(@"Push notifications are not supported in the iOS Simulator.");
-    } else {
-        // show some alert or otherwise handle the failure to register.
-        NSLog(@"application:didFailToRegisterForRemoteNotificationsWithError: %@", error);
+    }
+    else {
+        NSLog(@"didFailToRegisterForRemoteNotificationsWithError: %@", error);
     }
 }
 
@@ -172,11 +192,11 @@
 #pragma mark - Tapjoy
 
 -(void)tjcConnectSuccess:(NSNotification*)notifyObj {
-    NSLog(@"Tapjoy connect Succeeded");
+    NSLog(@"Tapjoy connect succeeded");
 }
 
 -(void)tjcConnectFail:(NSNotification*)notifyObj {
-    NSLog(@"Tapjoy connect Failed");
+    NSLog(@"Tapjoy connect failed");
 }
 
 @end

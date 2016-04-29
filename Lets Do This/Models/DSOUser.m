@@ -33,9 +33,8 @@
         if (!_userID) {
             _userID = [dict valueForKeyAsString:@"id"];
         }
-        if ([dict objectForKey:@"country"]) {
-            _countryCode = dict[@"country"];
-        }
+
+        _countryCode = [dict valueForKeyAsString:@"country"];
         _firstName = [dict valueForKeyAsString:@"first_name"];
         _email = dict[@"email"];
         _phoenixID = [dict valueForKeyAsInt:@"drupal_id"];

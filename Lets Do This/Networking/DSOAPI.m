@@ -58,7 +58,10 @@
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        BOOL activityLoggerEnabled = [environmentDict objectForKey:@"AFNetworkActivityLoggerEnabled"] && [environmentDict[@"AFNetworkActivityLoggerEnabled"] boolValue];
+        BOOL activityLoggerEnabled = NO;
+        if (environmentDict[@"AFNetworkActivityLoggerEnabled"] && [environmentDict[@"AFNetworkActivityLoggerEnabled"] boolValue]) {
+            activityLoggerEnabled = YES;
+        };
         _sharedInstance = [[self alloc] initWithApiKey:keysDict[LDTSERVERKEYNAME]  activityLoggerEnabled:activityLoggerEnabled];
     });
 
