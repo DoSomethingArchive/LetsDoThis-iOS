@@ -14,7 +14,7 @@
 
 
 // API Constants
-#define LDTSOURCENAME @"letsdothis_ios"
+#define LDTSOURCENAME @"mobileapp_ios"
 
 #ifdef DEBUG
 #define DSOSERVER @"staging.dosomething.org"
