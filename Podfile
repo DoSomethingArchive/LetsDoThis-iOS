@@ -13,8 +13,9 @@ target 'Lets Do This' do
 	pod 'Crashlytics', '3.7.0'
     pod 'SVProgressHUD', '1.1.3'
     pod 'GoogleAnalytics', '3.13.0'
-    pod 'NewRelicAgent', '5.3.4'
+    pod 'NewRelicAgent', '5.4.1'
     pod 'NSString+RemoveEmoji', '0.1.0'
+    pod 'TapjoySDK', '11.5.1'
 end
 
 xcodeproj 'Lets Do This', 'Thor' => :release, 'Debug' => :debug, 'Release' => :release
