@@ -19,6 +19,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "GAI+LDT.h"
 #import "LDTActivityViewController.h"
+#import "LDTWebViewController.h"
 
 @interface LDTReactBridge() <RCTBridgeModule>
 
@@ -70,6 +71,11 @@ RCT_EXPORT_METHOD(pushUser:(NSDictionary *)userDict) {
 RCT_EXPORT_METHOD(pushCampaign:(NSInteger)campaignID) {
     DSOCampaign *campaign = [[DSOCampaign alloc] initWithCampaignID:campaignID];
     LDTCampaignViewController *viewController = [[LDTCampaignViewController alloc] initWithCampaign:campaign];
+    [self.tabBarController pushViewController:viewController];
+}
+
+RCT_EXPORT_METHOD(pushWebView:(NSString*)urlString navigationTitle:(NSString *)navigationTitle) {
+    LDTWebViewController *viewController = [[LDTWebViewController alloc] initWithWebViewURL:[NSURL URLWithString:urlString] title:navigationTitle];
     [self.tabBarController pushViewController:viewController];
 }
 

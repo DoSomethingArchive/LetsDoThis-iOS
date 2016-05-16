@@ -172,6 +172,7 @@ var CampaignView = React.createClass({
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
+
     return (      
       <ListView
       dataSource={this.state.dataSource}
@@ -265,6 +266,9 @@ var CampaignView = React.createClass({
           {solutionSupportText}
           {submitText}
         </View>
+        <CampaignResources 
+          key={this.state.campaign.id}
+          campaign={this.state.campaign}/>
         {selfReportback}
       </View>
     );
@@ -359,6 +363,43 @@ var CampaignView = React.createClass({
   }
 });
 
+var CampaignResources = React.createClass({
+  handleAttachmentClick: function(url) {
+    Bridge.pushWebView(url, this.props.campaign.title);
+  },
+  render: function() {
+    if (!this.props.campaign.attachments.length) {
+      return null;
+    }
+
+    return (
+      <View>
+        <View style={styles.bottomBorder}>
+          <Text style={[Style.textCaptionBold, styles.content, {color: "#9C9C9C"}]}>
+            {"Campaign resources".toUpperCase()}
+          </Text>
+        </View>
+        {this.renderAttachments()}
+      </View>
+    );
+  },
+  renderAttachments: function() {
+    var self = this;
+    var content = this.props.campaign.attachments.map(function(attachment) {
+      return (
+        <TouchableHighlight 
+          key={attachment.uri} 
+          onPress={() => self.handleAttachmentClick(attachment.uri)}>
+          <View style={[styles.resourceRow, styles.bottomBorder]}>
+            <Text style={Style.textBody}>{attachment.description}</Text>
+          </View>
+        </TouchableHighlight>
+      );
+    });
+    return content;
+  }
+});
+
 var styles = React.StyleSheet.create({
   loadingContainer: {
     flex: 1,
@@ -393,6 +434,16 @@ var styles = React.StyleSheet.create({
   },
   contentText: {
     paddingBottom: 12,
+  },
+  bottomBorder: {
+    borderBottomColor: "#EEE",
+    borderBottomWidth: 1,  
+  },
+  resourceRow: {
+    backgroundColor: "white",
+    padding: 8,
+    paddingTop: 11,
+    paddingBottom: 11,
   }
 });
 
