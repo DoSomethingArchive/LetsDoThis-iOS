@@ -172,6 +172,7 @@ var CampaignView = React.createClass({
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
+
     return (      
       <ListView
       dataSource={this.state.dataSource}
@@ -265,6 +266,9 @@ var CampaignView = React.createClass({
           {solutionSupportText}
           {submitText}
         </View>
+        <CampaignResources 
+          key={this.state.campaign.id}
+          campaign={this.state.campaign}/>
         {selfReportback}
       </View>
     );
@@ -356,6 +360,21 @@ var CampaignView = React.createClass({
   },
   _onPressRow: function(user) {
     Bridge.pushUser(user);
+  }
+});
+
+var CampaignResources = React.createClass({
+  render: function() {
+    if (!this.props.campaign.attachments.length) {
+      return null;
+    }
+    var headerText = "Campaign resources".toUpperCase();
+    return (
+      <View style={styles.content}>
+        <Text style={Style.textCaptionBold}>{headerText}</Text>
+        <Text style={Style.textBody}>{this.props.campaign.title}</Text>
+      </View>
+    );
   }
 });
 
