@@ -61,9 +61,10 @@ RCT_EXPORT_MODULE();
              };
 }
 
-RCT_EXPORT_METHOD(pushActionGuides:(NSArray *)actionGuides) {
+RCT_EXPORT_METHOD(pushActionGuides:(NSArray *)actionGuides campaignID:(NSInteger)campaignID) {
+    NSString *screenName = [NSString stringWithFormat:@"campaign/%li/action-guides", (long)campaignID];
     NSDictionary *props = @{@"actionGuides": actionGuides};
-    LDTReactViewController *viewController = [[LDTReactViewController alloc] initWithModuleName:@"ActionGuidesView" initialProperties:props title:@"Action Guides".uppercaseString];
+    LDTReactViewController *viewController = [[LDTReactViewController alloc] initWithModuleName:@"ActionGuidesView" initialProperties:props title:@"Action Guides".uppercaseString screenName:screenName];
     [self.tabBarController pushViewController:viewController];
 }
 

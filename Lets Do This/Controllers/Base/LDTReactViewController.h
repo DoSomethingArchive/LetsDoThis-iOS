@@ -10,6 +10,6 @@
 
 @interface LDTReactViewController : UIViewController
 
-- (instancetype)initWithModuleName:(NSString *)moduleName initialProperties:(NSDictionary *)initialProperties title:(NSString *)title;
+- (instancetype)initWithModuleName:(NSString *)moduleName initialProperties:(NSDictionary *)initialProperties title:(NSString *)title screenName:(NSString *)screenName;
 
 @end

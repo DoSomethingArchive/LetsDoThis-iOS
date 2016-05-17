@@ -365,7 +365,7 @@ var CampaignView = React.createClass({
 
 var CampaignResources = React.createClass({
   handleActionGuidesClick: function() {
-    Bridge.pushActionGuides(this.props.campaign.actionGuides);
+    Bridge.pushActionGuides(this.props.campaign.actionGuides, this.props.campaign.id);
   },
   handleAttachmentClick: function(url) {
     Bridge.pushWebView(url, this.props.campaign.title);
