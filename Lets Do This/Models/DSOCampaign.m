@@ -11,6 +11,7 @@
 
 @interface DSOCampaign ()
 
+@property (strong, nonatomic, readwrite) NSArray *actionGuides;
 @property (strong, nonatomic, readwrite) NSArray *attachments;
 @property (strong, nonatomic, readwrite) NSDictionary *dictionary;
 @property (assign, nonatomic, readwrite) NSInteger campaignID;
@@ -61,6 +62,7 @@
         _status = [values valueForKeyAsString:@"status"];
         _type = [values valueForKeyAsString:@"type"];
         _tagline = [values valueForKeyAsString:@"tagline"];
+        _actionGuides = values[@"action_guides"];
         _attachments = values[@"attachments"];
 
         if ([values dictionaryForKeyPath:@"reportback_info"]) {
@@ -133,7 +135,8 @@
              @"solutionCopy" : self.solutionCopy,
              @"solutionSupportCopy" : self.solutionSupportCopy,
              @"sponsorImageUrl": self.sponsorImageURL,
-             @"attachments": self.attachments,
+             @"actionGuides": self.actionGuides,
+             @"attachments": self.attachments
              };
 }
 

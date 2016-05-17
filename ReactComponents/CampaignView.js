@@ -364,11 +364,14 @@ var CampaignView = React.createClass({
 });
 
 var CampaignResources = React.createClass({
+  handleActionGuidesClick: function() {
+    Bridge.pushActionGuides(this.props.campaign.actionGuides);
+  },
   handleAttachmentClick: function(url) {
     Bridge.pushWebView(url, this.props.campaign.title);
   },
   render: function() {
-    if (!this.props.campaign.attachments.length) {
+    if (!this.props.campaign.attachments.length && !this.props.campaign.actionGuides.length) {
       return null;
     }
 
@@ -380,7 +383,23 @@ var CampaignResources = React.createClass({
           </Text>
         </View>
         {this.renderAttachments()}
+        {this.renderActionGuides()}
       </View>
+    );
+  },
+  renderActionGuides: function() {
+    var numGuides = this.props.campaign.actionGuides.length;
+    if (!this.props.campaign.actionGuides) {
+      return null;
+    }
+    return (
+      <TouchableHighlight 
+        key="action-guides" 
+        onPress={() => this.handleActionGuidesClick()}>
+        <View style={[styles.resourceRow, styles.bottomBorder]}>
+          <Text style={Style.textBody}>Action Guides</Text>
+        </View>
+      </TouchableHighlight>
     );
   },
   renderAttachments: function() {

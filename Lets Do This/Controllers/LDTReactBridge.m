@@ -20,6 +20,7 @@
 #import "GAI+LDT.h"
 #import "LDTActivityViewController.h"
 #import "LDTWebViewController.h"
+#import "LDTReactViewController.h"
 
 @interface LDTReactBridge() <RCTBridgeModule>
 
@@ -58,6 +59,12 @@ RCT_EXPORT_MODULE();
              @"colorCtaBlue" : LDTTheme.hexCtaBlue,
              @"colorCopyGray" : LDTTheme.hexCopyGray,
              };
+}
+
+RCT_EXPORT_METHOD(pushActionGuides:(NSArray *)actionGuides) {
+    NSDictionary *props = @{@"actionGuides": actionGuides};
+    LDTReactViewController *viewController = [[LDTReactViewController alloc] initWithModuleName:@"ActionGuidesView" initialProperties:props title:@"Action Guides".uppercaseString];
+    [self.tabBarController pushViewController:viewController];
 }
 
 RCT_EXPORT_METHOD(pushUser:(NSDictionary *)userDict) {
