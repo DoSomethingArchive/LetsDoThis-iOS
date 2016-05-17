@@ -388,8 +388,7 @@ var CampaignResources = React.createClass({
     );
   },
   renderActionGuides: function() {
-    var numGuides = this.props.campaign.actionGuides.length;
-    if (!this.props.campaign.actionGuides) {
+    if (!this.props.campaign.actionGuides.length) {
       return null;
     }
     return (
