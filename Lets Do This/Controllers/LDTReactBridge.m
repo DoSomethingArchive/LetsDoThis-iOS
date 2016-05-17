@@ -61,8 +61,7 @@ RCT_EXPORT_MODULE();
              };
 }
 
-RCT_EXPORT_METHOD(pushActionGuides:(NSArray *)actionGuides campaignID:(NSInteger)campaignID) {
-    NSString *screenName = [NSString stringWithFormat:@"campaign/%li/action-guides", (long)campaignID];
+RCT_EXPORT_METHOD(pushActionGuides:(NSArray *)actionGuides screenName:(NSString *)screenName) {
     NSDictionary *props = @{@"actionGuides": actionGuides};
     LDTReactViewController *viewController = [[LDTReactViewController alloc] initWithModuleName:@"ActionGuidesView" initialProperties:props title:@"Action Guides".uppercaseString screenName:screenName];
     [self.tabBarController pushViewController:viewController];
@@ -82,8 +81,8 @@ RCT_EXPORT_METHOD(pushCampaign:(NSInteger)campaignID) {
     [self.tabBarController pushViewController:viewController];
 }
 
-RCT_EXPORT_METHOD(pushWebView:(NSString*)urlString navigationTitle:(NSString *)navigationTitle) {
-    LDTWebViewController *viewController = [[LDTWebViewController alloc] initWithWebViewURL:[NSURL URLWithString:urlString] title:navigationTitle];
+RCT_EXPORT_METHOD(pushWebView:(NSString*)urlString navigationTitle:(NSString *)navigationTitle screenName:(NSString *)screenName) {
+    LDTWebViewController *viewController = [[LDTWebViewController alloc] initWithWebViewURL:[NSURL URLWithString:urlString] title:navigationTitle screenName:screenName];
     [self.tabBarController pushViewController:viewController];
 }
 

@@ -10,6 +10,6 @@
 
 @interface LDTWebViewController : UIViewController
 
-- (instancetype)initWithWebViewURL:(NSURL *)webViewURL title:(NSString *)navigationTitle;
+- (instancetype)initWithWebViewURL:(NSURL *)webViewURL title:(NSString *)navigationTitle screenName:(NSString *)screenName;
 
 @end

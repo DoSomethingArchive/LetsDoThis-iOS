@@ -365,10 +365,12 @@ var CampaignView = React.createClass({
 
 var CampaignResources = React.createClass({
   handleActionGuidesClick: function() {
-    Bridge.pushActionGuides(this.props.campaign.actionGuides, this.props.campaign.id);
+    var screenName = "campaign/" + this.props.campaign.id + "/action-guides";
+    Bridge.pushActionGuides(this.props.campaign.actionGuides, screenName);
   },
   handleAttachmentClick: function(url) {
-    Bridge.pushWebView(url, this.props.campaign.title);
+    var screenName = "campaign/" + this.props.campaign.id + "/attachment";
+    Bridge.pushWebView(url, this.props.campaign.title, screenName);
   },
   render: function() {
     if (!this.props.campaign.attachments.length && !this.props.campaign.actionGuides.length) {

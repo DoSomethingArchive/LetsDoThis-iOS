@@ -12,6 +12,7 @@
 @interface LDTWebViewController () <UIWebViewDelegate>
 
 @property (strong, nonatomic) NSString *navigationTitle;
+@property (strong, nonatomic) NSString *screenName;
 @property (strong, nonatomic) NSURL *webViewURL;
 
 @end
@@ -21,11 +22,12 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithWebViewURL:(NSURL *)webViewURL title:(NSString *)navigationTitle{
+- (instancetype)initWithWebViewURL:(NSURL *)webViewURL title:(NSString *)navigationTitle screenName:(NSString *)screenName{
     self = [super init];
     
     if (self) {
         _navigationTitle = navigationTitle.uppercaseString;
+        _screenName = screenName;
         _webViewURL = webViewURL;
     }
     return self;
@@ -45,6 +47,11 @@
     [self.view addSubview:webView];
 }
 
-// @todo Track screenview in GAI+LDT
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [[GAI sharedInstance] trackScreenView:self.screenName];
+}
+
 
 @end
