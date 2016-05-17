@@ -39,6 +39,7 @@
     self.title = self.navigationTitle;
     UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.frame];
     webView.delegate = self;
+    webView.scalesPageToFit = YES;
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:self.webViewURL];
     [webView loadRequest:urlRequest];
     [self.view addSubview:webView];
