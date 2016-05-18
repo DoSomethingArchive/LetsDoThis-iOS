@@ -54,13 +54,13 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
 
         NSString *url = [NSString stringWithFormat:@"%@get_category_index", [DSOAPI sharedInstance].newsApiURL];
-        NSDictionary *initialProperties = @{@"url" : url};
-        LDTReactViewController *causeListViewController = [[LDTReactViewController alloc] initWithModuleName:@"CauseListView" initialProperties:initialProperties title:@"Actions" screenName:@"cause-list"];
+        NSDictionary *props = @{@"url" : url};
+        LDTReactViewController *causeListViewController = [[LDTReactViewController alloc] initWithModuleName:@"CauseListView" initialProperties:props title:@"Actions" screenName:@"cause-list"];
         causeListViewController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
         causeListViewController.title = @"Actions";
         causeListViewController.navigationItem.title = @"DoSomething".uppercaseString;
         UINavigationController *causeListNavigationController = [[UINavigationController alloc] initWithRootViewController:causeListViewController];
-         [causeListNavigationController styleNavigationBar:LDTNavigationBarStyleNormal];
+        [causeListNavigationController styleNavigationBar:LDTNavigationBarStyleNormal];
 
         self.viewControllers = [NSArray arrayWithObjects:newsFeedNavigationController, causeListNavigationController, profileNavVC, nil];
     }

@@ -45,7 +45,7 @@
     [super viewDidLoad];
     
     self.title = self.navigationTitle;
-     [self styleBackBarButton];
+    [self styleBackBarButton];
 
     __block LDTAppDelegate *appDelegate = (LDTAppDelegate *)[UIApplication sharedApplication].delegate;
     self.reactRootView = [[RCTRootView alloc] initWithBridge:appDelegate.bridge moduleName:self.moduleName initialProperties:self.initialProperties];
