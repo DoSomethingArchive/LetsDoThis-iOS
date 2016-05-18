@@ -20,7 +20,6 @@
 		B22AB7661B4EE78500BE7052 /* LDTUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22AB7651B4EE78500BE7052 /* LDTUserLoginViewController.m */; };
 		B22AB7681B4EE7BE00BE7052 /* LDTUserLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */; };
 		B240DD321B73DA4D00CA6C6E /* LDTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B240DD311B73DA4D00CA6C6E /* LDTTabBarController.m */; };
-		B24B269C1C3B34F30039D76D /* LDTCauseDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24B269B1C3B34F30039D76D /* LDTCauseDetailViewController.m */; };
 		B24D16671C616DCA00A4D30A /* Brandon_reg.otf in Resources */ = {isa = PBXBuildFile; fileRef = B24D16661C616DCA00A4D30A /* Brandon_reg.otf */; };
 		B24D53051C0F71040090C8EC /* LDTActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24D53041C0F71040090C8EC /* LDTActivityViewController.m */; };
 		B24FE0311BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FE0301BAA49AA001CAD5D /* LDTSubmitReportbackViewController.m */; };
@@ -98,8 +97,6 @@
 		B22AB7671B4EE7BE00BE7052 /* LDTUserLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LDTUserLoginView.xib; path = Login/LDTUserLoginView.xib; sourceTree = "<group>"; };
 		B240DD301B73DA4D00CA6C6E /* LDTTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTTabBarController.h; path = Base/LDTTabBarController.h; sourceTree = "<group>"; };
 		B240DD311B73DA4D00CA6C6E /* LDTTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTTabBarController.m; path = Base/LDTTabBarController.m; sourceTree = "<group>"; };
-		B24B269A1C3B34F30039D76D /* LDTCauseDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LDTCauseDetailViewController.h; path = "Lets Do This/Controllers/Cause/LDTCauseDetailViewController.h"; sourceTree = SOURCE_ROOT; };
-		B24B269B1C3B34F30039D76D /* LDTCauseDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LDTCauseDetailViewController.m; path = "Lets Do This/Controllers/Cause/LDTCauseDetailViewController.m"; sourceTree = SOURCE_ROOT; };
 		B24D16661C616DCA00A4D30A /* Brandon_reg.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brandon_reg.otf; path = Resources/Fonts/Brandon_reg.otf; sourceTree = "<group>"; };
 		B24D53031C0F71040090C8EC /* LDTActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDTActivityViewController.h; sourceTree = "<group>"; };
 		B24D53041C0F71040090C8EC /* LDTActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDTActivityViewController.m; sourceTree = "<group>"; };
@@ -202,16 +199,6 @@
 				8FD686577156AB49815812E2 /* libPods.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		B211C41C1C3AF4AA00A94E64 /* Cause */ = {
-			isa = PBXGroup;
-			children = (
-				B24B269A1C3B34F30039D76D /* LDTCauseDetailViewController.h */,
-				B24B269B1C3B34F30039D76D /* LDTCauseDetailViewController.m */,
-			);
-			name = Cause;
-			path = ../Views;
 			sourceTree = "<group>";
 		};
 		B22274021B587A02005C896D /* Campaign */ = {
@@ -460,7 +447,6 @@
 				B27AF0E81B4F647A00164926 /* Base */,
 				B2963E051BD83C9600D2B6EE /* Onboarding */,
 				C2F35F0A1AD8272C00D12FE5 /* Login */,
-				B211C41C1C3AF4AA00A94E64 /* Cause */,
 				B22274021B587A02005C896D /* Campaign */,
 				B2F2BA841C6440C4001EB1D5 /* User */,
 				B2BB8F1A1C457CF3000EA5CA /* News */,
@@ -743,7 +729,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2BB8F191C457CEC000EA5CA /* LDTNewsFeedViewController.m in Sources */,
-				B24B269C1C3B34F30039D76D /* LDTCauseDetailViewController.m in Sources */,
 				B24D53051C0F71040090C8EC /* LDTActivityViewController.m in Sources */,
 				B27FD03F1BBD99FF00A44952 /* LDTEpicFailViewController.m in Sources */,
 				C20BA28E1AF3DCAB00E9886F /* NSDictionary+DSOJsonHelper.m in Sources */,
