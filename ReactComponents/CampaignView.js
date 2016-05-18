@@ -393,30 +393,45 @@ var CampaignResources = React.createClass({
     if (!this.props.campaign.actionGuides.length) {
       return null;
     }
+    var row = this.renderResourceRow("Action Guides");
     return (
       <TouchableHighlight 
         key="action-guides" 
         onPress={() => this.handleActionGuidesClick()}>
-        <View style={[styles.resourceRow, styles.bottomBorder]}>
-          <Text style={Style.textBody}>Action Guides</Text>
-        </View>
+        {row}
       </TouchableHighlight>
     );
   },
   renderAttachments: function() {
     var self = this;
     var content = this.props.campaign.attachments.map(function(attachment) {
+      var row = self.renderResourceRow(attachment.description);
       return (
         <TouchableHighlight 
           key={attachment.uri} 
           onPress={() => self.handleAttachmentClick(attachment.uri)}>
-          <View style={[styles.resourceRow, styles.bottomBorder]}>
-            <Text style={Style.textBody}>{attachment.description}</Text>
-          </View>
+          {row}
         </TouchableHighlight>
       );
     });
     return content;
+  },
+  renderResourceRow: function(text) {
+    return (
+      <View style={styles.row}>
+        <View style={styles.contentContainer}>
+          <View>
+            <Text style={Style.textBody}>{text}</Text>
+          </View>
+        </View>
+        <View style={[styles.arrowContainer, styles.bordered]}>
+            <Image
+              style={styles.arrowImage}
+              source={require('image!Arrow')}
+            />  
+        </View>
+      </View>
+    );
   }
 });
 
@@ -457,6 +472,13 @@ var styles = React.StyleSheet.create({
   },
   bottomBorder: {
     borderBottomColor: "#EEE",
+    borderBottomWidth: 1,
+  },
+  row: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+    flexDirection: 'row',
+    borderBottomColor: "#EEE",
     borderBottomWidth: 1,  
   },
   resourceRow: {
@@ -464,7 +486,25 @@ var styles = React.StyleSheet.create({
     padding: 8,
     paddingTop: 11,
     paddingBottom: 11,
-  }
+  },
+  contentContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 8,
+    height: 44,
+  },
+  arrowContainer: {
+    width: 38,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  arrowImage: {
+    width: 12,
+    height: 21,
+  },
 });
 
 
