@@ -11,7 +11,7 @@
 #import "LDTUserViewController.h"
 #import "LDTOnboardingPageViewController.h"
 #import "LDTUserConnectViewController.h"
-#import "LDTCauseListViewController.h"
+#import "LDTReactViewController.h"
 #import "LDTEpicFailViewController.h"
 #import "LDTSubmitReportbackViewController.h"
 #import "LDTTheme.h"
@@ -53,10 +53,14 @@ typedef NS_ENUM(NSInteger, LDTSelectedImageType) {
         UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
         profileNavVC.tabBarItem.image = [UIImage imageNamed:@"Me Icon"];
 
-        LDTCauseListViewController *causeListViewController = [[LDTCauseListViewController alloc] init];
+        NSString *url = [NSString stringWithFormat:@"%@get_category_index", [DSOAPI sharedInstance].newsApiURL];
+        NSDictionary *initialProperties = @{@"url" : url};
+        LDTReactViewController *causeListViewController = [[LDTReactViewController alloc] initWithModuleName:@"CauseListView" initialProperties:initialProperties title:@"Actions" screenName:@"cause-list"];
         causeListViewController.tabBarItem.image = [UIImage imageNamed:@"Actions Icon"];
         causeListViewController.title = @"Actions";
+        causeListViewController.navigationItem.title = @"DoSomething".uppercaseString;
         UINavigationController *causeListNavigationController = [[UINavigationController alloc] initWithRootViewController:causeListViewController];
+         [causeListNavigationController styleNavigationBar:LDTNavigationBarStyleNormal];
 
         self.viewControllers = [NSArray arrayWithObjects:newsFeedNavigationController, causeListNavigationController, profileNavVC, nil];
     }
