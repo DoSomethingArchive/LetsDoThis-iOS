@@ -17,3 +17,6 @@ AppRegistry.registerComponent('UserView', () => UserView);
 
 var CampaignView = require('./ReactComponents/CampaignView.js');
 AppRegistry.registerComponent('CampaignView', () => CampaignView);
+
+var ActionGuidesView = require('./ReactComponents/ActionGuidesView.js');
+AppRegistry.registerComponent('ActionGuidesView', () => ActionGuidesView);
