@@ -13,7 +13,6 @@
 #import "LDTTabBarController.h"
 #import "LDTUserViewController.h"
 #import "LDTCampaignViewController.h"
-#import "LDTCauseDetailViewController.h"
 #import "LDTMessage.h"
 #import "LDTTheme.h"
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -96,7 +95,10 @@ RCT_EXPORT_METHOD(presentAvatarAlertController) {
 
 RCT_EXPORT_METHOD(pushCause:(NSDictionary *)causeDict) {
     DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
-    LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
+    NSString *campaignsUrl = [NSString stringWithFormat:@"%@campaigns?term_ids=%li&count=100", [DSOAPI sharedInstance].phoenixApiURL, (long)cause.causeID];
+    NSDictionary *props = @{@"cause" : cause.dictionary, @"campaignsUrl": campaignsUrl};
+    NSString *screenName = [NSString stringWithFormat:@"taxonomy-term/%li", (long)cause.causeID];
+    LDTReactViewController *causeDetailViewController = [[LDTReactViewController alloc] initWithModuleName:@"CauseDetailView" initialProperties:props title:cause.title.uppercaseString screenName:screenName];
     [self.tabBarController pushViewController:causeDetailViewController];
 }
 

@@ -10,6 +10,7 @@
 #import "LDTAppDelegate.h"
 #import <RCTRootView.h>
 #import "GAI+LDT.h"
+#import "LDTTheme.h"
 
 @interface LDTReactViewController ()
 
@@ -44,6 +45,7 @@
     [super viewDidLoad];
     
     self.title = self.navigationTitle;
+    [self styleBackBarButton];
 
     __block LDTAppDelegate *appDelegate = (LDTAppDelegate *)[UIApplication sharedApplication].delegate;
     self.reactRootView = [[RCTRootView alloc] initWithBridge:appDelegate.bridge moduleName:self.moduleName initialProperties:self.initialProperties];
