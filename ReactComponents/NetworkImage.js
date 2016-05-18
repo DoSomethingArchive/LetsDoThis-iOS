@@ -51,7 +51,9 @@ var NetworkImage = React.createClass({
         style={this.props.style}
         onLoadStart={(e) => this.setState({loading: true})}
         onError={(e) => this.setState({error: e.nativeEvent.error, loading: false})}
-        onProgress={(e) => this.setState({progress: Math.round(100 * e.nativeEvent.loaded / e.nativeEvent.total)})}
+// HOTFIX -- This line crashes on iPhone 5
+// @see https://github.com/DoSomething/LetsDoThis-iOS/issues/1013
+//        onProgress={(e) => this.setState({progress: Math.round(100 * e.nativeEvent.loaded / e.nativeEvent.total)})}
         onLoad={() => this.setState({loading: false, error: false})}>
         {content}
       </Image>;
