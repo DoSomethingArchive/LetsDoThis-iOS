@@ -172,6 +172,7 @@ var CampaignView = React.createClass({
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
+
     return (      
       <ListView
       dataSource={this.state.dataSource}
@@ -265,6 +266,9 @@ var CampaignView = React.createClass({
           {solutionSupportText}
           {submitText}
         </View>
+        <CampaignResources 
+          key={this.state.campaign.id}
+          campaign={this.state.campaign}/>
         {selfReportback}
       </View>
     );
@@ -359,6 +363,78 @@ var CampaignView = React.createClass({
   }
 });
 
+var CampaignResources = React.createClass({
+  handleActionGuidesClick: function() {
+    var screenName = "campaign/" + this.props.campaign.id + "/action-guides";
+    Bridge.pushActionGuides(this.props.campaign.actionGuides, screenName);
+  },
+  handleAttachmentClick: function(url) {
+    var screenName = "campaign/" + this.props.campaign.id + "/attachment";
+    Bridge.pushWebView(url, this.props.campaign.title, screenName);
+  },
+  render: function() {
+    if (!this.props.campaign.attachments.length && !this.props.campaign.actionGuides.length) {
+      return null;
+    }
+
+    return (
+      <View>
+        <View style={styles.bottomBorder}>
+          <Text style={[Style.textCaptionBold, styles.content, {color: "#9C9C9C"}]}>
+            {"Campaign resources".toUpperCase()}
+          </Text>
+        </View>
+        {this.renderAttachments()}
+        {this.renderActionGuides()}
+      </View>
+    );
+  },
+  renderActionGuides: function() {
+    if (!this.props.campaign.actionGuides.length) {
+      return null;
+    }
+    var row = this.renderResourceRow("Action Guides");
+    return (
+      <TouchableHighlight 
+        key="action-guides" 
+        onPress={() => this.handleActionGuidesClick()}>
+        {row}
+      </TouchableHighlight>
+    );
+  },
+  renderAttachments: function() {
+    var self = this;
+    var content = this.props.campaign.attachments.map(function(attachment) {
+      var row = self.renderResourceRow(attachment.description);
+      return (
+        <TouchableHighlight 
+          key={attachment.uri} 
+          onPress={() => self.handleAttachmentClick(attachment.uri)}>
+          {row}
+        </TouchableHighlight>
+      );
+    });
+    return content;
+  },
+  renderResourceRow: function(text) {
+    return (
+      <View style={styles.row}>
+        <View style={styles.contentContainer}>
+          <View>
+            <Text style={Style.textBody}>{text}</Text>
+          </View>
+        </View>
+        <View style={[styles.arrowContainer, styles.bordered]}>
+            <Image
+              style={styles.arrowImage}
+              source={require('image!Arrow')}
+            />  
+        </View>
+      </View>
+    );
+  }
+});
+
 var styles = React.StyleSheet.create({
   loadingContainer: {
     flex: 1,
@@ -393,7 +469,42 @@ var styles = React.StyleSheet.create({
   },
   contentText: {
     paddingBottom: 12,
-  }
+  },
+  bottomBorder: {
+    borderBottomColor: "#EEE",
+    borderBottomWidth: 1,
+  },
+  row: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+    flexDirection: 'row',
+    borderBottomColor: "#EEE",
+    borderBottomWidth: 1,  
+  },
+  resourceRow: {
+    backgroundColor: "white",
+    padding: 8,
+    paddingTop: 11,
+    paddingBottom: 11,
+  },
+  contentContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 8,
+    height: 44,
+  },
+  arrowContainer: {
+    width: 38,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  arrowImage: {
+    width: 12,
+    height: 21,
+  },
 });
 
 

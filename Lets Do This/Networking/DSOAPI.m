@@ -87,7 +87,7 @@
         [self.requestSerializer setValue:apiKey forHTTPHeaderField:@"X-DS-REST-API-Key"];
         _phoenixBaseURL =  [NSString stringWithFormat:@"https://%@/", DSOSERVER];
         _phoenixApiURL = [NSString stringWithFormat:@"%@api/v1/", self.phoenixBaseURL];
-        _newsApiURL = [NSString stringWithFormat:@"https://%@-ltd-news.pantheon.io/api/", LDTNEWSPREFIX];
+        _newsApiURL = [NSString stringWithFormat:@"https://%@-ltd-news.pantheonsite.io/api/", LDTNEWSPREFIX];
     }
     return self;
 }

@@ -10,6 +10,8 @@
 
 @interface DSOCampaign : NSObject
 
+@property (strong, nonatomic, readonly) NSArray *actionGuides;
+@property (strong, nonatomic, readonly) NSArray *attachments;
 @property (assign, nonatomic, readonly) NSInteger campaignID;
 @property (strong, nonatomic, readonly) NSString *coverImage;
 @property (strong, nonatomic, readonly) NSString *reportbackNoun;

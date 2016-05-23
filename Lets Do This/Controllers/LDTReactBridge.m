@@ -13,12 +13,13 @@
 #import "LDTTabBarController.h"
 #import "LDTUserViewController.h"
 #import "LDTCampaignViewController.h"
-#import "LDTCauseDetailViewController.h"
 #import "LDTMessage.h"
 #import "LDTTheme.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "GAI+LDT.h"
 #import "LDTActivityViewController.h"
+#import "LDTWebViewController.h"
+#import "LDTReactViewController.h"
 
 @interface LDTReactBridge() <RCTBridgeModule>
 
@@ -59,6 +60,12 @@ RCT_EXPORT_MODULE();
              };
 }
 
+RCT_EXPORT_METHOD(pushActionGuides:(NSArray *)actionGuides screenName:(NSString *)screenName) {
+    NSDictionary *props = @{@"actionGuides": actionGuides};
+    LDTReactViewController *viewController = [[LDTReactViewController alloc] initWithModuleName:@"ActionGuidesView" initialProperties:props title:@"Action Guides".uppercaseString screenName:screenName];
+    [self.tabBarController pushViewController:viewController];
+}
+
 RCT_EXPORT_METHOD(pushUser:(NSDictionary *)userDict) {
     DSOUser *user = [[DSOUser alloc] initWithDict:userDict];
     LDTUserViewController *viewController = [[LDTUserViewController alloc] initWithUser:user];
@@ -73,6 +80,11 @@ RCT_EXPORT_METHOD(pushCampaign:(NSInteger)campaignID) {
     [self.tabBarController pushViewController:viewController];
 }
 
+RCT_EXPORT_METHOD(pushWebView:(NSString*)urlString navigationTitle:(NSString *)navigationTitle screenName:(NSString *)screenName) {
+    LDTWebViewController *viewController = [[LDTWebViewController alloc] initWithWebViewURL:[NSURL URLWithString:urlString] title:navigationTitle screenName:screenName];
+    [self.tabBarController pushViewController:viewController];
+}
+
 RCT_EXPORT_METHOD(presentProveIt:(NSInteger)campaignID) {
     [self.tabBarController presentReportbackAlertControllerForCampaignID:campaignID];
 }
@@ -83,7 +95,10 @@ RCT_EXPORT_METHOD(presentAvatarAlertController) {
 
 RCT_EXPORT_METHOD(pushCause:(NSDictionary *)causeDict) {
     DSOCause *cause = [[DSOCause alloc] initWithNewsDict:causeDict];
-    LDTCauseDetailViewController *causeDetailViewController = [[LDTCauseDetailViewController alloc] initWithCause:cause];
+    NSString *campaignsUrl = [NSString stringWithFormat:@"%@campaigns?term_ids=%li&count=100", [DSOAPI sharedInstance].phoenixApiURL, (long)cause.causeID];
+    NSDictionary *props = @{@"cause" : cause.dictionary, @"campaignsUrl": campaignsUrl};
+    NSString *screenName = [NSString stringWithFormat:@"taxonomy-term/%li", (long)cause.causeID];
+    LDTReactViewController *causeDetailViewController = [[LDTReactViewController alloc] initWithModuleName:@"CauseDetailView" initialProperties:props title:cause.title.uppercaseString screenName:screenName];
     [self.tabBarController pushViewController:causeDetailViewController];
 }
 
