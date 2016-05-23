@@ -1,6 +1,8 @@
 'use strict';
 
-import React, {
+import React from 'react';
+
+import {
   StyleSheet,
   Text,
   Image,
@@ -43,7 +45,7 @@ var NetworkErrorView = React.createClass({
   },
 });
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     flex: 1,  
     justifyContent: 'center',

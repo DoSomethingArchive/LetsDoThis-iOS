@@ -1,9 +1,10 @@
 'use strict';
 
-import React, {
+import React, {Component} from 'react';
+
+import {
   AppRegistry,
   ListView,
-  Component,
   StyleSheet,
   Text,
   Image,
@@ -163,7 +164,7 @@ var CauseDetailView = React.createClass({
   },
 });
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
     flexDirection: 'row',

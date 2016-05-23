@@ -1,7 +1,8 @@
 'use strict';
 
-import React, {
-  Component,
+import React, {Component} from 'react';
+
+import {
   ListView,
   StyleSheet,
   Text,
@@ -18,6 +19,7 @@ var Helpers = require('./Helpers.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
+
 var firstSectionHeaderText = "Actions I'm Doing";
 var secondSectionHeaderText = "Actions I've Done";
 
@@ -353,7 +355,7 @@ var UserView = React.createClass({
   },
 });
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
     flexDirection: 'row',

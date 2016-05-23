@@ -1,6 +1,8 @@
 'use strict';
 
-import React, {
+import React from 'react';
+
+import {
   StyleSheet,
   Text,
   Image,
@@ -96,7 +98,7 @@ var ReportbackItemView = React.createClass({
   },
 });
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     paddingTop: 16,
