@@ -18,9 +18,18 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
+
+# LetsDoThis
+
 Lets\ Do\ This/keys.plist
 Lets\ Do\ This/environment.plist
 Lets\ Do\ This/Resources/Fonts
+
+# React Native
+
 node_modules/
 npm-debug.log
 Lets\ Do\ This/main.jsbundle
+
+# New Relic
+upload_dsym_results
