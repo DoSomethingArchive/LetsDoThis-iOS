@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		421774269F5DF5997622C2F9 /* libPods-Lets Do This.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD644C9FDE4E95B4C94D523F /* libPods-Lets Do This.a */; };
-		79E2E28707E3FB3559C51480 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD686577156AB49815812E2 /* libPods.a */; };
 		B20881A11B0B9B0F00E697B2 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20881A01B0B9B0F00E697B2 /* keys.plist */; };
 		B20D06D11B3A58F40053D3B6 /* LDTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B20D06D01B3A58F40053D3B6 /* LDTMessage.m */; };
 		B21126271B618038009128E7 /* DSOUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B21126261B618038009128E7 /* DSOUserManager.m */; };
@@ -181,7 +180,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				421774269F5DF5997622C2F9 /* libPods-Lets Do This.a in Frameworks */,
-				79E2E28707E3FB3559C51480 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
