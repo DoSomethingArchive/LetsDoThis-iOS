@@ -1,7 +1,8 @@
 'use strict';
 
-import React, {
-  StyleSheet,
+import React from 'react';
+
+import {
   Text,
   Image,
   TouchableHighlight,
@@ -9,7 +10,8 @@ import React, {
   View,
   ActivityIndicatorIOS,
   RefreshControl,
-  NativeAppEventEmitter
+  NativeAppEventEmitter,
+  StyleSheet,
 } from 'react-native';
 import Dimensions from 'Dimensions';
 
@@ -435,7 +437,7 @@ var CampaignResources = React.createClass({
   }
 });
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
     flexDirection: 'row',

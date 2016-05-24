@@ -1,10 +1,11 @@
 'use strict';
 
-import React, {
+import React from 'react';
+
+import {
   AppRegistry,
   ActivityIndicatorIOS,
   ListView,
-  Component,
   StyleSheet,
   Text,
   RefreshControl,
@@ -118,7 +119,7 @@ var NewsFeedView = React.createClass({
 });
 
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
   listView: {
     backgroundColor: '#DFDFDF',
     paddingLeft: 10,

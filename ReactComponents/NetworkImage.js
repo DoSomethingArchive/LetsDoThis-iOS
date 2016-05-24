@@ -1,7 +1,8 @@
 'use strict';
 
-import React, {
-  Component,
+import React from 'react';
+
+import {
   StyleSheet,
   Text,
   Image,

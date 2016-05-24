@@ -1,9 +1,11 @@
 'use strict';
 
-import React, {
+import React from 'react';
+
+import {
+  Image,
   StyleSheet,
   Text,
-  Image,
   View,
 } from 'react-native';
 
@@ -25,7 +27,7 @@ var SponsorView = React.createClass({
   }
 });
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     paddingTop: 8,
   },

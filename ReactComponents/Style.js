@@ -1,10 +1,10 @@
 'use strict';
 
-var React = require('react-native');
+var ReactNative = require('react-native');
 
 var {
   StyleSheet,
-} = React;
+} = ReactNative;
 
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var colorCtaBlue = Bridge.colorCtaBlue;
