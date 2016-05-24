@@ -1,6 +1,9 @@
+source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 inhibit_all_warnings!
+
+install! 'cocoapods', :deterministic_uuids => false
 
 target 'Lets Do This' do
 	pod 'AFNetworking', '2.6.0'
@@ -16,14 +19,15 @@ target 'Lets Do This' do
     pod 'NewRelicAgent', '5.4.1'
     pod 'NSString+RemoveEmoji', '0.1.0'
     pod 'TapjoySDK', '11.5.1'
+    pod 'React', :path => './node_modules/react-native', :subspecs => [
+        'Core',
+        'RCTImage',
+        'RCTNetwork',
+        'RCTText',
+        'RCTWebSocket',
+    ]
 end
 
-xcodeproj 'Lets Do This', 'Thor' => :release, 'Debug' => :debug, 'Release' => :release
+project 'Lets Do This', 'Thor' => :release, 'Debug' => :debug, 'Release' => :release
 
-pod 'React', :path => './node_modules/react-native', :subspecs => [
-'Core',
-'RCTImage',
-'RCTNetwork',
-'RCTText',
-'RCTWebSocket',
-]
+
