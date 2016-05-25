@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSString *navigationTitle;
 @property (strong, nonatomic) NSString *screenName;
 @property (strong, nonatomic) NSURL *webViewURL;
+@property (strong, nonatomic) UIDocumentInteractionController *documentInteractionController;
 
 @end
 
@@ -27,6 +28,7 @@
     self = [super init];
     
     if (self) {
+        _documentInteractionController = [[UIDocumentInteractionController alloc] init];
         _navigationTitle = navigationTitle.uppercaseString;
         _screenName = screenName;
         _webViewURL = webViewURL;
@@ -47,6 +49,7 @@
     [webView loadRequest:urlRequest];
     [self.view addSubview:webView];
 
+    _documentInteractionController.delegate = self;
     self.navigationController.toolbarHidden = NO;
     UIBarButtonItem *downloadBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(downloadButtonTapped:)];
     NSArray *items = [NSArray arrayWithObjects:downloadBarButtonItem, nil];
@@ -79,10 +82,8 @@
         }
         if (data) {
             [data writeToFile:filePath atomically:YES];
-            NSURL *fileURL = [NSURL fileURLWithPath:filePath];
-            UIDocumentInteractionController *documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-            documentInteractionController.delegate = self;
-            [documentInteractionController presentOpenInMenuFromBarButtonItem:item animated:YES];
+            self.documentInteractionController.URL = [NSURL fileURLWithPath:filePath];
+            [self.documentInteractionController presentOpenInMenuFromBarButtonItem:item animated:YES];
         }
     }];
 }
