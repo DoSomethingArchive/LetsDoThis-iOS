@@ -371,8 +371,14 @@ var CampaignResources = React.createClass({
     Bridge.pushActionGuides(this.props.campaign.actionGuides, screenName);
   },
   handleAttachmentClick: function(attachment) {
+    var downloadEventDict = {
+      category: "campaign",
+      action: "download",
+      label: this.props.campaign.id,
+      value: attachment.id
+    }
     var screenName = "campaign/" + this.props.campaign.id + "/attachment/" + attachment.id;
-    Bridge.presentWebView(attachment.uri, this.props.campaign.title, screenName, true);
+    Bridge.presentWebView(attachment.uri, this.props.campaign.title, screenName, downloadEventDict);
   },
   render: function() {
     if (!this.props.campaign.attachments.length && !this.props.campaign.actionGuides.length) {
