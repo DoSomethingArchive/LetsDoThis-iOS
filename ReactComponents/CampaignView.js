@@ -372,7 +372,7 @@ var CampaignResources = React.createClass({
   },
   handleAttachmentClick: function(url) {
     var screenName = "campaign/" + this.props.campaign.id + "/attachment";
-    Bridge.pushWebView(url, this.props.campaign.title, screenName);
+    Bridge.presentWebView(url, this.props.campaign.title, screenName, true);
   },
   render: function() {
     if (!this.props.campaign.attachments.length && !this.props.campaign.actionGuides.length) {

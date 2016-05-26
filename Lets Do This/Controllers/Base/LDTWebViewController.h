@@ -10,6 +10,7 @@
 
 @interface LDTWebViewController : UIViewController
 
-- (instancetype)initWithWebViewURL:(NSURL *)webViewURL title:(NSString *)navigationTitle screenName:(NSString *)screenName;
+// If downloadable is true, a toolbar is displayed allowing user to download file at webViewURL and open in a UIDocumentInteractionController.
+- (instancetype)initWithWebViewURL:(NSURL *)webViewURL title:(NSString *)navigationTitle screenName:(NSString *)screenName isDownloadable:(BOOL)downloadable;
 
 @end
