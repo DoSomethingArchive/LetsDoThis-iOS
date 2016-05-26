@@ -118,13 +118,6 @@ var UserView = React.createClass({
       doing = [],
       done = [];
 
-    sectionIDs.push(0);
-    dataBlob[0] = firstSectionHeaderText;
-    rowIDs[0] = [];
-    sectionIDs.push(1);
-    dataBlob[1] = secondSectionHeaderText;
-    rowIDs[1] = [];
-
     for (let i = 0; i < signups.length; i++) {
       let signup = signups[i];
 
@@ -148,22 +141,33 @@ var UserView = React.createClass({
       }
     }
 
-    doing.sort(function(a, b) { 
-      return b.id - a.id;
-    }); 
-    for (let i = 0; i < doing.length; i++) {
-      let signup = doing[i];
-      rowIDs[0].push(signup.id);
-      dataBlob['0:' + signup.id] = signup;
+    if (doing.length > 0) {
+      sectionIDs.push(0);
+      dataBlob[0] = firstSectionHeaderText;
+      rowIDs[0] = [];
+      doing.sort(function(a, b) { 
+        return b.id - a.id;
+      }); 
+      for (let i = 0; i < doing.length; i++) {
+        let signup = doing[i];
+        rowIDs[0].push(signup.id);
+        dataBlob['0:' + signup.id] = signup;
+      }
     }
 
-    done.sort(function(a, b) { 
-      return b.reportbackItem.id - a.reportbackItem.id;
-    });
-    for (let i = 0; i < done.length; i++) {
-      let signup = done[i];
-      rowIDs[1].push(signup.id);
-      dataBlob['1:' + signup.id] = signup;
+    if (done.length > 0) {
+      var doneIndex = sectionIDs.length;
+      sectionIDs.push(doneIndex);
+      dataBlob[doneIndex] = secondSectionHeaderText;
+      rowIDs[doneIndex] = [];
+      done.sort(function(a, b) { 
+        return b.reportbackItem.id - a.reportbackItem.id;
+      });
+      for (let i = 0; i < done.length; i++) {
+        let signup = done[i];
+        rowIDs[doneIndex].push(signup.id);
+        dataBlob[doneIndex + ':' + signup.id] = signup;
+      }   
     }
 
     this.setState({
