@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSString *navigationTitle;
 @property (strong, nonatomic) NSString *screenName;
 @property (strong, nonatomic) NSURL *webViewURL;
+@property (strong, nonatomic) UIBarButtonItem *downloadButton;
 @property (strong, nonatomic) UIDocumentInteractionController *documentInteractionController;
 
 @end
@@ -50,10 +51,9 @@
     [self.view addSubview:webView];
 
     _documentInteractionController.delegate = self;
-    self.navigationController.toolbarHidden = NO;
-    UIBarButtonItem *downloadBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(downloadButtonTapped:)];
-    NSArray *items = [NSArray arrayWithObjects:downloadBarButtonItem, nil];
-    self.toolbarItems = items;
+    self.downloadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(downloadButtonTapped:)];
+    self.navigationItem.rightBarButtonItem = self.downloadButton;
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -62,16 +62,9 @@
     [[GAI sharedInstance] trackScreenView:self.screenName];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    self.navigationController.toolbarHidden = YES;
-}
-
 #pragma mark - IBActions
 
 - (IBAction)downloadButtonTapped:(id)sender {
-    UIBarButtonItem *item = (UIBarButtonItem *)self.toolbarItems[0];
     NSURLRequest *request = [NSURLRequest requestWithURL:self.webViewURL];
     NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     NSString *filePath = [documentDir stringByAppendingPathComponent:self.webViewURL.lastPathComponent];
@@ -83,7 +76,7 @@
         if (data) {
             [data writeToFile:filePath atomically:YES];
             self.documentInteractionController.URL = [NSURL fileURLWithPath:filePath];
-            [self.documentInteractionController presentOpenInMenuFromBarButtonItem:item animated:YES];
+            [self.documentInteractionController presentOpenInMenuFromBarButtonItem:self.downloadButton animated:YES];
         }
     }];
 }
