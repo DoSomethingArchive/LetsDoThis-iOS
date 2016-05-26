@@ -370,9 +370,15 @@ var CampaignResources = React.createClass({
     var screenName = "campaign/" + this.props.campaign.id + "/action-guides";
     Bridge.pushActionGuides(this.props.campaign.actionGuides, screenName);
   },
-  handleAttachmentClick: function(url) {
-    var screenName = "campaign/" + this.props.campaign.id + "/attachment";
-    Bridge.presentWebView(url, this.props.campaign.title, screenName, true);
+  handleAttachmentClick: function(attachment) {
+    var downloadEventDict = {
+      category: "campaign",
+      action: "download",
+      label: this.props.campaign.id,
+      value: attachment.id
+    }
+    var screenName = "campaign/" + this.props.campaign.id + "/attachment/" + attachment.id;
+    Bridge.presentWebView(attachment.uri, this.props.campaign.title, screenName, downloadEventDict);
   },
   render: function() {
     if (!this.props.campaign.attachments.length && !this.props.campaign.actionGuides.length) {
@@ -410,8 +416,8 @@ var CampaignResources = React.createClass({
       var row = self.renderResourceRow(attachment.description);
       return (
         <TouchableHighlight 
-          key={attachment.uri} 
-          onPress={() => self.handleAttachmentClick(attachment.uri)}>
+          key={attachment.id} 
+          onPress={() => self.handleAttachmentClick(attachment)}>
           {row}
         </TouchableHighlight>
       );

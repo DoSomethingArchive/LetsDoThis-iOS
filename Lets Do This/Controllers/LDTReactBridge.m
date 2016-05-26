@@ -80,8 +80,8 @@ RCT_EXPORT_METHOD(pushCampaign:(NSInteger)campaignID) {
     [self.tabBarController pushViewController:viewController];
 }
 
-RCT_EXPORT_METHOD(presentWebView:(NSString*)urlString navigationTitle:(NSString *)navigationTitle screenName:(NSString *)screenName isDownloadable:(BOOL)downloadable) {
-    LDTWebViewController *viewController = [[LDTWebViewController alloc] initWithWebViewURL:[NSURL URLWithString:urlString] title:navigationTitle screenName:screenName isDownloadable:downloadable];
+RCT_EXPORT_METHOD(presentWebView:(NSString*)urlString navigationTitle:(NSString *)navigationTitle screenName:(NSString *)screenName downloadEventDict:(NSDictionary *)downloadEventDict) {
+    LDTWebViewController *viewController = [[LDTWebViewController alloc] initWithWebViewURL:[NSURL URLWithString:urlString] title:navigationTitle screenName:screenName downloadEventDict:downloadEventDict];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     [self.tabBarController presentViewController:navigationController animated:YES completion:nil];
 }

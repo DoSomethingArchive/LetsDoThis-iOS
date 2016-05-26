@@ -12,7 +12,7 @@
 
 @interface LDTWebViewController () <UIWebViewDelegate, UIDocumentInteractionControllerDelegate>
 
-@property (assign, nonatomic) BOOL downloadable;
+@property (strong, nonatomic) NSDictionary *downloadEventDict;
 @property (strong, nonatomic) NSString *navigationTitle;
 @property (strong, nonatomic) NSString *screenName;
 @property (strong, nonatomic) NSURL *webViewURL;
@@ -26,12 +26,12 @@
 
 #pragma mark - NSObject
 
-- (instancetype)initWithWebViewURL:(NSURL *)webViewURL title:(NSString *)navigationTitle screenName:(NSString *)screenName isDownloadable:(BOOL)downloadable{
+- (instancetype)initWithWebViewURL:(NSURL *)webViewURL title:(NSString *)navigationTitle screenName:(NSString *)screenName downloadEventDict:(NSDictionary *)downloadEventDict{
     self = [super init];
     
     if (self) {
         _documentInteractionController = [[UIDocumentInteractionController alloc] init];
-        _downloadable = downloadable;
+        _downloadEventDict = downloadEventDict;
         _navigationTitle = navigationTitle.uppercaseString;
         _screenName = screenName;
         _webViewURL = webViewURL;
@@ -54,7 +54,7 @@
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss:)];
 
-    if (self.downloadable == YES) {
+    if (self.downloadEventDict) {
         _documentInteractionController.delegate = self;
         self.navigationController.toolbarHidden = NO;
         UIBarButtonItem *flexibleItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -87,6 +87,9 @@
 }
 
 - (IBAction)downloadButtonTapped:(id)sender {
+    NSString *category = (NSString *)self.downloadEventDict[@"category"];
+    NSString *action = (NSString *)self.downloadEventDict[@"action"];
+    [[GAI sharedInstance] trackEventWithCategory:category action:action label:self.downloadEventDict[@"label"] value:self.downloadEventDict[@"value"]];
     NSURLRequest *request = [NSURLRequest requestWithURL:self.webViewURL];
     NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     NSString *filePath = [documentDir stringByAppendingPathComponent:self.webViewURL.lastPathComponent];
