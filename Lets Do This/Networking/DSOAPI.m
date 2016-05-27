@@ -8,7 +8,9 @@
 //
 
 #import "DSOAPI.h"
-#import "AFNetworkActivityLogger.h"
+#import <AFNetworkActivityLogger/AFNetworkActivityLogger.h>
+#import <AFNetworkActivityLogger/AFNetworkActivityConsoleLogger.h>
+
 #import "NSDictionary+DSOJsonHelper.h"
 #import <SSKeychain/SSKeychain.h>
 
@@ -76,9 +78,16 @@
 
     if (self) {
         _apiKey = apiKey;
+
         if (activityLoggerEnabled) {
+            // By default there's only 1 logger in loggers
+            // @see https://github.com/AFNetworking/AFNetworkActivityLogger/tree/3_0_0#logging-levels
+    
+            AFNetworkActivityConsoleLogger *logger = [AFNetworkActivityLogger sharedLogger].loggers.anyObject;
+            logger.level = AFLoggerLevelDebug;
             [[AFNetworkActivityLogger sharedLogger] startLogging];
         }
+
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.requestSerializer.timeoutInterval = 30;
