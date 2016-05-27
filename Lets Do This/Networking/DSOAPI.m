@@ -78,7 +78,6 @@
         _apiKey = apiKey;
         if (activityLoggerEnabled) {
             [[AFNetworkActivityLogger sharedLogger] startLogging];
-            [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
         }
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.requestSerializer = [AFJSONRequestSerializer serializer];
