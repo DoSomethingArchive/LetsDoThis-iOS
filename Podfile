@@ -6,8 +6,8 @@ inhibit_all_warnings!
 install! 'cocoapods', :deterministic_uuids => false
 
 target 'Lets Do This' do
-	pod 'AFNetworking', '2.6.0'
-	pod 'AFNetworkActivityLogger', '2.0.4'
+	pod 'AFNetworking', '3.1.0'
+	pod 'AFNetworkActivityLogger', :git => 'https://github.com/AFNetworking/AFNetworkActivityLogger.git', :branch => '3_0_0'
     pod 'Parse', '1.8.5'
     pod 'SDWebImage', '3.7.3'
     pod 'SSKeychain', '1.2.3'
