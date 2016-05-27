@@ -131,7 +131,7 @@
         params[@"parse_installation_ids"] = deviceToken;
     }
     
-    [self POST:url parameters:[params copy] success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:url parameters:[params copy] progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler(responseObject);
         }
@@ -146,7 +146,7 @@
     NSString *url = @"auth/token";
     NSDictionary *params = @{@"email" : email, @"password" : password};
 
-    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:url parameters:params  progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSString *sessionToken = [responseObject valueForKeyPath:@"data.key"];
         self.sessionToken = sessionToken;
         DSOUser *user = [[DSOUser alloc] initWithDict:[responseObject valueForKeyPath:@"data.user.data"]];
@@ -167,7 +167,7 @@
     
     [self POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"photo" fileName:fileNameForImage mimeType:@"image/jpeg"];
-    } success:^(NSURLSessionDataTask *task, id responseObject) {
+    }  progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         DSOUser *updatedUser = [[DSOUser alloc] initWithDict:[responseObject valueForKeyPath:@"data"]];
         if (completionHandler) {
             completionHandler(updatedUser);
@@ -184,7 +184,7 @@
     if (deviceToken) {
         url = [NSString stringWithFormat:@"%@?parse_installation_ids=%@", url, deviceToken];
     }
-    [self POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         [self deleteSessionToken];
         if (completionHandler) {
             completionHandler(responseObject);
@@ -199,7 +199,7 @@
 - (void)postSignupForCampaign:(DSOCampaign *)campaign completionHandler:(void(^)(DSOSignup *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSDictionary *params = @{@"campaign_id" : [NSNumber numberWithInteger:campaign.campaignID], @"source" : LDTSOURCENAME};
     NSString *url = @"signups";
-    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:url parameters:params progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler((DSOSignup *)responseObject[@"data"]);
         }
@@ -222,7 +222,7 @@
                              @"file": fileString,
                              };
 
-    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:url parameters:params progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler((DSOReportback *)responseObject[@"data"]);
         }
@@ -239,7 +239,7 @@
     }
     [self.requestSerializer setValue:self.sessionToken forHTTPHeaderField:@"Session"];
     NSString *url = [NSString stringWithFormat:@"profile"];
-    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
           DSOUser *user = [[DSOUser alloc] initWithDict:responseObject[@"data"]];
           if (completionHandler) {
               completionHandler(user);
@@ -254,7 +254,7 @@
 - (void)postCurrentUserDeviceToken:(NSString *)deviceToken completionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = @"profile";
     NSDictionary *params = @{@"parse_installation_ids" : deviceToken};
-    [self POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:url parameters:params progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         if (completionHandler) {
             completionHandler(responseObject);
         }
@@ -269,7 +269,7 @@
 - (void)loadCampaignWithID:(NSInteger)campaignID completionHandler:(void(^)(DSOCampaign *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
     NSString *url = [NSString stringWithFormat:@"%@campaigns/%li", self.phoenixApiURL, (long)campaignID];
 
-    [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:responseObject[@"data"]];
         // API returns 200 if campaign is not found, so check for valid ID.
         // @todo This whole check be deprecated once https://github.com/DoSomething/phoenix/issues/6261 is resolved.
