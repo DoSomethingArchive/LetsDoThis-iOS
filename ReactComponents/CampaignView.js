@@ -413,7 +413,7 @@ var CampaignResources = React.createClass({
   renderAttachments: function() {
     var self = this;
     var content = this.props.campaign.attachments.map(function(attachment) {
-      var row = self.renderResourceRow(attachment.description);
+      var row = self.renderResourceRow(attachment.description, "download");
       return (
         <TouchableHighlight 
           key={attachment.id} 
@@ -424,7 +424,11 @@ var CampaignResources = React.createClass({
     });
     return content;
   },
-  renderResourceRow: function(text) {
+  renderResourceRow: function(text, type) {
+    var imageSource = require('image!Arrow');
+    if (type == "download") {
+      imageSource = require('image!Download Icon')  
+    }
     return (
       <View style={styles.row}>
         <View style={styles.contentContainer}>
@@ -432,11 +436,8 @@ var CampaignResources = React.createClass({
             <Text style={Style.textBody}>{text}</Text>
           </View>
         </View>
-        <View style={[styles.arrowContainer, styles.bordered]}>
-            <Image
-              style={styles.arrowImage}
-              source={require('image!Arrow')}
-            />  
+        <View style={[styles.resourceIconContainer, styles.bordered]}>
+          <Image source={imageSource} />
         </View>
       </View>
     );
@@ -502,16 +503,12 @@ var styles = StyleSheet.create({
     paddingLeft: 8,
     height: 44,
   },
-  arrowContainer: {
+  resourceIconContainer: {
     width: 38,
     height: 44,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-  },
-  arrowImage: {
-    width: 12,
-    height: 21,
   },
 });
 
