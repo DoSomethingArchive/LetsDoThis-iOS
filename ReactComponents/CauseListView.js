@@ -4,7 +4,6 @@ import React from 'react';
 
 import {
   AppRegistry,
-  ActivityIndicatorIOS,
   ListView,
   StyleSheet,
   Text,
@@ -17,6 +16,7 @@ import {
 var Style = require('./Style.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var NetworkErrorView = require('./NetworkErrorView.js');
+var NetworkLoadingView = require('./NetworkLoadingView.js')
 
 var CauseListView = React.createClass({
   getInitialState: function() {
@@ -68,7 +68,7 @@ var CauseListView = React.createClass({
         />);
     }
     if (!this.state.loaded) {
-      return this.renderLoadingView();
+      return <NetworkLoadingView text="Loading actions..." />;
     }
 
     return (
@@ -96,16 +96,6 @@ var CauseListView = React.createClass({
         isRefreshing: false,
       });
     }, 1000);
-  },
-  renderLoadingView: function() {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
-        <Text style={Style.textBody}>
-          Loading actions...
-        </Text>
-      </View>
-    );
   },
   _onPressRow(cause) {
     Bridge.pushCause(cause);
@@ -137,13 +127,6 @@ var styles = StyleSheet.create({
   listView: {
     backgroundColor: '#FFFFFF',
     paddingBottom: 10,
-  },
-  loadingContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#EEE',
   },
   row: {
     backgroundColor: '#FFFFFF',

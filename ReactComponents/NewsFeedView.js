@@ -4,7 +4,6 @@ import React from 'react';
 
 import {
   AppRegistry,
-  ActivityIndicatorIOS,
   ListView,
   StyleSheet,
   Text,
@@ -19,6 +18,7 @@ NativeAppEventEmitter;
 var Style = require('./Style.js');
 var NewsFeedPost = require('./NewsFeedPost.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
+var NetworkLoadingView = require('./NetworkLoadingView.js');
 
 var NewsFeedView = React.createClass({
   getInitialState: function() {
@@ -70,7 +70,7 @@ var NewsFeedView = React.createClass({
         />);
     }
     if (!this.state.loaded) {
-      return this.renderLoadingView();
+      return <NetworkLoadingView text="Loading news..." />;
     }
 
     return (
@@ -99,16 +99,6 @@ var NewsFeedView = React.createClass({
       });
     }, 1000);
   },
-  renderLoadingView: function() {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
-        <Text style={Style.textBody}>
-          Loading news...
-        </Text>
-      </View>
-    );
-  },
   renderRow: function(post) {
     return (
       <NewsFeedPost
@@ -118,20 +108,12 @@ var NewsFeedView = React.createClass({
   },
 });
 
-
 var styles = StyleSheet.create({
   listView: {
     backgroundColor: '#DFDFDF',
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10,
-  },
-  loadingContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#EEE',
   },
 });
 

@@ -9,7 +9,6 @@ import {
   Image,
   RefreshControl,
   TouchableHighlight,
-  ActivityIndicatorIOS,
   View,
   NativeAppEventEmitter
 } from 'react-native';
@@ -17,6 +16,8 @@ import {
 var Style = require('./Style.js');
 var Helpers = require('./Helpers.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
+var NetworkLoadingView = require('./NetworkLoadingView.js');
+
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
 
@@ -191,17 +192,6 @@ var UserView = React.createClass({
       error: error,
     });
   },
-  renderLoadingView: function() {
-    // @todo DRY LoadingView ReactComponent
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
-        <Text style={Style.textBody}>
-          Loading profile...
-        </Text>
-      </View>
-    );
-  },
   renderEmptySelfProfile: function() {
     return (
       <View>
@@ -234,7 +224,7 @@ var UserView = React.createClass({
       );
     }
     if (!this.state.loaded) {
-      return this.renderLoadingView();
+      return <NetworkLoadingView text="Loading profile..." />;
     }
     if (this.state.dataSource.getRowCount() == 0 && this.props.isSelfProfile) {
       return this.renderEmptySelfProfile();
@@ -360,13 +350,6 @@ var UserView = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#EEE',
-  },
   noActionsContainer : {
     flex: 1,  
     justifyContent: 'center',

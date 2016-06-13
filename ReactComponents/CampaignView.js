@@ -8,7 +8,6 @@ import {
   TouchableHighlight,
   ListView,
   View,
-  ActivityIndicatorIOS,
   RefreshControl,
   NativeAppEventEmitter,
   StyleSheet,
@@ -22,6 +21,7 @@ var ReportbackItemView = require('./ReportbackItemView.js');
 var SponsorView = require('./SponsorView.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var NetworkImage = require('./NetworkImage.js');
+var NetworkLoadingView = require('./NetworkLoadingView.js');
 
 var CampaignView = React.createClass({
   getInitialState: function() {
@@ -143,16 +143,6 @@ var CampaignView = React.createClass({
       loaded: true,
     });
   },
-  renderLoadingView: function() {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
-        <Text style={Style.textBody}>
-          Loading action...
-        </Text>
-      </View>
-    );
-  },
   _onRefresh: function () {
     this.setState({isRefreshing: true});
     setTimeout(() => {
@@ -172,7 +162,7 @@ var CampaignView = React.createClass({
         />);
     }
     if (!this.state.loaded) {
-      return this.renderLoadingView();
+      return <NetworkLoadingView text="Loading action..." />;
     }
 
     return (      
@@ -445,12 +435,6 @@ var CampaignResources = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   coverImage: {
     flex: 1,
     height: 242,
