@@ -11,13 +11,13 @@ import {
   RefreshControl,
   TouchableHighlight,
   View,
-  ActivityIndicatorIOS
 } from 'react-native';
 
 var Style = require('./Style.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var NetworkImage = require('./NetworkImage.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
+var NetworkLoadingView = require('./NetworkLoadingView.js');
 
 var CauseDetailView = React.createClass({
   getInitialState: function() {
@@ -75,7 +75,7 @@ var CauseDetailView = React.createClass({
         />);
     }
     if (!this.state.loaded) {
-      return this.renderLoadingView();
+      return <NetworkLoadingView text="Loading actions..." />;
     }
     return (
       <ListView
@@ -91,16 +91,6 @@ var CauseDetailView = React.createClass({
           progressBackgroundColor="#ffff00"
         />}
       />
-    );
-  },
-  renderLoadingView: function() {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
-        <Text style={Style.textBody}>
-          Loading actions...
-        </Text>
-      </View>
     );
   },
   renderHeader: function() {
@@ -165,12 +155,6 @@ var CauseDetailView = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   centeredTitleContainer: {
     backgroundColor: 'rgba(0,0,0,0.3)',
     alignItems: 'center',
