@@ -82,14 +82,10 @@ var CauseDetailView = React.createClass({
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
         renderHeader={this.renderHeader}
-        refreshControl= {
-        <RefreshControl
-          refreshing={this.state.isRefreshing}
+        refreshControl= {<RefreshControl
           onRefresh={this._onRefresh}
-          tintColor="#CCC"
-          colors={['#ff0000', '#00ff00', '#0000ff']}
-          progressBackgroundColor="#ffff00"
-        />}
+          refreshing={this.state.isRefreshing}
+          tintColor="#CCC" />}
       />
     );
   },

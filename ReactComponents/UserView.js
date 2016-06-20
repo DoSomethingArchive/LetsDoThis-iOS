@@ -236,15 +236,10 @@ var UserView = React.createClass({
         renderRow={this.renderRow}
         renderHeader={this.renderHeader}
         renderSectionHeader = {this.renderSectionHeader}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.isRefreshing}
-            onRefresh={this._onRefresh}
-            tintColor="#ccc"
-            colors={['#ff0000', '#00ff00', '#0000ff']}
-            progressBackgroundColor="#ffff00"
-          />
-        }
+        refreshControl={<RefreshControl
+          onRefresh={this._onRefresh}
+          refreshing={this.state.isRefreshing}
+          tintColor="#CCC" />}
       />
     );
   },

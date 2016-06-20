@@ -76,15 +76,10 @@ var CauseListView = React.createClass({
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
         style={styles.listView}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.isRefreshing}
-            onRefresh={this._onRefresh}
-            tintColor="#CCC"
-            colors={['#ff0000', '#00ff00', '#0000ff']}
-            progressBackgroundColor="#ffff00"
-          />
-        }
+        refreshControl={<RefreshControl
+          onRefresh={this._onRefresh}
+          refreshing={this.state.isRefreshing}
+          tintColor="#CCC" />}
       />
     );
   },
