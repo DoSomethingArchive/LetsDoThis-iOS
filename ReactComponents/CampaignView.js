@@ -167,17 +167,13 @@ var CampaignView = React.createClass({
 
     return (      
       <ListView
-      dataSource={this.state.dataSource}
-      renderHeader={this.renderHeader}
-      renderRow={this.renderRow}
-      refreshControl= {
-        <RefreshControl
-          refreshing={this.state.isRefreshing}
+        dataSource={this.state.dataSource}
+        renderHeader={this.renderHeader}
+        renderRow={this.renderRow}
+        refreshControl= {<RefreshControl
           onRefresh={this._onRefresh}
-          tintColor="#CCC"
-          colors={['#ff0000', '#00ff00', '#0000ff']}
-          progressBackgroundColor="#ffff00"
-        />}
+          refreshing={this.state.isRefreshing}
+          tintColor="#CCC" />}
       />
     );
   },
