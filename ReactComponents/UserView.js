@@ -1,14 +1,14 @@
 'use strict';
 
-import React, {
-  Component,
+import React from 'react';
+
+import {
   ListView,
   StyleSheet,
   Text,
   Image,
   RefreshControl,
   TouchableHighlight,
-  ActivityIndicatorIOS,
   View,
   NativeAppEventEmitter
 } from 'react-native';
@@ -16,8 +16,11 @@ import React, {
 var Style = require('./Style.js');
 var Helpers = require('./Helpers.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
+var NetworkLoadingView = require('./NetworkLoadingView.js');
+
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var ReportbackItemView = require('./ReportbackItemView.js');
+
 var firstSectionHeaderText = "Actions I'm Doing";
 var secondSectionHeaderText = "Actions I've Done";
 
@@ -116,13 +119,6 @@ var UserView = React.createClass({
       doing = [],
       done = [];
 
-    sectionIDs.push(0);
-    dataBlob[0] = firstSectionHeaderText;
-    rowIDs[0] = [];
-    sectionIDs.push(1);
-    dataBlob[1] = secondSectionHeaderText;
-    rowIDs[1] = [];
-
     for (let i = 0; i < signups.length; i++) {
       let signup = signups[i];
 
@@ -146,22 +142,33 @@ var UserView = React.createClass({
       }
     }
 
-    doing.sort(function(a, b) { 
-      return b.id - a.id;
-    }); 
-    for (let i = 0; i < doing.length; i++) {
-      let signup = doing[i];
-      rowIDs[0].push(signup.id);
-      dataBlob['0:' + signup.id] = signup;
+    if (doing.length > 0) {
+      sectionIDs.push(0);
+      dataBlob[0] = firstSectionHeaderText;
+      rowIDs[0] = [];
+      doing.sort(function(a, b) { 
+        return b.id - a.id;
+      }); 
+      for (let i = 0; i < doing.length; i++) {
+        let signup = doing[i];
+        rowIDs[0].push(signup.id);
+        dataBlob['0:' + signup.id] = signup;
+      }
     }
 
-    done.sort(function(a, b) { 
-      return b.reportbackItem.id - a.reportbackItem.id;
-    });
-    for (let i = 0; i < done.length; i++) {
-      let signup = done[i];
-      rowIDs[1].push(signup.id);
-      dataBlob['1:' + signup.id] = signup;
+    if (done.length > 0) {
+      var doneIndex = sectionIDs.length;
+      sectionIDs.push(doneIndex);
+      dataBlob[doneIndex] = secondSectionHeaderText;
+      rowIDs[doneIndex] = [];
+      done.sort(function(a, b) { 
+        return b.reportbackItem.id - a.reportbackItem.id;
+      });
+      for (let i = 0; i < done.length; i++) {
+        let signup = done[i];
+        rowIDs[doneIndex].push(signup.id);
+        dataBlob[doneIndex + ':' + signup.id] = signup;
+      }   
     }
 
     this.setState({
@@ -184,17 +191,6 @@ var UserView = React.createClass({
     this.setState({
       error: error,
     });
-  },
-  renderLoadingView: function() {
-    // @todo DRY LoadingView ReactComponent
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
-        <Text style={Style.textBody}>
-          Loading profile...
-        </Text>
-      </View>
-    );
   },
   renderEmptySelfProfile: function() {
     return (
@@ -228,7 +224,7 @@ var UserView = React.createClass({
       );
     }
     if (!this.state.loaded) {
-      return this.renderLoadingView();
+      return <NetworkLoadingView text="Loading profile..." />;
     }
     if (this.state.dataSource.getRowCount() == 0 && this.props.isSelfProfile) {
       return this.renderEmptySelfProfile();
@@ -240,15 +236,10 @@ var UserView = React.createClass({
         renderRow={this.renderRow}
         renderHeader={this.renderHeader}
         renderSectionHeader = {this.renderSectionHeader}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.isRefreshing}
-            onRefresh={this._onRefresh}
-            tintColor="#ccc"
-            colors={['#ff0000', '#00ff00', '#0000ff']}
-            progressBackgroundColor="#ffff00"
-          />
-        }
+        refreshControl={<RefreshControl
+          onRefresh={this._onRefresh}
+          refreshing={this.state.isRefreshing}
+          tintColor="#CCC" />}
       />
     );
   },
@@ -353,14 +344,7 @@ var UserView = React.createClass({
   },
 });
 
-var styles = React.StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#EEE',
-  },
+var styles = StyleSheet.create({
   noActionsContainer : {
     flex: 1,  
     justifyContent: 'center',

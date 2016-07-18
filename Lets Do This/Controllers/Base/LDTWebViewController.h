@@ -10,6 +10,7 @@
 
 @interface LDTWebViewController : UIViewController
 
-- (instancetype)initWithWebViewURL:(NSURL *)webViewURL title:(NSString *)navigationTitle screenName:(NSString *)screenName;
+// If downloadEventDict is passed, a toolbar is displayed allowing user to download file at webViewURL and open in a UIDocumentInteractionController.
+- (instancetype)initWithWebViewURL:(NSURL *)webViewURL title:(NSString *)navigationTitle screenName:(NSString *)screenName downloadEventDict:(NSDictionary *)downloadEventDict;
 
 @end

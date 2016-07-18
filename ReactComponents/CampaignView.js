@@ -1,15 +1,16 @@
 'use strict';
 
-import React, {
-  StyleSheet,
+import React from 'react';
+
+import {
   Text,
   Image,
   TouchableHighlight,
   ListView,
   View,
-  ActivityIndicatorIOS,
   RefreshControl,
-  NativeAppEventEmitter
+  NativeAppEventEmitter,
+  StyleSheet,
 } from 'react-native';
 import Dimensions from 'Dimensions';
 
@@ -20,6 +21,7 @@ var ReportbackItemView = require('./ReportbackItemView.js');
 var SponsorView = require('./SponsorView.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var NetworkImage = require('./NetworkImage.js');
+var NetworkLoadingView = require('./NetworkLoadingView.js');
 
 var CampaignView = React.createClass({
   getInitialState: function() {
@@ -141,16 +143,6 @@ var CampaignView = React.createClass({
       loaded: true,
     });
   },
-  renderLoadingView: function() {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
-        <Text style={Style.textBody}>
-          Loading action...
-        </Text>
-      </View>
-    );
-  },
   _onRefresh: function () {
     this.setState({isRefreshing: true});
     setTimeout(() => {
@@ -170,22 +162,18 @@ var CampaignView = React.createClass({
         />);
     }
     if (!this.state.loaded) {
-      return this.renderLoadingView();
+      return <NetworkLoadingView text="Loading action..." />;
     }
 
     return (      
       <ListView
-      dataSource={this.state.dataSource}
-      renderHeader={this.renderHeader}
-      renderRow={this.renderRow}
-      refreshControl= {
-        <RefreshControl
-          refreshing={this.state.isRefreshing}
+        dataSource={this.state.dataSource}
+        renderHeader={this.renderHeader}
+        renderRow={this.renderRow}
+        refreshControl= {<RefreshControl
           onRefresh={this._onRefresh}
-          tintColor="#CCC"
-          colors={['#ff0000', '#00ff00', '#0000ff']}
-          progressBackgroundColor="#ffff00"
-        />}
+          refreshing={this.state.isRefreshing}
+          tintColor="#CCC" />}
       />
     );
   },
@@ -368,9 +356,15 @@ var CampaignResources = React.createClass({
     var screenName = "campaign/" + this.props.campaign.id + "/action-guides";
     Bridge.pushActionGuides(this.props.campaign.actionGuides, screenName);
   },
-  handleAttachmentClick: function(url) {
-    var screenName = "campaign/" + this.props.campaign.id + "/attachment";
-    Bridge.pushWebView(url, this.props.campaign.title, screenName);
+  handleAttachmentClick: function(attachment) {
+    var downloadEventDict = {
+      category: "campaign",
+      action: "download",
+      label: this.props.campaign.id,
+      value: attachment.id
+    }
+    var screenName = "campaign/" + this.props.campaign.id + "/attachment/" + attachment.id;
+    Bridge.presentWebView(attachment.uri, this.props.campaign.title, screenName, downloadEventDict);
   },
   render: function() {
     if (!this.props.campaign.attachments.length && !this.props.campaign.actionGuides.length) {
@@ -405,18 +399,22 @@ var CampaignResources = React.createClass({
   renderAttachments: function() {
     var self = this;
     var content = this.props.campaign.attachments.map(function(attachment) {
-      var row = self.renderResourceRow(attachment.description);
+      var row = self.renderResourceRow(attachment.description, "download");
       return (
         <TouchableHighlight 
-          key={attachment.uri} 
-          onPress={() => self.handleAttachmentClick(attachment.uri)}>
+          key={attachment.id} 
+          onPress={() => self.handleAttachmentClick(attachment)}>
           {row}
         </TouchableHighlight>
       );
     });
     return content;
   },
-  renderResourceRow: function(text) {
+  renderResourceRow: function(text, type) {
+    var imageSource = require('image!Arrow');
+    if (type == "download") {
+      imageSource = require('image!Download Icon')  
+    }
     return (
       <View style={styles.row}>
         <View style={styles.contentContainer}>
@@ -424,24 +422,15 @@ var CampaignResources = React.createClass({
             <Text style={Style.textBody}>{text}</Text>
           </View>
         </View>
-        <View style={[styles.arrowContainer, styles.bordered]}>
-            <Image
-              style={styles.arrowImage}
-              source={require('image!Arrow')}
-            />  
+        <View style={[styles.resourceIconContainer, styles.bordered]}>
+          <Image source={imageSource} />
         </View>
       </View>
     );
   }
 });
 
-var styles = React.StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+var styles = StyleSheet.create({
   coverImage: {
     flex: 1,
     height: 242,
@@ -494,16 +483,12 @@ var styles = React.StyleSheet.create({
     paddingLeft: 8,
     height: 44,
   },
-  arrowContainer: {
+  resourceIconContainer: {
     width: 38,
     height: 44,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-  },
-  arrowImage: {
-    width: 12,
-    height: 21,
   },
 });
 

@@ -1,22 +1,23 @@
 'use strict';
 
-import React, {
+import React from 'react';
+
+import {
   AppRegistry,
   ListView,
-  Component,
   StyleSheet,
   Text,
   Image,
   RefreshControl,
   TouchableHighlight,
   View,
-  ActivityIndicatorIOS
 } from 'react-native';
 
 var Style = require('./Style.js');
 var Bridge = require('react-native').NativeModules.LDTReactBridge;
 var NetworkImage = require('./NetworkImage.js');
 var NetworkErrorView = require('./NetworkErrorView.js');
+var NetworkLoadingView = require('./NetworkLoadingView.js');
 
 var CauseDetailView = React.createClass({
   getInitialState: function() {
@@ -74,32 +75,18 @@ var CauseDetailView = React.createClass({
         />);
     }
     if (!this.state.loaded) {
-      return this.renderLoadingView();
+      return <NetworkLoadingView text="Loading actions..." />;
     }
     return (
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
         renderHeader={this.renderHeader}
-        refreshControl= {
-        <RefreshControl
-          refreshing={this.state.isRefreshing}
+        refreshControl= {<RefreshControl
           onRefresh={this._onRefresh}
-          tintColor="#CCC"
-          colors={['#ff0000', '#00ff00', '#0000ff']}
-          progressBackgroundColor="#ffff00"
-        />}
+          refreshing={this.state.isRefreshing}
+          tintColor="#CCC" />}
       />
-    );
-  },
-  renderLoadingView: function() {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicatorIOS animating={this.state.animating} style={[{height: 80}]} size="small" />
-        <Text style={Style.textBody}>
-          Loading actions...
-        </Text>
-      </View>
     );
   },
   renderHeader: function() {
@@ -163,13 +150,7 @@ var CauseDetailView = React.createClass({
   },
 });
 
-var styles = React.StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+var styles = StyleSheet.create({
   centeredTitleContainer: {
     backgroundColor: 'rgba(0,0,0,0.3)',
     alignItems: 'center',
