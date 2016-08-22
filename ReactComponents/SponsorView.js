@@ -15,7 +15,7 @@ var SponsorView = React.createClass({
   render: function() {
     var label = "Powered by".toUpperCase();
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, Style.backgroundColorCtaBlue]}>
         <Text style={[Style.textBodyBold, styles.content]}>{label}</Text>
         <Image 
           resizeMode="contain"
@@ -29,14 +29,14 @@ var SponsorView = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
-    paddingTop: 8,
+    padding: 8,
   },
   content: {
     color: '#D6D6D6',
     textAlign: 'center',
   },
   image: {
-    height: 23,
+    height: 30,
   }
 });
 
