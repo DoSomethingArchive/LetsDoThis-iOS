@@ -16,6 +16,7 @@
 @property (strong, nonatomic, readwrite) NSDictionary *dictionary;
 @property (assign, nonatomic, readwrite) NSInteger campaignID;
 @property (strong, nonatomic, readwrite) NSString *coverImage;
+@property (strong, nonatomic, readwrite) NSString *magicLinkCopy;
 @property (strong, nonatomic, readwrite) NSString *reportbackNoun;
 @property (strong, nonatomic, readwrite) NSString *reportbackVerb;
 @property (strong, nonatomic, readwrite) NSString *solutionCopy;
@@ -62,6 +63,7 @@
         _status = [values valueForKeyAsString:@"status"];
         _type = [values valueForKeyAsString:@"type"];
         _tagline = [values valueForKeyAsString:@"tagline"];
+        _magicLinkCopy = [values valueForKeyAsString:@"magic_link_copy"];
         _actionGuides = values[@"action_guides"];
         _attachments = values[@"attachments"];
 
@@ -131,7 +133,8 @@
              @"solutionSupportCopy" : self.solutionSupportCopy,
              @"sponsorImageUrl": self.sponsorImageURL,
              @"actionGuides": self.actionGuides,
-             @"attachments": self.attachments
+             @"attachments": self.attachments,
+             @"magicLinkCopy": self.magicLinkCopy
              };
 }
 
