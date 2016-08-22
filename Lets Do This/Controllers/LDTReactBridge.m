@@ -140,4 +140,9 @@ RCT_EXPORT_METHOD(shareReportbackItem:(NSInteger)id shareMessage:(NSString *)sha
     }];
 }
 
+RCT_EXPORT_METHOD(openMagicLinkForCampaign:(NSInteger)campaignID) {
+    NSLog(@"magic link for campaign %li", campaignID);
+    //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+}
+
 @end
