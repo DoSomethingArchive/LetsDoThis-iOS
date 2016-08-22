@@ -51,4 +51,7 @@
 
 - (void)loadCampaignWithID:(NSInteger)campaignID completionHandler:(void(^)(DSOCampaign *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
+// Creates a web session for our current user and returns a magic authenticated URL.
+- (void)createAuthenticatedWebSessionForCurrentUserWithCompletionHandler:(void(^)(NSDictionary *))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+
 @end

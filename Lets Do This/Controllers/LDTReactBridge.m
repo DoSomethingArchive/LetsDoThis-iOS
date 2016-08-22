@@ -140,9 +140,15 @@ RCT_EXPORT_METHOD(shareReportbackItem:(NSInteger)id shareMessage:(NSString *)sha
     }];
 }
 
+// Opens given campaign in web, with our current user magically authenticated without login.
 RCT_EXPORT_METHOD(openMagicLinkForCampaign:(NSInteger)campaignID) {
-    NSLog(@"magic link for campaign %li", campaignID);
-    //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+    DSOAPI *api = [DSOAPI sharedInstance];
+    [api createAuthenticatedWebSessionForCurrentUserWithCompletionHandler:^(NSDictionary *response) {
+        NSString *magicLink = [NSString stringWithFormat:@"%@?redirect=node/%li", response[@"url"], campaignID];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:magicLink]];
+    } errorHandler:^(NSError *error) {
+        [LDTMessage displayErrorMessageInViewController:self.tabBarController title:error.readableTitle subtitle:error.readableMessage];
+    }];
 }
 
 @end
