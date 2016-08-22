@@ -271,7 +271,7 @@
 }
 
 - (void)loadCampaignWithID:(NSInteger)campaignID completionHandler:(void(^)(DSOCampaign *))completionHandler errorHandler:(void(^)(NSError *))errorHandler {
-    NSString *url = [NSString stringWithFormat:@"%@campaigns/%li", self.phoenixApiURL, (long)campaignID];
+    NSString *url = [NSString stringWithFormat:@"%@campaigns/%li?cache=true", self.phoenixApiURL, (long)campaignID];
 
     [self GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         DSOCampaign *campaign = [[DSOCampaign alloc] initWithDict:responseObject[@"data"]];
