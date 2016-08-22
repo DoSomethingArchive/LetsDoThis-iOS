@@ -337,9 +337,7 @@ var CampaignView = React.createClass({
     }
     var id = this.state.campaign.id;
     return (
-      <TouchableHighlight
-        onPress={() => Bridge.openMagicLinkForCampaign(id)}
-        >
+      <TouchableHighlight onPress={() => Bridge.openMagicLinkForCampaign(id)}>
         <View style={[styles.row, {paddingBottom: 4}]}>
           <Text style={[styles.content, Style.textBodyBold, Style.textColorCtaBlue]}>
             {this.state.campaign.magicLinkCopy}
