@@ -58,7 +58,7 @@ var NewsFeedPost = React.createClass({
   renderImage: function() {
     var post = this.props.post;
     
-    if (post.image_url.length > 0) {
+    if (post.image_url && post.image_url.length > 0) {
       var viewImageCredit = null;
       if (post.photo_credit.length > 0) {
         var imageCreditOpacity = 1;
