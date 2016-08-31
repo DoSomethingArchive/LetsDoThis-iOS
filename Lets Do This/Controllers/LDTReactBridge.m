@@ -146,6 +146,8 @@ RCT_EXPORT_METHOD(openMagicLinkForCampaign:(NSInteger)campaignID) {
     [[GAI sharedInstance] trackEventWithCategory:@"campaign" action:@"magic-link" label:[NSString stringWithFormat:@"%li", (long)campaignID]  value:nil];
     [api createAuthenticatedWebSessionForCurrentUserWithCompletionHandler:^(NSDictionary *response) {
         NSString *magicLink = [NSString stringWithFormat:@"%@?redirect=node/%li", response[@"url"], campaignID];
+        
+        NSLog(@"magicLink: %@", magicLink);
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:magicLink]];
     } errorHandler:^(NSError *error) {
         [LDTMessage displayErrorMessageInViewController:self.tabBarController title:error.readableTitle subtitle:error.readableMessage];
