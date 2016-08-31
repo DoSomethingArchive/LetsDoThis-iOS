@@ -254,6 +254,7 @@ var CampaignView = React.createClass({
           {solutionSupportText}
           {submitText}
         </View>
+        {this.renderMagicLink()}
         <CampaignResources 
           key={this.state.campaign.id}
           campaign={this.state.campaign}/>
@@ -328,6 +329,21 @@ var CampaignView = React.createClass({
           </Text>
         </View>
       </View>
+    );
+  },
+  renderMagicLink: function() {
+    if (!this.state.campaign.magicLinkCopy) {
+      return null;
+    }
+    var id = this.state.campaign.id;
+    return (
+      <TouchableHighlight onPress={() => Bridge.openMagicLinkForCampaign(id)}>
+        <View style={[styles.row, {paddingBottom: 4}]}>
+          <Text style={[styles.content, Style.textBodyBold, Style.textColorCtaBlue]}>
+            {this.state.campaign.magicLinkCopy}
+          </Text>
+        </View>
+      </TouchableHighlight>
     );
   },
   renderRow: function(rowData) {

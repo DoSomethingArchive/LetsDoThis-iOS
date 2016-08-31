@@ -14,6 +14,7 @@
 @property (strong, nonatomic, readonly) NSArray *attachments;
 @property (assign, nonatomic, readonly) NSInteger campaignID;
 @property (strong, nonatomic, readonly) NSString *coverImage;
+@property (strong, nonatomic, readonly) NSString *magicLinkCopy;
 @property (strong, nonatomic, readonly) NSString *reportbackNoun;
 @property (strong, nonatomic, readonly) NSString *reportbackVerb;
 @property (strong, nonatomic, readonly) NSString *solutionCopy;

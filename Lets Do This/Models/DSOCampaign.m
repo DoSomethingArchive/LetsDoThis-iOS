@@ -16,6 +16,7 @@
 @property (strong, nonatomic, readwrite) NSDictionary *dictionary;
 @property (assign, nonatomic, readwrite) NSInteger campaignID;
 @property (strong, nonatomic, readwrite) NSString *coverImage;
+@property (strong, nonatomic, readwrite) NSString *magicLinkCopy;
 @property (strong, nonatomic, readwrite) NSString *reportbackNoun;
 @property (strong, nonatomic, readwrite) NSString *reportbackVerb;
 @property (strong, nonatomic, readwrite) NSString *solutionCopy;
@@ -62,6 +63,7 @@
         _status = [values valueForKeyAsString:@"status"];
         _type = [values valueForKeyAsString:@"type"];
         _tagline = [values valueForKeyAsString:@"tagline"];
+        _magicLinkCopy = [values valueForKeyAsString:@"magic_link_copy"];
         _actionGuides = values[@"action_guides"];
         _attachments = values[@"attachments"];
 
@@ -96,12 +98,7 @@
         }
 
         _sponsorImageURL = @"";
-        // Hardcode sponsor image for campaign 5769
-        // @see GH #998
-        if (self.campaignID == 5769) {
-            _sponsorImageURL = @"https://www.dosomething.org/sites/default/files/SponsorLogo%20NewsCorp.png";
-        }
-        else if ([values dictionaryForKeyPath:@"affiliates"]) {
+        if ([values dictionaryForKeyPath:@"affiliates"]) {
             NSArray *partnerData = [values valueForKeyPath:@"affiliates.partners"];
             if (partnerData.count > 0) {
                 // API is hardcoded to return single partner for now
@@ -136,7 +133,8 @@
              @"solutionSupportCopy" : self.solutionSupportCopy,
              @"sponsorImageUrl": self.sponsorImageURL,
              @"actionGuides": self.actionGuides,
-             @"attachments": self.attachments
+             @"attachments": self.attachments,
+             @"magicLinkCopy": self.magicLinkCopy
              };
 }
 
